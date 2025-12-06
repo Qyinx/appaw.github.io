@@ -1,5 +1,5 @@
 // Utility to get the correct base path for assets
-// No basePath needed for custom domain (appaw.store)
+// Custom domain (appaw.store) - no basePath needed
 export const basePath = '';
 
 export function getImagePath(path: string): string {

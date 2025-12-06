@@ -5,8 +5,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // No basePath needed for custom domain (appaw.store)
-  // basePath and assetPrefix are only needed for github.io subpath deployments
+  // Custom domain (appaw.store) - no basePath needed
 }
 
 module.exports = nextConfig
