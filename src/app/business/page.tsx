@@ -169,8 +169,8 @@ export default function BusinessPage() {
                 ))}
               </div>
               
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-200 rounded-2xl -z-10 transform rotate-12" />
+              {/* Decorative elements - hidden on mobile to prevent overflow */}
+              <div className="hidden md:block absolute -top-4 -right-4 w-24 h-24 bg-primary-200 rounded-2xl -z-10 transform rotate-12" />
             </div>
           </div>
         </div>

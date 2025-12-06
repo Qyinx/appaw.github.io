@@ -65,7 +65,7 @@ export default function AboutPage() {
       </section>
 
       {/* Story Section */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white overflow-hidden">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -89,9 +89,9 @@ export default function AboutPage() {
                   <span className="text-2xl font-display font-bold gradient-text">Appaw Store</span>
                 </div>
               </div>
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-200 rounded-2xl -z-10 transform rotate-12" />
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary-200 rounded-2xl -z-10 transform -rotate-12" />
+              {/* Decorative elements - hidden on mobile to prevent overflow */}
+              <div className="hidden md:block absolute -top-4 -right-4 w-24 h-24 bg-primary-200 rounded-2xl -z-10 transform rotate-12" />
+              <div className="hidden md:block absolute -bottom-4 -left-4 w-32 h-32 bg-secondary-200 rounded-2xl -z-10 transform -rotate-12" />
             </div>
           </div>
         </div>

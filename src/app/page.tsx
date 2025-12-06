@@ -177,7 +177,7 @@ export default function HomePage() {
       </section>
 
       {/* Product Showcase Section */}
-      <section className="py-24 bg-neutral-50">
+      <section className="py-24 bg-neutral-50 overflow-hidden">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -217,9 +217,9 @@ export default function HomePage() {
                   />
                 </div>
               </div>
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-100 rounded-2xl -z-10" />
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-accent-100 rounded-2xl -z-10" />
+              {/* Decorative elements - hidden on mobile to prevent overflow */}
+              <div className="hidden md:block absolute -top-4 -right-4 w-24 h-24 bg-primary-100 rounded-2xl -z-10" />
+              <div className="hidden md:block absolute -bottom-4 -left-4 w-32 h-32 bg-accent-100 rounded-2xl -z-10" />
             </div>
           </div>
         </div>
