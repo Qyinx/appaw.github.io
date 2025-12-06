@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Shield, Sparkles, Sun, Magnet, ChevronRight, Grid3X3 } from 'lucide-react';
+import { ArrowRight, Shield, Sparkles, Sun, Magnet, ChevronRight, Grid3X3, Star } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Button, Card, CardContent } from '@/components/ui';
 import { getImagePath } from '@/lib/utils';
@@ -13,108 +13,141 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section - Modern & Clean */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-b from-white via-primary-50/30 to-white">
-        {/* Subtle grid background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+      {/* Hero Section - Eye-catching Design */}
+      <section className="relative min-h-[100vh] flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-primary-50">
+        {/* Animated background orbs */}
+        <div className="absolute top-20 left-[10%] w-72 h-72 bg-primary-200/40 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-[10%] w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse [animation-delay:1s]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary-100/50 to-transparent rounded-full" />
         
-        {/* Floating product images */}
-        <div className="absolute top-1/4 right-[8%] hidden lg:block z-10">
-          <div className="w-44 h-56 relative drop-shadow-2xl hover:scale-105 transition-transform duration-300 will-change-transform [transform:rotate(3deg)_translate3d(0,0,0)] animate-float">
-            <Image
-              src={getImagePath('/images/cards/069.SM-P.refine.png')}
-              alt="PSA Card Protector"
-              fill
-              className="object-contain"
-              sizes="(max-width: 1024px) 176px, 220px"
-              priority
-              quality={100}
-              unoptimized
-            />
-          </div>
-        </div>
-        <div className="absolute bottom-1/4 right-[18%] hidden lg:block z-10">
-          <div className="w-40 h-52 relative drop-shadow-xl hover:scale-105 transition-transform duration-300 will-change-transform [transform:rotate(-6deg)_translate3d(0,0,0)] animate-float [animation-delay:1s]">
-            <Image
-              src={getImagePath('/images/cards/105.SV-9.refine.png')}
-              alt="PSA Card Protector"
-              fill
-              className="object-contain"
-              sizes="(max-width: 1024px) 160px, 200px"
-              quality={100}
-              unoptimized
-            />
-          </div>
-        </div>
-        <div className="absolute top-[55%] right-[3%] hidden xl:block z-10">
-          <div className="w-36 h-48 relative drop-shadow-lg hover:scale-105 transition-transform duration-300 will-change-transform [transform:rotate(12deg)_translate3d(0,0,0)] animate-float [animation-delay:2s]">
-            <Image
-              src={getImagePath('/images/cards/192.SV-P.refine.png')}
-              alt="PSA Card Protector"
-              fill
-              className="object-contain"
-              sizes="(max-width: 1280px) 144px, 180px"
-              quality={100}
-              unoptimized
-            />
-          </div>
-        </div>
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-40" />
 
         <div className="relative container-custom py-20">
-          <div className="max-w-2xl">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500/10 border border-primary-200 rounded-full text-primary-700 text-sm font-medium mb-8 backdrop-blur-sm">
-              <Sparkles className="w-4 h-4" />
-              <span>Premium Card Protection</span>
-            </div>
-            
-            {/* Main heading */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-[1.1] mb-6 tracking-tight bg-gradient-to-r from-primary-600 via-primary-400 to-secondary-400 bg-clip-text text-transparent">
-              {t.home.hero.title}
-            </h1>
-            
-            {/* Subtitle */}
-            <p className="text-xl text-neutral-600 mb-4 leading-relaxed">
-              {t.home.hero.subtitle}
-            </p>
-            
-            {/* Description */}
-            <p className="text-lg text-neutral-500 mb-10 leading-relaxed">
-              {t.home.hero.description}
-            </p>
-            
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button href={t.home.hero.shopUrl} size="lg" className="shadow-lg shadow-primary-500/25">
-                {t.home.hero.cta}
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-              <Button href="/business" variant="outline" size="lg">
-                {t.home.hero.learnMore}
-                <ChevronRight className="ml-1 w-5 h-5" />
-              </Button>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="order-2 lg:order-1">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-500/10 to-blue-500/10 border border-primary-200/50 rounded-full text-primary-700 text-sm font-medium mb-8 backdrop-blur-sm animate-fade-in">
+                <Sparkles className="w-4 h-4 text-amber-500" />
+                <span>Premium Card Protection</span>
+                <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+              </div>
+              
+              {/* Main heading */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-[1.1] mb-6 tracking-tight">
+                <span className="bg-gradient-to-r from-primary-700 via-primary-500 to-slate-500 bg-clip-text text-transparent">
+                  {t.home.hero.title}
+                </span>
+              </h1>
+              
+              {/* Subtitle */}
+              <p className="text-xl text-neutral-600 mb-4 leading-relaxed">
+                {t.home.hero.subtitle}
+              </p>
+              
+              {/* Description */}
+              <p className="text-lg text-neutral-500 mb-10 leading-relaxed">
+                {t.home.hero.description}
+              </p>
+              
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button href={t.home.hero.shopUrl} size="lg" className="shadow-xl shadow-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/40 transition-shadow">
+                  {t.home.hero.cta}
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+                <Button href="/business" variant="outline" size="lg" className="hover:bg-primary-50">
+                  {t.home.hero.learnMore}
+                  <ChevronRight className="ml-1 w-5 h-5" />
+                </Button>
+              </div>
+
+              {/* Trust indicators */}
+              <div className="flex items-center gap-4 sm:gap-6 mt-12 pt-8 border-t border-neutral-200/60 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center shadow-sm">
+                    <Shield className="w-5 h-5 text-green-600" />
+                  </div>
+                  <span className="text-sm text-neutral-600 font-medium">UV Protection</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center shadow-sm">
+                    <Magnet className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <span className="text-sm text-neutral-600 font-medium">N52 Magnets</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center shadow-sm">
+                    <Sun className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <span className="text-sm text-neutral-600 font-medium">Anti-Fade Glass</span>
+                </div>
+              </div>
             </div>
 
-            {/* Trust indicators */}
-            <div className="flex items-center gap-6 mt-12 pt-8 border-t border-neutral-200">
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-green-600" />
+            {/* Right - Floating Cards Display */}
+            <div className="order-1 lg:order-2 relative h-[400px] sm:h-[500px] lg:h-[600px]">
+              {/* Glow effect behind cards */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary-400/20 rounded-full blur-3xl" />
+              
+              {/* Main center card - positioned slightly right */}
+              <div className="absolute top-1/2 left-[55%] sm:left-[55%] lg:left-[55%] -translate-x-1/2 -translate-y-1/2 z-30">
+                <div className="relative w-40 sm:w-48 lg:w-52 aspect-[3/4] animate-float-slow group cursor-pointer">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-400/20 to-blue-400/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                  <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/50 group-hover:scale-105 transition-transform duration-500">
+                    <Image
+                      src={getImagePath('/images/cards/069.SM-P.refine.png')}
+                      alt="PSA Card Protector"
+                      fill
+                      className="object-contain p-2"
+                      sizes="(max-width: 640px) 160px, (max-width: 1024px) 192px, 208px"
+                      priority
+                      quality={100}
+                      unoptimized
+                    />
+                  </div>
                 </div>
-                <span className="text-sm text-neutral-600">UV Protection</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Magnet className="w-5 h-5 text-blue-600" />
+              
+              {/* Left card - positioned far top-left */}
+              <div className="absolute top-[2%] left-[-5%] sm:left-[0%] lg:left-[0%] z-20">
+                <div className="relative w-24 sm:w-28 lg:w-32 aspect-[3/4] animate-float-reverse opacity-70 hover:opacity-100 hover:z-40 transition-all cursor-pointer group">
+                  <div className="relative w-full h-full rounded-xl overflow-hidden shadow-xl ring-1 ring-white/30 transform -rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-all duration-500">
+                    <Image
+                      src={getImagePath('/images/cards/105.SV-9.refine.png')}
+                      alt="PSA Card Protector"
+                      fill
+                      className="object-contain p-1"
+                      sizes="(max-width: 640px) 96px, (max-width: 1024px) 112px, 128px"
+                      quality={100}
+                      unoptimized
+                    />
+                  </div>
                 </div>
-                <span className="text-sm text-neutral-600">N52 Magnets</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
-                  <Sun className="w-5 h-5 text-amber-600" />
+              
+              {/* Right card - positioned far bottom-right */}
+              <div className="absolute bottom-[2%] right-[-5%] sm:right-[0%] lg:right-[0%] z-20">
+                <div className="relative w-24 sm:w-28 lg:w-32 aspect-[3/4] animate-float opacity-70 hover:opacity-100 hover:z-40 transition-all cursor-pointer group" style={{ animationDelay: '1.5s' }}>
+                  <div className="relative w-full h-full rounded-xl overflow-hidden shadow-xl ring-1 ring-white/30 transform rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-all duration-500">
+                    <Image
+                      src={getImagePath('/images/cards/192.SV-P.refine.png')}
+                      alt="PSA Card Protector"
+                      fill
+                      className="object-contain p-1"
+                      sizes="(max-width: 640px) 96px, (max-width: 1024px) 112px, 128px"
+                      quality={100}
+                      unoptimized
+                    />
+                  </div>
                 </div>
-                <span className="text-sm text-neutral-600">Anti-Fade Glass</span>
               </div>
+
+              {/* Decorative floating elements */}
+              <div className="absolute top-[15%] right-[25%] w-4 h-4 bg-primary-400 rounded-full animate-ping opacity-60" />
+              <div className="absolute bottom-[30%] left-[5%] w-3 h-3 bg-amber-400 rounded-full animate-ping opacity-60" style={{ animationDelay: '0.5s' }} />
+              <div className="absolute top-[70%] right-[15%] w-2 h-2 bg-blue-400 rounded-full animate-ping opacity-60" style={{ animationDelay: '1s' }} />
             </div>
           </div>
         </div>
