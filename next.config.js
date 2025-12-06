@@ -5,9 +5,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // For GitHub Pages deployment - update this with your repo name
-  basePath: process.env.NODE_ENV === 'production' ? '/appaw-store' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/appaw-store/' : '',
+  // For GitHub Pages deployment
+  basePath: process.env.NODE_ENV === 'production' ? '/appaw.github.io' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/appaw.github.io/' : '',
 }
 
 module.exports = nextConfig
