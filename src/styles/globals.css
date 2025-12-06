@@ -10,7 +10,7 @@
   }
 
   body {
-    @apply font-sans text-neutral-800 bg-neutral-50 antialiased;
+    @apply font-sans text-neutral-800 bg-white antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -28,15 +28,27 @@
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-secondary-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800;
   }
 
   .gradient-bg {
-    @apply bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-600;
+    @apply bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800;
   }
 
   .card-shadow {
-    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 40px -10px rgba(30, 64, 175, 0.15);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:shadow-primary-100/50 hover:-translate-y-1;
+  }
+
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-white/20;
+  }
+
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800;
   }
 }
 
@@ -49,15 +61,43 @@
 /* Custom animations */
 @keyframes float {
   0%, 100% {
-    transform: translateY(0);
+    transform: translateY(0) rotate(var(--tw-rotate, 0deg));
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-15px) rotate(var(--tw-rotate, 0deg));
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(30, 64, 175, 0.1);
   }
 }
 
 .animate-float {
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
 }
 
 /* Scrollbar styling */
@@ -70,9 +110,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-neutral-300 rounded-full;
+  @apply bg-primary-300 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-neutral-400;
+  @apply bg-primary-400;
 }

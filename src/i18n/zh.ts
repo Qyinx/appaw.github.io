@@ -38,7 +38,7 @@ export const zh: Translations = {
     },
     cta: {
       title: '準備好升級您的展示了嗎？',
-      description: '立即加入購物車，為您的收藏掫上裝甲！',
+      description: '立即加入購物車，為您的收藏披上裝甲！',
       button: '立即購買',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
     },
