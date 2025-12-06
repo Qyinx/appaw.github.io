@@ -9,6 +9,8 @@ interface ButtonProps {
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
+  target?: string;
+  rel?: string;
 }
 
 const variants = {
@@ -32,11 +34,22 @@ export default function Button({
   onClick,
   className = '',
   disabled = false,
+  target,
+  rel,
 }: ButtonProps) {
   const baseClasses = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
   const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
 
   if (href) {
+    // External links (starting with http)
+    if (href.startsWith('http')) {
+      return (
+        <a href={href} className={classes} target={target || '_blank'} rel={rel || 'noopener noreferrer'}>
+          {children}
+        </a>
+      );
+    }
+    // Internal links
     return (
       <Link href={href} className={classes}>
         {children}

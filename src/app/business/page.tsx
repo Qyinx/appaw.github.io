@@ -80,7 +80,7 @@ export default function BusinessPage() {
                 </div>
               </div>
               
-              <Button>
+              <Button href={t.business.cardProtector.shopUrl}>
                 {t.business.cardProtector.cta}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
@@ -123,24 +123,24 @@ export default function BusinessPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <div className="aspect-square bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-3xl flex items-center justify-center overflow-hidden p-6">
-                {/* Store illustration */}
+                {/* Grid Store illustration */}
                 <div className="relative">
                   <div className="w-64 h-48 bg-white rounded-2xl shadow-2xl p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Store className="w-6 h-6 text-secondary-600" />
-                      <span className="font-bold text-neutral-800">Appaw Store</span>
+                      <span className="font-bold text-neutral-800">Grid Store</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
-                      {[1, 2, 3, 4, 5, 6].map((i) => (
-                        <div key={i} className="aspect-[3/4] bg-gradient-to-br from-neutral-100 to-neutral-200 rounded flex items-center justify-center">
-                          <span className="text-lg">🃏</span>
+                      {['🎴', '🧸', '🎮', '📦', '🃏', '⌚'].map((emoji, i) => (
+                        <div key={i} className="aspect-square bg-gradient-to-br from-neutral-100 to-neutral-200 rounded flex items-center justify-center border-2 border-dashed border-neutral-300">
+                          <span className="text-xl">{emoji}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                   {/* Badge */}
                   <div className="absolute -bottom-4 -right-4 bg-secondary-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                    For Sale
+                    Rent a Grid
                   </div>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export default function BusinessPage() {
             <div className="order-1 lg:order-2">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary-100 rounded-full text-secondary-700 text-sm font-medium mb-6">
                 <Store className="w-4 h-4" />
-                <span>Consignment</span>
+                <span>Grid Store</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold font-display text-neutral-900 mb-4">
                 {t.business.consignment.title}
@@ -166,7 +166,7 @@ export default function BusinessPage() {
                   </li>
                 ))}
               </ul>
-              <Button variant="secondary">
+              <Button variant="secondary" href="https://wa.me/85292851189">
                 {t.business.consignment.cta}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>

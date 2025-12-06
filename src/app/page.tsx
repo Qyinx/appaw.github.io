@@ -56,7 +56,7 @@ export default function HomePage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button href="/business" size="lg">
+              <Button href={t.home.hero.shopUrl} size="lg">
                 {t.home.hero.cta}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
@@ -220,7 +220,7 @@ export default function HomePage() {
             {t.home.cta.description}
           </p>
           <Button 
-            href="/about" 
+            href={t.home.cta.shopUrl}
             variant="ghost"
             className="bg-white !text-primary-600 hover:bg-neutral-100 shadow-xl font-semibold"
             size="lg"
