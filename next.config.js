@@ -1,0 +1,13 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
+  // For GitHub Pages deployment - update this with your repo name
+  basePath: process.env.NODE_ENV === 'production' ? '/appaw-store' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/appaw-store/' : '',
+}
+
+module.exports = nextConfig
