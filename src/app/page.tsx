@@ -20,36 +20,42 @@ export default function HomePage() {
         
         {/* Floating product images */}
         <div className="absolute top-1/4 right-[8%] hidden lg:block z-10">
-          <div className="w-44 h-56 transform rotate-3 animate-float relative drop-shadow-2xl hover:scale-105 transition-transform duration-300">
+          <div className="w-44 h-56 relative drop-shadow-2xl hover:scale-105 transition-transform duration-300 will-change-transform [transform:rotate(3deg)_translate3d(0,0,0)] animate-float">
             <Image
               src={getImagePath('/images/cards/069.SM-P.refine.png')}
               alt="PSA Card Protector"
               fill
               className="object-contain"
-              sizes="176px"
+              sizes="(max-width: 1024px) 176px, 220px"
               priority
+              quality={100}
+              unoptimized
             />
           </div>
         </div>
         <div className="absolute bottom-1/4 right-[18%] hidden lg:block z-10">
-          <div className="w-40 h-52 transform -rotate-6 animate-float relative drop-shadow-xl hover:scale-105 transition-transform duration-300" style={{ animationDelay: '1s' }}>
+          <div className="w-40 h-52 relative drop-shadow-xl hover:scale-105 transition-transform duration-300 will-change-transform [transform:rotate(-6deg)_translate3d(0,0,0)] animate-float [animation-delay:1s]">
             <Image
               src={getImagePath('/images/cards/105.SV-9.refine.png')}
               alt="PSA Card Protector"
               fill
               className="object-contain"
-              sizes="160px"
+              sizes="(max-width: 1024px) 160px, 200px"
+              quality={100}
+              unoptimized
             />
           </div>
         </div>
         <div className="absolute top-[55%] right-[3%] hidden xl:block z-10">
-          <div className="w-36 h-48 transform rotate-12 animate-float relative drop-shadow-lg hover:scale-105 transition-transform duration-300" style={{ animationDelay: '2s' }}>
+          <div className="w-36 h-48 relative drop-shadow-lg hover:scale-105 transition-transform duration-300 will-change-transform [transform:rotate(12deg)_translate3d(0,0,0)] animate-float [animation-delay:2s]">
             <Image
               src={getImagePath('/images/cards/192.SV-P.refine.png')}
               alt="PSA Card Protector"
               fill
               className="object-contain"
-              sizes="144px"
+              sizes="(max-width: 1280px) 144px, 180px"
+              quality={100}
+              unoptimized
             />
           </div>
         </div>
