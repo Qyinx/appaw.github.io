@@ -2,9 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Shield, Star, HeadphonesIcon, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Button, Card, CardContent } from '@/components/ui';
+import { getImagePath } from '@/lib/utils';
 
 export default function HomePage() {
   const { t } = useLanguage();
@@ -20,19 +22,38 @@ export default function HomePage() {
         <div className="absolute top-20 right-10 w-72 h-72 bg-primary-200/30 rounded-full blur-3xl" />
         <div className="absolute bottom-20 left-10 w-96 h-96 bg-secondary-200/30 rounded-full blur-3xl" />
         
-        {/* Floating cards decoration */}
-        <div className="absolute top-1/4 right-[15%] hidden lg:block">
-          <div className="w-32 h-44 bg-white rounded-lg shadow-2xl transform rotate-12 animate-float">
-            <div className="w-full h-full rounded-lg border-4 border-primary-200 flex items-center justify-center">
-              <span className="text-4xl">🃏</span>
-            </div>
+        {/* Floating product images */}
+        <div className="absolute top-1/4 right-[10%] hidden lg:block">
+          <div className="w-40 h-52 transform rotate-6 animate-float relative drop-shadow-2xl">
+            <Image
+              src={getImagePath('/images/cards/069.SM-P.refine.png')}
+              alt="PSA Card Protector"
+              fill
+              className="object-contain"
+              sizes="160px"
+            />
           </div>
         </div>
-        <div className="absolute bottom-1/4 right-[20%] hidden lg:block">
-          <div className="w-28 h-40 bg-white rounded-lg shadow-xl transform -rotate-6 animate-float" style={{ animationDelay: '1s' }}>
-            <div className="w-full h-full rounded-lg border-4 border-secondary-200 flex items-center justify-center">
-              <span className="text-3xl">⭐</span>
-            </div>
+        <div className="absolute bottom-1/3 right-[20%] hidden lg:block">
+          <div className="w-36 h-48 transform -rotate-6 animate-float relative drop-shadow-xl" style={{ animationDelay: '1s' }}>
+            <Image
+              src={getImagePath('/images/cards/105.SV-9.refine.png')}
+              alt="PSA Card Protector"
+              fill
+              className="object-contain"
+              sizes="144px"
+            />
+          </div>
+        </div>
+        <div className="absolute top-1/2 right-[5%] hidden xl:block">
+          <div className="w-32 h-44 transform rotate-12 animate-float relative drop-shadow-lg" style={{ animationDelay: '2s' }}>
+            <Image
+              src={getImagePath('/images/cards/192.SV-P.refine.png')}
+              alt="PSA Card Protector"
+              fill
+              className="object-contain"
+              sizes="128px"
+            />
           </div>
         </div>
 

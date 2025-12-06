@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
-import { Shield, Store, Check, ArrowRight, Package, Camera, Wallet, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { Shield, Store, Check, ArrowRight, Package, Camera, Wallet, CheckCircle, XCircle, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
 import { Button, Card, CardContent } from '@/components/ui';
+import { getImagePath } from '@/lib/utils';
 
 const stepIcons: Record<string, React.ReactNode> = {
   package: <Package className="w-10 h-10 text-primary-500" />,
@@ -14,8 +16,23 @@ const stepIcons: Record<string, React.ReactNode> = {
   wallet: <Wallet className="w-10 h-10 text-green-500" />,
 };
 
+const productImages = [
+  '/images/cards/069.SM-P.refine.png',
+  '/images/cards/105.SV-9.refine.png',
+  '/images/cards/192.SV-P.refine.png',
+];
+
 export default function BusinessPage() {
   const { t } = useLanguage();
+  const [currentImage, setCurrentImage] = useState(0);
+
+  const nextImage = () => {
+    setCurrentImage((prev) => (prev + 1) % productImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImage((prev) => (prev - 1 + productImages.length) % productImages.length);
+  };
 
   return (
     <div className="flex flex-col">
@@ -86,30 +103,72 @@ export default function BusinessPage() {
               </Button>
             </div>
             <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-3xl flex items-center justify-center overflow-hidden p-8">
-                {/* Premium aluminum protector illustration */}
-                <div className="relative">
-                  <div className="w-52 h-72 bg-gradient-to-br from-neutral-600 to-neutral-700 rounded-lg shadow-2xl flex items-center justify-center border-4 border-neutral-500 relative">
-                    {/* Glass effect */}
-                    <div className="absolute inset-2 bg-gradient-to-br from-white/10 to-transparent rounded" />
-                    <div className="w-44 h-60 bg-gradient-to-br from-neutral-900 to-black rounded flex flex-col items-center justify-center p-4 relative">
-                      <div className="w-28 h-36 bg-gradient-to-br from-yellow-400 to-orange-500 rounded mb-2 flex items-center justify-center shadow-lg">
-                        <span className="text-4xl">🏆</span>
-                      </div>
-                      <div className="text-white text-sm font-bold tracking-wider">PSA 10</div>
-                      <div className="text-white/60 text-xs">GEM MINT</div>
-                    </div>
-                  </div>
-                  {/* Magnetic seal indicator */}
-                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                    N52 Magnets
-                  </div>
-                  {/* Shield badge */}
-                  <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center shadow-lg">
-                    <Shield className="w-8 h-8 text-white" />
-                  </div>
+              {/* Product Image Gallery */}
+              <div className="aspect-square bg-gradient-to-br from-neutral-100 to-neutral-200 rounded-3xl flex items-center justify-center overflow-hidden relative">
+                {/* Main Image */}
+                <div className="relative w-full h-full p-4">
+                  <Image
+                    src={getImagePath(productImages[currentImage])}
+                    alt="PSA Card Aluminum Protector"
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                  />
+                </div>
+                
+                {/* Navigation Arrows */}
+                <button
+                  onClick={prevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-colors"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-6 h-6 text-neutral-700" />
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-colors"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-6 h-6 text-neutral-700" />
+                </button>
+                
+                {/* Image Indicators */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                  {productImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImage(index)}
+                      className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                        index === currentImage ? 'bg-primary-500' : 'bg-neutral-400'
+                      }`}
+                      aria-label={`Go to image ${index + 1}`}
+                    />
+                  ))}
                 </div>
               </div>
+              
+              {/* Thumbnail Strip */}
+              <div className="flex gap-2 mt-4 justify-center">
+                {productImages.map((img, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImage(index)}
+                    className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
+                      index === currentImage ? 'border-primary-500' : 'border-transparent'
+                    }`}
+                  >
+                    <Image
+                      src={getImagePath(img)}
+                      alt={`Product thumbnail ${index + 1}`}
+                      width={64}
+                      height={64}
+                      className="object-cover w-full h-full"
+                    />
+                  </button>
+                ))}
+              </div>
+              
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-200 rounded-2xl -z-10 transform rotate-12" />
             </div>
