@@ -5,9 +5,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // For GitHub Pages deployment
-  basePath: process.env.NODE_ENV === 'production' ? '/appaw.github.io' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/appaw.github.io/' : '',
+  // No basePath needed for custom domain (appaw.store)
+  // basePath and assetPrefix are only needed for github.io subpath deployments
 }
 
 module.exports = nextConfig

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp, faThreads, faInstagram, faEtsy } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
+import { getImagePath } from '@/lib/utils';
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -25,7 +26,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
               <Image
-                src="/images/logo.png"
+                src={getImagePath('/images/logo.png')}
                 alt="Appaw Store Logo"
                 width={40}
                 height={40}
@@ -106,7 +107,7 @@ export default function Footer() {
                 aria-label="Carousell"
               >
                 <Image 
-                  src="/images/carousell-icon.png.png" 
+                  src={getImagePath('/images/carousell-icon.png.png')} 
                   alt="Carousell" 
                   width={20} 
                   height={20}

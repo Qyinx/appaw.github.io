@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Award, Heart, Users, Zap } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card, CardContent } from '@/components/ui';
+import { getImagePath } from '@/lib/utils';
 
 export default function AboutPage() {
   const { t } = useLanguage();
@@ -79,7 +80,7 @@ export default function AboutPage() {
               <div className="aspect-square bg-gradient-to-br from-primary-100 to-secondary-100 rounded-3xl flex items-center justify-center">
                 <div className="text-center">
                   <Image
-                    src="/images/logo.png"
+                    src={getImagePath('/images/logo.png')}
                     alt="Appaw Store Logo"
                     width={160}
                     height={160}
