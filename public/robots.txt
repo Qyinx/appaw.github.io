@@ -1,0 +1,6 @@
+# robots.txt for Appaw Store
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://appaw.store/sitemap.xml
