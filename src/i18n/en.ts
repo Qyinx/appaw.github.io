@@ -48,11 +48,11 @@ export const en = {
     subtitle: 'Your Trusted Partner in Card Collection',
     story: {
       title: 'Our Story',
-      content: 'Appaw Store was founded by passionate collectors who understand the importance of protecting valuable cards. We started with a simple mission: to provide the best card protection solutions and consignment services to fellow collectors.',
+      content: 'Appaw Store was founded by passionate collectors who understand the value of protecting graded cards. We offer premium PSA Card Aluminum Protectors that combine industrial-grade protection with elegant display, plus Grid Store rental spaces for collectors to showcase and sell their items.',
     },
     mission: {
       title: 'Our Mission',
-      content: 'To be the most trusted name in card protection and consignment services, helping collectors preserve and grow their valuable collections.',
+      content: 'To provide collectors with the best aluminum protection for their graded cards, and affordable retail spaces through our Grid Store for selling collectibles.',
     },
     values: {
       title: 'Our Values',

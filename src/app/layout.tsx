@@ -26,6 +26,11 @@ export const metadata: Metadata = {
   authors: [{ name: 'Appaw Store' }],
   creator: 'Appaw Store',
   publisher: 'Appaw Store',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
   metadataBase: new URL('https://appaw.store'),
   alternates: {
     canonical: '/',
