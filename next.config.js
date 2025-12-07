@@ -4,6 +4,7 @@ const nextConfig = {
   trailingSlash: true,
   images: {
     unoptimized: true,
+    qualities: [75, 85, 100],
   },
   // Custom domain (appaw.store) - no basePath needed
 }
