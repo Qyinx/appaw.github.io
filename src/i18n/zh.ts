@@ -13,12 +13,18 @@ export const zh: Translations = {
   // Home Page
   home: {
     hero: {
+      badge: '優質卡片保護',
       title: '展示您的熱情。保護您的投資。',
-      subtitle: '您的 PSA 10 Gem Mint 値得更好的保護。',
+      subtitle: '您的珍貴卡片値得更好的保護。',
       description: '升級至 PSA 卡片鋁合金保護殼——工業級保護與展覽級展示的完美結合。',
       cta: '立即購買',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
       learnMore: '了解更多',
+      trustIndicators: {
+        uvProtection: 'UV 防護',
+        n52Magnets: 'N52 磁鐵',
+        antiFadeGlass: '防褪色玻璃',
+      },
     },
     features: {
       title: '為什麼收藏家選擇鋁合金',
@@ -92,7 +98,7 @@ export const zh: Translations = {
     subtitle: '優質卡片保護與寄售服務',
     cardProtector: {
       title: 'PSA 卡片鋁合金保護殼',
-      description: '工業級保護與展覽級展示的完美結合。您的 PSA 10 Gem Mint 值得更好的保護。',
+      description: '工業級保護與展覽級展示的完美結合。您的珍貴收藏值得更好的保護。',
       features: [
         '框架材質：精密切割鋁合金（剛性、抗衝擊）',
         '鏡片材質：UV 防護玻璃（高清晰度、防褪色）',
@@ -118,10 +124,11 @@ export const zh: Translations = {
         '接觸我們的人流和客戶',
         '實惠的月租',
       ],
-      cta: '立即查詢',
+      cta: '立即詢問',
     },
     process: {
-      title: '格仔舖運作流程',
+      title: '格仔舖運作方式',
+      subtitle: '簡單步驟，透過我們的銷售您的產品',
       steps: [
         {
           icon: 'package',
@@ -144,6 +151,12 @@ export const zh: Translations = {
           description: '定期收取您的銷售收入。',
         },
       ],
+    },
+    cta: {
+      title: '準備好開始了嗎？',
+      description: '無論您想用我們的優質鋁合金保護殼保護您的收藏，還是透過我們的格仔舖服務出售你的產品，我們都樂意幫助您。',
+      whatsapp: '聯絡 WhatsApp',
+      email: '聯絡電郵',
     },
   },
 

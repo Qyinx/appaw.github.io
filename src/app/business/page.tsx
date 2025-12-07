@@ -242,7 +242,7 @@ export default function BusinessPage() {
               {t.business.process.title}
             </h2>
             <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-              Simple steps to sell your cards through our consignment service
+              {t.business.process.subtitle}
             </p>
           </div>
 
@@ -280,10 +280,10 @@ export default function BusinessPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-                Ready to Get Started?
+                {t.business.cta.title}
               </h2>
               <p className="text-lg text-white/80 mb-8">
-                Whether you want to protect your collection with our premium aluminum cases or sell your cards through our consignment service, we&apos;re here to help.
+                {t.business.cta.description}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
@@ -292,7 +292,7 @@ export default function BusinessPage() {
                   className="bg-white !text-primary-600 hover:bg-neutral-100"
                 >
                   <FontAwesomeIcon icon={faWhatsapp} className="mr-2 w-5 h-5" />
-                  WhatsApp Us
+                  {t.business.cta.whatsapp}
                 </Button>
               </div>
             </div>

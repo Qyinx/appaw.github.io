@@ -30,7 +30,7 @@ export default function HomePage() {
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-500/10 to-blue-500/10 border border-primary-200/50 rounded-full text-primary-700 text-sm font-medium mb-8 backdrop-blur-sm animate-fade-in">
                 <Sparkles className="w-4 h-4 text-amber-500" />
-                <span>Premium Card Protection</span>
+                <span>{t.home.hero.badge}</span>
                 <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
               </div>
               
@@ -69,19 +69,19 @@ export default function HomePage() {
                   <div className="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center shadow-sm">
                     <Shield className="w-5 h-5 text-green-600" />
                   </div>
-                  <span className="text-sm text-neutral-600 font-medium">UV Protection</span>
+                  <span className="text-sm text-neutral-600 font-medium">{t.home.hero.trustIndicators.uvProtection}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center shadow-sm">
                     <Magnet className="w-5 h-5 text-blue-600" />
                   </div>
-                  <span className="text-sm text-neutral-600 font-medium">N52 Magnets</span>
+                  <span className="text-sm text-neutral-600 font-medium">{t.home.hero.trustIndicators.n52Magnets}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-10 h-10 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center shadow-sm">
                     <Sun className="w-5 h-5 text-amber-600" />
                   </div>
-                  <span className="text-sm text-neutral-600 font-medium">Anti-Fade Glass</span>
+                  <span className="text-sm text-neutral-600 font-medium">{t.home.hero.trustIndicators.antiFadeGlass}</span>
                 </div>
               </div>
             </div>

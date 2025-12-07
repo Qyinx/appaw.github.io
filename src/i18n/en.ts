@@ -11,12 +11,18 @@ export const en = {
   // Home Page
   home: {
     hero: {
+      badge: 'Premium Card Protection',
       title: 'Showcase Your Passion. Protect Your Investment.',
-      subtitle: 'Your PSA 10 Gem Mint deserves better than a cheap plastic sleeve.',
+      subtitle: 'Your prized cards deserve better than a cheap plastic sleeve.',
       description: 'Upgrade to the PSA Card Aluminum Protector—where industrial-grade protection meets gallery-worthy display.',
       cta: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
       learnMore: 'Learn More',
+      trustIndicators: {
+        uvProtection: 'UV Protection',
+        n52Magnets: 'N52 Magnets',
+        antiFadeGlass: 'Anti-Fade Glass',
+      },
     },
     features: {
       title: 'Why Collectors Switch to Aluminum',
@@ -90,7 +96,7 @@ export const en = {
     subtitle: 'Premium Card Protection & Consignment Services',
     cardProtector: {
       title: 'PSA Card Aluminum Protector',
-      description: 'Industrial-grade protection meets gallery-worthy display. Your PSA 10 Gem Mint deserves better.',
+      description: 'Industrial-grade protection meets gallery-worthy display. Your valuable collection deserves better.',
       features: [
         'Frame Material: Precision-cut Aluminum Alloy (Rigid & Impact Resistant)',
         'Lens Material: UV-Blocking Glass (High Clarity & Anti-Fade)',
@@ -120,6 +126,7 @@ export const en = {
     },
     process: {
       title: 'How Grid Store Works',
+      subtitle: 'Simple steps to sell your products through our consignment service',
       steps: [
         {
           icon: 'package',
@@ -142,6 +149,12 @@ export const en = {
           description: 'Receive your sales revenue regularly.',
         },
       ],
+    },
+    cta: {
+      title: 'Ready to Get Started?',
+      description: "Whether you want to protect your collection with our premium aluminum cases or sell your products through our consignment service, we're here to help.",
+      whatsapp: 'WhatsApp Us',
+      email: 'Email Us',
     },
   },
 
