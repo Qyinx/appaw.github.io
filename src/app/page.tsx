@@ -252,7 +252,7 @@ export default function HomePage() {
             </div>
 
             {/* Feature 2 - UV Defense */}
-            <div className="group p-8 bg-white border border-neutral-200 rounded-2xl hover:border-accent-300 hover:shadow-2xl hover:shadow-accent-100/50 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden md:-translate-y-4">
+            <div className="group p-8 bg-white border border-neutral-200 rounded-2xl hover:border-accent-300 hover:shadow-2xl hover:shadow-accent-100/50 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-accent-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="relative">
                 <div className="w-14 h-14 mb-6 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center shadow-lg shadow-accent-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">

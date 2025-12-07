@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { Header, Footer } from '@/components/layout';
+import { CookieConsent } from '@/components/CookieConsent';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -276,6 +277,25 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       {/* Note: Consider making lang dynamic based on user's language selection in future */}
       <head>
+        {/* Google Analytics with Cookie Consent */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-MTFS1VS5S4"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              
+              // Default consent to denied (GDPR compliance)
+              gtag('consent', 'default', {
+                'analytics_storage': 'denied'
+              });
+              
+              gtag('config', 'G-MTFS1VS5S4');
+            `,
+          }}
+        />
+        
         {/* Structured Data for Search Engines & AI */}
         <script
           type="application/ld+json"
@@ -296,6 +316,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <CookieConsent />
         </LanguageProvider>
       </body>
     </html>

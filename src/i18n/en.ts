@@ -232,6 +232,14 @@ export const en = {
     rights: 'All rights reserved.',
   },
 
+  // Cookie Consent
+  cookieConsent: {
+    title: 'Cookie Notice',
+    message: 'We use cookies and analytics to improve your experience and understand how you use our site. By clicking "Accept", you agree to our use of cookies and analytics services.',
+    accept: 'Accept',
+    decline: 'Decline',
+  },
+
   // Common
   common: {
     loading: 'Loading...',

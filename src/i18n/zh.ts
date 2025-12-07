@@ -234,6 +234,14 @@ export const zh: Translations = {
     rights: '版權所有。',
   },
 
+  // Cookie Consent
+  cookieConsent: {
+    title: 'Cookie 通知',
+    message: '我們使用 Cookie 和分析工具來改善您的體驗並了解您如何使用我們的網站。點擊「接受」即表示您同意我們使用 Cookie 和分析服務。',
+    accept: '接受',
+    decline: '拒絕',
+  },
+
   // Common
   common: {
     loading: '載入中...',
