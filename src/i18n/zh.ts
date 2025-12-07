@@ -160,6 +160,52 @@ export const zh: Translations = {
     },
   },
 
+  // PSA Protector Page (dedicated)
+  psaProtectorPage: {
+    badge: '優質保護',
+    featuresTitle: '產品特點',
+    featuresSubtitle: '點擊各個特點查看詳情',
+    compatibilityTitle: '兼容性',
+    compatibilitySubtitle: '確保您的卡片完美適合',
+    compatible: '兼容',
+    notCompatible: '不兼容',
+    note: '注意',
+    techBadge: '技術詳情',
+    techTitle: '技術規格',
+    techSubtitle: '優質材料與精密工程，提供極致保護',
+    specs: {
+      size: '尺寸',
+      sizeDesc: '寬 × 長 × 高',
+      weight: '重量',
+      weightDesc: '輕便易攜',
+      materials: '材質',
+      materialsValue: '鋁合金 & 玻璃',
+      materialsDesc: '優質工藝',
+      uvProtection: 'UV 防護',
+      uvProtectionDesc: '阻隔有害紫外線',
+    },
+    ctaTitle: '準備好保護您的收藏了嗎？',
+    ctaSubtitle: '為您的珍貴卡片提供應有的優質保護',
+  },
+
+  // Grid Store Page (dedicated)
+  gridStorePage: {
+    badge: 'Rental Space',
+    spacesAvailable: '尚有空位',
+    gridHeader: '格仔鋪',
+    gridSubheader: 'Grid Store',
+    available: '可租',
+    rented: '已租',
+    stats: {
+      totalGrids: '總格數',
+      available: '可租用',
+      affordable: '實惠價格',
+    },
+    whyRentTitle: '為什麼選擇我們？',
+    whyRentSubtitle: '無需經營實體店舖，輕鬆開始銷售您的產品',
+    processBadge: '簡單流程',
+  },
+
   // Style Guide Page
   styleGuide: {
     title: '設計風格指南',

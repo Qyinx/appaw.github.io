@@ -158,6 +158,52 @@ export const en = {
     },
   },
 
+  // PSA Protector Page (dedicated)
+  psaProtectorPage: {
+    badge: 'Premium Protection',
+    featuresTitle: 'Product Features',
+    featuresSubtitle: 'Click on each feature to see the details',
+    compatibilityTitle: 'Compatibility',
+    compatibilitySubtitle: 'Make sure your cards fit perfectly',
+    compatible: 'Compatible',
+    notCompatible: 'Not Compatible',
+    note: 'Note',
+    techBadge: 'Technical Details',
+    techTitle: 'Technical Specifications',
+    techSubtitle: 'Premium materials and precise engineering for ultimate protection',
+    specs: {
+      size: 'Size',
+      sizeDesc: 'Width × Length × Height',
+      weight: 'Weight',
+      weightDesc: 'Lightweight & portable',
+      materials: 'Materials',
+      materialsValue: 'Aluminum & Glass',
+      materialsDesc: 'Premium quality build',
+      uvProtection: 'UV Protection',
+      uvProtectionDesc: 'Blocks harmful UV rays',
+    },
+    ctaTitle: 'Ready to Protect Your Collection?',
+    ctaSubtitle: 'Give your prized cards the premium protection they deserve',
+  },
+
+  // Grid Store Page (dedicated)
+  gridStorePage: {
+    badge: 'Rental Space',
+    spacesAvailable: 'Spaces Available',
+    gridHeader: 'Grid Store',
+    gridSubheader: '格仔鋪',
+    available: 'Available',
+    rented: 'Rented',
+    stats: {
+      totalGrids: 'Total Grids',
+      available: 'Available',
+      affordable: 'Affordable',
+    },
+    whyRentTitle: 'Why Rent With Us?',
+    whyRentSubtitle: 'Start selling your products without the hassle of running a physical store',
+    processBadge: 'Simple Process',
+  },
+
   // Style Guide Page
   styleGuide: {
     title: 'Design Style Guide',

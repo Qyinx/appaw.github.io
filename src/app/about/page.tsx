@@ -149,8 +149,10 @@ export default function AboutPage() {
       </section>
 
       {/* Team/Trust Section */}
-      <section className="section-padding gradient-bg text-white">
-        <div className="container-custom text-center">
+      <section className="py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+        
+        <div className="container-custom text-center relative">
           <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">
             {t.about.trust.title}
           </h2>
