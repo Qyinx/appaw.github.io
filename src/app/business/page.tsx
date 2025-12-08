@@ -38,9 +38,25 @@ export default function BusinessPage() {
       {/* Business Cards Section */}
       <section className="py-20 bg-white">
         <div className="container-custom">
+          {/* Shop Products Banner */}
+          {/* <div className="mb-12 p-8 bg-gradient-to-r from-primary-500 to-blue-500 rounded-3xl text-white">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold mb-2">Shop Our Products</h2>
+                <p className="text-white/90">Browse our collection of graded Pokémon cards</p>
+              </div>
+              <Link href="/products/graded-cards">
+                <Button size="lg" className="bg-white text-primary-600 hover:bg-white/90">
+                  View Collection
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
+          </div> */}
+
           <div className="grid lg:grid-cols-2 gap-8">
             {/* PSA Card Protector Card */}
-            <Link href="/business/psa-protector" className="group">
+            <Link href="/products/psa-protectors" className="group">
               <div className="relative h-full bg-gradient-to-br from-primary-50 to-blue-50 rounded-3xl p-8 border border-primary-200/50 hover:border-primary-400 hover:shadow-2xl hover:shadow-primary-500/20 transition-all duration-500 overflow-hidden">
                 {/* Background decoration */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary-200/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary-300/40 transition-colors" />

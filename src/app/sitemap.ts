@@ -18,14 +18,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    // {
+    //   url: `${baseUrl}/products/graded-cards`,
+    //   lastModified: new Date(),
+    //   changeFrequency: 'daily',
+    //   priority: 0.95,
+    // },
     {
-      url: `${baseUrl}/business`,
+      url: `${baseUrl}/products/psa-protectors`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/business/psa-protector`,
+      url: `${baseUrl}/business`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,

@@ -116,7 +116,7 @@ export default function HomePage() {
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
-                <Button href="/business/psa-protector" variant="outline" size="lg" className="hover:bg-primary-50 hover:scale-105 transition-all duration-300 group">
+                <Button href="/products/psa-protectors" variant="outline" size="lg" className="hover:bg-primary-50 hover:scale-105 transition-all duration-300 group">
                   {t.home.hero.learnMore}
                   <ChevronRight className="ml-1 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>

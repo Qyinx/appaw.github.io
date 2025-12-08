@@ -143,7 +143,7 @@ const jsonLd = {
           offers: {
             '@type': 'Offer',
             availability: 'https://schema.org/InStock',
-            url: 'https://appaw.store/business/psa-protector/',
+            url: 'https://appaw.store/products/psa-protectors/',
           },
           additionalProperty: [
             {

@@ -4,6 +4,7 @@ export const en = {
     home: 'Home',
     about: 'About Us',
     business: 'Business',
+    products: 'Products',
     styleGuide: 'Style Guide',
     language: 'Language',
   },
@@ -238,6 +239,18 @@ export const en = {
     message: 'We use cookies and analytics to improve your experience and understand how you use our site. By clicking "Accept", you agree to our use of cookies and analytics services.',
     accept: 'Accept',
     decline: 'Decline',
+  },
+
+  // Graded Cards Page
+  gradedCards: {
+    badge: 'Premium Collection',
+    title: 'Graded Cards Collection',
+    subtitle: 'Browse our curated selection of professionally graded Pokémon cards',
+    searchPlaceholder: 'Search cards...',
+    filter: 'Filter',
+    viewDetails: 'Details',
+    comingSoon: 'More Cards Coming Soon!',
+    comingSoonDesc: 'We\'re constantly updating our collection. Check back soon for new additions.',
   },
 
   // Common

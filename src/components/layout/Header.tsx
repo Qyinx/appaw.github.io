@@ -22,8 +22,9 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', label: t.nav.home },
-    { href: '/about', label: t.nav.about },
+    // { href: '/products/graded-cards', label: t.nav.products },
     { href: '/business', label: t.nav.business },
+    { href: '/about', label: t.nav.about },
   ];
 
   const toggleLanguage = () => {

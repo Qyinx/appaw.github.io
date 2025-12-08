@@ -6,6 +6,7 @@ export const zh: Translations = {
     home: '首頁',
     about: '關於我們',
     business: '業務服務',
+    products: '商品',
     styleGuide: '設計指南',
     language: '語言',
   },
@@ -240,6 +241,18 @@ export const zh: Translations = {
     message: '我們使用 Cookie 和分析工具來改善您的體驗並了解您如何使用我們的網站。點擊「接受」即表示您同意我們使用 Cookie 和分析服務。',
     accept: '接受',
     decline: '拒絕',
+  },
+
+  // Graded Cards Page
+  gradedCards: {
+    badge: '精選收藏',
+    title: '評級卡牌收藏',
+    subtitle: '瀏覽我們精選的專業評級寶可夢卡牌',
+    searchPlaceholder: '搜尋卡牌...',
+    filter: '篩選',
+    viewDetails: '詳情',
+    comingSoon: '更多卡牌即將推出！',
+    comingSoonDesc: '我們持續更新收藏。敬請期待新品上架。',
   },
 
   // Common
