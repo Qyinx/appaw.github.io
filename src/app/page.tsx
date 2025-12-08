@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Shield, Sparkles, Sun, Magnet, ChevronRight, ChevronLeft, Grid3X3, Star, Square, Hand, Pause, Play, Store } from 'lucide-react';
+import { ArrowRight, Shield, Sparkles, Sun, Magnet, ChevronRight, ChevronLeft, Grid3X3, Star, Square, Hand, Pause, Play, Store, Check } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Button, Card, CardContent } from '@/components/ui';
 import { getImagePath } from '@/lib/utils';
@@ -41,10 +41,11 @@ export default function HomePage() {
     }, CAROUSEL_INTERVAL);
 
     return () => clearInterval(timer);
-  }, [isPaused]);
+  }, [isPaused, activeFeature]); // Reset timer when activeFeature changes
 
   const goToFeature = useCallback((index: number) => {
     setActiveFeature(index);
+    setIsPaused(false); // Resume auto-advance after manual selection
   }, []);
 
   const nextFeature = useCallback(() => {
@@ -310,114 +311,180 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left - Feature Carousel */}
             <div className="order-2 lg:order-1">
-              <div className="relative aspect-square bg-gradient-to-br from-white to-neutral-100 rounded-3xl shadow-2xl shadow-neutral-200/50 overflow-hidden border border-neutral-200/50">
-                {/* Feature Images with crossfade */}
-                {featureImages.map((img, index) => (
-                  <div
-                    key={`feature-${index}`}
-                    className={`
-                      absolute inset-0 p-6 transition-all duration-700 ease-in-out
-                      ${activeFeature === index ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'}
-                    `}
-                  >
-                    <Image
-                      src={getImagePath(img)}
-                      alt={`Feature detail ${index + 1}`}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      priority={index === 0}
-                    />
-                  </div>
-                ))}
+              <div className="relative aspect-square bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-[2rem] shadow-2xl overflow-hidden">
+                {/* Spotlight effect that follows mouse */}
+                <div className="absolute inset-0 opacity-30">
+                  <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/30 rounded-full blur-3xl animate-float" />
+                  <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+                </div>
+                
+                {/* Feature Images with smooth zoom and fade */}
+                <div className="relative w-full h-full">
+                  {featureImages.map((img, index) => (
+                    <div
+                      key={`feature-${index}`}
+                      className={`
+                        absolute inset-0 transition-all duration-[1200ms] ease-out
+                        ${activeFeature === index 
+                          ? 'opacity-100 scale-100 blur-0 z-10' 
+                          : 'opacity-0 scale-110 blur-sm z-0'
+                        }
+                      `}
+                    >
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={getImagePath(img)}
+                          alt={`Feature detail ${index + 1}`}
+                          fill
+                          className="object-cover drop-shadow-2xl"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          priority={index === 0}
+                        />
+                      </div>
+                    </div>
+                  ))}
 
-                {/* Navigation Arrows */}
+                  {/* Soft glassmorphism overlay effect */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-slate-900/20 pointer-events-none z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-transparent to-blue-500/10 pointer-events-none z-10" />
+                </div>
+
+                {/* Modern Navigation Arrows */}
                 <button
                   onClick={prevFeature}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110 z-20 group"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center shadow-xl transition-all hover:scale-110 hover:-translate-x-1 z-20 group/btn"
                   aria-label="Previous feature"
                 >
-                  <ChevronLeft className="w-6 h-6 text-neutral-600 group-hover:text-primary-600 transition-colors" />
+                  <ChevronLeft className="w-6 h-6 text-white group-hover/btn:text-primary-300 transition-colors" />
                 </button>
                 <button
                   onClick={nextFeature}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110 z-20 group"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center shadow-xl transition-all hover:scale-110 hover:translate-x-1 z-20 group/btn"
                   aria-label="Next feature"
                 >
-                  <ChevronRight className="w-6 h-6 text-neutral-600 group-hover:text-primary-600 transition-colors" />
+                  <ChevronRight className="w-6 h-6 text-white group-hover/btn:text-primary-300 transition-colors" />
                 </button>
 
-                {/* Progress bar */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-neutral-200 z-20">
-                  <div 
-                    className="h-full bg-gradient-to-r from-primary-500 to-primary-600 transition-all duration-300"
-                    style={{ width: `${((activeFeature + 1) / featureImages.length) * 100}%` }}
-                  />
+                {/* Sleek Bottom Controls */}
+                <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2 z-20 px-6">
+                  {featureImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToFeature(index)}
+                      className="group/dot relative flex-1 max-w-16"
+                      aria-label={`Go to feature ${index + 1}`}
+                    >
+                      <div className="relative h-1 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm">
+                        <div className={`
+                          absolute inset-0 bg-gradient-to-r from-primary-400 via-blue-400 to-primary-500 rounded-full transition-all duration-500 origin-left
+                          ${activeFeature === index 
+                            ? 'scale-x-100 opacity-100' 
+                            : 'scale-x-0 opacity-0 group-hover/dot:scale-x-50 group-hover/dot:opacity-50'
+                          }
+                        `}>
+                          {activeFeature === index && (
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setIsPaused(!isPaused)}
+                    className="ml-2 w-8 h-8 flex items-center justify-center text-white/60 hover:text-white/90 hover:bg-white/10 rounded-full transition-all backdrop-blur-sm"
+                    aria-label={isPaused ? 'Play carousel' : 'Pause carousel'}
+                  >
+                    {isPaused ? (
+                      <Play className="w-3.5 h-3.5" />
+                    ) : (
+                      <Pause className="w-3.5 h-3.5" />
+                    )}
+                  </button>
                 </div>
 
-                {/* Feature counter badge */}
-                <div className="absolute top-4 left-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg z-20 flex items-center gap-2">
-                  <span>{activeFeature + 1}</span>
-                  <span className="text-white/60">/</span>
-                  <span className="text-white/60">{featureImages.length}</span>
+                {/* Modern Feature Counter with Progress Ring */}
+                <div className="absolute top-6 left-6 z-20">
+                  <div className="relative">
+                    {/* Progress ring */}
+                    <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="28"
+                        fill="none"
+                        stroke="rgba(255,255,255,0.1)"
+                        strokeWidth="3"
+                      />
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="28"
+                        fill="none"
+                        stroke="url(#gradient)"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeDasharray={`${2 * Math.PI * 28}`}
+                        strokeDashoffset={`${2 * Math.PI * 28 * (1 - (activeFeature + 1) / featureImages.length)}`}
+                        className="transition-all duration-500"
+                      />
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#3b82f6" />
+                          <stop offset="100%" stopColor="#8b5cf6" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    {/* Counter */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-white text-lg font-bold">{activeFeature + 1}</span>
+                      <span className="text-white/50 text-[10px] font-medium">of {featureImages.length}</span>
+                    </div>
+                  </div>
                 </div>
-
-                {/* Play/Pause button */}
-                <button
-                  onClick={() => setIsPaused(!isPaused)}
-                  className="absolute top-4 right-4 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg z-20 transition-all hover:scale-110"
-                  aria-label={isPaused ? 'Play' : 'Pause'}
-                >
-                  {isPaused ? <Play className="w-4 h-4 text-primary-600" /> : <Pause className="w-4 h-4 text-primary-600" />}
-                </button>
               </div>
             </div>
 
             {/* Right - Feature List */}
             <div className="order-1 lg:order-2">
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {t.business.cardProtector.features.map((feature, index) => (
                   <div
                     key={index}
                     onClick={() => goToFeature(index)}
                     className={`
-                      flex items-center gap-4 p-4 rounded-2xl cursor-pointer
-                      transition-all duration-300 ease-out group
+                      flex items-start gap-3 p-4 rounded-xl cursor-pointer
+                      transition-all duration-300 ease-out
                       ${activeFeature === index 
-                        ? 'bg-gradient-to-r from-primary-500 to-primary-600 shadow-lg shadow-primary-500/30 scale-[1.02]' 
-                        : 'bg-white hover:bg-neutral-50 border border-neutral-200 hover:border-primary-200 hover:shadow-md'
+                        ? 'bg-primary-100 border-l-4 border-primary-500 shadow-sm' 
+                        : 'bg-neutral-50 hover:bg-neutral-100 border-l-4 border-transparent'
                       }
                     `}
                   >
                     <div className={`
-                      w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0
+                      w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
                       transition-all duration-300
                       ${activeFeature === index 
-                        ? 'bg-white/20 text-white' 
-                        : 'bg-primary-100 text-primary-600 group-hover:bg-primary-200'
+                        ? 'bg-primary-500 text-white' 
+                        : 'bg-primary-100 text-primary-600'
                       }
                     `}>
                       {featureIcons[index]}
                     </div>
                     <span className={`
-                      font-medium transition-colors duration-300 flex-1 text-sm leading-snug
-                      ${activeFeature === index ? 'text-white' : 'text-neutral-700'}
+                      font-medium transition-colors duration-300 flex-1
+                      ${activeFeature === index ? 'text-primary-800' : 'text-neutral-700'}
                     `}>
                       {feature}
                     </span>
                     <div className={`
-                      w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
+                      w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0
                       transition-all duration-300
                       ${activeFeature === index 
-                        ? 'bg-white/20' 
-                        : 'bg-neutral-100 group-hover:bg-primary-100'
+                        ? 'bg-primary-500' 
+                        : 'bg-neutral-200'
                       }
                     `}>
-                      <ChevronRight className={`w-4 h-4 transition-all duration-300 ${
-                        activeFeature === index 
-                          ? 'text-white translate-x-0.5' 
-                          : 'text-neutral-400 group-hover:text-primary-500 group-hover:translate-x-0.5'
-                      }`} />
+                      <Check className={`w-4 h-4 transition-colors duration-300 ${activeFeature === index ? 'text-white' : 'text-neutral-400'}`} />
                     </div>
                   </div>
                 ))}

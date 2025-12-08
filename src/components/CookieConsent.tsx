@@ -85,13 +85,6 @@ export function CookieConsent() {
               >
                 {t.cookieConsent?.accept || 'Accept'}
               </button>
-              <button
-                onClick={handleDecline}
-                className="p-2 text-neutral-400 hover:text-neutral-600 transition-colors sm:hidden"
-                aria-label="Close"
-              >
-                <X className="w-5 h-5" />
-              </button>
             </div>
           </div>
         </div>
