@@ -83,11 +83,18 @@ export default function StyleGuidePage() {
       <section className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-neutral-100 via-white to-primary-50" />
         <div className="relative container-custom text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-primary-700 text-sm font-medium mb-6">
+            <Shield className="w-4 h-4" />
+            <span>Design System</span>
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 mb-4">
             {t.styleGuide.title}
           </h1>
-          <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
+          <p className="text-xl text-neutral-600 max-w-2xl mx-auto mb-4">
             {t.styleGuide.subtitle}
+          </p>
+          <p className="text-neutral-500 max-w-xl mx-auto">
+            Built with Next.js 15, Tailwind CSS v4, and modern animations. Featuring glassmorphism, 3D effects, and smooth transitions.
           </p>
         </div>
       </section>

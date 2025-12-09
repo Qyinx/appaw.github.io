@@ -37,6 +37,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Optimize images
+        run: npm run optimize-images
+
       - name: Build with Next.js
         run: npm run build
 
