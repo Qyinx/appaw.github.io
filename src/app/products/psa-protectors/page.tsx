@@ -6,6 +6,7 @@ import { Shield, Check, ArrowRight, CheckCircle, XCircle, AlertCircle, Square, M
 import { useLanguage } from '@/context/LanguageContext';
 import { Button } from '@/components/ui';
 import { getImagePath } from '@/lib/utils';
+import RetailPartners from '@/components/RetailPartners';
 
 // Feature icons for the interactive section
 const featureIcons = [
@@ -401,6 +402,9 @@ export default function PSAProtectorPage() {
           </div>
         </div>
       </section>
+
+      {/* Retail Partners Section */}
+      <RetailPartners />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white relative overflow-hidden">

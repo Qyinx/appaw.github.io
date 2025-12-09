@@ -255,6 +255,41 @@ export const zh: Translations = {
     comingSoonDesc: '我們持續更新收藏。敬請期待新品上架。',
   },
 
+  // Retail Partners
+  retailPartners: {
+    badge: '購買渠道',
+    title: '購買渠道',
+    subtitle: '選擇您喜歡的購物方式',
+    buyNow: '立即購買',
+    orVisit: '或到訪我們的零售合作夥伴',
+    visitStore: '訪問商店',
+    directDesc: '原廠直銷',
+    retailHint: '親臨授權合作夥伴享受專人服務',
+    note: '有興趣成為零售合作夥伴？聯絡我們！',
+    onlineTitle: '網上商店',
+    retailTitle: '零售合作夥伴',
+    types: {
+      online: '網店',
+      retail: '門市',
+    },
+    tags: {
+      authorized: '門市',
+      official: '網店',
+      inStock: '現貨供應',
+    },
+    partners: {
+      appawstore: {
+        name: 'Appaw Store',
+        description: '原廠直銷',
+      },
+      cardtheland: {
+        name: '咭之島',
+        description: 'TCG 專門店',
+        location: '紅磡凱旋工商中心2期3樓G1B室',
+      },
+    },
+  },
+
   // Common
   common: {
     loading: '載入中...',

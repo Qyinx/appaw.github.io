@@ -7,6 +7,7 @@ import { ArrowRight, Shield, Sparkles, Sun, Magnet, ChevronRight, ChevronLeft, G
 import { useLanguage } from '@/context/LanguageContext';
 import { Button, Card, CardContent } from '@/components/ui';
 import { getImagePath } from '@/lib/utils';
+import RetailPartners from '@/components/RetailPartners';
 
 // Feature icons for the product showcase
 const featureIcons = [
@@ -287,6 +288,7 @@ export default function HomePage() {
         </div>
       </section>
 
+
       {/* Product Showcase Section - Eye-catching Carousel */}
       <section className="py-24 bg-gradient-to-br from-neutral-50 via-white to-primary-50/30 overflow-hidden relative">
         {/* Background decorations */}
@@ -520,6 +522,9 @@ export default function HomePage() {
         </div>
       </section>
 
+           {/* Retail Partners Section */}
+      <RetailPartners />
+
       {/* Grid Store Section - Distinct Warm/Dark Theme */}
       <section className="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
         {/* Background pattern - hexagon style */}
@@ -527,6 +532,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(251,191,36,0.15)_0%,_transparent_50%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(30deg,_transparent_40%,_rgba(251,191,36,0.03)_40%,_rgba(251,191,36,0.03)_60%,_transparent_60%)] bg-[size:60px_100px]" />
         </div>
+
         
         {/* Glowing orbs */}
         <div className="absolute top-20 right-20 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl" />

@@ -253,6 +253,41 @@ export const en = {
     comingSoonDesc: 'We\'re constantly updating our collection. Check back soon for new additions.',
   },
 
+  // Retail Partners
+  retailPartners: {
+    badge: 'Where to Buy',
+    title: 'Purchase Channels',
+    subtitle: 'Choose your preferred way to shop',
+    buyNow: 'Shop Now',
+    orVisit: 'or visit our retail partners',
+    visitStore: 'Visit Store',
+    partners: {
+      appawstore: {
+        name: 'Appaw Store',
+        description: 'Direct from manufacturer',
+      },
+      cardtheland: {
+        name: 'Cardtheland',
+        description: 'TCG specialty store',
+        location: 'Unit G1B, 3/F, Kaiser Estate, Phase 2, Hung Hom',
+      },
+    },
+    directDesc: 'Direct from manufacturer',
+    retailHint: 'Visit our authorized partners for personal service',
+    note: 'Interested in becoming a retail partner? Contact us!',
+    onlineTitle: 'Online Store',
+    retailTitle: 'Retail Partners',
+    types: {
+      online: 'Online',
+      retail: 'Retail',
+    },
+    tags: {
+      authorized: 'Store',
+      official: 'Online Shop',
+      inStock: 'In Stock',
+    },
+  },
+
   // Common
   common: {
     loading: 'Loading...',
