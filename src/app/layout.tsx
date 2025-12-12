@@ -142,8 +142,15 @@ const jsonLd = {
           },
           offers: {
             '@type': 'Offer',
+            price: '17.99',
+            priceCurrency: 'USD',
+            priceValidUntil: '2026-12-31',
             availability: 'https://schema.org/InStock',
             url: 'https://appaw.store/products/psa-protectors/',
+            seller: {
+              '@type': 'Organization',
+              name: 'Appaw Store',
+            },
           },
           additionalProperty: [
             {
