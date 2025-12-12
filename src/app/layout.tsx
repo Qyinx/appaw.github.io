@@ -134,6 +134,7 @@ const jsonLd = {
           '@type': 'Product',
           name: 'PSA Card Aluminum Protector',
           description: 'Industrial-grade aluminum protector with >95% UV-blocking glass and N52 magnetic closure for PSA graded cards. Fits standard 35PT PSA slabs including Pokemon, sports cards, and MTG. Features precision aluminum frame, anti-fade glass lens, and magnetic seal without screws.',
+          image: 'https://appaw.store/images-optimized/describe/sell%205.png',
           category: 'Card Protection',
           material: ['Aluminum', 'Glass'],
           brand: {
