@@ -265,31 +265,8 @@ export default function GridStoreAdministrationPage() {
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative py-16 md:py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(59,130,246,0.15)_0%,_transparent_50%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(30deg,_transparent_40%,_rgba(59,130,246,0.03)_40%,_rgba(59,130,246,0.03)_60%,_transparent_60%)] bg-[size:60px_100px]" />
-        </div>
 
-        <div className="absolute top-20 right-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
-
-        <div className="relative container-custom text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium mb-6">
-            <Store className="w-4 h-4" />
-            <span>Administration</span>
-          </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-white mb-4">
-            {t.gridStoreAdmin.title}
-          </h1>
-          <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">
-            {t.gridStoreAdmin.subtitle}
-          </p>
-        </div>
-      </section>
-
-      {/* Role Selector */}
+      {/* Role Selector, Should only be visible to admins */}
       <section className="py-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
         <div className="container-custom">
           <div className="flex items-center justify-between flex-wrap gap-4">
