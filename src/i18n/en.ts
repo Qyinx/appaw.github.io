@@ -418,6 +418,8 @@ export const en = {
       demoMode: 'Switch between roles to see different views',
       viewingAs: 'Viewing as',
       viewingLocation: 'Location',
+      currentCashier: 'Current Cashier',
+      location: 'Location',
       stats: {
         totalGrids: 'Total Grids',
         rented: 'Rented',

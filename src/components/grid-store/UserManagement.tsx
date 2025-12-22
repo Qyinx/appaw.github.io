@@ -53,7 +53,7 @@ export default function UserManagement({ users, onCreate, onEdit }: Props) {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user.id} className="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30">
+                <tr key={user.id} className="border-b border-slate-100 dark:border-slate-700/50">
                   <td className="py-3 px-4">
                     <span className="font-medium text-slate-900 dark:text-white">{user.name}</span>
                   </td>

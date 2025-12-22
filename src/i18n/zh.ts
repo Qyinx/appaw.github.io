@@ -420,6 +420,8 @@ export const zh: Translations = {
       demoMode: '切換角色以查看不同視圖',
       viewingAs: '查看身份',
       viewingLocation: '所屬地點',
+      currentCashier: '當前收銀員',
+      location: '地點',
       stats: {
         totalGrids: '總格數',
         rented: '已出租',

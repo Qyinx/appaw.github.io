@@ -67,7 +67,7 @@ export default function GridManagement({ role, grids, lessors, locations }: Prop
             </thead>
             <tbody>
               {grids.map((grid) => (
-                <tr key={grid.id} className="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30">
+                <tr key={grid.id} className="border-b border-slate-100 dark:border-slate-700/50">
                   <td className="py-3 px-4"><span className="font-medium text-slate-900 dark:text-white">{grid.gridNumber}</span></td>
                   <td className="py-3 px-4"><span className="text-slate-700 dark:text-slate-300">{grid.size}</span></td>
                   <td className="py-3 px-4"><span className="text-slate-900 dark:text-white font-medium">${grid.gridPrice || 0}</span></td>
