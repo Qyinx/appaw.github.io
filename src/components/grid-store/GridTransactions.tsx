@@ -41,7 +41,7 @@ interface GridTransactionsProps {
   setShowModal: (show: boolean) => void;
   revenueForm: {
     date: string;
-    type: 'grid-rent' | 'item-sale';
+    type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
     gridId: string;
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
@@ -51,7 +51,7 @@ interface GridTransactionsProps {
   };
   setRevenueForm: React.Dispatch<React.SetStateAction<{
     date: string;
-    type: 'grid-rent' | 'item-sale';
+    type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
     gridId: string;
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
@@ -138,20 +138,31 @@ export default function GridTransactions({
       }
 
       if (result.data?.gridTransactions?.transactions) {
-        const mapped: RevenueEntry[] = result.data.gridTransactions.transactions.map((trx) => ({
-          id: trx.orderId,
-          date: new Date(trx.created).toLocaleDateString(),
-          type: 'item-sale' as 'grid-rent' | 'item-sale',
-          gridId: trx.gridId,
-          gridNumber: trx.grid && trx.store ? `${trx.grid.name} (${trx.store.name})` : trx.gridId,
-          handlerName: trx.cashier.name,
-          handlerRole: 'cashier' as 'lessor' | 'cashier',
-          handlerId: trx.cashierId,
-          itemName: trx.itemName,
-          amount: trx.trxPrice,
-          collected: trx.isCollected,
-          locationName: trx.store?.name || '',
-        }));
+        const mapped: RevenueEntry[] = result.data.gridTransactions.transactions.map((trx) => {
+          const createdDate = new Date(trx.created);
+          const formattedDate = createdDate.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+          
+          return {
+            id: trx.orderId,
+            date: formattedDate,
+            type: 'item-sale' as 'grid-rent' | 'item-sale',
+            gridId: trx.gridId,
+            gridNumber: trx.grid && trx.store ? `${trx.grid.name} (${trx.store.name})` : trx.gridId,
+            handlerName: trx.cashier.name,
+            handlerRole: 'cashier' as 'lessor' | 'cashier',
+            handlerId: trx.cashierId,
+            itemName: trx.itemName,
+            amount: trx.trxPrice,
+            collected: trx.isCollected,
+            locationName: trx.store?.name || '',
+          };
+        });
 
         setGridEntries(mapped);
         cachedGridTransactions = mapped;
@@ -191,6 +202,8 @@ export default function GridTransactions({
         onSave={onSave}
         onToggleCollected={onToggleCollected}
         canAddRecord={canAddRecord}
+        showType={false}
+        showOrderNo={true}
         typeOptions={['item-sale']}
         handlerRoleOptions={['cashier']}
         itemHeaderLabel="Item Details"

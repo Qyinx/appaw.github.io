@@ -26,6 +26,7 @@ interface MyGridsProps {
   isAdmin?: boolean;
   delegateUserId?: string;
   onDelegateUserIdChange?: (userId: string) => void;
+  ownerId?: string; // filter stores/grids by owner when viewing-as
 }
 
 export default function MyGrids({ 
@@ -35,7 +36,8 @@ export default function MyGrids({
   onViewGrid,
   isAdmin = false,
   delegateUserId = '',
-  onDelegateUserIdChange
+  onDelegateUserIdChange,
+  ownerId
 }: MyGridsProps) {
   const { t } = useLanguage();
 
@@ -43,6 +45,7 @@ export default function MyGrids({
   const [storesLoading, setStoresLoading] = useState<boolean>(false);
   const [storesError, setStoresError] = useState<string | null>(null);
   const [selectedStoreId, setSelectedStoreId] = useState<string>('');
+  const prevOwnerId = React.useRef<string | undefined>(undefined);
 
   const [assignedGrids, setAssignedGrids] = useState<GridStore[]>([]);
   const [gridsLoading, setGridsLoading] = useState<boolean>(false);
@@ -51,12 +54,15 @@ export default function MyGrids({
   useEffect(() => {
     const fetchStores = async () => {
       try {
+        // Avoid redundant fetch if owner unchanged and stores already loaded
+        if (prevOwnerId.current === ownerId && stores.length > 0) return;
+
         setStoresLoading(true);
         setStoresError(null);
 
         const query = `
           query {
-            stores(limit: 20) {
+            stores(${ownerId ? `userId: "${ownerId}", ` : ''}limit: 20) {
               stores {
                 id
                 name
@@ -83,10 +89,9 @@ export default function MyGrids({
         const storeList = result.data?.stores?.stores || [];
         setStores(storeList);
 
-        if (!selectedStoreId && storeList.length > 0) {
-          const firstActive = storeList.find((s) => s.isActive) || storeList[0];
-          setSelectedStoreId(firstActive.id);
-        }
+        const firstActive = storeList.find((s) => s.isActive) || storeList[0];
+        setSelectedStoreId(firstActive?.id || '');
+        prevOwnerId.current = ownerId;
       } catch (err) {
         setStoresError(err instanceof Error ? err.message : 'Failed to fetch stores');
         console.error('Error fetching stores:', err);
@@ -95,8 +100,11 @@ export default function MyGrids({
       }
     };
 
+    // Reset state when owner changes
+    setStores([]);
+    setSelectedStoreId('');
     fetchStores();
-  }, [selectedStoreId]);
+  }, [ownerId]);
 
   useEffect(() => {
     const fetchGridsForStore = async () => {

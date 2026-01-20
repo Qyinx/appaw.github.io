@@ -42,7 +42,7 @@ interface AdminDashboardProps {
   showRevenueModal: boolean;
   revenueForm: {
     date: string;
-    type: 'grid-rent' | 'item-sale';
+    type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
     gridId: string;
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
@@ -52,7 +52,7 @@ interface AdminDashboardProps {
   };
   setRevenueForm: React.Dispatch<React.SetStateAction<{
     date: string;
-    type: 'grid-rent' | 'item-sale';
+    type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
     gridId: string;
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
@@ -82,6 +82,8 @@ interface AdminDashboardProps {
   selectedLessorForAssign: string;
   setSelectedLessorForAssign: React.Dispatch<React.SetStateAction<string>>;
   confirmAssign: () => void;
+  storeTransactionRefresh?: number;
+  selectedLessorId?: string;
 }
 
 export default function AdminDashboard({
@@ -104,6 +106,8 @@ export default function AdminDashboard({
   revenueForm,
   setRevenueForm,
   saveRevenue,
+  storeTransactionRefresh,
+  selectedLessorId,
 }: AdminDashboardProps) {
   const { t } = useLanguage();
 
@@ -161,6 +165,7 @@ export default function AdminDashboard({
             onSave={saveRevenue}
             onToggleCollected={toggleCollected}
             canAddRecord={true}
+            refreshTrigger={storeTransactionRefresh}
           />
 
           <GridTransactions
@@ -180,7 +185,7 @@ export default function AdminDashboard({
       )}
 
       {currentTab === 'store-management' && (
-        <StoreManagement />
+        <StoreManagement ownerId={selectedLessorId} />
       )}
     </>
   );

@@ -32,7 +32,7 @@ interface StoreTransactionsProps {
   setShowModal: (show: boolean) => void;
   revenueForm: {
     date: string;
-    type: 'grid-rent' | 'item-sale';
+    type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
     gridId: string;
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
@@ -42,7 +42,7 @@ interface StoreTransactionsProps {
   };
   setRevenueForm: React.Dispatch<React.SetStateAction<{
     date: string;
-    type: 'grid-rent' | 'item-sale';
+    type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
     gridId: string;
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
@@ -56,6 +56,7 @@ interface StoreTransactionsProps {
   onSave: () => void;
   onToggleCollected: (id: string) => void;
   canAddRecord?: boolean;
+  refreshTrigger?: number;
 }
 
 let cachedStoreTransactions: RevenueEntry[] | null = null;
@@ -72,6 +73,7 @@ export default function StoreTransactions({
   onSave,
   onToggleCollected,
   canAddRecord = true,
+  refreshTrigger,
 }: StoreTransactionsProps) {
   const [storeEntries, setStoreEntries] = useState<RevenueEntry[]>(cachedStoreTransactions || []);
   const [loading, setLoading] = useState(!cachedStoreTransactions);
@@ -79,9 +81,6 @@ export default function StoreTransactions({
   const hasFetched = useRef(false);
 
   const fetchStoreTransactions = async () => {
-    if (hasFetched.current || cachedStoreTransactions) return;
-
-    hasFetched.current = true;
 
     try {
       setLoading(true);
@@ -123,22 +122,32 @@ export default function StoreTransactions({
       }
 
       if (result.data?.storeTransactions?.transactions) {
-        const mapped: RevenueEntry[] = result.data.storeTransactions.transactions.map((trx) => ({
-          id: trx.orderId,
-          date: new Date(trx.created).toLocaleDateString(),
-          type: 'grid-rent' as 'grid-rent' | 'item-sale',
-          gridId: '',
-          gridNumber: trx.orderId,
-          handlerName: trx.fromUser.name,
-          handlerRole: 'lessor' as 'lessor' | 'cashier',
-          handlerId: trx.fromUserId,
-          itemName: trx.toUser.name,
-          trxType: trx.trxType,
-          notes: trx.notes,
-          amount: trx.amount,
-          collected: trx.isCollected,
-          locationName: '',
-        }));
+        const mapped: RevenueEntry[] = result.data.storeTransactions.transactions.map((trx) => {
+          // Map trxType to RevenueEntry type
+          let entryType: 'grid-rent' | 'item-sale' | 'grid-income' | 'others' = 'others';
+          if (trx.trxType === 'rent_payment') entryType = 'grid-rent';
+          else if (trx.trxType === 'settlement_to_lessee') entryType = 'grid-income';
+          else if (trx.trxType === 'settlement_to_lessor') entryType = 'grid-rent';
+          
+          return {
+            id: trx.orderId,
+            date: new Date(trx.created).toLocaleDateString(),
+            type: entryType,
+            gridId: '',
+            gridNumber: trx.orderId,
+            handlerName: trx.fromUser.name,
+            handlerRole: 'lessor' as 'lessor' | 'cashier',
+            handlerId: trx.fromUserId,
+            itemName: trx.toUser.name,
+            trxType: trx.trxType,
+            notes: trx.notes,
+            amount: trx.amount,
+            collected: trx.isCollected,
+            locationName: '',
+            fromUser: trx.fromUser,
+            toUser: trx.toUser,
+          };
+        });
 
         setStoreEntries(mapped);
         cachedStoreTransactions = mapped;
@@ -155,6 +164,16 @@ export default function StoreTransactions({
     fetchStoreTransactions();
   }, []);
 
+  // Refetch when refreshTrigger changes
+  useEffect(() => {
+    if (refreshTrigger !== undefined && refreshTrigger > 0) {
+      // Clear cache and refetch
+      cachedStoreTransactions = null;
+      hasFetched.current = false;
+      fetchStoreTransactions();
+    }
+  }, [refreshTrigger]);
+
   return (
     <>
       {error && (
@@ -167,7 +186,7 @@ export default function StoreTransactions({
         title="Store Transactions"
         revenueEntries={storeEntries}
         filteredEntries={storeEntries}
-        showModal={showModal}
+        showModal={false}
         setShowModal={setShowModal}
         revenueForm={revenueForm}
         setRevenueForm={setRevenueForm}
@@ -181,9 +200,9 @@ export default function StoreTransactions({
         typeOptions={['grid-rent']}
         handlerRoleOptions={['lessor']}
         itemHeaderLabel="Transaction Details"
-        handlerHeaderLabel="Payer"
+        handlerHeaderLabel="Recipient"
         showGridNumber={false}
-        showGridNumber={false}
+        showPayerRecipient={true}
       />
     </>
   );

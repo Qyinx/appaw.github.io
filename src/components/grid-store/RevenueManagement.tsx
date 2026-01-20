@@ -12,7 +12,7 @@ interface RevenueManagementProps {
   setShowModal: (show: boolean) => void;
   revenueForm: {
     date: string;
-    type: 'grid-rent' | 'item-sale';
+    type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
     gridId: string;
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
@@ -22,7 +22,7 @@ interface RevenueManagementProps {
   };
   setRevenueForm: React.Dispatch<React.SetStateAction<{
     date: string;
-    type: 'grid-rent' | 'item-sale';
+    type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
     gridId: string;
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
@@ -44,6 +44,9 @@ interface RevenueManagementProps {
   itemHeaderLabel?: string;
   handlerHeaderLabel?: string;
   showGridNumber?: boolean;
+  showPayerRecipient?: boolean;
+  showType?: boolean;
+  showOrderNo?: boolean;
 }
 
 export default function RevenueManagement({
@@ -66,6 +69,9 @@ export default function RevenueManagement({
   itemHeaderLabel,
   handlerHeaderLabel,
   showGridNumber = true,
+  showPayerRecipient = false,
+  showType = true,
+  showOrderNo = false,
 }: RevenueManagementProps) {
   const { t } = useLanguage();
   const displayedEntries = filteredEntries || revenueEntries;
@@ -77,7 +83,10 @@ export default function RevenueManagement({
 
   return (
     <div>
-      <Card className="p-4 md:p-6" hover={false}>
+      <Card
+        className="p-4 md:p-6 bg-slate-50/70 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800"
+        hover={false}
+      >
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
             {headerTitle}
@@ -98,61 +107,100 @@ export default function RevenueManagement({
           <table className="w-full">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700">
+                {showOrderNo && (
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Order No.</th>
+                )}
                 <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{t.gridStoreAdmin.revenueManagement.table.date}</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{t.gridStoreAdmin.revenueManagement.table.type}</th>
+                {showType && (
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{t.gridStoreAdmin.revenueManagement.table.type}</th>
+                )}
                 {showGridNumber && (
                   <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{t.gridStoreAdmin.revenueManagement.table.gridNumber}</th>
                 )}
-                {canAddRecord && (
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{handlerLabel}</th>
+                {showPayerRecipient ? (
+                  <>
+                    <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Payer</th>
+                    <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Recipient</th>
+                  </>
+                ) : (
+                  <>
+                    {canAddRecord && (
+                      <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{handlerLabel}</th>
+                    )}
+                    <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Notes</th>
+                  </>
                 )}
-                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{itemLabel}</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{t.gridStoreAdmin.revenueManagement.table.amount}</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{t.gridStoreAdmin.revenueManagement.table.collected}</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{t.gridStoreAdmin.revenueManagement.table.actions}</th>
+                {canAddRecord && (
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">{t.gridStoreAdmin.revenueManagement.table.actions}</th>
+                )}
               </tr>
             </thead>
             <tbody>
               {displayedEntries.map((entry) => (
                 <tr key={entry.id} className="border-b border-slate-100 dark:border-slate-700/50">
-                  <td className="py-3 px-4"><span className="text-slate-900 dark:text-white">{entry.date}</span></td>
-                  <td className="py-3 px-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${entry.type === 'grid-rent' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400'}`}>
-                      {entry.type === 'grid-rent' ? t.gridStoreAdmin.revenueManagement.table.typeGridRent : t.gridStoreAdmin.revenueManagement.table.typeItemSale}
-                    </span>
-                  </td>
-                  {showGridNumber && (
-                    <td className="py-3 px-4"><span className="text-slate-700 dark:text-slate-300">{entry.gridNumber}</span></td>
+                  {showOrderNo && (
+                    <td className="py-3 px-4"><span className="text-xs font-mono text-slate-600 dark:text-slate-400">{entry.id}</span></td>
                   )}
-                  {canAddRecord && (
+                  <td className="py-3 px-4"><span className="text-slate-900 dark:text-white">{entry.date}</span></td>
+                  {showType && (
                     <td className="py-3 px-4">
-                      <span className="text-slate-700 dark:text-slate-300">
-                        {entry.handlerName ? `${entry.handlerName} (${entry.handlerRole === 'lessor' ? t.gridStoreAdmin.roles.lessor.title : t.gridStoreAdmin.roles.cashier.title})` : '-'}
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        entry.trxType === 'rent_payment' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400' :
+                        entry.trxType === 'settlement_to_lessor' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' :
+                        entry.trxType === 'settlement_to_lessee' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400' :
+                        'bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400'
+                      }`}>
+                        {entry.trxType === 'rent_payment' ? 'Lessee Rent Grid' :
+                         entry.trxType === 'settlement_to_lessor' ? 'Store Income from Grid Rent' :
+                         entry.trxType === 'settlement_to_lessee' ? 'Grid Income from sales' :
+                         'Others'}
                       </span>
                     </td>
                   )}
-                  <td className="py-3 px-4">
-                    <div className="flex flex-col gap-1">
-                      {entry.handlerName && <span className="text-slate-700 dark:text-slate-300 text-sm font-medium">{entry.handlerName}</span>}
-                      {entry.trxType && <span className="text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wide">{entry.trxType}</span>}
-                      {entry.notes && <span className="text-xs text-slate-500 dark:text-slate-500 italic">{entry.notes}</span>}
-                      {entry.itemName && <span className="text-xs text-slate-600 dark:text-slate-400">To: {entry.itemName}</span>}
-                    </div>
-                  </td>
+                  {showGridNumber && (
+                    <td className="py-3 px-4"><span className="text-slate-700 dark:text-slate-300">{entry.gridNumber}</span></td>
+                  )}
+                  {showPayerRecipient ? (
+                    <>
+                      <td className="py-3 px-4">
+                        <span className="text-slate-700 dark:text-slate-300">{entry.fromUser?.name || '-'}</span>
+                      </td>
+                      <td className="py-3 px-4">
+                        <span className="text-slate-700 dark:text-slate-300">{entry.toUser?.name || '-'}</span>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      {canAddRecord && (
+                        <td className="py-3 px-4">
+                          <span className="text-slate-700 dark:text-slate-300">
+                            {entry.handlerName ? `${entry.handlerName} (${entry.handlerRole === 'lessor' ? t.gridStoreAdmin.roles.lessor.title : t.gridStoreAdmin.roles.cashier.title})` : '-'}
+                          </span>
+                        </td>
+                      )}
+                      <td className="py-3 px-4">
+                        <span className="text-slate-700 dark:text-slate-300">{entry.notes || entry.itemName || '-'}</span>
+                      </td>
+                    </>
+                  )}
                   <td className="py-3 px-4"><span className="text-slate-900 dark:text-white font-medium">${entry.amount}</span></td>
                   <td className="py-3 px-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${entry.collected ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' : 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400'}`}>
                       {entry.collected ? t.gridStoreAdmin.revenueManagement.table.yes : t.gridStoreAdmin.revenueManagement.table.no}
                     </span>
                   </td>
-                  <td className="py-3 px-4">
-                    <button
-                      onClick={() => onToggleCollected(entry.id)}
-                      className={`px-4 py-2 text-sm rounded-lg transition-colors ${entry.collected ? 'bg-amber-500 hover:bg-amber-600 text-white' : 'bg-green-500 hover:bg-green-600 text-white'}`}
-                    >
-                      {entry.collected ? t.gridStoreAdmin.revenueManagement.table.markUncollected : t.gridStoreAdmin.revenueManagement.table.markCollected}
-                    </button>
-                  </td>
+                  {canAddRecord && (
+                    <td className="py-3 px-4">
+                      <button
+                        onClick={() => onToggleCollected(entry.id)}
+                        className={`px-4 py-2 text-sm rounded-lg transition-colors ${entry.collected ? 'bg-amber-500 hover:bg-amber-600 text-white' : 'bg-green-500 hover:bg-green-600 text-white'}`}
+                      >
+                        {entry.collected ? t.gridStoreAdmin.revenueManagement.table.markUncollected : t.gridStoreAdmin.revenueManagement.table.markCollected}
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -165,25 +213,51 @@ export default function RevenueManagement({
             <div key={entry.id} className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 bg-white dark:bg-slate-800">
               <div className="flex items-start justify-between mb-3">
                 <div>
+                  {showOrderNo && (
+                    <div className="text-xs font-mono text-slate-500 dark:text-slate-500 mb-1">Order: {entry.id}</div>
+                  )}
                   <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-1">{entry.gridNumber}</h4>
                   <div className="text-sm text-slate-600 dark:text-slate-400">{entry.date}</div>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${entry.type === 'grid-rent' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400'}`}>
-                  {entry.type === 'grid-rent' ? t.gridStoreAdmin.revenueManagement.table.typeGridRent : t.gridStoreAdmin.revenueManagement.table.typeItemSale}
-                </span>
+                {showType && (
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
+                    entry.trxType === 'rent_payment' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400' :
+                    entry.trxType === 'settlement_to_lessor' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' :
+                    entry.trxType === 'settlement_to_lessee' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400' :
+                    'bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400'
+                  }`}>
+                    {entry.trxType === 'rent_payment' ? 'Lessee Rent Grid' :
+                     entry.trxType === 'settlement_to_lessor' ? 'Store Income from Grid Rent' :
+                     entry.trxType === 'settlement_to_lessee' ? 'Grid Income from sales' :
+                     'Others'}
+                  </span>
+                )}
               </div>
               <div className="space-y-2 py-3 border-t border-slate-100 dark:border-slate-700">
-                {canAddRecord && entry.handlerName && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-600 dark:text-slate-400">{t.gridStoreAdmin.revenueManagement.table.handler}:</span>
-                    <span className="font-medium text-slate-900 dark:text-white">{`${entry.handlerName} (${entry.handlerRole === 'lessor' ? t.gridStoreAdmin.roles.lessor.title : t.gridStoreAdmin.roles.cashier.title})`}</span>
-                  </div>
-                )}
-                {canAddRecord && entry.handlerName && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-600 dark:text-slate-400">{t.gridStoreAdmin.revenueManagement.table.handler}:</span>
-                    <span className="font-medium text-slate-900 dark:text-white">{entry.handlerName}</span>
-                  </div>
+                {showPayerRecipient ? (
+                  <>
+                    {entry.fromUser && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-600 dark:text-slate-400">Payer:</span>
+                        <span className="font-medium text-slate-900 dark:text-white">{entry.fromUser.name}</span>
+                      </div>
+                    )}
+                    {entry.toUser && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-600 dark:text-slate-400">Recipient:</span>
+                        <span className="font-medium text-slate-900 dark:text-white">{entry.toUser.name}</span>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {canAddRecord && entry.handlerName && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-600 dark:text-slate-400">{t.gridStoreAdmin.revenueManagement.table.handler}:</span>
+                        <span className="font-medium text-slate-900 dark:text-white">{`${entry.handlerName} (${entry.handlerRole === 'lessor' ? t.gridStoreAdmin.roles.lessor.title : t.gridStoreAdmin.roles.cashier.title})`}</span>
+                      </div>
+                    )}
+                  </>
                 )}
                 {entry.trxType && (
                   <div className="flex justify-between text-sm">
@@ -191,13 +265,7 @@ export default function RevenueManagement({
                     <span className="font-medium text-slate-900 dark:text-white uppercase text-xs">{entry.trxType}</span>
                   </div>
                 )}
-                {entry.itemName && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-600 dark:text-slate-400">To:</span>
-                    <span className="font-medium text-slate-900 dark:text-white">{entry.itemName}</span>
-                  </div>
-                )}
-                {entry.notes && (
+                {entry.notes && !showPayerRecipient && (
                   <div className="flex justify-between text-sm">
                     <span className="text-slate-600 dark:text-slate-400">Notes:</span>
                     <span className="text-slate-900 dark:text-white text-xs italic">{entry.notes}</span>

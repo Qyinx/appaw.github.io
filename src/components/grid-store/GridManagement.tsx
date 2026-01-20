@@ -69,6 +69,7 @@ export default function GridManagement({ storeId }: Props) {
   const [stores, setStores] = useState<StoreData[]>([]);
   const [storesLoading, setStoresLoading] = useState<boolean>(true);
   const [storesError, setStoresError] = useState<string | null>(null);
+  const hasFetchedStores = useRef(false);
   const [selectedStoreId, setSelectedStoreId] = useState<string>(storeId || '');
   
   const [showGridModal, setShowGridModal] = useState(false);
@@ -81,6 +82,9 @@ export default function GridManagement({ storeId }: Props) {
 
   const fetchStores = async () => {
     try {
+      if (hasFetchedStores.current) return;
+      hasFetchedStores.current = true;
+
       setStoresLoading(true);
       setStoresError(null);
 

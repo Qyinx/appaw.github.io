@@ -53,7 +53,7 @@ export interface Cashier {
 export interface RevenueEntry {
   id: string;
   date: string;
-  type: 'grid-rent' | 'item-sale';
+  type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
   gridId: string;
   gridNumber: string;
   handlerName?: string;

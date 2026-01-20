@@ -34,13 +34,13 @@ interface StoreFormData {
 let cachedStores: StoreData[] | null = null;
 
 interface StoreManagementProps {
-  // Props will be added as the component is developed
+  ownerId?: string; // when provided, limit stores to this owner
 }
 
-export default function StoreManagement({}: StoreManagementProps) {
+export default function StoreManagement({ ownerId }: StoreManagementProps) {
   const { t } = useLanguage();
-  const [stores, setStores] = useState<StoreData[]>(cachedStores || []);
-  const [loading, setLoading] = useState(!cachedStores);
+  const [stores, setStores] = useState<StoreData[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState<number>(0);
   const [limit, setLimit] = useState<number>(20);
@@ -55,9 +55,12 @@ export default function StoreManagement({}: StoreManagementProps) {
   });
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const prevOwnerId = useRef<string | undefined>(undefined);
 
   const fetchStores = async () => {
-    if (hasFetched.current || cachedStores) return;
+    // Avoid using cached data when filtering by owner to prevent cross-contamination
+    if (hasFetched.current && !ownerId) return;
+    if (hasFetched.current && ownerId && prevOwnerId.current === ownerId) return;
 
     hasFetched.current = true;
 
@@ -67,7 +70,7 @@ export default function StoreManagement({}: StoreManagementProps) {
 
       const query = `
         query {
-          stores(limit: 20) {
+          stores(${ownerId ? `userId: "${ownerId}", ` : ''}limit: 20) {
             stores {
               id
               name
@@ -97,7 +100,10 @@ export default function StoreManagement({}: StoreManagementProps) {
         setTotal(result.data.stores.total);
         setLimit(result.data.stores.limit);
         setNextAfterId(result.data.stores.nextAfterId);
-        cachedStores = fetchedStores;
+        if (!ownerId) {
+          cachedStores = fetchedStores;
+        }
+        prevOwnerId.current = ownerId;
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch stores');
@@ -108,8 +114,15 @@ export default function StoreManagement({}: StoreManagementProps) {
   };
 
   useEffect(() => {
+    // Reset state when owner changes to force refetch and clear old data
+    hasFetched.current = false;
+    prevOwnerId.current = undefined;
+    setStores([]);
+    setTotal(0);
+    setNextAfterId(null);
+    setLoading(true);
     fetchStores();
-  }, []);
+  }, [ownerId]);
 
   const handleCreateStore = async (e: React.FormEvent) => {
     e.preventDefault();

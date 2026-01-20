@@ -74,6 +74,7 @@ export default function LessorDashboard({
           grids={getFilteredGrids()} 
           showStats={true} 
           showActions={true}
+          ownerId={selectedLessorId}
           isAdmin={isAdmin}
           delegateUserId={delegateUserId}
           onDelegateUserIdChange={onDelegateUserIdChange}
