@@ -4,7 +4,7 @@ import React from 'react';
 import { Grid3X3, DollarSign } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card } from '@/components/ui';
-import MyGrids from '@/components/grid-store/MyGrids';
+import MyStoreGrids from '@/components/grid-store/MyStoreGrids';
 import StoreTransactions from '@/components/grid-store/StoreTransactions';
 import GridTransactions from '@/components/grid-store/GridTransactions';
 import type { Tab, RevenueEntry, GridStore, Product } from './page';
@@ -18,8 +18,6 @@ interface LessorDashboardProps {
   toggleCollected: (id: string) => void;
   mockGridStores: GridStore[];
   isAdmin?: boolean;
-  delegateUserId?: string;
-  onDelegateUserIdChange?: (userId: string) => void;
 }
 
 export default function LessorDashboard({
@@ -31,8 +29,6 @@ export default function LessorDashboard({
   toggleCollected,
   mockGridStores,
   isAdmin = false,
-  delegateUserId = '',
-  onDelegateUserIdChange
 }: LessorDashboardProps) {
   const { t } = useLanguage();
   const filteredRevenueEntries = revenueEntries.filter(
@@ -70,14 +66,12 @@ export default function LessorDashboard({
       </div>
 
       {currentTab === 'grid-management' && (
-        <MyGrids 
+        <MyStoreGrids 
           grids={getFilteredGrids()} 
           showStats={true} 
           showActions={true}
           ownerId={selectedLessorId}
           isAdmin={isAdmin}
-          delegateUserId={delegateUserId}
-          onDelegateUserIdChange={onDelegateUserIdChange}
         />
       )}
 

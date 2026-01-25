@@ -125,8 +125,19 @@ export interface Product {
   description: string;
   price: number;
   gridId: string;
-  gridNumber: string;
-  locationName: string;
+  gridNumber?: string;
+  locationName?: string;
+  itemId?: string; // API response field
+  userId?: string | number; // User who created the item
+  version?: number; // API version field
+  isActive?: boolean; // Item status
+  created?: string; // Creation timestamp
+  notes?: string; // Description from API
+  guid?: string; // Unique guid from API
+  gridName?: string; // Grid name from nested grid
+  storeId?: string; // Store id from nested grid.store
+  storeName?: string; // Store name from nested grid.store
+  storeLocation?: string; // Store location from nested grid.store
 }
 
 const mockLocations: Location[] = [];
@@ -151,9 +162,9 @@ export default function GridStoreAdministrationPage() {
   // Initialize from URL params
   const [currentRole, setCurrentRole] = useState<Role>('admin');
   const [currentTab, setCurrentTab] = useState<Tab>('user-management');
-  const [selectedLessorId, setSelectedLessorId] = useState<string>('L1');
-  const [selectedCashierId, setSelectedCashierId] = useState<string>('C1');
-  const [selectedLesseeId, setSelectedLesseeId] = useState<string>('LE1');
+  const [selectedLessorId, setSelectedLessorId] = useState<string>('');
+  const [selectedCashierId, setSelectedCashierId] = useState<string>('');
+  const [selectedLesseeId, setSelectedLesseeId] = useState<string>('');
   const [selectedLocationId, setSelectedLocationId] = useState<string>('LOC1');
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [selectedGridForAssign, setSelectedGridForAssign] = useState<string | null>(null);
@@ -198,9 +209,6 @@ export default function GridStoreAdministrationPage() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [productForm, setProductForm] = useState({ name: '', description: '', price: 0, gridId: '' });
 
-  // Delegate User ID State (for admin's grid requests)
-  const [delegateUserId, setDelegateUserId] = useState<string>('');
-
   const [loggedUser, setLoggedUser] = useState<{ name?: string; roles?: string[] | string; id?: string; sub?: string; user_id?: string } | null>(null);
   const [authUserId, setAuthUserId] = useState<string>('');
   
@@ -212,6 +220,14 @@ export default function GridStoreAdministrationPage() {
 
   // Track if initial load is complete to prevent URL changes from re-initializing state
   const [isInitialized, setIsInitialized] = useState(false);
+
+  // Check for authentication and redirect if needed
+  useEffect(() => {
+    const token = localStorage.getItem('auth0_token');
+    if (!token) {
+      router.push('/business/grid-store/administration/login');
+    }
+  }, [router]);
 
   useEffect(() => {
     try {
@@ -233,6 +249,10 @@ export default function GridStoreAdministrationPage() {
       try {
         const token = localStorage.getItem('auth0_token');
         if (!token) return;
+
+        // Only fetch users if user is admin
+        const isAdmin = loggedUser && (Array.isArray(loggedUser.roles) ? loggedUser.roles.includes('admin') : loggedUser.roles === 'admin');
+        if (!isAdmin) return;
 
         const response = await fetch('/api/graphql', {
           method: 'POST',
@@ -304,7 +324,11 @@ export default function GridStoreAdministrationPage() {
             setSelectedLessorId(lessors[0].id);
           }
           if (cashiers.length > 0) setSelectedCashierId(cashiers[0].id);
-          if (lessees.length > 0) setSelectedLesseeId(lessees[0].id);
+          if (authUserId && lessees.some((le) => le.id === authUserId)) {
+            setSelectedLesseeId(authUserId);
+          } else if (lessees.length > 0) {
+            setSelectedLesseeId(lessees[0].id);
+          }
         }
       } catch (error) {
         console.error('Failed to fetch users:', error);
@@ -313,7 +337,7 @@ export default function GridStoreAdministrationPage() {
     };
 
     fetchUsers();
-  }, []);
+  }, [loggedUser]);
 
   // Fetch lessor's stores from API
   useEffect(() => {
@@ -377,30 +401,57 @@ export default function GridStoreAdministrationPage() {
   useEffect(() => {
     if (isInitialized) return; // Skip if already initialized
     
-    const role = (searchParams.get('role') as Role) || 'admin';
+    // Determine role from URL or user's actual role
+    let role = searchParams.get('role') as Role | null;
+    
+    if (!role && loggedUser?.roles) {
+      // Auto-detect role from logged user if not in URL
+      const userRoles = Array.isArray(loggedUser.roles) ? loggedUser.roles : [loggedUser.roles];
+      if (userRoles.includes('admin')) {
+        role = 'admin';
+      } else if (userRoles.includes('lessor')) {
+        role = 'lessor';
+      } else if (userRoles.includes('cashier')) {
+        role = 'cashier';
+      } else if (userRoles.includes('lessee') || userRoles.includes('customer')) {
+        role = 'lessee';
+      }
+    }
+    
+    const finalRole = role || 'admin';
     const tabParam = searchParams.get('tab') as Tab | null;
     
     // Get available tabs for the role
-    const availableTabs = tabsByRole[role];
+    const availableTabs = tabsByRole[finalRole];
     
     // Use provided tab if it's available for this role, otherwise use first tab
     let tab = tabParam && availableTabs.includes(tabParam) ? tabParam : availableTabs[0];
     
-    setCurrentRole(role);
+    setCurrentRole(finalRole);
     setCurrentTab(tab);
     
-    if (searchParams.has('lessorId')) {
-      setSelectedLessorId(searchParams.get('lessorId') || 'L1');
-    }
-    if (searchParams.has('cashierId')) {
-      setSelectedCashierId(searchParams.get('cashierId') || 'C1');
-    }
-    if (searchParams.has('lesseeId')) {
-      setSelectedLesseeId(searchParams.get('lesseeId') || 'LE1');
+    // Non-admin users: set to their own authUserId
+    if (authUserId) {
+      setSelectedLessorId(authUserId);
+      setSelectedCashierId(authUserId);
+      setSelectedLesseeId(authUserId);
     }
     
     setIsInitialized(true);
-  }, [searchParams, isInitialized]);
+  }, [searchParams, isInitialized, loggedUser, authUserId]);
+
+  // For non-admin lessee users, set selectedLesseeId to their authUserId
+  useEffect(() => {
+    if (!authUserId || !isInitialized) return;
+
+    const isAdmin = loggedUser && (Array.isArray(loggedUser.roles) ? loggedUser.roles.includes('admin') : loggedUser.roles === 'admin');
+    const isLessee = loggedUser && (Array.isArray(loggedUser.roles) ? loggedUser.roles.includes('lessee') || loggedUser.roles.includes('customer') : loggedUser.roles === 'lessee' || loggedUser.roles === 'customer');
+    
+    // Non-admin lessee users should always be locked to their own ID
+    if (!isAdmin && isLessee && currentRole === 'lessee') {
+      setSelectedLesseeId(authUserId);
+    }
+  }, [authUserId, loggedUser, isInitialized, currentRole]);
 
   // Fetch store transactions from API
   useEffect(() => {
@@ -458,6 +509,75 @@ export default function GridStoreAdministrationPage() {
     }
   }, [isInitialized]);
 
+  // Fetch items (products) from API
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const query = `
+          query {
+            items {
+              itemId
+              userId
+              version
+              name
+              price
+              isActive
+              created
+              notes
+              guid
+              grid {
+                id
+                name
+                isActive
+                store {
+                  id
+                  name
+                  location
+                }
+              }
+            }
+          }
+        `;
+        const result = await graphqlFetch<{ items: any[] }>(query);
+        if (result.data?.items) {
+          const apiItems = result.data.items;
+          console.log('Fetched items from API:', apiItems);
+          
+          // Map API items to Product interface
+          const mappedProducts: Product[] = apiItems.map((item: any) => ({
+            id: String(item.itemId),
+            itemId: item.itemId,
+            name: item.name,
+            description: item.notes || '',
+            price: item.price,
+            gridId: String(item.grid?.id ?? ''),
+            gridNumber: item.grid?.name ?? String(item.grid?.id ?? ''),
+            locationName: item.grid?.store?.location ?? '',
+            userId: item.userId,
+            version: item.version,
+            isActive: item.isActive,
+            created: item.created,
+            notes: item.notes,
+            guid: item.guid,
+            gridName: item.grid?.name,
+            storeId: item.grid?.store?.id,
+            storeName: item.grid?.store?.name,
+            storeLocation: item.grid?.store?.location,
+          }));
+          
+          setProducts(mappedProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching items:', error);
+        // Keep using current products if fetch fails
+      }
+    };
+    
+    if (isInitialized) {
+      fetchItems();
+    }
+  }, [isInitialized]);
+
   // Wrapper functions to update state and URL without server requests
   const handleRoleChange = (role: Role) => {
     setCurrentRole(role);
@@ -472,11 +592,15 @@ export default function GridStoreAdministrationPage() {
       setSelectedLessorId(authUserId);
     }
     
+    // When switching to lessee, prefer the authenticated user id if available
+    if (role === 'lessee' && authUserId) {
+      setSelectedLesseeId(authUserId);
+    }
+    
     // Update URL using History API (no server request)
     const params = new URLSearchParams(searchParams.toString());
     params.set('role', role);
     params.set('tab', newTab);
-    if (role === 'lessor' && authUserId) params.set('lessorId', authUserId);
     window.history.replaceState({}, '', `?${params.toString()}`);
   };
 
@@ -490,30 +614,27 @@ export default function GridStoreAdministrationPage() {
   };
 
   const handleLessorIdChange = (id: string) => {
-    setSelectedLessorId(id);
+    // Only allow changing lessor ID if user is admin, otherwise keep it locked to their own ID
+    const isAdmin = loggedUser && (Array.isArray(loggedUser.roles) ? loggedUser.roles.includes('admin') : loggedUser.roles === 'admin');
+    if (!isAdmin) return; // Prevent non-admin users from changing lessor ID
     
-    // Update URL using History API (no server request)
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('lessorId', id);
-    window.history.replaceState({}, '', `?${params.toString()}`);
+    setSelectedLessorId(id);
   };
 
   const handleCashierIdChange = (id: string) => {
-    setSelectedCashierId(id);
+    // Only allow changing cashier ID if user is admin, otherwise keep it locked to their own ID
+    const isAdmin = loggedUser && (Array.isArray(loggedUser.roles) ? loggedUser.roles.includes('admin') : loggedUser.roles === 'admin');
+    if (!isAdmin) return; // Prevent non-admin users from changing cashier ID
     
-    // Update URL using History API (no server request)
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('cashierId', id);
-    window.history.replaceState({}, '', `?${params.toString()}`);
+    setSelectedCashierId(id);
   };
 
   const handleLesseeIdChange = (id: string) => {
-    setSelectedLesseeId(id);
+    // Only allow changing lessee ID if user is admin, otherwise keep it locked to their own ID
+    const isAdmin = loggedUser && (Array.isArray(loggedUser.roles) ? loggedUser.roles.includes('admin') : loggedUser.roles === 'admin');
+    if (!isAdmin) return; // Prevent non-admin users from changing lessee ID
     
-    // Update URL using History API (no server request)
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('lesseeId', id);
-    window.history.replaceState({}, '', `?${params.toString()}`);
+    setSelectedLesseeId(id);
   };
 
   const handleLogout = () => {
@@ -594,9 +715,162 @@ export default function GridStoreAdministrationPage() {
     setShowProductModal(true);
   };
 
-  const handleSaveProduct = () => {
-    console.log('Saving product:', productForm);
-    setShowProductModal(false);
+  const handleSaveProduct = async () => {
+    try {
+      // Validate grid ID
+      if (!productForm.gridId.trim()) {
+        alert('Please select a grid');
+        return;
+      }
+
+      // Validate product name
+      if (!productForm.name.trim()) {
+        alert('Please enter product name');
+        return;
+      }
+
+      // Validate price
+      const price = Number(productForm.price);
+      if (isNaN(price) || price <= 0) {
+        alert('Please enter a valid price');
+        return;
+      }
+
+      // Parse gridId - it could be a string ID from API
+      const gridId = productForm.gridId;
+
+      let mutation = '';
+      
+      if (editingProduct) {
+        // Update existing item
+        mutation = `
+          mutation {
+            updateItem(
+              itemId: ${editingProduct.itemId}
+              name: "${productForm.name.replace(/"/g, '\\"')}"
+              price: ${price}
+              notes: "${(productForm.description || '').replace(/"/g, '\\"')}"
+              isActive: true
+            ) {
+              itemId
+              gridId
+              userId
+              version
+              name
+              price
+              isActive
+              created
+              notes
+              grid {
+                id
+                name
+                isActive
+                store {
+                  id
+                  name
+                  type
+                  location
+                  isActive
+                }
+              }
+            }
+          }
+        `;
+      } else {
+        // Create new item
+        mutation = `
+          mutation {
+            createItem(
+              gridId: ${gridId}
+              name: "${productForm.name.replace(/"/g, '\\"')}"
+              price: ${price}
+              notes: "${(productForm.description || '').replace(/"/g, '\\"')}"
+              isActive: true
+            ) {
+              itemId
+              gridId
+              userId
+              version
+              name
+              price
+              isActive
+              created
+              notes
+              grid {
+                id
+                name
+                isActive
+                store {
+                  id
+                  name
+                  location
+                }
+              }
+            }
+          }
+        `;
+      }
+
+      console.log('Saving item with mutation:', mutation);
+      const result = await graphqlFetch(mutation);
+
+      if (result.errors) {
+        console.error('GraphQL errors:', result.errors);
+        alert(result.errors[0]?.message || `Failed to ${editingProduct ? 'update' : 'create'} product`);
+        return;
+      }
+
+      const saved = editingProduct ? result.data?.updateItem : result.data?.createItem;
+      if (saved) {
+        // Find the grid to get its number/name
+        const selectedGrid = [...fetchedLessees]
+          .flatMap((lessee) => mockGridStores.filter((g) => lessee.rentedGridIds.includes(g.id)))
+          .find((g) => String(g.id) === String(productForm.gridId));
+
+        const product: Product = {
+          id: String(saved.itemId),
+          name: saved.name,
+          description: saved.notes || productForm.description,
+          price: saved.price,
+          gridId: String(saved.gridId),
+          gridNumber: selectedGrid?.gridNumber || saved.grid?.name || String(saved.gridId),
+          locationName: selectedGrid?.locationName || '',
+          itemId: saved.itemId,
+          userId: saved.userId,
+          version: saved.version,
+          isActive: saved.isActive,
+          created: saved.created,
+          notes: saved.notes,
+          guid: saved.guid,
+          gridName: saved.grid?.name,
+          storeId: saved.grid?.store?.id,
+          storeName: saved.grid?.store?.name,
+          storeLocation: saved.grid?.store?.location,
+        };
+
+        if (editingProduct) {
+          // Update existing product in list
+          setProducts((prev) =>
+            prev.map((p) => (String(p.itemId) === String(saved.itemId) ? product : p))
+          );
+          console.log('Product updated successfully:', product);
+          alert('Product updated successfully!');
+        } else {
+          // Add new product to list
+          setProducts((prev) => [product, ...prev]);
+          console.log('Product created successfully:', product);
+          alert('Product created successfully!');
+        }
+      }
+
+      // Reset form
+      setShowProductModal(false);
+      setEditingProduct(null);
+      setProductForm({ name: '', description: '', price: 0, gridId: '' });
+    } catch (error) {
+      console.error('Error saving product item:', error);
+      alert(error instanceof Error ? error.message : 'Failed to save product');
+    }
   };
 
   const toggleCollected = (id: string) => {
@@ -781,14 +1055,9 @@ export default function GridStoreAdministrationPage() {
 
   const getFilteredProducts = () => {
     const lessorGrids = mockGridStores.filter(grid => grid.lessorId === selectedLessorId);
-    return mockProducts.filter(product => lessorGrids.some(grid => grid.id === product.gridId));
+    return products.filter(product => lessorGrids.some(grid => grid.id === product.gridId));
   };
 
-  const getLesseeProducts = () => {
-    const selectedLessee = mockLessees.find(l => l.id === selectedLesseeId);
-    const lesseeGridIds = selectedLessee?.rentedGridIds || [];
-    return mockProducts.filter(product => lesseeGridIds.includes(product.gridId));
-  };
 
   // Keep the role switcher visible when the viewer has admin privileges, even when viewing other roles
   const hasAdminPrivileges =
@@ -880,9 +1149,7 @@ export default function GridStoreAdministrationPage() {
               revenueEntries={revenueEntries}
               toggleCollected={toggleCollected}
               mockGridStores={mockGridStores}
-              isAdmin={false}
-              delegateUserId={delegateUserId}
-              onDelegateUserIdChange={setDelegateUserId}
+              isAdmin={hasAdminPrivileges}
             />
           )}
 
@@ -904,9 +1171,7 @@ export default function GridStoreAdministrationPage() {
               toggleCollected={toggleCollected}
               openGridTransactionModal={openGridTransactionModal}
               mockGridStores={mockGridStores}
-              isAdmin={false}
-              delegateUserId={delegateUserId}
-              onDelegateUserIdChange={setDelegateUserId}
+              isAdmin={hasAdminPrivileges}
             />
           )}
 
@@ -930,11 +1195,9 @@ export default function GridStoreAdministrationPage() {
               handleSaveProduct={handleSaveProduct}
               editingProduct={editingProduct}
               setEditingProduct={setEditingProduct}
-              getLesseeProducts={getLesseeProducts}
               mockGridStores={mockGridStores}
-              isAdmin={false}
-              delegateUserId={delegateUserId}
-              onDelegateUserIdChange={setDelegateUserId}
+              isAdmin={hasAdminPrivileges}
+              isInitialized={isInitialized}
             />
           )}
 

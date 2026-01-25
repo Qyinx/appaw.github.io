@@ -10,6 +10,7 @@ interface Props {
   onCreate: () => void;
   onEdit: (user: User) => void;
   shouldFetch?: boolean;
+  isAdmin?: boolean;
 }
 
 interface UserFormData {
@@ -21,10 +22,10 @@ interface UserFormData {
 // Cache for user data
 let cachedUsers: User[] | null = null;
 
-export default function UserManagement({ onCreate, onEdit, shouldFetch = true }: Props) {
+export default function UserManagement({ onCreate, onEdit, shouldFetch = true, isAdmin = false }: Props) {
   const { t } = useLanguage();
   const [users, setUsers] = useState<User[]>(cachedUsers || []);
-  const [loading, setLoading] = useState(!cachedUsers && shouldFetch);
+  const [loading, setLoading] = useState(!cachedUsers && shouldFetch && isAdmin);
   const [error, setError] = useState<string | null>(null);
   const hasFetched = useRef(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -39,14 +40,21 @@ export default function UserManagement({ onCreate, onEdit, shouldFetch = true }:
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (shouldFetch && !hasFetched.current && !cachedUsers) {
+    console.log('UserManagement useEffect - isAdmin:', isAdmin, 'shouldFetch:', shouldFetch, 'hasFetched:', hasFetched.current, 'cachedUsers:', cachedUsers);
+    
+    // Fetch users only if admin, shouldFetch is true and we haven't already fetched
+    if (isAdmin && shouldFetch && !hasFetched.current) {
+      console.log('Triggering fetchUsers');
       hasFetched.current = true;
       fetchUsers();
-    } else if (!shouldFetch) {
-      // Reset fetch flag if component becomes hidden
+    } else if (!shouldFetch || !isAdmin) {
       hasFetched.current = false;
+      setUsers([]);
+      cachedUsers = [];
+      setLoading(false);
+      setError(null);
     }
-  }, [shouldFetch]);
+  }, [shouldFetch, isAdmin]);
 
   const fetchUsers = async () => {
     try {
@@ -88,23 +96,38 @@ export default function UserManagement({ onCreate, onEdit, shouldFetch = true }:
       }>(query);
 
       if (result.errors) {
-        throw new Error(result.errors[0]?.message || 'Failed to fetch users');
+        const msg = result.errors[0]?.message || 'Failed to fetch users';
+        if (msg.toLowerCase().includes('insufficient permissions')) {
+          // Gracefully handle lack of admin scope
+          setError('You need admin access to list users. Showing no users.');
+          setUsers([]);
+          cachedUsers = [];
+          return;
+        }
+        throw new Error(msg);
       }
 
       if (result.data?.users?.users) {
-        // Map API response to User type - include all users, marking those without lessor/cashier roles as unassigned
+        // Map API response to User type - show all users with their original roles
         const mappedUsers: User[] = result.data.users.users
           .map(user => {
-            const validRole = user.roles[0] === 'lessor' || user.roles[0] === 'cashier' ? user.roles[0] : 'unassigned';
+            // Use the first role from the roles array, or 'unassigned' if no roles
+            const role = user.roles.length > 0 ? user.roles[0] : 'unassigned';
+            
             return {
               id: user.id,
               name: user.name,
               email: user.mail,
-              role: validRole as 'lessor' | 'cashier' | 'unassigned',
+              role: role as UserRole,
               assignedGrids: 0, // Not provided by API
               phone: user.phone
             };
           });
+        
+        console.log('Fetched users from API:', result.data.users.users.length);
+        console.log('Mapped users for display:', mappedUsers.length);
+        console.log('Users:', mappedUsers);
+        
         setUsers(mappedUsers);
         // Update cache
         cachedUsers = mappedUsers;
@@ -158,7 +181,7 @@ export default function UserManagement({ onCreate, onEdit, shouldFetch = true }:
           created: string;
         }
       }>(mutation);
-
+      
       if (result.errors) {
         throw new Error(result.errors[0]?.message || 'Failed to update user');
       }

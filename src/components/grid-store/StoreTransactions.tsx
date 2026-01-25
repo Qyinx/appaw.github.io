@@ -57,6 +57,7 @@ interface StoreTransactionsProps {
   onToggleCollected: (id: string) => void;
   canAddRecord?: boolean;
   refreshTrigger?: number;
+  onRentStatsChange?: (stats: { totalDue: number; totalPaid: number }) => void;
 }
 
 let cachedStoreTransactions: RevenueEntry[] | null = null;
@@ -74,6 +75,7 @@ export default function StoreTransactions({
   onToggleCollected,
   canAddRecord = true,
   refreshTrigger,
+  onRentStatsChange,
 }: StoreTransactionsProps) {
   const [storeEntries, setStoreEntries] = useState<RevenueEntry[]>(cachedStoreTransactions || []);
   const [loading, setLoading] = useState(!cachedStoreTransactions);
@@ -173,6 +175,16 @@ export default function StoreTransactions({
       fetchStoreTransactions();
     }
   }, [refreshTrigger]);
+
+  // Update rent stats when storeEntries changes
+  useEffect(() => {
+    if (onRentStatsChange && storeEntries.length > 0) {
+      const rentTransactions = storeEntries.filter(entry => entry.trxType === 'rent_payment');
+      const totalDue = rentTransactions.reduce((sum, tx) => sum + tx.amount, 0);
+      const totalPaid = rentTransactions.filter(tx => tx.collected).reduce((sum, tx) => sum + tx.amount, 0);
+      onRentStatsChange({ totalDue, totalPaid });
+    }
+  }, [storeEntries, onRentStatsChange]);
 
   return (
     <>

@@ -18,7 +18,7 @@ interface StoreData {
   created: string;
 }
 
-interface MyGridsProps {
+interface MyStoreGridsProps {
   grids: GridStore[];
   showStats?: boolean;
   showActions?: boolean;
@@ -27,14 +27,14 @@ interface MyGridsProps {
   ownerId?: string; // filter stores/grids by owner when viewing-as
 }
 
-export default function MyGrids({ 
-  grids, 
-  showStats = true, 
+export default function MyStoreGrids({
+  grids,
+  showStats = true,
   showActions = false,
   onViewGrid,
   isAdmin = false,
-  ownerId
-}: MyGridsProps) {
+  ownerId,
+}: MyStoreGridsProps) {
   const { t } = useLanguage();
 
   const [stores, setStores] = useState<StoreData[]>([]);
@@ -50,7 +50,6 @@ export default function MyGrids({
   useEffect(() => {
     const fetchStores = async () => {
       try {
-        // Avoid redundant fetch if owner unchanged and stores already loaded
         if (prevOwnerId.current === ownerId && stores.length > 0) return;
 
         setStoresLoading(true);
@@ -85,9 +84,6 @@ export default function MyGrids({
         const storeList = result.data?.stores?.stores || [];
         setStores(storeList);
 
-        // When ownerId is provided (lessee viewing their own stores), 
-        // select the first active/available store owned by them
-        // Otherwise, select the first active store from the list
         if (ownerId) {
           const ownersActiveStore = storeList.find((s) => s.isActive && s.ownerId === ownerId);
           const ownersFirstStore = storeList.find((s) => s.ownerId === ownerId);
@@ -105,7 +101,6 @@ export default function MyGrids({
       }
     };
 
-    // Reset state when owner changes
     setStores([]);
     setSelectedStoreId('');
     fetchStores();
@@ -159,12 +154,10 @@ export default function MyGrids({
     fetchGridsForStore();
   }, [selectedStoreId]);
 
-  // Use fetched assigned grids from API, or fall back to prop grids if not fetching
   const displayGrids = assignedGrids.length > 0 ? assignedGrids : grids;
 
   return (
     <div className="space-y-6">
-      {/* Store Selector */}
       <Card className="p-4 md:p-6" hover={false}>
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -202,7 +195,6 @@ export default function MyGrids({
         </div>
       </Card>
 
-      {/* Stats */}
       {showStats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           <Card className="p-4 md:p-6" hover={false}>
@@ -213,22 +205,6 @@ export default function MyGrids({
                 </p>
                 <p className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
                   {displayGrids.length}
-                </p>
-              </div>
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                <Grid3X3 className="w-5 h-5 md:w-6 md:h-6 text-blue-600 dark:text-blue-400" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-4 md:p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 mb-1">
-                  {t.gridStoreAdmin.dashboard.stats.rented}
-                </p>
-                <p className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
-                  {displayGrids.filter((g: any) => g.currentRent).length}
                 </p>
               </div>
               <div className="w-10 h-10 md:w-12 md:h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
@@ -271,9 +247,7 @@ export default function MyGrids({
         </div>
       )}
 
-      {/* Grid Management Table */}
       <Card className="p-4 md:p-6" hover={false}>
-        {/* Desktop Table View */}
         <div className="hidden lg:block overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -354,7 +328,6 @@ export default function MyGrids({
           </table>
         </div>
 
-        {/* Mobile Card View */}
         <div className="lg:hidden space-y-4">
           {displayGrids.map((grid: any) => (
             <div key={grid.id} className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 bg-white dark:bg-slate-800">
@@ -372,7 +345,6 @@ export default function MyGrids({
                 </span>
               </div>
 
-              {/* Current Lessee Info */}
               {grid.currentRent ? (
                 <div className="bg-gradient-to-br from-blue-50 to-blue-50/50 dark:from-blue-900/20 dark:to-blue-900/10 rounded-lg p-3 border border-blue-200 dark:border-blue-800/50 mb-3">
                   <h5 className="text-xs font-semibold text-blue-900 dark:text-blue-300 uppercase tracking-wider mb-2">Currently Rented</h5>
@@ -400,7 +372,6 @@ export default function MyGrids({
                 </div>
               )}
 
-              {/* Action Buttons */}
               {showActions && (
                 <div className="pt-3 border-t border-slate-200 dark:border-slate-700">
                   <button

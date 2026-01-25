@@ -82,7 +82,17 @@ export default function AdministrationLoginPage() {
           localStorage.removeItem("auth0_user");
         }
         setMessage(t.auth.login.success);
-        setTimeout(() => router.push("/business/grid-store/administration"), 600);
+        
+        // Determine role and redirect to appropriate dashboard
+        const roles = user?.roles;
+        let role = 'admin'; // default
+        if (Array.isArray(roles) && roles.length > 0) {
+          role = roles[0];
+        } else if (typeof roles === 'string') {
+          role = roles;
+        }
+        
+        setTimeout(() => router.push(`/business/grid-store/administration?role=${role}`), 600);
       } else {
         setError(t.auth.login.errorInvalid);
       }

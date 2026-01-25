@@ -199,7 +199,7 @@ export default function GridManagement({ storeId }: Props) {
 
     try {
       const mutation = `
-        mutation CreateGrids($input: [CreateGridInput!]!) {
+        mutation CreateGrids($input: [GridInput!]!) {
           createGrids(grids: $input) {
             id
             storeId

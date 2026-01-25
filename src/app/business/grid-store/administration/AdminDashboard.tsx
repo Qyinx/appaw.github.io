@@ -144,7 +144,7 @@ export default function AdminDashboard({
       </div>
 
       {currentTab === 'user-management' && (
-        <UserManagement onCreate={handleCreateUser} onEdit={handleEditUser} shouldFetch={true} />
+        <UserManagement onCreate={handleCreateUser} onEdit={handleEditUser} shouldFetch={true} isAdmin={true} />
       )}
 
       {currentTab === 'grid-management' && (

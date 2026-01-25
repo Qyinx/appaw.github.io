@@ -1,130 +1,61 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Grid3X3, CheckCircle, AlertCircle, DollarSign, Eye } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card } from '@/components/ui';
 import type { GridStore } from '@/app/business/grid-store/administration/page';
 import { graphqlFetch } from '@/lib/graphql';
 
-interface StoreData {
-  id: string;
-  name: string;
-  ownerId: string;
-  ownerName: string;
-  type: string;
-  location: string;
-  isActive: boolean;
-  created: string;
-}
-
-interface MyGridsProps {
+interface MyRentGridsProps {
   grids: GridStore[];
   showStats?: boolean;
   showActions?: boolean;
   onViewGrid?: (grid: GridStore) => void;
   isAdmin?: boolean;
-  ownerId?: string; // filter stores/grids by owner when viewing-as
+  lesseeId?: string;
+  onGridsLoaded?: (grids: GridStore[]) => void;
 }
 
-export default function MyGrids({ 
-  grids, 
-  showStats = true, 
+export default function MyRentGrids({
+  grids,
+  showStats = true,
   showActions = false,
   onViewGrid,
   isAdmin = false,
-  ownerId
-}: MyGridsProps) {
+  lesseeId,
+  onGridsLoaded,
+}: MyRentGridsProps) {
   const { t } = useLanguage();
-
-  const [stores, setStores] = useState<StoreData[]>([]);
-  const [storesLoading, setStoresLoading] = useState<boolean>(false);
-  const [storesError, setStoresError] = useState<string | null>(null);
-  const [selectedStoreId, setSelectedStoreId] = useState<string>('');
-  const prevOwnerId = React.useRef<string | undefined>(undefined);
-
-  const [assignedGrids, setAssignedGrids] = useState<GridStore[]>([]);
-  const [gridsLoading, setGridsLoading] = useState<boolean>(false);
-  const [gridsError, setGridsError] = useState<string | null>(null);
+  const [fetchedGrids, setFetchedGrids] = useState<GridStore[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const lastSentKey = useRef<string>('');
+  const lastFetchedLesseeId = useRef<string>('');
+  const isFetching = useRef(false);
 
   useEffect(() => {
-    const fetchStores = async () => {
-      try {
-        // Avoid redundant fetch if owner unchanged and stores already loaded
-        if (prevOwnerId.current === ownerId && stores.length > 0) return;
-
-        setStoresLoading(true);
-        setStoresError(null);
-
-        const query = `
-          query {
-            stores(${ownerId ? `userId: "${ownerId}", ` : ''}limit: 20) {
-              stores {
-                id
-                name
-                ownerId
-                ownerName
-                type
-                location
-                isActive
-                created
-              }
-              total
-              limit
-              nextAfterId
-            }
-          }
-        `;
-
-        const result = await graphqlFetch<{ stores: { stores: StoreData[] } }>(query);
-
-        if (result.errors) {
-          throw new Error(result.errors[0]?.message || 'Failed to fetch stores');
-        }
-
-        const storeList = result.data?.stores?.stores || [];
-        setStores(storeList);
-
-        // When ownerId is provided (lessee viewing their own stores), 
-        // select the first active/available store owned by them
-        // Otherwise, select the first active store from the list
-        if (ownerId) {
-          const ownersActiveStore = storeList.find((s) => s.isActive && s.ownerId === ownerId);
-          const ownersFirstStore = storeList.find((s) => s.ownerId === ownerId);
-          setSelectedStoreId(ownersActiveStore?.id || ownersFirstStore?.id || '');
-        } else {
-          const firstActive = storeList.find((s) => s.isActive) || storeList[0];
-          setSelectedStoreId(firstActive?.id || '');
-        }
-        prevOwnerId.current = ownerId;
-      } catch (err) {
-        setStoresError(err instanceof Error ? err.message : 'Failed to fetch stores');
-        console.error('Error fetching stores:', err);
-      } finally {
-        setStoresLoading(false);
-      }
-    };
-
-    // Reset state when owner changes
-    setStores([]);
-    setSelectedStoreId('');
-    fetchStores();
-  }, [ownerId]);
-
-  useEffect(() => {
-    const fetchGridsForStore = async () => {
-      if (!selectedStoreId) {
-        setAssignedGrids([]);
+    const fetchByLessee = async () => {
+      // Prevent duplicate fetches in strict mode or rapid re-renders
+      if (isFetching.current || lastFetchedLesseeId.current === lesseeId) {
         return;
       }
 
+      if (!lesseeId) {
+        setFetchedGrids([]);
+        return;
+      }
+
+      isFetching.current = true;
+      lastFetchedLesseeId.current = lesseeId;
+
       try {
-        setGridsLoading(true);
-        setGridsError(null);
+        setLoading(true);
+        setError(null);
 
         const query = `
           query {
-            grids(storeId: "${selectedStoreId}") {
+            grids {
               id
               storeId
               name
@@ -139,70 +70,45 @@ export default function MyGrids({
             }
           }
         `;
-
-        const result = await graphqlFetch<{ grids: any[] }>(query);
-
+        const result = await graphqlFetch<{ grids: GridStore[] }>(query);
         if (result.errors) {
           throw new Error(result.errors[0]?.message || 'Failed to fetch grids');
         }
 
-        const fetchedGrids = result.data?.grids || [];
-        setAssignedGrids(fetchedGrids);
+        const allGrids = result.data?.grids || [];
+        console.log('All grids from API:', allGrids);
+        console.log('Looking for lesseeId:', lesseeId);
+        
+ 
+        setFetchedGrids(allGrids as GridStore[]);
       } catch (err) {
-        setGridsError(err instanceof Error ? err.message : 'Failed to fetch grids');
-        console.error('Error fetching grids:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch grids');
+        console.error('Error fetching lessee grids:', err);
       } finally {
-        setGridsLoading(false);
+        setLoading(false);
+        isFetching.current = false;
       }
     };
 
-    fetchGridsForStore();
-  }, [selectedStoreId]);
+    fetchByLessee();
+  }, [lesseeId]);
 
-  // Use fetched assigned grids from API, or fall back to prop grids if not fetching
-  const displayGrids = assignedGrids.length > 0 ? assignedGrids : grids;
+  const displayGrids = useMemo(
+    () => (fetchedGrids.length > 0 ? fetchedGrids : grids),
+    [fetchedGrids, grids]
+  );
+
+  useEffect(() => {
+    if (!onGridsLoaded) return;
+    const key = displayGrids.map((g) => g.id).join('|');
+    if (key === lastSentKey.current) return;
+    lastSentKey.current = key;
+    console.log('MyRentGrids: Calling onGridsLoaded with grids:', displayGrids);
+    onGridsLoaded(displayGrids);
+  }, [displayGrids, onGridsLoaded]);
 
   return (
     <div className="space-y-6">
-      {/* Store Selector */}
-      <Card className="p-4 md:p-6" hover={false}>
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">{t.gridStoreAdmin.dashboard.selectRole || 'Select Store'}</p>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-              {storesLoading && <span>Loading stores...</span>}
-              {storesError && <span className="text-red-500">{storesError}</span>}
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-            <select
-              value={selectedStoreId}
-              onChange={(e) => setSelectedStoreId(e.target.value)}
-              className="w-full sm:w-auto px-4 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
-            >
-              <option value="" disabled>
-                {storesLoading ? 'Loading stores...' : 'Select a store'}
-              </option>
-              {stores.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name} {s.isActive ? '' : '(Inactive)'}
-                </option>
-              ))}
-            </select>
-
-            {selectedStoreId && (
-              <div className="text-xs text-slate-500 dark:text-slate-400">
-                {stores.find((s) => s.id === selectedStoreId)?.location || ''}
-              </div>
-            )}
-          </div>
-        </div>
-      </Card>
-
-      {/* Stats */}
       {showStats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           <Card className="p-4 md:p-6" hover={false}>
@@ -271,9 +177,27 @@ export default function MyGrids({
         </div>
       )}
 
-      {/* Grid Management Table */}
       <Card className="p-4 md:p-6" hover={false}>
-        {/* Desktop Table View */}
+        {loading && (
+          <div className="p-8 text-center">
+            <p className="text-slate-600 dark:text-slate-400">Loading grids...</p>
+          </div>
+        )}
+
+        {error && (
+          <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg mb-4">
+            <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+          </div>
+        )}
+
+        {!loading && displayGrids.length === 0 && (
+          <div className="p-8 text-center">
+            <p className="text-slate-600 dark:text-slate-400">No rented grids found</p>
+          </div>
+        )}
+
+        {!loading && displayGrids.length > 0 && (
+          <>
         <div className="hidden lg:block overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -354,7 +278,6 @@ export default function MyGrids({
           </table>
         </div>
 
-        {/* Mobile Card View */}
         <div className="lg:hidden space-y-4">
           {displayGrids.map((grid: any) => (
             <div key={grid.id} className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 bg-white dark:bg-slate-800">
@@ -372,7 +295,6 @@ export default function MyGrids({
                 </span>
               </div>
 
-              {/* Current Lessee Info */}
               {grid.currentRent ? (
                 <div className="bg-gradient-to-br from-blue-50 to-blue-50/50 dark:from-blue-900/20 dark:to-blue-900/10 rounded-lg p-3 border border-blue-200 dark:border-blue-800/50 mb-3">
                   <h5 className="text-xs font-semibold text-blue-900 dark:text-blue-300 uppercase tracking-wider mb-2">Currently Rented</h5>
@@ -400,7 +322,6 @@ export default function MyGrids({
                 </div>
               )}
 
-              {/* Action Buttons */}
               {showActions && (
                 <div className="pt-3 border-t border-slate-200 dark:border-slate-700">
                   <button
@@ -415,6 +336,8 @@ export default function MyGrids({
             </div>
           ))}
         </div>
+          </>
+        )}
       </Card>
     </div>
   );

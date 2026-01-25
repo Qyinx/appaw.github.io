@@ -1,5 +1,5 @@
 export type Role = 'admin' | 'lessor' | 'cashier';
-export type UserRole = 'lessor' | 'cashier' | 'unassigned';
+export type UserRole = 'lessor' | 'cashier' | 'unassigned' | 'lessee' | 'admin' | string;
 export type AdminTab = 'user-management' | 'grid-management' | 'revenue-management';
 
 export interface Location {

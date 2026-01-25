@@ -43,8 +43,6 @@ interface CashierDashboardProps {
   openGridTransactionModal: () => void;
   mockGridStores: GridStore[];
   isAdmin?: boolean;
-  delegateUserId?: string;
-  onDelegateUserIdChange?: (userId: string) => void;
 }
 
 export default function CashierDashboard({ 
@@ -64,8 +62,6 @@ export default function CashierDashboard({
   openGridTransactionModal,
   mockGridStores,
   isAdmin = false,
-  delegateUserId = '',
-  onDelegateUserIdChange
 }: CashierDashboardProps) {
   const { t } = useLanguage();
   const cashier = mockCashiers.find((c) => c.id === selectedCashierId);

@@ -48,7 +48,7 @@ export default function AdminHeader({
   return (
     <section className="py-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
       <div className="container-custom">
-        {/* Admin role selector */}
+        {/* Admin role selector (always available for admins, even when simulating other roles) */}
         {isAdmin && (
           <SelectRoleHeader
             currentRole={currentRole}
