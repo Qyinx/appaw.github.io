@@ -185,11 +185,11 @@ export default function AdminTransactions({ isInitialized = false, onRentStatsCh
   const getTransactionTypeLabel = (type: string) => {
     switch (type) {
       case 'rent_payment':
-        return 'Rent Payment';
+        return t.gridStoreAdmin.dashboard.rentPayment;
       case 'income_received':
-        return 'Income Received';
+        return t.gridStoreAdmin.dashboard.incomeReceived;
       case 'others':
-        return 'Other';
+        return t.gridStoreAdmin.dashboard.other;
       default:
         return type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     }
@@ -199,10 +199,10 @@ export default function AdminTransactions({ isInitialized = false, onRentStatsCh
     <Card className="overflow-hidden" hover={false}>
       <div className="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700">
         <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-          Administrative Transactions
+          {t.gridStoreAdmin.dashboard.adminTransactions}
         </h3>
         <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-          Rent payments, income received, and other administrative transactions
+          {t.gridStoreAdmin.dashboard.adminTransactionsDesc}
         </p>
       </div>
       <div className="overflow-x-auto">
@@ -210,22 +210,22 @@ export default function AdminTransactions({ isInitialized = false, onRentStatsCh
           <thead className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
             <tr>
               <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-semibold text-slate-900 dark:text-white">
-                Order ID
+                {t.gridStoreAdmin.dashboard.orderId}
               </th>
               <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-semibold text-slate-900 dark:text-white">
                 {t.gridStoreAdmin.dashboard.table.date}
               </th>
               <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-semibold text-slate-900 dark:text-white">
-                Type
+                {t.gridStoreAdmin.dashboard.transactionType}
               </th>
               <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-semibold text-slate-900 dark:text-white">
-                From
+                {t.gridStoreAdmin.dashboard.from}
               </th>
               <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-semibold text-slate-900 dark:text-white">
-                To
+                {t.gridStoreAdmin.dashboard.to}
               </th>
               <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-semibold text-slate-900 dark:text-white">
-                Notes
+                {t.gridStoreAdmin.dashboard.notes}
               </th>
               <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-semibold text-slate-900 dark:text-white">
                 {t.gridStoreAdmin.dashboard.table.amount}
@@ -239,7 +239,7 @@ export default function AdminTransactions({ isInitialized = false, onRentStatsCh
             {loading ? (
               <tr>
                 <td colSpan={8} className="px-4 md:px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                  Loading transactions...
+                  {t.gridStoreAdmin.dashboard.loadingTransactions}
                 </td>
               </tr>
             ) : transactions.length > 0 ? (
@@ -285,7 +285,7 @@ export default function AdminTransactions({ isInitialized = false, onRentStatsCh
             ) : (
               <tr>
                 <td colSpan={8} className="px-4 md:px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                  No administrative transactions
+                  {t.gridStoreAdmin.dashboard.noAdminTransactions}
                 </td>
               </tr>
             )}
@@ -294,7 +294,7 @@ export default function AdminTransactions({ isInitialized = false, onRentStatsCh
       </div>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-4 md:p-6 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
         <div className="text-sm text-slate-600 dark:text-slate-400">
-          Showing {transactions.length > 0 ? 1 : 0}-{transactions.length} of {total} transactions
+          {t.gridStoreAdmin.dashboard.table.yes || 'Showing'} {transactions.length > 0 ? 1 : 0}-{transactions.length} {t.gridStoreAdmin.dashboard.of || 'of'} {total} {t.gridStoreAdmin.dashboard.transactionItems}
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -302,24 +302,24 @@ export default function AdminTransactions({ isInitialized = false, onRentStatsCh
             disabled={currentAfterId === null && currentBeforeId === null}
             className="px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            First
+            {t.gridStoreAdmin.dashboard.first}
           </button>
           <button
             onClick={handlePreviousPage}
             disabled={!previousBeforeId}
             className="px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            Previous
+            {t.gridStoreAdmin.dashboard.previous}
           </button>
           <div className="px-3 py-2 text-sm font-medium text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-700 rounded-lg">
-            Page {currentPage} of {totalPages}
+            {t.gridStoreAdmin.dashboard.page} {currentPage} {t.gridStoreAdmin.dashboard.pageOf} {totalPages}
           </div>
           <button
             onClick={handleNextPage}
             disabled={!nextAfterId}
             className="px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            Next
+            {t.gridStoreAdmin.dashboard.next}
           </button>
         </div>
       </div>

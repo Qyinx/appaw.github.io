@@ -52,6 +52,7 @@ export interface GridStore {
   id: string;
   storeId?: string;
   gridNumber: string;
+  name?: string;
   size: string;
   status: 'available' | 'rented';
   lessorId?: string;
@@ -643,8 +644,8 @@ export default function GridStoreAdministrationPage() {
     localStorage.removeItem('auth0_user');
     setLoggedUser(null);
     
-    // Redirect to login page or home
-    router.push('/');
+    // Redirect to login page
+    router.push('/business/grid-store/administration/login');
   };
 
   const handleAssignGrid = (gridId: string) => {
@@ -789,6 +790,7 @@ export default function GridStoreAdministrationPage() {
             ) {
               itemId
               gridId
+              guid
               userId
               version
               name

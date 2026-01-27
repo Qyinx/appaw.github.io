@@ -176,17 +176,6 @@ export default function AdministrationLoginPage() {
                   </div>
                 </Button>
               </form>
-
-              <div className="flex items-center justify-between text-sm text-slate-500">
-                <button
-                  type="button"
-                  className="font-semibold text-primary-600 hover:text-primary-700"
-                  onClick={() => router.push("/business/grid-store/administration")}
-                >
-                  {t.auth.login.back}
-                </button>
-                <span>{t.gridStoreAdmin.dashboard.demoMode}</span>
-              </div>
             </CardContent>
           </Card>
         </div>

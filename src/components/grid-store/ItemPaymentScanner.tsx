@@ -227,11 +227,20 @@ export default function ItemPaymentScanner({ cashierId, cashierName }: ItemPayme
         const scanner = new Html5Qrcode('qr-reader');
         scannerRef.current = scanner;
 
-        const boxSize = Math.max(180, Math.min(260, window.innerWidth - 120));
+        const boxSize = Math.max(200, Math.min(300, window.innerWidth - 100));
         const config = {
-          fps: 10,
+          fps: 27,
           qrbox: { width: boxSize, height: boxSize },
           aspectRatio: 1.0,
+          disableFlip: false,
+          videoConstraints: {
+            width: { ideal: 1920 },
+            height: { ideal: 1920 },
+            facingMode: 'environment',
+          },
+          experimentalFeatures: {
+            useBarCodeDetectorIfSupported: true,
+          },
         };
 
         await scanner.start(

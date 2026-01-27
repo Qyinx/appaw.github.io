@@ -73,18 +73,6 @@ export default function CashierDashboard({
 
   return (
     <>
-      <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">{t.gridStoreAdmin.dashboard.currentCashier || 'Current Cashier'}</h3>
-            <p className="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">{cashier?.name}</p>
-          </div>
-          <div className="text-right text-sm text-slate-600 dark:text-slate-400">
-            {cashier?.locationName}
-          </div>
-        </div>
-      </div>
-
       {/* Tabs */}
       <div className="mb-8">
         <div className="flex gap-2 border-b border-slate-200 dark:border-slate-700">

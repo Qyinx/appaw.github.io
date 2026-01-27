@@ -626,8 +626,8 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
               <DollarSign className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Customer Transaction Summary</h3>
-              <p className="text-xs text-slate-600">Overview of collected revenue and transaction items</p>
+              <h3 className="text-lg font-bold text-slate-900">{t.gridStoreAdmin.dashboard.customerTransactionSummary}</h3>
+              <p className="text-xs text-slate-600">{t.gridStoreAdmin.dashboard.customerTransactionSummaryDesc}</p>
             </div>
           </div>
 
@@ -639,7 +639,7 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
                 <DollarSign className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-xs text-slate-600 font-semibold mb-1">Total Revenue</p>
+                <p className="text-xs text-slate-600 font-semibold mb-1">{t.gridStoreAdmin.dashboard.totalRevenue}</p>
                 <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                   ${stats.totalRevenue.toFixed(0)}
                 </p>
@@ -652,7 +652,7 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
                 <ShoppingCart className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-xs text-slate-600 font-semibold mb-1">Transactions</p>
+                <p className="text-xs text-slate-600 font-semibold mb-1">{t.gridStoreAdmin.dashboard.transactionCount}</p>
                 <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                   {stats.collectedCount + stats.pendingCount}
                 </p>
@@ -665,7 +665,7 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
                 <CheckCircle className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-xs text-slate-600 font-semibold mb-1">Collected Items</p>
+                <p className="text-xs text-slate-600 font-semibold mb-1">{t.gridStoreAdmin.dashboard.collectedItems}</p>
                 <div className="flex items-baseline gap-2">
                   <p className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-green-600 bg-clip-text text-transparent">
                     {stats.collectedCount}
@@ -683,7 +683,7 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
                 <AlertCircle className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-xs text-slate-600 font-semibold mb-1">Pending Items</p>
+                <p className="text-xs text-slate-600 font-semibold mb-1">{t.gridStoreAdmin.dashboard.pendingItems}</p>
                 <div className="flex items-baseline gap-2">
                   <p className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                     {stats.pendingCount}
@@ -708,8 +708,8 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
               <ArrowDownCircle className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Administrative Receipts</h3>
-              <p className="text-xs text-slate-600">Received transaction amounts from store operations</p>
+              <h3 className="text-lg font-bold text-slate-900">{t.gridStoreAdmin.dashboard.adminReceipts}</h3>
+              <p className="text-xs text-slate-600">{t.gridStoreAdmin.dashboard.adminReceiptsDesc}</p>
             </div>
           </div>
 
@@ -721,7 +721,7 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
                 <ArrowDownCircle className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-xs text-slate-600 font-semibold mb-1">Total Received</p>
+                <p className="text-xs text-slate-600 font-semibold mb-1">{t.gridStoreAdmin.dashboard.totalReceived}</p>
                 <p className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                   ${stats.totalReceived.toFixed(0)}
                 </p>
@@ -734,7 +734,7 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
                 <CheckCircle className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-xs text-slate-600 font-semibold mb-1">Collected</p>
+                <p className="text-xs text-slate-600 font-semibold mb-1">{t.gridStoreAdmin.dashboard.collectedAmount}</p>
                 <p className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                   ${stats.receivedCollected.toFixed(0)}
                 </p>
@@ -747,7 +747,7 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
                 <AlertCircle className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-xs text-slate-600 font-semibold mb-1">Uncollected</p>
+                <p className="text-xs text-slate-600 font-semibold mb-1">{t.gridStoreAdmin.dashboard.uncollectedAmount}</p>
                 <p className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-red-600 bg-clip-text text-transparent">
                   ${stats.receivedUncollected.toFixed(0)}
                 </p>

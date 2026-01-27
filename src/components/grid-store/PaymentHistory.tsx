@@ -55,7 +55,7 @@ export default function PaymentHistory({ payments }: PaymentHistoryProps) {
                       }`}
                     >
                       {payment.collected ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-                      {payment.collected ? (t.gridStoreAdmin.dashboard.table.yes || 'Yes') : (t.gridStoreAdmin.dashboard.table.no || 'No')}
+                      {payment.collected ? t.gridStoreAdmin.dashboard.table.yes : t.gridStoreAdmin.dashboard.table.no}
                     </div>
                   </td>
                 </tr>
@@ -63,7 +63,7 @@ export default function PaymentHistory({ payments }: PaymentHistoryProps) {
             ) : (
               <tr>
                 <td colSpan={4} className="px-4 md:px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                  {t.gridStoreAdmin.dashboard.noPaymentHistory || 'No payment history'}
+                  {t.gridStoreAdmin.dashboard.noPaymentHistory}
                 </td>
               </tr>
             )}

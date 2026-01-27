@@ -63,3 +63,24 @@ export interface RevenueEntry {
   collected: boolean;
   locationName?: string;
 }
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  gridId: string;
+  gridNumber?: string;
+  locationName?: string;
+  itemId?: string;
+  userId?: string | number;
+  version?: number;
+  isActive?: boolean;
+  created?: string;
+  notes?: string;
+  guid?: string;
+  gridName?: string;
+  storeId?: string;
+  storeName?: string;
+  storeLocation?: string;
+}
