@@ -5,7 +5,7 @@
 
 export const graphqlConfig = {
   // GraphQL endpoint URL - can be customized via environment variable
-  endpoint: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+  endpoint: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '/api/graphql',
 
   // Default headers for all GraphQL requests
   defaultHeaders: {
@@ -44,7 +44,7 @@ export const graphqlConfig = {
     if (typeof window !== 'undefined') {
       sessionStorage.removeItem('graphql_endpoint');
     }
-    graphqlConfig.endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
+    graphqlConfig.endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '/api/graphql';
   },
 
   /**

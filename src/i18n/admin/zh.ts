@@ -256,6 +256,7 @@ export const adminZh = {
       gridsToProcess: '待處理格子',
       assignLessor: '分配出租人',
       lessorManagement: '出租人管理',
+      of: 'of',
       table: {
         gridNumber: '格子編號',
         size: '尺寸',
@@ -274,6 +275,7 @@ export const adminZh = {
         assign: '分配給出租人',
         view: '查看詳情',
         processPayment: '處理付款',
+        of: 'of',
       },
       lessorCard: {
         grids: '格',

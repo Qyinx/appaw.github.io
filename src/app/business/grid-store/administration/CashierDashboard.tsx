@@ -6,7 +6,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import GridTransactions from '@/components/grid-store/GridTransactions';
 import ItemPaymentScanner from '@/components/grid-store/ItemPaymentScanner';
 import { Card } from '@/components/ui';
-import type { RevenueEntry, GridStore, Cashier, Tab } from './page';
+import type { RevenueEntry, GridStore, Cashier, Tab } from '../types';
 
 interface CashierDashboardProps {
   currentTab: Tab;
@@ -25,7 +25,7 @@ interface CashierDashboardProps {
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
     itemName: string;
-    amount: number;
+    amount: string;
     collected: boolean;
   };
   setRevenueForm: React.Dispatch<React.SetStateAction<{
@@ -35,7 +35,7 @@ interface CashierDashboardProps {
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
     itemName: string;
-    amount: number;
+    amount: string;
     collected: boolean;
   }>>;
   saveRevenue: () => void;

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Edit, Trash2, Plus, X } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card } from '@/components/ui';
-import { User } from '@/app/business/grid-store/types';
+import { User, UserRole } from '@/app/business/grid-store/types';
 import { graphqlFetch } from '@/lib/graphql';
 
 interface Props {

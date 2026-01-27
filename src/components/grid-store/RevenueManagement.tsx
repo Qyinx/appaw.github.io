@@ -4,7 +4,7 @@ import React from 'react';
 import { Plus, X } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card } from '@/components/ui';
-import type { RevenueEntry, GridStore, Lessor, Cashier } from '@/app/business/grid-store/administration/page';
+import type { RevenueEntry, GridStore, Lessor, Cashier } from '@/app/business/grid-store/types';
 
 interface RevenueManagementProps {
   revenueEntries: RevenueEntry[];
@@ -17,7 +17,7 @@ interface RevenueManagementProps {
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
     itemName: string;
-    amount: number;
+    amount: string;
     collected: boolean;
   };
   setRevenueForm: React.Dispatch<React.SetStateAction<{
@@ -27,7 +27,7 @@ interface RevenueManagementProps {
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
     itemName: string;
-    amount: number;
+    amount: string;
     collected: boolean;
   }>>;
   gridStores: GridStore[];
@@ -76,7 +76,7 @@ export default function RevenueManagement({
   const { t } = useLanguage();
   const displayedEntries = filteredEntries || revenueEntries;
   const headerTitle = title || t.gridStoreAdmin.revenueManagement.title;
-  const currentTypeValue = typeOptions.includes(revenueForm.type) ? revenueForm.type : typeOptions[0];
+  const currentTypeValue = typeOptions.includes(revenueForm.type as any) ? revenueForm.type : typeOptions[0];
   const currentHandlerRole = handlerRoleOptions.includes(revenueForm.handlerRole) ? revenueForm.handlerRole : handlerRoleOptions[0];
   const itemLabel = itemHeaderLabel || t.gridStoreAdmin.revenueManagement.table.item;
   const handlerLabel = handlerHeaderLabel || t.gridStoreAdmin.revenueManagement.table.handler;
@@ -318,7 +318,7 @@ export default function RevenueManagement({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t.gridStoreAdmin.revenueManagement.modal.amount}</label>
-                  <input type="number" value={revenueForm.amount} onChange={(e) => setRevenueForm({ ...revenueForm, amount: Number(e.target.value) })} className="w-full px-4 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white" />
+                  <input type="number" value={revenueForm.amount} onChange={(e) => setRevenueForm({ ...revenueForm, amount: e.target.value })} className="w-full px-4 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white" />
                 </div>
                 <div className="flex items-center gap-2">
                   <input id="collected" type="checkbox" checked={revenueForm.collected} onChange={(e) => setRevenueForm({ ...revenueForm, collected: e.target.checked })} className="w-4 h-4" />

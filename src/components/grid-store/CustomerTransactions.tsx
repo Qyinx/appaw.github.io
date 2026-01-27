@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { CheckCircle, AlertCircle, TrendingUp, DollarSign, ShoppingCart, Package, ChevronsLeft, ChevronLeft, ChevronRight, ArrowDownCircle, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -212,27 +212,27 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
     }
   };
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     if (nextAfterId) {
       setCurrentAfterId(nextAfterId);
       setCurrentBeforeId(null);
       fetchTransactions(nextAfterId, null);
     }
-  };
+  }, [nextAfterId, fetchTransactions]);
 
-  const handlePreviousPage = () => {
+  const handlePreviousPage = useCallback(() => {
     if (previousBeforeId) {
       setCurrentBeforeId(previousBeforeId);
       setCurrentAfterId(null);
       fetchTransactions(null, previousBeforeId);
     }
-  };
+  }, [previousBeforeId, fetchTransactions]);
 
-  const handleFirstPage = () => {
+  const handleFirstPage = useCallback(() => {
     setCurrentAfterId(null);
     setCurrentBeforeId(null);
     fetchTransactions();
-  };
+  }, [fetchTransactions]);
 
   const currentPage = currentAfterId || currentBeforeId ? Math.floor(((total - (transactions.length || limit)) / limit)) + 1 : 1;
   const totalPages = Math.ceil(total / limit);
@@ -240,7 +240,7 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
   const chartRef = useRef<SVGSVGElement>(null);
 
   // Calculate statistics from summary data
-  const stats = {
+  const stats = useMemo(() => ({
     totalRevenue: summaryData.reduce((sum, s) => sum + s.collectedTotalPrice, 0),
     collectedCount: summaryData.reduce((sum, s) => sum + s.collectedTotalItems, 0),
     pendingCount: summaryData.reduce((sum, s) => sum + s.uncollectedTotalItems, 0),
@@ -248,7 +248,7 @@ export default function CustomerTransactions({ isInitialized = false }: Customer
     totalReceived: adminSummaryData.reduce((sum, s) => sum + s.receivedCollectedAmount + s.receivedUncollectedAmount, 0),
     receivedCollected: adminSummaryData.reduce((sum, s) => sum + s.receivedCollectedAmount, 0),
     receivedUncollected: adminSummaryData.reduce((sum, s) => sum + s.receivedUncollectedAmount, 0)
-  };
+  }), [summaryData, adminSummaryData]);
 
   // Draw chart when summary data changes
   useEffect(() => {

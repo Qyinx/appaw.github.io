@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Grid3X3, CheckCircle, AlertCircle, DollarSign, Eye } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card } from '@/components/ui';
-import type { GridStore } from '@/app/business/grid-store/administration/page';
+import type { GridStore } from '@/app/business/grid-store/types';
 import { graphqlFetch } from '@/lib/graphql';
 
 interface MyRentGridsProps {

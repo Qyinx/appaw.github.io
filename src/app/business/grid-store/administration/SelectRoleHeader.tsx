@@ -1,7 +1,7 @@
 import React from 'react';
 import { Shield, Users, CreditCard, Store, LogOut } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import type { Role, Lessor, Cashier, Lessee } from './page';
+import type { Role, Lessor, Cashier, Lessee } from '../types';
 import ViewingAsSelector from './ViewingAsSelector';
 
 interface SelectRoleHeaderProps {

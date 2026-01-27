@@ -7,7 +7,7 @@ import { Card } from '@/components/ui';
 import MyStoreGrids from '@/components/grid-store/MyStoreGrids';
 import StoreTransactions from '@/components/grid-store/StoreTransactions';
 import GridTransactions from '@/components/grid-store/GridTransactions';
-import type { Tab, RevenueEntry, GridStore, Product } from './page';
+import type { Tab, RevenueEntry, GridStore, Product } from '../types';
 
 interface LessorDashboardProps {
   currentTab: Tab;
@@ -88,7 +88,7 @@ export default function LessorDashboard({
               handlerRole: 'lessor',
               handlerId: selectedLessorId,
               itemName: '',
-              amount: 0,
+              amount: '',
               collected: false,
             }}
             setRevenueForm={() => {}}
@@ -111,7 +111,7 @@ export default function LessorDashboard({
               handlerRole: 'lessor',
               handlerId: selectedLessorId,
               itemName: '',
-              amount: 0,
+              amount: '',
               collected: false,
             }}
             setRevenueForm={() => {}}

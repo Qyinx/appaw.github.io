@@ -4,7 +4,7 @@ import React from 'react';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card } from '@/components/ui';
-import type { RevenueEntry } from '@/app/business/grid-store/administration/page';
+import type { RevenueEntry } from '@/app/business/grid-store/types';
 
 interface PaymentHistoryProps {
   payments: RevenueEntry[];

@@ -18,7 +18,8 @@ import type {
   Location,
   User,
   Tab,
-} from './page';
+  UserRole,
+} from '../types';
 
 interface AdminDashboardProps {
   currentTab: Tab;
@@ -47,7 +48,7 @@ interface AdminDashboardProps {
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
     itemName: string;
-    amount: number;
+    amount: string;
     collected: boolean;
   };
   setRevenueForm: React.Dispatch<React.SetStateAction<{
@@ -57,14 +58,14 @@ interface AdminDashboardProps {
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
     itemName: string;
-    amount: number;
+    amount: string;
     collected: boolean;
   }>>;
   saveRevenue: () => void;
   showUserModal: boolean;
   setShowUserModal: (show: boolean) => void;
-  userForm: { name: string; email: string; phone: string; role: 'lessor' | 'cashier'; locationId: string };
-  setUserForm: React.Dispatch<React.SetStateAction<{ name: string; email: string; phone: string; role: 'lessor' | 'cashier'; locationId: string }>>;
+  userForm: { name: string; email: string; phone: string; role: UserRole; locationId: string };
+  setUserForm: React.Dispatch<React.SetStateAction<{ name: string; email: string; phone: string; role: UserRole; locationId: string }>>;
   handleSaveUser: () => void;
   editingUser: User | null;
   setEditingUser: React.Dispatch<React.SetStateAction<User | null>>;

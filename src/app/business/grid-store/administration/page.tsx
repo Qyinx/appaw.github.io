@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Shield, Users, CreditCard, Store, Grid3X3, UserPlus, Eye, DollarSign, Calendar, CheckCircle, AlertCircle, Edit, Trash2, Plus, X, Settings, LogOut } from 'lucide-react';
+import { Shield, Users, CreditCard, Store as StoreIcon, Grid3X3, UserPlus, Eye, DollarSign, Calendar, CheckCircle, AlertCircle, Edit, Trash2, Plus, X, Settings, LogOut } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card } from '@/components/ui';
 import { graphqlFetch } from '@/lib/graphql';
@@ -13,133 +13,26 @@ import LessorDashboard from './LessorDashboard';
 import CashierDashboard from './CashierDashboard';
 import LesseeDashboard from './LesseeDashboard';
 import AdminHeader from './AdminHeader';
+import type {
+  Role,
+  UserRole,
+  Tab,
+  AdminTab,
+  LessorTab,
+  LesseeTab,
+  Location,
+  Store,
+  GridStore,
+  User,
+  Lessor,
+  Cashier,
+  Lessee,
+  RevenueEntry,
+  Product,
+} from '../types';
+import { tabsByRole } from '../types';
 
-export type Role = 'admin' | 'lessor' | 'cashier' | 'lessee';
-export type UserRole = 'lessor' | 'cashier';
-export type Tab = 'user-management' | 'grid-management' | 'revenue-management' | 'store-management' | 'product-management' | 'my-grids' | 'payment-history' | 'item-payment';
-
-// Tab availability by role
-export const tabsByRole: Record<Role, Tab[]> = {
-  admin: ['user-management', 'grid-management', 'revenue-management', 'store-management'],
-  lessor: ['grid-management', 'revenue-management'],
-  cashier: ['item-payment', 'revenue-management'],
-  lessee: ['my-grids', 'payment-history', 'product-management'],
-};
-
-// Deprecated - kept for backward compatibility
-export type AdminTab = 'user-management' | 'grid-management' | 'revenue-management' | 'store-management';
-export type LessorTab = 'grid-management' | 'revenue-management' | 'product-management';
-export type LesseeTab = 'my-grids' | 'payment-history';
-
-export interface Location {
-  id: string;
-  name: string;
-  address: string;
-}
-
-export interface Store {
-  id: string;
-  name: string;
-  type: string;
-  location: string;
-  isActive: boolean;
-  created: string;
-  ownerName: string;
-  ownerId: string;
-}
-
-export interface GridStore {
-  id: string;
-  storeId?: string;
-  gridNumber: string;
-  name?: string;
-  size: string;
-  status: 'available' | 'rented';
-  lessorId?: string;
-  lessorName?: string;
-  tenant?: string;
-  monthlyRent?: number;
-  gridPrice?: number;
-  startDate?: string;
-  endDate?: string;
-  locationId?: string;
-  locationName?: string;
-}
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  phone?: string;
-  assignedGrids?: number;
-  locationId?: string; // For cashiers
-  locationName?: string;
-}
-
-export interface Lessor {
-  id: string;
-  name: string;
-  email: string;
-  assignedGrids: number;
-  storeId?: string; // Store the lessor owns
-}
-
-export interface Cashier {
-  id: string;
-  name: string;
-  email: string;
-  locationId: string;
-  locationName: string;
-}
-
-export interface Lessee {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  rentedGridIds: string[];
-}
-
-export interface RevenueEntry {
-  id: string;
-  date: string;
-  type: 'grid-rent' | 'item-sale' | 'grid-income' | 'others';
-  gridId: string;
-  gridNumber: string;
-  handlerName?: string;
-  handlerRole?: 'lessor' | 'cashier';
-  handlerId?: string;
-  itemName?: string;
-  trxType?: string;
-  notes?: string;
-  amount: number;
-  collected: boolean;
-  locationName?: string;
-  fromUser?: { id: string | number; name: string };
-  toUser?: { id: string | number; name: string };
-}
-
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  gridId: string;
-  gridNumber?: string;
-  locationName?: string;
-  itemId?: string; // API response field
-  userId?: string | number; // User who created the item
-  version?: number; // API version field
-  isActive?: boolean; // Item status
-  created?: string; // Creation timestamp
-  notes?: string; // Description from API
-  guid?: string; // Unique guid from API
-  gridName?: string; // Grid name from nested grid
-  storeId?: string; // Store id from nested grid.store
-  storeName?: string; // Store name from nested grid.store
-  storeLocation?: string; // Store location from nested grid.store
-}
+export const dynamic = 'force-dynamic';
 
 const mockLocations: Location[] = [];
 
@@ -155,7 +48,7 @@ const mockProducts: Product[] = [];
 
 const initialRevenueEntries: RevenueEntry[] = [];
 
-export default function GridStoreAdministrationPage() {
+function GridStoreAdministrationPage() {
   const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -880,13 +773,13 @@ export default function GridStoreAdministrationPage() {
   };
 
   const openStoreTransactionModal = () => {
-    setRevenueForm({ date: '', type: 'grid-rent', gridId: '', handlerRole: 'lessor', handlerId: selectedLessorId || '', itemName: '', amount: 0, collected: false });
+    setRevenueForm({ date: '', type: 'grid-rent', gridId: '', handlerRole: 'lessor', handlerId: selectedLessorId || '', itemName: '', amount: '', collected: false });
     setActiveRevenueModal('store');
     setShowRevenueModal(true);
   };
 
   const openGridTransactionModal = () => {
-    setRevenueForm({ date: '', type: 'item-sale', gridId: '', handlerRole: 'cashier', handlerId: selectedCashierId || '', itemName: '', amount: 0, collected: false });
+    setRevenueForm({ date: '', type: 'item-sale', gridId: '', handlerRole: 'cashier', handlerId: selectedCashierId || '', itemName: '', amount: '', collected: false });
     setActiveRevenueModal('grid');
     setShowRevenueModal(true);
   };
@@ -899,7 +792,7 @@ export default function GridStoreAdministrationPage() {
   const saveRevenue = async () => {
     try {
       // Validate amount is provided
-      const amount = parseFloat(revenueForm.amount as any);
+      const amount = parseFloat(revenueForm.amount) || 0;
       if (isNaN(amount) || amount <= 0) {
         alert('Please enter a valid amount');
         return;
@@ -1151,7 +1044,7 @@ export default function GridStoreAdministrationPage() {
               revenueEntries={revenueEntries}
               toggleCollected={toggleCollected}
               mockGridStores={mockGridStores}
-              isAdmin={hasAdminPrivileges}
+              isAdmin={hasAdminPrivileges ?? false}
             />
           )}
 
@@ -1173,7 +1066,7 @@ export default function GridStoreAdministrationPage() {
               toggleCollected={toggleCollected}
               openGridTransactionModal={openGridTransactionModal}
               mockGridStores={mockGridStores}
-              isAdmin={hasAdminPrivileges}
+              isAdmin={hasAdminPrivileges ?? false}
             />
           )}
 
@@ -1198,7 +1091,7 @@ export default function GridStoreAdministrationPage() {
               editingProduct={editingProduct}
               setEditingProduct={setEditingProduct}
               mockGridStores={mockGridStores}
-              isAdmin={hasAdminPrivileges}
+              isAdmin={hasAdminPrivileges ?? false}
               isInitialized={isInitialized}
             />
           )}
@@ -1483,7 +1376,7 @@ export default function GridStoreAdministrationPage() {
                   step="0.01"
                   min="0"
                   value={revenueForm.amount}
-                  onChange={(e) => setRevenueForm({...revenueForm, amount: parseFloat(e.target.value) || 0})}
+                  onChange={(e) => setRevenueForm({...revenueForm, amount: e.target.value})}
                   className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                   required
                 />
@@ -1552,5 +1445,14 @@ export default function GridStoreAdministrationPage() {
       )}
 
     </div>
+  );
+}
+
+// Wrap the page in Suspense for Next.js useSearchParams() compliance
+export default function Page() {
+  return (
+    <Suspense>
+      <GridStoreAdministrationPage />
+    </Suspense>
   );
 }

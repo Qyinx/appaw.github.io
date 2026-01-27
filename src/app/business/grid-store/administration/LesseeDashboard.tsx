@@ -9,7 +9,7 @@ import AdminTransactions from '@/components/grid-store/AdminTransactions';
 import StoreTransactions from '@/components/grid-store/StoreTransactions';
 import ProductManagement from '@/components/grid-store/ProductManagement';
 import { graphqlFetch } from '@/lib/graphql';
-import type { Tab, RevenueEntry, GridStore, Lessee, Product } from './page';
+import type { Tab, RevenueEntry, GridStore, Lessee, Product } from '../types';
 
 interface LesseeDashboardProps {
   currentTab: Tab;
@@ -209,7 +209,7 @@ export default function LesseeDashboard({
                 handlerRole: 'lessor',
                 handlerId: '',
                 itemName: '',
-                amount: 0,
+                amount: '',
                 collected: false,
               }}
               setRevenueForm={() => {}}

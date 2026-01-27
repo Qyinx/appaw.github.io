@@ -3,7 +3,7 @@
 import React from 'react';
 import { LogOut } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import type { Role, Lessor, Cashier, Lessee } from './page';
+import type { Role, Lessor, Cashier, Lessee } from '../types';
 import SelectRoleHeader from './SelectRoleHeader';
 
 interface AdminHeaderProps {

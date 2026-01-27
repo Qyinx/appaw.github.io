@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     // Forward all headers from the client request
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(body),
+      'Content-Length': Buffer.byteLength(body).toString(),
     };
 
     // Copy authorization and other relevant headers from the incoming request

@@ -256,6 +256,7 @@ export const adminEn = {
       gridsToProcess: 'Grids to Process',
       assignLessor: 'Assign Lessor',
       lessorManagement: 'Lessor Management',
+      of: 'of',
       table: {
         gridNumber: 'Grid #',
         size: 'Size',
@@ -274,6 +275,7 @@ export const adminEn = {
         assign: 'Assign to Lessor',
         view: 'View Details',
         processPayment: 'Process Payment',
+        of: 'of',
       },
       lessorCard: {
         grids: 'grids',

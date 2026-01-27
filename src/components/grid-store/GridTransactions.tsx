@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { graphqlFetch } from '@/lib/graphql';
 import RevenueManagement from './RevenueManagement';
-import type { RevenueEntry, GridStore, Cashier } from '@/app/business/grid-store/administration/page';
+import type { RevenueEntry, GridStore, Cashier } from '@/app/business/grid-store/types';
 
 interface GridTransaction {
   orderId: string;
@@ -46,7 +46,7 @@ interface GridTransactionsProps {
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
     itemName: string;
-    amount: number;
+    amount: string;
     collected: boolean;
   };
   setRevenueForm: React.Dispatch<React.SetStateAction<{
@@ -56,7 +56,7 @@ interface GridTransactionsProps {
     handlerRole: 'lessor' | 'cashier';
     handlerId: string;
     itemName: string;
-    amount: number;
+    amount: string;
     collected: boolean;
   }>>;
   gridStores: GridStore[];
