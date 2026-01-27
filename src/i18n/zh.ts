@@ -290,6 +290,8 @@ export const zh: Translations = {
     },
   },
 
+  // Admin translations moved to admin/zh.ts
+
   // Common
   common: {
     loading: '載入中...',

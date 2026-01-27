@@ -7,9 +7,44 @@ import { Menu, X, Globe } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 
+type UserProfile = {
+  id?: string;
+  name?: string;
+  roles?: string[];
+};
+
+// Cache profile for the session to avoid repeat fetches on navigation
+let cachedProfile: UserProfile | null = null;
+
+function getProfileFromLocalStorage(): UserProfile | null {
+  if (typeof window === 'undefined') return null;
+  const raw = localStorage.getItem('auth0_user');
+  if (!raw) return null;
+
+  try {
+    const parsed = JSON.parse(raw);
+    const roles = Array.isArray(parsed.roles)
+      ? parsed.roles
+      : parsed.roles
+      ? [parsed.roles]
+      : undefined;
+
+    return {
+      id: parsed.id,
+      name: parsed.name || parsed.mail,
+      roles,
+    };
+  } catch (err) {
+    console.warn('Failed to parse auth0_user', err);
+    return null;
+  }
+}
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [profile, setProfile] = useState<UserProfile | null>(cachedProfile);
+  const [loadingProfile, setLoadingProfile] = useState(!cachedProfile);
   const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
@@ -18,6 +53,21 @@ export default function Header() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (cachedProfile) {
+      setProfile(cachedProfile);
+      setLoadingProfile(false);
+      return;
+    }
+
+    const profileFromStorage = getProfileFromLocalStorage();
+    if (profileFromStorage) {
+      cachedProfile = profileFromStorage;
+      setProfile(profileFromStorage);
+    }
+    setLoadingProfile(false);
   }, []);
 
   const navLinks = [
@@ -66,8 +116,17 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Language Switcher & Mobile Menu Button */}
+          {/* Profile, Language Switcher & Mobile Menu Button */}
           <div className="flex items-center space-x-3">
+            {profile && (
+              <div className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg bg-neutral-100 text-neutral-800 border border-neutral-200">
+                <span className="font-semibold">{profile.name}</span>
+                {profile.roles?.length ? (
+                  <span className="text-xs text-neutral-600">{profile.roles.join(', ')}</span>
+                ) : null}
+              </div>
+            )}
+
             {/* Language Switcher */}
             <button
               onClick={toggleLanguage}
@@ -99,6 +158,15 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-neutral-200 bg-white/95 backdrop-blur-md">
             <nav className="flex flex-col space-y-1">
+              {profile && (
+                <div className="px-4 py-3 flex flex-col gap-1 rounded-lg bg-neutral-100 text-neutral-800 border border-neutral-200">
+                  <span className="font-semibold">{profile.name}</span>
+                  {profile.roles?.length ? (
+                    <span className="text-xs text-neutral-600">{profile.roles.join(', ')}</span>
+                  ) : null}
+                </div>
+              )}
+
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
