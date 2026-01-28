@@ -5,7 +5,7 @@
 
 export const graphqlConfig = {
   // GraphQL endpoint URL - can be customized via environment variable
-  endpoint: process.env.GRAPHQL_ENDPOINT || '/api/graphql',
+  endpoint: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '/api/graphql',
 
   // Default headers for all GraphQL requests
   defaultHeaders: {
@@ -113,59 +113,4 @@ export async function graphqlFetch<T = any>(
     }
     throw new Error('Unknown error occurred during GraphQL request');
   }
-}
-
-/**
- * Alternative: Use API proxy route to bypass SSL on server-side
- * This is more secure as it keeps the SSL bypass server-side only
- * 
- * Create src/app/api/graphql/route.ts:
- */
-export function createGraphQLProxyRoute() {
-  return `
-import { NextRequest, NextResponse } from 'next/server';
-import https from 'https';
-
-export async function POST(request: NextRequest) {
-  const endpoint = process.env.GRAPHQL_ENDPOINT;
-  
-  if (!endpoint) {
-    return NextResponse.json(
-      { error: 'GraphQL endpoint not configured' },
-      { status: 500 }
-    );
-  }
-
-  try {
-    const body = await request.json();
-
-    // Create HTTPS agent that ignores SSL errors in development
-    const agent =
-      process.env.NODE_ENV === 'development'
-        ? new https.Agent({
-            rejectUnauthorized: false,
-          })
-        : undefined;
-
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-      // @ts-ignore
-      agent,
-    });
-
-    const data = await response.json();
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error('GraphQL Proxy Error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch from GraphQL endpoint' },
-      { status: 500 }
-    );
-  }
-}
-  `;
 }

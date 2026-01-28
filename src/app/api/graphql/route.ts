@@ -45,8 +45,8 @@ function makeRequest(url: string, options: any, data: string): Promise<{ status:
 }
 
 export async function POST(request: NextRequest) {
-  const endpoint = process.env.GRAPHQL_ENDPOINT;
-
+  const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_PROXY_TARGET;
+  console.log('GraphQL Proxy Target Endpoint:', endpoint);
   if (!endpoint) {
     return NextResponse.json(
       { error: 'GraphQL endpoint not configured' },

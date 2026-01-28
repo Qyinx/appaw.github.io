@@ -43,7 +43,7 @@ jobs:
       - name: Build with Next.js
         run: npm run build
         env:
-          GRAPHQL_ENDPOINT: ${{ env.GRAPHQL_ENDPOINT }}
+          NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${{ env.NEXT_PUBLIC_GRAPHQL_ENDPOINT }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
