@@ -44,7 +44,7 @@ jobs:
         run: |
           touch .env.production
           # Use secrets if set as a secret, or vars if set as a repository variable
-          echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=${{ vars.NEXT_PUBLIC_GRAPHQL_ENDPOINT }} >> .env.production
+          echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=${{ secrets.NEXT_PUBLIC_GRAPHQL_ENDPOINT }} >> .env.production
           # Add other variables as needed
 
       - name: Build with Next.js
