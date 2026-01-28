@@ -148,30 +148,24 @@ function GridStoreAdministrationPage() {
         const isAdmin = loggedUser && (Array.isArray(loggedUser.roles) ? loggedUser.roles.includes('admin') : loggedUser.roles === 'admin');
         if (!isAdmin) return;
 
-        const response = await fetch('/api/graphql', {
-          method: 'POST',
+        const usersQuery = `
+          query {
+            users {
+              users {
+                id
+                name
+                mail
+                phone
+                roles
+              }
+            }
+          }
+        `;
+        const result = await graphqlFetch(usersQuery, undefined, {
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            query: `
-              query {
-                users {
-                  users {
-                    id
-                    name
-                    mail
-                    phone
-                    roles
-                  }
-                }
-              }
-            `,
-          }),
         });
-
-        const result = await response.json();
 
         if (result.data?.users?.users) {
           const allUsers = result.data.users.users;

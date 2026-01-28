@@ -38,16 +38,6 @@ export const graphqlConfig = {
   },
 
   /**
-   * Reset to default GraphQL endpoint from environment
-   */
-  resetEndpoint: (): void => {
-    if (typeof window !== 'undefined') {
-      sessionStorage.removeItem('graphql_endpoint');
-    }
-    graphqlConfig.endpoint = process.env.GRAPHQL_ENDPOINT || '/api/graphql';
-  },
-
-  /**
    * Load endpoint from session storage if previously set
    */
   loadFromSession: (): void => {
@@ -73,11 +63,9 @@ export async function graphqlFetch<T = any>(
   }
 ): Promise<{ data?: T; errors?: Array<{ message: string }> }> {
   // Use proxy route on client-side, direct endpoint on server-side
-  const endpoint =
-    typeof window !== 'undefined'
-      ? process.env.GRAPHQL_PROXY || '/api/graphql'
-      : graphqlConfig.getEndpoint();
 
+  // Always use centralized endpoint logic
+  const endpoint = graphqlConfig.getEndpoint();
   if (!endpoint) {
     throw new Error('GraphQL endpoint is not configured');
   }

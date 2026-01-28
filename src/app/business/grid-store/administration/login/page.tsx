@@ -48,6 +48,11 @@ export default function AdministrationLoginPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  // State for endpoint display (client-only)
+  const [endpoint, setEndpoint] = useState<string | null>(null);
+  React.useEffect(() => {
+    setEndpoint(graphqlConfig.getEndpoint());
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -176,6 +181,12 @@ export default function AdministrationLoginPage() {
                   </div>
                 </Button>
               </form>
+              {/* Show current GraphQL endpoint for tracing (client-only, avoids hydration error) */}
+              {endpoint && (
+                <div className="mt-4 text-xs text-slate-500 break-all">
+                  <strong>GraphQL Endpoint:</strong> {endpoint}
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
