@@ -45,7 +45,7 @@ function makeRequest(url: string, options: any, data: string): Promise<{ status:
 }
 
 export async function POST(request: NextRequest) {
-  const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
+  const endpoint = process.env.GRAPHQL_ENDPOINT;
 
   if (!endpoint) {
     return NextResponse.json(

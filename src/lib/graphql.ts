@@ -5,7 +5,7 @@
 
 export const graphqlConfig = {
   // GraphQL endpoint URL - can be customized via environment variable
-  endpoint: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '/api/graphql',
+  endpoint: process.env.GRAPHQL_ENDPOINT || '/api/graphql',
 
   // Default headers for all GraphQL requests
   defaultHeaders: {
@@ -44,7 +44,7 @@ export const graphqlConfig = {
     if (typeof window !== 'undefined') {
       sessionStorage.removeItem('graphql_endpoint');
     }
-    graphqlConfig.endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '/api/graphql';
+    graphqlConfig.endpoint = process.env.GRAPHQL_ENDPOINT || '/api/graphql';
   },
 
   /**
@@ -75,7 +75,7 @@ export async function graphqlFetch<T = any>(
   // Use proxy route on client-side, direct endpoint on server-side
   const endpoint =
     typeof window !== 'undefined'
-      ? process.env.NEXT_PUBLIC_GRAPHQL_PROXY || '/api/graphql'
+      ? process.env.GRAPHQL_PROXY || '/api/graphql'
       : graphqlConfig.getEndpoint();
 
   if (!endpoint) {
@@ -139,7 +139,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import https from 'https';
 
 export async function POST(request: NextRequest) {
-  const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
+  const endpoint = process.env.GRAPHQL_ENDPOINT;
   
   if (!endpoint) {
     return NextResponse.json(

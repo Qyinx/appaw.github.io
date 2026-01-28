@@ -43,7 +43,7 @@ jobs:
       - name: Build with Next.js
         run: npm run build
         env:
-          NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${{ secrets.GRAPHQL_ENDPOINT_PRODUCTION || 'http://localhost:8787/graphql' }}
+          GRAPHQL_ENDPOINT: ${{ env.GRAPHQL_ENDPOINT }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
