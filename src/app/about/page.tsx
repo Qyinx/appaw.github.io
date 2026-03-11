@@ -1,180 +1,293 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Award, Heart, Users, Zap } from 'lucide-react';
+import { Award, Heart, Users, Zap, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { Card, CardContent } from '@/components/ui';
 import { getImagePath } from '@/lib/utils';
+import StatsGrid from '@/components/ui/StatsGrid';
+
+// Scroll-reveal hook
+function useReveal() {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.12 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, visible };
+}
 
 export default function AboutPage() {
   const { t } = useLanguage();
+  const [heroVisible, setHeroVisible] = useState(false);
+
+  const storyReveal   = useReveal();
+  const missionReveal = useReveal();
+  const valuesReveal  = useReveal();
+  const trustReveal   = useReveal();
+
+  useEffect(() => {
+    const timer = setTimeout(() => setHeroVisible(true), 80);
+    return () => clearTimeout(timer);
+  }, []);
 
   const values = [
-    {
-      icon: Award,
-      title: t.about.values.quality.title,
-      description: t.about.values.quality.description,
-      color: 'primary',
-    },
-    {
-      icon: Heart,
-      title: t.about.values.integrity.title,
-      description: t.about.values.integrity.description,
-      color: 'secondary',
-    },
-    {
-      icon: Zap,
-      title: t.about.values.passion.title,
-      description: t.about.values.passion.description,
-      color: 'accent',
-    },
-    {
-      icon: Users,
-      title: t.about.values.service.title,
-      description: t.about.values.service.description,
-      color: 'primary',
-    },
+    { icon: Award, number: '01', title: t.about.values.quality.title,   description: t.about.values.quality.description,   color: '#3b82f6' },
+    { icon: Heart, number: '02', title: t.about.values.integrity.title,  description: t.about.values.integrity.description,  color: '#d4a843' },
+    { icon: Zap,   number: '03', title: t.about.values.passion.title,    description: t.about.values.passion.description,    color: '#10b981' },
+    { icon: Users, number: '04', title: t.about.values.service.title,    description: t.about.values.service.description,    color: '#8b5cf6' },
   ];
-
-  const getColorClasses = (color: string) => {
-    const colors: Record<string, { bg: string; text: string }> = {
-      primary: { bg: 'bg-primary-100', text: 'text-primary-600' },
-      secondary: { bg: 'bg-secondary-100', text: 'text-secondary-600' },
-      accent: { bg: 'bg-accent-100', text: 'text-accent-600' },
-    };
-    return colors[color] || colors.primary;
-  };
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-secondary-50 via-white to-primary-50" />
-        <div className="absolute top-10 left-10 w-64 h-64 bg-secondary-200/30 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-80 h-80 bg-primary-200/30 rounded-full blur-3xl" />
-        
-        <div className="relative container-custom text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-neutral-900 mb-6">
-            {t.about.title}
-          </h1>
-          <p className="text-xl md:text-2xl text-neutral-600 max-w-3xl mx-auto">
-            {t.about.subtitle}
-          </p>
+
+      {/* ══════════════════════════════════════════
+           HERO — Cinematic Dark
+      ══════════════════════════════════════════ */}
+      <section className="relative min-h-[55vh] flex items-center overflow-hidden bg-[#09090f] pt-20">
+        {/* Ambient gold glow bottom */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_110%,rgba(212,168,67,0.12),transparent)]" />
+        {/* Subtle grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.018)_1px,transparent_1px)] bg-[size:80px_80px]" />
+        {/* Bottom fade to white */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+
+        <div className="relative container-custom py-24 z-10">
+          <div
+            className="max-w-3xl transition-all duration-1000"
+            style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(32px)' }}
+          >
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/40 rounded-full px-5 py-2 mb-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] animate-pulse" />
+              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Our Story</span>
+            </div>
+
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-display leading-[1.08] tracking-tight text-white mb-6">
+              {t.about.title}
+            </h1>
+
+            {/* Gold rule */}
+            <div className="flex items-center gap-4 mb-7">
+              <div className="w-12 h-px bg-[#d4a843]" />
+              <div className="w-2 h-2 rounded-full bg-[#d4a843]" />
+              <div className="w-24 h-px bg-[#d4a843]/30" />
+            </div>
+
+            <p className="text-[#9ca3af] text-lg md:text-xl leading-relaxed max-w-xl">
+              {t.about.subtitle}
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Story Section */}
-      <section className="section-padding bg-white overflow-hidden">
+      {/* ══════════════════════════════════════════
+           STORY — Two-column editorial
+      ══════════════════════════════════════════ */}
+      <section ref={storyReveal.ref} className="py-28 bg-white overflow-hidden">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold font-display text-neutral-900 mb-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+            {/* Text */}
+            <div
+              className="transition-all duration-1000"
+              style={{ opacity: storyReveal.visible ? 1 : 0, transform: storyReveal.visible ? 'translateX(0)' : 'translateX(-32px)' }}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-8 h-px bg-[#d4a843]" />
+                <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Who We Are</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 leading-[1.1] mb-6">
                 {t.about.story.title}
               </h2>
-              <p className="text-lg text-neutral-600 leading-relaxed">
+              <p className="text-neutral-500 text-base leading-relaxed mb-10">
                 {t.about.story.content}
               </p>
+              <a
+                href="/business"
+                className="inline-flex items-center gap-2 text-[#d4a843] font-semibold text-sm group"
+              >
+                <span>See Our Products</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
-            <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-primary-100 to-secondary-100 rounded-3xl flex items-center justify-center">
-                <div className="text-center">
-                  <Image
-                    src={getImagePath('/images/logo.png')}
-                    alt="Appaw Store Logo"
-                    width={160}
-                    height={160}
-                    className="mx-auto mb-4"
-                  />
-                  <span className="text-2xl font-display font-bold gradient-text">Appaw Store</span>
+
+            {/* Visual */}
+            <div
+              className="relative transition-all duration-1000"
+              style={{ opacity: storyReveal.visible ? 1 : 0, transform: storyReveal.visible ? 'translateX(0)' : 'translateX(32px)', transitionDelay: '200ms' }}
+            >
+              {/* Rotating ring */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-72 h-72 rounded-full border border-[#d4a843]/10 animate-[spin_30s_linear_infinite]" />
+                <div className="absolute w-56 h-56 rounded-full border border-[#d4a843]/15 animate-[spin_20s_linear_infinite_reverse]" />
+              </div>
+
+              {/* Product frame */}
+              <div className="relative mx-auto w-72 bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] rounded-3xl p-8 border border-[#d4a843]/20 shadow-[0_40px_80px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(212,168,67,0.15)]">
+                {/* Corner accents */}
+                <div className="absolute top-4 left-4 w-5 h-5 border-t border-l border-[#d4a843]/50" />
+                <div className="absolute top-4 right-4 w-5 h-5 border-t border-r border-[#d4a843]/50" />
+                <div className="absolute bottom-4 left-4 w-5 h-5 border-b border-l border-[#d4a843]/50" />
+                <div className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-[#d4a843]/50" />
+
+                <Image
+                  src={getImagePath('/images/logo.png')}
+                  alt="Appaw Store"
+                  width={160}
+                  height={160}
+                  className="mx-auto"
+                />
+                <div className="mt-5 text-center">
+                  <p className="text-[#d4a843]/60 text-[10px] uppercase tracking-[0.2em]">Established</p>
+                  <p className="text-white text-sm font-semibold mt-1">Appaw Store · Hong Kong</p>
                 </div>
               </div>
-              {/* Decorative elements - hidden on mobile to prevent overflow */}
-              <div className="hidden md:block absolute -top-4 -right-4 w-24 h-24 bg-primary-200 rounded-2xl -z-10 transform rotate-12" />
-              <div className="hidden md:block absolute -bottom-4 -left-4 w-32 h-32 bg-secondary-200 rounded-2xl -z-10 transform -rotate-12" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section className="section-padding bg-neutral-50">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 rounded-2xl mb-8">
-              <span className="text-4xl">🎯</span>
+      {/* ══════════════════════════════════════════
+           MISSION — Dark centred statement
+      ══════════════════════════════════════════ */}
+      <section ref={missionReveal.ref} className="py-28 bg-[#09090f] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(212,168,67,0.06),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
+
+        <div className="container-custom relative">
+          <div
+            className="max-w-3xl mx-auto text-center transition-all duration-1000"
+            style={{ opacity: missionReveal.visible ? 1 : 0, transform: missionReveal.visible ? 'translateY(0)' : 'translateY(32px)' }}
+          >
+            {/* Decorative line + dot */}
+            <div className="inline-flex items-center gap-4 mb-10">
+              <div className="w-14 h-px bg-[#d4a843]/40" />
+              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Our Mission</span>
+              <div className="w-14 h-px bg-[#d4a843]/40" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-neutral-900 mb-6">
+
+            <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-8">
               {t.about.mission.title}
             </h2>
-            <p className="text-xl text-neutral-600 leading-relaxed">
+
+            {/* Large quote-style text */}
+            <p className="text-[#9ca3af] text-lg leading-relaxed">
               {t.about.mission.content}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="section-padding bg-white">
+      {/* ══════════════════════════════════════════
+           VALUES — Editorial card grid
+      ══════════════════════════════════════════ */}
+      <section ref={valuesReveal.ref} className="py-28 bg-white overflow-hidden">
         <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-neutral-900 mb-4">
+
+          {/* Header */}
+          <div
+            className="max-w-xl mb-20 transition-all duration-700"
+            style={{ opacity: valuesReveal.visible ? 1 : 0, transform: valuesReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
+          >
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-8 h-px bg-[#d4a843]" />
+              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">What Drives Us</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 leading-[1.1]">
               {t.about.values.title}
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, index) => {
+          {/* Cards — same gap-px editorial pattern */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-100 border border-neutral-100">
+            {values.map((value, i) => {
               const Icon = value.icon;
-              const colors = getColorClasses(value.color);
-              
               return (
-                <Card key={index} className="text-center">
-                  <CardContent>
-                    <div className={`w-16 h-16 mx-auto mb-4 ${colors.bg} rounded-2xl flex items-center justify-center`}>
-                      <Icon className={`w-8 h-8 ${colors.text}`} />
-                    </div>
-                    <h3 className="text-lg font-bold text-neutral-800 mb-2">
-                      {value.title}
-                    </h3>
-                    <p className="text-neutral-600 text-sm">
-                      {value.description}
-                    </p>
-                  </CardContent>
-                </Card>
+                <div
+                  key={i}
+                  className="group bg-white p-10 relative overflow-hidden hover:shadow-[0_0_0_2px_#d4a843] transition-all duration-500"
+                  style={{
+                    opacity: valuesReveal.visible ? 1 : 0,
+                    transform: valuesReveal.visible ? 'translateY(0)' : 'translateY(32px)',
+                    transitionDelay: `${(i + 1) * 100}ms`,
+                    transitionDuration: '700ms',
+                  }}
+                >
+                  {/* Watermark number */}
+                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-neutral-50 select-none leading-none group-hover:text-[#d4a843]/5 transition-colors duration-500">
+                    {value.number}
+                  </span>
+
+                  {/* Icon */}
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 relative"
+                    style={{ backgroundColor: `${value.color}18`, color: value.color }}
+                  >
+                    <Icon className="w-6 h-6" />
+                  </div>
+
+                  <h3 className="text-lg font-bold text-neutral-900 mb-3 group-hover:text-[#c9972f] transition-colors duration-300 relative">
+                    {value.title}
+                  </h3>
+                  <p className="text-neutral-400 text-sm leading-relaxed relative">
+                    {value.description}
+                  </p>
+
+                  {/* Bottom accent bar */}
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#d4a843] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                </div>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Team/Trust Section */}
-      <section className="py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-        
-        <div className="container-custom text-center relative">
-          <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">
-            {t.about.trust.title}
-          </h2>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto mb-8">
-            {t.about.trust.description}
-          </p>
-          <div className="flex justify-center gap-8 flex-wrap">
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2">1000+</div>
-              <div className="text-white/70">{t.about.trust.stats.cardsProtected}</div>
+      {/* ══════════════════════════════════════════
+           TRUST — Dark stats stage
+      ══════════════════════════════════════════ */}
+      <section ref={trustReveal.ref} className="py-28 bg-[#09090f] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_50%,rgba(212,168,67,0.07),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
+
+        <div className="container-custom relative">
+          <div
+            className="max-w-2xl mx-auto text-center mb-20 transition-all duration-700"
+            style={{ opacity: trustReveal.visible ? 1 : 0, transform: trustReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
+          >
+            <div className="inline-flex items-center gap-4 mb-10">
+              <div className="w-14 h-px bg-[#d4a843]/40" />
+              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">By The Numbers</span>
+              <div className="w-14 h-px bg-[#d4a843]/40" />
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2">500+</div>
-              <div className="text-white/70">{t.about.trust.stats.happyCustomers}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2">100%</div>
-              <div className="text-white/70">{t.about.trust.stats.satisfaction}</div>
-            </div>
+            <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-6">
+              {t.about.trust.title}
+            </h2>
+            <p className="text-[#9ca3af] text-base leading-relaxed">
+              {t.about.trust.description}
+            </p>
           </div>
+
+          {/* Stats grid */}
+          <StatsGrid
+            isVisible={trustReveal.visible}
+            theme="dark"
+            stats={[
+              { value: 500, suffix: '+', label: t.about.trust.stats.cardsProtected, sub: t.about.trust.stats.andCounting      },
+              { value: 100, suffix: '+', label: t.about.trust.stats.happyCustomers,  sub: t.about.trust.stats.worldwide         },
+              { value: 99,  suffix: '%', label: t.about.trust.stats.satisfaction,    sub: t.about.trust.stats.customerVerified  },
+              { value: 2,   suffix: '+', label: t.about.trust.stats.yearsOfCraft,    sub: t.about.trust.stats.ofExcellence      },
+            ]}
+          />
         </div>
       </section>
+
     </div>
   );
 }

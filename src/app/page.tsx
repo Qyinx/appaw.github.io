@@ -6,6 +6,7 @@ import { ArrowRight, Shield, Sparkles, Sun, Magnet, ChevronRight, ChevronLeft, G
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 import RetailPartners from '@/components/RetailPartners';
+import StatsGrid from '@/components/ui/StatsGrid';
 
 const featureImages = [
   '/images/describe/sell 1.png',
@@ -17,34 +18,6 @@ const featureImages = [
 
 const CAROUSEL_INTERVAL = 4500;
 
-// Animated counter component
-function AnimatedCounter({
-  target,
-  suffix = '',
-  isVisible,
-  duration = 2200,
-}: {
-  target: number;
-  suffix?: string;
-  isVisible: boolean;
-  duration?: number;
-}) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!isVisible) return;
-    let startTime: number | null = null;
-    const animate = (currentTime: number) => {
-      if (startTime === null) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * target));
-      if (progress < 1) requestAnimationFrame(animate);
-      else setCount(target);
-    };
-    requestAnimationFrame(animate);
-  }, [isVisible, target, duration]);
-  return <>{count}{suffix}</>;
-}
 
 export default function HomePage() {
   const { t } = useLanguage();
@@ -300,30 +273,16 @@ export default function HomePage() {
       ══════════════════════════════════════════════════════════ */}
       <section ref={statsRef} className="py-20 bg-white border-b border-neutral-100">
         <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-neutral-100">
-            {[
-              { value: 500, suffix: '+', label: 'Cards Protected', sub: 'And counting' },
-              { value: 100, suffix: '+', label: 'Happy Collectors', sub: 'Worldwide' },
-              { value: 99,  suffix: '%', label: 'Satisfaction Rate', sub: 'Customer verified' },
-              { value: 2,   suffix: '+', label: 'Years of Craft',   sub: 'Of excellence' },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="text-center px-8 transition-all duration-700"
-                style={{
-                  opacity: statsVisible ? 1 : 0,
-                  transform: statsVisible ? 'translateY(0)' : 'translateY(24px)',
-                  transitionDelay: `${i * 150}ms`,
-                }}
-              >
-                <div className="text-5xl md:text-6xl font-bold font-display text-[#d4a843] mb-1 tabular-nums">
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} isVisible={statsVisible} />
-                </div>
-                <div className="text-sm font-semibold text-neutral-800 mb-0.5">{stat.label}</div>
-                <div className="text-xs text-neutral-400 uppercase tracking-wider">{stat.sub}</div>
-              </div>
-            ))}
-          </div>
+          <StatsGrid
+            isVisible={statsVisible}
+            theme="light"
+            stats={[
+              { value: 500, suffix: '+', label: t.about.trust.stats.cardsProtected, sub: t.about.trust.stats.andCounting     },
+              { value: 100, suffix: '+', label: t.about.trust.stats.happyCustomers,  sub: t.about.trust.stats.worldwide        },
+              { value: 99,  suffix: '%', label: t.about.trust.stats.satisfaction,    sub: t.about.trust.stats.customerVerified },
+              { value: 2,   suffix: '+', label: t.about.trust.stats.yearsOfCraft,    sub: t.about.trust.stats.ofExcellence     },
+            ]}
+          />
         </div>
       </section>
 
