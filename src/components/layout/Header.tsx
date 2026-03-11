@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, Globe } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Menu, X } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 
@@ -81,105 +82,136 @@ export default function Header() {
     setLanguage(language === 'en' ? 'zh' : 'en');
   };
 
+  const pathname = usePathname();
+
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-white/95 backdrop-blur-md shadow-md' 
-        : 'bg-white/80 backdrop-blur-sm'
-    }`}>
+    <header
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      style={{
+        background: isScrolled
+          ? 'rgba(9,9,15,0.96)'
+          : 'rgba(9,9,15,0.75)',
+        backdropFilter: 'blur(20px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+        borderBottom: isScrolled ? '1px solid rgba(212,168,67,0.12)' : '1px solid rgba(255,255,255,0.04)',
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 md:h-20">
+
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <Image
-              src={getImagePath('/images/logo.png')}
-              alt="Appaw Store Logo"
-              width={40}
-              height={40}
-              className="rounded-lg group-hover:scale-105 transition-transform duration-200"
-            />
-            <span className="font-display font-bold text-xl text-neutral-800 group-hover:text-primary-600 transition-colors duration-200">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-9 h-9 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#d4a843]/40 transition-colors duration-300">
+              <Image
+                src={getImagePath('/images/logo.png')}
+                alt="Appaw Store Logo"
+                width={36}
+                height={36}
+                className="object-cover"
+              />
+            </div>
+            <span className="font-display font-bold text-base tracking-wide text-white/90 group-hover:text-[#d4a843] transition-colors duration-300">
               Appaw Store
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-4 py-2 text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200 rounded-lg hover:bg-primary-50"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <nav className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative px-4 py-2 text-sm font-medium transition-colors duration-200 group"
+                  style={{ color: isActive ? '#d4a843' : 'rgba(255,255,255,0.55)' }}
+                >
+                  <span className="group-hover:text-white transition-colors duration-200" style={{ color: 'inherit' }}>
+                    {link.label}
+                  </span>
+                  {/* Active underline */}
+                  <span
+                    className="absolute bottom-0 left-4 right-4 h-px bg-[#d4a843] transition-transform duration-300 origin-left"
+                    style={{ transform: isActive ? 'scaleX(1)' : 'scaleX(0)' }}
+                  />
+                  {/* Hover underline */}
+                  {!isActive && (
+                    <span className="absolute bottom-0 left-4 right-4 h-px bg-white/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* Profile, Language Switcher & Mobile Menu Button */}
-          <div className="flex items-center space-x-3">
+          {/* Right controls */}
+          <div className="flex items-center gap-3">
+            {/* Profile badge */}
             {profile && (
-              <div className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg bg-neutral-100 text-neutral-800 border border-neutral-200">
-                <span className="font-semibold">{profile.name}</span>
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843]" />
+                <span className="text-white/70 text-xs font-medium">{profile.name}</span>
                 {profile.roles?.length ? (
-                  <span className="text-xs text-neutral-600">{profile.roles.join(', ')}</span>
+                  <span className="text-white/35 text-xs">{profile.roles.join(', ')}</span>
                 ) : null}
               </div>
             )}
 
-            {/* Language Switcher */}
+            {/* Language switcher */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center space-x-1.5 px-3 py-2 rounded-lg bg-primary-50 hover:bg-primary-100 border border-primary-200 transition-all duration-200"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d4a843]/30 hover:border-[#d4a843]/70 text-[#d4a843] text-xs font-medium tracking-[0.12em] uppercase transition-all duration-200 hover:bg-[#d4a843]/5"
               aria-label="Toggle language"
             >
-              <Globe className="w-4 h-4 text-primary-600" />
-              <span className="text-sm font-medium text-primary-700">
-                {language === 'en' ? '中文' : 'EN'}
-              </span>
+              {language === 'en' ? '中文' : 'EN'}
             </button>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile menu button */}
             <button
-              className="md:hidden p-2 rounded-lg hover:bg-primary-50 transition-colors duration-200"
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-white/10 hover:border-[#d4a843]/40 text-white/60 hover:text-white transition-all duration-200"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
             >
-              {isMenuOpen ? (
-                <X className="w-6 h-6 text-neutral-700" />
-              ) : (
-                <Menu className="w-6 h-6 text-neutral-700" />
-              )}
+              {isMenuOpen
+                ? <X className="w-4 h-4" />
+                : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-neutral-200 bg-white/95 backdrop-blur-md">
-            <nav className="flex flex-col space-y-1">
-              {profile && (
-                <div className="px-4 py-3 flex flex-col gap-1 rounded-lg bg-neutral-100 text-neutral-800 border border-neutral-200">
-                  <span className="font-semibold">{profile.name}</span>
-                  {profile.roles?.length ? (
-                    <span className="text-xs text-neutral-600">{profile.roles.join(', ')}</span>
-                  ) : null}
-                </div>
-              )}
-
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="px-4 py-3 text-neutral-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg font-medium transition-colors duration-200"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
+        <div
+          className="md:hidden overflow-hidden transition-all duration-300"
+          style={{ maxHeight: isMenuOpen ? '400px' : '0px', opacity: isMenuOpen ? 1 : 0 }}
+        >
+          <div className="py-4 border-t border-white/8">
+            {profile && (
+              <div className="px-4 py-3 mb-2 flex items-center gap-2 rounded-xl border border-white/8 bg-white/4">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843]" />
+                <span className="text-white/70 text-sm font-medium">{profile.name}</span>
+                {profile.roles?.length ? (
+                  <span className="text-white/35 text-xs">{profile.roles.join(', ')}</span>
+                ) : null}
+              </div>
+            )}
+            <nav className="flex flex-col">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="flex items-center justify-between px-4 py-3 rounded-xl transition-colors duration-200 group"
+                    style={{ color: isActive ? '#d4a843' : 'rgba(255,255,255,0.5)' }}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span className="font-medium text-sm group-hover:text-white transition-colors" style={{ color: 'inherit' }}>{link.label}</span>
+                    {isActive && <span className="w-1 h-1 rounded-full bg-[#d4a843]" />}
+                  </Link>
+                );
+              })}
             </nav>
           </div>
-        )}
+        </div>
       </div>
     </header>
   );

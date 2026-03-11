@@ -356,9 +356,21 @@ export default function UserManagement({ onCreate, onEdit, shouldFetch = true, i
                         ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
                         : user.role === 'cashier'
                         ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400'
+                        : user.role === 'admin'
+                        ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
+                        : user.role === 'lessee'
+                        ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400'
                         : 'bg-slate-100 dark:bg-slate-900/30 text-slate-700 dark:text-slate-400'
                     }`}>
-                      {user.role === 'lessor' ? t.gridStoreAdmin.roles.lessor.title : user.role === 'cashier' ? t.gridStoreAdmin.roles.cashier.title : 'Unassigned'}
+                      {user.role === 'lessor'
+                        ? t.gridStoreAdmin.roles.lessor.title
+                        : user.role === 'cashier'
+                        ? t.gridStoreAdmin.roles.cashier.title
+                        : user.role === 'admin'
+                        ? 'Admin'
+                        : user.role === 'lessee'
+                        ? 'Lessee'
+                        : 'Unassigned'}
                     </span>
                   </td>
                   <td className="py-3 px-4">
@@ -404,9 +416,21 @@ export default function UserManagement({ onCreate, onEdit, shouldFetch = true, i
                     ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
                     : user.role === 'cashier'
                     ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400'
+                    : user.role === 'admin'
+                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
+                    : user.role === 'lessee'
+                    ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400'
                     : 'bg-slate-100 dark:bg-slate-900/30 text-slate-700 dark:text-slate-400'
                 }`}>
-                  {user.role === 'lessor' ? t.gridStoreAdmin.roles.lessor.title : user.role === 'cashier' ? t.gridStoreAdmin.roles.cashier.title : 'Unassigned'}
+                  {user.role === 'lessor'
+                    ? t.gridStoreAdmin.roles.lessor.title
+                    : user.role === 'cashier'
+                    ? t.gridStoreAdmin.roles.cashier.title
+                    : user.role === 'admin'
+                    ? 'Admin'
+                    : user.role === 'lessee'
+                    ? 'Lessee'
+                    : 'Unassigned'}
                 </span>
               </div>
               <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700">
