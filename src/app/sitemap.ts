@@ -7,37 +7,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
   
   return [
     {
-      url: baseUrl,
+      url: `${baseUrl}/`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: `${baseUrl}/about`,
+      url: `${baseUrl}/about/`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
-    // {
-    //   url: `${baseUrl}/products/graded-cards`,
-    //   lastModified: new Date(),
-    //   changeFrequency: 'daily',
-    //   priority: 0.95,
-    // },
     {
-      url: `${baseUrl}/products/psa-protectors`,
+      url: `${baseUrl}/products/psa-protectors/`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/business/`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/business`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/business/grid-store`,
+      url: `${baseUrl}/business/grid-store/`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
