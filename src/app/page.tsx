@@ -277,10 +277,10 @@ export default function HomePage() {
             isVisible={statsVisible}
             theme="light"
             stats={[
-              { value: 500, suffix: '+', label: t.about.trust.stats.cardsProtected, sub: t.about.trust.stats.andCounting     },
+              { value: 1200, suffix: '+', label: t.about.trust.stats.cardsProtected, sub: t.about.trust.stats.andCounting     },
               { value: 100, suffix: '+', label: t.about.trust.stats.happyCustomers,  sub: t.about.trust.stats.worldwide        },
               { value: 99,  suffix: '%', label: t.about.trust.stats.satisfaction,    sub: t.about.trust.stats.customerVerified },
-              { value: 2,   suffix: '+', label: t.about.trust.stats.yearsOfCraft,    sub: t.about.trust.stats.ofExcellence     },
+              { value: 1,   suffix: '+', label: t.about.trust.stats.yearsOfCraft,    sub: t.about.trust.stats.ofExcellence     },
             ]}
           />
         </div>

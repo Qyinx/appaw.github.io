@@ -113,8 +113,8 @@ export const zh: Translations = {
         '工藝：重型、高級手感',
       ],
       compatibility: {
-        fits: '標準 35PT PSA 評級卡磚（寶可夢、運動卡、MTG）',
-        notFits: '厚紀念品/球衣卡、BGS 或 CGC 卡磚',
+        fits: '標準 35PT PSA 評級卡磚（寶可夢、運動卡、MTG）、兼容 CGC 卡磚',
+        notFits: '厚紀念品/球衣卡、BGS 或 TAG 卡磚',
         note: '僅為保護殼，不包含 PSA 卡片。',
       },
       cta: '立即購買',

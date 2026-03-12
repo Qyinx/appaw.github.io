@@ -111,8 +111,8 @@ export const en = {
         'Build: Heavy-duty, premium feel in the hand',
       ],
       compatibility: {
-        fits: 'Standard 35PT PSA Graded Slabs (Pokemon, Sports, MTG)',
-        notFits: 'Thick memorabilia/jersey cards, BGS or CGC slabs',
+        fits: 'Standard 35PT PSA Graded Slabs (Pokemon, Sports, MTG), CGC Slabs Compatible',
+        notFits: 'Thick memorabilia/jersey cards, BGS or TAG slabs',
         note: 'Case only. PSA card not included.',
       },
       cta: 'Shop Now',
