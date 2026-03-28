@@ -2,21 +2,20 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { en, zh, Translations } from '@/i18n';
-import { adminEn, adminZh } from '@/i18n/admin';
 
 type Language = 'en' | 'zh';
 
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: Translations & typeof adminEn;
+  t: Translations;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const translations: Record<Language, Translations & typeof adminEn> = {
-  en: { ...en, ...adminEn },
-  zh: { ...zh, ...adminZh },
+const translations: Record<Language, Translations> = {
+  en,
+  zh,
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {

@@ -293,8 +293,6 @@ export const en = {
     },
   },
 
-  // Admin translations moved to admin/en.ts
-
   // Common
   common: {
     loading: 'Loading...',
