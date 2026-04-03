@@ -3,15 +3,15 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About Appaw Store – Our Story & Mission',
   description:
-    'Learn about Appaw Store – founded in Hong Kong, we craft premium PSA Card Aluminum Protectors and operate Grid Store (格仔鋪) rental spaces. Serving 100+ countries with 500+ products and 99% customer satisfaction.',
+    'Learn about Appaw Store – founded in Hong Kong, we craft premium PSA Card Aluminum Protectors and offer trusted TCG trading & brokerage services. Serving 100+ countries with 500+ products and 99% customer satisfaction.',
   keywords: [
     'Appaw Store',
     'about Appaw Store',
     'Appaw Store Hong Kong',
     'PSA card protector brand',
     'card protection company',
-    'grid store operator Hong Kong',
-    '格仔鋪',
+    'TCG trading Hong Kong',
+    'graded card broker',
     'trading card accessories brand',
     'Hong Kong card accessories',
     'card collector accessories',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Appaw Store – Our Story & Mission',
     description:
-      'Hong Kong-based brand crafting premium PSA card protectors & operating Grid Store rental spaces. 500+ products, 100+ countries, 99% satisfaction.',
+      'Hong Kong-based brand crafting premium PSA card protectors & offering trusted TCG trading services. 500+ products, 100+ countries, 99% satisfaction.',
     url: 'https://appaw.store/about/',
     type: 'website',
     images: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'About Appaw Store – Premium Card Protection & Grid Store',
+        alt: 'About Appaw Store – Premium Card Protection & TCG Trading',
       },
     ],
   },
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'About Appaw Store – Our Story & Mission',
     description:
-      'Hong Kong-based brand crafting premium PSA card protectors & operating Grid Store rental spaces.',
+      'Hong Kong-based brand crafting premium PSA card protectors & offering trusted TCG trading services.',
     images: ['/images/og-image.png'],
   },
 };
@@ -59,7 +59,7 @@ const organizationJsonLd = {
   alternateName: 'APPAW',
   url: 'https://appaw.store',
   logo: 'https://appaw.store/images/logo.png',
-  description: 'Premium PSA Card Aluminum Protector manufacturer and Grid Store (格仔鋪) operator in Hong Kong.',
+  description: 'Premium PSA Card Aluminum Protector manufacturer and TCG trading & brokerage service in Hong Kong.',
   foundingLocation: { '@type': 'Place', name: 'Hong Kong' },
   areaServed: ['HK', 'US', 'GB', 'CN', 'TW', 'SG', 'JP', 'AU'],
   contactPoint: {

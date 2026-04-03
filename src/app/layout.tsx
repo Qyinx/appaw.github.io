@@ -6,10 +6,10 @@ import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Appaw Store - PSA Card Aluminum Protector',
+    default: 'Appaw Store - PSA Card Aluminum Protector & TCG Trading',
     template: '%s | Appaw Store',
   },
-  description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass, N52 magnetic closure, and precision aluminum frame. Designed for collectors to showcase and protect their prized graded cards.',
+  description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass, N52 magnetic closure, and precision aluminum frame. Trusted TCG trading & brokerage for graded Pokémon, sports, and MTG cards.',
   keywords: [
     // PSA Protector — Core
     'PSA card protector',
@@ -43,6 +43,16 @@ export const metadata: Metadata = {
     'PSA卡鋁合金保護殼',
     'PSA卡保護套',
     '鋁合金卡片保護殼',
+    '評級卡牌買賣',
+    '寶可夢卡牌交易',
+    // Card Trading
+    'buy graded cards',
+    'sell PSA cards',
+    'TCG trading Hong Kong',
+    'Pokemon card trading',
+    'sports card broker',
+    'graded card marketplace',
+    'card consignment service',
     // Brand
     'Appaw Store',
     'appaw.store',
@@ -64,8 +74,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Appaw Store – PSA Card Aluminum Protector',
-    description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass and N52 magnetic closure. Designed for collectors to protect and display their prized graded cards.',
+    title: 'Appaw Store – PSA Card Aluminum Protector & TCG Trading',
+    description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass and N52 magnetic closure. Trusted TCG trading & brokerage for graded cards.',
     url: 'https://appaw.store',
     siteName: 'Appaw Store',
     type: 'website',
@@ -82,8 +92,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Appaw Store - PSA Card Aluminum Protector',
-    description: 'Premium aluminum protector with >95% UV protection for PSA graded cards. Designed for collectors.',
+    title: 'Appaw Store - PSA Card Aluminum Protector & TCG Trading',
+    description: 'Premium aluminum protector with >95% UV protection for PSA graded cards. Trusted TCG trading & brokerage.',
     images: ['/images/og-image.png'],
     creator: '@appaw.store',
   },
@@ -110,7 +120,7 @@ const jsonLd = {
   '@type': 'Store',
   name: 'Appaw Store',
   alternateName: ['Appaw', 'APPAW Store'],
-  description: 'Premium PSA Card Aluminum Protector for collectors in Hong Kong',
+  description: 'Premium PSA Card Aluminum Protector and TCG trading & brokerage in Hong Kong',
   url: 'https://appaw.store',
   logo: 'https://appaw.store/images/logo.png',
   image: 'https://appaw.store/images/og-image.png',

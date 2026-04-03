@@ -448,6 +448,11 @@ h1, h2, h3, h4, h5, h6 {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 @keyframes auroraOrbit {
   0%   { transform: translate(0, 0) scale(1); opacity: 0.3; }
   25%  { transform: translate(8%, -12%) scale(1.15); opacity: 0.45; }

@@ -55,11 +55,11 @@ export const en = {
     subtitle: 'Your Trusted Partner in Card Collection',
     story: {
       title: 'Our Story',
-      content: 'Appaw Store was founded by passionate collectors who understand the value of protecting graded cards. We offer premium PSA Card Aluminum Protectors that combine industrial-grade protection with elegant display, plus Grid Store rental spaces for collectors to showcase and sell their items.',
+      content: 'Appaw Store was founded by passionate collectors who understand the value of protecting graded cards. We offer premium PSA Card Aluminum Protectors that combine industrial-grade protection with elegant display, and a trusted TCG trading service for buying and selling graded cards.',
     },
     mission: {
       title: 'Our Mission',
-      content: 'To provide collectors with the best aluminum protection for their graded cards, and affordable retail spaces through our Grid Store for selling collectibles.',
+      content: 'To provide collectors with the best aluminum protection for their graded cards, and a trusted marketplace for buying and selling premium trading cards.',
     },
     values: {
       title: 'Our Values',
@@ -99,7 +99,7 @@ export const en = {
   // Business Page
   business: {
     title: 'Our Business',
-    subtitle: 'Premium Card Protection & Consignment Services',
+    subtitle: 'Premium Card Protection & TCG Trading',
     cardProtector: {
       title: 'PSA Card Aluminum Protector',
       description: 'Industrial-grade protection meets gallery-worthy display. Your valuable collection deserves better.',
@@ -118,47 +118,27 @@ export const en = {
       cta: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
     },
-    consignment: {
-      title: 'Grid Store',
-      description: 'Rent a display grid space in our store to showcase and sell your products. Perfect for small businesses and collectors.',
+    cardTrading: {
+      title: 'TCG Trading & Brokerage',
+      description: 'A trusted marketplace for buying, selling, and brokering premium graded trading cards. Whether you\'re looking to acquire a grail or liquidate a collection, we handle the process with transparency and expertise.',
+      badge: 'Trading Desk',
       features: [
-        'Prime retail location in Hong Kong',
-        'Flexible rental periods',
-        'No need to be present - we handle sales',
-        'Access to our foot traffic and customers',
-        'Affordable monthly rates',
+        'Buy & sell PSA/CGC graded Pokémon, sports, and MTG cards',
+        'Consignment sales — we sell on your behalf for competitive commission',
+        'Professional price appraisal based on real-time market data',
+        'Authentication guidance for PSA & CGC submissions',
+        'Secure transactions with full buyer/seller protection',
       ],
-      cta: 'Inquire Now',
-    },
-    process: {
-      title: 'How Grid Store Works',
-      subtitle: 'Simple steps to sell your products through our consignment service',
-      steps: [
-        {
-          icon: 'package',
-          title: 'Choose Your Grid',
-          description: 'Select a grid space that fits your needs.',
-        },
-        {
-          icon: 'camera',
-          title: 'Set Up Display',
-          description: 'Arrange your products in your rented space.',
-        },
-        {
-          icon: 'store',
-          title: 'We Sell For You',
-          description: 'Our staff handles all customer transactions.',
-        },
-        {
-          icon: 'wallet',
-          title: 'Collect Earnings',
-          description: 'Receive your sales revenue regularly.',
-        },
-      ],
+      cta: 'Start Trading',
+      stats: {
+        cardsTraded: 'Cards Traded',
+        avgRating: 'Avg. Rating',
+        repeatClients: 'Repeat Clients',
+      },
     },
     cta: {
       title: 'Ready to Get Started?',
-      description: "Whether you want to protect your collection with our premium aluminum cases or sell your products through our consignment service, we're here to help.",
+      description: "Whether you want to protect your collection with our premium aluminum cases or trade graded cards through our brokerage service, we're here to help.",
       whatsapp: 'WhatsApp Us',
       email: 'Email Us',
     },
@@ -208,22 +188,75 @@ export const en = {
     ctaSubtitle: 'Give your prized cards the premium protection they deserve',
   },
 
-  // Grid Store Page (dedicated)
-  gridStorePage: {
-    badge: 'Rental Space',
-    spacesAvailable: 'Spaces Available',
-    gridHeader: 'Grid Store',
-    gridSubheader: '格仔鋪',
-    available: 'Available',
-    rented: 'Rented',
-    stats: {
-      totalGrids: 'Total Grids',
-      available: 'Available',
-      affordable: 'Affordable',
+  // Card Trading Marketplace
+  cardMarketplace: {
+    badge: 'Marketplace',
+    title: 'Trading Card Showcase',
+    subtitle: 'Browse our current inventory of professionally graded trading cards available for purchase.',
+    searchPlaceholder: 'Search by card name...',
+    filters: {
+      allCompanies: 'All',
+      allGrades: 'All Grades',
+      gradeRanges: {
+        gem: 'Gem Mint (10)',
+        high: 'High Grade (8–9.5)',
+        mid: 'Mid Grade (5–7.5)',
+        low: 'Entry (< 5)',
+      },
     },
-    whyRentTitle: 'Why Rent With Us?',
-    whyRentSubtitle: 'Start selling your products without the hassle of running a physical store',
-    processBadge: 'Simple Process',
+    card: {
+      year: 'Year',
+      grade: 'Grade',
+      company: 'Grading Co.',
+      set: 'Set',
+      number: 'Card Number',
+      cert: 'Cert #',
+      language: 'Language',
+      price: 'Price',
+      inquire: 'Inquire via WhatsApp',
+      viewDetails: 'View Details',
+    },
+    modal: {
+      details: 'Card Details',
+      description: 'Description',
+      close: 'Close',
+      front: 'Front',
+      back: 'Back',
+    },
+    bundle: {
+      fullSet: 'Set',
+      cards: 'Cards',
+      cardsInSet: 'Cards in This Set',
+      setOnly: 'Sold as set only',
+      setPrice: 'Set Price',
+    },
+    grades: {
+      blackLabel: 'Black Label',
+      gemMint: 'Gem Mint',
+      mint: 'Mint',
+      nearMint: 'NM–MT',
+      excellent: 'Excellent',
+    },
+    emptyState: {
+      title: 'No Cards Found',
+      description: 'Try adjusting your filters or search to find what you\'re looking for.',
+      reset: 'Reset Filters',
+    },
+    resultsCount: 'cards available',
+    sortBy: 'Sort by',
+    sortOptions: {
+      newest: 'Newest Listed',
+      gradeHigh: 'Grade: High to Low',
+      gradeLow: 'Grade: Low to High',
+      priceHigh: 'Price: High to Low',
+      priceLow: 'Price: Low to High',
+      nameAZ: 'Name: A–Z',
+    },
+    ctaBanner: {
+      title: 'Looking for something specific?',
+      description: 'We can source cards not listed here. Tell us what you need.',
+      button: 'WhatsApp Us',
+    },
   },
 
   // Style Guide Page
@@ -247,7 +280,7 @@ export const en = {
 
   // Footer
   footer: {
-    description: 'Your trusted partner for card protection and consignment services.',
+    description: 'Your trusted partner for card protection and TCG trading.',
     quickLinks: 'Quick Links',
     contact: 'Contact',
     followUs: 'Follow Us',

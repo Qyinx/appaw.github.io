@@ -57,11 +57,11 @@ export const zh: Translations = {
     subtitle: '您值得信賴的卡片收藏夥伴',
     story: {
       title: '我們的故事',
-      content: 'Appaw Store 由熱愛收藏的玩家創立，深明保護評級卡片的重要性。我們提供優質的 PSA 卡片鋁合金保護殼，結合工業級保護與優雅展示，同時經營格仔舖租賃服務，讓收藏家展示和銷售他們的珍藏。',
+      content: 'Appaw Store 由熱愛收藏的玩家創立，深明保護評級卡片的重要性。我們提供優質的 PSA 卡片鋁合金保護殼，結合工業級保護與優雅展示，同時提供值得信賴的交易卡牌買賣服務。',
     },
     mission: {
       title: '我們的使命',
-      content: '為收藏家提供最優質的鋁合金卡片保護殼，以及實惠的格仔舖租賃空間，讓您輕鬆展示和銷售收藏品。',
+      content: '為收藏家提供最優質的鋁合金卡片保護殼，以及值得信賴的交易卡牌買賣平台。',
     },
     values: {
       title: '我們的價值觀',
@@ -101,7 +101,7 @@ export const zh: Translations = {
   // Business Page
   business: {
     title: '我們的業務',
-    subtitle: '優質卡片保護與寄售服務',
+    subtitle: '優質卡片保護與交易卡牌買賣',
     cardProtector: {
       title: 'PSA 卡片鋁合金保護殼',
       description: '工業級保護與展覽級展示的完美結合。您的珍貴收藏值得更好的保護。',
@@ -120,47 +120,27 @@ export const zh: Translations = {
       cta: '立即購買',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
     },
-    consignment: {
-      title: '格仔舖',
-      description: '租用我們店內的格仔位置來展示和銷售您的產品。非常適合小商戶和收藏家。',
+    cardTrading: {
+      title: '交易卡牌買賣',
+      description: '值得信賴的評級交易卡牌買賣平台。無論您想入手夢寐以求的卡牌，還是出售收藏，我們都以透明和專業的態度處理每一筆交易。',
+      badge: '交易服務',
       features: [
-        '香港優越零售位置',
-        '靈活的租期',
-        '無需親臨 - 我們處理銷售',
-        '接觸我們的人流和客戶',
-        '實惠的月租',
+        '買賣 PSA/CGC 評級寶可夢、運動卡及 MTG 卡牌',
+        '寄售服務 — 我們代您銷售，收取合理佣金',
+        '專業價格評估，基於即時市場數據',
+        '認證指導，協助 PSA 及 CGC 送評',
+        '安全交易，提供完善的買賣雙方保障',
       ],
-      cta: '立即詢問',
-    },
-    process: {
-      title: '格仔舖運作方式',
-      subtitle: '簡單步驟，透過我們的銷售您的產品',
-      steps: [
-        {
-          icon: 'package',
-          title: '選擇格仔',
-          description: '選擇適合您需求的格仔位置。',
-        },
-        {
-          icon: 'camera',
-          title: '佈置展示',
-          description: '在您租用的空間內擺放產品。',
-        },
-        {
-          icon: 'store',
-          title: '我們代售',
-          description: '我們的員工處理所有客戶交易。',
-        },
-        {
-          icon: 'wallet',
-          title: '收取收入',
-          description: '定期收取您的銷售收入。',
-        },
-      ],
+      cta: '開始交易',
+      stats: {
+        cardsTraded: '卡牌交易量',
+        avgRating: '平均評分',
+        repeatClients: '回頭客',
+      },
     },
     cta: {
       title: '準備好開始了嗎？',
-      description: '無論您想用我們的優質鋁合金保護殼保護您的收藏，還是透過我們的格仔舖服務出售你的產品，我們都樂意幫助您。',
+      description: '無論您想用我們的優質鋁合金保護殼保護您的收藏，還是透過我們的交易服務買賣卡牌，我們都樂意幫助您。',
       whatsapp: '聯絡 WhatsApp',
       email: '聯絡電郵',
     },
@@ -210,22 +190,75 @@ export const zh: Translations = {
     ctaSubtitle: '為您的珍貴卡片提供應有的優質保護',
   },
 
-  // Grid Store Page (dedicated)
-  gridStorePage: {
-    badge: 'Rental Space',
-    spacesAvailable: '尚有空位',
-    gridHeader: '格仔鋪',
-    gridSubheader: 'Grid Store',
-    available: '可租',
-    rented: '已租',
-    stats: {
-      totalGrids: '總格數',
-      available: '可租用',
-      affordable: '實惠價格',
+  // Card Trading Marketplace
+  cardMarketplace: {
+    badge: '交易平台',
+    title: '交易卡牌展示',
+    subtitle: '瀏覽我們目前提供的專業評級交易卡牌庫存。',
+    searchPlaceholder: '搜尋卡牌名稱...',
+    filters: {
+      allCompanies: '全部',
+      allGrades: '所有等級',
+      gradeRanges: {
+        gem: '完美品 (10)',
+        high: '高評級 (8–9.5)',
+        mid: '中評級 (5–7.5)',
+        low: '入門級 (< 5)',
+      },
     },
-    whyRentTitle: '為什麼選擇我們？',
-    whyRentSubtitle: '無需經營實體店舖，輕鬆開始銷售您的產品',
-    processBadge: '簡單流程',
+    card: {
+      year: '年份',
+      grade: '評級',
+      company: '評級公司',
+      set: '系列',
+      number: '卡牌編號',
+      cert: '證書編號',
+      language: '語言',
+      price: '價格',
+      inquire: '透過 WhatsApp 查詢',
+      viewDetails: '查看詳情',
+    },
+    modal: {
+      details: '卡牌詳情',
+      description: '描述',
+      close: '關閉',
+      front: '正面',
+      back: '背面',
+    },
+    bundle: {
+      fullSet: '套裝',
+      cards: '張卡牌',
+      cardsInSet: '套裝包含卡牌',
+      setOnly: '僅作整套出售',
+      setPrice: '套裝價格',
+    },
+    grades: {
+      blackLabel: '黑標',
+      gemMint: '完美品',
+      mint: '薄荷品',
+      nearMint: '近完美',
+      excellent: '優良',
+    },
+    emptyState: {
+      title: '未找到卡牌',
+      description: '嘗試調整篩選條件或搜尋關鍵字。',
+      reset: '重設篩選',
+    },
+    resultsCount: '張卡牌可供選購',
+    sortBy: '排序',
+    sortOptions: {
+      newest: '最新上架',
+      gradeHigh: '評級：由高至低',
+      gradeLow: '評級：由低至高',
+      priceHigh: '價格：由高至低',
+      priceLow: '價格：由低至高',
+      nameAZ: '名稱：A–Z',
+    },
+    ctaBanner: {
+      title: '在找特定卡牌？',
+      description: '我們可以代尋未上架的卡牌，告訴我們您的需求。',
+      button: '透過 WhatsApp 聯繫',
+    },
   },
 
   // Style Guide Page
@@ -249,7 +282,7 @@ export const zh: Translations = {
 
   // Footer
   footer: {
-    description: '您值得信賴的卡片保護與寄售服務夥伴。',
+    description: '您值得信賴的卡片保護與交易卡牌買賣夥伴。',
     quickLinks: '快速連結',
     contact: '聯繫方式',
     followUs: '關注我們',
