@@ -6,10 +6,10 @@ import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Appaw Store - PSA Card Aluminum Protector & Grid Store',
+    default: 'Appaw Store - PSA Card Aluminum Protector',
     template: '%s | Appaw Store',
   },
-  description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass, N52 magnetic closure, and precision aluminum frame. Also offering Grid Store (格仔鋪) rental spaces in Hong Kong for collectors and small businesses to showcase and sell products.',
+  description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass, N52 magnetic closure, and precision aluminum frame. Designed for collectors to showcase and protect their prized graded cards.',
   keywords: [
     // PSA Protector — Core
     'PSA card protector',
@@ -39,27 +39,10 @@ export const metadata: Metadata = {
     'card protector UV glass',
     'PSA card protector review',
     'aluminum vs acrylic card case',
-    // Grid Store — Core
-    'grid store Hong Kong',
-    'grid store rental',
-    '格仔鋪',
-    '格仔鋪香港',
-    '格仔鋪租',
-    '格仔鋪出租',
-    // Grid Store — Long-tail / Intent
-    'consignment store Hong Kong',
-    'retail space rental Hong Kong',
-    'display grid rental',
-    'small business Hong Kong',
-    'collectibles store HK',
-    'rent display space HK',
-    'affordable retail space Hong Kong',
     // Bilingual / Chinese
     'PSA卡鋁合金保護殼',
     'PSA卡保護套',
     '鋁合金卡片保護殼',
-    '香港格仔鋪租賃',
-    '格仔鋪寄賣',
     // Brand
     'Appaw Store',
     'appaw.store',
@@ -81,8 +64,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Appaw Store – PSA Card Aluminum Protector & Grid Store (格仔鋪)',
-    description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass and N52 magnetic closure. Grid Store (格仔鋪) display rental in Hong Kong for collectors and small businesses.',
+    title: 'Appaw Store – PSA Card Aluminum Protector',
+    description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass and N52 magnetic closure. Designed for collectors to protect and display their prized graded cards.',
     url: 'https://appaw.store',
     siteName: 'Appaw Store',
     type: 'website',
@@ -99,8 +82,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Appaw Store - PSA Card Aluminum Protector & Grid Store',
-    description: 'Premium aluminum protector with >95% UV protection for PSA graded cards. Grid Store rental in Hong Kong.',
+    title: 'Appaw Store - PSA Card Aluminum Protector',
+    description: 'Premium aluminum protector with >95% UV protection for PSA graded cards. Designed for collectors.',
     images: ['/images/og-image.png'],
     creator: '@appaw.store',
   },
@@ -127,7 +110,7 @@ const jsonLd = {
   '@type': 'Store',
   name: 'Appaw Store',
   alternateName: ['Appaw', 'APPAW Store'],
-  description: 'Premium PSA Card Aluminum Protector and Grid Store (格仔鋪) rental in Hong Kong',
+  description: 'Premium PSA Card Aluminum Protector for collectors in Hong Kong',
   url: 'https://appaw.store',
   logo: 'https://appaw.store/images/logo.png',
   image: 'https://appaw.store/images/og-image.png',
@@ -242,29 +225,6 @@ const jsonLd = {
           ],
         },
       },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Grid Store Rental (格仔鋪)',
-          alternateName: '香港格仔鋪租賃',
-          description: 'Display grid space rental service for small businesses and collectors in Hong Kong. Rent a retail display grid to showcase and sell your products without running a physical store. We handle customer transactions and provide prime retail location access.',
-          serviceType: 'Retail Space Rental',
-          provider: {
-            '@type': 'Organization',
-            name: 'Appaw Store',
-          },
-          areaServed: {
-            '@type': 'City',
-            name: 'Hong Kong',
-          },
-          offers: {
-            '@type': 'Offer',
-            availability: 'https://schema.org/InStock',
-            url: 'https://appaw.store/business/grid-store/',
-          },
-        },
-      },
     ],
   },
 };
@@ -296,22 +256,6 @@ const faqJsonLd = {
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'The PSA Card Aluminum Protector measures 8.7cm width x 14.2cm length x 0.98cm height and weighs 74g. It is made of aluminum and glass with >95% UV protection.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What is a Grid Store (格仔鋪) in Hong Kong?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'A Grid Store (格仔鋪) is a retail space rental service where you can rent individual display grid compartments to showcase and sell your products. Located in Hong Kong, it is perfect for small businesses, collectors, and sellers who want retail presence without operating a full store. Appaw Store handles customer transactions and provides access to foot traffic.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How does Grid Store rental work?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Grid Store rental is simple: (1) Choose your grid space size, (2) Set up your product display in your rented grid, (3) We handle all customer transactions and sales, (4) Collect your earnings regularly. You do not need to be present at the store.',
       },
     },
     {

@@ -1,6 +1,6 @@
 # Appaw Store
 
-A modern e-commerce web store for Appaw Store - featuring PSA card aluminum protectors, graded Pokémon cards collection, and Grid Store rental services.
+A modern e-commerce web store for Appaw Store - featuring PSA card aluminum protectors and graded Pokémon cards collection.
 
 ## Tech Stack
 
@@ -15,7 +15,7 @@ A modern e-commerce web store for Appaw Store - featuring PSA card aluminum prot
 
 - 🌐 **Bilingual Support** - Full English/Chinese (繁體中文) translations
 - 🛍️ **Products Section** - Graded cards collection and PSA protectors
-- 🏪 **Services** - Grid Store (格仔鋪) rental service
+
 - 🎨 **Modern UI** - Glassmorphism, 3D effects, smooth animations
 - 📱 **Fully Responsive** - Mobile-first design
 - 🔍 **SEO Optimized** - Structured data, sitemap, metadata
@@ -75,7 +75,6 @@ src/
 │   │   ├── graded-cards/   # Graded cards collection
 │   │   └── psa-protectors/ # PSA protector product page
 │   ├── business/           # Business services
-│   │   ├── grid-store/     # Grid Store rental
 │   │   └── psa-protector/  # Redirect to products
 │   ├── about/              # About page
 │   └── style-guide/        # Design system
@@ -95,7 +94,6 @@ src/
 - `/products/graded-cards` - Graded Pokémon cards collection
 - `/products/psa-protectors` - PSA Card Aluminum Protector details
 - `/business` - Business overview with services
-- `/business/grid-store` - Grid Store (格仔鋪) rental service
 - `/about` - About Us page
 - `/style-guide` - Design system and component library
 

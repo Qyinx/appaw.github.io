@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Shield, Sparkles, Sun, Magnet, ChevronRight, ChevronLeft, Grid3X3, Star, Square, Hand, Pause, Play, Check } from 'lucide-react';
+import { ArrowRight, Shield, Sparkles, Sun, Magnet, ChevronRight, ChevronLeft, Star, Square, Hand, Pause, Play, Check } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 import RetailPartners from '@/components/RetailPartners';
@@ -28,13 +28,11 @@ export default function HomePage() {
   const [statsVisible, setStatsVisible] = useState(false);
   const [craftVisible, setCraftVisible] = useState(false);
   const [showcaseVisible, setShowcaseVisible] = useState(false);
-  const [gridVisible, setGridVisible] = useState(false);
   const [ctaVisible, setCtaVisible] = useState(false);
 
   const statsRef = useRef<HTMLElement>(null);
   const craftRef = useRef<HTMLElement>(null);
   const showcaseRef = useRef<HTMLElement>(null);
-  const gridRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
 
   // Hero entrance
@@ -49,7 +47,6 @@ export default function HomePage() {
       [statsRef, setStatsVisible],
       [craftRef, setCraftVisible],
       [showcaseRef, setShowcaseVisible],
-      [gridRef, setGridVisible],
       [ctaRef, setCtaVisible],
     ];
     const observers = pairs.map(([ref, setter]) => {
@@ -562,142 +559,6 @@ export default function HomePage() {
            RETAIL PARTNERS
       ══════════════════════════════════════════════════════════ */}
       <RetailPartners />
-
-      {/* ══════════════════════════════════════════════════════════
-           GRID STORE — Premium Rental Space
-      ══════════════════════════════════════════════════════════ */}
-      <section ref={gridRef} className="py-28 bg-[#0d0d14] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_70%_50%,rgba(251,191,36,0.06),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
-
-        <div className="container-custom relative">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-            {/* Interactive Grid Display */}
-            <div
-              className="relative transition-all duration-1000"
-              style={{
-                opacity: gridVisible ? 1 : 0,
-                transform: gridVisible ? 'translateX(0)' : 'translateX(-32px)',
-              }}
-            >
-              <div className="absolute -inset-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-[2rem] blur-xl" />
-              <div className="relative bg-[#13131e] border border-amber-500/15 rounded-3xl p-8">
-
-                {/* Header */}
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center">
-                      <Grid3X3 className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-white font-bold text-sm">Grid Store</p>
-                      <p className="text-amber-400/60 text-xs tracking-[0.2em]">格仔鋪</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full">
-                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                    <span className="text-green-400 text-xs">Spaces Available</span>
-                  </div>
-                </div>
-
-                {/* Interactive Grid */}
-                <div className="grid grid-cols-4 gap-2.5 mb-8">
-                  {[
-                    { emoji: '🎴', status: 'rented' },
-                    { emoji: '🧸', status: 'rented' },
-                    { emoji: '🎮', status: 'available' },
-                    { emoji: '📦', status: 'rented' },
-                    { emoji: '⌚', status: 'available' },
-                    { emoji: '💎', status: 'rented' },
-                    { emoji: '👟', status: 'available' },
-                    { emoji: '📱', status: 'rented' },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className="aspect-square rounded-xl flex flex-col items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer group"
-                      style={{
-                        background: item.status === 'available'
-                          ? 'rgba(245,158,11,0.1)'
-                          : 'rgba(255,255,255,0.03)',
-                        border: item.status === 'available'
-                          ? '1px dashed rgba(245,158,11,0.4)'
-                          : '1px solid rgba(255,255,255,0.05)',
-                      }}
-                    >
-                      <span className={`text-xl transition-transform duration-200 ${item.status === 'available' ? 'group-hover:scale-125' : 'opacity-40'}`}>
-                        {item.emoji}
-                      </span>
-                      <span className={`text-[9px] uppercase tracking-wider ${item.status === 'available' ? 'text-amber-400' : 'text-white/20'}`}>
-                        {item.status === 'available' ? 'Open' : 'Taken'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/5">
-                  {[
-                    { value: '50+', label: 'Total Grids', color: 'text-amber-400' },
-                    { value: '12',  label: 'Available',   color: 'text-green-400' },
-                    { value: 'HKD', label: 'Affordable',  color: 'text-white' },
-                  ].map((s, i) => (
-                    <div key={i} className="text-center">
-                      <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
-                      <p className="text-white/30 text-xs mt-0.5 uppercase tracking-wider">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div
-              className="transition-all duration-1000"
-              style={{
-                opacity: gridVisible ? 1 : 0,
-                transform: gridVisible ? 'translateX(0)' : 'translateX(32px)',
-                transitionDelay: '200ms',
-              }}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-px bg-amber-500" />
-                <span className="text-amber-400 text-xs uppercase tracking-[0.25em] font-medium">Rental Space</span>
-              </div>
-
-              <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-6">
-                {t.business.consignment.title}
-              </h2>
-
-              <p className="text-[#9ca3af] leading-relaxed mb-10 text-base">
-                {t.business.consignment.description}
-              </p>
-
-              {/* Feature checklist */}
-              <div className="space-y-3 mb-10">
-                {t.business.consignment.features.slice(0, 4).map((feature, i) => (
-                  <div key={i} className="flex items-center gap-3 group">
-                    <div className="w-5 h-5 rounded-full bg-amber-500/15 flex items-center justify-center flex-shrink-0 group-hover:bg-amber-500/25 transition-colors">
-                      <Check className="w-3 h-3 text-amber-400" />
-                    </div>
-                    <span className="text-white/55 text-sm group-hover:text-white/80 transition-colors">{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              <a
-                href="https://wa.me/85292851189"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-amber-500 text-black font-semibold rounded-xl hover:bg-amber-400 transition-all duration-200 shadow-[0_8px_32px_rgba(245,158,11,0.3)] group"
-              >
-                {t.business.consignment.cta}
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ══════════════════════════════════════════════════════════
            FINAL CTA — Dramatic Stage

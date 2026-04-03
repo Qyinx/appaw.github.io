@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Our Services – PSA Card Protector & Grid Store Rental',
+  title: 'Our Services – PSA Card Aluminum Protector',
   description:
-    'Explore Appaw Store services: premium PSA Card Aluminum Protectors with UV-blocking glass & N52 magnetic closure, and Grid Store (格仔鋪) display space rental in Hong Kong for collectors and small businesses.',
+    'Explore Appaw Store services: premium PSA Card Aluminum Protectors with UV-blocking glass & N52 magnetic closure for collectors.',
   keywords: [
     // PSA Protector
     'PSA card protector',
@@ -11,34 +11,19 @@ export const metadata: Metadata = {
     'aluminum card case',
     'UV protection card case',
     'graded card protection',
-    // Grid Store
-    'grid store Hong Kong',
-    '格仔鋪',
-    '格仔鋪香港',
-    '格仔鋪租',
-    'grid store rental',
-    'consignment store Hong Kong',
-    'retail space rental HK',
-    'display grid rental',
-    'small business Hong Kong',
     // Intent
     'buy PSA card protector',
-    'rent grid store space',
-    'Hong Kong collectibles store',
     'card protection accessories',
     // Bilingual
     'PSA卡保護殼',
-    '格仔鋪租賃',
-    '香港格仔鋪',
-    '小型零售出租',
   ],
   alternates: {
     canonical: '/business/',
   },
   openGraph: {
-    title: 'Our Services – PSA Card Protector & Grid Store (格仔鋪) | Appaw Store',
+    title: 'Our Services – PSA Card Aluminum Protector | Appaw Store',
     description:
-      'Premium PSA card protectors and Grid Store display space rental in Hong Kong. Protect your graded cards or start selling with zero overhead.',
+      'Premium PSA card protectors for collectors. Protect your graded cards with industrial-grade aluminum and UV-blocking glass.',
     url: 'https://appaw.store/business/',
     type: 'website',
     images: [
@@ -46,15 +31,15 @@ export const metadata: Metadata = {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Appaw Store – PSA Card Protector & Grid Store Services',
+        alt: 'Appaw Store – PSA Card Protector',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Our Services – PSA Card Protector & Grid Store Rental',
+    title: 'Our Services – PSA Card Aluminum Protector',
     description:
-      'PSA aluminum protectors with UV-blocking glass. Grid Store rental in Hong Kong for collectors & small businesses.',
+      'PSA aluminum protectors with UV-blocking glass for collectors.',
     images: ['/images/og-image.png'],
   },
 };

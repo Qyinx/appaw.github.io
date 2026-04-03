@@ -443,6 +443,29 @@ h1, h2, h3, h4, h5, h6 {
   animation: gold-breath 3s ease-in-out infinite;
 }
 
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes auroraOrbit {
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  25%  { transform: translate(8%, -12%) scale(1.15); opacity: 0.45; }
+  50%  { transform: translate(-5%, 8%) scale(0.9); opacity: 0.25; }
+  75%  { transform: translate(12%, 5%) scale(1.1); opacity: 0.4; }
+  100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+}
+
+@keyframes colorPulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(1.08); }
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
 /* Tilt card wrapper — preserves 3D transforms */
 .preserve-3d {
   transform-style: preserve-3d;

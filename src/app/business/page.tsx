@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Shield, Store, ArrowRight, Check } from 'lucide-react';
+import { Shield, ArrowRight, Check } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
@@ -27,7 +27,6 @@ export default function BusinessPage() {
   const { t } = useLanguage();
   const [heroVisible, setHeroVisible] = useState(false);
   const protectorReveal = useReveal();
-  const gridReveal      = useReveal();
   const ctaReveal       = useReveal();
 
   useEffect(() => {
@@ -53,7 +52,7 @@ export default function BusinessPage() {
           >
             <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/40 rounded-full px-5 py-2 mb-10">
               <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] animate-pulse" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Two Ways to Work With Us</span>
+              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Our Product</span>
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-display leading-[1.08] tracking-tight text-white mb-6">
@@ -75,11 +74,6 @@ export default function BusinessPage() {
               <a href="#protector" className="group inline-flex items-center gap-3 border border-[#d4a843]/30 hover:border-[#d4a843] px-8 py-3.5 transition-all duration-300 hover:bg-[#d4a843]/5">
                 <Shield className="w-4 h-4 text-[#d4a843]" />
                 <span className="text-white text-sm font-medium">{t.business.cardProtector.title}</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#d4a843] group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="#grid-store" className="group inline-flex items-center gap-3 border border-[#d4a843]/30 hover:border-[#d4a843] px-8 py-3.5 transition-all duration-300 hover:bg-[#d4a843]/5">
-                <Store className="w-4 h-4 text-[#d4a843]" />
-                <span className="text-white text-sm font-medium">{t.business.consignment.title}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#d4a843] group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -186,126 +180,6 @@ export default function BusinessPage() {
                   ))}
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════
-           SERVICE 02 — Grid Store
-           Full-width dark immersive section
-      ══════════════════════════════════════════ */}
-      <section id="grid-store" ref={gridReveal.ref} className="py-28 bg-[#09090f] relative overflow-hidden scroll-mt-20">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_30%_50%,rgba(212,168,67,0.06),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
-
-        <div className="container-custom relative">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-
-            {/* Grid visual — left side */}
-            <div
-              className="order-2 lg:order-1 transition-all duration-1000"
-              style={{ opacity: gridReveal.visible ? 1 : 0, transform: gridReveal.visible ? 'translateX(0)' : 'translateX(-32px)', transitionDelay: '200ms' }}
-            >
-              <div className="relative p-6 border border-white/5 bg-white/[0.02] rounded-2xl">
-                {/* Grid header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-[#d4a843]" />
-                    <span className="text-white/40 text-xs uppercase tracking-[0.2em]">Grid Layout Preview</span>
-                  </div>
-                  <span className="text-[#d4a843]/60 text-xs">4 available</span>
-                </div>
-
-                <div className="grid grid-cols-4 gap-2">
-                  {[
-                    { emoji: '🎴', avail: false }, { emoji: '🧸', avail: true },
-                    { emoji: '🎮', avail: false }, { emoji: '💎', avail: true },
-                    { emoji: '⌚', avail: false }, { emoji: '📦', avail: true },
-                    { emoji: '👟', avail: false }, { emoji: '📱', avail: true },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className={`aspect-square rounded-xl flex items-center justify-center text-2xl transition-all duration-500 ${
-                        item.avail
-                          ? 'bg-[#d4a843]/8 border border-dashed border-[#d4a843]/30 hover:border-[#d4a843]/70 hover:bg-[#d4a843]/15'
-                          : 'bg-white/[0.03] border border-white/5'
-                      }`}
-                      style={{
-                        opacity: gridReveal.visible ? 1 : 0,
-                        transform: gridReveal.visible ? 'scale(1)' : 'scale(0.85)',
-                        transitionDelay: `${300 + i * 60}ms`,
-                      }}
-                    >
-                      <span className={item.avail ? 'opacity-70' : 'opacity-20'}>{item.emoji}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Legend */}
-                <div className="flex items-center gap-6 mt-6 pt-4 border-t border-white/5">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-white/[0.03] border border-white/5" />
-                    <span className="text-white/30 text-[10px] uppercase tracking-wider">Rented</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-[#d4a843]/8 border border-dashed border-[#d4a843]/30" />
-                    <span className="text-white/30 text-[10px] uppercase tracking-wider">Available</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Text side — right */}
-            <div
-              className="order-1 lg:order-2 transition-all duration-1000"
-              style={{ opacity: gridReveal.visible ? 1 : 0, transform: gridReveal.visible ? 'translateX(0)' : 'translateX(32px)' }}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-px bg-[#d4a843]" />
-                <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Service 02</span>
-              </div>
-
-              <div className="inline-flex items-center gap-2 border border-[#d4a843]/30 rounded-full px-4 py-1.5 mb-6">
-                <Store className="w-3.5 h-3.5 text-[#d4a843]" />
-                <span className="text-[#d4a843] text-xs uppercase tracking-[0.2em] font-medium">Rental Space</span>
-              </div>
-
-              <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-6">
-                {t.business.consignment.title}
-              </h2>
-              <p className="text-[#9ca3af] text-base leading-relaxed mb-10">
-                {t.business.consignment.description}
-              </p>
-
-              {/* Features */}
-              <div className="space-y-4 mb-12">
-                {t.business.consignment.features.map((feature, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-3 transition-all duration-500"
-                    style={{
-                      opacity: gridReveal.visible ? 1 : 0,
-                      transform: gridReveal.visible ? 'translateX(0)' : 'translateX(16px)',
-                      transitionDelay: `${300 + i * 100}ms`,
-                    }}
-                  >
-                    <div className="mt-0.5 w-5 h-5 rounded-full bg-[#d4a843]/10 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-[#d4a843]" />
-                    </div>
-                    <span className="text-white/60 text-sm leading-relaxed">{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              <Link
-                href="/business/grid-store"
-                className="group inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.35)]"
-              >
-                <span>Explore Grid Store</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
             </div>
           </div>
         </div>
