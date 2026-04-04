@@ -24,7 +24,7 @@ export interface TradingCard {
   company: GradingCompany;
   grade: number;
   isBlackLabel?: boolean;
-  image: string;
+  image?: string;
   imageBack?: string;
   set?: string;
   number?: string;

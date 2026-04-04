@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import { promises as fs } from 'fs';
+import path from 'path';
+import type { TradingCard } from '@/types/trading-card';
 
 export const metadata: Metadata = {
   title: 'Trading Card Showcase – Buy Graded Cards | Appaw Store',
@@ -56,10 +59,58 @@ const breadcrumbJsonLd = {
   ],
 };
 
-export default function CardTradingLayout({ children }: { children: React.ReactNode }) {
+function buildProductJsonLd(cards: TradingCard[]) {
+  const BASE = 'https://appaw.store';
+
+  const items = cards.map((card, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Product',
+      name: `${card.name} — ${card.company} ${Number.isInteger(card.grade) ? card.grade : card.grade.toFixed(1)}${card.isBlackLabel ? ' Black Label' : ''}`,
+      description: card.description ?? `${card.company} ${card.grade} graded ${card.name} from ${card.set ?? 'unknown set'}`,
+      image: card.image
+        ? `${BASE}${card.image}`
+        : card.bundleCards?.[0]?.image
+          ? `${BASE}${card.bundleCards[0].image}`
+          : undefined,
+      brand: { '@type': 'Brand', name: card.company },
+      category: 'Graded Trading Cards',
+      offers: {
+        '@type': 'Offer',
+        price: card.price,
+        priceCurrency: card.currency,
+        availability: 'https://schema.org/InStock',
+        url: `${BASE}/business/card-trading/`,
+        seller: { '@type': 'Organization', name: 'Appaw Store' },
+      },
+      ...(card.certNumber ? { gtin: card.certNumber } : {}),
+    },
+  }));
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Graded Trading Cards for Sale',
+    numberOfItems: items.length,
+    itemListElement: items,
+  };
+}
+
+async function getCards(): Promise<TradingCard[]> {
+  const filePath = path.join(process.cwd(), 'public', 'data', 'trade-card.json');
+  const raw = await fs.readFile(filePath, 'utf-8');
+  return JSON.parse(raw) as TradingCard[];
+}
+
+export default async function CardTradingLayout({ children }: { children: React.ReactNode }) {
+  const cards = await getCards();
+  const productJsonLd = buildProductJsonLd(cards);
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       {children}
     </>
   );

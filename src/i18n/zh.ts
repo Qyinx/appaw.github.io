@@ -259,6 +259,13 @@ export const zh: Translations = {
       description: '我們可以代尋未上架的卡牌，告訴我們您的需求。',
       button: '透過 WhatsApp 聯繫',
     },
+    detail: {
+      backToMarketplace: '返回卡牌市場',
+      shareLink: '分享連結',
+      copyLink: '複製連結',
+      linkCopied: '已複製連結！',
+      viewPage: '查看完整頁面',
+    },
   },
 
   // Style Guide Page

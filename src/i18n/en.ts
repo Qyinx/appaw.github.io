@@ -257,6 +257,13 @@ export const en = {
       description: 'We can source cards not listed here. Tell us what you need.',
       button: 'WhatsApp Us',
     },
+    detail: {
+      backToMarketplace: 'Back to Marketplace',
+      shareLink: 'Share Link',
+      copyLink: 'Copy Link',
+      linkCopied: 'Link Copied!',
+      viewPage: 'View full page',
+    },
   },
 
   // Style Guide Page
