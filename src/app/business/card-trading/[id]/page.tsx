@@ -20,6 +20,30 @@ async function getCards(): Promise<TradingCard[]> {
   return JSON.parse(raw) as TradingCard[];
 }
 
+/**
+ * Build a rich, factual SEO/GEO description from structured card data.
+ * Internal notes are intentionally excluded — they are for the seller only.
+ */
+function buildSeoDescription(card: TradingCard): string {
+  const grade = Number.isInteger(card.grade) ? String(card.grade) : card.grade.toFixed(1);
+  const bl = card.isBlackLabel ? ' Black Label' : '';
+  const gradeName = card.grade >= 10 ? 'Gem Mint' : card.grade >= 9 ? 'Mint' : card.grade >= 7 ? 'Near Mint' : '';
+  const parts: string[] = [
+    `${card.company} ${grade}${bl}${gradeName ? ` (${gradeName})` : ''} graded ${card.name}`,
+  ];
+  if (card.set) parts.push(`from the ${card.set} set`);
+  if (card.number) parts.push(`card #${card.number}`);
+  if (card.language && card.language !== 'English') parts.push(`${card.language} edition`);
+  if (card.year) parts.push(`(${card.year})`);
+  parts.push(
+    card.sold
+      ? 'This card has been sold. Contact us about similar cards.'
+      : `Available at ${card.currency} ${card.price.toLocaleString()}. Contact via WhatsApp.`,
+  );
+  parts.push('Appaw Store, Hong Kong.');
+  return parts.join(', ');
+}
+
 export async function generateStaticParams() {
   const cards = await getCards();
   return cards.map(card => ({ id: card.id }));
@@ -36,8 +60,7 @@ export async function generateMetadata(
   const grade = Number.isInteger(card.grade) ? String(card.grade) : card.grade.toFixed(1);
   const bl = card.isBlackLabel ? ' Black Label' : '';
   const title = `${card.name} — ${card.company} ${grade}${bl} | Appaw Store`;
-  const description = card.description
-    || `${card.company} ${grade}${bl} graded ${card.name}${card.set ? ` from ${card.set}` : ''}. Buy now from Appaw Store.`;
+  const description = buildSeoDescription(card);
   const image = card.image || card.bundleCards?.[0]?.image || '/images/og-image.png';
 
   return {
@@ -76,26 +99,42 @@ export default async function CardDetailPage(
     );
   }
 
-  // Product JSON-LD
   const grade = Number.isInteger(card.grade) ? String(card.grade) : card.grade.toFixed(1);
   const bl = card.isBlackLabel ? ' Black Label' : '';
+  const seoDesc = buildSeoDescription(card);
+  const cardUrl = `https://appaw.store/business/card-trading/${id}/`;
+
+  // Product JSON-LD — additionalProperty surfaces card facts to AI entity parsers
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: `${card.name} — ${card.company} ${grade}${bl}`,
-    description: card.description || `${card.company} ${grade}${bl} graded ${card.name}`,
+    description: seoDesc,
     image: `https://appaw.store${card.image || card.bundleCards?.[0]?.image || ''}`,
     brand: { '@type': 'Brand', name: card.company },
     category: 'Graded Trading Cards',
+    sku: card.id,
+    itemCondition: 'https://schema.org/UsedCondition',
+    additionalProperty: [
+      ...(card.set    ? [{ '@type': 'PropertyValue', name: 'Set',             value: card.set }]                : []),
+      ...(card.number ? [{ '@type': 'PropertyValue', name: 'Card Number',     value: card.number }]             : []),
+      ...(card.language ? [{ '@type': 'PropertyValue', name: 'Language',      value: card.language }]           : []),
+      { '@type': 'PropertyValue', name: 'Year',            value: String(card.year) },
+      { '@type': 'PropertyValue', name: 'Grading Company', value: card.company },
+      { '@type': 'PropertyValue', name: 'Grade',           value: grade },
+      ...(card.isBlackLabel ? [{ '@type': 'PropertyValue', name: 'Designation', value: 'Black Label' }]         : []),
+      // Cert number kept masked — intentional anti-clone protection
+      ...(card.certNumber ? [{ '@type': 'PropertyValue', name: 'Cert Number',  value: card.certNumber }]        : []),
+    ],
     offers: {
       '@type': 'Offer',
       price: card.price,
       priceCurrency: card.currency,
-      availability: 'https://schema.org/InStock',
-      url: `https://appaw.store/business/card-trading/${id}/`,
+      availability: card.sold ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/UsedCondition',
+      url: cardUrl,
       seller: { '@type': 'Organization', name: 'Appaw Store' },
     },
-    ...(card.certNumber ? { gtin: card.certNumber } : {}),
   };
 
   // Breadcrumb JSON-LD
@@ -103,10 +142,68 @@ export default async function CardDetailPage(
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://appaw.store/' },
-      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://appaw.store/business/' },
+      { '@type': 'ListItem', position: 1, name: 'Home',         item: 'https://appaw.store/' },
+      { '@type': 'ListItem', position: 2, name: 'Services',     item: 'https://appaw.store/business/' },
       { '@type': 'ListItem', position: 3, name: 'Card Trading', item: 'https://appaw.store/business/card-trading/' },
-      { '@type': 'ListItem', position: 4, name: card.name, item: `https://appaw.store/business/card-trading/${id}/` },
+      { '@type': 'ListItem', position: 4, name: card.name,      item: cardUrl },
+    ],
+  };
+
+  // FAQPage JSON-LD — primary GEO signal; AI engines (Perplexity, ChatGPT, Google AI Overview)
+  // cite FAQ schema verbatim when answering user questions about specific cards.
+  const gradeLabel = card.grade >= 10 ? 'Gem Mint' : card.grade >= 9 ? 'Mint' : card.grade >= 7 ? 'Near Mint' : `Grade ${grade}`;
+  const gradeExplanations: Record<string, string> = {
+    PSA: `PSA ${grade} ${gradeLabel} means the card has been independently verified by Professional Sports Authenticator to be in ${gradeLabel.toLowerCase()} condition — no significant surface wear, centering issues, or print defects.`,
+    BGS: `BGS ${grade} ${gradeLabel} is a Beckett Grading Services composite score across four sub-grades: centering, corners, edges, and surface — all assessed at the ${gradeLabel.toLowerCase()} level.`,
+    CGC: `CGC ${grade} ${gradeLabel} means the card has been authenticated and encapsulated by Certified Guaranty Company at the ${gradeLabel.toLowerCase()} tier.`,
+  };
+
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `Is the ${card.name} (${card.company} ${grade}) available for purchase?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: card.sold
+            ? `This ${card.name} (${card.company} ${grade}) has been sold. Contact Appaw Store via WhatsApp to inquire about similar cards or upcoming inventory.`
+            : `Yes. The ${card.name} graded ${card.company} ${grade} is currently in stock at ${card.currency} ${card.price.toLocaleString()}. Contact Appaw Store via WhatsApp to purchase.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `What does ${card.company} ${grade} mean?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: gradeExplanations[card.company] ?? `${card.company} ${grade} is a professional grade issued to this trading card.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I buy a graded card from Appaw Store?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Contact Appaw Store directly via WhatsApp. All transactions are handled personally by our team in Hong Kong to ensure a secure and transparent purchase experience.',
+        },
+      },
+      ...(card.set ? [{
+        '@type': 'Question',
+        name: `What set is this ${card.name} from?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `This card is from the ${card.set}${card.number ? `, card number ${card.number}` : ''}${card.year ? `, released in ${card.year}` : ''}.`,
+        },
+      }] : []),
+      ...(card.language ? [{
+        '@type': 'Question',
+        name: `What language is this ${card.name} card?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `This is a ${card.language} language edition of the ${card.name}${card.set ? ` from ${card.set}` : ''}.`,
+        },
+      }] : []),
     ],
   };
 
@@ -114,6 +211,7 @@ export default async function CardDetailPage(
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <CardDetailClient card={card} />
     </>
   );

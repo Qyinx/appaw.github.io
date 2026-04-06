@@ -215,6 +215,11 @@ export const en = {
       price: 'Price',
       inquire: 'Inquire via WhatsApp',
       viewDetails: 'View Details',
+      sold: 'Sold',
+      soldOut: 'This item has been sold',
+      soldDescription: 'This card is no longer available. Contact us to ask about similar cards or upcoming inventory.',
+      askSimilar: 'Ask About Similar Cards',
+      similarItems: 'Browse Similar Items',
     },
     modal: {
       details: 'Card Details',

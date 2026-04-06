@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useRef, useState, useMemo, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Hash, Globe, Tag, ExternalLink, ZoomIn, Layers, Share2, Check } from 'lucide-react';
+import { ArrowLeft, Hash, Globe, Tag, ExternalLink, ZoomIn, Layers, Share2, Check, ShieldOff, Clock } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
@@ -28,13 +28,40 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
   const [showBack, setShowBack] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Active card data — either the main card or a selected bundle card
+  // Read ?card=N on mount — links from the modal pre-select a specific bundle card
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const idx = parseInt(params.get('card') ?? '0', 10);
+    if (!isNaN(idx) && idx > 0) setSelectedBundleIdx(idx);
+  }, []);
+
+  // Canonical ordered array: main card is always idx 0, sub-cards follow.
+  // All three consumers (activeCard, thumbnail strip, Cards in This Set) must use THIS array.
+  const allInBundle = useMemo(() => {
+    if (!isBundle || !card.bundleCards) return [];
+    return [
+      {
+        name: card.name,
+        image: card.image ?? '',
+        imageBack: card.imageBack,
+        company: card.company,
+        grade: card.grade,
+        isBlackLabel: card.isBlackLabel,
+        set: card.set,
+        number: card.number,
+        certNumber: card.certNumber,
+      },
+      ...card.bundleCards,
+    ];
+  }, [isBundle, card]);
+
+  // Active card data — resolved from allInBundle by selectedBundleIdx
   const activeCard = useMemo(() => {
-    if (isBundle && card.bundleCards) {
-      const bc = card.bundleCards[selectedBundleIdx];
+    if (isBundle && allInBundle.length > 0) {
+      const bc = allInBundle[selectedBundleIdx] ?? allInBundle[0];
       return {
         name: bc.name,
-        image: bc.image,
+        image: bc.image || '',
         imageBack: bc.imageBack,
         company: bc.company,
         grade: bc.grade,
@@ -43,13 +70,13 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
     }
     return {
       name: card.name,
-      image: card.image || (card.bundleCards?.[0]?.image ?? ''),
+      image: card.image || '',
       imageBack: card.imageBack,
       company: card.company,
       grade: card.grade,
       isBlackLabel: card.isBlackLabel,
     };
-  }, [isBundle, card, selectedBundleIdx]);
+  }, [isBundle, allInBundle, selectedBundleIdx, card]);
 
   const gradeColor = getGradeColor(activeCard.grade, activeCard.isBlackLabel);
   const companyStyle = getCompanyStyle(activeCard.company);
@@ -83,18 +110,21 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
 
   /* ── Share ── */
   const handleCopyLink = useCallback(() => {
-    const url = window.location.href;
+    const base = window.location.origin + window.location.pathname;
+    const url = (isBundle && selectedBundleIdx > 0)
+      ? `${base}?card=${selectedBundleIdx}`
+      : base;
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
-  }, []);
+  }, [isBundle, selectedBundleIdx]);
 
   /* ── Info rows ── */
   const infoRows: { icon: React.ReactNode; label: string; value: string }[] = [
     { icon: <Tag className="w-3.5 h-3.5" />, label: mp.card.company, value: isBundle ? card.company : activeCard.company },
     { icon: <Hash className="w-3.5 h-3.5" />, label: mp.card.grade, value: isBundle && card.bundleCards
-      ? `${Math.min(...card.bundleCards.map(bc => bc.grade))}–${Math.max(...card.bundleCards.map(bc => bc.grade))}`
+      ? `${Math.min(card.grade, ...card.bundleCards.map(bc => bc.grade))}–${Math.max(card.grade, ...card.bundleCards.map(bc => bc.grade))}`
       : formatGrade(activeCard.grade, activeCard.isBlackLabel) },
     { icon: <Hash className="w-3.5 h-3.5" />, label: mp.card.year, value: String(card.year) },
     ...(card.set ? [{ icon: <ExternalLink className="w-3.5 h-3.5" />, label: mp.card.set, value: card.set }] : []),
@@ -121,6 +151,14 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
             {/* Card name breadcrumb — desktop only */}
             <span className="hidden md:block text-white/25 text-xs truncate max-w-[200px]">{card.name}</span>
 
+            {/* Sold indicator in top bar */}
+            {card.sold && (
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-[10px] font-bold uppercase tracking-wider">
+                <ShieldOff className="w-3 h-3" />
+                {mp.card.sold}
+              </span>
+            )}
+
             <button
               onClick={handleCopyLink}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
@@ -145,9 +183,9 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
             <div className="relative">
               {/* Card container with padding for badges */}
               <div className="relative bg-gradient-to-b from-white/[0.03] to-transparent rounded-2xl p-4 md:p-6 overflow-hidden">
-                {/* Glow */}
+                {/* Glow — muted for sold cards */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-64 h-64 rounded-full bg-[#d4a843]/5 blur-3xl" />
+                  <div className={`w-64 h-64 rounded-full blur-3xl ${card.sold ? 'bg-white/[0.02]' : 'bg-[#d4a843]/5'}`} />
                 </div>
 
                 {/* Badges — inside padded container */}
@@ -168,16 +206,31 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                       <span className="text-[10px] font-extrabold leading-none">{mp.bundle.fullSet}</span>
                     </div>
                   )}
+                  {/* Sold badge inline with other badges */}
+                  {card.sold && (
+                    <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-red-500/90 text-white">
+                      <span className="text-[10px] font-extrabold uppercase leading-none">{mp.card.sold}</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Card image with 3D flip + magnifier */}
                 <div
                   ref={imgContainerRef}
-                  className="relative w-full aspect-[3/4] max-w-[520px] mx-auto md:cursor-crosshair"
+                  className={`relative w-full aspect-[3/4] max-w-[520px] mx-auto ${card.sold ? 'cursor-default' : 'md:cursor-crosshair'}`}
                   style={{ perspective: '400px' }}
-                  onMouseMove={handleMouseMove}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseMove={card.sold ? undefined : handleMouseMove}
+                  onMouseLeave={card.sold ? undefined : handleMouseLeave}
                 >
+                  {/* Sold diagonal ribbon */}
+                  {card.sold && (
+                    <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-lg">
+                      <div className="absolute top-[40px] -right-[60px] w-[260px] bg-red-500/90 text-white text-xs font-black uppercase tracking-[0.25em] text-center py-2 rotate-45 shadow-[0_2px_12px_rgba(239,68,68,0.5)]">
+                        {mp.card.sold}
+                      </div>
+                      <div className="absolute inset-0 bg-black/20" />
+                    </div>
+                  )}
                   <div
                     className="relative w-full h-full"
                     style={{
@@ -237,11 +290,11 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 </div>
               </div>
 
-              {/* Bundle thumbnail strip — outside the card panel */}
-              {isBundle && card.bundleCards && (
+              {/* Bundle thumbnail strip — uses allInBundle so idx matches activeCard */}
+              {isBundle && allInBundle.length > 0 && (
                 <div className="mt-4 px-4 md:px-6">
                   <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                    {card.bundleCards.map((bc, idx) => {
+                    {allInBundle.map((bc, idx) => {
                       const active = idx === selectedBundleIdx;
                       return (
                         <button
@@ -253,13 +306,13 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                               : 'border-white/10 hover:border-white/25 opacity-60 hover:opacity-100'
                           }`}
                         >
-                          <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-1" sizes="64px" />
+                          {bc.image && <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-1" sizes="64px" />}
                           {active && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#d4a843]" />}
                         </button>
                       );
                     })}
                   </div>
-                  <p className="text-center text-white/25 text-[10px] mt-1.5">{selectedBundleIdx + 1} / {card.bundleCards.length}</p>
+                  <p className="text-center text-white/25 text-[10px] mt-1.5">{selectedBundleIdx + 1} / {allInBundle.length}</p>
                 </div>
               )}
             </div>
@@ -278,16 +331,23 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 <div className="flex flex-wrap items-center gap-2 mb-5">
                   <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#d4a843]/10 border border-[#d4a843]/25">
                     <Layers className="w-3.5 h-3.5 text-[#d4a843]" />
-                    <span className="text-[#d4a843] text-xs font-bold">{mp.bundle.fullSet} · {card.bundleCards.length} {mp.bundle.cards}</span>
+                    <span className="text-[#d4a843] text-xs font-bold">{mp.bundle.fullSet} · {allInBundle.length} {mp.bundle.cards}</span>
                   </div>
                   <span className="text-white/25 text-[10px] italic">{mp.bundle.setOnly}</span>
                 </div>
               )}
 
               {/* Price */}
-              <div className="bg-[#d4a843]/8 border border-[#d4a843]/20 rounded-xl p-4 mb-5">
+              <div className={`rounded-xl p-4 mb-5 border ${card.sold ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-[#d4a843]/8 border-[#d4a843]/20'}`}>
                 <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-1">{isBundle ? mp.bundle.setPrice : mp.card.price}</p>
-                <p className="text-[#d4a843] text-2xl md:text-3xl font-bold font-display">{formatPrice(card.price, card.currency)}</p>
+                <div className="flex items-center gap-3">
+                  <p className={`text-2xl md:text-3xl font-bold font-display ${card.sold ? 'text-white/25 line-through' : 'text-[#d4a843]'}`}>{formatPrice(card.price, card.currency)}</p>
+                  {card.sold && (
+                    <span className="px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-[10px] font-bold uppercase tracking-wider">
+                      {mp.card.sold}
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Info table */}
@@ -301,12 +361,36 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 ))}
               </div>
 
-              {/* Bundle card list */}
-              {isBundle && card.bundleCards && (
+              {/* Created / Updated dates — same row style as info table */}
+              {(card.createdAt || card.updatedAt) && (
+                <div className="mb-5">
+                  {card.createdAt && (
+                    <div className="flex items-center gap-3 py-2.5 border-b border-white/[0.04]">
+                      <span className="text-white/20"><Clock className="w-3.5 h-3.5" /></span>
+                      <span className="text-white/40 text-xs flex-shrink-0 w-20">Listed</span>
+                      <time dateTime={card.createdAt} className="text-white text-sm font-medium">
+                        {new Date(card.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </time>
+                    </div>
+                  )}
+                  {card.updatedAt && card.updatedAt !== card.createdAt && (
+                    <div className="flex items-center gap-3 py-2.5 border-b border-white/[0.04]">
+                      <span className="text-white/20"><Clock className="w-3.5 h-3.5" /></span>
+                      <span className="text-white/40 text-xs flex-shrink-0 w-20">Updated</span>
+                      <time dateTime={card.updatedAt} className="text-white text-sm font-medium">
+                        {new Date(card.updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </time>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Bundle card list — uses allInBundle so idx matches thumbnail strip and activeCard */}
+              {isBundle && allInBundle.length > 0 && (
                 <div className="mb-5">
                   <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.bundle.cardsInSet}</p>
                   <div className="rounded-xl border border-white/[0.06] overflow-hidden">
-                    {card.bundleCards.map((bc, idx) => {
+                    {allInBundle.map((bc, idx) => {
                       const bcGrade = getGradeColor(bc.grade, bc.isBlackLabel);
                       const bcCompany = getCompanyStyle(bc.company);
                       const isActive = idx === selectedBundleIdx;
@@ -320,9 +404,16 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                         >
                           <span className={`text-[10px] font-mono w-4 text-center flex-shrink-0 ${isActive ? 'text-[#d4a843]' : 'text-white/20'}`}>{idx + 1}</span>
                           <div className={`relative w-7 h-9 flex-shrink-0 rounded overflow-hidden transition-all ${isActive ? 'ring-1 ring-[#d4a843]/40' : 'ring-1 ring-white/[0.06]'}`}>
-                            <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-0.5" sizes="28px" />
+                            {bc.image && <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-0.5" sizes="28px" />}
                           </div>
-                          <span className={`text-xs font-medium flex-1 truncate transition-colors ${isActive ? 'text-white' : 'text-white/50'}`}>{bc.name}</span>
+                          <div className="flex flex-col flex-1 min-w-0">
+                            <span className={`text-xs font-medium truncate transition-colors ${isActive ? 'text-white' : 'text-white/50'}`}>{bc.name}</span>
+                            {(bc.set || bc.number) && (
+                              <span className="text-[9px] text-white/20 truncate">
+                                {[bc.set, bc.number].filter(Boolean).join(' · ')}
+                              </span>
+                            )}
+                          </div>
                           <div className="flex items-center gap-1 flex-shrink-0">
                             <div className="h-[18px] px-1.5 flex items-center justify-center rounded text-[7px] font-bold leading-none"
                               style={{ background: bcCompany.background, color: bcCompany.color }}>{bc.company}</div>
@@ -339,27 +430,53 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 </div>
               )}
 
-              {/* Description */}
-              {card.description && (
-                <div className="mb-6">
-                  <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.modal.description}</p>
-                  <p className="text-white/60 text-sm leading-relaxed">{card.description}</p>
-                </div>
-              )}
+              {/* CTA */}
+              {card.sold ? (
+                <div className="space-y-3">
+                  {/* Sold banner */}
+                  <div className="rounded-xl bg-red-500/[0.08] border border-red-500/20 p-4">
+                    <div className="flex items-center gap-2.5 mb-2">
+                      <ShieldOff className="w-4 h-4 text-red-400" />
+                      <span className="text-red-400 text-sm font-bold">{mp.card.soldOut}</span>
+                    </div>
+                    <p className="text-white/40 text-xs leading-relaxed">{mp.card.soldDescription}</p>
+                  </div>
 
-              {/* WhatsApp CTA */}
-              <a
-                href={`https://wa.me/85292851189?text=${encodeURIComponent(
-                  isBundle
-                    ? `Hi, I'm interested in the full set: ${card.name} (${card.bundleCards?.length} cards, ${card.company}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
-                    : `Hi, I'm interested in: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
-                )}`}
-                target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,168,67,0.3)]"
-              >
-                <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
-                <span>{mp.card.inquire}</span>
-              </a>
+                  {/* Ask about similar via WhatsApp */}
+                  <a
+                    href={`https://wa.me/85292851189?text=${encodeURIComponent(
+                      `Hi, I see the ${card.name} (${card.company}) is sold. Do you have similar cards available?`
+                    )}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] hover:border-white/[0.15] text-white/70 hover:text-white text-sm font-medium transition-all duration-300"
+                  >
+                    <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-[#25D366]" />
+                    <span>{mp.card.askSimilar}</span>
+                  </a>
+
+                  {/* Browse marketplace */}
+                  <Link
+                    href="/business/card-trading/"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-white/40 hover:text-[#d4a843] text-xs font-medium transition-all"
+                  >
+                    <ArrowLeft className="w-3 h-3" />
+                    <span>{mp.card.similarItems}</span>
+                  </Link>
+                </div>
+              ) : (
+                <a
+                  href={`https://wa.me/85292851189?text=${encodeURIComponent(
+                    isBundle
+                      ? `Hi, I'm interested in the full set: ${card.name} (${card.bundleCards?.length} cards, ${card.company}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
+                      : `Hi, I'm interested in: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
+                  )}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,168,67,0.3)]"
+                >
+                  <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
+                  <span>{mp.card.inquire}</span>
+                </a>
+              )}
             </div>
           </div>
         </div>

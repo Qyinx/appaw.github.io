@@ -15,6 +15,9 @@ export interface BundleCard {
   grade: number;
   isBlackLabel?: boolean;
   certNumber?: string;
+  set?: string;
+  number?: string;
+  year?: number;
 }
 
 export interface TradingCard {
@@ -32,6 +35,9 @@ export interface TradingCard {
   price: number;
   currency: string;
   language?: string;
-  description?: string;
+  notes?: string;          // internal seller notes — NOT shown publicly, NOT used for SEO
+  sold?: boolean;
+  createdAt?: string;   // ISO 8601 date string, e.g. "2026-04-06T12:00:00.000Z"
+  updatedAt?: string;   // ISO 8601 date string, updated on every save
   bundleCards?: BundleCard[];
 }

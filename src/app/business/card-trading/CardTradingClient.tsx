@@ -32,7 +32,11 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
   const [showBack, setShowBack] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const cardUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/business/card-trading/${card.id}/`;
+  const cardUrl = useMemo(() => {
+    const base = `${typeof window !== 'undefined' ? window.location.origin : ''}/business/card-trading/${card.id}/`;
+    return selectedBundleIdx > 0 ? `${base}?card=${selectedBundleIdx}` : base;
+  }, [card.id, selectedBundleIdx]);
+
   const handleCopyLink = useCallback(() => {
     navigator.clipboard.writeText(cardUrl).then(() => {
       setCopied(true);
@@ -40,28 +44,23 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
     });
   }, [cardUrl]);
 
-  // Active card data — either the main card or a selected bundle card
+  // Single source of truth: main card is idx 0, sub-cards follow.
+  const allInBundle = useMemo(() => {
+    if (!isBundle || !card.bundleCards) return [];
+    return [
+      { name: card.name, image: card.image ?? '', imageBack: card.imageBack, company: card.company, grade: card.grade, isBlackLabel: card.isBlackLabel, set: card.set, number: card.number, year: card.year, certNumber: card.certNumber },
+      ...card.bundleCards,
+    ];
+  }, [isBundle, card]);
+
+  // Active card resolved from allInBundle — all fields update when selection changes
   const activeCard = useMemo(() => {
-    if (isBundle && card.bundleCards) {
-      const bc = card.bundleCards[selectedBundleIdx];
-      return {
-        name: bc.name,
-        image: bc.image,
-        imageBack: bc.imageBack,
-        company: bc.company,
-        grade: bc.grade,
-        isBlackLabel: bc.isBlackLabel,
-      };
+    if (isBundle && allInBundle.length > 0) {
+      const bc = allInBundle[selectedBundleIdx] ?? allInBundle[0];
+      return { name: bc.name, image: bc.image || '', imageBack: bc.imageBack, company: bc.company, grade: bc.grade, isBlackLabel: bc.isBlackLabel, set: bc.set, number: bc.number, year: bc.year ?? card.year, certNumber: bc.certNumber };
     }
-    return {
-      name: card.name,
-      image: card.image || (card.bundleCards?.[0]?.image ?? ''),
-      imageBack: card.imageBack,
-      company: card.company,
-      grade: card.grade,
-      isBlackLabel: card.isBlackLabel,
-    };
-  }, [isBundle, card, selectedBundleIdx]);
+    return { name: card.name, image: card.image || '', imageBack: card.imageBack, company: card.company, grade: card.grade, isBlackLabel: card.isBlackLabel, set: card.set, number: card.number, year: card.year, certNumber: card.certNumber };
+  }, [isBundle, allInBundle, selectedBundleIdx, card]);
 
   const gradeColor = getGradeColor(activeCard.grade, activeCard.isBlackLabel);
   const companyStyle = getCompanyStyle(activeCard.company);
@@ -109,15 +108,13 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
   }, [onClose]);
 
   const infoRows: { icon: React.ReactNode; label: string; value: string }[] = [
-    { icon: <Tag className="w-3.5 h-3.5" />, label: labels.card.company, value: isBundle ? card.company : activeCard.company },
-    { icon: <Hash className="w-3.5 h-3.5" />, label: labels.card.grade, value: isBundle && card.bundleCards
-      ? `${Math.min(...card.bundleCards.map(bc => bc.grade))}–${Math.max(...card.bundleCards.map(bc => bc.grade))}`
-      : formatGrade(activeCard.grade, activeCard.isBlackLabel) },
-    { icon: <Hash className="w-3.5 h-3.5" />, label: labels.card.year, value: String(card.year) },
-    ...(card.set ? [{ icon: <ExternalLink className="w-3.5 h-3.5" />, label: labels.card.set, value: card.set }] : []),
-    ...(card.number ? [{ icon: <Hash className="w-3.5 h-3.5" />, label: labels.card.number, value: card.number }] : []),
+    { icon: <Tag className="w-3.5 h-3.5" />, label: labels.card.company, value: activeCard.company },
+    { icon: <Hash className="w-3.5 h-3.5" />, label: labels.card.grade, value: formatGrade(activeCard.grade, activeCard.isBlackLabel) },
+    { icon: <Hash className="w-3.5 h-3.5" />, label: labels.card.year, value: String(activeCard.year) },
+    ...(activeCard.set ? [{ icon: <ExternalLink className="w-3.5 h-3.5" />, label: labels.card.set, value: activeCard.set }] : []),
+    ...(activeCard.number ? [{ icon: <Hash className="w-3.5 h-3.5" />, label: labels.card.number, value: activeCard.number }] : []),
     ...(card.language ? [{ icon: <Globe className="w-3.5 h-3.5" />, label: labels.card.language, value: card.language }] : []),
-    ...(card.certNumber ? [{ icon: <Hash className="w-3.5 h-3.5" />, label: labels.card.cert, value: card.certNumber }] : []),
+    ...(activeCard.certNumber ? [{ icon: <Hash className="w-3.5 h-3.5" />, label: labels.card.cert, value: activeCard.certNumber }] : []),
   ];
 
   return (
@@ -142,8 +139,8 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
             }`}>
             {copied ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
           </button>
-          {/* Open full page */}
-          <Link href={`/business/card-trading/${card.id}/`}
+          {/* Open full page — carries ?card=N so the detail page pre-selects the right card */}
+          <Link href={`/business/card-trading/${card.id}/${selectedBundleIdx > 0 ? `?card=${selectedBundleIdx}` : ''}`}
             title={labels.detail?.viewPage ?? 'View full page'}
             className="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white/50 hover:text-white transition-all">
             <ExternalLink className="w-4 h-4" />
@@ -249,48 +246,16 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
               )}
             </div>
 
-            {/* Bundle thumbnail strip */}
-            {isBundle && card.bundleCards && (
-              <div className="mt-4 w-full max-w-[480px]">
-                <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                  {card.bundleCards.map((bc, idx) => {
-                    const active = idx === selectedBundleIdx;
-                    return (
-                      <button
-                        key={idx}
-                        onClick={() => { setSelectedBundleIdx(idx); setShowBack(false); }}
-                        className={`relative flex-shrink-0 w-16 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                          active
-                            ? 'border-[#d4a843] shadow-[0_0_12px_rgba(212,168,67,0.4)]'
-                            : 'border-white/10 hover:border-white/25 opacity-60 hover:opacity-100'
-                        }`}
-                      >
-                        <Image
-                          src={getImagePath(bc.image)}
-                          alt={bc.name}
-                          fill
-                          className="object-contain p-1"
-                          sizes="64px"
-                        />
-                        {active && (
-                          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#d4a843]" />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-                <p className="text-center text-white/25 text-[10px] mt-1.5">{selectedBundleIdx + 1} / {card.bundleCards.length}</p>
-              </div>
-            )}
+
           </div>
 
           {/* Right — Info */}
           <div className="p-6 md:p-8 flex flex-col">
             <p className="text-[#d4a843] text-[10px] uppercase tracking-[0.2em] font-medium mb-2">{labels.modal.details}</p>
-            <h2 className="text-2xl font-bold text-white mb-1 font-display">{card.name}</h2>
+            <h2 className="text-2xl font-bold text-white mb-1 font-display">{activeCard.name}</h2>
             <p className="text-white/30 text-sm mb-4">
-              {card.set && <>{card.set}</>}
-              {card.number && <> · {card.number}</>}
+              {activeCard.set && <>{activeCard.set}</>}
+              {activeCard.number && <> · {activeCard.number}</>}
             </p>
 
             {/* Full Set indicator */}
@@ -298,7 +263,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
               <div className="flex items-center gap-2 mb-5">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#d4a843]/10 border border-[#d4a843]/25">
                   <Layers className="w-3.5 h-3.5 text-[#d4a843]" />
-                  <span className="text-[#d4a843] text-xs font-bold">{labels.bundle.fullSet} · {card.bundleCards.length} {labels.bundle.cards}</span>
+                  <span className="text-[#d4a843] text-xs font-bold">{labels.bundle.fullSet} · {allInBundle.length} {labels.bundle.cards}</span>
                 </div>
                 <span className="text-white/25 text-[10px] italic">{labels.bundle.setOnly}</span>
               </div>
@@ -321,12 +286,12 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
               ))}
             </div>
 
-            {/* Bundle card list */}
-            {isBundle && card.bundleCards && (
+            {/* Bundle card list — uses allInBundle so idx matches thumbnail strip and activeCard */}
+            {isBundle && allInBundle.length > 0 && (
               <div className="mb-5">
-                <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-2">{labels.bundle.cardsInSet}</p>
-                <div className="rounded-xl border border-white/[0.06] overflow-hidden">
-                  {card.bundleCards.map((bc, idx) => {
+                <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-3">{labels.bundle.cardsInSet}</p>
+                <div className="flex flex-col gap-1.5">
+                  {allInBundle.map((bc, idx) => {
                     const bcGrade = getGradeColor(bc.grade, bc.isBlackLabel);
                     const bcCompany = getCompanyStyle(bc.company);
                     const isActive = idx === selectedBundleIdx;
@@ -334,43 +299,61 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                       <button
                         key={idx}
                         onClick={() => { setSelectedBundleIdx(idx); setShowBack(false); }}
-                        className={`w-full flex items-center gap-2.5 px-3 py-2.5 transition-all text-left border-b border-white/[0.04] last:border-b-0 ${
+                        className={`relative w-full flex items-center gap-3 pl-4 pr-3 py-2.5 rounded-xl transition-all duration-200 text-left overflow-hidden ${
                           isActive
-                            ? 'bg-[#d4a843]/[0.06]'
-                            : 'bg-transparent hover:bg-white/[0.03]'
+                            ? 'bg-[#d4a843]/[0.07] shadow-[inset_0_0_0_1px_rgba(212,168,67,0.14)]'
+                            : 'bg-white/[0.025] hover:bg-white/[0.05]'
                         }`}
                       >
-                        {/* Row number */}
-                        <span className={`text-[10px] font-mono w-4 text-center flex-shrink-0 ${
-                          isActive ? 'text-[#d4a843]' : 'text-white/20'
-                        }`}>{idx + 1}</span>
+                        {/* Left accent bar */}
+                        <div className={`absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-full transition-all duration-200 ${isActive ? 'bg-[#d4a843]' : 'bg-transparent'}`} />
 
                         {/* Thumbnail */}
-                        <div className={`relative w-7 h-9 flex-shrink-0 rounded overflow-hidden transition-all ${
-                          isActive ? 'ring-1 ring-[#d4a843]/40' : 'ring-1 ring-white/[0.06]'
+                        <div className={`relative flex-shrink-0 w-10 h-[52px] rounded-lg overflow-hidden transition-all duration-200 ${
+                          isActive
+                            ? 'ring-1 ring-[#d4a843]/50 shadow-[0_0_14px_rgba(212,168,67,0.18)]'
+                            : 'ring-1 ring-white/[0.07]'
                         }`}>
-                          <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-0.5" sizes="28px" />
+                          {bc.image && <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-0.5" sizes="40px" />}
                         </div>
 
-                        {/* Name */}
-                        <span className={`text-xs font-medium flex-1 truncate transition-colors ${
-                          isActive ? 'text-white' : 'text-white/50'
-                        }`}>{bc.name}</span>
+                        {/* Name + meta */}
+                        <div className="flex flex-col flex-1 min-w-0 gap-0.5">
+                          <span className={`text-[11px] font-semibold truncate leading-tight transition-colors ${
+                            isActive ? 'text-white' : 'text-white/55'
+                          }`}>{bc.name}</span>
+                          {(bc.set || bc.number) && (
+                            <span className="text-[9px] text-white/25 truncate leading-tight">
+                              {[bc.set, bc.number].filter(Boolean).join(' · ')}
+                            </span>
+                          )}
+                        </div>
 
-                        {/* Badges */}
-                        <div className="flex items-center gap-1 flex-shrink-0">
+                        {/* Stacked badges */}
+                        <div className="flex flex-col items-end gap-[5px] flex-shrink-0">
                           <div
-                            className="h-[18px] px-1.5 flex items-center justify-center rounded text-[7px] font-bold leading-none"
+                            className="h-[15px] px-1.5 flex items-center justify-center rounded text-[7px] font-bold leading-none"
                             style={{ background: bcCompany.background, color: bcCompany.color }}
                           >{bc.company}</div>
-                          <div className={`h-[18px] px-1.5 flex items-center justify-center gap-0.5 rounded text-[8px] font-black leading-none ${bcGrade.bg} ${bcGrade.text} border ${bcGrade.border}`}>
+                          <div className={`h-[15px] px-1.5 flex items-center justify-center gap-0.5 rounded text-[8px] font-black leading-none ${bcGrade.bg} ${bcGrade.text} border ${bcGrade.border}`}>
                             {bc.isBlackLabel && <span className="text-[5px] font-bold text-[#d4a843]">BL</span>}
                             {bc.grade}
                           </div>
                         </div>
 
-                        {/* Active indicator */}
-                        {isActive && <div className="w-1 h-4 rounded-full bg-[#d4a843] flex-shrink-0" />}
+                        {/* Open this specific card on the full detail page */}
+                        <Link
+                          href={`/business/card-trading/${card.id}/${idx > 0 ? `?card=${idx}` : ''}`}
+                          onClick={e => e.stopPropagation()}
+                          title={labels.detail?.viewPage ?? 'View full page'}
+                          className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md transition-all duration-200 ${
+                            isActive
+                              ? 'bg-[#d4a843]/20 text-[#d4a843] hover:bg-[#d4a843]/30'
+                              : 'bg-white/[0.04] text-white/20 hover:bg-white/[0.08] hover:text-white/50'
+                          }`}
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                        </Link>
                       </button>
                     );
                   })}
@@ -378,27 +361,30 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
               </div>
             )}
 
-            {/* Description */}
-            {card.description && (
-              <div className={isBundle ? 'mb-5' : 'mb-6 flex-1'}>
-                <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-2">{labels.modal.description}</p>
-                <p className="text-white/60 text-sm leading-relaxed">{card.description}</p>
-              </div>
-            )}
-
             {/* Inquire CTA */}
-            <a
-              href={`https://wa.me/85292851189?text=${encodeURIComponent(
-                isBundle
-                  ? `Hi, I'm interested in the full set: ${card.name} (${card.bundleCards?.length} cards, ${card.company}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
-                  : `Hi, I'm interested in: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
-              )}`}
-              target="_blank" rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,168,67,0.3)] mt-auto"
-            >
-              <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
-              <span>{labels.card.inquire}</span>
-            </a>
+            {card.sold ? (
+              <div className="mt-auto space-y-3">
+                <div className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-red-500/15 border border-red-500/25 text-red-400 text-sm font-bold uppercase tracking-[0.1em]">
+                  <span>{labels.card.soldOut}</span>
+                </div>
+                <Link href="/business/card-trading/" className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] text-white/60 hover:text-white text-xs font-medium transition-all">
+                  <span>{labels.card.similarItems}</span>
+                </Link>
+              </div>
+            ) : (
+              <a
+                href={`https://wa.me/85292851189?text=${encodeURIComponent(
+                  isBundle
+                    ? `Hi, I'm interested in the full set: ${card.name} (${card.bundleCards?.length} cards, ${card.company}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
+                    : `Hi, I'm interested in: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
+                )}`}
+                target="_blank" rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,168,67,0.3)] mt-auto"
+              >
+                <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
+                <span>{labels.card.inquire}</span>
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -488,6 +474,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       cards = cards.filter(c =>
         c.name.toLowerCase().includes(q) ||
         (c.set && c.set.toLowerCase().includes(q)) ||
+        (c.number && c.number.toLowerCase().includes(q)) ||
         c.year.toString().includes(q) ||
         (c.bundleCards && c.bundleCards.some((bc: { name: string }) => bc.name.toLowerCase().includes(q)))
       );
@@ -510,6 +497,62 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
 
     return cards;
   }, [allCards, search, companyFilter, gradeFilter, sortBy]);
+
+  // Flatten bundles — each card in a bundle gets its own grid tile.
+  // Sub-card tiles open the parent card's modal so the buyer sees the full set.
+  const displayItems = useMemo(() => {
+    type DisplayItem = {
+      key: string;
+      tileImage: string;
+      tileName: string;
+      tileCompany: GradingCompany;
+      tileGrade: number;
+      tileIsBlackLabel?: boolean;
+      tileSet?: string;
+      tileNumber?: string;
+      tileYear: number;
+      parentCard: TradingCard;
+      isSubCard: boolean;
+      bundleTotal: number;
+    };
+    const items: DisplayItem[] = [];
+    filtered.forEach(card => {
+      const bundleTotal = card.bundleCards?.length ? card.bundleCards.length + 1 : 1;
+      // Main card tile
+      items.push({
+        key: card.id,
+        tileImage: card.image || card.bundleCards?.[0]?.image || '',
+        tileName: card.name,
+        tileCompany: card.company,
+        tileGrade: card.grade,
+        tileIsBlackLabel: card.isBlackLabel,
+        tileSet: card.set,
+        tileNumber: card.number,
+        tileYear: card.year,
+        parentCard: card,
+        isSubCard: false,
+        bundleTotal,
+      });
+      // Sub-card tiles
+      card.bundleCards?.forEach((bc, idx) => {
+        items.push({
+          key: `${card.id}-bc-${idx}`,
+          tileImage: bc.image,
+          tileName: bc.name,
+          tileCompany: bc.company,
+          tileGrade: bc.grade,
+          tileIsBlackLabel: bc.isBlackLabel,
+          tileSet: bc.set,
+          tileNumber: bc.number,
+          tileYear: bc.year ?? card.year,
+          parentCard: card,
+          isSubCard: true,
+          bundleTotal,
+        });
+      });
+    });
+    return items;
+  }, [filtered]);
 
   const hasActiveFilters = !!search || !!companyFilter || !!gradeFilter;
   const resetFilters = useCallback(() => { setSearch(''); setCompanyFilter(null); setGradeFilter(null); }, []);
@@ -689,7 +732,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       <div className="container-custom pt-8 pb-2 flex items-center justify-between">
         {!loading && !error && (
           <p className="text-white/30 text-sm">
-            <span className="text-[#d4a843] font-bold">{filtered.length}</span> {mp.resultsCount}
+            <span className="text-[#d4a843] font-bold">{displayItems.length}</span> {mp.resultsCount}
           </p>
         )}
         {hasActiveFilters && (
@@ -730,34 +773,37 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
         )}
 
         {/* Cards */}
-        {!loading && !error && filtered.length > 0 ? (
+        {!loading && !error && displayItems.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
-            {filtered.map((card, i) => {
-              const gradeColor = getGradeColor(card.grade, card.isBlackLabel);
-              const companyStyle = getCompanyStyle(card.company);
-              const isBundle = !!(card.bundleCards && card.bundleCards.length > 0);
+            {displayItems.map((item, i) => {
+              const { tileImage, tileName, tileCompany, tileGrade, tileIsBlackLabel, tileSet, tileNumber, tileYear, parentCard, isSubCard, bundleTotal } = item;
+              const gradeColor = getGradeColor(tileGrade, tileIsBlackLabel);
+              const companyStyle = getCompanyStyle(tileCompany);
+              const isBundle = bundleTotal > 1;
 
               return (
                 <div
-                  key={card.id}
+                  key={item.key}
                   className="group relative bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden hover:border-[#d4a843]/30 transition-all duration-400 cursor-pointer hover:shadow-[0_8px_32px_rgba(212,168,67,0.10)] hover:bg-white/[0.05]"
                   style={{ animation: `fadeUp 0.4s ease-out ${i * 40}ms both` }}
-                  onClick={() => setSelectedCard(card)}
+                  onClick={() => setSelectedCard(parentCard)}
                 >
                   {/* Image area */}
                   <div className="relative aspect-[3/4] bg-gradient-to-b from-white/[0.03] to-transparent overflow-hidden">
-                    <Image
-                      src={getImagePath(isBundle && !card.image ? card.bundleCards![0].image : card.image!)}
-                      alt={card.name}
-                      fill
-                      className="object-contain p-3 group-hover:scale-105 transition-transform duration-700"
-                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
-                    />
+                    {tileImage && (
+                      <Image
+                        src={getImagePath(tileImage)}
+                        alt={tileName}
+                        fill
+                        className="object-contain p-3 group-hover:scale-105 transition-transform duration-700"
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
+                      />
+                    )}
 
                     {/* Grade badge — top right */}
                     <div className={`absolute top-2 right-2 h-6 min-w-[36px] flex items-center justify-center gap-0.5 px-2 rounded-md text-[10px] ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} border ${gradeColor.border}`}>
-                      {card.isBlackLabel && <span className="font-bold text-[#d4a843] leading-none text-[7px]">BL</span>}
-                      <span className="font-black leading-none">{card.grade}</span>
+                      {tileIsBlackLabel && <span className="font-bold text-[#d4a843] leading-none text-[7px]">BL</span>}
+                      <span className="font-black leading-none">{tileGrade}</span>
                     </div>
 
                     {/* Company badge — top left */}
@@ -765,18 +811,33 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                       className="absolute top-2 left-2 h-6 min-w-[36px] flex items-center justify-center px-2 rounded-md"
                       style={{ background: companyStyle.background, color: companyStyle.color, boxShadow: companyStyle.shadow }}
                     >
-                      <span className="text-[10px] font-bold leading-none">{card.company}</span>
+                      <span className="text-[10px] font-bold leading-none">{tileCompany}</span>
                     </div>
 
-                    {/* Set badge — bottom left */}
+                    {/* Bundle badge — bottom left */}
                     {isBundle && (
                       <div className="absolute bottom-2 left-2 right-2 flex items-center gap-1.5">
                         <div className="h-6 flex items-center gap-1 px-2 rounded-md bg-[#d4a843] text-[#09090f] shadow-[0_2px_8px_rgba(212,168,67,0.4)]">
                           <Layers className="w-3 h-3" />
                           <span className="text-[9px] font-extrabold uppercase tracking-wider leading-none">{mp.bundle.fullSet}</span>
                         </div>
+                        {/* Sub-card: show position; main card: show total count */}
                         <div className="h-6 flex items-center px-1.5 rounded-md bg-black/60 backdrop-blur-sm border border-white/10">
-                          <span className="text-[9px] font-bold text-white leading-none">{card.bundleCards!.length} {mp.bundle.cards}</span>
+                          <span className="text-[9px] font-bold text-white leading-none">
+                            {isSubCard
+                              ? `${(parentCard.bundleCards?.findIndex(bc => bc.name === tileName) ?? -1) + 2}/${bundleTotal}`
+                              : `1/${bundleTotal}`
+                            }
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Sold overlay */}
+                    {parentCard.sold && (
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
+                        <div className="px-4 py-1.5 rounded-md bg-red-500/90 backdrop-blur-sm border border-red-400/30">
+                          <span className="text-white text-xs font-bold uppercase tracking-wider">{mp.card.sold}</span>
                         </div>
                       </div>
                     )}
@@ -793,24 +854,30 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                   {/* Info */}
                   <div className="p-3 pt-2.5">
                     <h3 className="text-white font-semibold text-xs leading-snug mb-0.5 truncate group-hover:text-[#d4a843] transition-colors">
-                      {card.name}
+                      {tileName}
                     </h3>
                     <div className="flex items-center gap-1.5 text-white/25 text-[10px] mb-2">
-                      <span>{card.year}</span>
-                      {card.set && (
+                      <span>{tileYear}</span>
+                      {tileSet && (
                         <>
                           <span className="w-0.5 h-0.5 rounded-full bg-white/15" />
-                          <span className="truncate">{card.set}</span>
+                          <span className="truncate">{tileSet}</span>
                         </>
                       )}
                     </div>
 
-                    {/* Price row */}
+                    {/* Bottom row */}
                     <div className="flex items-center justify-between pt-2 border-t border-white/[0.04]">
-                      <span className="text-[#d4a843] text-sm font-bold">{formatPrice(card.price, card.currency)}</span>
-                      <div className="w-6 h-6 rounded-full bg-[#25D366]/10 flex items-center justify-center">
-                        <FontAwesomeIcon icon={faWhatsapp} className="w-3 h-3 text-[#25D366]" />
-                      </div>
+                      {parentCard.sold ? (
+                        <span className="text-[9px] font-bold text-red-400/80 uppercase tracking-wider">{mp.card.sold}</span>
+                      ) : (
+                        <span className="text-white/25 text-[10px]">{mp.card.inquire} →</span>
+                      )}
+                      {!parentCard.sold && (
+                        <div className="w-6 h-6 rounded-full bg-[#25D366]/10 flex items-center justify-center">
+                          <FontAwesomeIcon icon={faWhatsapp} className="w-3 h-3 text-[#25D366]" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

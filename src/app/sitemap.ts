@@ -12,10 +12,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const filePath = path.join(process.cwd(), 'public', 'data', 'trade-card.json');
     const raw = await fs.readFile(filePath, 'utf-8');
-    const cards: { id: string }[] = JSON.parse(raw);
+    const cards: { id: string; updatedAt?: string; createdAt?: string }[] = JSON.parse(raw);
     cardEntries = cards.map(card => ({
       url: `${baseUrl}/business/card-trading/${card.id}/`,
-      lastModified: new Date(),
+      lastModified: card.updatedAt
+        ? new Date(card.updatedAt)
+        : card.createdAt
+          ? new Date(card.createdAt)
+          : new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.7,
     }));

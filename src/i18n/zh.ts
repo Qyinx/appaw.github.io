@@ -217,6 +217,11 @@ export const zh: Translations = {
       price: '價格',
       inquire: '透過 WhatsApp 查詢',
       viewDetails: '查看詳情',
+      sold: '已售出',
+      soldOut: '此商品已售出',
+      soldDescription: '此卡片已不再提供。請聯繫我們查詢類似卡片或即將上架的庫存。',
+      askSimilar: '查詢類似卡片',
+      similarItems: '瀏覽其他商品',
     },
     modal: {
       details: '卡牌詳情',

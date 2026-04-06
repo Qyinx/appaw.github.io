@@ -68,7 +68,7 @@ function buildProductJsonLd(cards: TradingCard[]) {
     item: {
       '@type': 'Product',
       name: `${card.name} — ${card.company} ${Number.isInteger(card.grade) ? card.grade : card.grade.toFixed(1)}${card.isBlackLabel ? ' Black Label' : ''}`,
-      description: card.description ?? `${card.company} ${card.grade} graded ${card.name} from ${card.set ?? 'unknown set'}`,
+      description: `${card.company} ${Number.isInteger(card.grade) ? card.grade : card.grade.toFixed(1)} graded ${card.name}${card.set ? ` from ${card.set}` : ''}${card.language ? `, ${card.language} edition` : ''}`,
       image: card.image
         ? `${BASE}${card.image}`
         : card.bundleCards?.[0]?.image
@@ -80,8 +80,8 @@ function buildProductJsonLd(cards: TradingCard[]) {
         '@type': 'Offer',
         price: card.price,
         priceCurrency: card.currency,
-        availability: 'https://schema.org/InStock',
-        url: `${BASE}/business/card-trading/`,
+        availability: card.sold ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
+        url: `${BASE}/business/card-trading/${card.id}/`,
         seller: { '@type': 'Organization', name: 'Appaw Store' },
       },
       ...(card.certNumber ? { gtin: card.certNumber } : {}),
