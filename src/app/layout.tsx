@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { Header, Footer } from '@/components/layout';
 import { CookieConsent } from '@/components/CookieConsent';
+import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -114,6 +115,24 @@ export const metadata: Metadata = {
   },
 };
 
+// WebSite schema — enables Sitelinks Searchbox and GEO site-level identity
+const webSiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Appaw Store',
+  url: 'https://appaw.store',
+  description: 'Premium PSA Card Aluminum Protector and TCG trading & brokerage. Based in Hong Kong, shipping worldwide.',
+  inLanguage: ['en', 'zh-HK'],
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://appaw.store/business/card-trading/?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
 // Structured Data for SEO & AEO
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -134,12 +153,20 @@ const jsonLd = {
     '@type': 'GeoCoordinates',
     addressCountry: 'HK',
   },
+  telephone: '+852-9285-1189',
+  email: 'support@appaw.store',
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '10:00',
+    closes: '22:00',
+  },
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: '+852-9285-1189',
     contactType: 'customer service',
     availableLanguage: ['English', 'Chinese', 'Cantonese'],
-    areaServed: ['HK', 'US', 'GB', 'CN', 'TW', 'SG'],
+    areaServed: ['HK', 'US', 'GB', 'CN', 'TW', 'SG', 'JP', 'AU'],
   },
   sameAs: [
     'https://www.instagram.com/appaw.store/',
@@ -147,149 +174,43 @@ const jsonLd = {
     'https://appawstore.etsy.com/',
     'https://www.carousell.com.hk/u/appaw.store/',
   ],
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Products and Services',
-    itemListElement: [
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Product',
-          name: 'PSA Card Aluminum Protector',
-          description: 'Industrial-grade aluminum protector with >95% UV-blocking glass and N52 magnetic closure for PSA graded cards. Fits standard 35PT PSA slabs including Pokemon, sports cards, and MTG. Features precision aluminum frame, anti-fade glass lens, and magnetic seal without screws.',
-          image: 'https://appaw.store/images-optimized/describe/sell%205.png',
-          category: 'Card Protection',
-          material: ['Aluminum', 'Glass'],
-          brand: {
-            '@type': 'Brand',
-            name: 'Appaw Store',
-          },
-          offers: {
-            '@type': 'Offer',
-            price: '17.99',
-            priceCurrency: 'USD',
-            priceValidUntil: '2026-12-31',
-            availability: 'https://schema.org/InStock',
-            url: 'https://appaw.store/products/psa-protectors/',
-            seller: {
-              '@type': 'Organization',
-              name: 'Appaw Store',
-            },
-            shippingDetails: {
-              '@type': 'OfferShippingDetails',
-              shippingRate: {
-                '@type': 'MonetaryAmount',
-                value: '0',
-                currency: 'USD',
-              },
-              shippingDestination: {
-                '@type': 'DefinedRegion',
-                addressCountry: 'US',
-              },
-              deliveryTime: {
-                '@type': 'ShippingDeliveryTime',
-                handlingTime: {
-                  '@type': 'QuantitativeValue',
-                  minValue: 1,
-                  maxValue: 7,
-                  unitText: 'Day',
-                },
-                transitTime: {
-                  '@type': 'QuantitativeValue',
-                  minValue: 3,
-                  maxValue: 7,
-                  unitText: 'Day',
-                },
-              },
-            },
-            hasMerchantReturnPolicy: {
-              '@type': 'MerchantReturnPolicy',
-              applicableCountry: 'HK',
-              returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
-              merchantReturnDays: 15,
-              returnMethod: 'https://schema.org/ReturnByMail',
-              returnFees: 'https://schema.org/FreeReturn',
-            },
-          },
-          additionalProperty: [
-            {
-              '@type': 'PropertyValue',
-              name: 'UV Protection',
-              value: '>95%',
-            },
-            {
-              '@type': 'PropertyValue',
-              name: 'Dimensions',
-              value: '8.7cm x 14.2cm x 0.98cm',
-            },
-            {
-              '@type': 'PropertyValue',
-              name: 'Weight',
-              value: '74g',
-            },
-            {
-              '@type': 'PropertyValue',
-              name: 'Magnet Type',
-              value: 'N52',
-            },
-          ],
-        },
-      },
-    ],
-  },
+  // Full product & service schemas live on their own pages as single sources of truth.
+  // Root Store references them by URL only to avoid duplication.
+  makesOffer: [
+    { '@type': 'Offer', url: 'https://appaw.store/products/psa-protectors/', name: 'PSA Card Aluminum Protector' },
+    { '@type': 'Offer', url: 'https://appaw.store/business/card-trading/', name: 'TCG Trading & Brokerage' },
+  ],
 };
 
-// FAQ Schema for Answer Engine Optimization (AEO)
+// FAQ Schema — brand-home level only.
+// Product Q&As → /products/psa-protectors/  |  Trading Q&As → /business/card-trading/
+// Brand/company Q&As → /about/  |  Service Q&As → /business/
 const faqJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'What is a PSA Card Aluminum Protector?',
+      name: 'What does Appaw Store offer?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The PSA Card Aluminum Protector is a premium protective case for PSA graded card slabs. It features an industrial-grade aluminum frame, UV-blocking glass with >95% protection, and N52 magnetic closure. It protects your valuable graded cards from drops, scratches, UV damage, and dust while providing a gallery-worthy display.',
+        text: 'Appaw Store offers two products and services: (1) PSA Card Aluminum Protectors — premium industrial-grade aluminum cases with >95% UV-blocking glass and N52 magnetic closure for standard PSA graded slabs, shipping worldwide; and (2) TCG Trading & Brokerage — a trusted buy, sell, and consignment service for PSA and CGC graded trading cards conducted face-to-face in Hong Kong.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What PSA cards fit in the aluminum protector?',
+      name: 'Is Appaw Store a trusted seller?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The protector fits standard 35PT PSA graded slabs, including Pokemon cards, sports cards (basketball, baseball, football), and Magic: The Gathering cards. It does NOT fit thick memorabilia or jersey cards, BGS slabs, or CGC slabs.',
+        text: 'Yes. Appaw Store is a Hong Kong-based brand founded in 2024 with a 4.9/5 average product rating across 127+ verified reviews. We operate a verified Etsy shop (appawstore.etsy.com) and Carousell store (carousell.com.hk/u/appaw.store), serve customers across 100+ countries, and are contactable via Instagram @appaw.store and WhatsApp +852-9285-1189.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What are the dimensions and weight of the PSA protector?',
+      name: 'What are Appaw Store\'s operating hours?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The PSA Card Aluminum Protector measures 8.7cm width x 14.2cm length x 0.98cm height and weighs 74g. It is made of aluminum and glass with >95% UV protection.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Where can I buy PSA Card Aluminum Protectors?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'You can purchase PSA Card Aluminum Protectors from Appaw Store through our Etsy shop (appawstore.etsy.com) or Carousell Hong Kong (carousell.com.hk/u/appaw.store). You can also contact us via WhatsApp at +852-9285-1189.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does the aluminum protector have UV protection?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes, the PSA Card Aluminum Protector features UV-blocking glass with greater than 95% UV protection. This helps preserve the vibrant colors of your chrome, holographic, and vintage cards by blocking harmful ultraviolet light that causes fading.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How do I contact Appaw Store?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Contact Appaw Store via WhatsApp at +852-9285-1189, Instagram @appaw.store, or through our Etsy and Carousell shops. We serve customers in Hong Kong, USA, UK, and internationally.',
+        text: 'Appaw Store is available 10:00–22:00 HKT, 7 days a week. Contact us via WhatsApp at +852-9285-1189 or email support@appaw.store for product enquiries, order support, or card trading consultations.',
       },
     },
   ],
@@ -326,6 +247,10 @@ export default function RootLayout({
         {/* Structured Data for Search Engines & AI */}
         <script
           type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <script
@@ -336,10 +261,11 @@ export default function RootLayout({
         <meta name="language" content="English, Chinese" />
         <meta name="target-audience" content="Collectors, Small Business Owners, Hong Kong Residents" />
       </head>
-      <body className="min-h-screen flex flex-col">
+      <body>
+        <ScrollProgressBar />
         <LanguageProvider>
           <Header />
-          <main className="flex-grow pt-16">
+          <main className="pt-16">
             {children}
           </main>
           <Footer />

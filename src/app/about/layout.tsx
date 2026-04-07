@@ -60,6 +60,7 @@ const organizationJsonLd = {
   url: 'https://appaw.store',
   logo: 'https://appaw.store/images/logo.png',
   description: 'Premium PSA Card Aluminum Protector manufacturer and TCG trading & brokerage service in Hong Kong.',
+  foundingDate: '2024',
   foundingLocation: { '@type': 'Place', name: 'Hong Kong' },
   areaServed: ['HK', 'US', 'GB', 'CN', 'TW', 'SG', 'JP', 'AU'],
   contactPoint: {
@@ -76,11 +77,51 @@ const organizationJsonLd = {
   ],
 };
 
+const aboutFaqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is Appaw Store?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Appaw Store is a Hong Kong-based brand founded in 2024. We design and sell premium PSA Card Aluminum Protectors — industrial-grade aluminum cases with UV-blocking glass and N52 magnetic closure for PSA graded cards. We also operate a trusted TCG trading and brokerage service for buying and selling PSA and CGC graded trading cards.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Where is Appaw Store based?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Appaw Store is based in Hong Kong. Our PSA Card Aluminum Protectors ship worldwide. Our card trading and brokerage service is exclusively face-to-face within Hong Kong.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What languages does Appaw Store support?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Appaw Store supports English and Traditional Chinese (Cantonese). Our team speaks English, Mandarin, and Cantonese.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How do I contact Appaw Store?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Contact Appaw Store via WhatsApp at +852-9285-1189, email at support@appaw.store, or through Instagram @appaw.store, Etsy (appawstore.etsy.com), or Carousell (carousell.com.hk/u/appaw.store).',
+      },
+    },
+  ],
+};
+
 export default function AboutLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutFaqJsonLd) }} />
       {children}
     </>
   );

@@ -12,13 +12,13 @@ export const en = {
   // Home Page
   home: {
     hero: {
-      badge: 'Premium Card Protection',
+      badge: 'Premium Card Services',
       title: 'Showcase Your Passion. Protect Your Investment.',
-      subtitle: 'Your prized cards deserve better than a cheap plastic sleeve.',
-      description: 'Upgrade to the PSA Card Aluminum Protector—where industrial-grade protection meets gallery-worthy display.',
+      subtitle: 'Premium card protection & trusted TCG trading — all in one place.',
+      description: 'From our signature aluminum protectors to our professional card brokerage, we help collectors protect and grow their collections.',
       cta: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
-      learnMore: 'Learn More',
+      learnMore: 'Browse Cards',
       trustIndicators: {
         uvProtection: 'UV Protection',
         n52Magnets: 'N52 Magnets',
@@ -43,9 +43,34 @@ export const en = {
     },
     cta: {
       title: 'Ready to Upgrade Your Display?',
-      description: 'Add to cart now and give your collection the armor it deserves!',
+      description: 'Whether you want to protect your collection or trade graded cards, we\'ve got you covered.',
       button: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
+    },
+    services: {
+      badge: 'Our Services',
+      title: 'Two Ways We Serve Collectors',
+      subtitle: 'From premium protection to trusted trading, we\'ve got your collection covered.',
+      protector: {
+        subtitle: 'Industrial-grade aluminum protection meets gallery-worthy display for your prized PSA graded cards.',
+        cta: 'View Product',
+      },
+      trading: {
+        subtitle: 'A trusted marketplace for buying, selling, and brokering premium graded trading cards.',
+        cta: 'Start Trading',
+      },
+    },
+    tradingPreview: {
+      badge: 'Trading Desk',
+      title: 'Browse Our Card Inventory',
+      description: 'Explore our curated selection of professionally graded trading cards, from Pokémon to sports cards and MTG.',
+      features: [
+        'PSA & CGC graded cards available',
+        'Competitive pricing with full transparency',
+        'Consignment & brokerage services',
+        'Secure transactions with buyer protection',
+      ],
+      cta: 'Browse Marketplace',
     },
   },
 
@@ -126,7 +151,6 @@ export const en = {
         'Buy & sell PSA/CGC graded Pokémon, sports, and MTG cards',
         'Consignment sales — we sell on your behalf for competitive commission',
         'Professional price appraisal based on real-time market data',
-        'Authentication guidance for PSA & CGC submissions',
         'Secure transactions with full buyer/seller protection',
       ],
       cta: 'Start Trading',
@@ -186,6 +210,103 @@ export const en = {
     },
     ctaTitle: 'Ready to Protect Your Collection?',
     ctaSubtitle: 'Give your prized cards the premium protection they deserve',
+  },
+
+  // Card Trading Guide & FAQ
+  tradingGuide: {
+    badge: 'How It Works',
+    title: 'Buying & Selling Guide',
+    subtitle: 'Everything you need to know before your first trade.',
+    buyTab: 'Buying',
+    sellTab: 'Selling',
+    buy: {
+      title: 'How to Buy a Card',
+      rules: [
+        {
+          heading: 'Hong Kong Face-to-Face Only',
+          body: 'All transactions are conducted in person. We do not offer postal or courier delivery — Hong Kong meetups only.',
+        },
+        {
+          heading: 'Payer & Recipient Must Be the Same Person',
+          body: 'The person paying must be the same person collecting the card. Third-party pickups are not accepted.',
+        },
+        {
+          heading: 'Cash or FPS Only',
+          body: 'We accept Cash or FPS (Faster Payment System) at the time of handover. No credit card, bank transfer, or instalment plans.',
+        },
+      ],
+      faq: {
+        title: 'Frequently Asked Questions',
+        items: [
+          {
+            q: 'Where can we meet for the transaction?',
+            a: 'We arrange meetup locations across Hong Kong. WhatsApp us first and we will confirm a convenient spot and time.',
+          },
+          {
+            q: 'What payment methods do you accept?',
+            a: 'Cash or FPS (Faster Payment System) only, paid at the time of in-person handover. We do not accept credit cards, bank transfers, or instalment payments.',
+          },
+          {
+            q: 'Can someone else collect the card on my behalf?',
+            a: 'No. The payer and recipient must be the same person. Third-party pickups are not accepted under any circumstances.',
+          },
+          {
+            q: 'Do you offer delivery or shipping for card purchases?',
+            a: 'No. All transactions are face-to-face in Hong Kong only. We do not offer postal or courier delivery.',
+          },
+        ],
+      },
+    },
+    sell: {
+      title: 'How to Sell / Consign a Card',
+      rules: [
+        {
+          heading: 'Face-to-Face Card Handover',
+          body: 'Cards must be delivered to us in person. No postal submissions are accepted.',
+        },
+        {
+          heading: 'Commission on Sale Only',
+          body: 'No upfront listing fee. Commission is only charged once your card has been successfully sold.',
+        },
+        {
+          heading: 'Quarterly Stocktake',
+          body: 'Every 3 months we contact you to confirm whether you wish to continue listing. If we receive no response within 2 months of that notice, ownership of the card is considered transferred to Appaw Store.',
+        },
+        {
+          heading: 'Update Your Price Anytime',
+          body: 'You can request a price change at any time. Updates are reflected within 48 hours — or sooner if a buyer has already expressed interest.',
+        },
+        {
+          heading: 'Authenticity Check',
+          body: 'All submitted cards undergo an authenticity inspection. We reserve the right to decline cards where authenticity cannot be confirmed.',
+        },
+      ],
+      faq: {
+        title: 'Frequently Asked Questions',
+        items: [
+          {
+            q: 'What grading companies do you accept for consignment?',
+            a: 'We currently accept PSA and CGC graded cards. Other companies may be considered on a case-by-case basis.',
+          },
+          {
+            q: 'How is the commission rate determined?',
+            a: 'Commission varies depending on card value and market conditions. Contact us via WhatsApp for a personalised quote before submitting.',
+          },
+          {
+            q: 'Can I get my unsold card back?',
+            a: 'Yes — as long as we have contacted you during the quarterly stocktake and you request its return, we will arrange a face-to-face handback.',
+          },
+          {
+            q: 'What happens if my card fails the authenticity check?',
+            a: 'We will notify you immediately and return the card during the next meetup. No fees are charged for declined submissions.',
+          },
+          {
+            q: 'Can I change the listing price after submitting my card?',
+            a: 'Yes. You can request a price update at any time. Changes go live within 48 hours — or sooner if a buyer has already expressed interest.',
+          },
+        ],
+      },
+    },
   },
 
   // Card Trading Marketplace
@@ -352,6 +473,16 @@ export const en = {
       official: 'Online Shop',
       inStock: 'In Stock',
     },
+  },
+
+  // Shop options dropdown
+  shopOptions: {
+    buyOnEtsy: 'Buy on Etsy',
+    buyOnEtsyDesc: 'International · Ships worldwide',
+    buyOnCarousell: 'Buy on Carousell',
+    buyOnCarousellDesc: 'Hong Kong · Best for local buyers',
+    orderWhatsApp: 'Order via WhatsApp',
+    orderWhatsAppDesc: 'Direct order · Fastest response',
   },
 
   // Common

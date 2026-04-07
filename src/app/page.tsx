@@ -1,52 +1,34 @@
 ﻿'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Shield, Sparkles, Sun, Magnet, ChevronRight, ChevronLeft, Star, Square, Hand, Pause, Play, Check } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Shield, Sparkles, Magnet, Repeat, Star, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 import RetailPartners from '@/components/RetailPartners';
-import StatsGrid from '@/components/ui/StatsGrid';
-
-const featureImages = [
-  '/images/describe/sell 1.png',
-  '/images/describe/sell 2.png',
-  '/images/describe/sell 3.png',
-  '/images/describe/sell 4.png',
-  '/images/describe/sell 5.png',
-];
-
-const CAROUSEL_INTERVAL = 4500;
-
+import ShopNowButton from '@/components/ui/ShopNowButton';
 
 export default function HomePage() {
   const { t } = useLanguage();
-  const [activeFeature, setActiveFeature] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [heroVisible, setHeroVisible] = useState(false);
-  const [statsVisible, setStatsVisible] = useState(false);
-  const [craftVisible, setCraftVisible] = useState(false);
-  const [showcaseVisible, setShowcaseVisible] = useState(false);
+  const [servicesVisible, setServicesVisible] = useState(false);
   const [ctaVisible, setCtaVisible] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  const statsRef = useRef<HTMLElement>(null);
-  const craftRef = useRef<HTMLElement>(null);
-  const showcaseRef = useRef<HTMLElement>(null);
+  const servicesRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
 
   // Hero entrance
   useEffect(() => {
-    const t = setTimeout(() => setHeroVisible(true), 80);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setHeroVisible(true), 80);
+    return () => clearTimeout(timer);
   }, []);
 
   // Scroll reveal observers
   useEffect(() => {
     const pairs: [React.RefObject<HTMLElement | null>, (v: boolean) => void][] = [
-      [statsRef, setStatsVisible],
-      [craftRef, setCraftVisible],
-      [showcaseRef, setShowcaseVisible],
+      [servicesRef, setServicesVisible],
       [ctaRef, setCtaVisible],
     ];
     const observers = pairs.map(([ref, setter]) => {
@@ -72,28 +54,6 @@ export default function HomePage() {
     return () => window.removeEventListener('mousemove', handleMouse);
   }, []);
 
-  // Carousel auto-advance
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % featureImages.length);
-    }, CAROUSEL_INTERVAL);
-    return () => clearInterval(timer);
-  }, [isPaused, activeFeature]);
-
-  const goToFeature = useCallback((index: number) => {
-    setActiveFeature(index);
-    setIsPaused(false);
-  }, []);
-
-  const nextFeature = useCallback(() => {
-    setActiveFeature((prev) => (prev + 1) % featureImages.length);
-  }, []);
-
-  const prevFeature = useCallback(() => {
-    setActiveFeature((prev) => (prev - 1 + featureImages.length) % featureImages.length);
-  }, []);
-
   const tiltX = mousePos.y * -6;
   const tiltY = mousePos.x * 6;
 
@@ -102,7 +62,7 @@ export default function HomePage() {
     <div className="flex flex-col">
 
       {/* ══════════════════════════════════════════════════════════
-           HERO — Cinematic Dark Stage
+           HERO — Focused brand statement with clear dual CTAs
       ══════════════════════════════════════════════════════════ */}
       <section className="relative min-h-[100vh] flex items-center overflow-hidden bg-[#09090f]">
         {/* Ambient radial gold glow */}
@@ -115,10 +75,20 @@ export default function HomePage() {
         {/* Subtle grid */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.018)_1px,transparent_1px)] bg-[size:80px_80px]" />
 
+        {/* Floating ambient orbs */}
+        <div className="absolute top-1/4 left-[15%] w-[480px] h-[480px] rounded-full bg-[rgba(212,168,67,0.06)] blur-[100px] pointer-events-none animate-[orb-drift-a_14s_ease-in-out_infinite]" />
+        <div className="absolute bottom-1/4 right-[15%] w-[360px] h-[360px] rounded-full bg-[rgba(16,185,129,0.04)] blur-[80px] pointer-events-none animate-[orb-drift-b_18s_ease-in-out_2s_infinite]" />
+        <div className="absolute top-[55%] right-[38%] w-[280px] h-[280px] rounded-full bg-[rgba(212,168,67,0.04)] blur-[70px] pointer-events-none animate-[orb-drift-a_22s_ease-in-out_5s_infinite]" />
+
+        {/* Scanning light line */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent animate-[scan-line_7s_linear_3s_infinite]" />
+        </div>
+
         <div className="relative container-custom py-24 z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-            {/* LEFT — Editorial Text */}
+            {/* LEFT — Text */}
             <div
               className="order-2 lg:order-1 transition-all duration-1000"
               style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(32px)' }}
@@ -129,12 +99,26 @@ export default function HomePage() {
                 <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">{t.home.hero.badge}</span>
               </div>
 
-              {/* Headline */}
-              <h1 className="text-5xl md:text-6xl lg:text-[4.5rem] font-bold font-display leading-[1.08] tracking-tight text-white mb-6">
-                <span className="block">Showcase</span>
-                <span className="block text-[#d4a843]">Your Passion.</span>
-                <span className="block">Protect Your</span>
-                <span className="block">Investment.</span>
+              {/* Headline — staggered line reveal */}
+              <h1 className="text-5xl md:text-6xl lg:text-[4.5rem] font-bold font-display leading-[1.08] tracking-tight mb-6">
+                {[
+                  { text: 'Showcase',      cls: 'text-white',     delay: '200ms' },
+                  { text: 'Your Passion.', cls: 'text-[#d4a843]', delay: '380ms' },
+                  { text: 'Protect Your',  cls: 'text-white',     delay: '530ms' },
+                  { text: 'Investment.',   cls: 'text-white',     delay: '680ms' },
+                ].map(({ text, cls, delay }) => (
+                  <div key={text} className="overflow-hidden leading-[1.08]">
+                    <span
+                      className={`block ${cls}`}
+                      style={heroVisible
+                        ? { animation: `line-rise 0.9s cubic-bezier(0.16,1,0.3,1) ${delay} both` }
+                        : { transform: 'translateY(110%)', opacity: 0 }
+                      }
+                    >
+                      {text}
+                    </span>
+                  </div>
+                ))}
               </h1>
 
               {/* Gold rule divider */}
@@ -145,45 +129,25 @@ export default function HomePage() {
               </div>
 
               {/* Subtitle */}
-              <p className="text-[#9ca3af] text-base md:text-lg leading-relaxed mb-3 max-w-md">
+              <p className="text-[#9ca3af] text-base md:text-lg leading-relaxed mb-10 max-w-md">
                 {t.home.hero.subtitle}
-              </p>
-              <p className="text-[#6b7280] text-base leading-relaxed mb-10 max-w-md">
-                {t.home.hero.description}
               </p>
 
               {/* CTA row */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <a
-                  href={t.home.hero.shopUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#d4a843] text-black font-semibold rounded-xl hover:bg-[#e5bc5a] active:scale-95 transition-all duration-200 shadow-[0_8px_32px_rgba(212,168,67,0.32)] hover:shadow-[0_12px_48px_rgba(212,168,67,0.55)] group"
-                >
-                  {t.home.hero.cta}
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-                <a
-                  href="/products/psa-protectors"
+              <div className="flex flex-col sm:flex-row gap-4">
+                <ShopNowButton
+                  label={t.home.hero.cta}
+                  shopOptions={t.shopOptions}
+                  whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                  buttonClassName="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#d4a843] text-black font-semibold rounded-xl hover:bg-[#e5bc5a] active:scale-95 transition-all duration-200 shadow-[0_8px_32px_rgba(212,168,67,0.32)] hover:shadow-[0_12px_48px_rgba(212,168,67,0.55)]"
+                />
+                <Link
+                  href="/business/card-trading"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-medium rounded-xl hover:bg-white/5 hover:border-white/40 transition-all duration-200 group"
                 >
                   {t.home.hero.learnMore}
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-
-              {/* Trust row */}
-              <div className="flex items-center gap-6 pt-8 border-t border-white/10 flex-wrap">
-                {[
-                  { icon: <Shield className="w-4 h-4" />, label: t.home.hero.trustIndicators.uvProtection },
-                  { icon: <Magnet className="w-4 h-4" />, label: t.home.hero.trustIndicators.n52Magnets },
-                  { icon: <Sun className="w-4 h-4" />, label: t.home.hero.trustIndicators.antiFadeGlass },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <span className="text-[#d4a843]">{item.icon}</span>
-                    <span className="text-white/50 text-sm">{item.label}</span>
-                  </div>
-                ))}
+                </Link>
               </div>
             </div>
 
@@ -241,18 +205,27 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Floating chips */}
-                <div className="absolute -top-4 -right-4 flex items-center gap-1.5 bg-[#0a1a0a]/90 border border-green-500/30 backdrop-blur-md rounded-full px-3 py-1.5 shadow-lg">
+                {/* Floating chips — each bobs at its own rhythm */}
+                <div
+                  className="absolute -top-4 -right-4 flex items-center gap-1.5 bg-[#0a1a0a]/90 border border-green-500/30 backdrop-blur-md rounded-full px-3 py-1.5 shadow-lg"
+                  style={{ animation: 'float 4s ease-in-out infinite' }}
+                >
                   <Shield className="w-3 h-3 text-green-400" />
                   <span className="text-green-400 text-[11px] font-semibold">&gt;95% UV</span>
                 </div>
 
-                <div className="absolute top-1/3 -left-5 flex items-center gap-1.5 bg-[#09090f]/90 border border-[#d4a843]/30 backdrop-blur-md rounded-full px-3 py-1.5 shadow-lg">
+                <div
+                  className="absolute top-1/3 -left-5 flex items-center gap-1.5 bg-[#09090f]/90 border border-[#d4a843]/30 backdrop-blur-md rounded-full px-3 py-1.5 shadow-lg"
+                  style={{ animation: 'float 5s ease-in-out 1.3s infinite' }}
+                >
                   <Magnet className="w-3 h-3 text-[#d4a843]" />
                   <span className="text-[#d4a843] text-[11px] font-semibold">N52 Magnets</span>
                 </div>
 
-                <div className="absolute -bottom-4 left-4 flex items-center gap-1.5 bg-[#1a0d00]/90 border border-amber-500/30 backdrop-blur-md rounded-full px-3 py-1.5 shadow-lg">
+                <div
+                  className="absolute -bottom-4 left-4 flex items-center gap-1.5 bg-[#1a0d00]/90 border border-amber-500/30 backdrop-blur-md rounded-full px-3 py-1.5 shadow-lg"
+                  style={{ animation: 'float 3.5s ease-in-out 2.2s infinite' }}
+                >
                   <Sparkles className="w-3 h-3 text-amber-400" />
                   <span className="text-amber-400 text-[11px] font-semibold">Anti-Fade</span>
                 </div>
@@ -261,298 +234,209 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Bottom fade into white stats section */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#09090f] to-transparent pointer-events-none" />
       </section>
 
       {/* ══════════════════════════════════════════════════════════
-           STATS BAR — Proof of Excellence
+           SERVICES — Luxury dark editorial
       ══════════════════════════════════════════════════════════ */}
-      <section ref={statsRef} className="py-20 bg-white border-b border-neutral-100">
-        <div className="container-custom">
-          <StatsGrid
-            isVisible={statsVisible}
-            theme="light"
-            stats={[
-              { value: 1200, suffix: '+', label: t.about.trust.stats.cardsProtected, sub: t.about.trust.stats.andCounting     },
-              { value: 100, suffix: '+', label: t.about.trust.stats.happyCustomers,  sub: t.about.trust.stats.worldwide        },
-              { value: 99,  suffix: '%', label: t.about.trust.stats.satisfaction,    sub: t.about.trust.stats.customerVerified },
-              { value: 1,   suffix: '+', label: t.about.trust.stats.yearsOfCraft,    sub: t.about.trust.stats.ofExcellence     },
-            ]}
-          />
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════
-           THE CRAFT — Editorial Feature Cards
-      ══════════════════════════════════════════════════════════ */}
-      <section ref={craftRef} className="py-28 bg-white overflow-hidden">
-        <div className="container-custom">
-
-          {/* Section header */}
-          <div
-            className="max-w-xl mb-20 transition-all duration-700"
-            style={{ opacity: craftVisible ? 1 : 0, transform: craftVisible ? 'translateY(0)' : 'translateY(24px)' }}
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#d4a843]" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Why Choose Us</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 leading-[1.1]">
-              {t.home.features.title}
-            </h2>
-          </div>
-
-          {/* Feature grid — separated by single-pixel borders */}
-          <div className="grid md:grid-cols-3 gap-px bg-neutral-100 border border-neutral-100">
-            {[
-              {
-                number: '01',
-                icon: <Shield className="w-6 h-6" />,
-                title: t.home.features.quality.title,
-                desc: t.home.features.quality.description,
-                color: '#3b82f6',
-              },
-              {
-                number: '02',
-                icon: <Sun className="w-6 h-6" />,
-                title: t.home.features.trust.title,
-                desc: t.home.features.trust.description,
-                color: '#d4a843',
-              },
-              {
-                number: '03',
-                icon: <Magnet className="w-6 h-6" />,
-                title: t.home.features.support.title,
-                desc: t.home.features.support.description,
-                color: '#10b981',
-              },
-            ].map((feature, i) => (
-              <div
-                key={i}
-                className="group bg-white p-10 relative overflow-hidden hover:shadow-[0_0_0_2px_#d4a843] transition-all duration-500"
-                style={{
-                  opacity: craftVisible ? 1 : 0,
-                  transform: craftVisible ? 'translateY(0)' : 'translateY(32px)',
-                  transitionDelay: `${(i + 1) * 150}ms`,
-                  transitionDuration: '700ms',
-                }}
-              >
-                {/* Large number watermark */}
-                <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-neutral-50 select-none group-hover:text-[#d4a843]/5 transition-colors duration-500 leading-none">
-                  {feature.number}
-                </span>
-
-                {/* Icon */}
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110"
-                  style={{ backgroundColor: `${feature.color}18`, color: feature.color }}
-                >
-                  {feature.icon}
-                </div>
-
-                <h3 className="text-xl font-bold text-neutral-900 mb-4 group-hover:text-[#c9972f] transition-colors duration-300 relative">
-                  {feature.title}
-                </h3>
-                <p className="text-neutral-500 leading-relaxed text-sm relative">
-                  {feature.desc}
-                </p>
-
-                {/* Bottom slide-in accent bar */}
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#d4a843] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════
-           PRODUCT SHOWCASE — Immersive Dark Carousel
-      ══════════════════════════════════════════════════════════ */}
-      <section ref={showcaseRef} className="py-28 bg-[#09090f] overflow-hidden relative">
+      <section ref={servicesRef} className="relative py-32 bg-[#09090f] overflow-hidden scroll-mt-20">
         {/* Ambient lighting */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_50%,rgba(212,168,67,0.06),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_70%_50%,rgba(59,130,246,0.04),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_25%_50%,rgba(212,168,67,0.06),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_50%,rgba(16,185,129,0.04),transparent)]" />
+        {/* Top hairline */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
+        {/* Subtle grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:80px_80px]" />
 
         <div className="container-custom relative">
 
           {/* Section header */}
           <div
-            className="text-center mb-20 transition-all duration-700"
-            style={{ opacity: showcaseVisible ? 1 : 0, transform: showcaseVisible ? 'translateY(0)' : 'translateY(24px)' }}
+            className="text-center max-w-2xl mx-auto mb-20 transition-all duration-700"
+            style={{ opacity: servicesVisible ? 1 : 0, transform: servicesVisible ? 'translateY(0)' : 'translateY(24px)' }}
           >
-            <div className="inline-flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#d4a843]" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Our Product</span>
-              <div className="w-8 h-px bg-[#d4a843]" />
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="w-10 h-px bg-[#d4a843]/60" />
+              <span className="text-[#d4a843] text-xs uppercase tracking-[0.3em] font-medium">{t.home.services.badge}</span>
+              <div className="w-10 h-px bg-[#d4a843]/60" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-4">
-              {t.business.cardProtector.title}
+            <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1]">
+              {t.home.services.title}
             </h2>
-            <p className="text-[#6b7280] max-w-xl mx-auto leading-relaxed">
-              {t.business.cardProtector.description}
-            </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Two luxury service cards */}
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
 
-            {/* Carousel */}
-            <div
-              className="transition-all duration-1000"
+            {/* ── Service 01: PSA Card Protector ── */}
+            <Link
+              href="/products/psa-protectors"
+              className="group relative block rounded-2xl overflow-hidden transition-all duration-700"
               style={{
-                opacity: showcaseVisible ? 1 : 0,
-                transform: showcaseVisible ? 'translateX(0)' : 'translateX(-32px)',
-                transitionDelay: '200ms',
+                opacity: servicesVisible ? 1 : 0,
+                transform: servicesVisible ? 'translateY(0)' : 'translateY(40px)',
+                transitionDelay: '150ms',
+                transitionDuration: '800ms',
               }}
             >
-              <div className="relative aspect-square rounded-3xl overflow-hidden bg-[#111]">
-                {/* Ambient inside */}
-                <div className="absolute top-0 left-1/4 w-72 h-72 bg-[#d4a843]/8 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+              {/* Card background with gradient border effect */}
+              <div className="relative bg-gradient-to-b from-[#141418] to-[#0c0c10] border border-[#d4a843]/15 rounded-2xl overflow-hidden group-hover:border-[#d4a843]/40 transition-all duration-700 group-hover:shadow-[0_0_80px_rgba(212,168,67,0.08),inset_0_1px_0_rgba(212,168,67,0.1)]">
 
-                {/* Slides */}
-                <div className="relative w-full h-full">
-                  {featureImages.map((img, index) => (
-                    <div
-                      key={index}
-                      className="absolute inset-0 transition-all duration-[1000ms] ease-out"
-                      style={{
-                        opacity: activeFeature === index ? 1 : 0,
-                        transform: activeFeature === index ? 'scale(1)' : 'scale(1.04)',
-                      }}
-                    >
-                      <Image
-                        src={getImagePath(img)}
-                        alt={`Feature detail ${index + 1}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        priority={index === 0}
-                      />
-                    </div>
-                  ))}
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#09090f]/60 via-transparent to-transparent pointer-events-none z-10" />
+                {/* Shimmer sweep — revealed on hover */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                  <div className="absolute top-0 left-0 h-full w-[45%] bg-gradient-to-r from-transparent via-white/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-[shimmer-sweep_2.8s_linear_infinite]" />
                 </div>
 
-                {/* Navigation arrows */}
-                <button
-                  onClick={prevFeature}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-[#d4a843]/20 backdrop-blur-md border border-white/10 hover:border-[#d4a843]/40 rounded-full flex items-center justify-center z-20 transition-all group"
-                  aria-label="Previous"
-                >
-                  <ChevronLeft className="w-5 h-5 text-white/70 group-hover:text-[#d4a843]" />
-                </button>
-                <button
-                  onClick={nextFeature}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-[#d4a843]/20 backdrop-blur-md border border-white/10 hover:border-[#d4a843]/40 rounded-full flex items-center justify-center z-20 transition-all group"
-                  aria-label="Next"
-                >
-                  <ChevronRight className="w-5 h-5 text-white/70 group-hover:text-[#d4a843]" />
-                </button>
+                {/* Corner accents */}
+                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#d4a843]/30 group-hover:border-[#d4a843]/60 transition-colors duration-500" />
+                <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#d4a843]/30 group-hover:border-[#d4a843]/60 transition-colors duration-500" />
+                <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#d4a843]/30 group-hover:border-[#d4a843]/60 transition-colors duration-500" />
+                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#d4a843]/30 group-hover:border-[#d4a843]/60 transition-colors duration-500" />
 
-                {/* Progress dots */}
-                <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20">
-                  {featureImages.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => goToFeature(i)}
-                      className="rounded-full transition-all duration-300"
-                      style={{
-                        width: activeFeature === i ? '24px' : '6px',
-                        height: '6px',
-                        backgroundColor: activeFeature === i ? '#d4a843' : 'rgba(255,255,255,0.25)',
-                      }}
+                {/* Editorial number watermark */}
+                <span className="absolute top-6 right-8 text-[6rem] font-bold leading-none text-white/[0.025] select-none group-hover:text-[#d4a843]/[0.06] transition-colors duration-700 font-display">
+                  01
+                </span>
+
+                {/* Product visual area */}
+                <div className="relative h-72 flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_60%,rgba(212,168,67,0.08),transparent)]" />
+                  <div className="relative w-44 h-56 transition-all duration-700 group-hover:scale-110 group-hover:-translate-y-2">
+                    <Image
+                      src={getImagePath('/images/cards/069.SM-P.refine.png')}
+                      alt="PSA Card Protector"
+                      fill
+                      className="object-contain drop-shadow-[0_12px_40px_rgba(212,168,67,0.15)]"
+                      sizes="176px"
                     />
-                  ))}
+                  </div>
+
+                  {/* Floating service badge */}
+                  <div className="absolute top-6 left-6 flex items-center gap-2 bg-[#09090f]/80 backdrop-blur-xl border border-[#d4a843]/25 rounded-full px-4 py-2">
+                    <Shield className="w-3.5 h-3.5 text-[#d4a843]" />
+                    <span className="text-[#d4a843] text-[10px] font-semibold uppercase tracking-[0.2em]">Protection</span>
+                  </div>
                 </div>
 
-                {/* Counter */}
-                <div className="absolute top-5 left-5 z-20">
-                  <span className="text-white/35 text-xs font-mono tracking-widest">
-                    0{activeFeature + 1} / 0{featureImages.length}
+                {/* Divider */}
+                <div className="mx-8 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
+
+                {/* Text area */}
+                <div className="px-8 py-8">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#d4a843] transition-colors duration-500 font-display">
+                    {t.business.cardProtector.title}
+                  </h3>
+                  <p className="text-white/30 text-sm leading-relaxed mb-8">
+                    {t.home.services.protector.subtitle}
+                  </p>
+                  <span className="inline-flex items-center gap-2.5 text-[#d4a843] font-semibold text-sm uppercase tracking-[0.1em] group-hover:gap-4 transition-all duration-500">
+                    {t.home.services.protector.cta}
+                    <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
                   </span>
                 </div>
-              </div>
-            </div>
 
-            {/* Feature list */}
-            <div
-              className="transition-all duration-1000"
+                {/* Bottom gold accent line */}
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4a843] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-center" />
+              </div>
+            </Link>
+
+            {/* ── Service 02: TCG Trading ── */}
+            <Link
+              href="/business/card-trading"
+              className="group relative block rounded-2xl overflow-hidden transition-all duration-700"
               style={{
-                opacity: showcaseVisible ? 1 : 0,
-                transform: showcaseVisible ? 'translateX(0)' : 'translateX(32px)',
-                transitionDelay: '400ms',
+                opacity: servicesVisible ? 1 : 0,
+                transform: servicesVisible ? 'translateY(0)' : 'translateY(40px)',
+                transitionDelay: '300ms',
+                transitionDuration: '800ms',
               }}
             >
-              <div className="space-y-1">
-                {t.business.cardProtector.features.map((feature, index) => (
-                  <div
-                    key={index}
-                    onClick={() => goToFeature(index)}
-                    className="flex items-center gap-4 p-5 rounded-xl cursor-pointer transition-all duration-300 border"
-                    style={{
-                      backgroundColor: activeFeature === index ? 'rgba(212,168,67,0.08)' : 'transparent',
-                      borderColor: activeFeature === index ? 'rgba(212,168,67,0.25)' : 'transparent',
-                    }}
-                  >
-                    {/* Step number */}
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
-                      style={{
-                        backgroundColor: activeFeature === index ? '#d4a843' : 'rgba(255,255,255,0.05)',
-                      }}
-                    >
-                      <span
-                        className="text-xs font-bold transition-colors duration-300"
-                        style={{ color: activeFeature === index ? '#000' : 'rgba(255,255,255,0.3)' }}
-                      >
-                        0{index + 1}
-                      </span>
-                    </div>
+              {/* Card background */}
+              <div className="relative bg-gradient-to-b from-[#141418] to-[#0c0c10] border border-[#10b981]/15 rounded-2xl overflow-hidden group-hover:border-[#10b981]/40 transition-all duration-700 group-hover:shadow-[0_0_80px_rgba(16,185,129,0.08),inset_0_1px_0_rgba(16,185,129,0.08)]">
 
-                    <span
-                      className="text-sm leading-relaxed flex-1 transition-colors duration-300"
-                      style={{ color: activeFeature === index ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.4)' }}
-                    >
-                      {feature}
-                    </span>
+                {/* Shimmer sweep — revealed on hover (offset so cards don't sync) */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                  <div className="absolute top-0 left-0 h-full w-[45%] bg-gradient-to-r from-transparent via-white/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-[shimmer-sweep_2.8s_linear_1.4s_infinite]" />
+                </div>
 
-                    {activeFeature === index && (
-                      <ChevronRight className="w-4 h-4 text-[#d4a843] flex-shrink-0" />
-                    )}
-                  </div>
-                ))}
-              </div>
+                {/* Corner accents */}
+                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#10b981]/30 group-hover:border-[#10b981]/60 transition-colors duration-500" />
+                <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#10b981]/30 group-hover:border-[#10b981]/60 transition-colors duration-500" />
+                <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#10b981]/30 group-hover:border-[#10b981]/60 transition-colors duration-500" />
+                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#10b981]/30 group-hover:border-[#10b981]/60 transition-colors duration-500" />
 
-              {/* Play/pause */}
-              <div className="mt-6 flex items-center gap-3">
-                <button
-                  onClick={() => setIsPaused(!isPaused)}
-                  className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/40 hover:text-white/70 hover:border-white/40 transition-all"
-                >
-                  {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
-                </button>
-                <span className="text-white/25 text-xs tracking-wider uppercase">
-                  {isPaused ? 'Paused' : 'Auto-playing'}
+                {/* Editorial number watermark */}
+                <span className="absolute top-6 right-8 text-[6rem] font-bold leading-none text-white/[0.025] select-none group-hover:text-[#10b981]/[0.08] transition-colors duration-700 font-display">
+                  02
                 </span>
-              </div>
 
-              {/* CTA */}
-              <div className="mt-10">
-                <a
-                  href={t.home.hero.shopUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-[#d4a843] text-black font-semibold rounded-xl hover:bg-[#e5bc5a] transition-all duration-200 shadow-[0_8px_32px_rgba(212,168,67,0.3)] group"
-                >
-                  {t.business.cardProtector.cta}
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                {/* Card fan visual area */}
+                <div className="relative h-72 flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_60%,rgba(16,185,129,0.07),transparent)]" />
+                  {/* Card fan */}
+                  <div className="relative flex items-center justify-center">
+                    {[
+                      { src: '/images/cards/192.SV-P.refine.png', rotate: -12, x: -44, delay: '0ms' },
+                      { src: '/images/cards/105.SV-9.refine.png', rotate: 0,   x: 0,   delay: '50ms' },
+                      { src: '/images/cards/069.SM-P.refine.png', rotate: 12,  x: 44,  delay: '100ms' },
+                    ].map((card, i) => (
+                      <div
+                        key={i}
+                        className="absolute w-[7.5rem] h-40 rounded-xl overflow-hidden border border-white/[0.08] shadow-[0_20px_40px_rgba(0,0,0,0.6)] transition-all duration-700 group-hover:shadow-[0_24px_48px_rgba(16,185,129,0.10)]"
+                        style={{
+                          transform: `rotate(${card.rotate}deg) translateX(${card.x}px)`,
+                          zIndex: i === 1 ? 3 : i === 2 ? 2 : 1,
+                          transitionDelay: card.delay,
+                        }}
+                      >
+                        <div className="relative w-full h-full transition-transform duration-700 group-hover:scale-110">
+                          <Image src={getImagePath(card.src)} alt="Graded card" fill className="object-cover" sizes="120px" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Floating service badge */}
+                  <div className="absolute top-6 left-6 flex items-center gap-2 bg-[#09090f]/80 backdrop-blur-xl border border-[#10b981]/30 rounded-full px-4 py-2">
+                    <Repeat className="w-3.5 h-3.5 text-[#10b981]" />
+                    <span className="text-[#10b981] text-[10px] font-semibold uppercase tracking-[0.2em]">Trading</span>
+                  </div>
+
+                  {/* Active indicator */}
+                  <div className="absolute top-6 right-6 flex items-center gap-1.5 px-3 py-1.5 bg-[#09090f]/80 backdrop-blur-xl border border-green-500/20 rounded-full">
+                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                    <span className="text-green-400 text-[10px] font-medium">Active</span>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="mx-8 h-px bg-gradient-to-r from-transparent via-[#10b981]/25 to-transparent" />
+
+                {/* Text area */}
+                <div className="px-8 py-8">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#10b981] transition-colors duration-500 font-display">
+                    {t.business.cardTrading.title}
+                  </h3>
+                  <p className="text-white/30 text-sm leading-relaxed mb-8">
+                    {t.home.services.trading.subtitle}
+                  </p>
+                  <span className="inline-flex items-center gap-2.5 text-[#10b981] font-semibold text-sm uppercase tracking-[0.1em] group-hover:gap-4 transition-all duration-500">
+                    {t.home.services.trading.cta}
+                    <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
+                  </span>
+                </div>
+
+                {/* Bottom emerald accent line */}
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#10b981] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-center" />
               </div>
-            </div>
+            </Link>
           </div>
         </div>
+
+        {/* Bottom hairline */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
       </section>
 
       {/* ══════════════════════════════════════════════════════════
@@ -561,16 +445,13 @@ export default function HomePage() {
       <RetailPartners />
 
       {/* ══════════════════════════════════════════════════════════
-           FINAL CTA — Dramatic Stage
+           FINAL CTA — Clean close
       ══════════════════════════════════════════════════════════ */}
-      <section ref={ctaRef} className="py-32 bg-[#09090f] relative overflow-hidden">
-        {/* Gold radial glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_50%,rgba(212,168,67,0.1),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/30 to-transparent" />
-
-        {/* Giant decorative star watermark */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-          <span className="text-[22rem] font-bold leading-none" style={{ color: 'rgba(255,255,255,0.012)' }}>★</span>
+      <section ref={ctaRef} className="py-32 bg-[#09090f] relative">
+        {/* Gold radial glow — kept in own overflow-hidden layer so they don't bleed */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_50%,rgba(212,168,67,0.1),transparent)]" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/30 to-transparent" />
         </div>
 
         <div className="container-custom relative text-center">
@@ -585,23 +466,40 @@ export default function HomePage() {
               <div className="w-14 h-px bg-[#d4a843]/40" />
             </div>
 
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-white leading-[1.1] mb-6">
+            <h2
+              className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-[1.15] mb-6"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, #ffffff 0%, #ffffff 35%, #d4a843 50%, #ffffff 65%, #ffffff 100%)',
+                backgroundSize: '200% auto',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                animation: ctaVisible ? 'text-shine 4s linear infinite' : 'none',
+              }}
+            >
               {t.home.cta.title}
             </h2>
 
-            <p className="text-[#6b7280] text-lg max-w-xl mx-auto leading-relaxed mb-12">
+            <p className="text-[#9ca3af] text-lg max-w-xl mx-auto leading-relaxed mb-12">
               {t.home.cta.description}
             </p>
 
-            <a
-              href={t.home.cta.shopUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-10 py-5 bg-[#d4a843] text-black font-bold text-lg rounded-xl hover:bg-[#e5bc5a] active:scale-95 transition-all duration-200 shadow-[0_8px_40px_rgba(212,168,67,0.4)] hover:shadow-[0_16px_60px_rgba(212,168,67,0.6)] group"
-            >
-              {t.home.cta.button}
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <ShopNowButton
+                label={t.home.cta.button}
+                shopOptions={t.shopOptions}
+                whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                buttonClassName="inline-flex items-center gap-3 px-10 py-5 bg-[#d4a843] text-black font-bold text-lg rounded-xl hover:bg-[#e5bc5a] active:scale-95 transition-all duration-200 shadow-[0_8px_40px_rgba(212,168,67,0.4)] hover:shadow-[0_16px_60px_rgba(212,168,67,0.6)]"
+                chevronSize="w-5 h-5"
+              />
+              <Link
+                href="/business/card-trading"
+                className="inline-flex items-center gap-3 px-10 py-5 border border-white/20 text-white font-bold text-lg rounded-xl hover:bg-white/5 hover:border-white/40 active:scale-95 transition-all duration-200 group"
+              >
+                {t.home.tradingPreview.cta}
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

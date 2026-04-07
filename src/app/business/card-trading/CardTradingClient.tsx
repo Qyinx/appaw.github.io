@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, X, MessageCircle, Package, Eye, ExternalLink, Hash, Globe, Tag, ZoomIn, Layers, Loader2, Share2, Check } from 'lucide-react';
+import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, X, MessageCircle, Package, Eye, ExternalLink, Hash, Globe, Tag, ZoomIn, Layers, Loader2, Share2, Check, ShoppingBag, Tag as TagIcon } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
@@ -21,6 +21,126 @@ function getGradeTier(grade: number): GradeTier {
   if (grade >= 8)  return 'high';
   if (grade >= 5)  return 'mid';
   return 'low';
+}
+
+/* ──────────────────────────────────────────
+   Trading Guide + FAQ
+   ────────────────────────────────────────── */
+function TradingGuide({ guide }: { guide: ReturnType<typeof useLanguage>['t']['tradingGuide'] }) {
+  const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const side = activeTab === 'buy' ? guide.buy : guide.sell;
+  const tabAccent = activeTab === 'buy' ? '#d4a843' : '#10b981';
+  const tabAccentRgb = activeTab === 'buy' ? '212,168,67' : '16,185,129';
+
+  return (
+    <section className="py-24 bg-[#09090f] relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(212,168,67,0.04),transparent)]" />
+
+      <div className="container-custom relative">
+
+        {/* Header */}
+        <div className="max-w-2xl mb-16">
+          <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/30 rounded-full px-4 py-1.5 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] animate-pulse" />
+            <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">{guide.badge}</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.1] mb-4">{guide.title}</h2>
+          <p className="text-[#9ca3af] text-base leading-relaxed">{guide.subtitle}</p>
+        </div>
+
+        {/* Tab switcher */}
+        <div className="flex items-center gap-2 p-1 bg-white/[0.04] border border-white/[0.08] rounded-xl w-fit mb-12">
+          <button
+            onClick={() => { setActiveTab('buy'); setOpenFaq(null); }}
+            className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300"
+            style={activeTab === 'buy'
+              ? { background: `rgba(212,168,67,0.15)`, color: '#d4a843', boxShadow: `inset 0 0 0 1px rgba(212,168,67,0.3)` }
+              : { color: 'rgba(255,255,255,0.4)' }
+            }
+          >
+            <ShoppingBag className="w-4 h-4" />
+            {guide.buyTab}
+          </button>
+          <button
+            onClick={() => { setActiveTab('sell'); setOpenFaq(null); }}
+            className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300"
+            style={activeTab === 'sell'
+              ? { background: `rgba(16,185,129,0.12)`, color: '#10b981', boxShadow: `inset 0 0 0 1px rgba(16,185,129,0.25)` }
+              : { color: 'rgba(255,255,255,0.4)' }
+            }
+          >
+            <TagIcon className="w-4 h-4" />
+            {guide.sellTab}
+          </button>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+
+          {/* Rules list */}
+          <div>
+            <h3 className="text-lg font-bold text-white mb-8 flex items-center gap-3">
+              <span className="w-6 h-px" style={{ background: tabAccent }} />
+              {side.title}
+            </h3>
+            <div className="space-y-4">
+              {side.rules.map((rule, i) => (
+                <div
+                  key={i}
+                  className="group flex gap-5 p-5 rounded-2xl border transition-all duration-300 hover:border-opacity-60"
+                  style={{ borderColor: `rgba(${tabAccentRgb},0.12)`, background: `rgba(${tabAccentRgb},0.03)` }}
+                >
+                  {/* Step number */}
+                  <div
+                    className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-black"
+                    style={{ background: `rgba(${tabAccentRgb},0.12)`, color: tabAccent }}
+                  >
+                    {i + 1}
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold text-sm mb-1.5" style={{ color: 'white' }}>{rule.heading}</p>
+                    <p className="text-white/50 text-sm leading-relaxed">{rule.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* FAQ accordion */}
+          <div>
+            <h3 className="text-lg font-bold text-white mb-8 flex items-center gap-3">
+              <span className="w-6 h-px bg-white/20" />
+              {side.faq.title}
+            </h3>
+            <div className="space-y-2">
+              {side.faq.items.map((item, i) => (
+                <div key={i} className="border border-white/[0.07] rounded-xl overflow-hidden">
+                  <button
+                    className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-white/[0.03]"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  >
+                    <span className="text-white/80 text-sm font-medium leading-snug">{item.q}</span>
+                    <ChevronDown
+                      className="flex-shrink-0 w-4 h-4 text-white/30 transition-transform duration-300"
+                      style={{ transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    />
+                  </button>
+                  <div
+                    className="overflow-hidden transition-all duration-300"
+                    style={{ maxHeight: openFaq === i ? '200px' : '0px', opacity: openFaq === i ? 1 : 0 }}
+                  >
+                    <p className="px-5 pb-4 text-white/50 text-sm leading-relaxed">{item.a}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 /* ──────────────────────────────────────────
@@ -426,6 +546,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
 export default function CardTradingPage({ initialCards }: { initialCards?: TradingCard[] }) {
   const { t } = useLanguage();
   const mp = t.cardMarketplace;
+  const guide = t.tradingGuide;
 
   // Data — seeded from server at build time, optionally refreshed from API
   const { cards: allCards, loading, error } = useCards(initialCards);
@@ -575,7 +696,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#09090f]">
+    <div className="flex flex-col bg-[#09090f]">
 
       {/* ═══════════ HERO ═══════════ */}
       <section className="relative pt-24 pb-8 overflow-hidden">
@@ -897,6 +1018,9 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
           </div>
         ) : null}
       </section>
+
+      {/* ═══════════ TRADING GUIDE & FAQ ═══════════ */}
+      <TradingGuide guide={guide} />
 
       {/* ═══════════ CTA BANNER ═══════════ */}
       <section ref={ctaRef} className="border-t border-white/[0.06] bg-gradient-to-b from-[#09090f] to-[#0d0d15]">

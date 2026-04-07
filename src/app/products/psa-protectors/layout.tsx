@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+const PRICE_VALID_UNTIL = `${new Date().getFullYear()}-12-31`;
+
 export const metadata: Metadata = {
   title: 'PSA Card Aluminum Protector – UV-Blocking Magnetic Case',
   description:
@@ -99,7 +101,7 @@ const productJsonLd = {
     '@type': 'Offer',
     price: '17.99',
     priceCurrency: 'USD',
-    priceValidUntil: '2026-12-31',
+    priceValidUntil: PRICE_VALID_UNTIL,
     availability: 'https://schema.org/InStock',
     url: 'https://appawstore.etsy.com/',
     seller: { '@type': 'Organization', name: 'Appaw Store' },
@@ -147,11 +149,59 @@ const breadcrumbJsonLd = {
   ],
 };
 
+const psaFaqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Does the PSA Card Aluminum Protector fit all PSA slabs?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The Appaw PSA Card Aluminum Protector fits standard 35PT PSA graded slabs, including Pokémon, sports cards, and MTG. It does NOT fit thick PSA memorabilia/jersey cards, half-pound slabs, BGS slabs, or CGC slabs.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How does the N52 magnetic closure work on the aluminum protector?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The case uses N52 neodymium magnets — the strongest grade commercially available — to snap shut securely without any screws, tools, or latches. The magnetic force is strong enough to hold the case closed during display and transport, yet easy to open by hand.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What UV protection does the glass provide?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The glass lens blocks greater than 95% of ultraviolet (UV) light. This preserves the colour integrity of chrome, holographic, and vintage cards by preventing UV-induced fading, which is the main cause of colour loss over time in displayed cards.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What are the dimensions and weight of the PSA Card Aluminum Protector?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The protector measures 8.7 cm wide × 14.2 cm tall × 0.98 cm deep and weighs 74 g. It is made from precision-machined aluminum with a UV-blocking glass lens.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Where can I buy the PSA Card Aluminum Protector?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Purchase the PSA Card Aluminum Protector from Appaw Store on Etsy (appawstore.etsy.com) or Carousell Hong Kong. You can also order directly via WhatsApp at +852-9285-1189. Free worldwide shipping to USA, UK, HK, SG, and TW.',
+      },
+    },
+  ],
+};
+
 export default function PSAProtectorLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(psaFaqJsonLd) }} />
       {children}
     </>
   );

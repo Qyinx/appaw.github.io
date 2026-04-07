@@ -7,3 +7,5 @@ export { default as WhatsAppIcon } from './WhatsAppIcon';
 export { default as ThreadsIcon } from './ThreadsIcon';
 export { default as CarousellIcon } from './CarousellIcon';
 export { default as EtsyIcon } from './EtsyIcon';
+export { default as ShopNowButton } from './ShopNowButton';
+export type { ShopOptionsLabels } from './ShopNowButton';

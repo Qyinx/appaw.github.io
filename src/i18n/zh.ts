@@ -14,13 +14,13 @@ export const zh: Translations = {
   // Home Page
   home: {
     hero: {
-      badge: '優質卡片保護',
+      badge: '優質卡牌服務',
       title: '展示您的熱情。保護您的投資。',
-      subtitle: '您的珍貴卡片値得更好的保護。',
-      description: '升級至 PSA 卡片鋁合金保護殼——工業級保護與展覽級展示的完美結合。',
+      subtitle: '優質卡牌保護與值得信賴的交易卡牌買賣——一站式服務。',
+      description: '從我們的招牌鋁合金保護殼到專業的卡牌經紀服務，全方位助您保護與擴展收藏。',
       cta: '立即購買',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
-      learnMore: '了解更多',
+      learnMore: '瀏覽卡牌',
       trustIndicators: {
         uvProtection: 'UV 防護',
         n52Magnets: 'N52 磁鐵',
@@ -45,9 +45,34 @@ export const zh: Translations = {
     },
     cta: {
       title: '準備好升級您的展示了嗎？',
-      description: '立即加入購物車，為您的收藏披上裝甲！',
+      description: '無論您想保護收藏還是交易評級卡牌，我們都能為您服務。',
       button: '立即購買',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
+    },
+    services: {
+      badge: '我們的服務',
+      title: '兩大收藏家服務',
+      subtitle: '從優質保護到值得信賴的交易，全方位守護您的收藏。',
+      protector: {
+        subtitle: '工業級鋁合金保護與展覽級展示，專為您的珍貴 PSA 評級卡片而設。',
+        cta: '查看產品',
+      },
+      trading: {
+        subtitle: '值得信賴的評級交易卡牌買賣平台。',
+        cta: '開始交易',
+      },
+    },
+    tradingPreview: {
+      badge: '交易服務',
+      title: '瀏覽我們的卡牌庫存',
+      description: '探索我們精心挑選的專業評級交易卡牌，涵蓋寶可夢、運動卡和 MTG。',
+      features: [
+        'PSA 及 CGC 評級卡牌供應',
+        '透明定價，價格具競爭力',
+        '寄售及經紀服務',
+        '安全交易，買家保障',
+      ],
+      cta: '瀏覽交易平台',
     },
   },
 
@@ -128,7 +153,6 @@ export const zh: Translations = {
         '買賣 PSA/CGC 評級寶可夢、運動卡及 MTG 卡牌',
         '寄售服務 — 我們代您銷售，收取合理佣金',
         '專業價格評估，基於即時市場數據',
-        '認證指導，協助 PSA 及 CGC 送評',
         '安全交易，提供完善的買賣雙方保障',
       ],
       cta: '開始交易',
@@ -188,6 +212,103 @@ export const zh: Translations = {
     },
     ctaTitle: '準備好保護您的收藏了嗎？',
     ctaSubtitle: '為您的珍貴卡片提供應有的優質保護',
+  },
+
+  // Card Trading Guide & FAQ
+  tradingGuide: {
+    badge: '交易指南',
+    title: '買賣指南',
+    subtitle: '交易前您需要了解的一切。',
+    buyTab: '購買',
+    sellTab: '出售',
+    buy: {
+      title: '如何購買卡牌',
+      rules: [
+        {
+          heading: '香港面交限定',
+          body: '所有交易均以面交形式進行，不提供郵寄或速遞服務，只接受香港本地面交。',
+        },
+        {
+          heading: '付款人與收卡人須為同一人',
+          body: '付款人必須與取卡人為同一人，不接受代收安排。',
+        },
+        {
+          heading: '只接受現金或 FPS',
+          body: '交收時只接受現金或轉數快（FPS）付款，不接受信用卡、銀行轉賬或分期付款。',
+        },
+      ],
+      faq: {
+        title: '常見問題',
+        items: [
+          {
+            q: '面交地點在哪裡？',
+            a: '我們在香港各區安排面交地點。請先透過 WhatsApp 聯繫我們，我們將確認合適的地點和時間。',
+          },
+          {
+            q: '接受哪些付款方式？',
+            a: '只接受現金或轉數快（FPS），於面交時付款。不接受信用卡、銀行轉賬或分期付款。',
+          },
+          {
+            q: '可以由其他人代收卡牌嗎？',
+            a: '不可以。付款人與收卡人必須為同一人，任何情況下均不接受代收安排。',
+          },
+          {
+            q: '你們提供送貨或郵寄服務嗎？',
+            a: '不提供。所有交易均為香港本地面交，不提供郵寄或速遞服務。',
+          },
+        ],
+      },
+    },
+    sell: {
+      title: '如何出售 / 寄賣卡牌',
+      rules: [
+        {
+          heading: '面交交卡',
+          body: '卡牌必須以面交方式交給我們，不接受郵寄提交。',
+        },
+        {
+          heading: '僅收取成交佣金',
+          body: '無需預付上架費用，佣金只於卡牌成功售出後收取。',
+        },
+        {
+          heading: '每季點存',
+          body: '每 3 個月我們將聯絡您確認是否繼續寄賣。如在通知後 2 個月內未收到回覆，卡牌將視為轉讓予 Appaw Store。',
+        },
+        {
+          heading: '隨時更改售價',
+          body: '您可隨時要求更改售價。更新將於 48 小時內生效，若有買家已表示興趣，更新將更快處理。',
+        },
+        {
+          heading: '真偽審核',
+          body: '所有提交的卡牌均會進行真偽檢查。如無法確認真偽，我們保留拒收卡牌的權利。',
+        },
+      ],
+      faq: {
+        title: '常見問題',
+        items: [
+          {
+            q: '寄賣接受哪些評級公司的卡牌？',
+            a: '我們目前接受 PSA 及 CGC 評級卡牌，其他評級公司可視乎個別情況考慮。',
+          },
+          {
+            q: '佣金如何計算？',
+            a: '佣金因卡牌價值及市場情況而異。請在提交前透過 WhatsApp 聯絡我們獲取個人報價。',
+          },
+          {
+            q: '未售出的卡牌可以取回嗎？',
+            a: '可以——只要我們在季度點存時聯絡了您，並且您要求取回，我們將安排下次面交時歸還。',
+          },
+          {
+            q: '卡牌未能通過真偽審核怎麼辦？',
+            a: '我們會立即通知您，並於下次面交時歸還卡牌，拒收的提交不收取任何費用。',
+          },
+          {
+            q: '提交卡牌後可以更改售價嗎？',
+            a: '可以。您可隨時要求更改售價，更新將於 48 小時內生效；若有買家已表示興趣，更新將更快處理。',
+          },
+        ],
+      },
+    },
   },
 
   // Card Trading Marketplace
@@ -354,6 +475,16 @@ export const zh: Translations = {
         location: '紅磡凱旋工商中心2期3樓G1B室',
       },
     },
+  },
+
+  // Shop options dropdown
+  shopOptions: {
+    buyOnEtsy: '在 Etsy 購買',
+    buyOnEtsyDesc: '國際 · 全球送貨',
+    buyOnCarousell: '在 Carousell 購買',
+    buyOnCarousellDesc: '香港 · 本地買家最佳選擇',
+    orderWhatsApp: '透過 WhatsApp 訂購',
+    orderWhatsAppDesc: '直接訂購 · 回覆最快',
   },
 
   // Common

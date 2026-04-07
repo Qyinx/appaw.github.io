@@ -6,6 +6,7 @@ import { Shield, ArrowRight, CheckCircle, XCircle, AlertCircle, ChevronLeft, Che
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 import RetailPartners from '@/components/RetailPartners';
+import ShopNowButton from '@/components/ui/ShopNowButton';
 
 /* ─── Scroll-reveal ─── */
 function useReveal() {
@@ -115,15 +116,12 @@ export default function PSAProtectorPage() {
                 {t.business.cardProtector.description}
               </p>
 
-              <a
-                href={t.business.cardProtector.shopUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.35)]"
-              >
-                {t.business.cardProtector.cta}
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
+              <ShopNowButton
+                label={t.business.cardProtector.cta}
+                shopOptions={t.shopOptions}
+                whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                buttonClassName="inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.35)]"
+              />
             </div>
 
             {/* Product visual */}
@@ -255,15 +253,12 @@ export default function PSAProtectorPage() {
 
               {/* CTA */}
               <div className="mt-10">
-                <a
-                  href={t.business.cardProtector.shopUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-[#d4a843] text-black font-semibold rounded-xl hover:bg-[#e5bc5a] transition-all duration-200 shadow-[0_8px_32px_rgba(212,168,67,0.3)] group"
-                >
-                  {t.business.cardProtector.cta}
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                <ShopNowButton
+                  label={t.business.cardProtector.cta}
+                  shopOptions={t.shopOptions}
+                  whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                  buttonClassName="inline-flex items-center gap-2 px-8 py-4 bg-[#d4a843] text-black font-semibold rounded-xl hover:bg-[#e5bc5a] transition-all duration-200 shadow-[0_8px_32px_rgba(212,168,67,0.3)]"
+                />
               </div>
             </div>
 
@@ -711,15 +706,12 @@ export default function PSAProtectorPage() {
               {t.psaProtectorPage.ctaSubtitle}
             </p>
 
-            <a
-              href={t.business.cardProtector.shopUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.35)]"
-            >
-              {t.business.cardProtector.cta}
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+            <ShopNowButton
+              label={t.business.cardProtector.cta}
+              shopOptions={t.shopOptions}
+              whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+              buttonClassName="inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.35)]"
+            />
           </div>
         </div>
       </section>

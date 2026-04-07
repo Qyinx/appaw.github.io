@@ -120,21 +120,56 @@
     50% { transform: translateY(-20px) rotateX(0) rotateY(0); }
     75% { transform: translateY(-10px) rotateX(-2deg) rotateY(2deg); }
   }
+
+  @keyframes line-rise {
+    from { transform: translateY(110%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+
+  @keyframes orb-drift-a {
+    0%, 100% { transform: translate(0px,   0px);  }
+    25%      { transform: translate(40px, -30px); }
+    50%      { transform: translate(15px,  25px); }
+    75%      { transform: translate(-30px,-15px); }
+  }
+
+  @keyframes orb-drift-b {
+    0%, 100% { transform: translate(0px,   0px);  }
+    30%      { transform: translate(-35px, 20px); }
+    60%      { transform: translate(20px, -25px); }
+    85%      { transform: translate(-10px, 30px); }
+  }
+
+  @keyframes shimmer-sweep {
+    0%   { transform: translateX(-200%) skewX(-15deg); }
+    100% { transform: translateX(400%)  skewX(-15deg); }
+  }
+
+  @keyframes scan-line {
+    0%        { transform: translateY(0vh);   opacity: 0; }
+    3%, 97%   { opacity: 1; }
+    100%      { transform: translateY(100vh); opacity: 0; }
+  }
 }
 
 /* Base styles */
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow-x: clip; /* clips horizontal overflow without creating a scroll container (safe unlike overflow-x:hidden) */
 }
 
 body {
   font-family: var(--font-sans);
   color: var(--color-neutral-800);
-  background-color: white;
+  background-color: #09090f;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* Grid layout: header(fixed/no-space) | main(auto) | footer(auto)
+     min-height keeps footer at bottom on short pages.
+     Grid has no fixed row heights so body always grows with content. */
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
 }
 
 h1, h2, h3, h4, h5, h6 {

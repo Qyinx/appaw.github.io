@@ -54,10 +54,11 @@ export default function RetailPartners() {
   return (
     <section
       ref={sectionRef}
-      className="py-28 bg-white relative overflow-hidden"
+      className="py-28 bg-[#09090f] relative overflow-hidden"
     >
-      {/* Subtle warm ambient wash */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_80%,rgba(212,168,67,0.04),transparent)] pointer-events-none" />
+      {/* Ambient gold wash */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_80%,rgba(212,168,67,0.05),transparent)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:80px_80px]" />
       {/* Top hairline */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
 
@@ -77,16 +78,16 @@ export default function RetailPartners() {
               {t.retailPartners?.badge || 'Where to Buy'}
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 leading-[1.1]">
+          <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1]">
             {t.retailPartners?.title || 'Purchase Channels'}
           </h2>
-          <p className="text-neutral-400 mt-4 text-base leading-relaxed">
+          <p className="text-white/30 mt-4 text-base leading-relaxed">
             {t.retailPartners?.subtitle || 'Choose your preferred way to shop'}
           </p>
         </div>
 
         {/* ── Partner Cards ───────────────────────────── */}
-        <div className="grid md:grid-cols-2 gap-px bg-neutral-100 border border-neutral-100 max-w-4xl">
+        <div className="grid md:grid-cols-2 gap-px bg-white/[0.04] border border-white/[0.06] max-w-4xl">
           {sortedPartners.map((partner, index) => {
             const i18nPartner =
               t.retailPartners?.partners?.[partner.id as keyof typeof t.retailPartners.partners] ?? {};
@@ -105,7 +106,7 @@ export default function RetailPartners() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-white p-10 relative overflow-hidden flex flex-col hover:shadow-[0_0_0_2px_#d4a843] transition-all duration-500"
+                className="group bg-[#111116] p-10 relative overflow-hidden flex flex-col hover:shadow-[0_0_0_2px_#d4a843] transition-all duration-500"
                 style={{
                   opacity: visible ? 1 : 0,
                   transform: visible ? 'translateY(0)' : 'translateY(32px)',
@@ -114,13 +115,13 @@ export default function RetailPartners() {
                 }}
               >
                 {/* Large watermark index */}
-                <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-neutral-50 select-none leading-none group-hover:text-[#d4a843]/5 transition-colors duration-500">
+                <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-white/[0.025] select-none leading-none group-hover:text-[#d4a843]/[0.06] transition-colors duration-500">
                   0{index + 1}
                 </span>
 
                 {/* Top row — logo + type badge */}
                 <div className="flex items-start justify-between mb-8 relative">
-                  <div className="w-16 h-16 rounded-2xl border border-neutral-100 bg-neutral-50 flex items-center justify-center overflow-hidden group-hover:border-[#d4a843]/30 transition-colors duration-500">
+                  <div className="w-16 h-16 rounded-2xl border border-white/[0.08] bg-white/[0.04] flex items-center justify-center overflow-hidden group-hover:border-[#d4a843]/30 transition-colors duration-500">
                     {partner.logo ? (
                       <Image
                         src={getImagePath(partner.logo)}
@@ -135,18 +136,18 @@ export default function RetailPartners() {
                   </div>
 
                   {/* Type pill */}
-                  <div className="flex items-center gap-1.5 border border-neutral-200 rounded-full px-3 py-1.5 group-hover:border-[#d4a843]/40 transition-colors duration-500">
+                  <div className="flex items-center gap-1.5 border border-white/[0.1] rounded-full px-3 py-1.5 group-hover:border-[#d4a843]/40 transition-colors duration-500">
                     {isOnline ? (
                       <Globe className="w-3 h-3 text-[#d4a843]" />
                     ) : (
                       <Store className="w-3 h-3 text-[#d4a843]" />
                     )}
-                    <span className="text-neutral-500 text-xs uppercase tracking-[0.18em]">{typeLabel}</span>
+                    <span className="text-white/40 text-xs uppercase tracking-[0.18em]">{typeLabel}</span>
                   </div>
                 </div>
 
                 {/* Name */}
-                <h3 className="text-2xl font-bold text-neutral-900 mb-2 group-hover:text-[#c9972f] transition-colors duration-300 relative">
+                <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-[#d4a843] transition-colors duration-300 relative">
                   {'name' in i18nPartner
                     ? (i18nPartner as { name: string }).name
                     : partner.id}
@@ -154,7 +155,7 @@ export default function RetailPartners() {
 
                 {/* Description */}
                 {'description' in i18nPartner && (i18nPartner as { description: string }).description && (
-                  <p className="text-neutral-400 text-sm leading-relaxed mb-2 relative">
+                  <p className="text-white/30 text-sm leading-relaxed mb-2 relative">
                     {(i18nPartner as { description: string }).description}
                   </p>
                 )}
@@ -163,7 +164,7 @@ export default function RetailPartners() {
                 {'location' in i18nPartner && (i18nPartner as { location: string }).location && (
                   <div className="flex items-start gap-2 mt-1 mb-2 relative">
                     <MapPin className="w-3.5 h-3.5 text-[#d4a843] flex-shrink-0 mt-0.5" />
-                    <span className="text-neutral-400 text-xs leading-relaxed">
+                    <span className="text-white/30 text-xs leading-relaxed">
                       {(i18nPartner as { location: string }).location}
                     </span>
                   </div>
@@ -178,9 +179,9 @@ export default function RetailPartners() {
 
                   {/* Decorative dots */}
                   <div className="flex gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-200 group-hover:bg-[#d4a843]/40 transition-colors duration-300" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-200 group-hover:bg-[#d4a843]/40 transition-colors duration-500" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-200 group-hover:bg-[#d4a843]/40 transition-colors duration-700" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-[#d4a843]/40 transition-colors duration-300" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-[#d4a843]/40 transition-colors duration-500" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-[#d4a843]/40 transition-colors duration-700" />
                   </div>
                 </div>
 
@@ -201,7 +202,7 @@ export default function RetailPartners() {
           }}
         >
           <div className="w-6 h-px bg-[#d4a843]/40" />
-          <p className="text-neutral-400 text-xs uppercase tracking-[0.2em]">
+          <p className="text-white/25 text-xs uppercase tracking-[0.2em]">
             {t.retailPartners?.note || 'Interested in becoming a retail partner? Contact us!'}
           </p>
         </div>
