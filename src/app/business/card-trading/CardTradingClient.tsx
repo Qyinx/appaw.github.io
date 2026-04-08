@@ -31,8 +31,8 @@ function TradingGuide({ guide }: { guide: ReturnType<typeof useLanguage>['t']['t
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const side = activeTab === 'buy' ? guide.buy : guide.sell;
-  const tabAccent = activeTab === 'buy' ? '#d4a843' : '#10b981';
-  const tabAccentRgb = activeTab === 'buy' ? '212,168,67' : '16,185,129';
+  const tabAccent = activeTab === 'buy' ? '#d4a843' : '#818cf8';
+  const tabAccentRgb = activeTab === 'buy' ? '212,168,67' : '129,140,248';
 
   return (
     <section className="py-24 bg-[#09090f] relative overflow-hidden">
@@ -68,7 +68,7 @@ function TradingGuide({ guide }: { guide: ReturnType<typeof useLanguage>['t']['t
             onClick={() => { setActiveTab('sell'); setOpenFaq(null); }}
             className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300"
             style={activeTab === 'sell'
-              ? { background: `rgba(16,185,129,0.12)`, color: '#10b981', boxShadow: `inset 0 0 0 1px rgba(16,185,129,0.25)` }
+              ? { background: `rgba(129,140,248,0.12)`, color: '#818cf8', boxShadow: `inset 0 0 0 1px rgba(129,140,248,0.25)` }
               : { color: 'rgba(255,255,255,0.4)' }
             }
           >

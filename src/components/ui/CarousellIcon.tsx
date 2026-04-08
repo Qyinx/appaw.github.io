@@ -9,7 +9,7 @@ export default function CarousellIcon({ className = 'h-5 w-auto' }: CarousellIco
     <Image
       src="/images/icons/Carousell.svg"
       alt="Carousell"
-      width={416}
+      width={75}
       height={80}
       className={className}
       unoptimized

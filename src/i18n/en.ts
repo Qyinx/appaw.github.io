@@ -210,6 +210,37 @@ export const en = {
     },
     ctaTitle: 'Ready to Protect Your Collection?',
     ctaSubtitle: 'Give your prized cards the premium protection they deserve',
+    faq: {
+      badge: 'FAQs',
+      title: 'Frequently Asked Questions',
+      subtitle: 'Everything you need to know before you order',
+      items: [
+        {
+          q: 'Does it fit all PSA graded slabs?',
+          a: 'The protector fits standard 35PT PSA graded slabs — Pokémon, sports cards, and MTG. It does NOT fit thick PSA memorabilia/jersey cards, half-pound slabs, BGS slabs, or CGC slabs.',
+        },
+        {
+          q: 'How does the magnetic closure work?',
+          a: 'N52 neodymium magnets — the strongest grade commercially available — snap the case shut without any screws, tools, or latches. Firm enough for display and transport, yet easy to open by hand.',
+        },
+        {
+          q: 'What level of UV protection does the glass provide?',
+          a: 'The glass lens blocks greater than 95% of ultraviolet light, preventing the UV-induced colour fading that affects chrome, holographic, and vintage cards over time.',
+        },
+        {
+          q: 'Will the magnets damage my card?',
+          a: 'No. The N52 magnets are embedded in the aluminum frame and do not make contact with the PSA slab or the card inside. The magnetic field at slab distance is safe for all trading cards.',
+        },
+        {
+          q: 'What are the exact dimensions and weight?',
+          a: '8.7 cm wide × 14.2 cm tall × 0.98 cm deep, weight 74 g. Made from precision-machined aluminum with a UV-blocking glass lens.',
+        },
+        {
+          q: 'Where can I buy it and does it ship internationally?',
+          a: 'Order via our Etsy shop (appawstore.etsy.com), Carousell Hong Kong, or directly through WhatsApp at +852-9285-1189. Worldwide shipping to the USA, UK, HK, SG, and TW.',
+        },
+      ],
+    },
   },
 
   // Card Trading Guide & FAQ
@@ -239,20 +270,20 @@ export const en = {
         title: 'Frequently Asked Questions',
         items: [
           {
-            q: 'Where can we meet for the transaction?',
-            a: 'We arrange meetup locations across Hong Kong. WhatsApp us first and we will confirm a convenient spot and time.',
+            q: 'Where can we meet for a card transaction in Hong Kong?',
+            a: 'We arrange meetup locations across Hong Kong. WhatsApp us first at +852-9285-1189 and we will confirm a convenient spot and time.',
           },
           {
-            q: 'What payment methods do you accept?',
-            a: 'Cash or FPS (Faster Payment System) only, paid at the time of in-person handover. We do not accept credit cards, bank transfers, or instalment payments.',
+            q: 'What payment methods do you accept when buying graded cards?',
+            a: 'We only accept Cash or FPS (Faster Payment System) at the time of in-person handover. We do not accept credit cards, bank transfers, or instalment payments.',
           },
           {
             q: 'Can someone else collect the card on my behalf?',
             a: 'No. The payer and recipient must be the same person. Third-party pickups are not accepted under any circumstances.',
           },
           {
-            q: 'Do you offer delivery or shipping for card purchases?',
-            a: 'No. All transactions are face-to-face in Hong Kong only. We do not offer postal or courier delivery.',
+            q: 'Do you offer postal delivery for card purchases or consignments?',
+            a: 'No. All transactions are conducted face-to-face in Hong Kong only. We do not offer postal or courier delivery for card purchases or sales.',
           },
         ],
       },
@@ -285,20 +316,20 @@ export const en = {
         title: 'Frequently Asked Questions',
         items: [
           {
-            q: 'What grading companies do you accept for consignment?',
-            a: 'We currently accept PSA and CGC graded cards. Other companies may be considered on a case-by-case basis.',
+            q: 'What grading companies do you accept for card consignment?',
+            a: 'We currently accept PSA and CGC graded cards for consignment. Other grading companies may be considered on a case-by-case basis.',
           },
           {
-            q: 'How is the commission rate determined?',
-            a: 'Commission varies depending on card value and market conditions. Contact us via WhatsApp for a personalised quote before submitting.',
+            q: 'How is the card consignment commission rate determined?',
+            a: 'Commission varies depending on card value and current market conditions. Contact us via WhatsApp at +852-9285-1189 for a personalised quote before submitting your card.',
           },
           {
-            q: 'Can I get my unsold card back?',
-            a: 'Yes — as long as we have contacted you during the quarterly stocktake and you request its return, we will arrange a face-to-face handback.',
+            q: 'Can I get my unsold consigned card back?',
+            a: 'Yes — as long as we have contacted you during the quarterly stocktake and you request its return, we will arrange a face-to-face handback at a convenient Hong Kong location.',
           },
           {
             q: 'What happens if my card fails the authenticity check?',
-            a: 'We will notify you immediately and return the card during the next meetup. No fees are charged for declined submissions.',
+            a: 'We will notify you immediately and return the card at the next meetup. No fees are charged for declined submissions.',
           },
           {
             q: 'Can I change the listing price after submitting my card?',

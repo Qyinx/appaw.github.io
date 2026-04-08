@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { Shield, ArrowRight, CheckCircle, XCircle, AlertCircle, ChevronLeft, ChevronRight, Pause, Play, Layers, Sun, Weight, Box, Palette } from 'lucide-react';
+import { Shield, ArrowRight, CheckCircle, XCircle, AlertCircle, ChevronLeft, ChevronRight, ChevronDown, Pause, Play, Layers, Sun, Weight, Box, Palette } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 import RetailPartners from '@/components/RetailPartners';
@@ -34,6 +34,68 @@ const featureImages = [
 
 const CAROUSEL_INTERVAL = 4000;
 
+/* ─── FAQ Accordion ─── */
+function FaqAccordion({ items, visible }: {
+  items: { q: string; a: string }[];
+  visible: boolean;
+}) {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <div className="divide-y divide-white/[0.06]">
+      {items.map((item, i) => {
+        const isOpen = open === i;
+        return (
+          <div
+            key={i}
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? 'translateY(0)' : 'translateY(16px)',
+              transition: `opacity 0.6s ease ${i * 80}ms, transform 0.6s ease ${i * 80}ms`,
+            }}
+          >
+            <button
+              className="w-full flex items-start gap-5 py-6 text-left group"
+              onClick={() => setOpen(isOpen ? null : i)}
+              aria-expanded={isOpen}
+            >
+              <span
+                className="flex-shrink-0 text-[0.65rem] font-bold tracking-widest mt-0.5 font-mono transition-colors duration-300"
+                style={{ color: isOpen ? '#d4a843' : 'rgba(255,255,255,0.18)' }}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span
+                className="flex-1 text-sm font-medium leading-relaxed transition-colors duration-300"
+                style={{ color: isOpen ? 'white' : 'rgba(255,255,255,0.65)' }}
+              >
+                {item.q}
+              </span>
+              <ChevronDown
+                className="flex-shrink-0 w-4 h-4 mt-0.5 transition-all duration-300"
+                style={{
+                  color: isOpen ? '#d4a843' : 'rgba(255,255,255,0.22)',
+                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                }}
+              />
+            </button>
+            <div
+              className="overflow-hidden transition-all duration-400"
+              style={{ maxHeight: isOpen ? '300px' : '0px', opacity: isOpen ? 1 : 0 }}
+            >
+              <div className="pl-9 pb-6">
+                <div className="flex gap-4">
+                  <div className="w-px bg-[#d4a843]/30 flex-shrink-0" />
+                  <p className="text-white/45 text-sm leading-relaxed">{item.a}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function PSAProtectorPage() {
   const { t } = useLanguage();
   const [heroVisible, setHeroVisible] = useState(false);
@@ -50,6 +112,7 @@ export default function PSAProtectorPage() {
   const colorsReveal   = useReveal();
   const compatReveal   = useReveal();
   const specsReveal    = useReveal();
+  const faqReveal      = useReveal();
   const ctaReveal      = useReveal();
 
   useEffect(() => {
@@ -680,6 +743,73 @@ export default function PSAProtectorPage() {
            RETAIL PARTNERS
       ══════════════════════════════════════════ */}
       <RetailPartners />
+
+      {/* ══════════════════════════════════════════
+           FAQ
+      ══════════════════════════════════════════ */}
+      <section ref={faqReveal.ref} className="py-28 bg-[#0d0d14] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_70%_at_15%_50%,rgba(212,168,67,0.05),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/6 to-transparent" />
+
+        <div className="container-custom relative">
+          <div className="grid lg:grid-cols-[5fr_7fr] gap-16 xl:gap-24 items-start">
+
+            {/* LEFT — sticky section header */}
+            <div
+              className="lg:sticky lg:top-32 transition-all duration-700"
+              style={{ opacity: faqReveal.visible ? 1 : 0, transform: faqReveal.visible ? 'translateX(0)' : 'translateX(-24px)' }}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-8 h-px bg-[#d4a843]" />
+                <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.faq.badge}</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-5">
+                {t.psaProtectorPage.faq.title}
+              </h2>
+              <p className="text-white/35 text-sm leading-relaxed mb-12">
+                {t.psaProtectorPage.faq.subtitle}
+              </p>
+
+              {/* Decorative question count */}
+              <div className="flex items-end gap-3 mb-10">
+                <span className="text-[5.5rem] font-bold font-display leading-none select-none" style={{ color: 'rgba(255,255,255,0.04)' }}>
+                  {t.psaProtectorPage.faq.items.length}
+                </span>
+                <span className="text-white/25 text-[0.65rem] uppercase tracking-[0.2em] leading-snug mb-4">
+                  questions<br />answered
+                </span>
+              </div>
+
+              <div className="h-px bg-white/[0.06] mb-10" />
+
+              {/* Product stat mini-grid */}
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { v: '> 95%', l: 'UV Blocked' },
+                  { v: 'N52',   l: 'Magnet Grade' },
+                  { v: '74 g',  l: 'Weight' },
+                  { v: '7',     l: 'Colors' },
+                ].map((s) => (
+                  <div key={s.l} className="border border-white/[0.06] rounded-xl px-4 py-3 hover:border-[#d4a843]/20 transition-colors duration-300">
+                    <p className="text-[#d4a843] text-base font-bold leading-none mb-1">{s.v}</p>
+                    <p className="text-white/30 text-[0.62rem] uppercase tracking-wider">{s.l}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* RIGHT — accordion */}
+            <div
+              className="transition-all duration-700"
+              style={{ opacity: faqReveal.visible ? 1 : 0, transform: faqReveal.visible ? 'translateX(0)' : 'translateX(24px)', transitionDelay: '150ms' }}
+            >
+              <FaqAccordion items={t.psaProtectorPage.faq.items} visible={faqReveal.visible} />
+            </div>
+
+          </div>
+        </div>
+      </section>
 
       {/* ══════════════════════════════════════════
            CTA — Dark final stage

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { promises as fs } from 'fs';
 import path from 'path';
 import type { TradingCard } from '@/types/trading-card';
+import { en } from '@/i18n';
 
 export const metadata: Metadata = {
   title: 'Trading Card Showcase – Buy Graded Cards | Appaw Store',
@@ -63,42 +64,13 @@ const tradingFaqJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Where can we meet for a card transaction in Hong Kong?',
-      acceptedAnswer: { '@type': 'Answer', text: 'We arrange meetup locations across Hong Kong. WhatsApp us first at +852-9285-1189 and we will confirm a convenient spot and time.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'What grading companies do you accept for card consignment?',
-      acceptedAnswer: { '@type': 'Answer', text: 'We currently accept PSA and CGC graded cards for consignment. Other grading companies may be considered on a case-by-case basis.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'How is the card consignment commission rate determined?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Commission varies depending on card value and current market conditions. Contact us via WhatsApp at +852-9285-1189 for a personalised quote before submitting your card.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can I get my unsold consigned card back?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes — as long as we have contacted you during the quarterly stocktake and you request its return, we will arrange a face-to-face handback at a convenient Hong Kong location.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'What happens if my card fails the authenticity check?',
-      acceptedAnswer: { '@type': 'Answer', text: 'We will notify you immediately and return the card at the next meetup. No fees are charged for declined submissions.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'What payment methods do you accept when buying graded cards?',
-      acceptedAnswer: { '@type': 'Answer', text: 'We only accept Cash or FPS (Faster Payment System) at the time of in-person handover. We do not accept credit cards, bank transfers, or instalment payments.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Do you offer postal delivery for card purchases or consignments?',
-      acceptedAnswer: { '@type': 'Answer', text: 'No. All transactions are conducted face-to-face in Hong Kong only. We do not offer postal or courier delivery for card purchases or sales.' },
-    },
-  ],
+    ...en.tradingGuide.buy.faq.items,
+    ...en.tradingGuide.sell.faq.items,
+  ].map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
 };
 
 const buyHowToJsonLd = {

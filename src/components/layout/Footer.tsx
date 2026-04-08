@@ -56,7 +56,7 @@ export default function Footer() {
         {/* Right emerald ambient */}
         <div
           className="absolute -right-32 bottom-0 w-[400px] h-[400px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(129,140,248,0.05) 0%, transparent 70%)' }}
         />
       </div>
 
@@ -69,13 +69,13 @@ export default function Footer() {
       {/* ── Main content ── */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* ── Upper section: brand + nav + contact ── */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-12">
+        {/* ── Upper section ── */}
+        <div className="pt-10 pb-8 md:pt-16 md:pb-12">
 
-          {/* Brand column — xl: 4 cols */}
-          <div className="xl:col-span-4 flex flex-col">
-            <Link href="/" className="inline-flex items-center gap-3 group w-fit mb-5">
-              <div className="w-10 h-10 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#d4a843]/50 transition-colors duration-300 flex-shrink-0">
+          {/* Brand row — logo + socials on one line on mobile */}
+          <div className="flex items-center justify-between mb-6 md:mb-0">
+            <Link href="/" className="inline-flex items-center gap-3 group w-fit">
+              <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#d4a843]/50 transition-colors duration-300 flex-shrink-0">
                 <Image
                   src={getImagePath('/images/logo.png')}
                   alt="Appaw Store Logo"
@@ -84,35 +84,13 @@ export default function Footer() {
                   className="object-cover"
                 />
               </div>
-              <span className="font-display font-bold text-lg text-white group-hover:text-[#d4a843] transition-colors duration-300 tracking-wide">
+              <span className="font-display font-bold text-base md:text-lg text-white group-hover:text-[#d4a843] transition-colors duration-300 tracking-wide">
                 Appaw Store
               </span>
             </Link>
 
-            <p className="text-white/40 text-sm leading-relaxed mb-8 max-w-[260px]">
-              {t.footer.description}
-            </p>
-
-            {/* Service badges */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              <Link
-                href="/products/psa-protectors"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d4a843]/25 bg-[#d4a843]/5 hover:bg-[#d4a843]/10 hover:border-[#d4a843]/50 transition-all duration-200 group"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] group-hover:scale-125 transition-transform" />
-                <span className="text-[#d4a843]/80 text-xs font-medium tracking-wide">PSA Protector</span>
-              </Link>
-              <Link
-                href="/business/card-trading"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#10b981]/25 bg-[#10b981]/5 hover:bg-[#10b981]/10 hover:border-[#10b981]/50 transition-all duration-200 group"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] group-hover:scale-125 transition-transform" />
-                <span className="text-[#10b981]/80 text-xs font-medium tracking-wide">Card Trading</span>
-              </Link>
-            </div>
-
-            {/* Social icons */}
-            <div className="flex items-center gap-2 mt-auto">
+            {/* Social icons — visible on mobile in brand row */}
+            <div className="flex items-center gap-1.5 md:hidden">
               {socialLinks.map((s) => (
                 <a
                   key={s.label}
@@ -120,8 +98,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/8 text-white/35 transition-all duration-200"
-                  style={{ '--hover-color': s.color } as React.CSSProperties}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/8 text-white/35 transition-all duration-200"
                   onMouseEnter={e => {
                     (e.currentTarget as HTMLElement).style.borderColor = s.color + '60';
                     (e.currentTarget as HTMLElement).style.color = s.color;
@@ -133,79 +110,203 @@ export default function Footer() {
                     (e.currentTarget as HTMLElement).style.background = '';
                   }}
                 >
-                  <FontAwesomeIcon icon={s.icon} className="w-4 h-4" />
+                  <FontAwesomeIcon icon={s.icon} className="w-3.5 h-3.5" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Navigation — xl: 3 cols */}
-          <div className="xl:col-span-3 xl:col-start-6">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-4 h-px bg-[#d4a843]/50" />
-              <h3 className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-semibold">
-                {t.footer.quickLinks}
-              </h3>
-            </div>
-            <ul className="space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="flex items-center gap-2.5 text-white/40 hover:text-white text-sm transition-colors duration-200 group w-fit"
-                  >
-                    <span className="w-0 h-px bg-[#d4a843] group-hover:w-4 transition-all duration-300 flex-shrink-0" />
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Service badges — mobile */}
+          <div className="flex flex-wrap gap-2 mb-6 md:hidden">
+            <Link
+              href="/products/psa-protectors"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#d4a843]/25 bg-[#d4a843]/5 hover:bg-[#d4a843]/10 transition-all duration-200"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843]" />
+              <span className="text-[#d4a843]/80 text-xs font-medium">PSA Protector</span>
+            </Link>
+            <Link
+              href="/business/card-trading"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#818cf8]/25 bg-[#818cf8]/5 hover:bg-[#818cf8]/10 transition-all duration-200"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#818cf8]" />
+              <span className="text-[#818cf8]/80 text-xs font-medium">Card Trading</span>
+            </Link>
           </div>
 
-          {/* Contact — xl: 4 cols */}
-          <div className="xl:col-span-4 xl:col-start-9">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-4 h-px bg-[#d4a843]/50" />
-              <h3 className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-semibold">
+          {/* Mobile: nav + contact side by side */}
+          <div className="grid grid-cols-2 gap-6 md:hidden">
+            {/* Nav */}
+            <div>
+              <h3 className="text-white/40 text-[9px] uppercase tracking-[0.3em] font-semibold mb-3">
+                {t.footer.quickLinks}
+              </h3>
+              <ul className="space-y-2.5">
+                {quickLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-white/45 hover:text-white text-xs transition-colors duration-200 leading-tight block">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Contact */}
+            <div>
+              <h3 className="text-white/40 text-[9px] uppercase tracking-[0.3em] font-semibold mb-3">
                 {t.footer.contact}
               </h3>
+              <ul className="space-y-2.5">
+                {contactItems.map((item) => (
+                  <li key={item.label}>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        target={item.href.startsWith('http') ? '_blank' : undefined}
+                        rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="flex items-center gap-2 text-white/45 hover:text-white text-xs transition-colors duration-200"
+                      >
+                        <FontAwesomeIcon icon={item.icon} className="w-3 h-3 text-[#d4a843]/50 flex-shrink-0" />
+                        <span className="truncate">{item.label}</span>
+                      </a>
+                    ) : (
+                      <div className="flex items-center gap-2 text-white/30 text-xs">
+                        <FontAwesomeIcon icon={item.icon} className="w-3 h-3 text-[#d4a843]/40 flex-shrink-0" />
+                        <span>{item.label}</span>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              {/* WhatsApp CTA — mobile */}
+              <a
+                href="https://wa.me/85292851189"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-4 px-3 py-1.5 rounded-lg border border-[#25D366]/25 bg-[#25D366]/5 hover:bg-[#25D366]/10 text-[#25D366]/80 hover:text-[#25D366] text-xs font-medium transition-all duration-200"
+              >
+                <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5" />
+                Chat with us
+              </a>
             </div>
-            <ul className="space-y-4 mb-8">
-              {contactItems.map((item) => (
-                <li key={item.label}>
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      target={item.href.startsWith('http') ? '_blank' : undefined}
-                      rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="flex items-start gap-3 text-white/40 hover:text-white text-sm transition-colors duration-200 group"
-                    >
-                      <FontAwesomeIcon
-                        icon={item.icon}
-                        className="w-3.5 h-3.5 mt-0.5 text-[#d4a843]/50 group-hover:text-[#d4a843] transition-colors flex-shrink-0"
-                      />
-                      {item.label}
-                    </a>
-                  ) : (
-                    <div className="flex items-start gap-3 text-white/30 text-sm">
-                      <FontAwesomeIcon icon={item.icon} className="w-3.5 h-3.5 mt-0.5 text-[#d4a843]/40 flex-shrink-0" />
-                      {item.label}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
+          </div>
 
-            {/* Highlight CTA */}
-            <a
-              href="https://wa.me/85292851189"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-[#25D366]/25 bg-[#25D366]/5 hover:bg-[#25D366]/10 hover:border-[#25D366]/50 text-[#25D366]/80 hover:text-[#25D366] text-sm font-medium transition-all duration-200"
-            >
-              <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
-              Chat with us
-            </a>
+          {/* Desktop: original 3-column layout */}
+          <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-12 gap-12 mt-8">
+
+            {/* Brand column — xl: 4 cols */}
+            <div className="xl:col-span-4 flex flex-col">
+              <p className="text-white/40 text-sm leading-relaxed mb-8 max-w-[260px]">
+                {t.footer.description}
+              </p>
+              <div className="flex flex-wrap gap-2 mb-8">
+                <Link
+                  href="/products/psa-protectors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d4a843]/25 bg-[#d4a843]/5 hover:bg-[#d4a843]/10 hover:border-[#d4a843]/50 transition-all duration-200 group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] group-hover:scale-125 transition-transform" />
+                  <span className="text-[#d4a843]/80 text-xs font-medium tracking-wide">PSA Protector</span>
+                </Link>
+                <Link
+                  href="/business/card-trading"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#818cf8]/25 bg-[#818cf8]/5 hover:bg-[#818cf8]/10 hover:border-[#818cf8]/50 transition-all duration-200 group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#818cf8] group-hover:scale-125 transition-transform" />
+                  <span className="text-[#818cf8]/80 text-xs font-medium tracking-wide">Card Trading</span>
+                </Link>
+              </div>
+              <div className="flex items-center gap-2 mt-auto">
+                {socialLinks.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/8 text-white/35 transition-all duration-200"
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = s.color + '60';
+                      (e.currentTarget as HTMLElement).style.color = s.color;
+                      (e.currentTarget as HTMLElement).style.background = s.color + '12';
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = '';
+                      (e.currentTarget as HTMLElement).style.color = '';
+                      (e.currentTarget as HTMLElement).style.background = '';
+                    }}
+                  >
+                    <FontAwesomeIcon icon={s.icon} className="w-4 h-4" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation — xl: 3 cols */}
+            <div className="xl:col-span-3 xl:col-start-6">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-4 h-px bg-[#d4a843]/50" />
+                <h3 className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-semibold">
+                  {t.footer.quickLinks}
+                </h3>
+              </div>
+              <ul className="space-y-3">
+                {quickLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="flex items-center gap-2.5 text-white/40 hover:text-white text-sm transition-colors duration-200 group w-fit"
+                    >
+                      <span className="w-0 h-px bg-[#d4a843] group-hover:w-4 transition-all duration-300 flex-shrink-0" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact — xl: 4 cols */}
+            <div className="xl:col-span-4 xl:col-start-9">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-4 h-px bg-[#d4a843]/50" />
+                <h3 className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-semibold">
+                  {t.footer.contact}
+                </h3>
+              </div>
+              <ul className="space-y-4 mb-8">
+                {contactItems.map((item) => (
+                  <li key={item.label}>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        target={item.href.startsWith('http') ? '_blank' : undefined}
+                        rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="flex items-start gap-3 text-white/40 hover:text-white text-sm transition-colors duration-200 group"
+                      >
+                        <FontAwesomeIcon
+                          icon={item.icon}
+                          className="w-3.5 h-3.5 mt-0.5 text-[#d4a843]/50 group-hover:text-[#d4a843] transition-colors flex-shrink-0"
+                        />
+                        {item.label}
+                      </a>
+                    ) : (
+                      <div className="flex items-start gap-3 text-white/30 text-sm">
+                        <FontAwesomeIcon icon={item.icon} className="w-3.5 h-3.5 mt-0.5 text-[#d4a843]/40 flex-shrink-0" />
+                        {item.label}
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="https://wa.me/85292851189"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-[#25D366]/25 bg-[#25D366]/5 hover:bg-[#25D366]/10 hover:border-[#25D366]/50 text-[#25D366]/80 hover:text-[#25D366] text-sm font-medium transition-all duration-200"
+              >
+                <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
+                Chat with us
+              </a>
+            </div>
           </div>
         </div>
 
@@ -213,7 +314,7 @@ export default function Footer() {
         <div className="h-px bg-gradient-to-r from-transparent via-white/6 to-transparent" />
 
         {/* ── Bottom bar ── */}
-        <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="py-4 md:py-6 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
           <p className="text-white/20 text-xs tracking-wider order-2 sm:order-1">
             © {new Date().getFullYear()} Appaw Store. {t.footer.rights}
           </p>
@@ -224,12 +325,12 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <span className="w-1 h-1 rounded-full bg-[#d4a843]/40" />
               <span className="text-white/15 text-[10px] tracking-[0.25em] uppercase font-medium">Premium · HK</span>
-              <span className="w-1 h-1 rounded-full bg-[#10b981]/40" />
+              <span className="w-1 h-1 rounded-full bg-[#818cf8]/40" />
             </div>
-            <div className="w-6 h-px bg-[#10b981]/20" />
+            <div className="w-6 h-px bg-[#818cf8]/20" />
           </div>
 
-          <div className="order-3 flex items-center gap-4">
+          <div className="hidden sm:flex order-3 items-center gap-4">
             <Link href="/about" className="text-white/15 hover:text-white/40 text-xs transition-colors duration-200">
               About
             </Link>

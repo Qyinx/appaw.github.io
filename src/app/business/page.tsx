@@ -2,7 +2,7 @@
    REPLACED — full dark redesign (April 2026)
    • All sections unified to #09090f dark background
    • PSA service: gold (#d4a843) accent
-   • Trading service: emerald (#10b981) accent
+   • Trading service: emerald (#818cf8) accent
    • Hero: ambient orbs + scan line + staggered headline
    • Jump links: colour-coded pill style
    ───────────────────────────────────────────────────── */
@@ -56,7 +56,7 @@ export default function BusinessPage() {
 
         {/* Ambient orbs */}
         <div className="absolute top-1/4 left-[10%] w-[420px] h-[420px] rounded-full bg-[rgba(212,168,67,0.05)] blur-[90px] pointer-events-none animate-[orb-drift-a_16s_ease-in-out_infinite]" />
-        <div className="absolute bottom-1/4 right-[10%] w-72 h-72 rounded-full bg-[rgba(16,185,129,0.04)] blur-[70px] pointer-events-none animate-[orb-drift-b_20s_ease-in-out_3s_infinite]" />
+        <div className="absolute bottom-1/4 right-[10%] w-72 h-72 rounded-full bg-[rgba(129,140,248,0.04)] blur-[70px] pointer-events-none animate-[orb-drift-b_20s_ease-in-out_3s_infinite]" />
 
         {/* Scan line */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -121,10 +121,10 @@ export default function BusinessPage() {
                 <span className="text-white text-sm font-medium">{t.business.cardProtector.title}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#d4a843] group-hover:translate-x-1 transition-transform" />
               </a>
-              <a href="#trading" className="group inline-flex items-center gap-3 border border-[#10b981]/40 hover:border-[#10b981] hover:bg-[#10b981]/5 px-7 py-3.5 rounded-full transition-all duration-300">
-                <Repeat className="w-4 h-4 text-[#10b981]" />
+              <a href="#trading" className="group inline-flex items-center gap-3 border border-[#818cf8]/40 hover:border-[#818cf8] hover:bg-[#818cf8]/5 px-7 py-3.5 rounded-full transition-all duration-300">
+                <Repeat className="w-4 h-4 text-[#818cf8]" />
                 <span className="text-white text-sm font-medium">{t.business.cardTrading.title}</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#10b981] group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#818cf8] group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
           </div>
@@ -241,9 +241,9 @@ export default function BusinessPage() {
            Dark immersive section
       ══════════════════════════════════════════ */}
       <section id="trading" ref={tradingReveal.ref} className="py-28 bg-[#09090f] relative overflow-hidden scroll-mt-20">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#10b981]/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#10b981]/15 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_70%_50%,rgba(16,185,129,0.05),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#818cf8]/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#818cf8]/15 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_70%_50%,rgba(129,140,248,0.05),transparent)]" />
 
         <div className="container-custom relative">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
@@ -255,14 +255,14 @@ export default function BusinessPage() {
             >
               <div className="relative">
                 {/* Ambient glow */}
-                <div className="absolute -inset-6 bg-gradient-to-br from-[#10b981]/10 via-transparent to-transparent rounded-[2rem] blur-2xl" />
+                <div className="absolute -inset-6 bg-gradient-to-br from-[#818cf8]/10 via-transparent to-transparent rounded-[2rem] blur-2xl" />
 
                 {/* Card stack */}
                 <div className="relative p-6 border border-white/5 bg-white/[0.02] rounded-2xl">
                   {/* Header */}
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[#10b981]" />
+                      <div className="w-2 h-2 rounded-full bg-[#818cf8]" />
                       <span className="text-white/40 text-xs uppercase tracking-[0.2em]">{t.business.cardTrading.badge}</span>
                     </div>
                     <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full">
@@ -317,7 +317,7 @@ export default function BusinessPage() {
                           transitionDelay: `${600 + i * 100}ms`,
                         }}
                       >
-                        <div className="flex items-center justify-center gap-1.5 text-[#10b981] mb-1">
+                        <div className="flex items-center justify-center gap-1.5 text-[#818cf8] mb-1">
                           {s.icon}
                           <span className="text-xl font-bold">{s.value}</span>
                         </div>
@@ -335,13 +335,13 @@ export default function BusinessPage() {
               style={{ opacity: tradingReveal.visible ? 1 : 0, transform: tradingReveal.visible ? 'translateX(0)' : 'translateX(32px)' }}
             >
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-px bg-[#10b981]" />
-                <span className="text-[#10b981] text-xs uppercase tracking-[0.25em] font-medium">Service 02</span>
+                <div className="w-8 h-px bg-[#818cf8]" />
+                <span className="text-[#818cf8] text-xs uppercase tracking-[0.25em] font-medium">Service 02</span>
               </div>
 
-              <div className="inline-flex items-center gap-2 border border-[#10b981]/30 rounded-full px-4 py-1.5 mb-6">
-                <Repeat className="w-3.5 h-3.5 text-[#10b981]" />
-                <span className="text-[#10b981] text-xs uppercase tracking-[0.2em] font-medium">{t.business.cardTrading.badge}</span>
+              <div className="inline-flex items-center gap-2 border border-[#818cf8]/30 rounded-full px-4 py-1.5 mb-6">
+                <Repeat className="w-3.5 h-3.5 text-[#818cf8]" />
+                <span className="text-[#818cf8] text-xs uppercase tracking-[0.2em] font-medium">{t.business.cardTrading.badge}</span>
               </div>
 
               <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-6">
@@ -363,8 +363,8 @@ export default function BusinessPage() {
                       transitionDelay: `${300 + i * 100}ms`,
                     }}
                   >
-                    <div className="mt-0.5 w-5 h-5 rounded-full bg-[#10b981]/10 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-[#10b981]" />
+                    <div className="mt-0.5 w-5 h-5 rounded-full bg-[#818cf8]/10 flex items-center justify-center flex-shrink-0">
+                      <Check className="w-3 h-3 text-[#818cf8]" />
                     </div>
                     <span className="text-white/60 text-sm leading-relaxed">{feature}</span>
                   </div>
@@ -374,7 +374,7 @@ export default function BusinessPage() {
               <div className="flex flex-wrap items-center gap-4">
                 <Link
                   href="/business/card-trading"
-                  className="group inline-flex items-center gap-3 bg-[#10b981] hover:bg-[#34d399] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(16,185,129,0.35)]"
+                  className="group inline-flex items-center gap-3 bg-[#818cf8] hover:bg-[#a5b4fc] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(129,140,248,0.35)]"
                 >
                   <span>{t.business.cardTrading.cta}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -383,7 +383,7 @@ export default function BusinessPage() {
                   href="https://wa.me/85292851189"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-3 border border-[#10b981]/30 hover:border-[#10b981] text-[#10b981] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 transition-all duration-300 hover:bg-[#10b981]/5"
+                  className="group inline-flex items-center gap-3 border border-[#818cf8]/30 hover:border-[#818cf8] text-[#818cf8] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 transition-all duration-300 hover:bg-[#818cf8]/5"
                 >
                   <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
                   <span>{t.business.cta.whatsapp}</span>

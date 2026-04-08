@@ -39,7 +39,7 @@ export default function AboutPage() {
   const values = [
     { icon: Award, number: '01', title: t.about.values.quality.title,   description: t.about.values.quality.description,   color: '#3b82f6' },
     { icon: Heart, number: '02', title: t.about.values.integrity.title,  description: t.about.values.integrity.description,  color: '#d4a843' },
-    { icon: Zap,   number: '03', title: t.about.values.passion.title,    description: t.about.values.passion.description,    color: '#10b981' },
+    { icon: Zap,   number: '03', title: t.about.values.passion.title,    description: t.about.values.passion.description,    color: '#818cf8' },
     { icon: Users, number: '04', title: t.about.values.service.title,    description: t.about.values.service.description,    color: '#8b5cf6' },
   ];
 

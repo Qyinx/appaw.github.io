@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
@@ -77,7 +77,7 @@ export default function HomePage() {
 
         {/* Floating ambient orbs */}
         <div className="absolute top-1/4 left-[15%] w-[480px] h-[480px] rounded-full bg-[rgba(212,168,67,0.06)] blur-[100px] pointer-events-none animate-[orb-drift-a_14s_ease-in-out_infinite]" />
-        <div className="absolute bottom-1/4 right-[15%] w-[360px] h-[360px] rounded-full bg-[rgba(16,185,129,0.04)] blur-[80px] pointer-events-none animate-[orb-drift-b_18s_ease-in-out_2s_infinite]" />
+        <div className="absolute bottom-1/4 right-[15%] w-[360px] h-[360px] rounded-full bg-[rgba(129,140,248,0.04)] blur-[80px] pointer-events-none animate-[orb-drift-b_18s_ease-in-out_2s_infinite]" />
         <div className="absolute top-[55%] right-[38%] w-[280px] h-[280px] rounded-full bg-[rgba(212,168,67,0.04)] blur-[70px] pointer-events-none animate-[orb-drift-a_22s_ease-in-out_5s_infinite]" />
 
         {/* Scanning light line */}
@@ -244,7 +244,7 @@ export default function HomePage() {
       <section ref={servicesRef} className="relative py-32 bg-[#09090f] overflow-hidden scroll-mt-20">
         {/* Ambient lighting */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_25%_50%,rgba(212,168,67,0.06),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_50%,rgba(16,185,129,0.04),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_50%,rgba(129,140,248,0.04),transparent)]" />
         {/* Top hairline */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
         {/* Subtle grid */}
@@ -354,7 +354,7 @@ export default function HomePage() {
               }}
             >
               {/* Card background */}
-              <div className="relative bg-gradient-to-b from-[#141418] to-[#0c0c10] border border-[#10b981]/15 rounded-2xl overflow-hidden group-hover:border-[#10b981]/40 transition-all duration-700 group-hover:shadow-[0_0_80px_rgba(16,185,129,0.08),inset_0_1px_0_rgba(16,185,129,0.08)]">
+              <div className="relative bg-gradient-to-b from-[#141418] to-[#0c0c10] border border-[#818cf8]/15 rounded-2xl overflow-hidden group-hover:border-[#818cf8]/40 transition-all duration-700 group-hover:shadow-[0_0_80px_rgba(129,140,248,0.08),inset_0_1px_0_rgba(129,140,248,0.08)]">
 
                 {/* Shimmer sweep — revealed on hover (offset so cards don't sync) */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -362,19 +362,19 @@ export default function HomePage() {
                 </div>
 
                 {/* Corner accents */}
-                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#10b981]/30 group-hover:border-[#10b981]/60 transition-colors duration-500" />
-                <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#10b981]/30 group-hover:border-[#10b981]/60 transition-colors duration-500" />
-                <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#10b981]/30 group-hover:border-[#10b981]/60 transition-colors duration-500" />
-                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#10b981]/30 group-hover:border-[#10b981]/60 transition-colors duration-500" />
+                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#818cf8]/30 group-hover:border-[#818cf8]/60 transition-colors duration-500" />
+                <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#818cf8]/30 group-hover:border-[#818cf8]/60 transition-colors duration-500" />
+                <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#818cf8]/30 group-hover:border-[#818cf8]/60 transition-colors duration-500" />
+                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#818cf8]/30 group-hover:border-[#818cf8]/60 transition-colors duration-500" />
 
                 {/* Editorial number watermark */}
-                <span className="absolute top-6 right-8 text-[6rem] font-bold leading-none text-white/[0.025] select-none group-hover:text-[#10b981]/[0.08] transition-colors duration-700 font-display">
+                <span className="absolute top-6 right-8 text-[6rem] font-bold leading-none text-white/[0.025] select-none group-hover:text-[#818cf8]/[0.08] transition-colors duration-700 font-display">
                   02
                 </span>
 
                 {/* Card fan visual area */}
                 <div className="relative h-72 flex items-center justify-center overflow-hidden">
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_60%,rgba(16,185,129,0.07),transparent)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_60%,rgba(129,140,248,0.07),transparent)]" />
                   {/* Card fan */}
                   <div className="relative flex items-center justify-center">
                     {[
@@ -384,7 +384,7 @@ export default function HomePage() {
                     ].map((card, i) => (
                       <div
                         key={i}
-                        className="absolute w-[7.5rem] h-40 rounded-xl overflow-hidden border border-white/[0.08] shadow-[0_20px_40px_rgba(0,0,0,0.6)] transition-all duration-700 group-hover:shadow-[0_24px_48px_rgba(16,185,129,0.10)]"
+                        className="absolute w-[7.5rem] h-40 rounded-xl overflow-hidden border border-white/[0.08] shadow-[0_20px_40px_rgba(0,0,0,0.6)] transition-all duration-700 group-hover:shadow-[0_24px_48px_rgba(129,140,248,0.10)]"
                         style={{
                           transform: `rotate(${card.rotate}deg) translateX(${card.x}px)`,
                           zIndex: i === 1 ? 3 : i === 2 ? 2 : 1,
@@ -399,9 +399,9 @@ export default function HomePage() {
                   </div>
 
                   {/* Floating service badge */}
-                  <div className="absolute top-6 left-6 flex items-center gap-2 bg-[#09090f]/80 backdrop-blur-xl border border-[#10b981]/30 rounded-full px-4 py-2">
-                    <Repeat className="w-3.5 h-3.5 text-[#10b981]" />
-                    <span className="text-[#10b981] text-[10px] font-semibold uppercase tracking-[0.2em]">Trading</span>
+                  <div className="absolute top-6 left-6 flex items-center gap-2 bg-[#09090f]/80 backdrop-blur-xl border border-[#818cf8]/30 rounded-full px-4 py-2">
+                    <Repeat className="w-3.5 h-3.5 text-[#818cf8]" />
+                    <span className="text-[#818cf8] text-[10px] font-semibold uppercase tracking-[0.2em]">Trading</span>
                   </div>
 
                   {/* Active indicator */}
@@ -412,24 +412,24 @@ export default function HomePage() {
                 </div>
 
                 {/* Divider */}
-                <div className="mx-8 h-px bg-gradient-to-r from-transparent via-[#10b981]/25 to-transparent" />
+                <div className="mx-8 h-px bg-gradient-to-r from-transparent via-[#818cf8]/25 to-transparent" />
 
                 {/* Text area */}
                 <div className="px-8 py-8">
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#10b981] transition-colors duration-500 font-display">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#818cf8] transition-colors duration-500 font-display">
                     {t.business.cardTrading.title}
                   </h3>
                   <p className="text-white/30 text-sm leading-relaxed mb-8">
                     {t.home.services.trading.subtitle}
                   </p>
-                  <span className="inline-flex items-center gap-2.5 text-[#10b981] font-semibold text-sm uppercase tracking-[0.1em] group-hover:gap-4 transition-all duration-500">
+                  <span className="inline-flex items-center gap-2.5 text-[#818cf8] font-semibold text-sm uppercase tracking-[0.1em] group-hover:gap-4 transition-all duration-500">
                     {t.home.services.trading.cta}
                     <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
                   </span>
                 </div>
 
                 {/* Bottom emerald accent line */}
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#10b981] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-center" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#818cf8] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-center" />
               </div>
             </Link>
           </div>
