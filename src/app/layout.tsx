@@ -182,39 +182,13 @@ const jsonLd = {
   ],
 };
 
-// FAQ Schema — brand-home level only.
-// Product Q&As → /products/psa-protectors/  |  Trading Q&As → /business/card-trading/
-// Brand/company Q&As → /about/  |  Service Q&As → /business/
-const faqJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What does Appaw Store offer?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Appaw Store offers two products and services: (1) PSA Card Aluminum Protectors — premium industrial-grade aluminum cases with >95% UV-blocking glass and N52 magnetic closure for standard PSA graded slabs, shipping worldwide; and (2) TCG Trading & Brokerage — a trusted buy, sell, and consignment service for PSA and CGC graded trading cards conducted face-to-face in Hong Kong.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is Appaw Store a trusted seller?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes. Appaw Store is a Hong Kong-based brand founded in 2024 with a 4.9/5 average product rating across 127+ verified reviews. We operate a verified Etsy shop (appawstore.etsy.com) and Carousell store (carousell.com.hk/u/appaw.store), serve customers across 100+ countries, and are contactable via Instagram @appaw.store and WhatsApp +852-9285-1189.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What are Appaw Store\'s operating hours?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Appaw Store is available 10:00–22:00 HKT, 7 days a week. Contact us via WhatsApp at +852-9285-1189 or email support@appaw.store for product enquiries, order support, or card trading consultations.',
-      },
-    },
-  ],
-};
+// FAQ Schema intentionally omitted from root layout.
+// Each page owns its FAQPage as a single source:
+//   /                    → no FAQ (covered by WebSite + Store schemas)
+//   /about/              → aboutFaqJsonLd  (brand Q&As)
+//   /business/           → businessFaqJsonLd  (service Q&As)
+//   /products/psa-protectors/ → psaFaqJsonLd  (product Q&As, single-sourced from i18n)
+//   /business/card-trading/   → tradingFaqJsonLd  (trading Q&As, single-sourced from i18n)
 
 export default function RootLayout({
   children,
@@ -252,10 +226,6 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
         {/* Help AI assistants understand page language context */}
         <meta name="language" content="English, Chinese" />
