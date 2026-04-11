@@ -43,9 +43,9 @@
     "grade": 10,
     "price": 250000,
     "currency": "HKD",
-    "sold": false,
+    "sold": true,
     "createdAt": "2026-04-06T15:07:55.669Z",
-    "updatedAt": "2026-04-06T15:13:53.791Z",
+    "updatedAt": "2026-04-11T15:50:58.380Z",
     "image": "/images/trade/84a10176-6222-465d-abe4-3b10caade7f3/front.jpg",
     "imageBack": "/images/trade/84a10176-6222-465d-abe4-3b10caade7f3/back.jpg",
     "set": "M.C. X PIKACHU SPECIAL BOX",
@@ -85,5 +85,24 @@
         "year": 2022
       }
     ]
+  },
+  {
+    "id": "40fead1a-e4a4-43b5-a943-1c75061d80c4",
+    "name": "FA/PIKACHU",
+    "year": 2019,
+    "company": "PSA",
+    "grade": 10,
+    "price": 10800,
+    "currency": "HKD",
+    "sold": false,
+    "createdAt": "2026-04-11T15:49:15.626Z",
+    "updatedAt": "2026-04-11T15:50:47.544Z",
+    "image": "/images/trade/40fead1a-e4a4-43b5-a943-1c75061d80c4/front.jpg",
+    "imageBack": "/images/trade/40fead1a-e4a4-43b5-a943-1c75061d80c4/back.jpg",
+    "set": "SWSH PRE-ORDER",
+    "number": "001/S-P",
+    "certNumber": "1125*****",
+    "language": "Japanese",
+    "notes": "可接受trade"
   }
 ]

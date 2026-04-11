@@ -6,7 +6,7 @@ import React, {
 import {
   Plus, Pencil, Trash2, Check, X, Lock, Loader2, ImageIcon,
   Eye, EyeOff, ArrowLeft, AlertCircle, Layers, ShieldOff,
-  ExternalLink, RefreshCw, Save,
+  ExternalLink, RefreshCw, Save, Download, Link2, Clipboard,
 } from 'lucide-react';
 import type { TradingCard, BundleCard, GradingCompany } from '@/types/trading-card';
 
@@ -252,6 +252,8 @@ export default function AdminClient() {
   const [previews, setPreviews] = useState<Record<string, string>>({});
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [formErrors, setFormErrors] = useState<string[]>([]);
+  const [fetchingPsa, setFetchingPsa] = useState<string | null>(null); // 'main' | 'bundle-0' | null
+  const [psaManual, setPsaManual] = useState<{ target: string; frontUrl: string; backUrl: string } | null>(null);
 
   /* ─── Session check ─── */
   useEffect(() => {
@@ -322,6 +324,7 @@ export default function AdminClient() {
     setForm(emptyCF());
     setPreviews({});
     setFormErrors([]);
+    setPsaManual(null);
     setView('form');
   }
 
@@ -330,6 +333,7 @@ export default function AdminClient() {
     setForm(cardToCF(card));
     setPreviews({});
     setFormErrors([]);
+    setPsaManual(null);
     setView('form');
   }
 
@@ -364,6 +368,86 @@ export default function AdminClient() {
         setUploading(u => ({ ...u, [side]: false }));
       }
     };
+  }
+
+  /* ─── PSA image fetch ─── */
+  async function fetchPsaImages(
+    certNumber: string,
+    target: 'main' | `bundle-${number}`,
+  ) {
+    if (!certNumber.trim()) {
+      setDataError('Enter a PSA cert number first');
+      setTimeout(() => setDataError(''), 3000);
+      return;
+    }
+    setFetchingPsa(target);
+    try {
+      const res = await fetch('/api/admin/psa-fetch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ certNumber: certNumber.trim(), cardId: form.id }),
+      });
+      const data = await res.json();
+
+      // If blocked by PSA, show manual paste panel
+      if (res.status === 403 || data.error === 'blocked') {
+        setPsaManual({ target, frontUrl: '', backUrl: '' });
+        return;
+      }
+      if (!res.ok) throw new Error(data.message || data.error || 'Fetch failed');
+
+      applyPsaResult(data, target);
+      setSaveMsg('PSA images fetched ✓');
+      setTimeout(() => setSaveMsg(''), 3000);
+    } catch (e) {
+      setDataError(String(e));
+      setTimeout(() => setDataError(''), 5000);
+    } finally {
+      setFetchingPsa(null);
+    }
+  }
+
+  /** Download images from manually pasted URLs */
+  async function downloadPsaUrls() {
+    if (!psaManual) return;
+    const urls = [psaManual.frontUrl, psaManual.backUrl].filter(u => u.trim());
+    if (urls.length === 0) {
+      setDataError('Paste at least the front image URL');
+      setTimeout(() => setDataError(''), 3000);
+      return;
+    }
+    const target = psaManual.target as 'main' | `bundle-${number}`;
+    setFetchingPsa(target);
+    try {
+      const res = await fetch('/api/admin/psa-fetch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cardId: form.id, urls }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Download failed');
+
+      applyPsaResult(data, target);
+      setPsaManual(null);
+      setSaveMsg('PSA images downloaded ✓');
+      setTimeout(() => setSaveMsg(''), 3000);
+    } catch (e) {
+      setDataError(String(e));
+      setTimeout(() => setDataError(''), 5000);
+    } finally {
+      setFetchingPsa(null);
+    }
+  }
+
+  function applyPsaResult(data: { front?: string; back?: string }, target: string) {
+    if (target === 'main') {
+      if (data.front) setF('image', data.front);
+      if (data.back) setF('imageBack', data.back);
+    } else {
+      const idx = parseInt(target.split('-')[1], 10);
+      if (data.front) setBF(idx, 'image', data.front);
+      if (data.back) setBF(idx, 'imageBack', data.back);
+    }
   }
 
   /* ─── Save ─── */
@@ -585,9 +669,120 @@ export default function AdminClient() {
                 </div>
                 <div>
                   <label className={lbl}>Cert / Slab Number</label>
-                  <input className={inp} value={form.certNumber} onChange={e => setF('certNumber', e.target.value)} placeholder="e.g. 82345678" />
+                  <div className="flex gap-1.5">
+                    <input className={`${inp} flex-1`} value={form.certNumber} onChange={e => setF('certNumber', e.target.value)} placeholder="e.g. 82345678" />
+                    {form.company === 'PSA' && form.certNumber.trim() && (
+                      <button
+                        type="button"
+                        disabled={fetchingPsa === 'main'}
+                        onClick={() => fetchPsaImages(form.certNumber, 'main')}
+                        title="Fetch front & back images from PSA"
+                        className="flex items-center gap-1.5 px-3 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-white text-[10px] font-bold uppercase tracking-wider transition-all disabled:opacity-50 whitespace-nowrap"
+                      >
+                        {fetchingPsa === 'main'
+                          ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          : <Download className="w-3.5 h-3.5" />
+                        }
+                        PSA
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
+
+              {/* PSA Manual Paste Panel (shown when auto-fetch is blocked) */}
+              {psaManual && psaManual.target === 'main' && (
+                <div className="rounded-xl border border-amber-500/25 bg-amber-500/[0.06] p-4 space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-start gap-2">
+                      <AlertCircle className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-amber-300 text-xs font-semibold">PSA blocked automatic fetch</p>
+                        <p className="text-white/40 text-[10px] mt-0.5 leading-relaxed">
+                          Open the cert page below, right-click each card image → <strong className="text-white/60">Copy image address</strong>, then paste below.
+                        </p>
+                      </div>
+                    </div>
+                    <button onClick={() => setPsaManual(null)} className="text-white/30 hover:text-white/60 transition-colors flex-shrink-0">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <a
+                    href={`https://www.psacard.com/cert/${form.certNumber}/psa`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-700/20 border border-red-700/30 text-red-300 hover:bg-red-700/30 text-xs font-medium transition-colors"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    Open PSA Cert #{form.certNumber}
+                  </a>
+
+                  <div className="space-y-2">
+                    <div>
+                      <label className={lbl}>Front Image URL *</label>
+                      <div className="flex gap-1.5">
+                        <input
+                          className={`${inp} flex-1`}
+                          placeholder="https://d1htnxwo4o0jhw.cloudfront.net/cert/…/…jpg"
+                          value={psaManual.frontUrl}
+                          onChange={e => setPsaManual(p => p ? { ...p, frontUrl: e.target.value } : p)}
+                        />
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            try {
+                              const text = await navigator.clipboard.readText();
+                              setPsaManual(p => p ? { ...p, frontUrl: text } : p);
+                            } catch { /* clipboard blocked */ }
+                          }}
+                          title="Paste from clipboard"
+                          className="px-2 rounded-lg border border-white/10 bg-white/[0.04] text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors"
+                        >
+                          <Clipboard className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <label className={lbl}>Back Image URL <span className="text-white/20 font-normal normal-case tracking-normal">(optional)</span></label>
+                      <div className="flex gap-1.5">
+                        <input
+                          className={`${inp} flex-1`}
+                          placeholder="https://d1htnxwo4o0jhw.cloudfront.net/cert/…/…jpg"
+                          value={psaManual.backUrl}
+                          onChange={e => setPsaManual(p => p ? { ...p, backUrl: e.target.value } : p)}
+                        />
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            try {
+                              const text = await navigator.clipboard.readText();
+                              setPsaManual(p => p ? { ...p, backUrl: text } : p);
+                            } catch { /* clipboard blocked */ }
+                          }}
+                          title="Paste from clipboard"
+                          className="px-2 rounded-lg border border-white/10 bg-white/[0.04] text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors"
+                        >
+                          <Clipboard className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    disabled={!psaManual.frontUrl.trim() || fetchingPsa === 'main'}
+                    onClick={downloadPsaUrls}
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#d4a843]/20 border border-[#d4a843]/30 text-[#d4a843] hover:bg-[#d4a843]/30 text-xs font-bold transition-all disabled:opacity-40"
+                  >
+                    {fetchingPsa === 'main'
+                      ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      : <Download className="w-3.5 h-3.5" />
+                    }
+                    Download & Save Images
+                  </button>
+                </div>
+              )}
+
               <Toggle value={form.isBlackLabel} onChange={v => setF('isBlackLabel', v)} label="PSA Black Label (perfect sub-grades)" />
             </div>
           </Section>
@@ -692,7 +887,24 @@ export default function AdminClient() {
                       </div>
                       <div>
                         <label className={lbl}>Cert #</label>
-                        <input className={inp} value={b.certNumber} onChange={e => setBF(idx, 'certNumber', e.target.value)} placeholder="e.g. 22222222" />
+                        <div className="flex gap-1.5">
+                          <input className={`${inp} flex-1`} value={b.certNumber} onChange={e => setBF(idx, 'certNumber', e.target.value)} placeholder="e.g. 22222222" />
+                          {b.company === 'PSA' && b.certNumber.trim() && (
+                            <button
+                              type="button"
+                              disabled={fetchingPsa === `bundle-${idx}`}
+                              onClick={() => fetchPsaImages(b.certNumber, `bundle-${idx}`)}
+                              title="Fetch images from PSA"
+                              className="flex items-center gap-1 px-2.5 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-white text-[10px] font-bold uppercase tracking-wider transition-all disabled:opacity-50 whitespace-nowrap"
+                            >
+                              {fetchingPsa === `bundle-${idx}`
+                                ? <Loader2 className="w-3 h-3 animate-spin" />
+                                : <Download className="w-3 h-3" />
+                              }
+                              PSA
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
 
