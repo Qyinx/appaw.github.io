@@ -335,6 +335,10 @@ export default function Footer() {
               About
             </Link>
             <div className="w-px h-3 bg-white/10" />
+            <Link href="/privacy" className="text-white/15 hover:text-white/40 text-xs transition-colors duration-200">
+              {t.footer.privacy}
+            </Link>
+            <div className="w-px h-3 bg-white/10" />
             <a href="mailto:support@appaw.store" className="text-white/15 hover:text-white/40 text-xs transition-colors duration-200">
               support@appaw.store
             </a>

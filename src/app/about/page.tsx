@@ -105,9 +105,19 @@ export default function AboutPage() {
               <h2 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 leading-[1.1] mb-6">
                 {t.about.story.title}
               </h2>
-              <p className="text-neutral-500 text-base leading-relaxed mb-10">
+              <p className="text-neutral-500 text-base leading-relaxed mb-8">
                 {t.about.story.content}
               </p>
+              {/* Founder attribution — E-E-A-T signal */}
+              <div className="flex items-center gap-3 mb-10 pt-5 border-t border-neutral-100">
+                <div className="w-9 h-9 rounded-full bg-[#d4a843]/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-[#d4a843] text-sm font-black">{t.about.story.founderName.charAt(0)}</span>
+                </div>
+                <div>
+                  <p className="text-neutral-900 text-sm font-semibold">{t.about.story.founderName}</p>
+                  <p className="text-neutral-400 text-xs">{t.about.story.founderRole}</p>
+                </div>
+              </div>
               <a
                 href="/business"
                 className="inline-flex items-center gap-2 text-[#d4a843] font-semibold text-sm group"

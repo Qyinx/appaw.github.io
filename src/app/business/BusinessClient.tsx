@@ -1,623 +1,773 @@
-/* ─────────────────────────────────────────────────────
-   REVAMPED — luxury editorial redesign (April 2026)
-   • Split-screen hero with hover-expand interaction
-   • Marquee brand strip
-   • Ghost-numeral editorial service sections (01 / 02)
-   • Trust-numbers bar
-   • Dual-split CTA mirroring the hero
-   ───────────────────────────────────────────────────── */
-'use client';
+﻿'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Shield, ArrowRight, ArrowUpRight, Repeat, Star } from 'lucide-react';
+import {
+  Shield, ArrowRight, ArrowUpRight, CheckCircle, XCircle,
+  Eye, Lock, Zap, MapPin, CreditCard, MessageCircle,
+  Star, ChevronDown, Package, TrendingUp, Users,
+} from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
+import ShopNowButton from '@/components/ui/ShopNowButton';
 
-function useReveal() {
+/* ─── Reveal hook ─── */
+function useReveal(threshold = 0.06) {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.07 }
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold }
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
-  }, []);
+  }, [threshold]);
   return { ref, visible };
 }
 
-const MARQUEE_ITEMS = [
-  'Protect Your Collection',
-  'Trade With Confidence',
-  'PSA · CGC · MTG · Pokémon',
-  'Hong Kong Based',
-  'Trusted by Collectors',
-  'World-Class Aluminum Cases',
-];
+/* ─── Fade-in wrapper ─── */
+function Reveal({
+  children,
+  delay = 0,
+  dir = 'up',
+  visible,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  dir?: 'up' | 'left' | 'right' | 'none';
+  visible: boolean;
+}) {
+  const translateMap = { up: 'translateY(36px)', left: 'translateX(-36px)', right: 'translateX(36px)', none: 'none' };
+  return (
+    <div
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'none' : translateMap[dir],
+        transition: `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 
+/* ─── Section label ─── */
+function SectionLabel({ text, color = '#d4a843' }: { text: string; color?: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-6">
+      <div className="w-6 h-px" style={{ background: color }} />
+      <span className="text-[11px] uppercase tracking-[0.35em] font-medium" style={{ color }}>
+        {text}
+      </span>
+    </div>
+  );
+}
+
+/* ─── Spec chip ─── */
+function Chip({ label, color = '#d4a843' }: { label: string; color?: string }) {
+  return (
+    <span
+      className="px-3.5 py-1.5 text-[10px] uppercase tracking-[0.2em] border"
+      style={{ borderColor: `${color}28`, color: `${color}88` }}
+    >
+      {label}
+    </span>
+  );
+}
+
+/* ─── Step ─── */
+function Step({
+  n, title, body, accent, visible, delay = 0, last = false,
+}: {
+  n: string; title: string; body: string; accent: string;
+  visible: boolean; delay?: number; last?: boolean;
+}) {
+  return (
+    <Reveal visible={visible} delay={delay} dir="up">
+      <div className="flex gap-5">
+        <div className="flex flex-col items-center flex-shrink-0">
+          <div
+            className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-black border"
+            style={{ borderColor: `${accent}50`, background: `${accent}12`, color: accent }}
+          >
+            {n}
+          </div>
+          {!last && <div className="w-px flex-1 min-h-10 mt-1" style={{ background: `${accent}20` }} />}
+        </div>
+        <div className={last ? '' : 'pb-10'}>
+          <h4 className="text-white font-semibold text-[15px] mb-2">{title}</h4>
+          <p className="text-[#5c626e] text-sm leading-relaxed">{body}</p>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN COMPONENT
+═══════════════════════════════════════════════════════════ */
 export default function BusinessClient() {
   const { t } = useLanguage();
-  const [hoveredSide, setHoveredSide] = useState<'left' | 'right' | null>(null);
-  const [heroMounted,  setHeroMounted]  = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const service01Ref = useReveal();
-  const trustRef     = useReveal();
-  const service02Ref = useReveal();
-  const ctaRef       = useReveal();
+  const heroRef    = useReveal();
+  const psaRef     = useReveal();
+  const featRef    = useReveal();
+  const compatRef  = useReveal();
+  const statsRef   = useReveal();
+  const tradingRef = useReveal();
+  const buyRef     = useReveal();
+  const sellRef    = useReveal();
+  const faqRef     = useReveal();
+  const ctaRef     = useReveal();
 
-  /* Entrance delay */
   useEffect(() => {
-    const timer = setTimeout(() => setHeroMounted(true), 100);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setMounted(true), 80);
+    return () => clearTimeout(t);
   }, []);
+
+  const GOLD   = '#d4a843';
+  const VIOLET = '#818cf8';
+
+  /* ── PSA specs ── */
+  const psaSpecs = [
+    { label: 'Frame',    value: 'Precision-cut Aluminum Alloy' },
+    { label: 'Lens',     value: 'UV-Blocking Glass (>95% UV blocked)' },
+    { label: 'Closure',  value: 'N52 Neodymium Magnets — no screws' },
+    { label: 'Interior', value: 'Precision fit · soft buffer zone' },
+    { label: 'Size',     value: '8.7 × 14.2 × 0.98 cm' },
+    { label: 'Weight',   value: '74 g' },
+  ];
+
+  /* ── Trading features ── */
+  const tradingFeatures = [
+    { icon: Package,    title: 'Buy & Sell',          accent: VIOLET },
+    { icon: TrendingUp, title: 'Price Appraisal',     accent: VIOLET },
+    { icon: Users,      title: 'Consignment',         accent: VIOLET },
+    { icon: Shield,     title: 'Authenticity Check',  accent: VIOLET },
+  ];
+
+  const CARD_IMAGES = [
+    '/images/cards/192.SV-P.refine.png',
+    '/images/cards/105.SV-9.refine.png',
+    '/images/cards/069.SM-P.refine.png',
+  ];
 
   return (
     <div className="flex flex-col bg-[#09090f]">
 
-      {/* ══════════════════════════════════════════
-           §1  SPLIT-SCREEN HERO
-      ══════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════
+           HERO
+      ══════════════════════════════════════════════════════ */}
       <section
-        className="relative flex flex-col md:flex-row overflow-hidden"
-        style={{ height: 'calc(100dvh - 4rem)' }}
+        ref={heroRef.ref}
+        className="relative min-h-[70dvh] flex items-center overflow-hidden"
       >
-        {/* ── Desktop-only centre divider (CSS-controlled, no JS) ── */}
-        <div
-          className="hidden md:block absolute top-0 bottom-0 left-1/2 z-20 w-px pointer-events-none"
-          style={{
-            background: 'linear-gradient(to bottom, transparent 5%, #d4a843 25%, #d4a843 75%, transparent 95%)',
-            opacity: heroMounted ? 0.55 : 0,
-            transition: 'opacity 1s ease 0.6s',
-          }}
-        />
-        <div
-          className="hidden md:flex absolute top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-[#d4a843]/50 bg-[#09090f] items-center justify-center pointer-events-none"
-          style={{
-            opacity: heroMounted ? 1 : 0,
-            transition: 'opacity 0.8s ease 0.7s',
-          }}
-        >
-          <div className="w-1.5 h-1.5 rounded-full bg-[#d4a843]" />
+        {/* background layers */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.013)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.013)_1px,transparent_1px)] bg-[size:72px_72px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(212,168,67,0.09),transparent)]" />
+        {/* Top hairline */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/40 to-transparent" />
+        {/* Ambient orbs */}
+        <div className="absolute top-1/4 left-[15%] w-[480px] h-[480px] rounded-full bg-[rgba(212,168,67,0.06)] blur-[100px] pointer-events-none animate-[orb-drift-a_14s_ease-in-out_infinite]" />
+        <div className="absolute bottom-1/4 right-[15%] w-[360px] h-[360px] rounded-full bg-[rgba(129,140,248,0.04)] blur-[80px] pointer-events-none animate-[orb-drift-b_18s_ease-in-out_2s_infinite]" />
+        {/* Scanning light */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent animate-[scan-line_7s_linear_3s_infinite]" />
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#09090f] to-transparent" />
 
-        {/* ── LEFT — PSA Protector ── */}
-        <div
-          className="relative overflow-hidden cursor-pointer flex-1"
-          onMouseEnter={() => setHoveredSide('left')}
-          onMouseLeave={() => setHoveredSide(null)}
-        >
-          <div className="absolute inset-0 bg-[#09090f]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_20%_75%,rgba(212,168,67,0.07),transparent)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:60px_60px]" />
+        <div className="container-custom relative z-10 py-24 md:py-32">
           <div
-            className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_30%_50%,rgba(212,168,67,0.09),transparent)]"
-            style={{ opacity: hoveredSide === 'left' ? 1 : 0, transition: 'opacity 0.6s ease' }}
-          />
-
-          <div className="relative h-full flex flex-col justify-between p-7 md:p-12 lg:p-14 z-10">
-            {/* Top label */}
-            <div
-              className="flex items-center gap-3"
-              style={{ opacity: heroMounted ? 1 : 0, transform: heroMounted ? 'none' : 'translateY(-12px)', transition: 'all 0.8s ease 0.3s' }}
-            >
-              <span className="text-[#d4a843]/40 text-xs uppercase tracking-[0.35em] font-medium">01</span>
-              <div className="w-6 h-px bg-[#d4a843]/25" />
-              <span className="text-[#d4a843]/40 text-xs uppercase tracking-[0.2em]">Protection</span>
-            </div>
-
-            {/* Centre image */}
-            <div className="flex-1 flex items-center justify-center py-4 relative">
-              <span
-                className="absolute font-serif font-bold select-none leading-none text-white/[0.022] pointer-events-none"
-                style={{ fontSize: 'clamp(130px, 20vw, 360px)' }}
-              >I</span>
-              <div
-                className="relative w-32 md:w-44 lg:w-52 aspect-[3/4]"
-                style={{
-                  transform: hoveredSide === 'left' ? 'scale(1.07) translateY(-6px)' : 'scale(1)',
-                  transition: 'transform 0.7s cubic-bezier(0.4,0,0.2,1)',
-                  filter: 'drop-shadow(0 20px 48px rgba(212,168,67,0.18))',
-                }}
-              >
-                <Image
-                  src={getImagePath('/images/cards/069.SM-P.refine.png')}
-                  alt="PSA Card Aluminum Protector"
-                  fill
-                  className="object-contain"
-                  sizes="208px"
-                />
-              </div>
-            </div>
-
-            {/* Bottom text + CTA */}
-            <div style={{ opacity: heroMounted ? 1 : 0, transform: heroMounted ? 'none' : 'translateY(14px)', transition: 'all 0.8s ease 0.55s' }}>
-              <h2 className="font-display text-lg md:text-2xl lg:text-3xl font-bold text-white leading-tight mb-2">
-                {t.business.cardProtector.title}
-              </h2>
-              <p className="text-white/30 text-xs md:text-sm leading-relaxed mb-5 max-w-xs">
-                Aluminum alloy · UV-blocking glass · N52 magnets
-              </p>
-              <Link
-                href="/products/psa-protectors"
-                className="group inline-flex items-center gap-2 text-[#d4a843] text-xs font-semibold uppercase tracking-[0.25em] hover:gap-3.5 transition-all duration-300"
-              >
-                <span>View Product</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile horizontal divider */}
-        <div className="md:hidden h-px flex-shrink-0 bg-gradient-to-r from-transparent via-[#d4a843]/40 to-transparent" />
-
-        {/* ── RIGHT — Card Trading ── */}
-        <div
-          className="relative overflow-hidden cursor-pointer flex-1"
-          onMouseEnter={() => setHoveredSide('right')}
-          onMouseLeave={() => setHoveredSide(null)}
-        >
-          <div className="absolute inset-0 bg-[#09090f]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_80%_75%,rgba(129,140,248,0.07),transparent)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:60px_60px]" />
-          <div
-            className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_70%_50%,rgba(129,140,248,0.1),transparent)]"
-            style={{ opacity: hoveredSide === 'right' ? 1 : 0, transition: 'opacity 0.6s ease' }}
-          />
-
-          <div className="relative h-full flex flex-col justify-between p-7 md:p-12 lg:p-14 z-10">
-            {/* Top label — right-aligned */}
-            <div
-              className="flex items-center justify-end gap-3"
-              style={{ opacity: heroMounted ? 1 : 0, transform: heroMounted ? 'none' : 'translateY(-12px)', transition: 'all 0.8s ease 0.4s' }}
-            >
-              <span className="text-[#818cf8]/40 text-xs uppercase tracking-[0.2em]">Brokerage</span>
-              <div className="w-6 h-px bg-[#818cf8]/25" />
-              <span className="text-[#818cf8]/40 text-xs uppercase tracking-[0.35em] font-medium">02</span>
-            </div>
-
-            {/* Centre — card fan */}
-            <div className="flex-1 flex items-center justify-center py-4 relative">
-              <span
-                className="absolute font-serif font-bold select-none leading-none text-white/[0.022] pointer-events-none"
-                style={{ fontSize: 'clamp(90px, 14vw, 260px)' }}
-              >II</span>
-              <div className="relative w-40 md:w-48 h-40 md:h-48">
-                {[
-                  { src: '/images/cards/192.SV-P.refine.png', rotate: -13, x: -34, y: 8,  z: 1, sc: 0.86 },
-                  { src: '/images/cards/105.SV-9.refine.png', rotate: 0,   x: 0,   y: 0,  z: 3, sc: 1    },
-                  { src: '/images/cards/069.SM-P.refine.png', rotate: 13,  x: 34,  y: 8,  z: 2, sc: 0.86 },
-                ].map((card, i) => (
-                  <div
-                    key={i}
-                    className="absolute top-1/2 left-1/2 w-20 md:w-28 h-28 md:h-36 -translate-x-1/2 -translate-y-1/2 rounded-lg overflow-hidden border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.55)]"
-                    style={{
-                      transform: `translate(calc(-50% + ${card.x * (hoveredSide === 'right' ? 1.3 : 1)}px), calc(-50% + ${card.y}px)) rotate(${card.rotate * (hoveredSide === 'right' ? 1.2 : 1)}deg) scale(${card.sc * (hoveredSide === 'right' ? 1.07 : 1)})`,
-                      zIndex: card.z,
-                      transition: `transform 0.6s cubic-bezier(0.4,0,0.2,1) ${i * 45}ms`,
-                    }}
-                  >
-                    <Image src={getImagePath(card.src)} alt="Graded trading card" fill className="object-cover" sizes="112px" />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Bottom text + CTA — right-aligned */}
-            <div
-              className="text-right"
-              style={{ opacity: heroMounted ? 1 : 0, transform: heroMounted ? 'none' : 'translateY(14px)', transition: 'all 0.8s ease 0.65s' }}
-            >
-              <h2 className="font-display text-lg md:text-2xl lg:text-3xl font-bold text-white leading-tight mb-2">
-                {t.business.cardTrading.title}
-              </h2>
-              <p className="text-white/30 text-xs md:text-sm leading-relaxed mb-5 max-w-xs ml-auto">
-                Buy · Sell · Consign — PSA &amp; CGC graded cards
-              </p>
-              <Link
-                href="/business/card-trading"
-                className="group inline-flex items-center gap-2 text-[#818cf8] text-xs font-semibold uppercase tracking-[0.25em] hover:gap-3.5 transition-all duration-300"
-              >
-                <span>Start Trading</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom scrim */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#09090f] to-transparent pointer-events-none z-10" />
-      </section>
-
-      {/* ══════════════════════════════════════════
-           §2  MARQUEE STRIP
-      ══════════════════════════════════════════ */}
-      <div className="relative border-y border-white/[0.05] py-3.5 overflow-hidden bg-[#09090f]">
-        <div className="flex animate-[marquee_35s_linear_infinite] whitespace-nowrap will-change-transform">
-          {[0, 1, 2].map((rep) => (
-            <span key={rep} className="flex items-center shrink-0">
-              {MARQUEE_ITEMS.map((text, j) => (
-                <React.Fragment key={j}>
-                  <span className="text-white/[0.18] text-[11px] uppercase tracking-[0.3em] px-8">{text}</span>
-                  <span className="text-[#d4a843]/25 text-[9px]">◆</span>
-                </React.Fragment>
-              ))}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════
-           §3  SERVICE 01 — PSA PROTECTOR
-               Editorial layout: text | divider | visual
-      ══════════════════════════════════════════ */}
-      <section
-        id="protector"
-        ref={service01Ref.ref}
-        className="relative py-28 md:py-36 overflow-hidden scroll-mt-20"
-      >
-        {/* Ghost numeral */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 pointer-events-none select-none" aria-hidden="true">
-          <span
-            className="font-serif font-bold leading-none text-white block"
             style={{
-              fontSize: 'clamp(180px, 30vw, 500px)',
-              opacity: service01Ref.visible ? 0.028 : 0,
-              transform: service01Ref.visible ? 'translateX(-5%)' : 'translateX(-18%)',
-              transition: 'opacity 1.4s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1)',
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? 'none' : 'translateY(28px)',
+              transition: 'opacity 1s ease 0.1s, transform 1s cubic-bezier(0.16,1,0.3,1) 0.1s',
             }}
-          >01</span>
-        </div>
-
-        <div className="container-custom relative">
-          <div className="grid lg:grid-cols-[1fr_1px_1fr] gap-10 lg:gap-16 items-center">
-
-            {/* TEXT */}
-            <div
-              style={{
-                opacity: service01Ref.visible ? 1 : 0,
-                transform: service01Ref.visible ? 'translateX(0)' : 'translateX(-36px)',
-                transition: 'all 1s cubic-bezier(0.16,1,0.3,1)',
-              }}
-            >
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-5 h-px bg-[#d4a843]" />
-                <span className="text-[#d4a843] text-[11px] uppercase tracking-[0.35em]">Service 01 — Protection</span>
-              </div>
-
-              <h2 className="font-display text-5xl md:text-6xl font-bold text-white leading-[1.06] mb-8">
-                PSA Card<br />
-                <em className="not-italic text-[#d4a843]">Aluminum</em><br />
-                Protector
-              </h2>
-
-              <p className="text-[#5c626e] text-[15px] leading-relaxed mb-10 max-w-sm">
-                {t.business.cardProtector.description}
-              </p>
-
-              {/* Spec chips */}
-              <div className="flex flex-wrap gap-2 mb-12">
-                {['Aluminum Alloy Frame', '>95% UV Glass', 'N52 Magnets', 'Standard 35PT Fit'].map((s) => (
-                  <span key={s} className="px-3.5 py-1.5 border border-[#d4a843]/[0.18] text-[#d4a843]/55 text-[10px] uppercase tracking-[0.2em]">
-                    {s}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-8">
-                <Link
-                  href="/products/psa-protectors"
-                  className="group inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-[11px] uppercase tracking-[0.2em] px-8 py-4 transition-all duration-300 hover:shadow-[0_0_48px_rgba(212,168,67,0.28)]"
-                >
-                  <Shield className="w-3.5 h-3.5" />
-                  <span>View Product</span>
-                </Link>
-                <a
-                  href="https://appawstore.etsy.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-white/[0.25] text-[11px] uppercase tracking-[0.2em] hover:text-white/50 transition-colors"
-                >
-                  <span>Etsy Shop</span>
-                  <ArrowUpRight className="w-3 h-3" />
-                </a>
-              </div>
+          >
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/35 rounded-full px-5 py-2 mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] animate-pulse" />
+              <span className="text-[#d4a843] text-[11px] uppercase tracking-[0.3em]">{t.business.subtitle}</span>
             </div>
 
-            {/* DIVIDER */}
-            <div
-              className="hidden lg:block h-full min-h-80 bg-gradient-to-b from-transparent via-[#d4a843]/[0.18] to-transparent self-stretch"
-              style={{ opacity: service01Ref.visible ? 1 : 0, transition: 'opacity 1.2s ease 0.3s' }}
-            />
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.06] tracking-tight mb-6 max-w-3xl">
+              Protect.<br />
+              <span className="text-[#d4a843]">Collect.</span>{' '}
+              <span className="text-[#818cf8]">Trade.</span>
+            </h1>
 
-            {/* VISUAL */}
-            <div
-              className="flex items-center justify-center relative"
-              style={{
-                opacity: service01Ref.visible ? 1 : 0,
-                transform: service01Ref.visible ? 'translateY(0)' : 'translateY(36px)',
-                transition: 'all 1.1s cubic-bezier(0.16,1,0.3,1) 0.15s',
-              }}
-            >
-              {/* Slow rotating rings */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-72 h-72 rounded-full border border-[#d4a843]/[0.07] animate-[spin_50s_linear_infinite]" />
-                <div className="absolute w-52 h-52 rounded-full border border-[#d4a843]/[0.05] animate-[spin_32s_linear_infinite_reverse]" />
-              </div>
+            <p className="text-[#6b7280] text-lg max-w-xl leading-relaxed mb-10">
+              {t.home.hero.description}
+            </p>
 
-              {/* Framed product card */}
-              <div className="relative w-52 md:w-64 aspect-[3/4] border border-[#d4a843]/[0.12] bg-gradient-to-b from-[#131313] to-[#0b0b0b] shadow-[0_60px_120px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(212,168,67,0.08)]">
-                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#d4a843]/35" />
-                <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#d4a843]/35" />
-                <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#d4a843]/35" />
-                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#d4a843]/35" />
-                <Image
-                  src={getImagePath('/images/cards/069.SM-P.refine.png')}
-                  alt="PSA Card Aluminum Protector"
-                  fill
-                  className="object-contain p-5"
-                  sizes="256px"
-                />
-                {/* Price ribbon */}
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-[#d4a843] px-4 py-1">
-                  <span className="text-[#09090f] text-[10px] font-black uppercase tracking-[0.15em]">From USD 17.99</span>
-                </div>
-              </div>
+            {/* Service pills */}
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="#psa-protector"
+                className="group inline-flex items-center gap-3 border border-[#d4a843]/40 hover:border-[#d4a843] bg-[#d4a843]/5 hover:bg-[#d4a843]/10 px-6 py-3 transition-all duration-300"
+              >
+                <Shield className="w-4 h-4 text-[#d4a843]" />
+                <span className="text-[#d4a843] text-sm font-semibold uppercase tracking-[0.15em]">PSA Protector</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#d4a843] group-hover:translate-x-0.5 transition-transform" />
+              </a>
+              <a
+                href="#card-trading"
+                className="group inline-flex items-center gap-3 border border-[#818cf8]/40 hover:border-[#818cf8] bg-[#818cf8]/5 hover:bg-[#818cf8]/10 px-6 py-3 transition-all duration-300"
+              >
+                <TrendingUp className="w-4 h-4 text-[#818cf8]" />
+                <span className="text-[#818cf8] text-sm font-semibold uppercase tracking-[0.15em]">Card Trading</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#818cf8] group-hover:translate-x-0.5 transition-transform" />
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-           §4  TRUST NUMBERS
-      ══════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════
+           ① PSA CARD ALUMINUM PROTECTOR
+      ══════════════════════════════════════════════════════ */}
       <section
-        ref={trustRef.ref}
-        className="border-y border-white/[0.05] py-14 bg-[#0b0b10] relative overflow-hidden"
+        id="psa-protector"
+        ref={psaRef.ref}
+        className="scroll-mt-20 py-24 md:py-32 relative overflow-hidden border-t border-white/[0.05]"
       >
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:48px_48px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_0%_50%,rgba(212,168,67,0.04),transparent)]" />
         <div className="container-custom relative">
-          <div className="grid grid-cols-2 md:grid-cols-4">
+
+          {/* Overline */}
+          <Reveal visible={psaRef.visible} dir="up">
+            <SectionLabel text="Service 01 — Protection" color={GOLD} />
+          </Reveal>
+
+          {/* Two-column: text + visual */}
+          <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-start">
+
+            {/* ── LEFT: copy ── */}
+            <div>
+              <Reveal visible={psaRef.visible} dir="left">
+                <h2 className="font-display text-5xl md:text-6xl font-bold text-white leading-[1.06] mb-6">
+                  PSA Card<br />
+                  <em className="not-italic text-[#d4a843]">Aluminum</em><br />
+                  Protector
+                </h2>
+                <p className="text-[#6b7280] text-[15px] leading-relaxed mb-8 max-w-md">
+                  {t.business.cardProtector.description}
+                </p>
+              </Reveal>
+
+              {/* Spec table */}
+              <Reveal visible={psaRef.visible} dir="left" delay={100}>
+                <div className="border border-white/[0.06] mb-8 overflow-hidden">
+                  {psaSpecs.map((s, i) => (
+                    <div
+                      key={s.label}
+                      className={`grid grid-cols-[100px_1fr] gap-4 px-5 py-3.5 ${i % 2 === 0 ? 'bg-white/[0.02]' : ''} border-b border-white/[0.04] last:border-b-0`}
+                    >
+                      <span className="text-[#5c626e] text-xs uppercase tracking-[0.2em]">{s.label}</span>
+                      <span className="text-white/70 text-sm">{s.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+
+              {/* Chips */}
+              <Reveal visible={psaRef.visible} dir="left" delay={150}>
+                <div className="flex flex-wrap gap-2 mb-10">
+                  {['Aluminum Alloy', '>95% UV Glass', 'N52 Magnets', '35PT PSA Fit'].map(s => (
+                    <Chip key={s} label={s} color={GOLD} />
+                  ))}
+                </div>
+              </Reveal>
+
+              {/* CTAs */}
+              <Reveal visible={psaRef.visible} dir="left" delay={200}>
+                <div className="flex flex-wrap items-center gap-5">
+                  <Link
+                    href="/products/psa-protectors"
+                    className="inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-[11px] uppercase tracking-[0.2em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.3)] active:scale-95"
+                  >
+                    <Shield className="w-3.5 h-3.5" />
+                    {t.home.services.protector.cta}
+                  </Link>
+                </div>
+              </Reveal>
+            </div>
+
+            {/* ── RIGHT: visual + compat ── */}
+            <div className="flex flex-col gap-6">
+
+              {/* ── Product photo — no overlays ── */}
+              <Reveal visible={psaRef.visible} dir="right" delay={80}>
+                <div className="relative overflow-hidden rounded-sm">
+                  {/* Subtle gold glow behind image */}
+                  <div className="absolute -inset-8 bg-[radial-gradient(ellipse_60%_50%_at_50%_60%,rgba(212,168,67,0.12),transparent)] pointer-events-none z-0" />
+                  <Image
+                    src={getImagePath('/images-optimized/describe/sell 3.png')}
+                    alt="PSA Card Aluminum Protector — aluminum frame holding a PSA graded card slab"
+                    width={640}
+                    height={640}
+                    className="relative z-10 w-full object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    priority
+                  />
+                </div>
+              </Reveal>
+
+              {/* ── Pricing card ── */}
+              <Reveal visible={psaRef.visible} dir="right" delay={160}>
+                <div className="border border-[#d4a843]/20 bg-[#d4a843]/[0.04] p-5 flex items-center justify-between gap-4 flex-wrap">
+                  <div>
+                    <p className="text-[#d4a843]/50 text-[10px] uppercase tracking-[0.3em] mb-1">{t.business.cardProtector.startingPrice}</p>
+                    <p className="text-white font-display text-3xl font-bold leading-none">USD 9.2</p>
+                    <p className="text-white/30 text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
+                  </div>
+                  <ShopNowButton
+                    label={t.business.cardProtector.cta}
+                    shopOptions={t.shopOptions}
+                    whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                    buttonClassName="inline-flex items-center gap-2 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-[11px] uppercase tracking-[0.2em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap hover:shadow-[0_0_32px_rgba(212,168,67,0.3)] flex-shrink-0 active:scale-95"
+                  />
+                </div>
+              </Reveal>
+
+              {/* Compatibility */}
+              <Reveal visible={psaRef.visible} dir="right" delay={220}>
+                <div className="border border-white/[0.06] overflow-hidden">
+                  <div className="px-5 py-3 border-b border-white/[0.05] bg-white/[0.02]">
+                    <span className="text-white/30 text-[10px] uppercase tracking-[0.3em]">Compatibility</span>
+                  </div>
+                  <div className="p-5 space-y-4">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-emerald-400 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">Fits</p>
+                        <p className="text-white/50 text-sm leading-relaxed">{t.business.cardProtector.compatibility.fits}</p>
+                      </div>
+                    </div>
+                    <div className="h-px bg-white/[0.05]" />
+                    <div className="flex items-start gap-3">
+                      <XCircle className="w-4 h-4 text-rose-400/70 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-rose-400/70 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">Does Not Fit</p>
+                        <p className="text-white/50 text-sm leading-relaxed">{t.business.cardProtector.compatibility.notFits}</p>
+                      </div>
+                    </div>
+                    <div className="h-px bg-white/[0.05]" />
+                    <p className="text-[#d4a843]/40 text-xs italic">{t.business.cardProtector.compatibility.note}</p>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── §1b Product feature pillars ── */}
+      <section ref={featRef.ref} className="pb-24 overflow-hidden">
+        <div className="container-custom">
+          <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/[0.05] border border-white/[0.05]">
             {[
-              { number: '500+', label: 'Cards Traded',     accent: '#d4a843' },
-              { number: '4.9',  label: 'Star Rating',      accent: '#d4a843' },
-              { number: '127',  label: 'Verified Reviews', accent: '#818cf8' },
-              { number: '5',    label: 'Markets Served',   accent: '#818cf8' },
-            ].map((stat, i) => (
+              { icon: Shield, title: t.home.features.quality.title, body: t.home.features.quality.description },
+              { icon: Eye,    title: t.home.features.trust.title,   body: t.home.features.trust.description },
+              { icon: Lock,   title: t.home.features.support.title, body: t.home.features.support.description },
+            ].map(({ icon: Icon, title, body }, i) => (
               <div
-                key={i}
-                className="text-center py-4 md:border-r border-white/[0.04] last:border-r-0"
+                key={title}
+                className="p-8 md:p-10 bg-[#09090f] hover:bg-[#0c0c14] transition-colors duration-300"
                 style={{
-                  opacity: trustRef.visible ? 1 : 0,
-                  transform: trustRef.visible ? 'translateY(0)' : 'translateY(18px)',
-                  transition: `all 0.8s ease ${i * 90}ms`,
+                  opacity: featRef.visible ? 1 : 0,
+                  transform: featRef.visible ? 'none' : 'translateY(24px)',
+                  transition: `opacity 0.8s ease ${i * 120}ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms`,
                 }}
               >
-                <div className="font-display text-5xl font-bold leading-none mb-2" style={{ color: stat.accent }}>
-                  {stat.number}
+                <div className="w-10 h-10 rounded-xl border border-[#d4a843]/30 bg-[#d4a843]/10 flex items-center justify-center mb-5">
+                  <Icon className="w-4 h-4 text-[#d4a843]" />
                 </div>
-                <div className="text-white/20 text-[10px] uppercase tracking-[0.28em]">{stat.label}</div>
+                <h3 className="font-display text-white font-bold text-lg mb-3">{title}</h3>
+                <p className="text-[#5c626e] text-sm leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-           §5  SERVICE 02 — TCG TRADING
-               Editorial layout: visual | divider | text (mirrored)
-      ══════════════════════════════════════════ */}
-      <section
-        id="trading"
-        ref={service02Ref.ref}
-        className="relative py-28 md:py-36 overflow-hidden scroll-mt-20"
-      >
-        {/* Ghost numeral — right side */}
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 pointer-events-none select-none text-right" aria-hidden="true">
-          <span
-            className="font-serif font-bold leading-none text-white inline-block"
-            style={{
-              fontSize: 'clamp(180px, 30vw, 500px)',
-              opacity: service02Ref.visible ? 0.028 : 0,
-              transform: service02Ref.visible ? 'translateX(5%)' : 'translateX(18%)',
-              transition: 'opacity 1.4s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1)',
-            }}
-          >02</span>
+      {/* ══════════════════════════════════════════════════════
+           TRUST STRIP
+      ══════════════════════════════════════════════════════ */}
+      {/* <section ref={statsRef.ref} className="border-y border-white/[0.05] bg-[#0b0b10] py-12">
+        <div className="container-custom">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/[0.05]">
+            {[
+              { n: '500+', label: t.business.cardTrading.stats.cardsTraded,  accent: GOLD   },
+              { n: '4.9★', label: t.business.cardTrading.stats.avgRating,    accent: GOLD   },
+              { n: '127',  label: t.business.cardTrading.stats.repeatClients, accent: VIOLET },
+              { n: '5',    label: 'Markets',                                   accent: VIOLET },
+            ].map(({ n, label, accent }, i) => (
+              <div
+                key={label}
+                className="text-center py-6 px-4"
+                style={{
+                  opacity: statsRef.visible ? 1 : 0,
+                  transform: statsRef.visible ? 'none' : 'translateY(16px)',
+                  transition: `opacity 0.7s ease ${i * 80}ms, transform 0.7s ease ${i * 80}ms`,
+                }}
+              >
+                <div className="font-display text-4xl font-bold leading-none mb-2" style={{ color: accent }}>{n}</div>
+                <div className="text-white/25 text-[10px] uppercase tracking-[0.28em]">{label}</div>
+              </div>
+            ))}
+          </div>
         </div>
+      </section> */}
 
+      {/* ══════════════════════════════════════════════════════
+           ② TCG CARD TRADING & BROKERAGE
+      ══════════════════════════════════════════════════════ */}
+      <section
+        id="card-trading"
+        ref={tradingRef.ref}
+        className="scroll-mt-20 py-24 md:py-32 relative overflow-hidden border-t border-white/[0.05]"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_100%_50%,rgba(129,140,248,0.04),transparent)]" />
         <div className="container-custom relative">
-          <div className="grid lg:grid-cols-[1fr_1px_1fr] gap-10 lg:gap-16 items-center">
 
-            {/* VISUAL — left on desktop, below text on mobile */}
-            <div
-              className="flex items-center justify-center relative order-2 lg:order-1"
-              style={{
-                opacity: service02Ref.visible ? 1 : 0,
-                transform: service02Ref.visible ? 'translateY(0)' : 'translateY(36px)',
-                transition: 'all 1.1s cubic-bezier(0.16,1,0.3,1) 0.15s',
-              }}
-            >
-              {/* Glow pool */}
-              <div className="absolute w-72 h-72 rounded-full bg-[rgba(129,140,248,0.06)] blur-[90px] pointer-events-none" />
+          <Reveal visible={tradingRef.visible} dir="up">
+            <SectionLabel text={t.business.cardTrading.badge} color={VIOLET} />
+          </Reveal>
 
-              {/* Card spread */}
-              <div className="relative w-64 md:w-80 h-60 md:h-72">
-                {[
-                  { src: '/images/cards/192.SV-P.refine.png', rotate: -14, x: -52, y: 14, z: 1, sc: 0.84 },
-                  { src: '/images/cards/105.SV-9.refine.png', rotate: 0,   x: 0,   y: 0,  z: 3, sc: 1    },
-                  { src: '/images/cards/069.SM-P.refine.png', rotate: 14,  x: 52,  y: 14, z: 2, sc: 0.84 },
-                ].map((card, i) => (
+          {/* Two-column: visual + copy */}
+          <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-start">
+
+            {/* ── LEFT: card fan (stacked visually) ── */}
+            <div className="order-2 lg:order-1">
+              <Reveal visible={tradingRef.visible} dir="left" delay={80}>
+                <div className="relative h-72 md:h-96 mb-8">
+                  {/* Glow */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-64 h-64 rounded-full bg-[rgba(129,140,248,0.08)] blur-[80px]" />
+                  </div>
+                  {/* Cards */}
+                  {[
+                    { src: CARD_IMAGES[0], r: -16, x: -80, y: 16, sc: 0.82, z: 1 },
+                    { src: CARD_IMAGES[1], r: 0,   x: 0,   y: 0,  sc: 1,    z: 3 },
+                    { src: CARD_IMAGES[2], r: 16,  x: 80,  y: 16, sc: 0.82, z: 2 },
+                  ].map((c, i) => (
+                    <div
+                      key={i}
+                      className="absolute top-1/2 left-1/2 w-32 md:w-40 h-44 md:h-56 -translate-x-1/2 -translate-y-1/2 rounded-xl overflow-hidden border border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.6)]"
+                      style={{
+                        transform: `translate(calc(-50% + ${c.x}px), calc(-50% + ${c.y}px)) rotate(${c.r}deg) scale(${c.sc})`,
+                        zIndex: c.z,
+                        transition: 'transform 0.6s ease',
+                      }}
+                    >
+                      <Image src={getImagePath(c.src)} alt="Graded trading card" fill className="object-cover" sizes="160px" />
+                    </div>
+                  ))}
+
+                  {/* Floating badges */}
+                  <div className="absolute top-2 right-4 md:right-12 border border-[#818cf8]/25 bg-[#0e0e14] px-4 py-3 text-center shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+                    <div className="text-[#818cf8] text-2xl font-bold font-display leading-none">0%</div>
+                    <div className="text-white/25 text-[9px] uppercase tracking-wider mt-1">Listing Fee</div>
+                  </div>
+                  <div className="absolute bottom-4 left-4 md:left-10 border border-[#d4a843]/20 bg-[#0e0e14] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+                    <div className="flex items-center gap-0.5 text-[#d4a843] justify-center">
+                      {[0,1,2,3,4].map(n => <Star key={n} className="w-2.5 h-2.5 fill-current" />)}
+                    </div>
+                    <div className="text-white/25 text-[9px] uppercase tracking-wider mt-1 text-center">5.0 Rating</div>
+                  </div>
+                </div>
+              </Reveal>
+
+              {/* Feature grid */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                {tradingFeatures.map(({ icon: Icon, title, accent }, i) => (
                   <div
-                    key={i}
-                    className="absolute top-1/2 left-1/2 w-28 md:w-36 h-40 md:h-48 -translate-x-1/2 -translate-y-1/2 rounded-xl overflow-hidden border border-white/8 shadow-[0_24px_60px_rgba(0,0,0,0.6),0_0_0_1px_rgba(129,140,248,0.07)] hover:z-10 hover:scale-110 transition-all duration-500"
+                    key={title}
+                    className="p-5 border border-white/[0.06] hover:border-[#818cf8]/20 hover:bg-[#818cf8]/[0.03] transition-all duration-300"
                     style={{
-                      transform: `translate(calc(-50% + ${card.x}px), calc(-50% + ${card.y}px)) rotate(${card.rotate}deg) scale(${card.sc})`,
-                      zIndex: card.z,
+                      opacity: tradingRef.visible ? 1 : 0,
+                      transform: tradingRef.visible ? 'none' : 'translateY(20px)',
+                      transition: `opacity 0.8s ease ${200 + i * 100}ms, transform 0.8s ease ${200 + i * 100}ms`,
                     }}
                   >
-                    <Image src={getImagePath(card.src)} alt="Graded trading card" fill className="object-cover" sizes="144px" />
+                    <div className="w-8 h-8 rounded-lg border border-[#818cf8]/25 bg-[#818cf8]/10 flex items-center justify-center mb-3">
+                      <Icon className="w-3.5 h-3.5 text-[#818cf8]" />
+                    </div>
+                    <h4 className="text-white font-semibold text-sm mb-1.5">{title}</h4>
+                    <p className="text-[#5c626e] text-xs leading-relaxed">{t.business.cardTrading.features[i]}</p>
                   </div>
                 ))}
               </div>
+            </div>
 
-              {/* Floating info badges */}
-              <div className="absolute -top-3 right-0 md:-right-4 bg-[#0e0e13] border border-[#818cf8]/25 px-4 py-3 text-center shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-                <div className="text-[#818cf8] text-xl font-bold font-display leading-none">0%</div>
-                <div className="text-white/30 text-[9px] uppercase tracking-wider mt-1">Listing Fee</div>
-              </div>
-              <div className="absolute -bottom-3 left-0 md:-left-4 bg-[#0e0e13] border border-[#d4a843]/[0.18] px-4 py-3 text-center shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-                <div className="flex items-center gap-0.5 justify-center text-[#d4a843]">
-                  {[0, 1, 2, 3, 4].map((n) => (
-                    <Star key={n} className="w-2.5 h-2.5 fill-current" />
+            {/* ── RIGHT: headline + CTAs ── */}
+            <div className="order-1 lg:order-2">
+              <Reveal visible={tradingRef.visible} dir="right">
+                <h2 className="font-display text-5xl md:text-6xl font-bold text-white leading-[1.06] mb-6">
+                  {t.business.cardTrading.title}
+                </h2>
+                <p className="text-[#6b7280] text-[15px] leading-relaxed mb-8 max-w-md">
+                  {t.business.cardTrading.description}
+                </p>
+              </Reveal>
+
+              <Reveal visible={tradingRef.visible} dir="right" delay={100}>
+                <div className="flex flex-wrap gap-2 mb-10">
+                  {['No Listing Fee', 'PSA & CGC', 'HK Face-to-Face', 'Commission on Sale Only'].map(c => (
+                    <Chip key={c} label={c} color={VIOLET} />
                   ))}
                 </div>
-                <div className="text-white/30 text-[9px] uppercase tracking-wider mt-1">5.0 Rating</div>
-              </div>
+              </Reveal>
+
+              <Reveal visible={tradingRef.visible} dir="right" delay={160}>
+                <div className="flex flex-wrap items-center gap-5">
+                  <Link
+                    href="/business/card-trading"
+                    className="inline-flex items-center gap-3 bg-[#818cf8] hover:bg-[#a5b4fc] text-[#09090f] font-bold text-[11px] uppercase tracking-[0.2em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(129,140,248,0.3)] active:scale-95"
+                  >
+                    <TrendingUp className="w-3.5 h-3.5" />
+                    {t.business.cardTrading.cta}
+                  </Link>
+                  <a
+                    href="https://wa.me/85292851189"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-white/30 hover:text-white/60 text-[11px] uppercase tracking-[0.2em] transition-colors"
+                  >
+                    <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5" />
+                    {t.business.cta.whatsapp}
+                  </a>
+                </div>
+              </Reveal>
             </div>
 
-            {/* DIVIDER */}
-            <div
-              className="hidden lg:block h-full min-h-80 bg-gradient-to-b from-transparent via-[#818cf8]/[0.15] to-transparent self-stretch order-2"
-              style={{ opacity: service02Ref.visible ? 1 : 0, transition: 'opacity 1.2s ease 0.3s' }}
-            />
-
-            {/* TEXT */}
-            <div
-              className="order-1 lg:order-3"
-              style={{
-                opacity: service02Ref.visible ? 1 : 0,
-                transform: service02Ref.visible ? 'translateX(0)' : 'translateX(36px)',
-                transition: 'all 1s cubic-bezier(0.16,1,0.3,1)',
-              }}
-            >
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-5 h-px bg-[#818cf8]" />
-                <span className="text-[#818cf8] text-[11px] uppercase tracking-[0.35em]">Service 02 — Brokerage</span>
-              </div>
-
-              <h2 className="font-display text-5xl md:text-6xl font-bold text-white leading-[1.06] mb-8">
-                TCG<br />
-                <em className="not-italic text-[#818cf8]">Trading</em> &amp;<br />
-                Brokerage
-              </h2>
-
-              <p className="text-[#5c626e] text-[15px] leading-relaxed mb-10 max-w-sm">
-                {t.business.cardTrading.description}
-              </p>
-
-              {/* Feature chips */}
-              <div className="flex flex-wrap gap-2 mb-12">
-                {['No Listing Fee', 'PSA & CGC', 'Face-to-Face HK', 'Commission on Sale'].map((f) => (
-                  <span key={f} className="px-3.5 py-1.5 border border-[#818cf8]/[0.18] text-[#818cf8]/55 text-[10px] uppercase tracking-[0.2em]">
-                    {f}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap items-center gap-8">
-                <Link
-                  href="/business/card-trading"
-                  className="group inline-flex items-center gap-3 bg-[#818cf8] hover:bg-[#a5b4fc] text-[#09090f] font-bold text-[11px] uppercase tracking-[0.2em] px-8 py-4 transition-all duration-300 hover:shadow-[0_0_48px_rgba(129,140,248,0.28)]"
-                >
-                  <Repeat className="w-3.5 h-3.5" />
-                  <span>Browse Cards</span>
-                </Link>
-                <a
-                  href="https://wa.me/85292851189"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-white/[0.25] text-[11px] uppercase tracking-[0.2em] hover:text-white/50 transition-colors"
-                >
-                  <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5" />
-                  <span>WhatsApp Us</span>
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-           §6  DUAL-SPLIT CTA — mirrors the hero
-      ══════════════════════════════════════════ */}
-      <section ref={ctaRef.ref} className="relative overflow-hidden">
-        <div className="h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
+      {/* ══════════════════════════════════════════════════════
+           HOW BUYING WORKS
+      ══════════════════════════════════════════════════════ */}
+      <section ref={buyRef.ref} className="py-20 border-t border-white/[0.05] bg-[#0a0a0f]">
+        <div className="container-custom">
 
+          <Reveal visible={buyRef.visible} dir="up">
+            <SectionLabel text={t.tradingGuide.badge} color={GOLD} />
+            <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-12 leading-tight">
+              {t.tradingGuide.buy.title}
+            </h3>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {t.tradingGuide.buy.rules.map((rule, i) => {
+              const icons = [MessageCircle, MapPin, CreditCard];
+              const Icon = icons[i] ?? MessageCircle;
+              const n = String(i + 1).padStart(2, '0');
+              return (
+                <div
+                  key={i}
+                  className="relative p-8 border border-white/[0.06] hover:border-[#d4a843]/20 transition-colors duration-300"
+                  style={{
+                    opacity: buyRef.visible ? 1 : 0,
+                    transform: buyRef.visible ? 'none' : 'translateY(28px)',
+                    transition: `opacity 0.8s ease ${i * 120}ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms`,
+                  }}
+                >
+                  <span className="absolute top-5 right-6 font-serif font-black text-5xl text-[#d4a843]/[0.07] select-none">{n}</span>
+                  <div className="w-10 h-10 rounded-xl border border-[#d4a843]/30 bg-[#d4a843]/10 flex items-center justify-center mb-5">
+                    <Icon className="w-4 h-4 text-[#d4a843]" />
+                  </div>
+                  <h4 className="text-white font-bold text-lg mb-2">{rule.heading}</h4>
+                  <p className="text-[#5c626e] text-sm leading-relaxed">{rule.body}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+           HOW SELLING / CONSIGNING WORKS
+      ══════════════════════════════════════════════════════ */}
+      <section ref={sellRef.ref} className="py-20 border-t border-white/[0.05] bg-[#09090f]">
+        <div className="container-custom">
+
+          <Reveal visible={sellRef.visible} dir="up">
+            <SectionLabel text={t.tradingGuide.badge} color={VIOLET} />
+            <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
+              {t.tradingGuide.sell.title}
+            </h3>
+            <p className="text-[#5c626e] text-sm leading-relaxed mb-12 max-w-xl">
+              {t.tradingGuide.sell.rules[1].body}
+            </p>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-10 md:gap-16">
+
+            {/* Steps */}
+            <div>
+              {t.tradingGuide.sell.rules.map((rule, i) => (
+                <Step
+                  key={i}
+                  n={String(i + 1).padStart(2, '0')}
+                  title={rule.heading}
+                  body={rule.body}
+                  accent={VIOLET}
+                  visible={sellRef.visible}
+                  delay={i * 80}
+                  last={i === t.tradingGuide.sell.rules.length - 1}
+                />
+              ))}
+            </div>
+
+            {/* Rules */}
+            <div
+              style={{
+                opacity: sellRef.visible ? 1 : 0,
+                transform: sellRef.visible ? 'none' : 'translateX(32px)',
+                transition: 'opacity 0.9s ease 0.2s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s',
+              }}
+            >
+              <div className="border border-[#818cf8]/20 bg-[#818cf8]/[0.04] p-7 mb-6">
+                <h4 className="text-[#818cf8] text-xs uppercase tracking-[0.25em] font-semibold mb-5">What We Accept</h4>
+                <ul className="space-y-3">
+                  {t.business.cardTrading.features.map(item => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircle className="w-4 h-4 text-[#818cf8]/60 flex-shrink-0 mt-0.5" />
+                      <span className="text-white/55 text-sm">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="border border-white/[0.06] p-7">
+                <h4 className="text-white/30 text-xs uppercase tracking-[0.25em] font-semibold mb-5">Payment Rules</h4>
+                <ul className="space-y-3">
+                  {t.tradingGuide.buy.rules.map(rule => (
+                    <li key={rule.heading} className="flex items-start gap-3">
+                      <Zap className="w-4 h-4 text-[#d4a843]/40 flex-shrink-0 mt-0.5" />
+                      <span className="text-white/40 text-sm">{rule.body}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+           FAQ ACCORDION
+      ══════════════════════════════════════════════════════ */}
+      <section ref={faqRef.ref} className="py-20 border-t border-white/[0.05] bg-[#0a0a0f]">
+        <div className="container-custom max-w-3xl">
+          <Reveal visible={faqRef.visible} dir="up">
+            <SectionLabel text={t.psaProtectorPage.faq.badge} color={GOLD} />
+            <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-10">{t.psaProtectorPage.faq.title}</h3>
+          </Reveal>
+
+          <div className="space-y-1">
+            {[
+              ...t.psaProtectorPage.faq.items.slice(0, 3).map(f => ({ ...f, accent: GOLD })),
+              ...t.tradingGuide.buy.faq.items.slice(0, 2).map(f => ({ ...f, accent: VIOLET })),
+              ...t.tradingGuide.sell.faq.items.slice(0, 2).map(f => ({ ...f, accent: VIOLET })),
+            ].map(({ q, a, accent }, i) => (
+              <div
+                key={i}
+                className="border border-white/[0.05] overflow-hidden"
+                style={{
+                  opacity: faqRef.visible ? 1 : 0,
+                  transform: faqRef.visible ? 'none' : 'translateY(16px)',
+                  transition: `opacity 0.7s ease ${i * 60}ms, transform 0.7s ease ${i * 60}ms`,
+                }}
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-white/[0.02] transition-colors"
+                >
+                  <span className="text-white/80 text-sm font-medium leading-snug">{q}</span>
+                  <ChevronDown
+                    className="w-4 h-4 flex-shrink-0 transition-transform duration-300"
+                    style={{ color: accent, transform: openFaq === i ? 'rotate(180deg)' : 'none' }}
+                  />
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-5">
+                    <p className="text-[#5c626e] text-sm leading-relaxed">{a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+           FINAL CTA
+      ══════════════════════════════════════════════════════ */}
+      <section ref={ctaRef.ref} className="border-t border-white/[0.05] overflow-hidden">
         <div className="grid md:grid-cols-2">
-          {/* Left — PSA */}
+
           <div
-            className="relative overflow-hidden group p-12 md:p-16 lg:p-20 border-b md:border-b-0 md:border-r border-white/[0.05]"
+            className="relative group p-12 md:p-16 lg:p-20 border-b md:border-b-0 md:border-r border-white/[0.05] bg-[#09090f] overflow-hidden"
             style={{
               opacity: ctaRef.visible ? 1 : 0,
-              transform: ctaRef.visible ? 'translateY(0)' : 'translateY(28px)',
-              transition: 'all 0.9s cubic-bezier(0.16,1,0.3,1)',
+              transform: ctaRef.visible ? 'none' : 'translateY(28px)',
+              transition: 'opacity 0.9s ease, transform 0.9s ease',
             }}
           >
-            <div className="absolute inset-0 bg-[#09090f]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_100%_at_0%_100%,rgba(212,168,67,0.055),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="absolute top-0 left-0">
-              <div className="absolute top-4 left-4 w-5 h-5 border-t-[1.5px] border-l-[1.5px] border-[#d4a843]/40" />
-            </div>
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_10%_90%,rgba(212,168,67,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute top-5 left-5 w-6 h-6 border-t-[1.5px] border-l-[1.5px] border-[#d4a843]/35" />
             <div className="relative">
-              <span className="text-[#d4a843]/35 text-[10px] uppercase tracking-[0.4em] block mb-5">Protection</span>
-              <h3 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.1] mb-4">
-                Shop Our<br />Protector
-              </h3>
-              <p className="text-white/[0.22] text-sm leading-relaxed mb-10 max-w-xs">
-                Premium aluminum cases — worldwide shipping from USD&nbsp;17.99
-              </p>
+              <span className="text-[#d4a843]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">PSA Protector</span>
+              <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">Protect Your<br />Collection</h3>
+              <p className="text-white/25 text-sm leading-relaxed mb-10 max-w-xs">{t.home.services.protector.subtitle}</p>
               <Link
                 href="/products/psa-protectors"
-                className="group/btn inline-flex items-center gap-3 border border-[#d4a843]/35 hover:border-[#d4a843] hover:bg-[#d4a843]/5 text-[#d4a843] text-[11px] uppercase tracking-[0.2em] font-bold px-8 py-4 transition-all duration-300"
+                className="group/btn inline-flex items-center gap-3 border border-[#d4a843]/35 hover:border-[#d4a843] hover:bg-[#d4a843]/5 text-[#d4a843] text-[11px] uppercase tracking-[0.2em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
               >
-                <span>View Product</span>
+                {t.home.services.protector.cta}
                 <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
 
-          {/* Right — Trading */}
           <div
-            className="relative overflow-hidden group p-12 md:p-16 lg:p-20"
+            className="relative group p-12 md:p-16 lg:p-20 bg-[#09090f] overflow-hidden"
             style={{
               opacity: ctaRef.visible ? 1 : 0,
-              transform: ctaRef.visible ? 'translateY(0)' : 'translateY(28px)',
-              transition: 'all 0.9s cubic-bezier(0.16,1,0.3,1) 0.12s',
+              transform: ctaRef.visible ? 'none' : 'translateY(28px)',
+              transition: 'opacity 0.9s ease 0.12s, transform 0.9s ease 0.12s',
             }}
           >
-            <div className="absolute inset-0 bg-[#09090f]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_100%_at_100%_100%,rgba(129,140,248,0.055),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="absolute top-0 right-0">
-              <div className="absolute top-4 right-4 w-5 h-5 border-t-[1.5px] border-r-[1.5px] border-[#818cf8]/40" />
-            </div>
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_90%_90%,rgba(129,140,248,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute top-5 right-5 w-6 h-6 border-t-[1.5px] border-r-[1.5px] border-[#818cf8]/35" />
             <div className="relative">
-              <span className="text-[#818cf8]/35 text-[10px] uppercase tracking-[0.4em] block mb-5">Brokerage</span>
-              <h3 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.1] mb-4">
-                Start Your<br />Trade
-              </h3>
-              <p className="text-white/[0.22] text-sm leading-relaxed mb-10 max-w-xs">
-                Buy, sell, or consign your graded cards — no upfront listing fee
-              </p>
+              <span className="text-[#818cf8]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">Card Trading</span>
+              <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">Start Your<br />Trade Today</h3>
+              <p className="text-white/25 text-sm leading-relaxed mb-10 max-w-xs">{t.home.services.trading.subtitle}</p>
               <a
                 href="https://wa.me/85292851189"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/btn inline-flex items-center gap-3 border border-[#818cf8]/35 hover:border-[#818cf8] hover:bg-[#818cf8]/5 text-[#818cf8] text-[11px] uppercase tracking-[0.2em] font-bold px-8 py-4 transition-all duration-300"
+                className="group/btn inline-flex items-center gap-3 border border-[#818cf8]/35 hover:border-[#818cf8] hover:bg-[#818cf8]/5 text-[#818cf8] text-[11px] uppercase tracking-[0.2em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
               >
                 <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5" />
-                <span>WhatsApp Us</span>
+                {t.business.cta.whatsapp}
                 <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
               </a>
             </div>
           </div>
-        </div>
 
-        <div className="h-px bg-gradient-to-r from-transparent via-[#818cf8]/[0.18] to-transparent" />
+        </div>
+        <div className="h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
       </section>
 
     </div>

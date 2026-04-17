@@ -83,6 +83,8 @@ export const zh: Translations = {
     story: {
       title: '我們的故事',
       content: 'Appaw Store 由熱愛收藏的玩家創立，深明保護評級卡片的重要性。我們提供優質的 PSA 卡片鋁合金保護殼，結合工業級保護與優雅展示，同時提供值得信賴的交易卡牌買賣服務。',
+      founderName: 'Appaw Store Team', // TODO: Replace with your real name
+      founderRole: '創辦人兼收藏家',
     },
     mission: {
       title: '我們的使命',
@@ -130,6 +132,8 @@ export const zh: Translations = {
     cardProtector: {
       title: 'PSA 卡片鋁合金保護殼',
       description: '工業級保護與展覽級展示的完美結合。您的珍貴收藏值得更好的保護。',
+      startingPrice: '最低價格',
+      shippingInfo: '全球運送',
       features: [
         '框架材質：精密切割鋁合金（剛性、抗衝擊）',
         '鏡片材質：UV 防護玻璃（高清晰度、防褪色）',
@@ -451,6 +455,7 @@ export const zh: Translations = {
     contact: '聯繫方式',
     followUs: '關注我們',
     rights: '版權所有。',
+    privacy: '私隱政策',
   },
 
   // Cookie Consent

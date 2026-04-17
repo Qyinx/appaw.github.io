@@ -1,3 +1,5 @@
+import { start } from "repl";
+
 export const en = {
   // Navigation
   nav: {
@@ -81,6 +83,8 @@ export const en = {
     story: {
       title: 'Our Story',
       content: 'Appaw Store was founded by passionate collectors who understand the value of protecting graded cards. We offer premium PSA Card Aluminum Protectors that combine industrial-grade protection with elegant display, and a trusted TCG trading service for buying and selling graded cards.',
+      founderName: 'Appaw Store', // TODO: Replace with your real name for stronger E-E-A-T
+      founderRole: 'Founder & Collector',
     },
     mission: {
       title: 'Our Mission',
@@ -128,6 +132,8 @@ export const en = {
     cardProtector: {
       title: 'PSA Card Aluminum Protector',
       description: 'Industrial-grade protection meets gallery-worthy display. Your valuable collection deserves better.',
+      startingPrice: 'Starting Price',
+      shippingInfo: 'Worldwide shipping',
       features: [
         'Frame Material: Precision-cut Aluminum Alloy (Rigid & Impact Resistant)',
         'Lens Material: UV-Blocking Glass (High Clarity & Anti-Fade)',
@@ -449,6 +455,7 @@ export const en = {
     contact: 'Contact',
     followUs: 'Follow Us',
     rights: 'All rights reserved.',
+    privacy: 'Privacy Policy',
   },
 
   // Cookie Consent

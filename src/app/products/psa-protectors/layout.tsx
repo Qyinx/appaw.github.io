@@ -153,6 +153,9 @@ const breadcrumbJsonLd = {
 const psaFaqJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
+  publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
+  datePublished: '2024-01-15',
+  dateModified: '2026-04-17',
   mainEntity: en.psaProtectorPage.faq.items.map(({ q, a }) => ({
     '@type': 'Question',
     name: q,

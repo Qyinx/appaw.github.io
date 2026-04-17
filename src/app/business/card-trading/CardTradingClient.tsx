@@ -35,7 +35,7 @@ function TradingGuide({ guide }: { guide: ReturnType<typeof useLanguage>['t']['t
   const tabAccentRgb = activeTab === 'buy' ? '212,168,67' : '129,140,248';
 
   return (
-    <section className="py-24 bg-[#09090f] relative overflow-hidden">
+    <section id="consign" className="py-24 bg-[#09090f] relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(212,168,67,0.04),transparent)]" />
 
