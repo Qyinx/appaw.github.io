@@ -83,6 +83,13 @@ export default function Header() {
   };
 
   const pathname = usePathname();
+  // trailingSlash: true in next.config.js means pathname may end with /
+  // Normalize so /business/ matches link.href /business
+  const normalizedPath = pathname.replace(/\/$/, '') || '/';
+  const isActivePath = (href: string) =>
+    href === '/'
+      ? normalizedPath === '/'
+      : normalizedPath === href || normalizedPath.startsWith(href + '/');
 
   return (
     <header
@@ -118,7 +125,7 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive = isActivePath(link.href);
               return (
                 <Link
                   key={link.href}
@@ -195,7 +202,7 @@ export default function Header() {
             )}
             <nav className="flex flex-col">
               {navLinks.map((link) => {
-                const isActive = pathname === link.href;
+                const isActive = isActivePath(link.href);
                 return (
                   <Link
                     key={link.href}

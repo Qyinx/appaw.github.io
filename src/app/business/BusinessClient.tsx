@@ -100,7 +100,7 @@ function Step({
         </div>
         <div className={last ? '' : 'pb-10'}>
           <h4 className="text-white font-semibold text-[15px] mb-2">{title}</h4>
-          <p className="text-[#5c626e] text-sm leading-relaxed">{body}</p>
+          <p className="text-[#9ca3af] text-sm leading-relaxed">{body}</p>
         </div>
       </div>
     </Reveal>
@@ -256,7 +256,7 @@ export default function BusinessClient() {
                   <em className="not-italic text-[#d4a843]">Aluminum</em><br />
                   Protector
                 </h2>
-                <p className="text-[#6b7280] text-[15px] leading-relaxed mb-8 max-w-md">
+                <p className="text-[#6b7280] text-base md:text-lg leading-relaxed mb-8 max-w-md">
                   {t.business.cardProtector.description}
                 </p>
               </Reveal>
@@ -269,7 +269,7 @@ export default function BusinessClient() {
                       key={s.label}
                       className={`grid grid-cols-[100px_1fr] gap-4 px-5 py-3.5 ${i % 2 === 0 ? 'bg-white/[0.02]' : ''} border-b border-white/[0.04] last:border-b-0`}
                     >
-                      <span className="text-[#5c626e] text-xs uppercase tracking-[0.2em]">{s.label}</span>
+                      <span className="text-[#9ca3af] text-xs uppercase tracking-[0.2em]">{s.label}</span>
                       <span className="text-white/70 text-sm">{s.value}</span>
                     </div>
                   ))}
@@ -290,7 +290,7 @@ export default function BusinessClient() {
                 <div className="flex flex-wrap items-center gap-5">
                   <Link
                     href="/products/psa-protectors"
-                    className="inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-[11px] uppercase tracking-[0.2em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.3)] active:scale-95"
+                    className="inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.3)] active:scale-95"
                   >
                     <Shield className="w-3.5 h-3.5" />
                     {t.home.services.protector.cta}
@@ -325,13 +325,13 @@ export default function BusinessClient() {
                   <div>
                     <p className="text-[#d4a843]/50 text-[10px] uppercase tracking-[0.3em] mb-1">{t.business.cardProtector.startingPrice}</p>
                     <p className="text-white font-display text-3xl font-bold leading-none">USD 9.2</p>
-                    <p className="text-white/30 text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
+                    <p className="text-white/50 text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
                   </div>
                   <ShopNowButton
                     label={t.business.cardProtector.cta}
                     shopOptions={t.shopOptions}
                     whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                    buttonClassName="inline-flex items-center gap-2 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-[11px] uppercase tracking-[0.2em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap hover:shadow-[0_0_32px_rgba(212,168,67,0.3)] flex-shrink-0 active:scale-95"
+                    buttonClassName="inline-flex items-center gap-2 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap hover:shadow-[0_0_32px_rgba(212,168,67,0.3)] flex-shrink-0 active:scale-95"
                   />
                 </div>
               </Reveal>
@@ -340,7 +340,7 @@ export default function BusinessClient() {
               <Reveal visible={psaRef.visible} dir="right" delay={220}>
                 <div className="border border-white/[0.06] overflow-hidden">
                   <div className="px-5 py-3 border-b border-white/[0.05] bg-white/[0.02]">
-                    <span className="text-white/30 text-[10px] uppercase tracking-[0.3em]">Compatibility</span>
+                    <span className="text-white/50 text-[10px] uppercase tracking-[0.3em]">Compatibility</span>
                   </div>
                   <div className="p-5 space-y-4">
                     <div className="flex items-start gap-3">
@@ -390,7 +390,7 @@ export default function BusinessClient() {
                   <Icon className="w-4 h-4 text-[#d4a843]" />
                 </div>
                 <h3 className="font-display text-white font-bold text-lg mb-3">{title}</h3>
-                <p className="text-[#5c626e] text-sm leading-relaxed">{body}</p>
+                <p className="text-[#9ca3af] text-sm leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
@@ -419,7 +419,7 @@ export default function BusinessClient() {
                 }}
               >
                 <div className="font-display text-4xl font-bold leading-none mb-2" style={{ color: accent }}>{n}</div>
-                <div className="text-white/25 text-[10px] uppercase tracking-[0.28em]">{label}</div>
+                <div className="text-white/40 text-[10px] uppercase tracking-[0.28em]">{label}</div>
               </div>
             ))}
           </div>
@@ -474,13 +474,13 @@ export default function BusinessClient() {
                   {/* Floating badges */}
                   <div className="absolute top-2 right-4 md:right-12 border border-[#818cf8]/25 bg-[#0e0e14] px-4 py-3 text-center shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
                     <div className="text-[#818cf8] text-2xl font-bold font-display leading-none">0%</div>
-                    <div className="text-white/25 text-[9px] uppercase tracking-wider mt-1">Listing Fee</div>
+                    <div className="text-white/45 text-[9px] uppercase tracking-wider mt-1">Listing Fee</div>
                   </div>
                   <div className="absolute bottom-4 left-4 md:left-10 border border-[#d4a843]/20 bg-[#0e0e14] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
                     <div className="flex items-center gap-0.5 text-[#d4a843] justify-center">
                       {[0,1,2,3,4].map(n => <Star key={n} className="w-2.5 h-2.5 fill-current" />)}
                     </div>
-                    <div className="text-white/25 text-[9px] uppercase tracking-wider mt-1 text-center">5.0 Rating</div>
+                    <div className="text-white/45 text-[9px] uppercase tracking-wider mt-1 text-center">5.0 Rating</div>
                   </div>
                 </div>
               </Reveal>
@@ -501,7 +501,7 @@ export default function BusinessClient() {
                       <Icon className="w-3.5 h-3.5 text-[#818cf8]" />
                     </div>
                     <h4 className="text-white font-semibold text-sm mb-1.5">{title}</h4>
-                    <p className="text-[#5c626e] text-xs leading-relaxed">{t.business.cardTrading.features[i]}</p>
+                    <p className="text-[#9ca3af] text-sm leading-relaxed">{t.business.cardTrading.features[i]}</p>
                   </div>
                 ))}
               </div>
@@ -513,7 +513,7 @@ export default function BusinessClient() {
                 <h2 className="font-display text-5xl md:text-6xl font-bold text-white leading-[1.06] mb-6">
                   {t.business.cardTrading.title}
                 </h2>
-                <p className="text-[#6b7280] text-[15px] leading-relaxed mb-8 max-w-md">
+                <p className="text-[#6b7280] text-base md:text-lg leading-relaxed mb-8 max-w-md">
                   {t.business.cardTrading.description}
                 </p>
               </Reveal>
@@ -530,7 +530,7 @@ export default function BusinessClient() {
                 <div className="flex flex-wrap items-center gap-5">
                   <Link
                     href="/business/card-trading"
-                    className="inline-flex items-center gap-3 bg-[#818cf8] hover:bg-[#a5b4fc] text-[#09090f] font-bold text-[11px] uppercase tracking-[0.2em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(129,140,248,0.3)] active:scale-95"
+                    className="inline-flex items-center gap-3 bg-[#818cf8] hover:bg-[#a5b4fc] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(129,140,248,0.3)] active:scale-95"
                   >
                     <TrendingUp className="w-3.5 h-3.5" />
                     {t.business.cardTrading.cta}
@@ -539,7 +539,7 @@ export default function BusinessClient() {
                     href="https://wa.me/85292851189"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-white/30 hover:text-white/60 text-[11px] uppercase tracking-[0.2em] transition-colors"
+                    className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm uppercase tracking-[0.15em] transition-colors"
                   >
                     <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5" />
                     {t.business.cta.whatsapp}
@@ -585,7 +585,7 @@ export default function BusinessClient() {
                     <Icon className="w-4 h-4 text-[#d4a843]" />
                   </div>
                   <h4 className="text-white font-bold text-lg mb-2">{rule.heading}</h4>
-                  <p className="text-[#5c626e] text-sm leading-relaxed">{rule.body}</p>
+                  <p className="text-[#9ca3af] text-sm leading-relaxed">{rule.body}</p>
                 </div>
               );
             })}
@@ -604,7 +604,7 @@ export default function BusinessClient() {
             <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
               {t.tradingGuide.sell.title}
             </h3>
-            <p className="text-[#5c626e] text-sm leading-relaxed mb-12 max-w-xl">
+            <p className="text-[#9ca3af] text-base leading-relaxed mb-12 max-w-xl">
               {t.tradingGuide.sell.rules[1].body}
             </p>
           </Reveal>
@@ -641,18 +641,18 @@ export default function BusinessClient() {
                   {t.business.cardTrading.features.map(item => (
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle className="w-4 h-4 text-[#818cf8]/60 flex-shrink-0 mt-0.5" />
-                      <span className="text-white/55 text-sm">{item}</span>
+                      <span className="text-white/65 text-sm">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="border border-white/[0.06] p-7">
-                <h4 className="text-white/30 text-xs uppercase tracking-[0.25em] font-semibold mb-5">Payment Rules</h4>
+                <h4 className="text-white/50 text-xs uppercase tracking-[0.25em] font-semibold mb-5">Payment Rules</h4>
                 <ul className="space-y-3">
                   {t.tradingGuide.buy.rules.map(rule => (
                     <li key={rule.heading} className="flex items-start gap-3">
-                      <Zap className="w-4 h-4 text-[#d4a843]/40 flex-shrink-0 mt-0.5" />
-                      <span className="text-white/40 text-sm">{rule.body}</span>
+                      <Zap className="w-4 h-4 text-[#d4a843]/50 flex-shrink-0 mt-0.5" />
+                      <span className="text-white/60 text-sm">{rule.body}</span>
                     </li>
                   ))}
                 </ul>
@@ -700,7 +700,7 @@ export default function BusinessClient() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-5">
-                    <p className="text-[#5c626e] text-sm leading-relaxed">{a}</p>
+                    <p className="text-[#9ca3af] text-sm leading-relaxed">{a}</p>
                   </div>
                 )}
               </div>
@@ -728,10 +728,10 @@ export default function BusinessClient() {
             <div className="relative">
               <span className="text-[#d4a843]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">PSA Protector</span>
               <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">Protect Your<br />Collection</h3>
-              <p className="text-white/25 text-sm leading-relaxed mb-10 max-w-xs">{t.home.services.protector.subtitle}</p>
+              <p className="text-white/45 text-base leading-relaxed mb-10 max-w-xs">{t.home.services.protector.subtitle}</p>
               <Link
                 href="/products/psa-protectors"
-                className="group/btn inline-flex items-center gap-3 border border-[#d4a843]/35 hover:border-[#d4a843] hover:bg-[#d4a843]/5 text-[#d4a843] text-[11px] uppercase tracking-[0.2em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
+                className="group/btn inline-flex items-center gap-3 border border-[#d4a843]/35 hover:border-[#d4a843] hover:bg-[#d4a843]/5 text-[#d4a843] text-sm uppercase tracking-[0.15em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
               >
                 {t.home.services.protector.cta}
                 <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
@@ -752,12 +752,12 @@ export default function BusinessClient() {
             <div className="relative">
               <span className="text-[#818cf8]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">Card Trading</span>
               <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">Start Your<br />Trade Today</h3>
-              <p className="text-white/25 text-sm leading-relaxed mb-10 max-w-xs">{t.home.services.trading.subtitle}</p>
+              <p className="text-white/45 text-base leading-relaxed mb-10 max-w-xs">{t.home.services.trading.subtitle}</p>
               <a
                 href="https://wa.me/85292851189"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/btn inline-flex items-center gap-3 border border-[#818cf8]/35 hover:border-[#818cf8] hover:bg-[#818cf8]/5 text-[#818cf8] text-[11px] uppercase tracking-[0.2em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
+                className="group/btn inline-flex items-center gap-3 border border-[#818cf8]/35 hover:border-[#818cf8] hover:bg-[#818cf8]/5 text-[#818cf8] text-sm uppercase tracking-[0.15em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
               >
                 <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5" />
                 {t.business.cta.whatsapp}

@@ -328,7 +328,7 @@ export default function HomePage() {
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#d4a843] transition-colors duration-500 font-display">
                     {t.business.cardProtector.title}
                   </h3>
-                  <p className="text-white/30 text-sm leading-relaxed mb-8">
+                  <p className="text-white/55 text-sm leading-relaxed mb-8">
                     {t.home.services.protector.subtitle}
                   </p>
                   <span className="inline-flex items-center gap-2.5 text-[#d4a843] font-semibold text-sm uppercase tracking-[0.1em] group-hover:gap-4 transition-all duration-500">
@@ -419,7 +419,7 @@ export default function HomePage() {
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#818cf8] transition-colors duration-500 font-display">
                     {t.business.cardTrading.title}
                   </h3>
-                  <p className="text-white/30 text-sm leading-relaxed mb-8">
+                  <p className="text-white/55 text-sm leading-relaxed mb-8">
                     {t.home.services.trading.subtitle}
                   </p>
                   <span className="inline-flex items-center gap-2.5 text-[#818cf8] font-semibold text-sm uppercase tracking-[0.1em] group-hover:gap-4 transition-all duration-500">
