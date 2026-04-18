@@ -412,192 +412,193 @@ export default function PSAProtectorPage() {
            COLORS — Color Variants Showcase
       ══════════════════════════════════════════ */}
       {(() => {
+        // Ordered: warm solids → warm gradients → cool gradients → cool solids
         const colors = [
-          { name: t.psaProtectorPage.colorVariants.colors.black,       hex: '#1a1a1a', accent: '#3a3a3a', glow: 'rgba(80,80,80,0.14)',   ring: 'rgba(255,255,255,0.35)', image: '/images/describe/color-black.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.silver,      hex: '#c0c0c0', accent: '#e0e0e0', glow: 'rgba(192,192,192,0.12)', ring: 'rgba(192,192,192,0.6)',  image: '/images/describe/color-silver.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.gold,        hex: '#d4a843', accent: '#e5bc5a', glow: 'rgba(212,168,67,0.14)',  ring: 'rgba(212,168,67,0.7)',   image: '/images/describe/color-gold.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.roseGold,    hex: '#b76e79', accent: '#d4919c', glow: 'rgba(183,110,121,0.12)', ring: 'rgba(183,110,121,0.6)',  image: '/images/describe/color-rosegold.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.navy,        hex: '#1e3a5f', accent: '#2d5a8e', glow: 'rgba(30,58,95,0.16)',    ring: 'rgba(45,90,142,0.6)',    image: '/images/describe/color-navy.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.forestGreen, hex: '#2d5a3d', accent: '#3d7a52', glow: 'rgba(45,90,61,0.14)',    ring: 'rgba(61,122,82,0.6)',    image: '/images/describe/color-green.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.burgundy,    hex: '#6b2139', accent: '#8e3050', glow: 'rgba(107,33,57,0.14)',   ring: 'rgba(142,48,80,0.6)',    image: '/images/describe/color-burgundy.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.gold,           hex: '#f0c96a', hex2: undefined,  accent: '#f8de98', glow: 'rgba(240,200,106,0.16)', ring: 'rgba(240,200,106,0.6)',  image: '/images/describe/color/color-gold.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.silver,         hex: '#d4b800', hex2: undefined,  accent: '#ffe033', glow: 'rgba(210,180,0,0.22)',   ring: 'rgba(255,220,0,0.7)',    image: '/images/describe/color/color-yellow.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.goldenEmberRed, hex: '#d4a030', hex2: '#b82020', accent: '#e07040', glow: 'rgba(192,80,32,0.16)',   ring: 'rgba(220,120,60,0.6)',   image: '/images/describe/color/color-golden-ember-red.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.blueDarkGrey,   hex: '#4a76a8', hex2: '#404858', accent: '#5080b0', glow: 'rgba(46,64,96,0.18)',    ring: 'rgba(100,140,180,0.5)',  image: '/images/describe/color/color-blue-dark-grey.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.roseTintedBlue, hex: '#c86888', hex2: '#4868b8', accent: '#b090c8', glow: 'rgba(128,96,152,0.14)',  ring: 'rgba(180,140,200,0.5)',  image: '/images/describe/color/color-rose-tinted-bule.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.navy,           hex: '#6b3fa0', hex2: undefined,  accent: '#9b6fd4', glow: 'rgba(107,63,160,0.18)',  ring: 'rgba(155,111,212,0.55)', image: '/images/describe/color/color-purple.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.forestGreen,    hex: '#2d5a3d', hex2: undefined,  accent: '#3d7a52', glow: 'rgba(45,90,61,0.14)',    ring: 'rgba(61,122,82,0.6)',    image: '/images/describe/color/color-green.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.dark,           hex: '#1a1a2e', hex2: undefined,  accent: '#3a3a50', glow: 'rgba(26,26,46,0.28)',    ring: 'rgba(80,80,110,0.55)',   image: '/images/describe/color/color-dark.png' },
         ];
-        const active  = colors[selectedColor];
-        const dir     = colorDir.current;
-        const slideIn = dir === 'right' ? 'translateX(0) scale(1) rotateY(0deg)' : 'translateX(0) scale(1) rotateY(0deg)';
-        const slideOutGone = dir === 'right' ? 'translateX(-25%) scale(0.85) rotateY(8deg)' : 'translateX(25%) scale(0.85) rotateY(-8deg)';
-        const slideInFrom  = dir === 'right' ? 'translateX(25%) scale(0.85) rotateY(-8deg)' : 'translateX(-25%) scale(0.85) rotateY(8deg)';
-        return (
-          <section ref={colorsReveal.ref} className="py-28 bg-[#09090f] relative overflow-hidden">
+        const active = colors[selectedColor];
+        const dir = colorDir.current;
+        const slideOutGone = dir === 'right' ? 'translateX(-22%) scale(0.88) rotateY(7deg)' : 'translateX(22%) scale(0.88) rotateY(-7deg)';
 
-            {/* ─ Animated aurora background ─ */}
+        return (
+          <section ref={colorsReveal.ref} className="py-24 md:py-32 bg-[#09090f] relative overflow-hidden">
+
+            {/* Reactive aurora background */}
             <div className="absolute inset-0 pointer-events-none">
-              {/* Large orbiting aurora blob */}
               <div
-                className="absolute w-[600px] h-[600px] rounded-full blur-[120px] animate-[auroraOrbit_12s_ease-in-out_infinite] transition-colors duration-1000"
-                style={{ backgroundColor: active.glow, top: '10%', left: '20%' }}
+                className="absolute w-[700px] h-[700px] rounded-full blur-[140px] transition-all duration-1000 animate-[auroraOrbit_14s_ease-in-out_infinite]"
+                style={{ backgroundColor: active.glow, top: '-15%', right: '-5%' }}
               />
-              {/* Secondary orbiting blob — counter direction */}
               <div
-                className="absolute w-[400px] h-[400px] rounded-full blur-[100px] animate-[auroraOrbit_16s_ease-in-out_infinite_reverse] transition-colors duration-1000"
-                style={{ backgroundColor: active.ring, opacity: 0.07, bottom: '5%', right: '15%' }}
+                className="absolute w-[500px] h-[500px] rounded-full blur-[120px] transition-all duration-1000 animate-[auroraOrbit_20s_ease-in-out_infinite_reverse]"
+                style={{ backgroundColor: active.ring, opacity: 0.06, bottom: '-5%', left: '-5%' }}
               />
-              {/* Subtle noise-grain overlay */}
-              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")' }} />
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:72px_72px]" />
             </div>
 
-            {/* Top & bottom edge lines — color-reactive */}
-            <div className="absolute top-0 left-0 right-0 h-px transition-all duration-700" style={{ background: `linear-gradient(to right, transparent 5%, ${active.ring} 50%, transparent 95%)` }} />
-            <div className="absolute bottom-0 left-0 right-0 h-px transition-all duration-700" style={{ background: `linear-gradient(to right, transparent 5%, ${active.ring} 50%, transparent 95%)` }} />
+            {/* Reactive edge hairlines */}
+            <div className="absolute top-0 left-0 right-0 h-px transition-all duration-1000" style={{ background: `linear-gradient(to right, transparent 10%, ${active.ring} 50%, transparent 90%)` }} />
+            <div className="absolute bottom-0 left-0 right-0 h-px transition-all duration-1000" style={{ background: `linear-gradient(to right, transparent 10%, ${active.ring} 50%, transparent 90%)` }} />
 
             <div className="container-custom relative">
 
-              {/* Section header */}
+              {/* Section header — left-aligned */}
               <div
-                className="text-center mb-16 transition-all duration-700"
+                className="mb-14 transition-all duration-700"
                 style={{ opacity: colorsReveal.visible ? 1 : 0, transform: colorsReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
               >
-                <div className="inline-flex items-center gap-3 mb-5">
-                  <div className="w-8 h-px transition-colors duration-700" style={{ backgroundColor: active.accent }} />
-                  <span className="text-xs uppercase tracking-[0.25em] font-medium transition-colors duration-700" style={{ color: active.accent }}>
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-6 h-px transition-colors duration-700" style={{ backgroundColor: active.accent }} />
+                  <span className="text-xs uppercase tracking-[0.3em] font-medium transition-colors duration-700" style={{ color: active.accent }}>
                     <Palette className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" />
                     {t.psaProtectorPage.colorVariants.badge}
                   </span>
-                  <div className="w-8 h-px transition-colors duration-700" style={{ backgroundColor: active.accent }} />
                 </div>
-                <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-4">
+                <h2 className="font-display text-4xl md:text-5xl font-bold text-white leading-tight mb-3">
                   {t.psaProtectorPage.colorVariants.title}
                 </h2>
-                <p className="text-[#6b7280] max-w-xl mx-auto leading-relaxed">
+                <p className="text-[#9ca3af] text-base max-w-lg leading-relaxed">
                   {t.psaProtectorPage.colorVariants.subtitle}
                 </p>
               </div>
 
-              {/* Product showcase */}
+              {/* Two-column: image left / controls right */}
               <div
-                className="flex flex-col items-center transition-all duration-1000"
+                className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center"
                 style={{
                   opacity: colorsReveal.visible ? 1 : 0,
                   transform: colorsReveal.visible ? 'translateY(0)' : 'translateY(32px)',
-                  transitionDelay: '200ms',
+                  transition: 'opacity 0.9s ease 0.18s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s',
                 }}
               >
-                <div className="relative w-full max-w-md mb-14" style={{ perspective: '1200px' }}>
 
-                  {/* Orbiting ring — decorative */}
-                  <div
-                    className="absolute inset-[-15%] rounded-full border transition-colors duration-1000 animate-[spin_25s_linear_infinite] pointer-events-none"
-                    style={{ borderColor: `${active.ring}15` }}
-                  />
-                  <div
-                    className="absolute inset-[-8%] rounded-full border transition-colors duration-1000 animate-[spin_18s_linear_infinite_reverse] pointer-events-none"
-                    style={{ borderColor: `${active.ring}10` }}
-                  />
+                {/* ── LEFT: product image ── */}
+                <div className="relative flex items-center justify-center" style={{ perspective: '1200px' }}>
+                  {/* Decorative rings */}
+                  <div className="absolute inset-[-12%] rounded-full border transition-colors duration-1000 animate-[spin_28s_linear_infinite] pointer-events-none" style={{ borderColor: `${active.ring}12` }} />
+                  <div className="absolute inset-[-5%] rounded-full border transition-colors duration-1000 animate-[spin_20s_linear_infinite_reverse] pointer-events-none" style={{ borderColor: `${active.ring}08` }} />
+                  {/* Ambient glow */}
+                  <div className="absolute inset-[-8%] rounded-full blur-[80px] transition-all duration-1000" style={{ backgroundColor: active.hex, opacity: 0.22 }} />
 
-                  {/* Ambient glow behind the image */}
-                  <div
-                    className="absolute -inset-16 rounded-full blur-[100px] transition-all duration-1000 animate-[colorPulse_4s_ease-in-out_infinite]"
-                    style={{ backgroundColor: active.hex, opacity: 0.25 }}
-                  />
-
-                  {/* Product image — direction-aware 3D slide */}
-                  <div className="relative aspect-square" style={{ transformStyle: 'preserve-3d' }}>
-                    {colors.map((color, i) => {
-                      const isActive = selectedColor === i;
-                      return (
-                        <div
-                          key={i}
-                          className="absolute inset-0"
-                          style={{
-                            transition: 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
-                            opacity: isActive ? 1 : 0,
-                            transform: isActive ? slideIn : slideOutGone,
-                            zIndex: isActive ? 2 : 1,
-                            pointerEvents: isActive ? 'auto' : 'none',
-                          }}
-                        >
-                          <Image
-                            src={getImagePath(color.image)}
-                            alt={`PSA Protector – ${color.name}`}
-                            fill
-                            className="object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.6)] animate-[gentleFloat_6s_ease-in-out_infinite]"
-                            sizes="(max-width: 768px) 90vw, 448px"
-                            priority={i === 0}
-                          />
-                        </div>
-                      );
-                    })}
+                  {/* Image stack with slide transition */}
+                  <div className="relative w-full aspect-square max-w-sm" style={{ transformStyle: 'preserve-3d' }}>
+                    {colors.map((color, i) => (
+                      <div
+                        key={i}
+                        className="absolute inset-0"
+                        style={{
+                          transition: 'all 0.75s cubic-bezier(0.22, 1, 0.36, 1)',
+                          opacity: selectedColor === i ? 1 : 0,
+                          transform: selectedColor === i ? 'translateX(0) scale(1) rotateY(0deg)' : slideOutGone,
+                          zIndex: selectedColor === i ? 2 : 1,
+                          pointerEvents: selectedColor === i ? 'auto' : 'none',
+                        }}
+                      >
+                        <Image
+                          src={getImagePath(color.image)}
+                          alt={`PSA Protector – ${color.name}`}
+                          fill
+                          className="object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.65)] animate-[gentleFloat_6s_ease-in-out_infinite]"
+                          sizes="(max-width: 1024px) 80vw, 480px"
+                          priority={i === 0}
+                        />
+                      </div>
+                    ))}
                   </div>
 
-                  {/* Reflection — mirrored, faded */}
-                  <div className="absolute left-[10%] right-[10%] top-[92%] h-[30%] overflow-hidden opacity-[0.08] blur-[2px] pointer-events-none" style={{ transform: 'scaleY(-1)' }}>
+                  {/* Reflection */}
+                  <div className="absolute left-[12%] right-[12%] top-[90%] h-[22%] overflow-hidden opacity-[0.07] blur-[3px] pointer-events-none" style={{ transform: 'scaleY(-1)' }}>
                     <div className="relative w-full h-full">
-                      <Image
-                        src={getImagePath(active.image)}
-                        alt=""
-                        fill
-                        className="object-contain"
-                        sizes="320px"
-                        aria-hidden="true"
-                      />
+                      <Image src={getImagePath(active.image)} alt="" fill className="object-contain" sizes="280px" aria-hidden="true" />
                     </div>
                   </div>
                 </div>
 
-                {/* Color name — animated swap */}
-                <div className="mb-8 text-center h-16 flex flex-col items-center justify-center">
-                  <span
-                    key={selectedColor}
-                    className="text-white text-xl sm:text-2xl font-bold tracking-wide animate-[fadeUp_0.4s_cubic-bezier(0.22,1,0.36,1)]"
-                  >
-                    {active.name}
-                  </span>
-                  <span className="text-white/25 text-[0.65rem] mt-1.5 tracking-[0.3em] uppercase">
-                    {t.psaProtectorPage.colorVariants.pickColor}
-                  </span>
-                </div>
+                {/* ── RIGHT: colour selector & CTA ── */}
+                <div>
 
-                {/* Horizontal swatch row */}
-                <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6">
-                  {colors.map((color, i) => (
-                    <button
-                      key={i}
-                      onClick={() => selectColor(i)}
-                      className="group relative flex flex-col items-center transition-all duration-300"
-                      aria-label={color.name}
-                    >
-                      {/* Outer ring — visible when selected */}
-                      <div
-                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-500"
-                        style={{
-                          boxShadow: selectedColor === i
-                            ? `0 0 0 2.5px #09090f, 0 0 0 4.5px ${color.ring}, 0 0 20px ${color.glow}`
-                            : 'none',
-                          transform: selectedColor === i ? 'scale(1.15)' : 'scale(1)',
-                        }}
+                  {/* Active colour name + gradient badge */}
+                  <div className="mb-10">
+                    <p className="text-white/30 text-xs uppercase tracking-[0.3em] mb-3">
+                      {t.psaProtectorPage.colorVariants.pickColor}
+                    </p>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span
+                        key={selectedColor}
+                        className="font-display text-5xl md:text-6xl font-bold text-white animate-[fadeUp_0.35s_cubic-bezier(0.22,1,0.36,1)] leading-none tracking-tight"
                       >
-                        {/* Inner swatch */}
-                        <div
-                          className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-white/15 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg shadow-md"
-                          style={{ background: `linear-gradient(135deg, ${color.hex}, ${color.accent})` }}
-                        />
-                      </div>
+                        {active.name}
+                      </span>
+                      {active.hex2 && (
+                        <span
+                          className="self-end mb-1.5 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] font-bold border rounded-full"
+                          style={{
+                            borderColor: `${active.ring}50`,
+                            color: active.accent,
+                            background: `linear-gradient(135deg, ${active.hex}20, ${active.hex2}20)`,
+                          }}
+                        >
+                          Gradient
+                        </span>
+                      )}
+                    </div>
+                    {/* Reactive underline */}
+                    <div
+                      className="mt-4 h-px w-16 transition-all duration-700"
+                      style={{ background: `linear-gradient(to right, ${active.accent}, transparent)` }}
+                    />
+                  </div>
 
-                      {/* Active dot below swatch */}
-                      <div
-                        className="mt-2 w-1 h-1 rounded-full transition-all duration-300"
-                        style={{
-                          backgroundColor: selectedColor === i ? color.accent : 'transparent',
-                          transform: selectedColor === i ? 'scale(1)' : 'scale(0)',
-                        }}
-                      />
-                    </button>
-                  ))}
+                  {/* Swatch chip grid — 4 columns, rectangular chips + name labels */}
+                  <div className="grid grid-cols-4 gap-3 mb-10">
+                    {colors.map((color, i) => {
+                      const isActive = selectedColor === i;
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => selectColor(i)}
+                          aria-label={color.name}
+                          aria-pressed={isActive}
+                          className="group flex flex-col items-center gap-2 transition-all duration-300"
+                        >
+                          {/* Rectangular colour chip */}
+                          <div
+                            className="w-full h-9 rounded-lg transition-all duration-400"
+                            style={{
+                              background: color.hex2
+                                ? `linear-gradient(135deg, ${color.hex} 0%, ${color.hex2} 100%)`
+                                : `linear-gradient(145deg, ${color.accent} 0%, ${color.hex} 65%)`,
+                              boxShadow: isActive
+                                ? `0 0 0 1.5px #09090f, 0 0 0 3px ${color.ring}, 0 4px 20px ${color.glow}`
+                                : '0 2px 8px rgba(0,0,0,0.45)',
+                              transform: isActive ? 'scaleY(1.08)' : 'scaleY(1)',
+                            }}
+                          />
+                          {/* Name label */}
+                          <span
+                            className="text-[11px] uppercase tracking-[0.12em] leading-tight text-center line-clamp-1 transition-colors duration-300 w-full"
+                            style={{ color: isActive ? color.accent : 'rgba(255,255,255,0.28)' }}
+                          >
+                            {color.name}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Note */}
+                  <p className="text-white/20 text-xs leading-relaxed max-w-xs">
+                    {t.psaProtectorPage.colorVariants.note}
+                  </p>
                 </div>
 
-                {/* Info note */}
-                <p className="text-white/20 text-xs leading-relaxed text-center max-w-md">
-                  {t.psaProtectorPage.colorVariants.note}
-                </p>
               </div>
             </div>
           </section>
