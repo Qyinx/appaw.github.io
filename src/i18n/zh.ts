@@ -201,8 +201,8 @@ export const zh: Translations = {
     colorVariants: {
       badge: '顏色選擇',
       title: '選擇您的風格',
-      subtitle: '提供多款精選優質飾面，配合您的個人風格',
-      pickColor: '選擇飾面',
+      subtitle: '提供多款精選顏色，配合您的個人風格',
+      pickColor: '選擇顏色',
       note: '顏色僅供參考，實際產品顏色可能因螢幕設定及生產批次而略有不同。',
       colors: {
         blueDarkGrey: '風暴',

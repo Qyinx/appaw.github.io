@@ -102,9 +102,11 @@ export default function PSAProtectorPage() {
   const [activeFeature, setActiveFeature] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
-  const colorDir = useRef<'left' | 'right'>('right');
+  const colorDir  = useRef<'left' | 'right'>('right');
+  const prevColor  = useRef<number>(0);
   const selectColor = useCallback((i: number) => {
     colorDir.current = i > selectedColor ? 'right' : 'left';
+    prevColor.current = selectedColor;
     setSelectedColor(i);
   }, [selectedColor]);
 
@@ -424,21 +426,29 @@ export default function PSAProtectorPage() {
           { name: t.psaProtectorPage.colorVariants.colors.dark,           hex: '#1a1a2e', hex2: undefined,  accent: '#3a3a50', glow: 'rgba(26,26,46,0.28)',    ring: 'rgba(80,80,110,0.55)',   image: '/images/describe/color/color-dark.png' },
         ];
         const active = colors[selectedColor];
-        const dir = colorDir.current;
-        const slideOutGone = dir === 'right' ? 'translateX(-22%) scale(0.88) rotateY(7deg)' : 'translateX(22%) scale(0.88) rotateY(-7deg)';
 
         return (
           <section ref={colorsReveal.ref} className="py-24 md:py-32 bg-[#09090f] relative overflow-hidden">
 
-            {/* Reactive aurora background */}
+            {/* Reactive aurora background — fades in after section reveals to avoid jarring first load */}
             <div className="absolute inset-0 pointer-events-none">
               <div
-                className="absolute w-[700px] h-[700px] rounded-full blur-[140px] transition-all duration-1000 animate-[auroraOrbit_14s_ease-in-out_infinite]"
-                style={{ backgroundColor: active.glow, top: '-15%', right: '-5%' }}
+                className="absolute w-[700px] h-[700px] rounded-full blur-[160px] animate-[auroraOrbit_14s_ease-in-out_infinite]"
+                style={{
+                  backgroundColor: active.glow,
+                  top: '-15%', right: '-5%',
+                  opacity: colorsReveal.visible ? 1 : 0,
+                  transition: 'background-color 1.2s ease, opacity 2s ease 0.5s',
+                }}
               />
               <div
-                className="absolute w-[500px] h-[500px] rounded-full blur-[120px] transition-all duration-1000 animate-[auroraOrbit_20s_ease-in-out_infinite_reverse]"
-                style={{ backgroundColor: active.ring, opacity: 0.06, bottom: '-5%', left: '-5%' }}
+                className="absolute w-[500px] h-[500px] rounded-full blur-[140px] animate-[auroraOrbit_20s_ease-in-out_infinite_reverse]"
+                style={{
+                  backgroundColor: active.ring,
+                  bottom: '-5%', left: '-5%',
+                  opacity: colorsReveal.visible ? 0.045 : 0,
+                  transition: 'background-color 1.2s ease, opacity 2s ease 0.7s',
+                }}
               />
               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:72px_72px]" />
             </div>
@@ -484,33 +494,42 @@ export default function PSAProtectorPage() {
                   {/* Decorative rings */}
                   <div className="absolute inset-[-12%] rounded-full border transition-colors duration-1000 animate-[spin_28s_linear_infinite] pointer-events-none" style={{ borderColor: `${active.ring}12` }} />
                   <div className="absolute inset-[-5%] rounded-full border transition-colors duration-1000 animate-[spin_20s_linear_infinite_reverse] pointer-events-none" style={{ borderColor: `${active.ring}08` }} />
-                  {/* Ambient glow */}
-                  <div className="absolute inset-[-8%] rounded-full blur-[80px] transition-all duration-1000" style={{ backgroundColor: active.hex, opacity: 0.22 }} />
+                  {/* Ambient glow — smooth color transition, no burst flash */}
+                  <div
+                    className="absolute inset-[-8%] rounded-full blur-[80px]"
+                    style={{ backgroundColor: active.hex, opacity: 0.17, transition: 'background-color 0.8s ease' }}
+                  />
 
-                  {/* Image stack with slide transition */}
-                  <div className="relative w-full aspect-square max-w-sm" style={{ transformStyle: 'preserve-3d' }}>
-                    {colors.map((color, i) => (
-                      <div
-                        key={i}
-                        className="absolute inset-0"
-                        style={{
-                          transition: 'all 0.75s cubic-bezier(0.22, 1, 0.36, 1)',
-                          opacity: selectedColor === i ? 1 : 0,
-                          transform: selectedColor === i ? 'translateX(0) scale(1) rotateY(0deg)' : slideOutGone,
-                          zIndex: selectedColor === i ? 2 : 1,
-                          pointerEvents: selectedColor === i ? 'auto' : 'none',
-                        }}
-                      >
-                        <Image
-                          src={getImagePath(color.image)}
-                          alt={`PSA Protector – ${color.name}`}
-                          fill
-                          className="object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.65)] animate-[gentleFloat_6s_ease-in-out_infinite]"
-                          sizes="(max-width: 1024px) 80vw, 480px"
-                          priority={i === 0}
-                        />
-                      </div>
-                    ))}
+                  {/* Image stack — crossfade with scale + blur dissolve */}
+                  <div className="relative w-full aspect-square max-w-sm">
+                    {colors.map((color, i) => {
+                      const isActive = i === selectedColor;
+                      return (
+                        <div
+                          key={i}
+                          className="absolute inset-0"
+                          style={{
+                            opacity: isActive ? 1 : 0,
+                            transform: isActive ? 'scale(1)' : 'scale(0.93)',
+                            filter: isActive ? 'blur(0px)' : 'blur(4px)',
+                            transition: isActive
+                              ? 'opacity 0.55s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1), filter 0.45s ease'
+                              : 'opacity 0.28s ease, transform 0.28s ease, filter 0.22s ease',
+                            zIndex: isActive ? 2 : 1,
+                            pointerEvents: isActive ? 'auto' : 'none',
+                          }}
+                        >
+                          <Image
+                            src={getImagePath(color.image)}
+                            alt={`PSA Protector – ${color.name}`}
+                            fill
+                            className="object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.65)] animate-[gentleFloat_6s_ease-in-out_infinite]"
+                            sizes="(max-width: 1024px) 80vw, 480px"
+                            priority={i === 0}
+                          />
+                        </div>
+                      );
+                    })}
                   </div>
 
                   {/* Reflection */}
@@ -532,7 +551,7 @@ export default function PSAProtectorPage() {
                     <div className="flex items-center gap-3 flex-wrap">
                       <span
                         key={selectedColor}
-                        className="font-display text-5xl md:text-6xl font-bold text-white animate-[fadeUp_0.35s_cubic-bezier(0.22,1,0.36,1)] leading-none tracking-tight"
+                        className="font-display text-5xl md:text-6xl font-bold text-white animate-[fadeUp_0.4s_cubic-bezier(0.22,1,0.36,1)_both] leading-none tracking-tight"
                       >
                         {active.name}
                       </span>
@@ -569,18 +588,29 @@ export default function PSAProtectorPage() {
                           className="group flex flex-col items-center gap-2 transition-all duration-300"
                         >
                           {/* Rectangular colour chip */}
-                          <div
-                            className="w-full h-9 rounded-lg transition-all duration-400"
-                            style={{
-                              background: color.hex2
-                                ? `linear-gradient(135deg, ${color.hex} 0%, ${color.hex2} 100%)`
-                                : `linear-gradient(145deg, ${color.accent} 0%, ${color.hex} 65%)`,
-                              boxShadow: isActive
-                                ? `0 0 0 1.5px #09090f, 0 0 0 3px ${color.ring}, 0 4px 20px ${color.glow}`
-                                : '0 2px 8px rgba(0,0,0,0.45)',
-                              transform: isActive ? 'scaleY(1.08)' : 'scaleY(1)',
-                            }}
-                          />
+                          <div className="relative w-full">
+                            <div
+                              className="w-full h-9 rounded-lg"
+                              style={{
+                                background: color.hex2
+                                  ? `linear-gradient(135deg, ${color.hex} 0%, ${color.hex2} 100%)`
+                                  : `linear-gradient(145deg, ${color.accent} 0%, ${color.hex} 65%)`,
+                                boxShadow: isActive
+                                  ? `0 0 0 1.5px #09090f, 0 0 0 3px ${color.ring}, 0 8px 24px ${color.glow}`
+                                  : '0 2px 8px rgba(0,0,0,0.45)',
+                                transform: isActive ? 'scale(1.06) translateY(-3px)' : 'scale(1) translateY(0)',
+                                transition: 'transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease',
+                              }}
+                            />
+                            {/* Ping ring fires once on activation */}
+                            {isActive && (
+                              <div
+                                key={selectedColor}
+                                className="absolute inset-0 rounded-lg pointer-events-none animate-[chipPing_0.55s_ease-out_both]"
+                                style={{ border: `1.5px solid ${color.ring}` }}
+                              />
+                            )}
+                          </div>
                           {/* Name label */}
                           <span
                             className="text-[11px] uppercase tracking-[0.12em] leading-tight text-center line-clamp-1 transition-colors duration-300 w-full"
