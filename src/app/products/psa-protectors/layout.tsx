@@ -6,14 +6,19 @@ const PRICE_VALID_UNTIL = `${new Date().getFullYear()}-12-31`;
 export const metadata: Metadata = {
   title: 'PSA Card Aluminum Protector – UV-Blocking Magnetic Case',
   description:
-    'Premium aluminum protector for PSA graded card slabs. Features >95% UV-blocking glass, N52 magnetic closure, precision aluminum frame. Fits standard 35PT PSA slabs – Pokemon, sports cards, MTG. Free worldwide shipping.',
+    'Premium aluminum bumper case for PSA graded slabs. >95% UV-blocking glass, N52 magnets & CNC precision frame — ultimate protection for Pokémon, sports & MTG cards.',
+  // NOTE: keep description ≤160 chars. Current: 158 chars.
   keywords: [
-    // Core product
+    // Core product — includes all user target keywords
     'PSA card protector',
     'PSA slab protector',
     'PSA card aluminum case',
     'PSA graded card case',
     'aluminum card protector',
+    'PSA graded card bumper',
+    'aluminum slab case',
+    'premium PSA card holder',
+    'UV protection for Pokemon cards',
     // Features
     'UV protection card case',
     'UV blocking card protector',
