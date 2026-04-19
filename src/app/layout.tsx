@@ -138,12 +138,23 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Store',
   name: 'Appaw Store',
+  legalName: 'Appaw Store',
   alternateName: ['Appaw', 'APPAW Store'],
   description: 'Premium PSA Card Aluminum Protector and TCG trading & brokerage in Hong Kong',
+  slogan: 'Protect What Matters. Display What You Love.',
+  foundingDate: '2024',
   url: 'https://appaw.store',
   logo: 'https://appaw.store/images/logo.png',
   image: 'https://appaw.store/images/og-image.png',
   priceRange: '$$',
+  knowsAbout: [
+    'PSA graded trading cards',
+    'CGC graded trading cards',
+    'Pokémon TCG card preservation',
+    'TCG card valuation and brokerage',
+    'Aluminum card case manufacturing',
+    'UV protection for trading cards',
+  ],
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'HK',
@@ -227,9 +238,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Help AI assistants understand page language context */}
-        <meta name="language" content="English, Chinese" />
-        <meta name="target-audience" content="Collectors, Small Business Owners, Hong Kong Residents" />
+        {/* Language declared via <html lang> and hreflang <link> tags (generated from alternates.languages above) */}
       </head>
       <body>
         <ScrollProgressBar />

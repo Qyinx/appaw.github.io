@@ -82,9 +82,9 @@ export const zh: Translations = {
     subtitle: '您值得信賴的卡片收藏夥伴',
     story: {
       title: '我們的故事',
-      content: 'Appaw Store 由熱愛收藏的玩家創立，深明保護評級卡片的重要性。我們提供優質的 PSA 卡片鋁合金保護殼，結合工業級保護與優雅展示，同時提供值得信賴的交易卡牌買賣服務。',
-      founderName: 'Appaw Store Team', // TODO: Replace with your real name
-      founderRole: '創辦人兼收藏家',
+      content: 'Appaw Store 由一群駐港的熱情收藏家於 2024 年創立，源於一個簡單的挫敗感：市面上的壓克力 PSA 卡磚保護殼根本不夠好——受撞擊就破裂，沒有 UV 防護，放在展示架上也毫無質感。於是我們自己動手打造。我們的 PSA 卡片鋁合金保護殼結合了 CNC 精密加工鋁合金、UV 防護玻璃與 N52 磁性扣合，讓認真的收藏家同時擁有工業級保護與展覽級陳列。除了保護殼，我們在香港提供值得信賴的 TCG 面交買賣及經紀服務，以完全透明、零前期費用的方式，為 PSA 及 CGC 評級的寶可夢、運動及 MTG 卡牌買賣雙方搭橋。',
+      founderName: 'Appaw Store',
+      founderRole: '創立於 2024 年・香港',
     },
     mission: {
       title: '我們的使命',

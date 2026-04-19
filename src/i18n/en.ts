@@ -82,9 +82,9 @@ export const en = {
     subtitle: 'Your Trusted Partner in Card Collection',
     story: {
       title: 'Our Story',
-      content: 'Appaw Store was founded by passionate collectors who understand the value of protecting graded cards. We offer premium PSA Card Aluminum Protectors that combine industrial-grade protection with elegant display, and a trusted TCG trading service for buying and selling graded cards.',
-      founderName: 'Appaw Store', // TODO: Replace with your real name for stronger E-E-A-T
-      founderRole: 'Founder & Collector',
+      content: 'Founded in 2024 by a team of passionate collectors in Hong Kong, Appaw Store grew out of a simple frustration: the acrylic cases on the market for PSA graded cards just weren\'t good enough. They cracked on impact, offered no UV protection, and looked cheap on the shelf. So we built our own. Our PSA Card Aluminum Protector combines CNC-precision aluminum alloy, UV-blocking glass, and N52 magnetic closure — giving serious collectors industrial-grade protection with gallery-worthy display. Alongside the protector, we operate a trusted face-to-face TCG brokerage and consignment service in Hong Kong, connecting buyers and sellers of PSA and CGC graded Pokémon, sports, and MTG cards with full transparency and no upfront fees.',
+      founderName: 'Appaw Store',
+      founderRole: 'Founded 2024 · Hong Kong',
     },
     mission: {
       title: 'Our Mission',

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  // 52 chars — clear brokerage/consignment angle for high-intent sellers
-  title: 'Pokémon TCG Brokerage & Consignment | Sell PSA Cards',
-  // 153 chars — under the 160-char limit, conversion-optimised for sellers
+  // 51 chars — H1 'Trading Card Showcase' shares keywords with title
+  title: 'Trading Card Showcase – Pokémon TCG Brokerage',
+  // 157 chars — under the 160-char limit, blends H1 topic with brokerage intent
   description:
-    'Trusted Pokémon TCG broker in Hong Kong. Sell your PSA 10 collection via secure consignment — expert valuation, global buyer network, zero upfront fees.',
+    'Browse our trading card showcase and sell your PSA graded Pokémon collection — trusted broker in HK with expert valuation, global buyers & zero upfront fees.',
   keywords: [
     // Brokerage / consignment — high-intent
     'Pokemon TCG broker',
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
     canonical: '/business/card-trading/',
   },
   openGraph: {
-    title: 'Pokémon TCG Brokerage & Consignment – Sell Your PSA 10s | Appaw Store',
+    title: 'Trading Card Showcase – Pokémon TCG Brokerage & Consignment | Appaw Store',
     description:
-      'Trusted TCG broker & consignment service in Hong Kong. Expert valuation, global buyers, zero upfront fees. PSA & CGC graded Pokémon, sports & MTG cards.',
+      'Browse our trading card showcase or sell via trusted consignment. Expert valuation, global buyer network, zero upfront fees. PSA & CGC graded Pokémon, sports & MTG cards.',
     url: 'https://appaw.store/business/card-trading/',
     type: 'website',
     images: [
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pokémon TCG Brokerage & Consignment | Appaw Store',
+    title: 'Trading Card Showcase – Pokémon TCG Brokerage | Appaw Store',
     description:
-      'Sell your PSA 10 collection via trusted consignment in Hong Kong. Expert valuation, global buyer network, zero upfront fees.',
+      'Browse our trading card showcase or sell your PSA graded collection via trusted consignment in Hong Kong. Expert valuation, zero upfront fees.',
     images: ['/images/og-image.png'],
   },
 };
