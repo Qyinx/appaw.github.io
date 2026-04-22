@@ -5,8 +5,8 @@ node_modules/
 .next/
 out/
 
-# Optimized images (temporary)
-public/images-optimized/
+# Raw source images — optimized copies in images-optimized/ are committed instead
+public/images/
 
 # IDE
 .idea/
