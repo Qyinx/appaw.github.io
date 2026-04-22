@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 
@@ -44,6 +44,8 @@ function getProfileFromLocalStorage(): UserProfile | null {
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isBusinessOpen, setIsBusinessOpen] = useState(false);
+  const [isMobileBusinessOpen, setIsMobileBusinessOpen] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(cachedProfile);
   const [loadingProfile, setLoadingProfile] = useState(!cachedProfile);
   const { language, setLanguage, t } = useLanguage();
@@ -73,8 +75,14 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', label: t.nav.home },
-    // { href: '/products/graded-cards', label: t.nav.products },
-    { href: '/business', label: t.nav.business },
+    {
+      href: '/business',
+      label: t.nav.business,
+      children: [
+        { href: '/business/psa-protector', label: t.nav.psaProtector },
+        { href: '/business/card-trading', label: t.nav.cardTrading },
+      ],
+    },
     { href: '/about', label: t.nav.about },
   ];
 
@@ -126,6 +134,64 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = isActivePath(link.href);
+              if (link.children) {
+                return (
+                  <div
+                    key={link.href}
+                    className="relative"
+                    onMouseEnter={() => setIsBusinessOpen(true)}
+                    onMouseLeave={() => setIsBusinessOpen(false)}
+                  >
+                    <Link
+                      href={link.href}
+                      className="relative flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors duration-200 group"
+                      style={{ color: isActive ? '#d4a843' : 'rgba(255,255,255,0.55)' }}
+                    >
+                      <span className="group-hover:text-white transition-colors duration-200" style={{ color: 'inherit' }}>
+                        {link.label}
+                      </span>
+                      <ChevronDown
+                        className="w-3.5 h-3.5 transition-transform duration-200"
+                        style={{ transform: isBusinessOpen ? 'rotate(180deg)' : 'rotate(0deg)', color: 'inherit' }}
+                      />
+                      {/* Active underline */}
+                      <span
+                        className="absolute bottom-0 left-4 right-4 h-px bg-[#d4a843] transition-transform duration-300 origin-left"
+                        style={{ transform: isActive ? 'scaleX(1)' : 'scaleX(0)' }}
+                      />
+                      {!isActive && (
+                        <span className="absolute bottom-0 left-4 right-4 h-px bg-white/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                      )}
+                    </Link>
+                    {/* Dropdown */}
+                    <div
+                      className="absolute top-full left-0 pt-1 transition-all duration-200"
+                      style={{ opacity: isBusinessOpen ? 1 : 0, pointerEvents: isBusinessOpen ? 'auto' : 'none', transform: isBusinessOpen ? 'translateY(0)' : 'translateY(-4px)' }}
+                    >
+                      <div
+                        className="min-w-[180px] rounded-xl border border-white/10 py-1 overflow-hidden"
+                        style={{ background: 'rgba(9,9,15,0.97)', backdropFilter: 'blur(20px)' }}
+                      >
+                        {link.children.map((child) => {
+                          const isChildActive = isActivePath(child.href);
+                          return (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-white/5 transition-colors duration-150"
+                              style={{ color: isChildActive ? '#d4a843' : 'rgba(255,255,255,0.6)' }}
+                              onClick={() => setIsBusinessOpen(false)}
+                            >
+                              {isChildActive && <span className="w-1 h-1 rounded-full bg-[#d4a843] mr-2 flex-shrink-0" />}
+                              {child.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
               return (
                 <Link
                   key={link.href}
@@ -203,6 +269,43 @@ export default function Header() {
             <nav className="flex flex-col">
               {navLinks.map((link) => {
                 const isActive = isActivePath(link.href);
+                if (link.children) {
+                  return (
+                    <div key={link.href}>
+                      <button
+                        className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-colors duration-200"
+                        style={{ color: isActive ? '#d4a843' : 'rgba(255,255,255,0.5)' }}
+                        onClick={() => setIsMobileBusinessOpen(!isMobileBusinessOpen)}
+                      >
+                        <span className="font-medium text-sm" style={{ color: 'inherit' }}>{link.label}</span>
+                        <ChevronDown
+                          className="w-4 h-4 transition-transform duration-200"
+                          style={{ transform: isMobileBusinessOpen ? 'rotate(180deg)' : 'rotate(0deg)', color: 'inherit' }}
+                        />
+                      </button>
+                      <div
+                        className="overflow-hidden transition-all duration-300"
+                        style={{ maxHeight: isMobileBusinessOpen ? '200px' : '0px', opacity: isMobileBusinessOpen ? 1 : 0 }}
+                      >
+                        {link.children.map((child) => {
+                          const isChildActive = isActivePath(child.href);
+                          return (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className="flex items-center gap-2 pl-8 pr-4 py-2.5 rounded-xl transition-colors duration-200"
+                              style={{ color: isChildActive ? '#d4a843' : 'rgba(255,255,255,0.45)' }}
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              <span className="w-1 h-1 rounded-full bg-current opacity-60 flex-shrink-0" />
+                              <span className="font-medium text-sm" style={{ color: 'inherit' }}>{child.label}</span>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
                 return (
                   <Link
                     key={link.href}

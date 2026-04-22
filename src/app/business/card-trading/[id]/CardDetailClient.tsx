@@ -467,8 +467,8 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 <a
                   href={`https://wa.me/85292851189?text=${encodeURIComponent(
                     isBundle
-                      ? `Hi, I'm interested in the full set: ${card.name} (${card.bundleCards?.length} cards, ${card.company}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
-                      : `Hi, I'm interested in: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
+                      ? `Hi, I'd like to make an offer for the full set: ${card.name} (${card.bundleCards?.length} cards, ${card.company}, ${card.year})\nListed price: ${formatPrice(card.price, card.currency)}\nCard link: https://appaw.store/business/card-trading/${card.id}/\nMy offer: `
+                      : `Hi, I'd like to make an offer for: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year})\nListed price: ${formatPrice(card.price, card.currency)}\nCard link: https://appaw.store/business/card-trading/${card.id}/\nMy offer: `
                   )}`}
                   target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,168,67,0.3)]"

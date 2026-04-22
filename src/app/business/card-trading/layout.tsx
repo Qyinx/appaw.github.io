@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  // 51 chars — H1 'Trading Card Showcase' shares keywords with title
-  title: 'Trading Card Showcase – Pokémon TCG Brokerage',
+  // 55 chars — H1 'Trading Card Showcase' shares keywords with title
+  title: 'Trading Card Showcase Hong Kong – PSA Graded Cards',
   // 157 chars — under the 160-char limit, blends H1 topic with brokerage intent
   description:
     'Browse our trading card showcase and sell your PSA graded Pokémon collection — trusted broker in HK with expert valuation, global buyers & zero upfront fees.',
@@ -32,8 +32,7 @@ export const metadata: Metadata = {
     '評級卡牌買賣',
     '寶可夢卡牌',
     'PSA 評級卡',
-    '評級卡寄售',
-    '寶可夢卡牌經紀',
+    '評級卡寄售'
   ],
   alternates: {
     canonical: '/business/card-trading/',
@@ -71,7 +70,7 @@ const serviceJsonLd = {
     'TCG Card Brokerage',
     'Pokémon Card Consignment',
     'Graded Card Brokerage Hong Kong',
-    '寶可夢卡牌經紀及寄售',
+    '寶可夢卡牌寄售',
   ],
   description:
     'Professional Pokémon TCG brokerage and consignment service in Hong Kong. We sell your PSA or CGC graded cards on your behalf — expert valuation, global buyer network, commission on sale only, zero upfront fees.',

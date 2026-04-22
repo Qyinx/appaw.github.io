@@ -297,13 +297,13 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
               >
                 {/* Front */}
                 <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden' }}>
-                  <Image src={getImagePath(activeCard.image)} alt={`${activeCard.name} front`} fill
+                  <Image src={getImagePath(activeCard.image)} alt={`${activeCard.name} – ${activeCard.company} ${activeCard.grade}${activeCard.isBlackLabel ? ' Black Label' : ''} front`} fill
                     className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="480px" />
                 </div>
                 {/* Back */}
                 {hasBack && (
                   <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
-                    <Image src={getImagePath(activeCard.imageBack!)} alt={`${activeCard.name} back`} fill
+                    <Image src={getImagePath(activeCard.imageBack!)} alt={`${activeCard.name} – ${activeCard.company} ${activeCard.grade}${activeCard.isBlackLabel ? ' Black Label' : ''} back`} fill
                       className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="480px" />
                   </div>
                 )}
@@ -495,8 +495,8 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
               <a
                 href={`https://wa.me/85292851189?text=${encodeURIComponent(
                   isBundle
-                    ? `Hi, I'm interested in the full set: ${card.name} (${card.bundleCards?.length} cards, ${card.company}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
-                    : `Hi, I'm interested in: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year}) - ${formatPrice(card.price, card.currency)}`
+                    ? `Hi, I'd like to make an offer for the full set: ${card.name} (${card.bundleCards?.length} cards, ${card.company}, ${card.year})\nListed price: ${formatPrice(card.price, card.currency)}\nCard link: https://appaw.store/business/card-trading/${card.id}/\nMy offer: `
+                    : `Hi, I'd like to make an offer for: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year})\nListed price: ${formatPrice(card.price, card.currency)}\nCard link: https://appaw.store/business/card-trading/${card.id}/\nMy offer: `
                 )}`}
                 target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,168,67,0.3)] mt-auto"
@@ -739,14 +739,14 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
             {/* Company chips */}
             <div className="flex items-center gap-2">
               <button onClick={() => setCompanyFilter(null)}
-                className={`px-3.5 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-all ${!companyFilter ? 'bg-[#d4a843]/15 text-[#d4a843] border border-[#d4a843]/30' : 'text-white/40 border border-white/[0.06] hover:border-white/15 hover:text-white/60'}`}
+                className={`px-3.5 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-all ${!companyFilter ? 'bg-[#d4a843]/15 text-[#d4a843] border border-[#d4a843]/30' : 'text-white/70 border border-white/[0.15] hover:border-white/30 hover:text-white'}`}
               >{mp.filters.allCompanies}</button>
               {companies.map(c => {
                 const style = getCompanyStyle(c);
                 const active = companyFilter === c;
                 return (
                   <button key={c} onClick={() => setCompanyFilter(active ? null : c)}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${active ? 'border-transparent' : 'text-white/40 border-white/[0.06] hover:border-white/15 hover:text-white/60'}`}
+                    className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${active ? 'border-transparent' : 'text-white/70 border-white/[0.15] hover:border-white/30 hover:text-white'}`}
                     style={active ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
                   >{c}</button>
                 );
@@ -761,7 +761,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                 const active = gradeFilter === tier.key;
                 return (
                   <button key={tier.key} onClick={() => setGradeFilter(active ? null : tier.key)}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all border whitespace-nowrap ${active ? 'bg-[#d4a843]/15 text-[#d4a843] border-[#d4a843]/30' : 'text-white/40 border-white/[0.06] hover:border-white/15 hover:text-white/60'}`}
+                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all border whitespace-nowrap ${active ? 'bg-[#d4a843]/15 text-[#d4a843] border-[#d4a843]/30' : 'text-white/70 border-white/[0.15] hover:border-white/30 hover:text-white'}`}
                   >{tier.label}</button>
                 );
               })}
@@ -772,7 +772,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
             {/* Sort */}
             <div className="relative">
               <button onClick={e => { e.stopPropagation(); setShowSort(v => !v); }}
-                className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-xs text-white/50 border border-white/[0.06] hover:border-white/15 transition-all">
+                className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-xs text-white/70 border border-white/[0.15] hover:border-white/30 hover:text-white transition-all">
                 <ArrowUpDown className="w-3.5 h-3.5" />
                 <span>{mp.sortBy}</span>
                 <ChevronDown className={`w-3 h-3 transition-transform ${showSort ? 'rotate-180' : ''}`} />
@@ -781,7 +781,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                 <div className="absolute right-0 mt-2 w-52 bg-[#16161f] border border-white/10 rounded-xl shadow-2xl overflow-hidden">
                   {sortOptions.map(opt => (
                     <button key={opt.key} onClick={() => { setSortBy(opt.key); setShowSort(false); }}
-                      className={`w-full text-left px-4 py-3 text-xs transition-colors ${sortBy === opt.key ? 'bg-[#d4a843]/10 text-[#d4a843]' : 'text-white/50 hover:bg-white/[0.04] hover:text-white/70'}`}
+                      className={`w-full text-left px-4 py-3 text-xs transition-colors ${sortBy === opt.key ? 'bg-[#d4a843]/10 text-[#d4a843]' : 'text-white/70 hover:bg-white/[0.06] hover:text-white'}`}
                     >{opt.label}</button>
                   ))}
                 </div>
@@ -807,16 +807,16 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
             {mobileFilters && (
               <div className="space-y-4 pb-2 border-t border-white/[0.06] pt-4 animate-[fadeUp_0.3s_ease-out]">
                 <div>
-                  <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.company}</p>
+                  <p className="text-white/50 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.company}</p>
                   <div className="flex flex-wrap gap-2">
                     <button onClick={() => setCompanyFilter(null)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${!companyFilter ? 'bg-[#d4a843]/15 text-[#d4a843] border-[#d4a843]/30' : 'text-white/40 border-white/[0.06]'}`}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${!companyFilter ? 'bg-[#d4a843]/15 text-[#d4a843] border-[#d4a843]/30' : 'text-white/70 border-white/[0.15]'}`}
                     >{mp.filters.allCompanies}</button>
                     {companies.map(c => {
                       const style = getCompanyStyle(c);
                       return (
                         <button key={c} onClick={() => setCompanyFilter(companyFilter === c ? null : c)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${companyFilter === c ? 'border-transparent' : 'text-white/40 border-white/[0.06]'}`}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${companyFilter === c ? 'border-transparent' : 'text-white/70 border-white/[0.15]'}`}
                           style={companyFilter === c ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
                         >{c}</button>
                       );
@@ -824,21 +824,21 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                   </div>
                 </div>
                 <div>
-                  <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.grade}</p>
+                  <p className="text-white/50 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.grade}</p>
                   <div className="flex flex-wrap gap-2">
                     {gradeTiers.map(tier => (
                       <button key={tier.key} onClick={() => setGradeFilter(gradeFilter === tier.key ? null : tier.key)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${gradeFilter === tier.key ? 'bg-[#d4a843]/15 text-[#d4a843] border-[#d4a843]/30' : 'text-white/40 border-white/[0.06]'}`}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${gradeFilter === tier.key ? 'bg-[#d4a843]/15 text-[#d4a843] border-[#d4a843]/30' : 'text-white/70 border-white/[0.15]'}`}
                       >{tier.label}</button>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.sortBy}</p>
+                  <p className="text-white/50 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.sortBy}</p>
                   <div className="flex flex-wrap gap-2">
                     {sortOptions.map(opt => (
                       <button key={opt.key} onClick={() => setSortBy(opt.key)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${sortBy === opt.key ? 'bg-[#d4a843]/15 text-[#d4a843] border-[#d4a843]/30' : 'text-white/40 border-white/[0.06]'}`}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${sortBy === opt.key ? 'bg-[#d4a843]/15 text-[#d4a843] border-[#d4a843]/30' : 'text-white/70 border-white/[0.15]'}`}
                       >{opt.label}</button>
                     ))}
                   </div>
@@ -914,7 +914,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                     {tileImage && (
                       <Image
                         src={getImagePath(tileImage)}
-                        alt={tileName}
+                        alt={`${tileName} – ${tileCompany} ${tileGrade}${tileIsBlackLabel ? ' Black Label' : ''} graded card`}
                         fill
                         className="object-contain p-3 group-hover:scale-105 transition-transform duration-700"
                         sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
@@ -974,25 +974,25 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
 
                   {/* Info */}
                   <div className="p-3 pt-2.5">
-                    <h3 className="text-white font-semibold text-xs leading-snug mb-0.5 truncate group-hover:text-[#d4a843] transition-colors">
+                    <h3 className="text-white font-semibold text-sm leading-snug mb-0.5 truncate group-hover:text-[#d4a843] transition-colors">
                       {tileName}
                     </h3>
-                    <div className="flex items-center gap-1.5 text-white/25 text-[10px] mb-2">
+                    <div className="flex items-center gap-1.5 text-white/50 text-xs mb-2">
                       <span>{tileYear}</span>
                       {tileSet && (
                         <>
-                          <span className="w-0.5 h-0.5 rounded-full bg-white/15" />
+                          <span className="w-0.5 h-0.5 rounded-full bg-white/30" />
                           <span className="truncate">{tileSet}</span>
                         </>
                       )}
                     </div>
 
                     {/* Bottom row */}
-                    <div className="flex items-center justify-between pt-2 border-t border-white/[0.04]">
+                    <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
                       {parentCard.sold ? (
-                        <span className="text-[9px] font-bold text-red-400/80 uppercase tracking-wider">{mp.card.sold}</span>
+                        <span className="text-[10px] font-bold text-red-400/80 uppercase tracking-wider">{mp.card.sold}</span>
                       ) : (
-                        <span className="text-white/25 text-[10px]">{mp.card.inquire} →</span>
+                        <span className="text-white/50 text-xs">{mp.card.inquire} →</span>
                       )}
                       {!parentCard.sold && (
                         <div className="w-6 h-6 rounded-full bg-[#25D366]/10 flex items-center justify-center">

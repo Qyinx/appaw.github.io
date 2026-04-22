@@ -59,24 +59,13 @@ function buildProductJsonLd(cards: TradingCard[]) {
   };
 }
 
-// BreadcrumbList — scoped to /business/card-trading/ only
-const breadcrumbJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://appaw.store/' },
-    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://appaw.store/business/' },
-    { '@type': 'ListItem', position: 3, name: 'Card Trading', item: 'https://appaw.store/business/card-trading/' },
-  ],
-};
-
 // FAQPage — trading guide Q&As, scoped to /business/card-trading/ only
 const tradingFaqJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
   datePublished: '2024-01-15',
-  dateModified: '2026-04-17',
+  dateModified: '2026-04-22',
   mainEntity: [
     ...en.tradingGuide.buy.faq.items,
     ...en.tradingGuide.sell.faq.items,
@@ -97,7 +86,7 @@ const buyHowToJsonLd = {
       '@type': 'HowToStep',
       position: 1,
       name: 'Contact via WhatsApp',
-      text: 'Message us on WhatsApp at +852-9285-1189 to inquire about the card. All transactions are in Hong Kong only.',
+      text: 'Message us on WhatsApp at +852-9285-1189 to make an offer on the card. All transactions are in Hong Kong only.',
     },
     {
       '@type': 'HowToStep',
@@ -159,7 +148,6 @@ export default async function Page() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(tradingFaqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buyHowToJsonLd) }} />

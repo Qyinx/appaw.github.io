@@ -119,7 +119,7 @@ function cfToCard(f: CF): TradingCard {
    SHARED STYLE CONSTANTS
    ────────────────────────────────────────────────────────────────────────────── */
 const inp = 'w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#d4a843]/50 transition-colors';
-const lbl = 'text-white/40 text-[10px] uppercase tracking-widest mb-1 block';
+const lbl = 'text-white/60 text-xs uppercase tracking-widest mb-1 block';
 
 /* ──────────────────────────────────────────────────────────────────────────────
    IMAGE UPLOAD FIELD
@@ -973,7 +973,7 @@ export default function AdminClient() {
           <div className="flex items-center gap-4">
             <h1 className="text-white font-bold text-sm">Card Inventory Admin</h1>
             <a href="/business/card-trading/" target="_blank" rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1 text-white/25 hover:text-[#d4a843] text-[10px] transition-colors">
+              className="hidden sm:flex items-center gap-1 text-white/50 hover:text-[#d4a843] text-xs transition-colors">
               <ExternalLink className="w-3 h-3" />View Store
             </a>
           </div>
@@ -983,7 +983,7 @@ export default function AdminClient() {
                 <Check className="w-3.5 h-3.5" />{saveMsg}
               </span>
             )}
-            <button onClick={load} disabled={loading} className="p-1.5 rounded-lg text-white/30 hover:text-white transition-colors disabled:opacity-40">
+            <button onClick={load} disabled={loading} className="p-1.5 rounded-lg text-white/50 hover:text-white transition-colors disabled:opacity-40">
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             </button>
             <button
@@ -1006,7 +1006,7 @@ export default function AdminClient() {
           ].map(s => (
             <div key={s.label} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center">
               <p className={`text-2xl font-bold font-display ${s.color}`}>{s.value}</p>
-              <p className="text-white/30 text-[10px] uppercase tracking-widest mt-0.5">{s.label}</p>
+              <p className="text-white/50 text-xs uppercase tracking-widest mt-0.5">{s.label}</p>
             </div>
           ))}
         </div>
@@ -1018,7 +1018,7 @@ export default function AdminClient() {
             <div>
               <p className="text-red-400 text-sm font-medium">Error</p>
               <p className="text-red-400/70 text-xs mt-0.5">{dataError}</p>
-              <p className="text-white/30 text-[10px] mt-1">Saving requires <code className="text-white/50">npm run dev</code> — the write API is unavailable in static export.</p>
+              <p className="text-white/30 text-[10px] mt-1">Saving requires <code className="text-white/60">npm run dev</code> — the write API is unavailable in static export.</p>
             </div>
           </div>
         )}
@@ -1036,12 +1036,12 @@ export default function AdminClient() {
           <div className="rounded-xl border border-white/[0.06] overflow-hidden">
             {/* Table header */}
             <div className="hidden sm:grid grid-cols-[72px_1fr_140px_100px_80px_80px] gap-3 items-center px-4 py-2.5 bg-white/[0.02] border-b border-white/[0.04]">
-              <p className="text-white/25 text-[10px] uppercase tracking-widest">Image</p>
-              <p className="text-white/25 text-[10px] uppercase tracking-widest">Card</p>
-              <p className="text-white/25 text-[10px] uppercase tracking-widest">Grade</p>
-              <p className="text-white/25 text-[10px] uppercase tracking-widest">Price</p>
-              <p className="text-white/25 text-[10px] uppercase tracking-widest">Status</p>
-              <p className="text-white/25 text-[10px] uppercase tracking-widest">Actions</p>
+              <p className="text-white/50 text-xs uppercase tracking-widest">Image</p>
+              <p className="text-white/50 text-xs uppercase tracking-widest">Card</p>
+              <p className="text-white/50 text-xs uppercase tracking-widest">Grade</p>
+              <p className="text-white/50 text-xs uppercase tracking-widest">Price</p>
+              <p className="text-white/50 text-xs uppercase tracking-widest">Status</p>
+              <p className="text-white/50 text-xs uppercase tracking-widest">Actions</p>
             </div>
 
             {/* Rows */}
@@ -1080,15 +1080,15 @@ export default function AdminClient() {
                         <p className={`text-sm font-medium truncate ${card.sold ? 'text-white/30 line-through' : 'text-white'}`}>{card.name}</p>
                         {isBundle && <Layers className="w-3 h-3 text-[#d4a843] flex-shrink-0" />}
                       </div>
-                      <p className="text-white/25 text-[10px] truncate">
+                      <p className="text-white/50 text-xs truncate">
                         {card.year}{card.set ? ` · ${card.set}` : ''}
                         {card.updatedAt && (
-                          <span className="ml-1.5 text-white/15">
+                          <span className="ml-1.5 text-white/30">
                             · updated {new Date(card.updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' })}
                           </span>
                         )}
                         {!card.updatedAt && card.createdAt && (
-                          <span className="ml-1.5 text-white/15">
+                          <span className="ml-1.5 text-white/30">
                             · added {new Date(card.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' })}
                           </span>
                         )}
@@ -1151,10 +1151,10 @@ export default function AdminClient() {
                       {/* main card as first row */}
                       {[{ name: card.name, company: card.company, grade: card.grade, isBlackLabel: card.isBlackLabel, set: card.set, number: card.number }, ...card.bundleCards].map((bc, idx) => (
                         <div key={idx} className="hidden sm:flex items-center gap-3 pl-[88px] pr-4 py-1.5 border-b border-white/[0.03] last:border-b-0 bg-white/[0.01]">
-                          <span className="text-white/15 text-[9px] font-mono w-3 text-center flex-shrink-0">{idx + 1}</span>
-                          <span className="text-white/40 text-[10px] flex-1 truncate">{bc.name}</span>
+                          <span className="text-white/30 text-[10px] font-mono w-3 text-center flex-shrink-0">{idx + 1}</span>
+                          <span className="text-white/60 text-xs flex-1 truncate">{bc.name}</span>
                           {(bc.set || bc.number) && (
-                            <span className="text-white/20 text-[9px] truncate max-w-[160px]">{[bc.set, bc.number].filter(Boolean).join(' · ')}</span>
+                            <span className="text-white/40 text-[10px] truncate max-w-[160px]">{[bc.set, bc.number].filter(Boolean).join(' · ')}</span>
                           )}
                           <GradePill company={bc.company} grade={bc.grade} isBlackLabel={bc.isBlackLabel} />
                         </div>

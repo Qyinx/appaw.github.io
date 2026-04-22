@@ -9,6 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Read card data to generate per-card URLs
   let cardEntries: MetadataRoute.Sitemap = [];
+  let latestCardDate: Date = new Date();
   try {
     const filePath = path.join(process.cwd(), 'public', 'data', 'trade-card.json');
     const raw = await fs.readFile(filePath, 'utf-8');
@@ -23,6 +24,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily' as const,
       priority: 0.7,
     }));
+    // Derive the index page's lastModified from the most recently changed card
+    const dates = cards.map(c => new Date(c.updatedAt ?? c.createdAt ?? 0).getTime()).filter(Boolean);
+    if (dates.length) latestCardDate = new Date(Math.max(...dates));
   } catch {
     // If JSON can't be read, skip card entries
   }
@@ -54,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/business/card-trading/`,
-      lastModified: new Date(),
+      lastModified: latestCardDate,
       changeFrequency: 'daily',
       priority: 0.85,
     },
