@@ -115,7 +115,7 @@ export const metadata: Metadata = {
   },
 };
 
-// WebSite schema — enables Sitelinks Searchbox and GEO site-level identity
+// WebSite schema — enables site-level identity in Google Knowledge Graph
 const webSiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -123,14 +123,6 @@ const webSiteJsonLd = {
   url: 'https://appaw.store',
   description: 'Premium PSA Card Aluminum Protector and TCG trading & brokerage. Based in Hong Kong, shipping worldwide.',
   inLanguage: ['en', 'zh-HK'],
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: 'https://appaw.store/business/card-trading/?q={search_term_string}',
-    },
-    'query-input': 'required name=search_term_string',
-  },
 };
 
 // Structured Data for SEO & AEO

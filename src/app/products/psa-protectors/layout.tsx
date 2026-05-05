@@ -174,6 +174,22 @@ export default function PSAProtectorLayout({ children }: { children: React.React
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(psaFaqJsonLd) }} />
+      {/* Server-rendered static copy for search engine crawlers */}
+      <div className="sr-only">
+        <h1>PSA Card Aluminum Protector – UV-Blocking Magnetic Case</h1>
+        <p>
+          The Appaw Store PSA Card Aluminum Protector is an industrial-grade display case designed for PSA graded
+          trading cards. Built from precision-machined aluminum with 95% UV-blocking glass and N52 neodymium
+          magnetic closure, it fits standard 35PT PSA slabs — including Pokémon, sports cards, baseball cards,
+          basketball cards, football cards, and Magic: The Gathering (MTG) singles. No screws. Snap-open magnetic
+          frame. Weighs just 74 g. Available in 7 colours. Ships worldwide from Hong Kong.
+        </p>
+        <p>
+          Looking for a PSA slab protector, graded card display case, aluminum card case, or UV protection for
+          your PSA 10 Pokémon card? The Appaw Store protector is the premium alternative to acrylic cases —
+          scratch-resistant, anti-fade, and engineered for long-term card preservation.
+        </p>
+      </div>
       {children}
     </>
   );

@@ -152,6 +152,17 @@ export default async function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(tradingFaqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buyHowToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sellHowToJsonLd) }} />
+      {/* Server-rendered copy — crawlable by search engines, styled to blend into hero */}
+      <div className="sr-only">
+        <h1>Buy &amp; Sell PSA Graded Pokémon, Sports &amp; MTG Cards in Hong Kong</h1>
+        <p>
+          Browse Appaw Store&apos;s curated marketplace of PSA, BGS, and TAG graded trading cards available in Hong Kong
+          with international shipping worldwide. We offer zero-fee consignment — list your graded card at no upfront cost
+          and pay commission only on a successful sale. Cards available include rare Pokémon, sports cards, and Magic: The
+          Gathering (MTG) singles graded by PSA (Professional Sports Authenticator) and BGS (Beckett Grading Services).
+          Buy directly via WhatsApp or browse all listings below.
+        </p>
+      </div>
       <CardTradingPage initialCards={cards} />
     </>
   );

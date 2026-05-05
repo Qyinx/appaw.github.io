@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Appaw Store – Our Story & Mission',
+  title: 'About Appaw Store – Premium PSA Card Protectors, Hong Kong',
   description:
-    'Learn about Appaw Store – founded in Hong Kong, we craft premium PSA Card Aluminum Protectors and offer trusted TCG trading & brokerage services. Serving 100+ countries with 500+ products and 99% customer satisfaction.',
+    'Appaw Store is a Hong Kong-based brand specialising in PSA Card Aluminum Protectors and TCG graded card trading. Our UV-blocking, N52 magnetic cases ship to 100+ countries. Learn our story.',
   keywords: [
     'Appaw Store',
     'about Appaw Store',
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
     canonical: '/about/',
   },
   openGraph: {
-    title: 'About Appaw Store – Our Story & Mission',
+    title: 'About Appaw Store – Premium PSA Card Protectors, Hong Kong',
     description:
-      'Hong Kong-based brand crafting premium PSA card protectors & offering trusted TCG trading services. 500+ products, 100+ countries, 99% satisfaction.',
+      'Hong Kong-based brand crafting premium PSA card aluminum protectors & offering trusted TCG trading services. UV-blocking glass, N52 magnets, ships to 100+ countries.',
     url: 'https://appaw.store/about/',
     type: 'website',
     images: [
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Appaw Store – Our Story & Mission',
+    title: 'About Appaw Store – Premium PSA Card Protectors, Hong Kong',
     description:
-      'Hong Kong-based brand crafting premium PSA card protectors & offering trusted TCG trading services.',
+      'Hong Kong-based brand crafting premium PSA card aluminum protectors & offering trusted TCG graded card trading services.',
     images: ['/images/og-image.png'],
   },
 };
