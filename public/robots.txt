@@ -1,25 +1,82 @@
-# robots.txt for Appaw Store
+# robots.txt — Appaw Store
+# Last updated: 2026-05-05
+
+# ── Default: allow everything except noise ───────────────────────────────────
 User-agent: *
 Allow: /
 
-# AI / GEO crawlers — explicitly permitted for generative engine indexing
+# Block internal / admin / API routes — no indexing value
+Disallow: /admin/
+Disallow: /api/
+Disallow: /graphql/
+
+# Block dev / utility pages
+Disallow: /style-guide/
+
+# Block URL query parameters that create duplicate content
+# Filter & sort params on card marketplace
+Disallow: /business/card-trading/?*search=
+Disallow: /business/card-trading/?*sort=
+Disallow: /business/card-trading/?*grade=
+Disallow: /business/card-trading/?*company=
+# Bundle sub-card param on detail pages (?card=N)
+Disallow: /business/card-trading/*?card=
+
+# Block Next.js internals
+Disallow: /_next/
+Disallow: /404
+Disallow: /500
+
+# ── AI / GEO crawlers — explicitly permitted ─────────────────────────────────
 User-agent: GPTBot
 Allow: /
+Disallow: /admin/
+Disallow: /api/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /admin/
+Disallow: /api/
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /admin/
+Disallow: /api/
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /admin/
+Disallow: /api/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /admin/
+Disallow: /api/
 
+# ── Bing ─────────────────────────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /style-guide/
+Disallow: /business/card-trading/?*search=
+Disallow: /business/card-trading/?*sort=
+Disallow: /business/card-trading/?*grade=
+Disallow: /business/card-trading/?*company=
+Disallow: /business/card-trading/*?card=
+Crawl-delay: 1
+
+# ── Google ───────────────────────────────────────────────────────────────────
 User-agent: Googlebot
 Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /style-guide/
+Disallow: /business/card-trading/?*search=
+Disallow: /business/card-trading/?*sort=
+Disallow: /business/card-trading/?*grade=
+Disallow: /business/card-trading/?*company=
+Disallow: /business/card-trading/*?card=
 
-# Sitemap
+# ── Sitemap ───────────────────────────────────────────────────────────────────
 Sitemap: https://appaw.store/sitemap.xml
