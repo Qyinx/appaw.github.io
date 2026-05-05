@@ -254,13 +254,13 @@ export const zh: Translations = {
 
   // Card Trading Guide & FAQ
   tradingGuide: {
-    badge: '交易指南',
-    title: '買賣指南',
-    subtitle: '交易前您需要了解的一切。',
+    badge: '收購與寄賣',
+    title: '收購與寄賣指南',
+    subtitle: '專為認真收藏家及另類資產投資者設計的高端收購與寄賣流程。',
     buyTab: '購買',
     sellTab: '出售',
     buy: {
-      title: '如何購買卡牌',
+      title: '如何收購卡牌',
       rules: [
         {
           heading: '透過 WhatsApp 發出報價',
@@ -298,7 +298,7 @@ export const zh: Translations = {
       },
     },
     sell: {
-      title: '如何出售 / 寄賣卡牌',
+      title: '如何寄賣資產',
       rules: [
         {
           heading: '面交或國際運送',
@@ -351,9 +351,9 @@ export const zh: Translations = {
 
   // Card Trading Marketplace
   cardMarketplace: {
-    badge: '交易平台',
-    title: '交易卡牌展示',
-    subtitle: '瀏覽我們目前提供的專業評級交易卡牌庫存。',
+    badge: '精選展廳',
+    title: '藍籌卡牌展廳',
+    subtitle: '精選投資級評級卡牌展廳——經驗證、妥善保存，歡迎私下洽購。',
     hero: {
       statsAvailable: '現貨卡牌',
       statsPsa: 'PSA 評級',
@@ -384,12 +384,12 @@ export const zh: Translations = {
       cert: '證書編號',
       language: '語言',
       price: '目錄價格',
-      inquire: '立即出價',
+      inquire: '洽詢收購',
       viewDetails: '查看詳情',
-      sold: '已售出',
-      soldOut: '此商品已售出',
-      soldDescription: '此卡片已不再提供。請聯絡我們查詢類似卡片或即將上架的庫存。',
-      askSimilar: '查詢類似卡片',
+      sold: '成交紀錄',
+      soldOut: '成交紀錄',
+      soldDescription: '此資產已完成交易。請聯絡我們查詢類似卡牌或加入私下收購名單。',
+      askSimilar: '查詢類似資產',
       similarItems: '瀏覽其他商品',
     },
     modal: {
@@ -418,7 +418,7 @@ export const zh: Translations = {
       description: '嘗試調整篩選條件或搜尋關鍵字。',
       reset: '重設篩選',
     },
-    resultsCount: '張卡牌可供選購',
+    resultsCount: '件資產在展廳',
     sortBy: '排序',
     sortOptions: {
       newest: '最新上架',
@@ -429,9 +429,37 @@ export const zh: Translations = {
       nameAZ: '名稱：A–Z',
     },
     ctaBanner: {
-      title: '在找特定卡牌？',
-      description: '我們可以代尋未上架的卡牌，告訴我們您的需求。',
-      button: '透過 WhatsApp 聯絡',
+      title: '私下收購洽詢',
+      description: '正在尋找特定的夢幻卡牌或投資級資產？我們可代尋未在展廳上架的高價值卡牌——歡迎私下聯絡。',
+      button: '私下洽詢',
+    },
+    whyAppaw: {
+      badge: '為何選擇 Appaw Store',
+      title: '投資級標準。',
+      titleAccent: '不只是一個交易平台。',
+      subtitle: '我們對每一筆收購與寄賣交易均應用博物館級与機構級標準——因為您的資產尤如其分。',
+      pillars: [
+        {
+          title: '博物館級保護',
+          body: 'Appaw Store 每件藏品均適配我們精密加工鯨合金保護殼——工業級殼體，配備逾 95% 抗紫外線玻璃及 N52 礴鐵封閉系統。',
+          linkText: '查看保護殼',
+        },
+        {
+          title: '面交驗證',
+          body: '所有香港交易均於協定地點當面完成。無匿名交收——每張卡牌均由雙方於交收時親自驗證。',
+          linkText: null,
+        },
+        {
+          title: '零預付費寄賣',
+          body: '無預付上架費用，僅於卡牌成功售出後收取佣金。高價值資產低至 4.25% 的分階費率——专業寄賣方最优惠的結構。',
+          linkText: '查看佣金標準',
+        },
+        {
+          title: '投資級溯源認證',
+          body: '我們只接受 PSA、BGS 及 TAG 認證資產。每件列表均附認證編號，方便買家在收購前自行核實。',
+          linkText: null,
+        },
+      ],
     },
     detail: {
       backToMarketplace: '返回卡牌市場',

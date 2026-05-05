@@ -254,13 +254,13 @@ export const en = {
 
   // Card Trading Guide & FAQ
   tradingGuide: {
-    badge: 'How It Works',
-    title: 'Buying & Selling Guide',
-    subtitle: 'Everything you need to know before your first trade.',
+    badge: 'Acquisition & Consignment',
+    title: 'Acquire & Consign',
+    subtitle: 'Our high-touch acquisition and consignment process — designed for serious collectors and alternative asset investors.',
     buyTab: 'Buying',
     sellTab: 'Selling',
     buy: {
-      title: 'How to Buy a Card',
+      title: 'How to Acquire a Card',
       rules: [
         {
           heading: 'Message Us on WhatsApp',
@@ -298,7 +298,7 @@ export const en = {
       },
     },
     sell: {
-      title: 'How to Sell / Consign a Card',
+      title: 'How to Consign an Asset',
       rules: [
         {
           heading: 'Face-to-Face or International Shipping',
@@ -351,9 +351,9 @@ export const en = {
 
   // Card Trading Marketplace
   cardMarketplace: {
-    badge: 'Marketplace',
-    title: 'Trading Card Showcase',
-    subtitle: 'Browse our current inventory of professionally graded trading cards available for purchase.',
+    badge: 'Curated Gallery',
+    title: 'Blue-Chip Card Gallery',
+    subtitle: 'A curated gallery of investment-grade graded cards — authenticated, preserved, and available for private acquisition.',
     hero: {
       statsAvailable: 'Cards in stock',
       statsPsa: 'PSA graded',
@@ -384,12 +384,12 @@ export const en = {
       cert: 'Cert #',
       language: 'Language',
       price: 'Listed Price',
-      inquire: 'Make an Offer',
+      inquire: 'Inquire to Acquire',
       viewDetails: 'View Details',
-      sold: 'Sold',
-      soldOut: 'This item has been sold',
-      soldDescription: 'This card is no longer available. Contact us to ask about similar cards or upcoming inventory.',
-      askSimilar: 'Ask About Similar Cards',
+      sold: 'Price Realized',
+      soldOut: 'Price Realized',
+      soldDescription: 'This asset has been acquired. Contact us about similar cards or to join our private acquisition list.',
+      askSimilar: 'Inquire About Similar Assets',
       similarItems: 'Browse Similar Items',
     },
     modal: {
@@ -418,7 +418,7 @@ export const en = {
       description: 'Try adjusting your filters or search to find what you\'re looking for.',
       reset: 'Reset Filters',
     },
-    resultsCount: 'cards available',
+    resultsCount: 'assets in gallery',
     sortBy: 'Sort by',
     sortOptions: {
       newest: 'Newest Listed',
@@ -429,9 +429,37 @@ export const en = {
       nameAZ: 'Name: A–Z',
     },
     ctaBanner: {
-      title: 'Looking for something specific?',
-      description: 'We can source cards not listed here. Tell us what you need.',
-      button: 'WhatsApp Us',
+      title: 'Private Acquisition Requests',
+      description: 'Looking for a specific grail card or investment-grade asset? We source high-value cards not listed in the gallery — contact us privately.',
+      button: 'Inquire Privately',
+    },
+    whyAppaw: {
+      badge: 'Why Appaw Store',
+      title: 'Investment-Grade Standards.',
+      titleAccent: 'Not Just a Marketplace.',
+      subtitle: 'We apply museum-grade and institutional-level standards to every acquisition and consignment — because your assets deserve it.',
+      pillars: [
+        {
+          title: 'Museum-Grade Protection',
+          body: 'Every acquisition from Appaw Store is compatible with our precision-milled aluminum protectors — industrial-grade enclosures with >95% UV-blocking glass and N52 neodymium closure.',
+          linkText: 'View Protectors',
+        },
+        {
+          title: 'Face-to-Face Verified',
+          body: 'All Hong Kong transactions are completed in person at agreed locations. No anonymous drop-offs — every card is physically inspected at handover by both parties.',
+          linkText: null,
+        },
+        {
+          title: 'Zero-Fee Consignment',
+          body: 'No listing fees, no upfront costs. Commission is charged only on successful sale. Tiered rates from 4.25% for high-value assets — the lowest structure for serious consignors.',
+          linkText: 'See Commission Rates',
+        },
+        {
+          title: 'Investment-Grade Provenance',
+          body: 'We accept only PSA, BGS, and TAG certified assets. Every listing includes the certification number for independent verification before acquisition.',
+          linkText: null,
+        },
+      ],
     },
     detail: {
       backToMarketplace: 'Back to Marketplace',

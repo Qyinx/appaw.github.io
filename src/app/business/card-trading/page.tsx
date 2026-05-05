@@ -162,6 +162,12 @@ export default async function Page() {
           Gathering (MTG) singles graded by PSA (Professional Sports Authenticator) and BGS (Beckett Grading Services).
           Buy directly via WhatsApp or browse all listings below.
         </p>
+        <p>
+          Appaw Store specialises in high-value and investment-grade graded cards — from grail Pokémon singles to
+          blue-chip sports cards. Our zero-fee consignment service is trusted by serious collectors and alternative
+          asset investors across Hong Kong and internationally. Face-to-face meetups available in Hong Kong;
+          DAP international shipping accepted worldwide.
+        </p>
       </div>
       <CardTradingPage initialCards={cards} />
     </>

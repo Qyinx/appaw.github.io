@@ -4,26 +4,44 @@ import { en } from '@/i18n';
 const PRICE_VALID_UNTIL = `${new Date().getFullYear()}-12-31`;
 
 export const metadata: Metadata = {
-  title: 'PSA Card Aluminum Protector – UV-Blocking Magnetic Case',
+  title: 'Museum-Grade PSA Card Aluminum Protector – N52 Magnetic, UV-Blocking',
   description:
-    'Premium aluminum bumper case for PSA graded slabs. >95% UV-blocking glass, N52 magnets & CNC precision frame — ultimate protection for Pokémon, sports & MTG cards.',
-  // NOTE: keep description ≤160 chars. Current: 158 chars.
+    'Investment-grade aluminum enclosure for PSA graded slabs. Museum-grade UV filtration >95%, N52 neodymium closure, precision CNC frame. For high-value Pokémon, sports & MTG cards.',
+  // NOTE: keep description ≤160 chars.
   keywords: [
-    // Core product — includes all user target keywords
+    // Core product
     'PSA card protector',
     'PSA slab protector',
     'PSA card aluminum case',
     'PSA graded card case',
     'aluminum card protector',
-    'PSA graded card bumper',
     'aluminum slab case',
-    'premium PSA card holder',
-    'UV protection for Pokemon cards',
-    // Features
+    'PSA card enclosure',
+    'PSA precision encapsulation',
+    // Investment & asset-grade
+    'investment-grade card protection',
+    'high-value card protection',
+    'portfolio-grade slab case',
+    'alternative asset card storage',
+    'blue-chip card preservation',
+    'grail card protector',
+    'high-net-worth collector case',
+    // Museum & archival
+    'museum-grade UV filtration',
+    'archival-standard aluminum housing',
+    'gallery-worthy slab display',
+    'conservation-level TCG storage',
+    'inert material card protection',
+    'archival card case',
+    // Technical & industrial
+    'industrial-grade PSA shell',
+    'N52 neodymium magnetic closure',
+    'precision-milled TCG case',
+    'CNC aluminum card case',
+    'anti-tamper card protection',
+    // UV features
     'UV protection card case',
     'UV blocking card protector',
-    'N52 magnetic card case',
-    'magnetic card display',
     'anti-fade card protector',
     // Card types
     'Pokemon card protector',
@@ -31,23 +49,16 @@ export const metadata: Metadata = {
     'sports card protector',
     'baseball card case',
     'basketball card protector',
-    'football card protector',
     'MTG card protector',
     'trading card display case',
-    'graded card protection',
     'PSA 10 protector',
     'PSA 10 display case',
-    // Long-tail / intent
+    // Intent / long-tail
     'best PSA card protector',
-    'how to protect PSA graded cards',
     'PSA slab scratch protection',
-    'card collection display case',
-    'premium card case aluminum',
-    'PSA card case with magnets',
-    'card protector UV glass',
-    // Competitor comparison
-    'PSA card protector alternative',
     'aluminum vs acrylic card case',
+    'vault-ready PSA protector',
+    'stackable card shell',
     // Bilingual
     'PSA卡鋁合金保護殼',
     'PSA卡保護套',
@@ -59,9 +70,9 @@ export const metadata: Metadata = {
     canonical: '/products/psa-protectors/',
   },
   openGraph: {
-    title: 'PSA Card Aluminum Protector – UV-Blocking Magnetic Case | Appaw Store',
+    title: 'Museum-Grade PSA Card Aluminum Protector – N52 Magnetic, UV-Blocking | Appaw Store',
     description:
-      'Industrial-grade aluminum protector with >95% UV-blocking glass & N52 magnetic closure. Fits standard 35PT PSA slabs. Protect your Pokemon, sports & MTG graded cards.',
+      'Investment-grade aluminum enclosure for PSA slabs. Museum-grade UV filtration, N52 neodymium closure, CNC precision frame. For high-value Pokémon, sports & MTG graded cards.',
     url: 'https://appaw.store/products/psa-protectors/',
     type: 'website',
     images: [
@@ -75,9 +86,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PSA Card Aluminum Protector – UV-Blocking Magnetic Case',
+    title: 'Museum-Grade PSA Card Aluminum Protector – Investment-Grade Slab Case',
     description:
-      'Premium aluminum protector for PSA graded cards. >95% UV protection, N52 magnets, precision frame. Ships worldwide.',
+      'Investment-grade aluminum enclosure for PSA graded cards. Museum-grade UV filtration, N52 neodymium magnets, CNC precision frame. Ships worldwide.',
     images: ['/images-optimized/describe/sell%205.png'],
   },
 };
@@ -176,18 +187,26 @@ export default function PSAProtectorLayout({ children }: { children: React.React
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(psaFaqJsonLd) }} />
       {/* Server-rendered static copy for search engine crawlers */}
       <div className="sr-only">
-        <h1>PSA Card Aluminum Protector – UV-Blocking Magnetic Case</h1>
+        <h1>Museum-Grade PSA Card Aluminum Protector – Investment-Grade Slab Enclosure</h1>
         <p>
-          The Appaw Store PSA Card Aluminum Protector is an industrial-grade display case designed for PSA graded
-          trading cards. Built from precision-machined aluminum with 95% UV-blocking glass and N52 neodymium
-          magnetic closure, it fits standard 35PT PSA slabs — including Pokémon, sports cards, baseball cards,
-          basketball cards, football cards, and Magic: The Gathering (MTG) singles. No screws. Snap-open magnetic
-          frame. Weighs just 74 g. Available in 7 colours. Ships worldwide from Hong Kong.
+          The Appaw Store PSA Card Aluminum Protector is an investment-grade, museum-grade slab enclosure
+          engineered for high-value PSA graded trading cards. The precision-milled CNC aluminum housing delivers
+          archival-standard protection with &gt;95% UV-blocking glass and an N52 neodymium magnetic closure —
+          no screws, no acrylic, no compromise. Designed for portfolio-grade card preservation of Pokémon,
+          sports cards, baseball cards, basketball cards, football cards, and Magic: The Gathering (MTG) singles.
+          Weighs 74 g. Fits standard 35PT PSA slabs. Available in 7 anodized finishes. Ships worldwide from Hong Kong.
         </p>
         <p>
-          Looking for a PSA slab protector, graded card display case, aluminum card case, or UV protection for
-          your PSA 10 Pokémon card? The Appaw Store protector is the premium alternative to acrylic cases —
-          scratch-resistant, anti-fade, and engineered for long-term card preservation.
+          Unlike consumer-grade TPU bumpers or acrylic cases, the Appaw Store protector uses inert aluminum
+          alloy construction — the same material class used in archival housing and industrial-grade storage.
+          The N52 neodymium magnetic closure provides anti-tamper security without damaging the slab surface.
+          Museum-grade UV filtration blocks &gt;95% of UV-C and UV-A radiation, preventing colour fade and
+          surface degradation on high-value collectibles and blue-chip graded cards.
+        </p>
+        <p>
+          Whether you&apos;re vaulting a PSA 10 Charizard, protecting a grail sports card, or building a
+          gallery-worthy display, this is the conservation-level TCG storage solution built for serious
+          collectors and alternative asset investors.
         </p>
       </div>
       {children}

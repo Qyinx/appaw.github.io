@@ -40,6 +40,16 @@ export const metadata: Metadata = {
     'card protector UV glass',
     'PSA card protector review',
     'aluminum vs acrylic card case',
+    // Investment & high-end collector
+    'investment-grade card protection',
+    'museum-grade UV card case',
+    'archival card storage',
+    'high-value graded card protector',
+    'portfolio-grade slab case',
+    'N52 neodymium card case',
+    'industrial-grade PSA shell',
+    'precision CNC card case',
+    'vault-ready PSA protector',
     // Bilingual / Chinese
     'PSA卡鋁合金保護殼',
     'PSA卡保護套',

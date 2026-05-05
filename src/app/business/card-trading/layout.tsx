@@ -3,9 +3,9 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   // 65 chars — leads with top keyword, differentiates with brand and HK
   title: 'PSA Pokémon Cards Hong Kong | Buy Rare Graded Cards – Appaw Store',
-  // 159 chars — emphasises exclusivity, face-to-face rules, and collector trust
+  // 159 chars — investment-grade positioning, local SEO, collector trust
   description:
-    'Shop exclusive PSA & CGC graded Pokémon cards in Hong Kong — face-to-face verified transactions, expert valuation & zero upfront consignment fees. Rare cards for serious collectors.',
+    'The premier Hong Kong destination for investment-grade PSA 10 Pokémon cards. Zero-fee consignment, museum-quality verified transactions & private acquisition of blue-chip graded assets.',
   keywords: [
     // Brokerage / consignment — high-intent
     'PSA',
@@ -34,6 +34,13 @@ export const metadata: Metadata = {
     'PSA 10 Pokemon cards',
     'trading card marketplace',
     'TCG trading Hong Kong',
+    // Investment & high-value
+    'investment-grade graded cards',
+    'high-value Pokemon cards',
+    'grail card for sale',
+    'blue-chip sports cards',
+    'alternative asset collectibles',
+    'rare graded card marketplace',
     // Bilingual
     '評級卡牌買賣',
     '寶可夢卡牌',
@@ -46,7 +53,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'PSA Pokémon Cards Hong Kong | Rare Graded Cards & Consignment – Appaw Store',
     description:
-      'Discover rare PSA & CGC Pokémon cards for sale in Hong Kong. Face-to-face verified transactions, expert valuation & no upfront consignment fees — trusted by serious HK collectors.',
+      'The premier Hong Kong destination for investment-grade PSA graded Pokémon & sports cards. Zero-fee consignment, museum-quality verified transactions, and private acquisition of blue-chip assets.',
     url: 'https://appaw.store/business/card-trading/',
     type: 'website',
     images: [
@@ -62,7 +69,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'PSA Pokémon Cards Hong Kong | Buy Rare Graded Cards – Appaw Store',
     description:
-      'Discover rare PSA & CGC Pokémon cards for sale in Hong Kong. Expert valuation, face-to-face transactions only & zero upfront consignment fees.',
+      'Premier HK destination for investment-grade PSA graded cards. Zero-fee consignment, face-to-face verified transactions & private acquisition of blue-chip Pokémon and sports assets.',
     images: ['/images/og-image.png'],
   },
 };

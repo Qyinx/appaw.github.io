@@ -26,9 +26,21 @@ function getGradeTier(grade: number): GradeTier {
 /* ──────────────────────────────────────────
    Trading Guide + FAQ
    ────────────────────────────────────────── */
-function TradingGuide({ guide }: { guide: ReturnType<typeof useLanguage>['t']['tradingGuide'] }) {
+function TradingGuide({ guide, registerActivate }: {
+  guide: ReturnType<typeof useLanguage>['t']['tradingGuide'];
+  registerActivate?: (fn: () => void) => void;
+}) {
   const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  // Expose an imperative activate function to the parent
+  useEffect(() => {
+    registerActivate?.(() => {
+      setActiveTab('sell');
+      setOpenFaq(1); // index of commission FAQ in sell.faq.items
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const side = activeTab === 'buy' ? guide.buy : guide.sell;
   const tabAccent = activeTab === 'buy' ? '#d4a843' : '#818cf8';
@@ -192,6 +204,104 @@ function TradingGuide({ guide }: { guide: ReturnType<typeof useLanguage>['t']['t
               })}
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ──────────────────────────────────────────
+   Why Appaw? — Trust & Provenance Section
+   ────────────────────────────────────────── */
+function WhyAppaw({ labels, onSeeCommission }: {
+  labels: ReturnType<typeof useLanguage>['t']['cardMarketplace'];
+  onSeeCommission?: () => void;
+}) {
+  const wa = labels.whyAppaw;
+
+  const pillarMeta = [
+    { icon: Shield, accent: '#d4a843', link: '/products/psa-protectors' as string | null },
+    { icon: Eye,    accent: '#818cf8', link: null },
+    { icon: Tag,    accent: '#34d399', link: '#consign' as string | null },
+    { icon: Check,  accent: '#f59e0b', link: null },
+  ];
+
+  return (
+    <section className="py-20 bg-[#0d0d14] relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(212,168,67,0.04),transparent)]" />
+
+      <div className="container-custom relative">
+        {/* Header */}
+        <div className="max-w-2xl mb-14">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-8 h-px bg-[#d4a843]" />
+            <span className="text-[#d4a843] text-xs uppercase tracking-[0.3em] font-medium">{wa.badge}</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.1] mb-3">
+            {wa.title} <span className="text-[#d4a843]">{wa.titleAccent}</span>
+          </h2>
+          <p className="text-white/40 text-sm leading-relaxed max-w-lg">
+            {wa.subtitle}
+          </p>
+        </div>
+
+        {/* Pillars grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.05] border border-white/[0.05]">
+          {wa.pillars.map((p, i) => {
+            const { icon: Icon, accent, link } = pillarMeta[i];
+            // Index 2 = Zero-Fee Consignment — triggers commission FAQ
+            const isCommission = i === 2;
+            return (
+              <div key={i} className="group relative bg-[#0d0d14] p-8 hover:bg-[#111120] transition-colors duration-300 overflow-hidden">
+                {/* Top accent line */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
+                  style={{ backgroundColor: accent }}
+                />
+                {/* Watermark number */}
+                <span className="absolute -top-4 -right-2 text-[6rem] font-bold text-white/[0.02] select-none leading-none group-hover:text-white/[0.04] transition-colors duration-500">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110"
+                  style={{ backgroundColor: `${accent}18`, color: accent }}
+                >
+                  <Icon className="w-5 h-5" />
+                </div>
+
+                <h3 className="text-base font-bold text-white mb-3 transition-colors duration-300">
+                  {p.title}
+                </h3>
+                <p className="text-white/40 text-sm leading-relaxed mb-4">
+                  {p.body}
+                </p>
+                {link && p.linkText && (
+                  isCommission ? (
+                    <button
+                      onClick={onSeeCommission}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] transition-colors duration-200"
+                      style={{ color: accent }}
+                    >
+                      {p.linkText}
+                      <ExternalLink className="w-3 h-3" />
+                    </button>
+                  ) : (
+                    <Link
+                      href={link}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] transition-colors duration-200"
+                      style={{ color: accent }}
+                    >
+                      {p.linkText}
+                      <ExternalLink className="w-3 h-3" />
+                    </Link>
+                  )
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -621,6 +731,14 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
   const [heroVisible, setHeroVisible] = useState(false);
   const ctaRef = useRef<HTMLElement>(null);
   const [ctaVisible, setCtaVisible] = useState(false);
+  const activateCommissionRef = useRef<(() => void) | null>(null);
+
+  const handleSeeCommission = useCallback(() => {
+    activateCommissionRef.current?.();
+    setTimeout(() => {
+      document.getElementById('consign')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }, []);
 
   useEffect(() => { const timer = setTimeout(() => setHeroVisible(true), 80); return () => clearTimeout(timer); }, []);
 
@@ -1047,11 +1165,11 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                       </div>
                     )}
 
-                    {/* Sold overlay */}
+                    {/* Sold overlay — gold to signal "price realized" prestige */}
                     {parentCard.sold && (
-                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
-                        <div className="px-4 py-1.5 rounded-full bg-red-500/90 backdrop-blur-sm border border-red-400/30">
-                          <span className="text-white text-xs font-bold uppercase tracking-wider">{mp.card.sold}</span>
+                      <div className="absolute inset-0 bg-black/65 flex items-center justify-center z-10">
+                        <div className="px-4 py-1.5 rounded-full bg-[#d4a843]/90 backdrop-blur-sm border border-[#d4a843]/50 shadow-[0_4px_16px_rgba(212,168,67,0.25)]">
+                          <span className="text-[#09090f] text-xs font-bold uppercase tracking-wider">{mp.card.sold}</span>
                         </div>
                       </div>
                     )}
@@ -1077,7 +1195,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                     {/* Price + WhatsApp action */}
                     <div className="flex items-center justify-between">
                       {parentCard.sold ? (
-                        <span className="text-[10px] font-bold text-red-400/70 uppercase tracking-wider">{mp.card.sold}</span>
+                        <span className="text-[10px] font-bold text-[#d4a843]/60 uppercase tracking-wider">{mp.card.sold}</span>
                       ) : (
                         <span className="text-white/50 text-xs">{mp.card.inquire} →</span>
                       )}
@@ -1107,7 +1225,10 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       </section>
 
       {/* ═══════════ TRADING GUIDE & FAQ ═══════════ */}
-      <TradingGuide guide={guide} />
+      <TradingGuide guide={guide} registerActivate={(fn) => { activateCommissionRef.current = fn; }} />
+
+      {/* ═══════════ WHY APPAW ═══════════ */}
+      <WhyAppaw labels={mp} onSeeCommission={handleSeeCommission} />
 
       {/* ═══════════ CTA BANNER ═══════════ */}
       <section ref={ctaRef} className="border-t border-white/[0.06] bg-gradient-to-b from-[#09090f] to-[#0d0d15]">

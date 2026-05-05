@@ -820,7 +820,7 @@ export default function PSAProtectorPage() {
                   { v: '> 95%', l: 'UV Blocked' },
                   { v: 'N52',   l: 'Magnet Grade' },
                   { v: '74 g',  l: 'Weight' },
-                  { v: '7',     l: 'Colors' },
+                  { v: '8',     l: 'Colors' },
                 ].map((s) => (
                   <div key={s.l} className="border border-white/[0.06] rounded-xl px-4 py-3 hover:border-[#d4a843]/20 transition-colors duration-300">
                     <p className="text-[#d4a843] text-base font-bold leading-none mb-1">{s.v}</p>
