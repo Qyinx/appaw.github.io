@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, X, MessageCircle, Package, Eye, ExternalLink, Hash, Globe, Tag, ZoomIn, Layers, Loader2, Share2, Check, ShoppingBag, Tag as TagIcon } from 'lucide-react';
+import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, X, MessageCircle, Package, Eye, ExternalLink, Hash, Globe, Tag, ZoomIn, Layers, Loader2, Share2, Check, ShoppingBag, Tag as TagIcon, Shield } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
@@ -115,26 +115,81 @@ function TradingGuide({ guide }: { guide: ReturnType<typeof useLanguage>['t']['t
               {side.faq.title}
             </h3>
             <div className="space-y-2">
-              {side.faq.items.map((item, i) => (
-                <div key={i} className="border border-white/[0.07] rounded-xl overflow-hidden">
-                  <button
-                    className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-white/[0.03]"
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  >
-                    <span className="text-white/80 text-sm font-medium leading-snug">{item.q}</span>
-                    <ChevronDown
-                      className="flex-shrink-0 w-4 h-4 text-white/30 transition-transform duration-300"
-                      style={{ transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                    />
-                  </button>
-                  <div
-                    className="overflow-hidden transition-all duration-300"
-                    style={{ maxHeight: openFaq === i ? '200px' : '0px', opacity: openFaq === i ? 1 : 0 }}
-                  >
-                    <p className="px-5 pb-4 text-white/50 text-sm leading-relaxed">{item.a}</p>
+              {side.faq.items.map((item, i) => {
+                const isCommission = item.a.includes('%');
+                return (
+                  <div key={i} className="border border-white/[0.07] rounded-xl overflow-hidden">
+                    <button
+                      className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-white/[0.03]"
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    >
+                      <span className="text-white/80 text-sm font-medium leading-snug">{item.q}</span>
+                      <ChevronDown
+                        className="flex-shrink-0 w-4 h-4 text-white/30 transition-transform duration-300"
+                        style={{ transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                      />
+                    </button>
+                    <div
+                      className="overflow-hidden transition-all duration-300"
+                      style={{ maxHeight: openFaq === i ? (isCommission ? '700px' : '200px') : '0px', opacity: openFaq === i ? 1 : 0 }}
+                    >
+                      <p className="px-5 pt-1 pb-3 text-white/50 text-sm leading-relaxed">{item.a}</p>
+                      {isCommission && (
+                        <div className="px-5 pb-6">
+                          <p className="text-white/25 text-[9px] uppercase tracking-[0.2em] text-center mb-4">Commission Rate by Sale Price</p>
+                          {/*
+                            Apex (140,8) → Base y=252, half-width=120 → (20,252)–(260,252)
+                            Slope: right_x = 140 + (y−8)×120/244   left_x = mirror
+                            Tiers: y=8–57, 59–108, 110–159, 161–210, 212–252  (1px gap)
+                            Leader dots at right-edge midpoint of each tier
+                          */}
+                          <svg viewBox="0 0 380 272" className="w-full max-w-[380px] mx-auto block">
+                            {/* Pyramid bands */}
+                            <polygon points="140,8 116,57 164,57"                   fill="rgba(212,168,67,0.42)" stroke="rgba(212,168,67,0.68)" strokeWidth="1" strokeLinejoin="round" />
+                            <polygon points="115,59 165,59 189,108 91,108"          fill="rgba(212,168,67,0.31)" stroke="rgba(212,168,67,0.50)" strokeWidth="1" />
+                            <polygon points="90,110 190,110 214,159 66,159"         fill="rgba(212,168,67,0.21)" stroke="rgba(212,168,67,0.37)" strokeWidth="1" />
+                            <polygon points="65,161 215,161 239,210 41,210"         fill="rgba(212,168,67,0.13)" stroke="rgba(212,168,67,0.25)" strokeWidth="1" />
+                            <polygon points="40,212 240,212 260,252 20,252"         fill="rgba(212,168,67,0.07)" stroke="rgba(212,168,67,0.16)" strokeWidth="1" />
+
+                            {/* T1 — mid_y=32, right_x=152 */}
+                            <circle cx="152" cy="32" r="2.5" fill="#d4a843" fillOpacity="0.6" />
+                            <line x1="154" y1="32" x2="268" y2="32" stroke="rgba(212,168,67,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="28" fill="#d4a843" fontSize="11.5" fontWeight="bold" fontFamily="inherit">4.25%</text>
+                            <text x="272" y="40" fill="rgba(212,168,67,0.62)" fontSize="7.5" fontFamily="inherit">≥ HK$50,000</text>
+
+                            {/* T2 — mid_y=83, right_x=177 */}
+                            <circle cx="177" cy="83" r="2.5" fill="#d4a843" fillOpacity="0.6" />
+                            <line x1="179" y1="83" x2="268" y2="83" stroke="rgba(212,168,67,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="79" fill="#d4a843" fontSize="11.5" fontWeight="bold" fontFamily="inherit">4.5%</text>
+                            <text x="272" y="91" fill="rgba(212,168,67,0.62)" fontSize="7.5" fontFamily="inherit">HK$10,000–49,999</text>
+
+                            {/* T3 — mid_y=134, right_x=202 */}
+                            <circle cx="202" cy="134" r="2.5" fill="#d4a843" fillOpacity="0.6" />
+                            <line x1="204" y1="134" x2="268" y2="134" stroke="rgba(212,168,67,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="130" fill="#d4a843" fontSize="11.5" fontWeight="bold" fontFamily="inherit">5.25%</text>
+                            <text x="272" y="142" fill="rgba(212,168,67,0.62)" fontSize="7.5" fontFamily="inherit">HK$2,000–9,999</text>
+
+                            {/* T4 — mid_y=185, right_x=227 */}
+                            <circle cx="227" cy="185" r="2.5" fill="#d4a843" fillOpacity="0.6" />
+                            <line x1="229" y1="185" x2="268" y2="185" stroke="rgba(212,168,67,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="181" fill="#d4a843" fontSize="11.5" fontWeight="bold" fontFamily="inherit">6%</text>
+                            <text x="272" y="193" fill="rgba(212,168,67,0.62)" fontSize="7.5" fontFamily="inherit">HK$1,000–1,999</text>
+
+                            {/* T5 — mid_y=232, right_x=250 */}
+                            <circle cx="250" cy="232" r="2.5" fill="#d4a843" fillOpacity="0.6" />
+                            <line x1="252" y1="232" x2="268" y2="232" stroke="rgba(212,168,67,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="228" fill="#d4a843" fontSize="11.5" fontWeight="bold" fontFamily="inherit">7%</text>
+                            <text x="272" y="240" fill="rgba(212,168,67,0.62)" fontSize="7.5" fontFamily="inherit">{'< HK$1,000 · min HK$50'}</text>
+
+                            {/* Footnote */}
+                            <text x="140" y="265" textAnchor="middle" fill="rgba(255,255,255,0.17)" fontSize="7" fontFamily="inherit">On final agreed sale price • No upfront fees</text>
+                          </svg>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -699,19 +754,50 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
     <div className="flex flex-col bg-[#09090f]">
 
       {/* ═══════════ HERO ═══════════ */}
-      <section className="relative pt-24 pb-8 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_120%,rgba(212,168,67,0.10),transparent)]" />
+      <section className="relative pt-24 pb-12 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,rgba(212,168,67,0.08),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
 
         <div className="relative container-custom z-10">
-          <div className="max-w-3xl transition-all duration-1000" style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)' }}>
-            <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/40 rounded-full px-4 py-1.5 mb-5">
+          <div className="max-w-4xl transition-all duration-1000" style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)' }}>
+
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/40 rounded-full px-4 py-1.5 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] animate-pulse" />
               <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">{mp.badge}</span>
             </div>
 
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold font-display text-white leading-[1.15] tracking-tight mb-3">{mp.title}</h1>
+            {/* Title */}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-white leading-[1.1] tracking-tight mb-4">{mp.title}</h1>
 
-            <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed max-w-2xl">{mp.subtitle}</p>
+            {/* Subtitle */}
+            <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed max-w-2xl mb-6">{mp.subtitle}</p>
+
+            {/* Quick-nav links */}
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="text-white/25 text-[10px] uppercase tracking-[0.2em] mr-1">{mp.hero.explore}</span>
+              <Link
+                href="/products/psa-protectors"
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] hover:border-[#d4a843]/35 hover:bg-[#d4a843]/[0.06] text-white/55 hover:text-[#d4a843] text-xs font-medium transition-all duration-200"
+              >
+                <Shield className="w-3.5 h-3.5" />
+                {mp.hero.linkProtectors}
+              </Link>
+              <a
+                href="#consign"
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] hover:border-[#d4a843]/35 hover:bg-[#d4a843]/[0.06] text-white/55 hover:text-[#d4a843] text-xs font-medium transition-all duration-200"
+              >
+                <ShoppingBag className="w-3.5 h-3.5" />
+                {mp.hero.linkBuyingGuide}
+              </a>
+              <a
+                href="#consign"
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] hover:border-[#d4a843]/35 hover:bg-[#d4a843]/[0.06] text-white/55 hover:text-[#d4a843] text-xs font-medium transition-all duration-200"
+              >
+                <TagIcon className="w-3.5 h-3.5" />
+                {mp.hero.linkConsign}
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -723,7 +809,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
           {/* Desktop */}
           <div className="hidden md:flex items-center gap-4">
             {/* Search */}
-            <div className="relative flex-1 max-w-xs">
+            <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={mp.searchPlaceholder}
                 className="w-full pl-10 pr-4 py-2.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#d4a843]/50 focus:ring-1 focus:ring-[#d4a843]/20 transition-all" />
@@ -867,7 +953,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       <section className="container-custom py-6 flex-1">
         {/* Loading state */}
         {loading && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden animate-pulse"
                 style={{ animationDelay: `${i * 80}ms` }}>
@@ -895,7 +981,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
 
         {/* Cards */}
         {!loading && !error && displayItems.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
             {displayItems.map((item, i) => {
               const { tileImage, tileName, tileCompany, tileGrade, tileIsBlackLabel, tileSet, tileNumber, tileYear, parentCard, isSubCard, bundleTotal } = item;
               const gradeColor = getGradeColor(tileGrade, tileIsBlackLabel);
@@ -905,44 +991,51 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
               return (
                 <div
                   key={item.key}
-                  className="group relative bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden hover:border-[#d4a843]/30 transition-all duration-400 cursor-pointer hover:shadow-[0_8px_32px_rgba(212,168,67,0.10)] hover:bg-white/[0.05]"
+                  className="group relative bg-gradient-to-b from-[#141420] to-[#0d0d15] border border-white/[0.07] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:border-[#d4a843]/45 hover:shadow-[0_8px_40px_rgba(212,168,67,0.13)]"
                   style={{ animation: `fadeUp 0.4s ease-out ${i * 40}ms both` }}
                   onClick={() => setSelectedCard(parentCard)}
                 >
                   {/* Image area */}
-                  <div className="relative aspect-[3/4] bg-gradient-to-b from-white/[0.03] to-transparent overflow-hidden">
+                  <div className="relative aspect-[3/4] overflow-hidden">
+                    {/* Ambient inner glow */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/[0.025] via-transparent to-[#d4a843]/[0.015] pointer-events-none" />
+
                     {tileImage && (
                       <Image
                         src={getImagePath(tileImage)}
                         alt={`${tileName} – ${tileCompany} ${tileGrade}${tileIsBlackLabel ? ' Black Label' : ''} graded card`}
                         fill
-                        className="object-contain p-3 group-hover:scale-105 transition-transform duration-700"
-                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
+                        className="object-contain p-3 group-hover:scale-[1.04] transition-transform duration-700"
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
                       />
                     )}
 
-                    {/* Grade badge — top right */}
-                    <div className={`absolute top-2 right-2 h-6 min-w-[36px] flex items-center justify-center gap-0.5 px-2 rounded-md text-[10px] ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} border ${gradeColor.border}`}>
-                      {tileIsBlackLabel && <span className="font-bold text-[#d4a843] leading-none text-[7px]">BL</span>}
-                      <span className="font-black leading-none">{tileGrade}</span>
-                    </div>
+                    {/* Bottom gradient fade into info panel */}
+                    <div className="absolute bottom-0 left-0 right-0 h-14 bg-gradient-to-t from-[#0d0d15] to-transparent pointer-events-none" />
 
-                    {/* Company badge — top left */}
-                    <div
-                      className="absolute top-2 left-2 h-6 min-w-[36px] flex items-center justify-center px-2 rounded-md"
-                      style={{ background: companyStyle.background, color: companyStyle.color, boxShadow: companyStyle.shadow }}
-                    >
-                      <span className="text-[10px] font-bold leading-none">{tileCompany}</span>
+                    {/* RIGHT-SIDE badge column — company + grade stacked */}
+                    <div className="absolute top-2.5 right-2.5 flex flex-col items-end gap-1.5">
+                      {/* Grading company */}
+                      <div
+                        className="h-6 px-2.5 flex items-center justify-center rounded-lg text-[11px] font-black leading-none shadow-lg"
+                        style={{ background: companyStyle.background, color: companyStyle.color, boxShadow: companyStyle.shadow }}
+                      >
+                        {tileCompany}
+                      </div>
+                      {/* Grade score */}
+                      <div className={`min-w-[32px] px-2 py-1.5 flex flex-col items-center justify-center rounded-lg border ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} ${gradeColor.border}`}>
+                        {tileIsBlackLabel && <span className="text-[6px] font-black text-[#d4a843] leading-none mb-0.5">BL</span>}
+                        <span className="text-[11px] font-black leading-none">{tileGrade}</span>
+                      </div>
                     </div>
 
                     {/* Bundle badge — bottom left */}
                     {isBundle && (
-                      <div className="absolute bottom-2 left-2 right-2 flex items-center gap-1.5">
+                      <div className="absolute bottom-2 left-2 flex items-center gap-1.5 z-10">
                         <div className="h-6 flex items-center gap-1 px-2 rounded-md bg-[#d4a843] text-[#09090f] shadow-[0_2px_8px_rgba(212,168,67,0.4)]">
                           <Layers className="w-3 h-3" />
                           <span className="text-[9px] font-extrabold uppercase tracking-wider leading-none">{mp.bundle.fullSet}</span>
                         </div>
-                        {/* Sub-card: show position; main card: show total count */}
                         <div className="h-6 flex items-center px-1.5 rounded-md bg-black/60 backdrop-blur-sm border border-white/10">
                           <span className="text-[9px] font-bold text-white leading-none">
                             {isSubCard
@@ -956,47 +1049,41 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
 
                     {/* Sold overlay */}
                     {parentCard.sold && (
-                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
-                        <div className="px-4 py-1.5 rounded-md bg-red-500/90 backdrop-blur-sm border border-red-400/30">
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
+                        <div className="px-4 py-1.5 rounded-full bg-red-500/90 backdrop-blur-sm border border-red-400/30">
                           <span className="text-white text-xs font-bold uppercase tracking-wider">{mp.card.sold}</span>
                         </div>
                       </div>
                     )}
 
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <Eye className="w-3 h-3 text-white" />
-                        <span className="text-white text-[10px] font-medium">{mp.card.viewDetails}</span>
+                    {/* Hover overlay — golden CTA pill */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                      <div className="flex items-center gap-1.5 px-4 py-2 bg-[#d4a843] text-[#09090f] rounded-full text-[11px] font-bold transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 shadow-[0_4px_20px_rgba(212,168,67,0.45)]">
+                        <Eye className="w-3.5 h-3.5" />
+                        {mp.card.viewDetails}
                       </div>
                     </div>
                   </div>
 
-                  {/* Info */}
-                  <div className="p-3 pt-2.5">
-                    <h3 className="text-white font-semibold text-sm leading-snug mb-0.5 truncate group-hover:text-[#d4a843] transition-colors">
+                  {/* Info panel */}
+                  <div className="px-3.5 pt-2.5 pb-3">
+                    <h3 className="text-white font-bold text-sm leading-snug mb-0.5 truncate group-hover:text-[#d4a843] transition-colors duration-200">
                       {tileName}
                     </h3>
-                    <div className="flex items-center gap-1.5 text-white/50 text-xs mb-2">
-                      <span>{tileYear}</span>
-                      {tileSet && (
-                        <>
-                          <span className="w-0.5 h-0.5 rounded-full bg-white/30" />
-                          <span className="truncate">{tileSet}</span>
-                        </>
-                      )}
-                    </div>
+                    <p className="text-white/30 text-[11px] truncate mb-3 leading-tight">
+                      {tileYear}{tileSet ? ` · ${tileSet}` : ''}
+                    </p>
 
-                    {/* Bottom row */}
-                    <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
+                    {/* Price + WhatsApp action */}
+                    <div className="flex items-center justify-between">
                       {parentCard.sold ? (
-                        <span className="text-[10px] font-bold text-red-400/80 uppercase tracking-wider">{mp.card.sold}</span>
+                        <span className="text-[10px] font-bold text-red-400/70 uppercase tracking-wider">{mp.card.sold}</span>
                       ) : (
                         <span className="text-white/50 text-xs">{mp.card.inquire} →</span>
                       )}
                       {!parentCard.sold && (
-                        <div className="w-6 h-6 rounded-full bg-[#25D366]/10 flex items-center justify-center">
-                          <FontAwesomeIcon icon={faWhatsapp} className="w-3 h-3 text-[#25D366]" />
+                        <div className="w-7 h-7 rounded-full bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center group-hover:bg-[#25D366]/20 transition-colors duration-200">
+                          <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5 text-[#25D366]" />
                         </div>
                       )}
                     </div>

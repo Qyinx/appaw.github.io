@@ -65,7 +65,7 @@ const tradingFaqJsonLd = {
   '@type': 'FAQPage',
   publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
   datePublished: '2024-01-15',
-  dateModified: '2026-04-22',
+  dateModified: '2026-05-05',
   mainEntity: [
     ...en.tradingGuide.buy.faq.items,
     ...en.tradingGuide.sell.faq.items,
@@ -85,20 +85,20 @@ const buyHowToJsonLd = {
     {
       '@type': 'HowToStep',
       position: 1,
-      name: 'Contact via WhatsApp',
-      text: 'Message us on WhatsApp at +852-9285-1189 to make an offer on the card. All transactions are in Hong Kong only.',
+      name: 'Message us on WhatsApp with card name and offer price',
+      text: 'Send the card name and your offer price to +852-9285-1189 on WhatsApp. We will confirm availability and agree on a final price.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
-      name: 'Arrange a face-to-face meetup',
-      text: 'We confirm a convenient Hong Kong meetup location. The payer and recipient must be the same person — third-party pickups are not accepted.',
+      name: 'Complete payment',
+      text: 'Pay via Cash, FPS, or Wise (HKD settlement). For Hong Kong meetups, payment is made at handover. For international orders, payment is required before shipping.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
-      name: 'Pay and collect your card',
-      text: 'Payment by Cash or FPS only at handover. The card is yours upon payment confirmation.',
+      name: 'Receive your card',
+      text: 'For Hong Kong meetups, collect your card on the spot. For international orders, we ship via DAP (Delivered At Place) — shipping costs and import duties are borne by the buyer.',
     },
   ],
 };

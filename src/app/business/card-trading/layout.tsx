@@ -1,23 +1,29 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  // 55 chars — H1 'Trading Card Showcase' shares keywords with title
-  title: 'Trading Card Showcase Hong Kong – PSA Graded Cards',
-  // 157 chars — under the 160-char limit, blends H1 topic with brokerage intent
+  // 65 chars — leads with top keyword, differentiates with brand and HK
+  title: 'PSA Pokémon Cards Hong Kong | Buy Rare Graded Cards – Appaw Store',
+  // 159 chars — emphasises exclusivity, face-to-face rules, and collector trust
   description:
-    'Browse our trading card showcase and sell your PSA graded Pokémon collection — trusted broker in HK with expert valuation, global buyers & zero upfront fees.',
+    'Shop exclusive PSA & CGC graded Pokémon cards in Hong Kong — face-to-face verified transactions, expert valuation & zero upfront consignment fees. Rare cards for serious collectors.',
   keywords: [
     // Brokerage / consignment — high-intent
-    'Pokemon TCG broker',
-    'trusted Pokemon card broker',
+    'PSA',
+    'PSA卡',
+    'CGC',
+    'BGS',
+    'CGC卡',
+    'BGS卡',
+    'Pokemon TCG',
+    'trusted Pokemon card',
     'PSA card consignment',
     'sell PSA cards Hong Kong',
-    'TCG consignment service',
+    'TCG service',
     'sell PSA 10 cards',
     'graded card brokerage',
     'Pokemon card valuation',
     'sell graded cards',
-    'PSA 10 consignment',
+    'PSA 10',
     // Buy side
     'buy graded cards',
     'PSA graded cards for sale',
@@ -38,9 +44,9 @@ export const metadata: Metadata = {
     canonical: '/business/card-trading/',
   },
   openGraph: {
-    title: 'Trading Card Showcase – Pokémon TCG Brokerage & Consignment | Appaw Store',
+    title: 'PSA Pokémon Cards Hong Kong | Rare Graded Cards & Consignment – Appaw Store',
     description:
-      'Browse our trading card showcase or sell via trusted consignment. Expert valuation, global buyer network, zero upfront fees. PSA & CGC graded Pokémon, sports & MTG cards.',
+      'Discover rare PSA & CGC Pokémon cards for sale in Hong Kong. Face-to-face verified transactions, expert valuation & no upfront consignment fees — trusted by serious HK collectors.',
     url: 'https://appaw.store/business/card-trading/',
     type: 'website',
     images: [
@@ -54,9 +60,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Trading Card Showcase – Pokémon TCG Brokerage | Appaw Store',
+    title: 'PSA Pokémon Cards Hong Kong | Buy Rare Graded Cards – Appaw Store',
     description:
-      'Browse our trading card showcase or sell your PSA graded collection via trusted consignment in Hong Kong. Expert valuation, zero upfront fees.',
+      'Discover rare PSA & CGC Pokémon cards for sale in Hong Kong. Expert valuation, face-to-face transactions only & zero upfront consignment fees.',
     images: ['/images/og-image.png'],
   },
 };

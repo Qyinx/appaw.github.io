@@ -263,16 +263,16 @@ export const en = {
       title: 'How to Buy a Card',
       rules: [
         {
-          heading: 'Hong Kong Face-to-Face Only',
-          body: 'All transactions are conducted in person. We do not offer postal or courier delivery — Hong Kong meetups only.',
+          heading: 'Message Us on WhatsApp',
+          body: 'Send us the card name and your offer price via WhatsApp at +852-9285-1189. We will confirm availability and agree on a final price with you.',
         },
         {
-          heading: 'Payer & Recipient Must Be the Same Person',
-          body: 'The person paying must be the same person collecting the card. Third-party pickups are not accepted.',
+          heading: 'Complete Payment',
+          body: 'Pay via Cash, FPS, or Wise (HKD settlement). For in-person meetups in Hong Kong, payment is made at handover. For international orders, payment is required before shipping.',
         },
         {
-          heading: 'Cash or FPS Only',
-          body: 'We accept Cash or FPS (Faster Payment System) at the time of handover. No credit card, bank transfer, or instalment plans.',
+          heading: 'Receive Your Card',
+          body: 'For Hong Kong meetups, collect your card on the spot. For international orders, we ship via DAP (Delivered At Place) — shipping costs and import duties are borne by the buyer.',
         },
       ],
       faq: {
@@ -280,11 +280,11 @@ export const en = {
         items: [
           {
             q: 'Where can we meet for a card transaction in Hong Kong?',
-            a: 'We arrange meetup locations across Hong Kong. WhatsApp us first at +852-9285-1189 and we will confirm a convenient spot and time.',
+            a: 'We prefer meetups at Quarry Bay, Causeway Bay, Central, or Mong Kok East. Other locations across Hong Kong are available upon discussion. WhatsApp us at +852-9285-1189 to arrange a convenient spot and time.',
           },
           {
             q: 'What payment methods do you accept when buying graded cards?',
-            a: 'We only accept Cash or FPS (Faster Payment System) at the time of in-person handover. We do not accept credit cards, bank transfers, or instalment payments.',
+            a: 'We accept Cash, FPS (Faster Payment System), and Wise (HKD settlement) at the time of handover. We do not accept credit cards, bank transfers, or instalment payments.',
           },
           {
             q: 'Can someone else collect the card on my behalf?',
@@ -292,7 +292,7 @@ export const en = {
           },
           {
             q: 'Do you offer postal delivery for card purchases or consignments?',
-            a: 'No. All transactions are conducted face-to-face in Hong Kong only. We do not offer postal or courier delivery for card purchases or sales.',
+            a: 'Yes — we now accept global shipping via DAP (Delivered At Place). Shipping costs and any import duties are borne by the buyer. For high-value cards, face-to-face meetup in Hong Kong is strongly recommended for added security.',
           },
         ],
       },
@@ -301,8 +301,8 @@ export const en = {
       title: 'How to Sell / Consign a Card',
       rules: [
         {
-          heading: 'Face-to-Face Card Handover',
-          body: 'Cards must be delivered to us in person. No postal submissions are accepted.',
+          heading: 'Face-to-Face or International Shipping',
+          body: 'Cards can be delivered to us in person (preferred for high-value items) or shipped internationally. DAP (Delivered At Place) terms apply — shipping costs are borne by the consignor.',
         },
         {
           heading: 'Commission on Sale Only',
@@ -326,15 +326,15 @@ export const en = {
         items: [
           {
             q: 'What grading companies do you accept for card consignment?',
-            a: 'We currently accept PSA and CGC graded cards for consignment. Other grading companies may be considered on a case-by-case basis.',
+            a: 'We currently accept PSA, BGS, and TAG graded cards for consignment. Other grading companies may be considered on a case-by-case basis.',
           },
           {
             q: 'How is the card consignment commission rate determined?',
-            a: 'Commission varies depending on card value and current market conditions. Contact us via WhatsApp at +852-9285-1189 for a personalised quote before submitting your card.',
+            a: 'Commission is tiered by final sale price: Under HK$1,000 → 7% (minimum HK$50) | HK$1,000–1,999 → 6% | HK$2,000–9,999 → 5.25% | HK$10,000–49,999 → 4.5% | HK$50,000 and above → 4.25%. Commission is charged on the final sale price only — no upfront fees.',
           },
           {
             q: 'Can I get my unsold consigned card back?',
-            a: 'Yes — as long as we have contacted you during the quarterly stocktake and you request its return, we will arrange a face-to-face handback at a convenient Hong Kong location.',
+            a: 'Yes — you may request your card back at any time after it has been listed for 14 days. We can arrange a face-to-face handback in Hong Kong, or return it via delivery — shipping costs are borne by the card owner.',
           },
           {
             q: 'What happens if my card fails the authenticity check?',
@@ -354,6 +354,16 @@ export const en = {
     badge: 'Marketplace',
     title: 'Trading Card Showcase',
     subtitle: 'Browse our current inventory of professionally graded trading cards available for purchase.',
+    hero: {
+      statsAvailable: 'Cards in stock',
+      statsPsa: 'PSA graded',
+      statsHkLabel: 'HK Only',
+      statsHk: 'Face-to-face verified',
+      explore: 'Explore',
+      linkProtectors: 'PSA Protectors',
+      linkBuyingGuide: 'Buying Guide',
+      linkConsign: 'Consign a Card',
+    },
     searchPlaceholder: 'Search by card name...',
     filters: {
       allCompanies: 'All',
