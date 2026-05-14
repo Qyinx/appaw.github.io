@@ -60,7 +60,7 @@ function FaqAccordion({ items, visible }: {
             >
               <span
                 className="flex-shrink-0 text-[0.65rem] font-bold tracking-widest mt-0.5 font-mono transition-colors duration-300"
-                style={{ color: isOpen ? '#d4a843' : 'rgba(255,255,255,0.18)' }}
+                style={{ color: isOpen ? '#D4899A' : 'rgba(255,255,255,0.18)' }}
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
@@ -73,7 +73,7 @@ function FaqAccordion({ items, visible }: {
               <ChevronDown
                 className="flex-shrink-0 w-4 h-4 mt-0.5 transition-all duration-300"
                 style={{
-                  color: isOpen ? '#d4a843' : 'rgba(255,255,255,0.22)',
+                  color: isOpen ? '#D4899A' : 'rgba(255,255,255,0.22)',
                   transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                 }}
               />
@@ -84,7 +84,7 @@ function FaqAccordion({ items, visible }: {
             >
               <div className="pl-9 pb-6">
                 <div className="flex gap-4">
-                  <div className="w-px bg-[#d4a843]/30 flex-shrink-0" />
+                  <div className="w-px bg-[#D4899A]/30 flex-shrink-0" />
                   <p className="text-white/45 text-sm leading-relaxed">{item.a}</p>
                 </div>
               </div>
@@ -149,10 +149,10 @@ export default function PSAProtectorPage() {
       {/* ══════════════════════════════════════════
            HERO — Cinematic Dark, split layout
       ══════════════════════════════════════════ */}
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden bg-[#09090f] pt-20">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_70%_50%,rgba(212,168,67,0.1),transparent)]" />
+      <section className="relative min-h-[80vh] flex items-center overflow-hidden bg-[#1e1e2e] pt-20">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_70%_50%,rgba(212,137,154,0.1),transparent)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.018)_1px,transparent_1px)] bg-[size:80px_80px]" />
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#09090f] to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#1e1e2e] to-transparent pointer-events-none" />
 
         <div className="relative container-custom py-20 z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -162,9 +162,9 @@ export default function PSAProtectorPage() {
               className="transition-all duration-1000"
               style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(32px)' }}
             >
-              <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/40 rounded-full px-5 py-2 mb-10">
-                <Shield className="w-4 h-4 text-[#d4a843]" />
-                <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.badge}</span>
+              <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/40 rounded-full px-5 py-2 mb-10">
+                <Shield className="w-4 h-4 text-[#D4899A]" />
+                <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.badge}</span>
               </div>
 
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-display leading-[1.08] tracking-tight text-white mb-6">
@@ -172,9 +172,9 @@ export default function PSAProtectorPage() {
               </h1>
 
               <div className="flex items-center gap-4 mb-7">
-                <div className="w-12 h-px bg-[#d4a843]" />
-                <div className="w-2 h-2 rounded-full bg-[#d4a843]" />
-                <div className="w-24 h-px bg-[#d4a843]/30" />
+                <div className="w-12 h-px bg-[#D4899A]" />
+                <div className="w-2 h-2 rounded-full bg-[#D4899A]" />
+                <div className="w-24 h-px bg-[#D4899A]/30" />
               </div>
 
               <p className="text-[#9ca3af] text-lg md:text-xl leading-relaxed max-w-xl mb-12">
@@ -185,7 +185,7 @@ export default function PSAProtectorPage() {
                 label={t.business.cardProtector.cta}
                 shopOptions={t.shopOptions}
                 whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                buttonClassName="inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.35)]"
+                buttonClassName="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.35)]"
               />
             </div>
 
@@ -196,16 +196,16 @@ export default function PSAProtectorPage() {
             >
               {/* Spinning rings */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-80 h-80 rounded-full border border-[#d4a843]/8 animate-[spin_30s_linear_infinite]" />
-                <div className="absolute w-64 h-64 rounded-full border border-[#d4a843]/12 animate-[spin_20s_linear_infinite_reverse]" />
+                <div className="w-80 h-80 rounded-full border border-[#D4899A]/8 animate-[spin_30s_linear_infinite]" />
+                <div className="absolute w-64 h-64 rounded-full border border-[#D4899A]/12 animate-[spin_20s_linear_infinite_reverse]" />
               </div>
 
               {/* Dark product frame */}
-              <div className="relative mx-auto max-w-sm bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] rounded-3xl p-8 border border-[#d4a843]/20 shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(212,168,67,0.15)]">
-                <div className="absolute top-4 left-4 w-5 h-5 border-t border-l border-[#d4a843]/50" />
-                <div className="absolute top-4 right-4 w-5 h-5 border-t border-r border-[#d4a843]/50" />
-                <div className="absolute bottom-4 left-4 w-5 h-5 border-b border-l border-[#d4a843]/50" />
-                <div className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-[#d4a843]/50" />
+              <div className="relative mx-auto max-w-sm bg-gradient-to-b from-[#252538] to-[#181828] rounded-3xl p-8 border border-[#D4899A]/20 shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(212,137,154,0.15)]">
+                <div className="absolute top-4 left-4 w-5 h-5 border-t border-l border-[#D4899A]/50" />
+                <div className="absolute top-4 right-4 w-5 h-5 border-t border-r border-[#D4899A]/50" />
+                <div className="absolute bottom-4 left-4 w-5 h-5 border-b border-l border-[#D4899A]/50" />
+                <div className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-[#D4899A]/50" />
 
                 <div className="relative aspect-[3/4]">
                   <Image
@@ -226,11 +226,11 @@ export default function PSAProtectorPage() {
       {/* ══════════════════════════════════════════
            FEATURES — Immersive Dark Carousel (mirrored)
       ══════════════════════════════════════════ */}
-      <section ref={featuresReveal.ref} className="py-28 bg-[#09090f] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_50%,rgba(212,168,67,0.06),transparent)]" />
+      <section ref={featuresReveal.ref} className="py-28 bg-[#1e1e2e] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_50%,rgba(212,137,154,0.06),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_80%_20%,rgba(59,130,246,0.04),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/25 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/25 to-transparent" />
 
         <div className="container-custom relative">
 
@@ -240,9 +240,9 @@ export default function PSAProtectorPage() {
             style={{ opacity: featuresReveal.visible ? 1 : 0, transform: featuresReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
           >
             <div className="inline-flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#d4a843]" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Details</span>
-              <div className="w-8 h-px bg-[#d4a843]" />
+              <div className="w-8 h-px bg-[#D4899A]" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Details</span>
+              <div className="w-8 h-px bg-[#D4899A]" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-4">
               {t.psaProtectorPage.featuresTitle}
@@ -270,15 +270,15 @@ export default function PSAProtectorPage() {
                     onClick={() => goToFeature(index)}
                     className="flex items-center gap-4 p-5 rounded-xl cursor-pointer transition-all duration-300 border"
                     style={{
-                      backgroundColor: activeFeature === index ? 'rgba(212,168,67,0.08)' : 'transparent',
-                      borderColor: activeFeature === index ? 'rgba(212,168,67,0.25)' : 'transparent',
+                      backgroundColor: activeFeature === index ? 'rgba(212,137,154,0.08)' : 'transparent',
+                      borderColor: activeFeature === index ? 'rgba(212,137,154,0.25)' : 'transparent',
                     }}
                   >
                     {/* Step number */}
                     <div
                       className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
                       style={{
-                        backgroundColor: activeFeature === index ? '#d4a843' : 'rgba(255,255,255,0.05)',
+                        backgroundColor: activeFeature === index ? '#D4899A' : 'rgba(255,255,255,0.05)',
                       }}
                     >
                       <span
@@ -297,7 +297,7 @@ export default function PSAProtectorPage() {
                     </span>
 
                     {activeFeature === index && (
-                      <ChevronRight className="w-4 h-4 text-[#d4a843] flex-shrink-0" />
+                      <ChevronRight className="w-4 h-4 text-[#D4899A] flex-shrink-0" />
                     )}
                   </div>
                 ))}
@@ -322,7 +322,7 @@ export default function PSAProtectorPage() {
                   label={t.business.cardProtector.cta}
                   shopOptions={t.shopOptions}
                   whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                  buttonClassName="inline-flex items-center gap-2 px-8 py-4 bg-[#d4a843] text-black font-semibold rounded-xl hover:bg-[#e5bc5a] transition-all duration-200 shadow-[0_8px_32px_rgba(212,168,67,0.3)]"
+                  buttonClassName="inline-flex items-center gap-2 px-8 py-4 bg-[#D4899A] text-black font-semibold rounded-xl hover:bg-[#E8A3B2] transition-all duration-200 shadow-[0_8px_32px_rgba(212,137,154,0.3)]"
                 />
               </div>
             </div>
@@ -338,7 +338,7 @@ export default function PSAProtectorPage() {
             >
               <div className="relative aspect-square rounded-3xl overflow-hidden bg-[#111]">
                 {/* Ambient inside */}
-                <div className="absolute top-0 left-1/4 w-72 h-72 bg-[#d4a843]/8 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute top-0 left-1/4 w-72 h-72 bg-[#D4899A]/8 rounded-full blur-3xl pointer-events-none" />
                 <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
                 {/* Slides */}
@@ -363,23 +363,23 @@ export default function PSAProtectorPage() {
                     </div>
                   ))}
                   {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#09090f]/60 via-transparent to-transparent pointer-events-none z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1e1e2e]/60 via-transparent to-transparent pointer-events-none z-10" />
                 </div>
 
                 {/* Navigation arrows */}
                 <button
                   onClick={prevFeature}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-[#d4a843]/20 backdrop-blur-md border border-white/10 hover:border-[#d4a843]/40 rounded-full flex items-center justify-center z-20 transition-all group"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-[#D4899A]/20 backdrop-blur-md border border-white/10 hover:border-[#D4899A]/40 rounded-full flex items-center justify-center z-20 transition-all group"
                   aria-label="Previous"
                 >
-                  <ChevronLeft className="w-5 h-5 text-white/70 group-hover:text-[#d4a843]" />
+                  <ChevronLeft className="w-5 h-5 text-white/70 group-hover:text-[#D4899A]" />
                 </button>
                 <button
                   onClick={nextFeature}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-[#d4a843]/20 backdrop-blur-md border border-white/10 hover:border-[#d4a843]/40 rounded-full flex items-center justify-center z-20 transition-all group"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-[#D4899A]/20 backdrop-blur-md border border-white/10 hover:border-[#D4899A]/40 rounded-full flex items-center justify-center z-20 transition-all group"
                   aria-label="Next"
                 >
-                  <ChevronRight className="w-5 h-5 text-white/70 group-hover:text-[#d4a843]" />
+                  <ChevronRight className="w-5 h-5 text-white/70 group-hover:text-[#D4899A]" />
                 </button>
 
                 {/* Progress dots */}
@@ -392,7 +392,7 @@ export default function PSAProtectorPage() {
                       style={{
                         width: activeFeature === i ? '24px' : '6px',
                         height: '6px',
-                        backgroundColor: activeFeature === i ? '#d4a843' : 'rgba(255,255,255,0.25)',
+                        backgroundColor: activeFeature === i ? '#D4899A' : 'rgba(255,255,255,0.25)',
                       }}
                     />
                   ))}
@@ -428,7 +428,7 @@ export default function PSAProtectorPage() {
         const active = colors[selectedColor];
 
         return (
-          <section ref={colorsReveal.ref} className="py-24 md:py-32 bg-[#09090f] relative overflow-hidden">
+          <section ref={colorsReveal.ref} className="py-24 md:py-32 bg-[#1e1e2e] relative overflow-hidden">
 
             {/* Reactive aurora background — fades in after section reveals to avoid jarring first load */}
             <div className="absolute inset-0 pointer-events-none">
@@ -596,7 +596,7 @@ export default function PSAProtectorPage() {
                                   ? `linear-gradient(135deg, ${color.hex} 0%, ${color.hex2} 100%)`
                                   : `linear-gradient(145deg, ${color.accent} 0%, ${color.hex} 65%)`,
                                 boxShadow: isActive
-                                  ? `0 0 0 1.5px #09090f, 0 0 0 3px ${color.ring}, 0 8px 24px ${color.glow}`
+                                  ? `0 0 0 1.5px #1e1e2e, 0 0 0 3px ${color.ring}, 0 8px 24px ${color.glow}`
                                   : '0 2px 8px rgba(0,0,0,0.45)',
                                 transform: isActive ? 'scale(1.06) translateY(-3px)' : 'scale(1) translateY(0)',
                                 transition: 'transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease',
@@ -647,9 +647,9 @@ export default function PSAProtectorPage() {
             style={{ opacity: compatReveal.visible ? 1 : 0, transform: compatReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
           >
             <div className="inline-flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#d4a843]" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Fit Guide</span>
-              <div className="w-8 h-px bg-[#d4a843]" />
+              <div className="w-8 h-px bg-[#D4899A]" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Fit Guide</span>
+              <div className="w-8 h-px bg-[#D4899A]" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 leading-[1.1] mb-4">
               {t.psaProtectorPage.compatibilityTitle}
@@ -662,13 +662,13 @@ export default function PSAProtectorPage() {
             {[
               { icon: CheckCircle, accent: '#16a34a', accentBg: 'rgba(22,163,74,0.08)', title: t.psaProtectorPage.compatible, text: t.business.cardProtector.compatibility.fits },
               { icon: XCircle,     accent: '#dc2626', accentBg: 'rgba(220,38,38,0.08)', title: t.psaProtectorPage.notCompatible, text: t.business.cardProtector.compatibility.notFits },
-              { icon: AlertCircle, accent: '#d4a843', accentBg: 'rgba(212,168,67,0.08)', title: t.psaProtectorPage.note, text: t.business.cardProtector.compatibility.note },
+              { icon: AlertCircle, accent: '#D4899A', accentBg: 'rgba(212,137,154,0.08)', title: t.psaProtectorPage.note, text: t.business.cardProtector.compatibility.note },
             ].map((item, i) => {
               const Icon = item.icon;
               return (
                 <div
                   key={i}
-                  className="group bg-white p-10 relative overflow-hidden transition-all duration-700 hover:shadow-[0_0_0_2px_#d4a843]"
+                  className="group bg-white p-10 relative overflow-hidden transition-all duration-700 hover:shadow-[0_0_0_2px_#D4899A]"
                   style={{
                     opacity: compatReveal.visible ? 1 : 0,
                     transform: compatReveal.visible ? 'translateY(0)' : 'translateY(24px)',
@@ -676,7 +676,7 @@ export default function PSAProtectorPage() {
                   }}
                 >
                   {/* Watermark number */}
-                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-neutral-50 select-none leading-none group-hover:text-[#d4a843]/5 transition-colors duration-500">
+                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-neutral-50 select-none leading-none group-hover:text-[#D4899A]/5 transition-colors duration-500">
                     {String(i + 1).padStart(2, '0')}
                   </span>
 
@@ -700,7 +700,7 @@ export default function PSAProtectorPage() {
                   </p>
 
                   {/* Bottom slide-in accent bar */}
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#d4a843] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4899A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </div>
               );
             })}
@@ -712,8 +712,8 @@ export default function PSAProtectorPage() {
            SPECS — Dark editorial card grid
       ══════════════════════════════════════════ */}
       <section ref={specsReveal.ref} className="py-28 bg-[#0d0d14] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(212,168,67,0.05),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(212,137,154,0.05),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
 
         <div className="container-custom relative">
 
@@ -723,8 +723,8 @@ export default function PSAProtectorPage() {
             style={{ opacity: specsReveal.visible ? 1 : 0, transform: specsReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
           >
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#d4a843]" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.techBadge}</span>
+              <div className="w-8 h-px bg-[#D4899A]" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.techBadge}</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-4">
               {t.psaProtectorPage.techTitle}
@@ -739,7 +739,7 @@ export default function PSAProtectorPage() {
               return (
                 <div
                   key={i}
-                  className="group bg-[#0d0d14] p-10 relative overflow-hidden hover:shadow-[0_0_0_1px_rgba(212,168,67,0.4)] transition-all duration-500"
+                  className="group bg-[#0d0d14] p-10 relative overflow-hidden hover:shadow-[0_0_0_1px_rgba(212,137,154,0.4)] transition-all duration-500"
                   style={{
                     opacity: specsReveal.visible ? 1 : 0,
                     transform: specsReveal.visible ? 'translateY(0)' : 'translateY(32px)',
@@ -748,21 +748,21 @@ export default function PSAProtectorPage() {
                   }}
                 >
                   {/* Watermark */}
-                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-white/[0.02] select-none leading-none group-hover:text-[#d4a843]/5 transition-colors duration-500">
+                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-white/[0.02] select-none leading-none group-hover:text-[#D4899A]/5 transition-colors duration-500">
                     {String(i + 1).padStart(2, '0')}
                   </span>
 
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 bg-[#d4a843]/10 text-[#d4a843] transition-transform duration-500 group-hover:scale-110 relative">
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 bg-[#D4899A]/10 text-[#D4899A] transition-transform duration-500 group-hover:scale-110 relative">
                     <Icon className="w-6 h-6" />
                   </div>
 
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#d4a843] transition-colors duration-300 relative">
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#D4899A] transition-colors duration-300 relative">
                     {spec.label}
                   </h3>
-                  <p className="text-[#d4a843] text-sm font-semibold mb-1 relative">{spec.value}</p>
+                  <p className="text-[#D4899A] text-sm font-semibold mb-1 relative">{spec.value}</p>
                   <p className="text-white/35 text-xs leading-relaxed relative">{spec.desc}</p>
 
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#d4a843] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4899A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </div>
               );
             })}
@@ -779,8 +779,8 @@ export default function PSAProtectorPage() {
            FAQ
       ══════════════════════════════════════════ */}
       <section ref={faqReveal.ref} className="py-28 bg-[#0d0d14] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_70%_at_15%_50%,rgba(212,168,67,0.05),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_70%_at_15%_50%,rgba(212,137,154,0.05),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/6 to-transparent" />
 
         <div className="container-custom relative">
@@ -792,8 +792,8 @@ export default function PSAProtectorPage() {
               style={{ opacity: faqReveal.visible ? 1 : 0, transform: faqReveal.visible ? 'translateX(0)' : 'translateX(-24px)' }}
             >
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-px bg-[#d4a843]" />
-                <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.faq.badge}</span>
+                <div className="w-8 h-px bg-[#D4899A]" />
+                <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.faq.badge}</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-5">
                 {t.psaProtectorPage.faq.title}
@@ -822,8 +822,8 @@ export default function PSAProtectorPage() {
                   { v: '74 g',  l: 'Weight' },
                   { v: '8',     l: 'Colors' },
                 ].map((s) => (
-                  <div key={s.l} className="border border-white/[0.06] rounded-xl px-4 py-3 hover:border-[#d4a843]/20 transition-colors duration-300">
-                    <p className="text-[#d4a843] text-base font-bold leading-none mb-1">{s.v}</p>
+                  <div key={s.l} className="border border-white/[0.06] rounded-xl px-4 py-3 hover:border-[#D4899A]/20 transition-colors duration-300">
+                    <p className="text-[#D4899A] text-base font-bold leading-none mb-1">{s.v}</p>
                     <p className="text-white/30 text-[0.62rem] uppercase tracking-wider">{s.l}</p>
                   </div>
                 ))}
@@ -845,9 +845,9 @@ export default function PSAProtectorPage() {
       {/* ══════════════════════════════════════════
            CTA — Dark final stage
       ══════════════════════════════════════════ */}
-      <section ref={ctaReveal.ref} className="py-28 bg-[#09090f] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(212,168,67,0.07),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
+      <section ref={ctaReveal.ref} className="py-28 bg-[#1e1e2e] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(212,137,154,0.07),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/25 to-transparent" />
 
         <div className="container-custom relative">
           <div
@@ -855,9 +855,9 @@ export default function PSAProtectorPage() {
             style={{ opacity: ctaReveal.visible ? 1 : 0, transform: ctaReveal.visible ? 'translateY(0)' : 'translateY(32px)' }}
           >
             <div className="inline-flex items-center gap-4 mb-10">
-              <div className="w-14 h-px bg-[#d4a843]/40" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Shop Now</span>
-              <div className="w-14 h-px bg-[#d4a843]/40" />
+              <div className="w-14 h-px bg-[#D4899A]/40" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Shop Now</span>
+              <div className="w-14 h-px bg-[#D4899A]/40" />
             </div>
 
             <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-6">
@@ -871,7 +871,7 @@ export default function PSAProtectorPage() {
               label={t.business.cardProtector.cta}
               shopOptions={t.shopOptions}
               whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-              buttonClassName="inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.35)]"
+              buttonClassName="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.35)]"
             />
           </div>
         </div>

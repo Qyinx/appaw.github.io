@@ -38,7 +38,7 @@ export default function AboutPage() {
 
   const values = [
     { icon: Award, number: '01', title: t.about.values.quality.title,   description: t.about.values.quality.description,   color: '#3b82f6' },
-    { icon: Heart, number: '02', title: t.about.values.integrity.title,  description: t.about.values.integrity.description,  color: '#d4a843' },
+    { icon: Heart, number: '02', title: t.about.values.integrity.title,  description: t.about.values.integrity.description,  color: '#D4899A' },
     { icon: Zap,   number: '03', title: t.about.values.passion.title,    description: t.about.values.passion.description,    color: '#818cf8' },
     { icon: Users, number: '04', title: t.about.values.service.title,    description: t.about.values.service.description,    color: '#8b5cf6' },
   ];
@@ -49,9 +49,9 @@ export default function AboutPage() {
       {/* ══════════════════════════════════════════
            HERO — Cinematic Dark
       ══════════════════════════════════════════ */}
-      <section className="relative min-h-[55vh] flex items-center overflow-hidden bg-[#09090f] pt-20">
+      <section className="relative min-h-[55vh] flex items-center overflow-hidden bg-[#1e1e2e] pt-20">
         {/* Ambient gold glow bottom */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_110%,rgba(212,168,67,0.12),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_110%,rgba(212,137,154,0.12),transparent)]" />
         {/* Subtle grid */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.018)_1px,transparent_1px)] bg-[size:80px_80px]" />
         {/* Bottom fade to white */}
@@ -63,9 +63,9 @@ export default function AboutPage() {
             style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(32px)' }}
           >
             {/* Badge */}
-            <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/40 rounded-full px-5 py-2 mb-10">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] animate-pulse" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Our Story</span>
+            <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/40 rounded-full px-5 py-2 mb-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] animate-pulse" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Our Story</span>
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-display leading-[1.08] tracking-tight text-white mb-6">
@@ -74,9 +74,9 @@ export default function AboutPage() {
 
             {/* Gold rule */}
             <div className="flex items-center gap-4 mb-7">
-              <div className="w-12 h-px bg-[#d4a843]" />
-              <div className="w-2 h-2 rounded-full bg-[#d4a843]" />
-              <div className="w-24 h-px bg-[#d4a843]/30" />
+              <div className="w-12 h-px bg-[#D4899A]" />
+              <div className="w-2 h-2 rounded-full bg-[#D4899A]" />
+              <div className="w-24 h-px bg-[#D4899A]/30" />
             </div>
 
             <p className="text-[#9ca3af] text-lg md:text-xl leading-relaxed max-w-xl">
@@ -99,8 +99,8 @@ export default function AboutPage() {
               style={{ opacity: storyReveal.visible ? 1 : 0, transform: storyReveal.visible ? 'translateX(0)' : 'translateX(-32px)' }}
             >
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-px bg-[#d4a843]" />
-                <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Who We Are</span>
+                <div className="w-8 h-px bg-[#D4899A]" />
+                <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Who We Are</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 leading-[1.1] mb-6">
                 {t.about.story.title}
@@ -110,8 +110,8 @@ export default function AboutPage() {
               </p>
               {/* Founder attribution — E-E-A-T signal */}
               <div className="flex items-center gap-3 mb-10 pt-5 border-t border-neutral-100">
-                <div className="w-9 h-9 rounded-full bg-[#d4a843]/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-[#d4a843] text-sm font-black">{t.about.story.founderName.charAt(0)}</span>
+                <div className="w-9 h-9 rounded-full bg-[#D4899A]/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-[#D4899A] text-sm font-black">{t.about.story.founderName.charAt(0)}</span>
                 </div>
                 <div>
                   <p className="text-neutral-900 text-sm font-semibold">{t.about.story.founderName}</p>
@@ -120,7 +120,7 @@ export default function AboutPage() {
               </div>
               <a
                 href="/business"
-                className="inline-flex items-center gap-2 text-[#d4a843] font-semibold text-sm group"
+                className="inline-flex items-center gap-2 text-[#D4899A] font-semibold text-sm group"
               >
                 <span>See Our Products</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -134,17 +134,17 @@ export default function AboutPage() {
             >
               {/* Rotating ring */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-72 h-72 rounded-full border border-[#d4a843]/10 animate-[spin_30s_linear_infinite]" />
-                <div className="absolute w-56 h-56 rounded-full border border-[#d4a843]/15 animate-[spin_20s_linear_infinite_reverse]" />
+                <div className="w-72 h-72 rounded-full border border-[#D4899A]/10 animate-[spin_30s_linear_infinite]" />
+                <div className="absolute w-56 h-56 rounded-full border border-[#D4899A]/15 animate-[spin_20s_linear_infinite_reverse]" />
               </div>
 
               {/* Product frame */}
-              <div className="relative mx-auto w-72 bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] rounded-3xl p-8 border border-[#d4a843]/20 shadow-[0_40px_80px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(212,168,67,0.15)]">
+              <div className="relative mx-auto w-72 bg-gradient-to-b from-[#252538] to-[#181828] rounded-3xl p-8 border border-[#D4899A]/20 shadow-[0_40px_80px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(212,137,154,0.15)]">
                 {/* Corner accents */}
-                <div className="absolute top-4 left-4 w-5 h-5 border-t border-l border-[#d4a843]/50" />
-                <div className="absolute top-4 right-4 w-5 h-5 border-t border-r border-[#d4a843]/50" />
-                <div className="absolute bottom-4 left-4 w-5 h-5 border-b border-l border-[#d4a843]/50" />
-                <div className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-[#d4a843]/50" />
+                <div className="absolute top-4 left-4 w-5 h-5 border-t border-l border-[#D4899A]/50" />
+                <div className="absolute top-4 right-4 w-5 h-5 border-t border-r border-[#D4899A]/50" />
+                <div className="absolute bottom-4 left-4 w-5 h-5 border-b border-l border-[#D4899A]/50" />
+                <div className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-[#D4899A]/50" />
 
                 <Image
                   src={getImagePath('/images/logo.png')}
@@ -154,7 +154,7 @@ export default function AboutPage() {
                   className="mx-auto"
                 />
                 <div className="mt-5 text-center">
-                  <p className="text-[#d4a843]/60 text-[10px] uppercase tracking-[0.2em]">Established</p>
+                  <p className="text-[#D4899A]/60 text-[10px] uppercase tracking-[0.2em]">Established</p>
                   <p className="text-white text-sm font-semibold mt-1">Appaw Store · Hong Kong</p>
                 </div>
               </div>
@@ -166,10 +166,10 @@ export default function AboutPage() {
       {/* ══════════════════════════════════════════
            MISSION — Dark centred statement
       ══════════════════════════════════════════ */}
-      <section ref={missionReveal.ref} className="py-28 bg-[#09090f] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(212,168,67,0.06),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
+      <section ref={missionReveal.ref} className="py-28 bg-[#1e1e2e] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(212,137,154,0.06),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/25 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/25 to-transparent" />
 
         <div className="container-custom relative">
           <div
@@ -178,9 +178,9 @@ export default function AboutPage() {
           >
             {/* Decorative line + dot */}
             <div className="inline-flex items-center gap-4 mb-10">
-              <div className="w-14 h-px bg-[#d4a843]/40" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Our Mission</span>
-              <div className="w-14 h-px bg-[#d4a843]/40" />
+              <div className="w-14 h-px bg-[#D4899A]/40" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Our Mission</span>
+              <div className="w-14 h-px bg-[#D4899A]/40" />
             </div>
 
             <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-8">
@@ -207,8 +207,8 @@ export default function AboutPage() {
             style={{ opacity: valuesReveal.visible ? 1 : 0, transform: valuesReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
           >
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#d4a843]" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">What Drives Us</span>
+              <div className="w-8 h-px bg-[#D4899A]" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">What Drives Us</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 leading-[1.1]">
               {t.about.values.title}
@@ -222,7 +222,7 @@ export default function AboutPage() {
               return (
                 <div
                   key={i}
-                  className="group bg-white p-10 relative overflow-hidden hover:shadow-[0_0_0_2px_#d4a843] transition-all duration-500"
+                  className="group bg-white p-10 relative overflow-hidden hover:shadow-[0_0_0_2px_#D4899A] transition-all duration-500"
                   style={{
                     opacity: valuesReveal.visible ? 1 : 0,
                     transform: valuesReveal.visible ? 'translateY(0)' : 'translateY(32px)',
@@ -231,7 +231,7 @@ export default function AboutPage() {
                   }}
                 >
                   {/* Watermark number */}
-                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-neutral-50 select-none leading-none group-hover:text-[#d4a843]/5 transition-colors duration-500">
+                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-neutral-50 select-none leading-none group-hover:text-[#D4899A]/5 transition-colors duration-500">
                     {value.number}
                   </span>
 
@@ -251,7 +251,7 @@ export default function AboutPage() {
                   </p>
 
                   {/* Bottom accent bar */}
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#d4a843] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4899A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </div>
               );
             })}
@@ -262,9 +262,9 @@ export default function AboutPage() {
       {/* ══════════════════════════════════════════
            TRUST — Dark stats stage
       ══════════════════════════════════════════ */}
-      <section ref={trustReveal.ref} className="py-28 bg-[#09090f] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_50%,rgba(212,168,67,0.07),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/25 to-transparent" />
+      <section ref={trustReveal.ref} className="py-28 bg-[#1e1e2e] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_50%,rgba(212,137,154,0.07),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/25 to-transparent" />
 
         <div className="container-custom relative">
           <div
@@ -272,9 +272,9 @@ export default function AboutPage() {
             style={{ opacity: trustReveal.visible ? 1 : 0, transform: trustReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
           >
             <div className="inline-flex items-center gap-4 mb-10">
-              <div className="w-14 h-px bg-[#d4a843]/40" />
-              <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">By The Numbers</span>
-              <div className="w-14 h-px bg-[#d4a843]/40" />
+              <div className="w-14 h-px bg-[#D4899A]/40" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">By The Numbers</span>
+              <div className="w-14 h-px bg-[#D4899A]/40" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-6">
               {t.about.trust.title}

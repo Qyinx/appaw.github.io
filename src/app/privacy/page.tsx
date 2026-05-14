@@ -42,15 +42,15 @@ export default function PrivacyPage() {
       />
 
       {/* ── Hero ── */}
-      <section className="relative bg-[#09090f] pt-20 pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_100%,rgba(212,168,67,0.08),transparent)]" />
+      <section className="relative bg-[#1e1e2e] pt-20 pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_100%,rgba(212,137,154,0.08),transparent)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:80px_80px]" />
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none" />
 
         <div className="relative container-custom z-10">
-          <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/40 rounded-full px-5 py-2 mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843]" />
-            <span className="text-[#d4a843] text-xs uppercase tracking-[0.25em] font-medium">Legal</span>
+          <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/40 rounded-full px-5 py-2 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A]" />
+            <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Legal</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold font-display text-white leading-tight mb-4">
             Privacy Policy
@@ -62,7 +62,7 @@ export default function PrivacyPage() {
       {/* ── Content ── */}
       <section className="bg-white py-16 md:py-20">
         <div className="container-custom max-w-3xl">
-          <div className="prose prose-neutral max-w-none prose-headings:font-display prose-headings:text-neutral-900 prose-a:text-[#d4a843] prose-a:no-underline hover:prose-a:underline">
+          <div className="prose prose-neutral max-w-none prose-headings:font-display prose-headings:text-neutral-900 prose-a:text-[#D4899A] prose-a:no-underline hover:prose-a:underline">
 
             <p className="lead text-neutral-500 text-lg leading-relaxed mb-10">
               Appaw Store (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) operates{' '}
@@ -73,7 +73,7 @@ export default function PrivacyPage() {
             {/* ── Section 1 ── */}
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[#d4a843] text-xs font-black uppercase tracking-widest">01</span>
+                <span className="text-[#D4899A] text-xs font-black uppercase tracking-widest">01</span>
                 <div className="h-px flex-1 bg-neutral-100" />
               </div>
               <h2 className="text-2xl font-bold text-neutral-900 mb-4">Data We Collect</h2>
@@ -114,7 +114,7 @@ export default function PrivacyPage() {
             {/* ── Section 2 ── */}
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[#d4a843] text-xs font-black uppercase tracking-widest">02</span>
+                <span className="text-[#D4899A] text-xs font-black uppercase tracking-widest">02</span>
                 <div className="h-px flex-1 bg-neutral-100" />
               </div>
               <h2 className="text-2xl font-bold text-neutral-900 mb-4">How We Use Your Data</h2>
@@ -133,7 +133,7 @@ export default function PrivacyPage() {
             {/* ── Section 3 ── */}
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[#d4a843] text-xs font-black uppercase tracking-widest">03</span>
+                <span className="text-[#D4899A] text-xs font-black uppercase tracking-widest">03</span>
                 <div className="h-px flex-1 bg-neutral-100" />
               </div>
               <h2 className="text-2xl font-bold text-neutral-900 mb-4">Third-Party Services</h2>
@@ -157,7 +157,7 @@ export default function PrivacyPage() {
                         <td className="px-4 py-3 text-neutral-800 font-medium">{row.name}</td>
                         <td className="px-4 py-3 text-neutral-500">{row.purpose}</td>
                         <td className="px-4 py-3">
-                          <a href={row.url} target="_blank" rel="noopener noreferrer" className="text-[#d4a843] hover:underline text-xs">
+                          <a href={row.url} target="_blank" rel="noopener noreferrer" className="text-[#D4899A] hover:underline text-xs">
                             {row.label}
                           </a>
                         </td>
@@ -171,7 +171,7 @@ export default function PrivacyPage() {
             {/* ── Section 4 ── */}
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[#d4a843] text-xs font-black uppercase tracking-widest">04</span>
+                <span className="text-[#D4899A] text-xs font-black uppercase tracking-widest">04</span>
                 <div className="h-px flex-1 bg-neutral-100" />
               </div>
               <h2 className="text-2xl font-bold text-neutral-900 mb-4">Cookies</h2>
@@ -194,7 +194,7 @@ export default function PrivacyPage() {
             {/* ── Section 5 ── */}
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[#d4a843] text-xs font-black uppercase tracking-widest">05</span>
+                <span className="text-[#D4899A] text-xs font-black uppercase tracking-widest">05</span>
                 <div className="h-px flex-1 bg-neutral-100" />
               </div>
               <h2 className="text-2xl font-bold text-neutral-900 mb-4">Data Retention</h2>
@@ -208,7 +208,7 @@ export default function PrivacyPage() {
             {/* ── Section 6 ── */}
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[#d4a843] text-xs font-black uppercase tracking-widest">06</span>
+                <span className="text-[#D4899A] text-xs font-black uppercase tracking-widest">06</span>
                 <div className="h-px flex-1 bg-neutral-100" />
               </div>
               <h2 className="text-2xl font-bold text-neutral-900 mb-4">Your Rights</h2>
@@ -233,7 +233,7 @@ export default function PrivacyPage() {
             {/* ── Section 7 ── */}
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[#d4a843] text-xs font-black uppercase tracking-widest">07</span>
+                <span className="text-[#D4899A] text-xs font-black uppercase tracking-widest">07</span>
                 <div className="h-px flex-1 bg-neutral-100" />
               </div>
               <h2 className="text-2xl font-bold text-neutral-900 mb-4">Data Controller</h2>
@@ -242,19 +242,19 @@ export default function PrivacyPage() {
                 <p>Hong Kong</p>
                 <p>
                   WhatsApp:{' '}
-                  <a href="https://wa.me/85292851189" target="_blank" rel="noopener noreferrer" className="text-[#d4a843]">
+                  <a href="https://wa.me/85292851189" target="_blank" rel="noopener noreferrer" className="text-[#D4899A]">
                     +852-9285-1189
                   </a>
                 </p>
                 <p>
                   Email:{' '}
-                  <a href="mailto:support@appaw.store" className="text-[#d4a843]">
+                  <a href="mailto:support@appaw.store" className="text-[#D4899A]">
                     support@appaw.store
                   </a>
                 </p>
                 <p>
                   Website:{' '}
-                  <a href="https://appaw.store" className="text-[#d4a843]">
+                  <a href="https://appaw.store" className="text-[#D4899A]">
                     appaw.store
                   </a>
                 </p>
@@ -264,7 +264,7 @@ export default function PrivacyPage() {
             {/* ── Section 8 ── */}
             <div className="mb-2">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[#d4a843] text-xs font-black uppercase tracking-widest">08</span>
+                <span className="text-[#D4899A] text-xs font-black uppercase tracking-widest">08</span>
                 <div className="h-px flex-1 bg-neutral-100" />
               </div>
               <h2 className="text-2xl font-bold text-neutral-900 mb-4">Policy Updates</h2>

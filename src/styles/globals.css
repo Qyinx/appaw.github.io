@@ -157,6 +157,13 @@
   }
 }
 
+/* Card scan beam — percentage-based top animation, works for any container height */
+@keyframes cardScanBeam {
+  0%       { top: 0;    opacity: 0; }
+  8%, 92%  { opacity: 1; }
+  100%     { top: 100%; opacity: 0; }
+}
+
 /* Base styles */
 html {
   scroll-behavior: smooth;
@@ -166,7 +173,7 @@ html {
 body {
   font-family: var(--font-sans);
   color: var(--color-neutral-800);
-  background-color: #09090f;
+  background-color: #1e1e2e;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Grid layout: header(fixed/no-space) | main(auto) | footer(auto)
@@ -179,6 +186,21 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
+}
+
+/* Interactive element defaults */
+button,
+[role="button"],
+select,
+label[for],
+summary {
+  cursor: pointer;
+}
+
+/* Dark-theme select option styling (browser native dropdown) */
+select option {
+  background-color: #1c1c2e;
+  color: #ffffff;
 }
 
 /* Utility classes */
@@ -452,7 +474,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ═══════════════════════════════════════════
    LUXURY DESIGN SYSTEM
-   Gold accent: #d4a843 / #e5bc5a
+   Primary (Pink): #D4899A / #E8A3B2  |  Collection (Lavender): #9B7EBF / #AF97D3
 ═══════════════════════════════════════════ */
 
 /* Smooth counter reveal */
@@ -461,7 +483,7 @@ h1, h2, h3, h4, h5, h6 {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Gold shimmer sweep */
+/* Shimmer sweep */
 @keyframes gold-shimmer {
   0%   { background-position: -200% center; }
   100% { background-position: 200% center; }
@@ -473,10 +495,10 @@ h1, h2, h3, h4, h5, h6 {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Subtle breathing glow for gold elements */
+/* Subtle breathing glow */
 @keyframes gold-breath {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212,168,67,0); }
-  50%       { box-shadow: 0 0 32px 8px rgba(212,168,67,0.18); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212,137,154,0); }
+  50%       { box-shadow: 0 0 32px 8px rgba(212,137,154,0.18); }
 }
 
 .animate-gold-breath {
@@ -541,7 +563,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Hairline gold separator */
 .separator-gold {
   height: 1px;
-  background: linear-gradient(to right, transparent, #d4a843, transparent);
+  background: linear-gradient(to right, transparent, #D4899A, transparent);
 }
 
 /* Premium glass dark */
@@ -549,12 +571,12 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(13, 13, 20, 0.80);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid rgba(212,168,67,0.15);
+  border: 1px solid rgba(212,137,154,0.15);
 }
 
-/* Gold text gradient */
+/* Primary text gradient */
 .text-gold-gradient {
-  background: linear-gradient(135deg, #d4a843 0%, #f0d080 50%, #c9972f 100%);
+  background: linear-gradient(135deg, #E8A3B2 0%, #D4899A 50%, #C0607A 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -578,14 +600,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #0a0a0f;
+  background-color: #1e1e2e;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #d4a843, #c9972f);
+  background: linear-gradient(to bottom, #D4899A, #C0607A);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #e5bc5a, #d4a843);
+  background: linear-gradient(to bottom, #E8A3B2, #D4899A);
 }

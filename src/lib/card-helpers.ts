@@ -7,8 +7,8 @@ import type { GradingCompany } from '@/types/trading-card';
    ────────────────────────────────────────── */
 
 export function getGradeColor(grade: number, isBlackLabel?: boolean) {
-  if (isBlackLabel) return { bg: 'bg-gradient-to-r from-[#1a1a2e] to-[#16213e]', text: 'text-white', border: 'border-[#d4a843]', glow: 'shadow-[0_0_12px_rgba(212,168,67,0.4)]' };
-  if (grade >= 10)  return { bg: 'bg-gradient-to-r from-[#d4a843] to-[#e5bc5a]', text: 'text-[#09090f]', border: 'border-[#d4a843]', glow: 'shadow-[0_0_12px_rgba(212,168,67,0.3)]' };
+  if (isBlackLabel) return { bg: 'bg-gradient-to-r from-[#1a1a2e] to-[#16213e]', text: 'text-white', border: 'border-[#D4899A]', glow: 'shadow-[0_0_12px_rgba(212,137,154,0.4)]' };
+  if (grade >= 10)  return { bg: 'bg-gradient-to-r from-[#D4899A] to-[#E8A3B2]', text: 'text-[#1e1e2e]', border: 'border-[#D4899A]', glow: 'shadow-[0_0_12px_rgba(212,137,154,0.3)]' };
   if (grade >= 9)   return { bg: 'bg-gradient-to-r from-emerald-500 to-green-400', text: 'text-white', border: 'border-emerald-400', glow: '' };
   if (grade >= 8)   return { bg: 'bg-gradient-to-r from-blue-500 to-cyan-400', text: 'text-white', border: 'border-blue-400', glow: '' };
   if (grade >= 5)   return { bg: 'bg-gradient-to-r from-slate-400 to-slate-300', text: 'text-slate-800', border: 'border-slate-300', glow: '' };

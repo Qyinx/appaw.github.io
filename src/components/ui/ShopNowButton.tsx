@@ -93,7 +93,7 @@ export default function ShopNowButton({
     <div
       data-shopnow-panel
       style={dropdownStyle}
-      className="bg-[#111116] border border-[#d4a843]/20 rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.8),0_0_0_1px_rgba(212,168,67,0.06)]"
+      className="bg-[#111116] border border-[#D4899A]/20 rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.8),0_0_0_1px_rgba(212,137,154,0.06)]"
     >
       {/* Header */}
       <div className="px-5 pt-4 pb-2">
@@ -114,7 +114,7 @@ export default function ShopNowButton({
           <FontAwesomeIcon icon={faEtsy} className="w-4 h-4 text-[#F1641E]" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-white text-sm font-semibold leading-tight group-hover:text-[#d4a843] transition-colors">
+          <p className="text-white text-sm font-semibold leading-tight group-hover:text-[#D4899A] transition-colors">
             {shopOptions.buyOnEtsy}
           </p>
           <p className="text-white/35 text-xs mt-0.5">{shopOptions.buyOnEtsyDesc}</p>
@@ -133,7 +133,7 @@ export default function ShopNowButton({
           <CarousellIcon className="h-5 w-auto" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-white text-sm font-semibold leading-tight group-hover:text-[#d4a843] transition-colors">
+          <p className="text-white text-sm font-semibold leading-tight group-hover:text-[#D4899A] transition-colors">
             {shopOptions.buyOnCarousell}
           </p>
           <p className="text-white/35 text-xs mt-0.5">{shopOptions.buyOnCarousellDesc}</p>

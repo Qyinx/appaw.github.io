@@ -16,7 +16,7 @@ export function ScrollProgressBar() {
 
   return (
     <div
-      className="fixed top-0 left-0 z-[100] h-[2px] bg-gradient-to-r from-[#d4a843] via-[#e5bc5a] to-[#818cf8] pointer-events-none"
+      className="fixed top-0 left-0 z-[100] h-[2px] bg-gradient-to-r from-[#D4899A] via-[#E8A3B2] to-[#818cf8] pointer-events-none"
       style={{ width: `${progress}%`, transition: 'width 80ms linear' }}
     />
   );

@@ -36,7 +36,7 @@ export default function Footer() {
   return (
     <footer
       className="relative text-white"
-      style={{ background: '#09090f' }}
+      style={{ background: '#1e1e2e' }}
     >
       {/* ── Decorative layer (own stacking context, no overflow-hidden on parent) ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -51,7 +51,7 @@ export default function Footer() {
         {/* Left gold ambient */}
         <div
           className="absolute -left-32 top-0 w-[500px] h-[500px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(212,168,67,0.07) 0%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(212,137,154,0.07) 0%, transparent 70%)' }}
         />
         {/* Right emerald ambient */}
         <div
@@ -62,8 +62,8 @@ export default function Footer() {
 
       {/* ── Gold top border ── */}
       <div className="relative">
-        <div className="h-px bg-gradient-to-r from-transparent via-[#d4a843]/40 to-transparent" />
-        <div className="h-px bg-gradient-to-r from-transparent via-[#d4a843]/10 to-transparent mt-px" />
+        <div className="h-px bg-gradient-to-r from-transparent via-[#D4899A]/40 to-transparent" />
+        <div className="h-px bg-gradient-to-r from-transparent via-[#D4899A]/10 to-transparent mt-px" />
       </div>
 
       {/* ── Main content ── */}
@@ -75,7 +75,7 @@ export default function Footer() {
           {/* Brand row — logo + socials on one line on mobile */}
           <div className="flex items-center justify-between mb-6 md:mb-0">
             <Link href="/" className="inline-flex items-center gap-3 group w-fit">
-              <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#d4a843]/50 transition-colors duration-300 flex-shrink-0">
+              <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#D4899A]/50 transition-colors duration-300 flex-shrink-0">
                 <Image
                   src={getImagePath('/images/logo.png')}
                   alt="Appaw Store Logo"
@@ -84,7 +84,7 @@ export default function Footer() {
                   className="object-cover"
                 />
               </div>
-              <span className="font-display font-bold text-base md:text-lg text-white group-hover:text-[#d4a843] transition-colors duration-300 tracking-wide">
+              <span className="font-display font-bold text-base md:text-lg text-white group-hover:text-[#D4899A] transition-colors duration-300 tracking-wide">
                 Appaw Store
               </span>
             </Link>
@@ -120,10 +120,10 @@ export default function Footer() {
           <div className="flex flex-wrap gap-2 mb-6 md:hidden">
             <Link
               href="/products/psa-protectors"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#d4a843]/25 bg-[#d4a843]/5 hover:bg-[#d4a843]/10 transition-all duration-200"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#D4899A]/25 bg-[#D4899A]/5 hover:bg-[#D4899A]/10 transition-all duration-200"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843]" />
-              <span className="text-[#d4a843]/80 text-xs font-medium">PSA Protector</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A]" />
+              <span className="text-[#D4899A]/80 text-xs font-medium">PSA Protector</span>
             </Link>
             <Link
               href="/business/card-trading"
@@ -166,12 +166,12 @@ export default function Footer() {
                         rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                         className="flex items-center gap-2 text-white/45 hover:text-white text-xs transition-colors duration-200"
                       >
-                        <FontAwesomeIcon icon={item.icon} className="w-3 h-3 text-[#d4a843]/50 flex-shrink-0" />
+                        <FontAwesomeIcon icon={item.icon} className="w-3 h-3 text-[#D4899A]/50 flex-shrink-0" />
                         <span className="truncate">{item.label}</span>
                       </a>
                     ) : (
                       <div className="flex items-center gap-2 text-white/30 text-xs">
-                        <FontAwesomeIcon icon={item.icon} className="w-3 h-3 text-[#d4a843]/40 flex-shrink-0" />
+                        <FontAwesomeIcon icon={item.icon} className="w-3 h-3 text-[#D4899A]/40 flex-shrink-0" />
                         <span>{item.label}</span>
                       </div>
                     )}
@@ -202,10 +202,10 @@ export default function Footer() {
               <div className="flex flex-wrap gap-2 mb-8">
                 <Link
                   href="/products/psa-protectors"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#d4a843]/25 bg-[#d4a843]/5 hover:bg-[#d4a843]/10 hover:border-[#d4a843]/50 transition-all duration-200 group"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#D4899A]/25 bg-[#D4899A]/5 hover:bg-[#D4899A]/10 hover:border-[#D4899A]/50 transition-all duration-200 group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] group-hover:scale-125 transition-transform" />
-                  <span className="text-[#d4a843]/80 text-xs font-medium tracking-wide">PSA Protector</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] group-hover:scale-125 transition-transform" />
+                  <span className="text-[#D4899A]/80 text-xs font-medium tracking-wide">PSA Protector</span>
                 </Link>
                 <Link
                   href="/business/card-trading"
@@ -244,7 +244,7 @@ export default function Footer() {
             {/* Navigation — xl: 3 cols */}
             <div className="xl:col-span-3 xl:col-start-6">
               <div className="flex items-center gap-2 mb-6">
-                <div className="w-4 h-px bg-[#d4a843]/50" />
+                <div className="w-4 h-px bg-[#D4899A]/50" />
                 <h3 className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-semibold">
                   {t.footer.quickLinks}
                 </h3>
@@ -256,7 +256,7 @@ export default function Footer() {
                       href={link.href}
                       className="flex items-center gap-2.5 text-white/40 hover:text-white text-sm transition-colors duration-200 group w-fit"
                     >
-                      <span className="w-0 h-px bg-[#d4a843] group-hover:w-4 transition-all duration-300 flex-shrink-0" />
+                      <span className="w-0 h-px bg-[#D4899A] group-hover:w-4 transition-all duration-300 flex-shrink-0" />
                       {link.label}
                     </Link>
                   </li>
@@ -267,7 +267,7 @@ export default function Footer() {
             {/* Contact — xl: 4 cols */}
             <div className="xl:col-span-4 xl:col-start-9">
               <div className="flex items-center gap-2 mb-6">
-                <div className="w-4 h-px bg-[#d4a843]/50" />
+                <div className="w-4 h-px bg-[#D4899A]/50" />
                 <h3 className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-semibold">
                   {t.footer.contact}
                 </h3>
@@ -284,13 +284,13 @@ export default function Footer() {
                       >
                         <FontAwesomeIcon
                           icon={item.icon}
-                          className="w-3.5 h-3.5 mt-0.5 text-[#d4a843]/50 group-hover:text-[#d4a843] transition-colors flex-shrink-0"
+                          className="w-3.5 h-3.5 mt-0.5 text-[#D4899A]/50 group-hover:text-[#D4899A] transition-colors flex-shrink-0"
                         />
                         {item.label}
                       </a>
                     ) : (
                       <div className="flex items-start gap-3 text-white/30 text-sm">
-                        <FontAwesomeIcon icon={item.icon} className="w-3.5 h-3.5 mt-0.5 text-[#d4a843]/40 flex-shrink-0" />
+                        <FontAwesomeIcon icon={item.icon} className="w-3.5 h-3.5 mt-0.5 text-[#D4899A]/40 flex-shrink-0" />
                         {item.label}
                       </div>
                     )}
@@ -321,9 +321,9 @@ export default function Footer() {
 
           {/* Centre badge */}
           <div className="order-1 sm:order-2 flex items-center gap-3">
-            <div className="w-6 h-px bg-[#d4a843]/20" />
+            <div className="w-6 h-px bg-[#D4899A]/20" />
             <div className="flex items-center gap-2">
-              <span className="w-1 h-1 rounded-full bg-[#d4a843]/40" />
+              <span className="w-1 h-1 rounded-full bg-[#D4899A]/40" />
               <span className="text-white/15 text-[10px] tracking-[0.25em] uppercase font-medium">Premium · HK</span>
               <span className="w-1 h-1 rounded-full bg-[#818cf8]/40" />
             </div>

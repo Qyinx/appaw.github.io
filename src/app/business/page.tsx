@@ -1,4 +1,4 @@
-﻿/* ─────────────────────────────────────────────────────
+/* ─────────────────────────────────────────────────────
    Server Component — /business/ page
    Owns all JSON-LD structured data for this URL only.
    Interactive content is delegated to BusinessClient.

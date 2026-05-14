@@ -1,5 +1,5 @@
 # robots.txt — Appaw Store
-# Last updated: 2026-05-05
+# Last updated: 2026-05-15
 
 # ── Default: allow everything except noise ───────────────────────────────────
 User-agent: *
@@ -14,13 +14,13 @@ Disallow: /graphql/
 Disallow: /style-guide/
 
 # Block URL query parameters that create duplicate content
-# Filter & sort params on card marketplace
+# Filter & sort params on card marketplace — the base path itself is allowed
+Allow: /business/card-trading/
+Allow: /collection/
 Disallow: /business/card-trading/?*search=
 Disallow: /business/card-trading/?*sort=
 Disallow: /business/card-trading/?*grade=
 Disallow: /business/card-trading/?*company=
-# Bundle sub-card param on detail pages (?card=N)
-Disallow: /business/card-trading/*?card=
 
 # Block Next.js internals
 Disallow: /_next/
@@ -63,7 +63,6 @@ Disallow: /business/card-trading/?*search=
 Disallow: /business/card-trading/?*sort=
 Disallow: /business/card-trading/?*grade=
 Disallow: /business/card-trading/?*company=
-Disallow: /business/card-trading/*?card=
 Crawl-delay: 1
 
 # ── Google ───────────────────────────────────────────────────────────────────
@@ -76,7 +75,6 @@ Disallow: /business/card-trading/?*search=
 Disallow: /business/card-trading/?*sort=
 Disallow: /business/card-trading/?*grade=
 Disallow: /business/card-trading/?*company=
-Disallow: /business/card-trading/*?card=
 
 # ── Sitemap ───────────────────────────────────────────────────────────────────
 Sitemap: https://appaw.store/sitemap.xml

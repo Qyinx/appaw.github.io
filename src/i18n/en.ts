@@ -16,7 +16,7 @@ export const en = {
   // Home Page
   home: {
     hero: {
-      badge: 'Premium Card Services',
+      badge: 'Premium Card Protection',
       title: 'Showcase Your Passion. Protect Your Investment.',
       subtitle: 'Premium card protection & trusted TCG trading — all in one place.',
       description: 'From our signature aluminum protectors to our professional card brokerage, we help collectors protect and grow their collections.',
@@ -134,7 +134,7 @@ export const en = {
     cardProtector: {
       title: 'PSA Card Aluminum Protector',
       description: 'Industrial-grade protection meets gallery-worthy display. Your valuable collection deserves better.',
-      startingPrice: 'Starting Price',
+      startingPrice: 'Recommended Price',
       shippingInfo: 'Worldwide shipping',
       features: [
         'Frame Material: Precision-cut Aluminum Alloy (Rigid & Impact Resistant)',

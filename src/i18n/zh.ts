@@ -16,10 +16,10 @@ export const zh: Translations = {
   // Home Page
   home: {
     hero: {
-      badge: '優質卡牌服務',
+      badge: '優質鑑定卡保護',
       title: '展示您的熱情。保護您的投資。',
-      subtitle: '優質卡牌保護與值得信賴的交易卡牌買賣——一站式服務。',
-      description: '從我們的招牌鋁合金保護殼到專業的卡牌經紀服務，全方位助您保護與擴展收藏。',
+      subtitle: '優質卡牌保護與值得信賴的交易卡牌買賣 — 一站式服務。',
+      description: '從我們的鋁合金保護殼到專業的卡牌交易服務，全方位助您保護與擴展收藏。',
       cta: '立即購買',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
       learnMore: '瀏覽卡牌',
@@ -71,7 +71,7 @@ export const zh: Translations = {
       features: [
         'PSA 及 CGC 評級卡牌供應',
         '透明定價，價格具競爭力',
-        '寄售及經紀服務',
+        '寄售服務',
         '安全交易，買家保障',
       ],
       cta: '瀏覽交易平台',
@@ -84,7 +84,7 @@ export const zh: Translations = {
     subtitle: '您值得信賴的卡片收藏夥伴',
     story: {
       title: '我們的故事',
-      content: 'Appaw Store 由一群駐港的熱情收藏家於 2024 年創立，源於一個簡單的挫敗感：市面上的壓克力 PSA 卡磚保護殼根本不夠好——受撞擊就破裂，沒有 UV 防護，放在展示架上也毫無質感。於是我們自己動手打造。我們的 PSA 卡片鋁合金保護殼結合了 CNC 精密加工鋁合金、UV 防護玻璃與 N52 磁性扣合，讓認真的收藏家同時擁有工業級保護與展覽級陳列。除了保護殼，我們在香港提供值得信賴的 TCG 面交買賣及經紀服務，以完全透明、零前期費用的方式，為 PSA 及 CGC 評級的寶可夢、運動及 MTG 卡牌買賣雙方搭橋。',
+      content: 'Appaw Store 由一群駐港的熱情收藏家於 2024 年創立，源於一個簡單的挫敗感：市面上的壓克力 PSA 卡磚保護殼根本不夠好——受撞擊就破裂，沒有 UV 防護，放在展示架上也毫無質感。於是我們自己動手打造。我們的 PSA 卡片鋁合金保護殼結合了 CNC 精密加工鋁合金、UV 防護玻璃與 N52 磁性扣合，讓認真的收藏家同時擁有工業級保護與展覽級陳列。除了保護殼，我們在香港提供值得信賴的 TCG 面交買賣服務，以完全透明、零前期費用的方式，為 PSA 及 CGC 評級的寶可夢、運動及 MTG 卡牌買賣雙方搭橋。',
       founderName: 'Appaw Store',
       founderRole: '創立於 2024 年・香港',
     },
@@ -134,7 +134,7 @@ export const zh: Translations = {
     cardProtector: {
       title: 'PSA 卡片鋁合金保護殼',
       description: '工業級保護與展覽級展示的完美結合。您的珍貴收藏值得更好的保護。',
-      startingPrice: '最低價格',
+      startingPrice: '建議售價',
       shippingInfo: '全球運送',
       features: [
         '框架材質：精密切割鋁合金（剛性、抗衝擊）',
@@ -351,9 +351,9 @@ export const zh: Translations = {
 
   // Card Trading Marketplace
   cardMarketplace: {
-    badge: '精選展廳',
-    title: '藍籌卡牌展廳',
-    subtitle: '精選投資級評級卡牌展廳——經驗證、妥善保存，歡迎私下洽購。',
+    badge: '卡片販售',
+    title: '藍籌卡展廳',
+    subtitle: '精選投資級評級卡牌——經驗證、妥善保存，歡迎私下洽購。',
     hero: {
       statsAvailable: '現貨卡牌',
       statsPsa: 'PSA 評級',
@@ -437,7 +437,7 @@ export const zh: Translations = {
       badge: '為何選擇 Appaw Store',
       title: '投資級標準。',
       titleAccent: '不只是一個交易平台。',
-      subtitle: '我們對每一筆收購與寄賣交易均應用博物館級与機構級標準——因為您的資產尤如其分。',
+      subtitle: '我們對每一筆收購與寄賣交易均認真看待——因為您的資產恰如其分。',
       pillars: [
         {
           title: '博物館級保護',

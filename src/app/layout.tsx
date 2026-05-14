@@ -3,6 +3,7 @@ import { LanguageProvider } from '@/context/LanguageContext';
 import { Header, Footer } from '@/components/layout';
 import { CookieConsent } from '@/components/CookieConsent';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
+import { Auth0ProviderWrapper } from '@/providers/Auth0Provider';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -244,14 +245,16 @@ export default function RootLayout({
       </head>
       <body>
         <ScrollProgressBar />
-        <LanguageProvider>
-          <Header />
-          <main className="pt-16">
-            {children}
-          </main>
-          <Footer />
-          <CookieConsent />
-        </LanguageProvider>
+        <Auth0ProviderWrapper>
+          <LanguageProvider>
+            <Header />
+            <main className="pt-16">
+              {children}
+            </main>
+            <Footer />
+            <CookieConsent />
+          </LanguageProvider>
+        </Auth0ProviderWrapper>
       </body>
     </html>
   );

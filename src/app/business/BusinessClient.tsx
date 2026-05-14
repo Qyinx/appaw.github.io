@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -56,7 +56,7 @@ function Reveal({
 }
 
 /* ─── Section label ─── */
-function SectionLabel({ text, color = '#d4a843' }: { text: string; color?: string }) {
+function SectionLabel({ text, color = '#D4899A' }: { text: string; color?: string }) {
   return (
     <div className="flex items-center gap-3 mb-6">
       <div className="w-6 h-px" style={{ background: color }} />
@@ -68,7 +68,7 @@ function SectionLabel({ text, color = '#d4a843' }: { text: string; color?: strin
 }
 
 /* ─── Spec chip ─── */
-function Chip({ label, color = '#d4a843' }: { label: string; color?: string }) {
+function Chip({ label, color = '#D4899A' }: { label: string; color?: string }) {
   return (
     <span
       className="px-3.5 py-1.5 text-[10px] uppercase tracking-[0.2em] border"
@@ -131,7 +131,7 @@ export default function BusinessClient() {
     return () => clearTimeout(t);
   }, []);
 
-  const GOLD   = '#d4a843';
+  const GOLD   = '#D4899A';
   const VIOLET = '#818cf8';
 
   /* ── PSA specs ── */
@@ -159,7 +159,7 @@ export default function BusinessClient() {
   ];
 
   return (
-    <div className="flex flex-col bg-[#09090f]">
+    <div className="flex flex-col bg-[#1e1e2e]">
 
       {/* ══════════════════════════════════════════════════════
            HERO
@@ -170,17 +170,17 @@ export default function BusinessClient() {
       >
         {/* background layers */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.013)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.013)_1px,transparent_1px)] bg-[size:72px_72px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(212,168,67,0.09),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(212,137,154,0.09),transparent)]" />
         {/* Top hairline */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/40 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/40 to-transparent" />
         {/* Ambient orbs */}
-        <div className="absolute top-1/4 left-[15%] w-[480px] h-[480px] rounded-full bg-[rgba(212,168,67,0.06)] blur-[100px] pointer-events-none animate-[orb-drift-a_14s_ease-in-out_infinite]" />
+        <div className="absolute top-1/4 left-[15%] w-[480px] h-[480px] rounded-full bg-[rgba(212,137,154,0.06)] blur-[100px] pointer-events-none animate-[orb-drift-a_14s_ease-in-out_infinite]" />
         <div className="absolute bottom-1/4 right-[15%] w-[360px] h-[360px] rounded-full bg-[rgba(129,140,248,0.04)] blur-[80px] pointer-events-none animate-[orb-drift-b_18s_ease-in-out_2s_infinite]" />
         {/* Scanning light */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent animate-[scan-line_7s_linear_3s_infinite]" />
+          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent animate-[scan-line_7s_linear_3s_infinite]" />
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#09090f] to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#1e1e2e] to-transparent" />
 
         <div className="container-custom relative z-10 py-24 md:py-32">
           <div
@@ -191,14 +191,14 @@ export default function BusinessClient() {
             }}
           >
             {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2.5 border border-[#d4a843]/35 rounded-full px-5 py-2 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#d4a843] animate-pulse" />
-              <span className="text-[#d4a843] text-[11px] uppercase tracking-[0.3em]">{t.business.subtitle}</span>
+            <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/35 rounded-full px-5 py-2 mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] animate-pulse" />
+              <span className="text-[#D4899A] text-[11px] uppercase tracking-[0.3em]">{t.business.subtitle}</span>
             </div>
 
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.06] tracking-tight mb-6 max-w-3xl">
               Protect.<br />
-              <span className="text-[#d4a843]">Collect.</span>{' '}
+              <span className="text-[#D4899A]">Collect.</span>{' '}
               <span className="text-[#818cf8]">Trade.</span>
             </h1>
 
@@ -210,11 +210,11 @@ export default function BusinessClient() {
             <div className="flex flex-wrap gap-4">
               <a
                 href="#psa-protector"
-                className="group inline-flex items-center gap-3 border border-[#d4a843]/40 hover:border-[#d4a843] bg-[#d4a843]/5 hover:bg-[#d4a843]/10 px-6 py-3 transition-all duration-300"
+                className="group inline-flex items-center gap-3 border border-[#D4899A]/40 hover:border-[#D4899A] bg-[#D4899A]/5 hover:bg-[#D4899A]/10 px-6 py-3 transition-all duration-300"
               >
-                <Shield className="w-4 h-4 text-[#d4a843]" />
-                <span className="text-[#d4a843] text-sm font-semibold uppercase tracking-[0.15em]">PSA Protector</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#d4a843] group-hover:translate-x-0.5 transition-transform" />
+                <Shield className="w-4 h-4 text-[#D4899A]" />
+                <span className="text-[#D4899A] text-sm font-semibold uppercase tracking-[0.15em]">PSA Protector</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#D4899A] group-hover:translate-x-0.5 transition-transform" />
               </a>
               <a
                 href="#card-trading"
@@ -237,7 +237,7 @@ export default function BusinessClient() {
         ref={psaRef.ref}
         className="scroll-mt-20 py-24 md:py-32 relative overflow-hidden border-t border-white/[0.05]"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_0%_50%,rgba(212,168,67,0.04),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_0%_50%,rgba(212,137,154,0.04),transparent)]" />
         <div className="container-custom relative">
 
           {/* Overline */}
@@ -253,7 +253,7 @@ export default function BusinessClient() {
               <Reveal visible={psaRef.visible} dir="left">
                 <h2 className="font-display text-5xl md:text-6xl font-bold text-white leading-[1.06] mb-6">
                   PSA Card<br />
-                  <em className="not-italic text-[#d4a843]">Aluminum</em><br />
+                  <em className="not-italic text-[#D4899A]">Aluminum</em><br />
                   Protector
                 </h2>
                 <p className="text-[#6b7280] text-base md:text-lg leading-relaxed mb-8 max-w-md">
@@ -290,7 +290,7 @@ export default function BusinessClient() {
                 <div className="flex flex-wrap items-center gap-5">
                   <Link
                     href="/products/psa-protectors"
-                    className="inline-flex items-center gap-3 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,67,0.3)] active:scale-95"
+                    className="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.3)] active:scale-95"
                   >
                     <Shield className="w-3.5 h-3.5" />
                     {t.home.services.protector.cta}
@@ -306,7 +306,7 @@ export default function BusinessClient() {
               <Reveal visible={psaRef.visible} dir="right" delay={80}>
                 <div className="relative overflow-hidden rounded-sm">
                   {/* Subtle gold glow behind image */}
-                  <div className="absolute -inset-8 bg-[radial-gradient(ellipse_60%_50%_at_50%_60%,rgba(212,168,67,0.12),transparent)] pointer-events-none z-0" />
+                  <div className="absolute -inset-8 bg-[radial-gradient(ellipse_60%_50%_at_50%_60%,rgba(212,137,154,0.12),transparent)] pointer-events-none z-0" />
                   <Image
                     src={getImagePath('/images-optimized/describe/sell 3.png')}
                     alt="PSA Card Aluminum Protector — aluminum frame holding a PSA graded card slab"
@@ -321,17 +321,17 @@ export default function BusinessClient() {
 
               {/* ── Pricing card ── */}
               <Reveal visible={psaRef.visible} dir="right" delay={160}>
-                <div className="border border-[#d4a843]/20 bg-[#d4a843]/[0.04] p-5 flex items-center justify-between gap-4 flex-wrap">
+                <div className="border border-[#D4899A]/20 bg-[#D4899A]/[0.04] p-5 flex items-center justify-between gap-4 flex-wrap">
                   <div>
-                    <p className="text-[#d4a843]/50 text-[10px] uppercase tracking-[0.3em] mb-1">{t.business.cardProtector.startingPrice}</p>
-                    <p className="text-white font-display text-3xl font-bold leading-none">USD 9.2</p>
+                    <p className="text-[#D4899A]/50 text-[10px] uppercase tracking-[0.3em] mb-1">{t.business.cardProtector.startingPrice}</p>
+                    <p className="text-white font-display text-3xl font-bold leading-none">USD 12.99</p>
                     <p className="text-white/50 text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
                   </div>
                   <ShopNowButton
                     label={t.business.cardProtector.cta}
                     shopOptions={t.shopOptions}
                     whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                    buttonClassName="inline-flex items-center gap-2 bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap hover:shadow-[0_0_32px_rgba(212,168,67,0.3)] flex-shrink-0 active:scale-95"
+                    buttonClassName="inline-flex items-center gap-2 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap hover:shadow-[0_0_32px_rgba(212,137,154,0.3)] flex-shrink-0 active:scale-95"
                   />
                 </div>
               </Reveal>
@@ -359,7 +359,7 @@ export default function BusinessClient() {
                       </div>
                     </div>
                     <div className="h-px bg-white/[0.05]" />
-                    <p className="text-[#d4a843]/40 text-xs italic">{t.business.cardProtector.compatibility.note}</p>
+                    <p className="text-[#D4899A]/40 text-xs italic">{t.business.cardProtector.compatibility.note}</p>
                   </div>
                 </div>
               </Reveal>
@@ -379,15 +379,15 @@ export default function BusinessClient() {
             ].map(({ icon: Icon, title, body }, i) => (
               <div
                 key={title}
-                className="p-8 md:p-10 bg-[#09090f] hover:bg-[#0c0c14] transition-colors duration-300"
+                className="p-8 md:p-10 bg-[#1e1e2e] hover:bg-[#161626] transition-colors duration-300"
                 style={{
                   opacity: featRef.visible ? 1 : 0,
                   transform: featRef.visible ? 'none' : 'translateY(24px)',
                   transition: `opacity 0.8s ease ${i * 120}ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms`,
                 }}
               >
-                <div className="w-10 h-10 rounded-xl border border-[#d4a843]/30 bg-[#d4a843]/10 flex items-center justify-center mb-5">
-                  <Icon className="w-4 h-4 text-[#d4a843]" />
+                <div className="w-10 h-10 rounded-xl border border-[#D4899A]/30 bg-[#D4899A]/10 flex items-center justify-center mb-5">
+                  <Icon className="w-4 h-4 text-[#D4899A]" />
                 </div>
                 <h3 className="font-display text-white font-bold text-lg mb-3">{title}</h3>
                 <p className="text-[#9ca3af] text-sm leading-relaxed">{body}</p>
@@ -476,8 +476,8 @@ export default function BusinessClient() {
                     <div className="text-[#818cf8] text-2xl font-bold font-display leading-none">0%</div>
                     <div className="text-white/45 text-[9px] uppercase tracking-wider mt-1">Listing Fee</div>
                   </div>
-                  <div className="absolute bottom-4 left-4 md:left-10 border border-[#d4a843]/20 bg-[#0e0e14] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-                    <div className="flex items-center gap-0.5 text-[#d4a843] justify-center">
+                  <div className="absolute bottom-4 left-4 md:left-10 border border-[#D4899A]/20 bg-[#0e0e14] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+                    <div className="flex items-center gap-0.5 text-[#D4899A] justify-center">
                       {[0,1,2,3,4].map(n => <Star key={n} className="w-2.5 h-2.5 fill-current" />)}
                     </div>
                     <div className="text-white/45 text-[9px] uppercase tracking-wider mt-1 text-center">5.0 Rating</div>
@@ -530,7 +530,7 @@ export default function BusinessClient() {
                 <div className="flex flex-wrap items-center gap-5">
                   <Link
                     href="/business/card-trading"
-                    className="inline-flex items-center gap-3 bg-[#818cf8] hover:bg-[#a5b4fc] text-[#09090f] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(129,140,248,0.3)] active:scale-95"
+                    className="inline-flex items-center gap-3 bg-[#818cf8] hover:bg-[#a5b4fc] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(129,140,248,0.3)] active:scale-95"
                   >
                     <TrendingUp className="w-3.5 h-3.5" />
                     {t.business.cardTrading.cta}
@@ -555,7 +555,7 @@ export default function BusinessClient() {
       {/* ══════════════════════════════════════════════════════
            HOW BUYING WORKS
       ══════════════════════════════════════════════════════ */}
-      <section ref={buyRef.ref} className="py-20 border-t border-white/[0.05] bg-[#0a0a0f]">
+      <section ref={buyRef.ref} className="py-20 border-t border-white/[0.05] bg-[#161626]">
         <div className="container-custom">
 
           <Reveal visible={buyRef.visible} dir="up">
@@ -573,16 +573,16 @@ export default function BusinessClient() {
               return (
                 <div
                   key={i}
-                  className="relative p-8 border border-white/[0.06] hover:border-[#d4a843]/20 transition-colors duration-300"
+                  className="relative p-8 border border-white/[0.06] hover:border-[#D4899A]/20 transition-colors duration-300"
                   style={{
                     opacity: buyRef.visible ? 1 : 0,
                     transform: buyRef.visible ? 'none' : 'translateY(28px)',
                     transition: `opacity 0.8s ease ${i * 120}ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms`,
                   }}
                 >
-                  <span className="absolute top-5 right-6 font-serif font-black text-5xl text-[#d4a843]/[0.07] select-none">{n}</span>
-                  <div className="w-10 h-10 rounded-xl border border-[#d4a843]/30 bg-[#d4a843]/10 flex items-center justify-center mb-5">
-                    <Icon className="w-4 h-4 text-[#d4a843]" />
+                  <span className="absolute top-5 right-6 font-serif font-black text-5xl text-[#D4899A]/[0.07] select-none">{n}</span>
+                  <div className="w-10 h-10 rounded-xl border border-[#D4899A]/30 bg-[#D4899A]/10 flex items-center justify-center mb-5">
+                    <Icon className="w-4 h-4 text-[#D4899A]" />
                   </div>
                   <h4 className="text-white font-bold text-lg mb-2">{rule.heading}</h4>
                   <p className="text-[#9ca3af] text-sm leading-relaxed">{rule.body}</p>
@@ -596,7 +596,7 @@ export default function BusinessClient() {
       {/* ══════════════════════════════════════════════════════
            HOW SELLING / CONSIGNING WORKS
       ══════════════════════════════════════════════════════ */}
-      <section ref={sellRef.ref} className="py-20 border-t border-white/[0.05] bg-[#09090f]">
+      <section ref={sellRef.ref} className="py-20 border-t border-white/[0.05] bg-[#1e1e2e]">
         <div className="container-custom">
 
           <Reveal visible={sellRef.visible} dir="up">
@@ -651,7 +651,7 @@ export default function BusinessClient() {
                 <ul className="space-y-3">
                   {t.tradingGuide.buy.rules.map(rule => (
                     <li key={rule.heading} className="flex items-start gap-3">
-                      <Zap className="w-4 h-4 text-[#d4a843]/50 flex-shrink-0 mt-0.5" />
+                      <Zap className="w-4 h-4 text-[#D4899A]/50 flex-shrink-0 mt-0.5" />
                       <span className="text-white/60 text-sm">{rule.body}</span>
                     </li>
                   ))}
@@ -666,7 +666,7 @@ export default function BusinessClient() {
       {/* ══════════════════════════════════════════════════════
            FAQ ACCORDION
       ══════════════════════════════════════════════════════ */}
-      <section ref={faqRef.ref} className="py-20 border-t border-white/[0.05] bg-[#0a0a0f]">
+      <section ref={faqRef.ref} className="py-20 border-t border-white/[0.05] bg-[#161626]">
         <div className="container-custom max-w-3xl">
           <Reveal visible={faqRef.visible} dir="up">
             <SectionLabel text={t.psaProtectorPage.faq.badge} color={GOLD} />
@@ -716,22 +716,22 @@ export default function BusinessClient() {
         <div className="grid md:grid-cols-2">
 
           <div
-            className="relative group p-12 md:p-16 lg:p-20 border-b md:border-b-0 md:border-r border-white/[0.05] bg-[#09090f] overflow-hidden"
+            className="relative group p-12 md:p-16 lg:p-20 border-b md:border-b-0 md:border-r border-white/[0.05] bg-[#1e1e2e] overflow-hidden"
             style={{
               opacity: ctaRef.visible ? 1 : 0,
               transform: ctaRef.visible ? 'none' : 'translateY(28px)',
               transition: 'opacity 0.9s ease, transform 0.9s ease',
             }}
           >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_10%_90%,rgba(212,168,67,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="absolute top-5 left-5 w-6 h-6 border-t-[1.5px] border-l-[1.5px] border-[#d4a843]/35" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_10%_90%,rgba(212,137,154,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute top-5 left-5 w-6 h-6 border-t-[1.5px] border-l-[1.5px] border-[#D4899A]/35" />
             <div className="relative">
-              <span className="text-[#d4a843]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">PSA Protector</span>
+              <span className="text-[#D4899A]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">PSA Protector</span>
               <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">Protect Your<br />Collection</h3>
               <p className="text-white/45 text-base leading-relaxed mb-10 max-w-xs">{t.home.services.protector.subtitle}</p>
               <Link
                 href="/products/psa-protectors"
-                className="group/btn inline-flex items-center gap-3 border border-[#d4a843]/35 hover:border-[#d4a843] hover:bg-[#d4a843]/5 text-[#d4a843] text-sm uppercase tracking-[0.15em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
+                className="group/btn inline-flex items-center gap-3 border border-[#D4899A]/35 hover:border-[#D4899A] hover:bg-[#D4899A]/5 text-[#D4899A] text-sm uppercase tracking-[0.15em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
               >
                 {t.home.services.protector.cta}
                 <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
@@ -740,7 +740,7 @@ export default function BusinessClient() {
           </div>
 
           <div
-            className="relative group p-12 md:p-16 lg:p-20 bg-[#09090f] overflow-hidden"
+            className="relative group p-12 md:p-16 lg:p-20 bg-[#1e1e2e] overflow-hidden"
             style={{
               opacity: ctaRef.visible ? 1 : 0,
               transform: ctaRef.visible ? 'none' : 'translateY(28px)',
@@ -767,7 +767,7 @@ export default function BusinessClient() {
           </div>
 
         </div>
-        <div className="h-px bg-gradient-to-r from-transparent via-[#d4a843]/20 to-transparent" />
+        <div className="h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
       </section>
 
     </div>

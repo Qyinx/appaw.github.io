@@ -31,14 +31,14 @@ export default function StatsGrid({ stats, isVisible, theme = 'light' }: StatsGr
       {stats.map((stat, i) => (
         <div
           key={i}
-          className={`text-center transition-all duration-700 ${isDark ? 'bg-[#09090f] px-12 py-10' : 'px-8'}`}
+          className={`text-center transition-all duration-700 ${isDark ? 'bg-[#1e1e2e] px-12 py-10' : 'px-8'}`}
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
             transitionDelay: `${i * 150}ms`,
           }}
         >
-          <div className="text-5xl md:text-6xl font-bold font-display text-[#d4a843] mb-1 tabular-nums">
+          <div className="text-5xl md:text-6xl font-bold font-display text-[#D4899A] mb-1 tabular-nums">
             <AnimatedCounter target={stat.value} suffix={stat.suffix} isVisible={isVisible} />
           </div>
           <div className={`text-sm font-semibold mb-0.5 ${isDark ? 'text-white/80' : 'text-neutral-800'}`}>
