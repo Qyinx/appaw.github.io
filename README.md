@@ -1,6 +1,240 @@
 # Appaw Store
 
-A modern e-commerce web store for Appaw Store - featuring PSA card aluminum protectors and graded Pokémon cards collection.
+A modern e-commerce and collector platform for Appaw Store — featuring PSA card aluminium protectors, a graded Pokémon card marketplace, and an authenticated personal card collection manager.
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router, Static Export)
+- **Styling**: Tailwind CSS v4 (CSS-first configuration)
+- **Language**: TypeScript 5.8
+- **Auth**: Auth0 (`@auth0/auth0-react`)
+- **Icons**: Lucide React + Font Awesome
+- **Analytics**: Google Analytics 4 (GA4)
+- **i18n**: Custom React Context (EN / 繁體中文)
+
+## Features
+
+- 🌐 **Bilingual Support** — Full English / Chinese (繁體中文) translations
+- 🛍️ **Products Section** — Graded cards marketplace and PSA aluminium protectors
+- 🗂️ **Collection Manager** — Auth0-protected personal card vault with portfolio grouping, QR/barcode scanning, and image management
+- 📊 **Portfolios** — Create named portfolios to organise collection cards; displayed with live card counts
+- 🔍 **Card Scanner** — Camera-based scan that auto-fills card details via backend AI
+- 🎨 **Modern UI** — Glassmorphism, 3D flip effects, smooth animations
+- 📱 **Fully Responsive** — Mobile-first design with sidebar/tab adaptive layout
+- 🔍 **SEO Optimised** — Structured data (Store + FAQ schemas), dynamic sitemap, Open Graph / Twitter Cards
+- 🤖 **AEO Ready** — FAQ schema for AI / GEO search engines
+- 🍪 **GDPR Compliant** — Cookie consent with GA4 consent API
+- 🚀 **Static Export** — Deployed to GitHub Pages via GitHub Actions
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Opens [https://localhost:3000](https://localhost:3000) (HTTPS via `--experimental-https`).
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+Static files are generated in the `out/` folder.
+
+### Image Optimisation (optional pre-build step)
+
+```bash
+npm run optimize-images        # Windows
+npm run optimize-images-linux  # Linux / macOS
+npm run optimize-and-build     # Optimise then build in one step
+```
+
+## Deployment
+
+Configured for GitHub Pages with the custom domain `appaw.store`.
+
+- **Manual**: Run `npm run build`, then deploy the `out/` folder.
+- **Automatic**: Push to `main` — GitHub Actions builds and deploys automatically.
+
+## Project Structure
+
+```
+src/
+├── app/                        # Next.js App Router pages
+│   ├── page.tsx                # Home
+│   ├── about/                  # About page
+│   ├── privacy/                # Privacy policy
+│   ├── style-guide/            # Design system (dev only)
+│   ├── products/
+│   │   ├── graded-cards/       # Graded cards product page
+│   │   └── psa-protectors/     # PSA Aluminium Protector product page
+│   ├── business/
+│   │   ├── page.tsx            # Business overview
+│   │   ├── card-trading/       # Public card marketplace
+│   │   │   └── [id]/           # Individual card detail page
+│   │   └── psa-protector/      # Redirect → /products/psa-protectors
+│   ├── collection/             # 🔒 Auth-protected collection manager
+│   │   ├── page.tsx            # Landing / sign-in prompt
+│   │   ├── list/               # Card list view
+│   │   ├── auth/               # Auth0 callback handler
+│   │   ├── card/
+│   │   │   ├── new/            # Add card form
+│   │   │   └── edit/           # Edit card form
+│   │   ├── CardFormClient.tsx  # Shared add/edit form logic
+│   │   ├── CollectionClient.tsx
+│   │   ├── types.ts            # Shared types & normalise helpers
+│   │   ├── components/         # CollectionListView, CardFormView, shared…
+│   │   └── lib/                # apiCache
+│   ├── admin/
+│   │   └── trade-cards/        # 🔒 Admin card management
+│   ├── api/
+│   │   ├── admin/              # Admin API routes
+│   │   └── graphql/            # GraphQL proxy
+│   ├── graphql/                # GraphQL page
+│   └── sitemap.ts              # Dynamic sitemap generator
+├── components/                 # Shared UI components
+│   ├── layout/                 # Header, Footer
+│   ├── ui/                     # Buttons, Cards, etc.
+│   ├── CookieConsent.tsx
+│   ├── RetailPartners.tsx
+│   ├── ScrollProgressBar.tsx
+│   └── PageTransition.tsx
+├── context/                    # LanguageContext
+├── hooks/                      # useCards
+├── i18n/                       # en.ts, zh.ts, index.ts
+├── lib/                        # card-helpers, cards-api, graphql, utils
+├── providers/                  # Auth0Provider
+└── styles/                     # globals.css (Tailwind v4)
+```
+
+## Pages
+
+| Route | Access | Description |
+|---|---|---|
+| `/` | Public | Home — hero, features, product showcase |
+| `/about/` | Public | About Us |
+| `/privacy/` | Public | Privacy policy |
+| `/products/graded-cards/` | Public | Graded Pokémon cards product page |
+| `/products/psa-protectors/` | Public | PSA Aluminium Protector product page |
+| `/business/` | Public | Business services overview |
+| `/business/card-trading/` | Public | TCG card marketplace listing |
+| `/business/card-trading/[id]/` | Public | Individual card detail (shareable URL) |
+| `/collection/` | 🔒 Auth | Collection manager landing |
+| `/collection/list` | 🔒 Auth | Card list with portfolio tabs |
+| `/collection/card/new` | 🔒 Auth | Add a new card |
+| `/collection/card/edit?id=` | 🔒 Auth | Edit an existing card |
+| `/admin/trade-cards/` | 🔒 Admin | Admin card management |
+| `/style-guide/` | Dev | Design system reference |
+
+## Collection Manager
+
+The `/collection` section is an Auth0-protected app that connects to a separate backend API (`NEXT_PUBLIC_BACKEND_URL`).
+
+### Key capabilities
+
+- **Card CRUD** — Create, edit, delete graded cards with front/back image upload
+- **Scanner** — Camera scan auto-fills card name, year, grade, set, language, and cert number via backend AI
+- **Portfolio grouping** — Create named portfolios (public or private) and add/remove cards; counts fetched from `GET /portfolios`, card IDs loaded lazily on selection via `GET /portfolios/:id`
+- **Paginated API** — `GET /cards` is fetched with `limit=100` and all pages are loaded in parallel on mount
+- **Optimistic UI** — Local state updated immediately on card add/remove/toggle-sold; cache invalidated after mutations
+
+### Environment variables
+
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_BACKEND_URL` | Base URL of the collection backend API |
+| `NEXT_PUBLIC_AUTH0_DOMAIN` | Auth0 domain |
+| `NEXT_PUBLIC_AUTH0_CLIENT_ID` | Auth0 SPA client ID |
+| `NEXT_PUBLIC_AUTH0_REDIRECT_URI` | Callback URL after login |
+| `NEXT_PUBLIC_AUTH0_AUDIENCE` | Auth0 API audience (for access tokens) |
+
+## Card Trading Marketplace
+
+Public cards are managed in [`public/data/trade-card.json`](public/data/trade-card.json). Each entry generates a static detail page at `/business/card-trading/[id]/` at build time.
+
+### Adding / Editing a Card
+
+1. Edit `public/data/trade-card.json`
+2. Run `npm run build` — static pages are regenerated automatically
+3. The sitemap and all JSON-LD structured data update alongside
+
+### Card Fields (`TradingCard`)
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `id` | `string` (UUID) | ✅ | Unique identifier — used as the URL slug |
+| `name` | `string` | ✅ | Card name |
+| `year` | `number` | ✅ | Print year |
+| `company` | `"PSA" \| "BGS" \| "CGC"` | ✅ | Grading company |
+| `grade` | `number` | ✅ | Numeric grade (e.g. `10`, `9.5`) |
+| `isBlackLabel` | `boolean` | — | PSA Black Label — adds a gold **BL** badge |
+| `image` | `string` | — | Front image path (relative to `/public`) |
+| `imageBack` | `string` | — | Back image path — enables 3D flip & magnifier |
+| `set` | `string` | — | Set name |
+| `number` | `string` | — | Card number within the set |
+| `certNumber` | `string` | — | Grading certificate serial number |
+| `price` | `number` | ✅ | Listing price |
+| `currency` | `string` | ✅ | ISO currency code (e.g. `"HKD"`) |
+| `language` | `string` | — | Card language |
+| `description` | `string` | — | Long-form description for detail page & SEO |
+| `sold` | `boolean` | — | `true` shows SOLD ribbon and removes CTA |
+| `bundleCards` | `BundleCard[]` | — | Cards sold as a complete set |
+
+### Bundle Fields (`BundleCard`)
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `name` | `string` | ✅ | Card name |
+| `image` | `string` | ✅ | Front image path |
+| `imageBack` | `string` | — | Back image path |
+| `company` | `"PSA" \| "BGS" \| "CGC"` | ✅ | Grading company |
+| `grade` | `number` | ✅ | Grade |
+| `isBlackLabel` | `boolean` | — | PSA Black Label |
+| `certNumber` | `string` | — | Certificate number |
+
+## SEO & Analytics
+
+- Google Analytics 4 with Consent API (GDPR)
+- Cookie consent banner
+- JSON-LD structured data (Store + FAQ schemas)
+- Dynamic sitemap (`/sitemap.xml`) — active card listings at priority 0.7, sold listings at 0.4
+- Open Graph & Twitter Cards
+- `robots.txt` — blocks `/admin/`, `/api/`, `/graphql/`, `/style-guide/`, and filter query params; allows `/collection/` and `/business/card-trading/`
+
+## Colour Palette
+
+- **Primary**: Orange (`#ec7d1f`) — PSA protectors
+- **Secondary**: Sky Blue (`#0ea5e9`) — Accents
+- **Accent**: Fuchsia (`#d946ef`) — Highlights
+- **Collection UI**: Purple (`#9B7EBF`) — Collection manager chrome
+- **Dark**: `#1e1e2e` (collection) / Slate (`#1e293b`) (marketing)
+
+## PSA Card Aluminium Protector Specs
+
+- **Size**: 8.7 × 14.2 × 0.98 cm
+- **Weight**: 74 g
+- **Materials**: Aluminium Alloy + UV-Blocking Glass
+- **UV Protection**: > 95%
+- **Closure**: N52 Magnets
+
+## License
+
+MIT
+
 
 ## Tech Stack
 
