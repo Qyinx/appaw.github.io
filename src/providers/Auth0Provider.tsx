@@ -22,8 +22,8 @@ export function Auth0ProviderWrapper({ children }: { children: React.ReactNode }
 
   return (
     <Auth0Provider
-      domain="dev-gff1q5vsxlw5zydd.us.auth0.com"
-      clientId="3Lx67qx3NKcs4FMC9vC1Ho9h9z0YqjkT"
+      domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN!}
+      clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID!}
       authorizationParams={{
         redirect_uri: redirectUri,
         ...(audience ? { audience } : {}),
