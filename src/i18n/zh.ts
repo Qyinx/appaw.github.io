@@ -7,6 +7,7 @@ export const zh: Translations = {
     about: '關於我們',
     business: '業務服務',
     psaProtector: 'PSA 保護殼',
+    collection: '我的收藏',
     cardTrading: '卡牌交易',
     products: '商品',
     styleGuide: '設計指南',
@@ -572,5 +573,31 @@ export const zh: Translations = {
     next: '下一步',
     submit: '提交',
     cancel: '取消',
+  },
+
+  collection: {
+    title: '我的收藏',
+    description: '管理您的評級卡收藏，建立投資組合並追蹤庫存。',
+    openCollection: '開啟收藏',
+    signIn: '登入',
+    learnAboutSignIn: '了解登入詳情',
+    features: [
+      { title: '分類管理', body: '建立投資組合並整理卡片以便快速存取。' },
+      { title: '價值追蹤', body: '監控購買價格並查看收藏估值。' },
+      { title: '安全保存', body: '以詳盡的評級資訊管理與保存評級卡片。' },
+    ],
+    cta: {
+      prompt: '準備好管理您的收藏了嗎？',
+      buttonSignIn: '登入以開始使用',
+      poweredBy: '由 Appaw Store 提供技術支持',
+    },
+    dropdown: {
+      stored: '已儲存卡牌',
+      portfolios: '組合上限',
+      upgrade: '升級',
+      upgradeDesc: '升級以增加上限並開啟進階功能。',
+      planFree: '免費方案',
+      planSuffix: '方案',
+    },
   },
 };

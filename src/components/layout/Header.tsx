@@ -80,7 +80,7 @@ export default function Header() {
       label: t.nav.business,
       children: [
         { href: '/business/psa-protector', label: t.nav.psaProtector },
-        { href: '/business/card-trading', label: t.nav.cardTrading },
+        { href: '/collection', label: t.nav.collection },
       ],
     },
     { href: '/about', label: t.nav.about },
@@ -218,14 +218,6 @@ export default function Header() {
 
           {/* Right controls */}
           <div className="flex items-center gap-3">
-            {/* Profile badge */}
-            {profile && (
-              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A]" />
-                <span className="text-white/70 text-xs font-medium">{profile.name}</span>
-              </div>
-            )}
-
             {/* Language switcher */}
             <button
               onClick={toggleLanguage}

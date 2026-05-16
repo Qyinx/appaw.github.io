@@ -7,6 +7,7 @@ export const en = {
     about: 'About Us',
     business: 'Business',
     psaProtector: 'PSA Protector',
+    collection: 'My Collection',
     cardTrading: 'Card Trading',
     products: 'Products',
     styleGuide: 'Style Guide',
@@ -572,6 +573,31 @@ export const en = {
     next: 'Next',
     submit: 'Submit',
     cancel: 'Cancel',
+  },
+  collection: {
+    title: 'My Collection',
+    description: 'Manage your graded card collection, create portfolios, and track your inventory.',
+    openCollection: 'Open Collection',
+    signIn: 'Sign In',
+    learnAboutSignIn: 'Learn more about signing in',
+    features: [
+      { title: 'Organise', body: 'Create portfolios and organise your cards for quick access.' },
+      { title: 'Track Value', body: 'Monitor buy prices and see the estimated value of your collection.' },
+      { title: 'Protect', body: 'Store and manage graded cards safely with detailed grading info.' },
+    ],
+    cta: {
+      prompt: 'Ready to manage your collection?',
+      buttonSignIn: 'Sign in to get started',
+      poweredBy: 'Powered by Appaw Store',
+    },
+    dropdown: {
+      stored: 'Stored',
+      portfolios: 'Portfolios',
+      upgrade: 'Upgrade',
+      upgradeDesc: 'Upgrade to increase limits and unlock advanced features.',
+      planFree: 'Free plan',
+      planSuffix: 'plan',
+    },
   },
 };
 

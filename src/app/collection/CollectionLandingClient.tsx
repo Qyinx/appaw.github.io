@@ -6,42 +6,26 @@ import {
   Package, LogIn, TrendingUp, Shield, ScanLine,
   DollarSign, ArrowRight, Loader2,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
-const FEATURES = [
-  {
-    icon: Package,
-    title: 'Track Every Card',
-    body: 'Log grading company, grade, buy price, cert number, set, language, and more in one place.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Monitor Your Portfolio',
-    body: 'See total buy cost across your active and sold cards at a glance.',
-  },
-  {
-    icon: Shield,
-    title: 'Private by Default',
-    body: 'Your collection is only visible to you — secured by Auth0, tied to your account.',
-  },
-  {
-    icon: ScanLine,
-    title: 'Scan to Fill',
-    body: 'Photograph a PSA label and let AI pre-fill the card details automatically.',
-  },
-  {
-    icon: DollarSign,
-    title: 'Multi-Currency',
-    body: 'Record buy and list prices in HKD, USD, JPY, TWD, SGD and more.',
-  },
-  {
-    icon: ArrowRight,
-    title: 'Mark as Sold',
-    body: 'Toggle cards between active and sold to track your trading history.',
-  },
-];
+const ICONS = [Package, TrendingUp, Shield, ScanLine, DollarSign, ArrowRight];
 
 export default function CollectionLandingClient() {
   const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const { t } = useLanguage();
+
+  const rawTitle = t.collection.title ?? '';
+  const hasSpace = rawTitle.includes(' ');
+  let titleFirst = rawTitle;
+  let titleRest = '';
+  if (hasSpace) {
+    const parts = rawTitle.split(' ');
+    titleFirst = parts[0];
+    titleRest = parts.slice(1).join(' ');
+  } else if (rawTitle.length > 1) {
+    titleFirst = rawTitle.slice(0, 2);
+    titleRest = rawTitle.slice(2);
+  }
 
   function goToAuth() {
     if (isAuthenticated) {
@@ -59,17 +43,19 @@ export default function CollectionLandingClient() {
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#9B7EBF]/40 to-transparent" />
 
         <div className="container-custom relative z-10 text-center">
-          <div className="inline-flex items-center gap-2.5 border border-[#9B7EBF]/30 rounded-full px-5 py-2 mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#9B7EBF] animate-pulse" />
-            <span className="text-[#9B7EBF] text-[11px] uppercase tracking-[0.3em]">Private Dashboard</span>
-          </div>
-
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.06] tracking-tight mb-6">
-            My <span className="text-[#9B7EBF]">Collection</span>
+            {hasSpace ? (
+              <>
+                {titleFirst} <span className="text-[#9B7EBF]">{titleRest}</span>
+              </>
+            ) : (
+              <>
+                {titleFirst}{titleRest && <span className="text-[#9B7EBF]">{titleRest}</span>}
+              </>
+            )}
           </h1>
           <p className="text-[#6b7280] text-lg max-w-lg mx-auto leading-relaxed mb-10">
-            Your personal graded card tracker — buy prices, grades, cert numbers,
-            and portfolio value, all in one private dashboard.
+            {t.collection.description}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -83,12 +69,12 @@ export default function CollectionLandingClient() {
               ) : isAuthenticated ? (
                 <>
                   <Package className="w-4 h-4" />
-                  Open My Collection
+                  {t.collection.openCollection}
                 </>
               ) : (
                 <>
                   <LogIn className="w-4 h-4" />
-                  Sign In to Start
+                  {t.collection.signIn}
                 </>
               )}
             </button>
@@ -98,7 +84,7 @@ export default function CollectionLandingClient() {
                 href="/collection/auth"
                 className="text-white/40 hover:text-white/70 text-sm transition-colors"
               >
-                Learn about sign-in →
+                {t.collection.learnAboutSignIn}
               </Link>
             )}
           </div>
@@ -109,35 +95,38 @@ export default function CollectionLandingClient() {
       <section className="py-20">
         <div className="container-custom">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURES.map(({ icon: Icon, title, body }) => (
-              <div
-                key={title}
-                className="p-7 border border-white/[0.06] hover:border-[#9B7EBF]/20 hover:bg-[#9B7EBF]/[0.02] transition-all duration-300 rounded-sm"
-              >
-                <div className="w-10 h-10 rounded-xl border border-[#9B7EBF]/25 bg-[#9B7EBF]/8 flex items-center justify-center mb-5">
-                  <Icon className="w-4 h-4 text-[#9B7EBF]" />
+            {t.collection.features.map(({ title, body }, idx) => {
+              const Icon = ICONS[idx] ?? Package;
+              return (
+                <div
+                  key={title}
+                  className="p-7 border border-white/[0.06] hover:border-[#9B7EBF]/20 hover:bg-[#9B7EBF]/[0.02] transition-all duration-300 rounded-sm"
+                >
+                  <div className="w-10 h-10 rounded-xl border border-[#9B7EBF]/25 bg-[#9B7EBF]/8 flex items-center justify-center mb-5">
+                    <Icon className="w-4 h-4 text-[#9B7EBF]" />
+                  </div>
+                  <h3 className="text-white font-semibold text-base mb-2">{title}</h3>
+                  <p className="text-[#9ca3af] text-sm leading-relaxed">{body}</p>
                 </div>
-                <h3 className="text-white font-semibold text-base mb-2">{title}</h3>
-                <p className="text-[#9ca3af] text-sm leading-relaxed">{body}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ── CTA strip ── */}
       <section className="border-t border-white/[0.05] py-16 text-center">
-        <p className="text-white/40 text-xs uppercase tracking-[0.3em] mb-6">Ready to start tracking?</p>
+        <p className="text-white/40 text-xs uppercase tracking-[0.3em] mb-6">{t.collection.cta.prompt}</p>
         <button
           onClick={goToAuth}
           disabled={isLoading}
           className="inline-flex items-center gap-3 border border-[#9B7EBF]/35 hover:border-[#9B7EBF] hover:bg-[#9B7EBF]/5 text-[#9B7EBF] text-sm uppercase tracking-[0.15em] font-bold px-8 py-4 rounded-xl transition-all duration-300 disabled:opacity-40"
         >
           {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
-          {isAuthenticated ? 'Open My Collection' : 'Sign In to Continue'}
+          {isAuthenticated ? t.collection.openCollection : t.collection.cta.buttonSignIn}
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
-        <p className="text-white/40 text-[10px] mt-4">Powered by Auth0 — your data stays private.</p>
+        <p className="text-white/40 text-[10px] mt-4">{t.collection.cta.poweredBy}</p>
       </section>
     </div>
   );

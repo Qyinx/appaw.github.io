@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import type { User } from '@auth0/auth0-react';
 import {
   Plus, Pencil, Trash2, X, Loader2, LogOut,
@@ -64,6 +65,20 @@ export function CollectionListView({
   const [portfolioActionLoading, setPortfolioActionLoading] = useState(false);
   const [addingCardKey, setAddingCardKey] = useState<string | null>(null);
   const [removingCardId, setRemovingCardId] = useState<string | null>(null);
+  const [showPlan, setShowPlan] = useState(false);
+  const planMenuRef = useRef<HTMLDivElement | null>(null);
+  const accountBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    function onDocClick(e: MouseEvent) {
+      const t = e.target as Node;
+      if (planMenuRef.current && planMenuRef.current.contains(t)) return;
+      if (accountBtnRef.current && accountBtnRef.current.contains(t)) return;
+      setShowPlan(false);
+    }
+    document.addEventListener('mousedown', onDocClick);
+    return () => document.removeEventListener('mousedown', onDocClick);
+  }, []);
 
   /* ── Derived ─────────────────────────────────────────────────────────────── */
   const activePortfolio = portfolios.find(p => p.id === activePortfolioId) ?? null;
@@ -80,6 +95,20 @@ export function CollectionListView({
   const totalBuy = baseCards.reduce((s, c) => s + c.buyPrice, 0);
   const pickerCards = activePortfolio ? cards.filter(c => !activePortfolio.cardIds.includes(c.id)) : [];
   const cardPortfolios = (cardId: string) => portfolios.filter(p => p.cardIds.includes(cardId));
+
+  function getLimits(level?: MemberLevel) {
+    if (level === 'Foil') return { cards: 200, portfolios: 5 };
+    if (level === 'Prism') return { cards: 1000, portfolios: 20 };
+    if (level === 'Aurora') return { cards: 5000, portfolios: 100 };
+    return { cards: 50, portfolios: 2 };
+  }
+
+  const limits = getLimits(memberLevel);
+  const storedCount = cards.length;
+  const portfoliosCount = portfolios.length;
+  const storedPct = Math.min(100, Math.round((storedCount / Math.max(1, limits.cards)) * 100));
+  const portfoliosPct = Math.min(100, Math.round((portfoliosCount / Math.max(1, limits.portfolios)) * 100));
+  const { t } = useLanguage();
 
   /* ── Card handlers ───────────────────────────────────────────────────────── */
   const handleDelete = useCallback(async () => {
@@ -240,17 +269,66 @@ export function CollectionListView({
             <button onClick={onOpenNew} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#9B7EBF] text-[#1e1e2e] text-xs font-bold hover:bg-[#AF97D3] transition-colors">
               <Plus className="w-3.5 h-3.5" /><span className="hidden sm:inline">Add Card</span>
             </button>
-            <div className="flex items-center gap-2 border border-white/[0.07] rounded-full pl-1 pr-2.5 py-1">
-              {user?.picture ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={user.picture} alt={userName} className="w-6 h-6 rounded-full object-cover flex-shrink-0" />
-              ) : (
-                <div className="w-6 h-6 rounded-full bg-[#9B7EBF]/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-[#9B7EBF] text-[10px] font-bold">{userName[0]?.toUpperCase()}</span>
+            <div className="relative">
+              <button ref={accountBtnRef} onClick={() => setShowPlan(v => !v)} className="flex items-center gap-2 border border-white/[0.07] rounded-full pl-1 pr-2.5 py-1 bg-transparent">
+                {user?.picture ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={user.picture} alt={userName} className="w-6 h-6 rounded-full object-cover flex-shrink-0" />
+                ) : (
+                  <div className="w-6 h-6 rounded-full bg-[#9B7EBF]/20 flex items-center justify-center flex-shrink-0">
+                    <span className="text-[#9B7EBF] text-[10px] font-bold">{userName[0]?.toUpperCase()}</span>
+                  </div>
+                )}
+                <span className="text-white/50 text-xs hidden sm:block max-w-[90px] truncate">{user?.email ?? userName}</span>
+                {memberLevel && <MemberBadge level={memberLevel} />}
+              </button>
+
+              {showPlan && (
+                <div ref={planMenuRef} className="absolute right-0 mt-2 w-80 bg-gradient-to-br from-[#0b0c0d] to-[#070708] border border-white/[0.04] rounded-xl p-4 shadow-2xl z-50">
+                  <div className="flex items-center gap-3 mb-3">
+                    {user?.picture ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={user.picture} alt={userName} className="w-10 h-10 rounded-full object-cover" />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-[#9B7EBF]/20 flex items-center justify-center">
+                        <span className="text-[#9B7EBF] font-bold">{userName[0]?.toUpperCase()}</span>
+                      </div>
+                    )}
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <div className="text-white text-sm font-semibold truncate">{user?.email ?? userName}</div>
+                        {memberLevel && <MemberBadge level={memberLevel} />}
+                      </div>
+                      <div className="text-white/40 text-xs mt-0.5">{memberLevel ? `${memberLevel} ${t.collection.dropdown.planSuffix}` : t.collection.dropdown.planFree}</div>
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <div className="flex items-center justify-between text-xs text-white/50 mb-1"> 
+                      <span>{t.collection.dropdown.stored}</span>
+                      <span className="tabular-nums">{storedCount}/{limits.cards}</span>
+                    </div>
+                    <div className="w-full bg-white/[0.03] h-2 rounded overflow-hidden mb-2">
+                      <div className={`h-2 ${storedPct >= 90 ? 'bg-red-400' : storedPct >= 70 ? 'bg-amber-400' : 'bg-[#9B7EBF]'}`} style={{ width: `${storedPct}%` }} />
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-white/50 mb-1"> 
+                      <span>{t.collection.dropdown.portfolios}</span>
+                      <span className="tabular-nums">{portfoliosCount}/{limits.portfolios}</span>
+                    </div>
+                    <div className="w-full bg-white/[0.03] h-2 rounded overflow-hidden">
+                      <div className={`h-2 ${portfoliosPct >= 90 ? 'bg-red-400' : portfoliosPct >= 70 ? 'bg-amber-400' : 'bg-[#9B7EBF]'}`} style={{ width: `${portfoliosPct}%` }} />
+                    </div>
+                  </div>
+
+                  <div className="mb-2">
+                    <p className="text-white/60 text-sm">{t.collection.dropdown.upgradeDesc}</p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => { /* TODO: upgrade flow */ }} className="flex-1 px-3 py-2 bg-[#9B7EBF] text-[#0f1213] rounded-lg text-sm font-bold">{t.collection.dropdown.upgrade}</button>
+                  </div>
                 </div>
               )}
-              <span className="text-white/50 text-xs hidden sm:block max-w-[90px] truncate">{user?.email ?? userName}</span>
-              {memberLevel && <MemberBadge level={memberLevel} />}
             </div>
             <button onClick={onLogout} className="p-1.5 rounded-lg text-white/40 hover:text-white transition-colors" title="Sign out"><LogOut className="w-3.5 h-3.5" /></button>
           </div>
@@ -266,8 +344,9 @@ export function CollectionListView({
           </button>
           {portfolios.map(p => (
             <button key={p.id} onClick={() => selectPortfolio(p.id)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${activePortfolioId === p.id ? 'bg-[#9B7EBF]/15 text-white' : 'text-white/50 hover:text-white'}`}>
-              <Folder className="w-3.5 h-3.5" />{p.name}
-              <span className={`text-xs tabular-nums ${activePortfolioId === p.id ? 'text-[#9B7EBF]' : 'text-white/30'}`}>{p.count}</span>
+              <Folder className="w-3.5 h-3.5" />
+              <span className="truncate">{p.name}</span>
+              <span className={`text-xs tabular-nums ${activePortfolioId === p.id ? 'text-[#9B7EBF]' : 'text-white/30'}`}>{p.cardIds?.length ?? 0}</span>
             </button>
           ))}
           <button onClick={() => setCreatingPortfolio(true)} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-white/40 hover:text-white border border-dashed border-white/15 hover:border-white/30 transition-colors whitespace-nowrap">
