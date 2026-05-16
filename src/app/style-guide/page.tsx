@@ -9,55 +9,54 @@ export default function StyleGuidePage() {
   const { t } = useLanguage();
 
   const primaryColors = [
-    { name: '50', value: '#fef7ee', className: 'bg-primary-50' },
-    { name: '100', value: '#fdeed7', className: 'bg-primary-100' },
-    { name: '200', value: '#f9d9ae', className: 'bg-primary-200' },
-    { name: '300', value: '#f5be7a', className: 'bg-primary-300' },
-    { name: '400', value: '#f09a44', className: 'bg-primary-400' },
-    { name: '500', value: '#ec7d1f', className: 'bg-primary-500' },
-    { name: '600', value: '#dd6315', className: 'bg-primary-600' },
-    { name: '700', value: '#b74a13', className: 'bg-primary-700' },
-    { name: '800', value: '#923b18', className: 'bg-primary-800' },
-    { name: '900', value: '#763316', className: 'bg-primary-900' },
+    { name: '50', value: '#f6f3fb', className: 'bg-primary-50' },
+    { name: '100', value: '#efe9f8', className: 'bg-primary-100' },
+    { name: '200', value: '#e3d6f1', className: 'bg-primary-200' },
+    { name: '300', value: '#d1bfe6', className: 'bg-primary-300' },
+    { name: '400', value: '#b79ad8', className: 'bg-primary-400' },
+    { name: '500', value: '#9B7EBF', className: 'bg-primary-500' },
+    { name: '600', value: '#8567a8', className: 'bg-primary-600' },
+    { name: '700', value: '#6e4f86', className: 'bg-primary-700' },
+    { name: '800', value: '#553a63', className: 'bg-primary-800' },
+    { name: '900', value: '#3b2844', className: 'bg-primary-900' },
   ];
 
   const secondaryColors = [
-    { name: '50', value: '#f0f9ff', className: 'bg-secondary-50' },
-    { name: '100', value: '#e0f2fe', className: 'bg-secondary-100' },
-    { name: '200', value: '#bae6fd', className: 'bg-secondary-200' },
-    { name: '300', value: '#7dd3fc', className: 'bg-secondary-300' },
-    { name: '400', value: '#38bdf8', className: 'bg-secondary-400' },
-    { name: '500', value: '#0ea5e9', className: 'bg-secondary-500' },
-    { name: '600', value: '#0284c7', className: 'bg-secondary-600' },
-    { name: '700', value: '#0369a1', className: 'bg-secondary-700' },
-    { name: '800', value: '#075985', className: 'bg-secondary-800' },
-    { name: '900', value: '#0c4a6e', className: 'bg-secondary-900' },
+    { name: '50', value: '#f0fbff', className: 'bg-secondary-50' },
+    { name: '100', value: '#e6f8ff', className: 'bg-secondary-100' },
+    { name: '200', value: '#cfeeff', className: 'bg-secondary-200' },
+    { name: '300', value: '#9fe6ff', className: 'bg-secondary-300' },
+    { name: '400', value: '#6fd0ff', className: 'bg-secondary-400' },
+    { name: '500', value: '#6FC3FF', className: 'bg-secondary-500' },
+    { name: '600', value: '#4aa8e6', className: 'bg-secondary-600' },
+    { name: '700', value: '#2f83b3', className: 'bg-secondary-700' },
+    { name: '800', value: '#235f80', className: 'bg-secondary-800' },
+    { name: '900', value: '#18394d', className: 'bg-secondary-900' },
   ];
 
   const accentColors = [
-    { name: '50', value: '#fdf4ff', className: 'bg-accent-50' },
-    { name: '100', value: '#fae8ff', className: 'bg-accent-100' },
-    { name: '200', value: '#f5d0fe', className: 'bg-accent-200' },
-    { name: '300', value: '#f0abfc', className: 'bg-accent-300' },
-    { name: '400', value: '#e879f9', className: 'bg-accent-400' },
-    { name: '500', value: '#d946ef', className: 'bg-accent-500' },
-    { name: '600', value: '#c026d3', className: 'bg-accent-600' },
-    { name: '700', value: '#a21caf', className: 'bg-accent-700' },
-    { name: '800', value: '#86198f', className: 'bg-accent-800' },
-    { name: '900', value: '#701a75', className: 'bg-accent-900' },
+    { name: '50', value: '#fff8f2', className: 'bg-accent-50' },
+    { name: '100', value: '#fff0e6', className: 'bg-accent-100' },
+    { name: '200', value: '#ffe0c9', className: 'bg-accent-200' },
+    { name: '300', value: '#ffd0a6', className: 'bg-accent-300' },
+    { name: '400', value: '#ffc07a', className: 'bg-accent-400' },
+    { name: '500', value: '#F59E0B', className: 'bg-accent-500' },
+    { name: '600', value: '#d68606', className: 'bg-accent-600' },
+    { name: '700', value: '#a86a05', className: 'bg-accent-700' },
+    { name: '800', value: '#7b4c04', className: 'bg-accent-800' },
+    { name: '900', value: '#502f02', className: 'bg-accent-900' },
   ];
 
   const neutralColors = [
-    { name: '50', value: '#fafafa', className: 'bg-neutral-50' },
-    { name: '100', value: '#f5f5f5', className: 'bg-neutral-100' },
-    { name: '200', value: '#e5e5e5', className: 'bg-neutral-200' },
-    { name: '300', value: '#d4d4d4', className: 'bg-neutral-300' },
-    { name: '400', value: '#a3a3a3', className: 'bg-neutral-400' },
-    { name: '500', value: '#737373', className: 'bg-neutral-500' },
-    { name: '600', value: '#525252', className: 'bg-neutral-600' },
-    { name: '700', value: '#404040', className: 'bg-neutral-700' },
-    { name: '800', value: '#262626', className: 'bg-neutral-800' },
-    { name: '900', value: '#171717', className: 'bg-neutral-900' },
+    { name: 'bg', value: '#0B0C0D', className: 'bg-neutral-900' },
+    { name: 'panel', value: '#111214', className: 'bg-neutral-800' },
+    { name: 'surface', value: '#1E1E2E', className: 'bg-neutral-700' },
+    { name: 'muted', value: '#9CA3AF', className: 'bg-neutral-500' },
+    { name: 'text', value: '#FFFFFF', className: 'bg-neutral-50' },
+    { name: 'border', value: 'rgba(255,255,255,0.06)', className: 'bg-neutral-border' },
+    { name: 'success', value: '#10B981', className: 'bg-neutral-success' },
+    { name: 'warning', value: '#F59E0B', className: 'bg-neutral-warning' },
+    { name: 'danger', value: '#EF4444', className: 'bg-neutral-danger' },
   ];
 
   const ColorSwatch = ({ colors, title }: { colors: typeof primaryColors; title: string }) => (
@@ -67,7 +66,8 @@ export default function StyleGuidePage() {
         {colors.map((color) => (
           <div key={color.name} className="text-center">
             <div
-              className={`${color.className} w-full aspect-square rounded-lg shadow-sm border border-neutral-200`}
+              style={{ backgroundColor: color.value }}
+              className={`w-full aspect-square rounded-lg shadow-sm border`} 
             />
             <div className="mt-1 text-xs text-neutral-600">{color.name}</div>
             <div className="text-[10px] text-neutral-400">{color.value}</div>
@@ -118,13 +118,13 @@ export default function StyleGuidePage() {
           <div className="mt-12">
             <h3 className="text-lg font-semibold text-neutral-800 mb-4">Gradients</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="h-24 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 flex items-center justify-center text-white font-medium">
+              <div className="h-24 rounded-xl bg-gradient-to-r from-[#9B7EBF] to-[#AF97D3] flex items-center justify-center text-white font-medium">
                 Primary Gradient
               </div>
-              <div className="h-24 rounded-xl bg-gradient-to-r from-secondary-500 to-secondary-600 flex items-center justify-center text-white font-medium">
+              <div className="h-24 rounded-xl bg-gradient-to-r from-[#6FC3FF] to-[#4AA8E6] flex items-center justify-center text-white font-medium">
                 Secondary Gradient
               </div>
-              <div className="h-24 rounded-xl bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center justify-center text-white font-medium">
+              <div className="h-24 rounded-xl bg-gradient-to-r from-[#9B7EBF] to-[#6FC3FF] flex items-center justify-center text-white font-medium">
                 Brand Gradient
               </div>
             </div>
