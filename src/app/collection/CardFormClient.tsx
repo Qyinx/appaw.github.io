@@ -291,11 +291,23 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
         savedCardId = card.id;
       } else {
         const created = await apiFetch('/cards', { method: 'POST', body: JSON.stringify(body) });
-        savedCardId = normalizeCard(created.data ?? created).id;
+        // Debug: log server response to help diagnose missing id issues
+        // eslint-disable-next-line no-console
+        console.debug('Card create response:', created);
+        const payload = (created && typeof created === 'object' && ('data' in created)) ? (created as any).data : created;
+        const candidateId = String((payload && (payload.Id ?? payload.id)) ?? '');
+        if (!candidateId) throw new Error(`Card creation returned no id: ${JSON.stringify(created)}`);
+        savedCardId = candidateId;
       }
 
-      // Sync images
-      await syncCardImages(savedCardId, form.frontImage, form.backImage, serverImages.front, serverImages.back);
+      // Sync images (wrap to provide clearer errors)
+      try {
+        await syncCardImages(savedCardId, form.frontImage, form.backImage, serverImages.front, serverImages.back);
+      } catch (imgErr) {
+        // eslint-disable-next-line no-console
+        console.error('Image sync failed for card', savedCardId, imgErr instanceof Error ? imgErr.message : imgErr);
+        throw imgErr;
+      }
 
       // Sync portfolio memberships
       // Use cardPortfolioIds (sourced from GET /cards/:id response) as the authoritative
