@@ -247,12 +247,12 @@ export function CollectionListView({
      RENDER
   ═══════════════════════════════════════════════════════════════════════════ */
   return (
-    <div className="min-h-screen bg-[#1e1e2e]">
+    <div className="min-h-screen bg-[#1e1e2e] collection-page">
 
       {/* ── Sticky top bar ──────────────────────────────────────────────────── */}
       <div className="sticky top-16 md:top-20 z-20 bg-[#1e1e2e]/95 backdrop-blur-xl border-b border-white/[0.06]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
-          <h1 className="text-white font-bold text-sm flex items-center gap-1.5 min-w-0">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 py-2 sm:py-0 collection-topbar-inner">
+          <h1 className="sr-sm-visible text-white font-bold text-xs sm:text-sm flex items-center gap-1 min-w-0">
             {activePortfolio ? (
               <>
                 <button onClick={() => selectPortfolio(null)} className="text-white/40 font-normal hover:text-white transition-colors whitespace-nowrap">{t.collection.title}</button>
@@ -261,13 +261,14 @@ export function CollectionListView({
               </>
             ) : t.collection.title}
           </h1>
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-1 sm:gap-3 sm:flex-shrink-0 w-full sm:w-auto justify-end">
             {saveMsg && <span className="hidden sm:flex items-center gap-1.5 text-emerald-400 text-xs"><Check className="w-3.5 h-3.5" />{saveMsg}</span>}
             <button onClick={onRefresh} disabled={loading} className="p-1.5 rounded-lg text-white/50 hover:text-white transition-colors disabled:opacity-40" title={t.collection.account.refresh}>
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             </button>
-            <button onClick={onOpenNew} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#9B7EBF] text-[#1e1e2e] text-xs font-bold hover:bg-[#AF97D3] transition-colors">
-              <Plus className="w-3.5 h-3.5" /><span className="hidden sm:inline">{t.collection.toolbar.addCard}</span>
+            <button onClick={onOpenNew} className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#9B7EBF] text-[#1e1e2e] text-xs font-bold hover:bg-[#AF97D3] transition-colors">
+              <Plus className="w-3.5 h-3.5" />
+              <span className="ml-1 inline-block max-w-[6.5rem] truncate">{t.collection.toolbar.addCard}</span>
             </button>
             <div className="relative">
               <button ref={accountBtnRef} onClick={() => setShowPlan(v => !v)} className="flex items-center gap-2 border border-white/[0.07] rounded-full pl-1 pr-2.5 py-1 bg-transparent">
@@ -283,7 +284,7 @@ export function CollectionListView({
               </button>
 
               {showPlan && (
-                <div ref={planMenuRef} className="absolute right-0 mt-2 w-80 bg-gradient-to-br from-[#0b0c0d] to-[#070708] border border-white/[0.04] rounded-xl p-4 shadow-2xl z-50">
+                <div ref={planMenuRef} className="absolute right-0 mt-2 w-80 collection-plan-menu bg-gradient-to-br from-[#0b0c0d] to-[#070708] border border-white/[0.04] rounded-xl p-4 shadow-2xl z-50">
                   <div className="flex items-center gap-3 mb-3">
                     {user?.picture ? (
                       // eslint-disable-next-line @next/next/no-img-element
@@ -334,23 +335,26 @@ export function CollectionListView({
         </div>
       </div>
 
-      {/* ── Mobile portfolio tabs ────────────────────────────────────────────── */}
-      <div className="md:hidden bg-[#1e1e2e]/90 backdrop-blur-md border-b border-white/[0.05] overflow-x-auto">
-          <div className="flex items-center gap-1 px-4 py-2 w-max">
-          <button onClick={() => selectPortfolio(null)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${!activePortfolioId ? 'bg-[#9B7EBF]/15 text-white' : 'text-white/50 hover:text-white'}`}>
-            <LayoutGrid className="w-3.5 h-3.5" />{t.collection.filters.all}
-            <span className={`text-xs tabular-nums ${!activePortfolioId ? 'text-[#9B7EBF]' : 'text-white/30'}`}>{cards.length}</span>
-          </button>
-          {portfolios.map(p => (
-            <button key={p.id} onClick={() => selectPortfolio(p.id)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${activePortfolioId === p.id ? 'bg-[#9B7EBF]/15 text-white' : 'text-white/50 hover:text-white'}`}>
-              <Folder className="w-3.5 h-3.5" />
-              <span className="truncate">{p.name}</span>
-              <span className={`text-xs tabular-nums ${activePortfolioId === p.id ? 'text-[#9B7EBF]' : 'text-white/30'}`}>{p.cardIds?.length ?? 0}</span>
+      {/* ── Mobile portfolio tabs (compact, scrollable) ───────────────────────── */}
+      <div className="md:hidden bg-[#1e1e2e]/90 backdrop-blur-md border-b border-white/[0.05]">
+        <div className="collection-portfolio-scroll">
+          <div className="collection-portfolio-inner">
+            <button onClick={() => selectPortfolio(null)} className={`collection-portfolio-item flex-shrink-0 min-w-[6.5rem] flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${!activePortfolioId ? 'bg-[#9B7EBF]/15 text-white' : 'text-white/50 hover:text-white'}`}>
+              <LayoutGrid className="w-3.5 h-3.5" />
+              <span className="ml-1">{t.collection.filters.all}</span>
+              <span className={`ml-2 text-[10px] tabular-nums ${!activePortfolioId ? 'text-[#9B7EBF]' : 'text-white/30'}`}>{cards.length}</span>
             </button>
-          ))}
-          <button onClick={() => setCreatingPortfolio(true)} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-white/40 hover:text-white border border-dashed border-white/15 hover:border-white/30 transition-colors whitespace-nowrap">
-            <FolderPlus className="w-3 h-3" /> {t.collection.portfolio.new}
-          </button>
+            {portfolios.map(p => (
+              <button key={p.id} onClick={() => selectPortfolio(p.id)} className={`collection-portfolio-item flex-shrink-0 min-w-[6.5rem] flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${activePortfolioId === p.id ? 'bg-[#9B7EBF]/15 text-white' : 'text-white/50 hover:text-white'}`}>
+                <Folder className="w-3.5 h-3.5" />
+                <span className="truncate ml-1">{p.name}</span>
+                <span className={`ml-2 text-[10px] tabular-nums ${activePortfolioId === p.id ? 'text-[#9B7EBF]' : 'text-white/30'}`}>{p.cardIds?.length ?? 0}</span>
+              </button>
+            ))}
+            <button onClick={() => setCreatingPortfolio(true)} className="collection-portfolio-item flex-shrink-0 min-w-[6.5rem] flex items-center gap-1 px-3 py-1 rounded-lg text-xs text-white/40 hover:text-white border border-dashed border-white/15 hover:border-white/30 transition-colors whitespace-nowrap">
+              <FolderPlus className="w-3 h-3" /> <span className="ml-1">{t.collection.portfolio.new}</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -423,7 +427,7 @@ export function CollectionListView({
           <div className="flex flex-col sm:flex-row gap-2 mb-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40 pointer-events-none" />
-              <input className="w-full bg-white/[0.04] border border-white/10 rounded-lg pl-9 pr-3 py-2 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#9B7EBF]/50 transition-colors" placeholder={t.collection.searchPlaceholder} value={search} onChange={e => setSearch(e.target.value)} />
+              <input className="w-full bg-white/[0.04] border border-white/10 rounded-lg pl-9 pr-3 py-1.5 sm:py-2 text-white text-xs sm:text-sm placeholder-white/20 focus:outline-none focus:border-[#9B7EBF]/50 transition-colors" placeholder={t.collection.searchPlaceholder} value={search} onChange={e => setSearch(e.target.value)} />
             </div>
             <select className="bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#9B7EBF]/50 transition-colors" value={filterSold} onChange={e => setFilterSold(e.target.value as typeof filterSold)}>
               <option value="all">{t.collection.filters.all}</option>
@@ -523,7 +527,7 @@ export function CollectionListView({
                       </button>
                       <CardActions card={card} />
                     </div>
-                    <div className="sm:hidden flex items-center gap-3 px-4 py-3">
+                    <div className="sm:hidden flex items-center gap-3 px-3 py-2">
                       <div className="flex-1 min-w-0">
                         <p className={`text-sm font-medium truncate ${card.sold ? 'text-white/35 line-through' : 'text-white'}`}>{card.name}</p>
                         <div className="flex items-center gap-2 mt-0.5 flex-wrap">
@@ -534,7 +538,7 @@ export function CollectionListView({
                       <CardActions card={card} compact />
                     </div>
                     {deleteId === card.id && !activePortfolio && (
-                      <div className="sm:hidden flex items-center gap-2 px-4 pb-3">
+                      <div className="sm:hidden flex items-center gap-2 px-3 pb-2">
                         <p className="text-red-400 text-xs flex-1">Delete &ldquo;{card.name}&rdquo;?</p>
                         <button onClick={handleDelete} disabled={deleting} className="px-3 py-1 rounded bg-red-500/20 text-red-400 text-xs font-bold disabled:opacity-40">{deleting ? '…' : 'Confirm'}</button>
                         <button onClick={() => setDeleteId(null)} className="px-3 py-1 rounded bg-white/[0.06] text-white/40 text-xs">Cancel</button>
