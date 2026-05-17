@@ -588,8 +588,7 @@ export const zh: Translations = {
     ],
     cta: {
       prompt: '準備好管理您的收藏了嗎？',
-      buttonSignIn: '登入以開始使用',
-      poweredBy: '由 Appaw Store 提供技術支持',
+      buttonSignIn: '登入以開始使用'
     },
     dropdown: {
       stored: '已儲存卡牌',

@@ -588,7 +588,6 @@ export const en = {
     cta: {
       prompt: 'Ready to manage your collection?',
       buttonSignIn: 'Sign in to get started',
-      poweredBy: 'Powered by Appaw Store',
     },
     dropdown: {
       stored: 'Stored',

@@ -126,7 +126,6 @@ export default function CollectionLandingClient() {
           {isAuthenticated ? t.collection.openCollection : t.collection.cta.buttonSignIn}
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
-        <p className="text-white/40 text-[10px] mt-4">{t.collection.cta.poweredBy}</p>
       </section>
     </div>
   );
