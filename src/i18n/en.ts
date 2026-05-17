@@ -582,8 +582,8 @@ export const en = {
     learnAboutSignIn: 'Learn more about signing in',
     features: [
       { title: 'Organise', body: 'Create portfolios and organise your cards for quick access.' },
-      { title: 'Track Value', body: 'Monitor buy prices and see the estimated value of your collection.' },
-      { title: 'Protect', body: 'Store and manage graded cards safely with detailed grading info.' },
+      { title: 'Manage Inventory', body: 'Add, edit, and remove cards; mark items sold and use search and filters to find cards quickly.' },
+      { title: 'Portfolios', body: 'Create public or private portfolios, add or remove cards, and group collections for display or sharing.' },
     ],
     cta: {
       prompt: 'Ready to manage your collection?',

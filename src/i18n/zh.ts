@@ -583,8 +583,8 @@ export const zh: Translations = {
     learnAboutSignIn: '了解登入詳情',
     features: [
       { title: '分類管理', body: '建立投資組合並整理卡片以便快速存取。' },
-      { title: '價值追蹤', body: '監控購買價格並查看收藏估值。' },
-      { title: '安全保存', body: '以詳盡的評級資訊管理與保存評級卡片。' },
+      { title: '庫存管理', body: '新增、編輯與移除卡片；標記已售出，並透過搜尋與篩選快速尋找卡片。' },
+      { title: '組合', body: '建立公開或私人組合，新增或移除卡片，並將藏品分組以便展示或分享。' },
     ],
     cta: {
       prompt: '準備好管理您的收藏了嗎？',
