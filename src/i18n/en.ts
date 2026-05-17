@@ -683,7 +683,6 @@ export const en = {
         rescan: 'Rescan',
         scanFailed: 'Scan failed. Please fill in manually.',
       },
-      pricing: 'Pricing',
       saving: 'Saving…',
       updateCard: 'Update Card',
       addCard: 'Add Card',
@@ -702,8 +701,8 @@ export const en = {
       front: 'Front',
       back: 'Back',
       addPrefix: 'Add',
+      blackLabel: 'Black Label',
     },
-      blackLabel: 'Black Label (perfect 10 sub-grades)',
   },
 };
 

@@ -684,7 +684,6 @@ export const zh: Translations = {
         rescan: '重新掃描',
         scanFailed: '掃描失敗。請手動填寫欄位。',
       },
-      pricing: '價格',
       saving: '儲存中…',
       updateCard: '更新卡片',
       addCard: '新增卡片',
@@ -703,7 +702,7 @@ export const zh: Translations = {
       front: '正面',
       back: '背面',
       addPrefix: '新增',
+      blackLabel: '黑標',
     },
-      blackLabel: '黑標（完美 10 子評分）',
   },
 };
