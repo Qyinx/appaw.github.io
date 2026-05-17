@@ -178,14 +178,14 @@ export function CollectionListView({
     if (isEditing) {
       return (
         <div className="px-3 py-2.5 bg-white/[0.04] rounded-xl border border-[#9B7EBF]/30 mb-1">
-          <input autoFocus value={editingName} onChange={e => setEditingName(e.target.value)}
+              <input autoFocus value={editingName} onChange={e => setEditingName(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter') handleUpdatePortfolio(); if (e.key === 'Escape') setEditingPortfolioId(null); }}
             className="w-full bg-transparent text-white text-xs font-medium outline-none mb-2 placeholder-white/25"
           />
           <div className="flex items-center justify-between">
             <label className="flex items-center gap-1.5 text-white/40 text-[10px] cursor-pointer select-none">
               <input type="checkbox" checked={editingPublic} onChange={e => setEditingPublic(e.target.checked)} className="w-3 h-3 rounded accent-[#9B7EBF]" />
-              Public
+              {t.collection.portfolio.public}
             </label>
             <div className="flex items-center gap-1">
               <button onClick={handleUpdatePortfolio} disabled={portfolioActionLoading} className="p-1 rounded bg-[#9B7EBF] text-[#1e1e2e] hover:bg-[#AF97D3] transition-colors disabled:opacity-40">
@@ -204,8 +204,8 @@ export function CollectionListView({
         {p.isPublic && <Globe className="w-3 h-3 text-white/25 flex-shrink-0" />}
         <span className={`text-xs tabular-nums flex-shrink-0 ${isActive ? 'text-[#9B7EBF]' : 'text-white/25'}`}>{p.count}</span>
         <div className="hidden group-hover:flex items-center gap-0.5 flex-shrink-0">
-          <button onClick={e => { e.stopPropagation(); setEditingPortfolioId(p.id); setEditingName(p.name); setEditingPublic(p.isPublic); }} className="p-1 rounded hover:bg-white/10 text-white/35 hover:text-white transition-colors" title="Rename"><Pencil className="w-2.5 h-2.5" /></button>
-          <button onClick={e => { e.stopPropagation(); handleDeletePortfolio(p.id); }} className="p-1 rounded hover:bg-red-500/15 text-white/35 hover:text-red-400 transition-colors" title="Delete"><Trash2 className="w-2.5 h-2.5" /></button>
+          <button onClick={e => { e.stopPropagation(); setEditingPortfolioId(p.id); setEditingName(p.name); setEditingPublic(p.isPublic); }} className="p-1 rounded hover:bg-white/10 text-white/35 hover:text-white transition-colors" title={t.collection.account.rename}><Pencil className="w-2.5 h-2.5" /></button>
+          <button onClick={e => { e.stopPropagation(); handleDeletePortfolio(p.id); }} className="p-1 rounded hover:bg-red-500/15 text-white/35 hover:text-red-400 transition-colors" title={t.collection.account.delete}><Trash2 className="w-2.5 h-2.5" /></button>
         </div>
       </div>
     );
@@ -227,15 +227,15 @@ export function CollectionListView({
     }
     return (
       <div className="flex items-center gap-1">
-        <button onClick={() => onOpenEdit(card)} className="p-1.5 rounded bg-white/[0.04] hover:bg-white/[0.08] text-white/40 hover:text-white transition-colors" title="Edit">
+        <button onClick={() => onOpenEdit(card)} className="p-1.5 rounded bg-white/[0.04] hover:bg-white/[0.08] text-white/40 hover:text-white transition-colors" title={t.collection.account.edit}>
           <Pencil className={compact ? 'w-4 h-4' : 'w-3.5 h-3.5'} />
         </button>
         {activePortfolio ? (
-          <button onClick={() => handleRemoveCard(card.id)} disabled={isRemoving} className="flex items-center gap-1 px-2 py-1.5 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400/70 hover:text-red-400 transition-colors text-[10px] font-medium disabled:opacity-40" title="Remove from portfolio">
-            {isRemoving ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" />{!compact && 'Remove'}</>}
+          <button onClick={() => handleRemoveCard(card.id)} disabled={isRemoving} className="flex items-center gap-1 px-2 py-1.5 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400/70 hover:text-red-400 transition-colors text-[10px] font-medium disabled:opacity-40" title={t.collection.toolbar.remove}>
+            {isRemoving ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" />{!compact && t.collection.toolbar.remove}</>}
           </button>
         ) : (
-          <button onClick={() => setDeleteId(card.id)} className="p-1.5 rounded bg-white/[0.04] hover:bg-red-500/10 text-white/40 hover:text-red-400 transition-colors" title="Delete">
+          <button onClick={() => setDeleteId(card.id)} className="p-1.5 rounded bg-white/[0.04] hover:bg-red-500/10 text-white/40 hover:text-red-400 transition-colors" title={t.collection.account.delete}>
             <Trash2 className={compact ? 'w-4 h-4' : 'w-3.5 h-3.5'} />
           </button>
         )}
@@ -255,19 +255,19 @@ export function CollectionListView({
           <h1 className="text-white font-bold text-sm flex items-center gap-1.5 min-w-0">
             {activePortfolio ? (
               <>
-                <button onClick={() => selectPortfolio(null)} className="text-white/40 font-normal hover:text-white transition-colors whitespace-nowrap">My Collection</button>
+                <button onClick={() => selectPortfolio(null)} className="text-white/40 font-normal hover:text-white transition-colors whitespace-nowrap">{t.collection.title}</button>
                 <ChevronRight className="w-3.5 h-3.5 text-white/25 flex-shrink-0" />
                 <span className="truncate">{activePortfolio.name}</span>
               </>
-            ) : 'My Collection'}
+            ) : t.collection.title}
           </h1>
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             {saveMsg && <span className="hidden sm:flex items-center gap-1.5 text-emerald-400 text-xs"><Check className="w-3.5 h-3.5" />{saveMsg}</span>}
-            <button onClick={onRefresh} disabled={loading} className="p-1.5 rounded-lg text-white/50 hover:text-white transition-colors disabled:opacity-40" title="Refresh">
+            <button onClick={onRefresh} disabled={loading} className="p-1.5 rounded-lg text-white/50 hover:text-white transition-colors disabled:opacity-40" title={t.collection.account.refresh}>
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             </button>
             <button onClick={onOpenNew} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#9B7EBF] text-[#1e1e2e] text-xs font-bold hover:bg-[#AF97D3] transition-colors">
-              <Plus className="w-3.5 h-3.5" /><span className="hidden sm:inline">Add Card</span>
+              <Plus className="w-3.5 h-3.5" /><span className="hidden sm:inline">{t.collection.toolbar.addCard}</span>
             </button>
             <div className="relative">
               <button ref={accountBtnRef} onClick={() => setShowPlan(v => !v)} className="flex items-center gap-2 border border-white/[0.07] rounded-full pl-1 pr-2.5 py-1 bg-transparent">
@@ -279,7 +279,6 @@ export function CollectionListView({
                     <span className="text-[#9B7EBF] text-[10px] font-bold">{userName[0]?.toUpperCase()}</span>
                   </div>
                 )}
-                <span className="text-white/50 text-xs hidden sm:block max-w-[90px] truncate">{user?.email ?? userName}</span>
                 {memberLevel && <MemberBadge level={memberLevel} />}
               </button>
 
@@ -299,7 +298,7 @@ export function CollectionListView({
                         <div className="text-white text-sm font-semibold truncate">{user?.email ?? userName}</div>
                         {memberLevel && <MemberBadge level={memberLevel} />}
                       </div>
-                      <div className="text-white/40 text-xs mt-0.5">{memberLevel ? `${memberLevel} ${t.collection.dropdown.planSuffix}` : t.collection.dropdown.planFree}</div>
+                      <div className="text-white/40 text-xs mt-0.5">{memberLevel ? memberLevel : t.collection.dropdown.planFree}</div>
                     </div>
                   </div>
 
@@ -323,7 +322,7 @@ export function CollectionListView({
                   <div className="mb-2">
                     <p className="text-white/60 text-sm">{t.collection.dropdown.upgradeDesc}</p>
                   </div>
-
+                        <label className="text-[10px] uppercase tracking-[0.15em] text-white/25 font-medium">{t.collection.portfolio.title}</label>
                   <div className="flex items-center gap-2">
                     <button onClick={() => { /* TODO: upgrade flow */ }} className="flex-1 px-3 py-2 bg-[#9B7EBF] text-[#0f1213] rounded-lg text-sm font-bold">{t.collection.dropdown.upgrade}</button>
                   </div>
@@ -337,9 +336,9 @@ export function CollectionListView({
 
       {/* ── Mobile portfolio tabs ────────────────────────────────────────────── */}
       <div className="md:hidden bg-[#1e1e2e]/90 backdrop-blur-md border-b border-white/[0.05] overflow-x-auto">
-        <div className="flex items-center gap-1 px-4 py-2 w-max">
+          <div className="flex items-center gap-1 px-4 py-2 w-max">
           <button onClick={() => selectPortfolio(null)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${!activePortfolioId ? 'bg-[#9B7EBF]/15 text-white' : 'text-white/50 hover:text-white'}`}>
-            <LayoutGrid className="w-3.5 h-3.5" />All
+            <LayoutGrid className="w-3.5 h-3.5" />{t.collection.filters.all}
             <span className={`text-xs tabular-nums ${!activePortfolioId ? 'text-[#9B7EBF]' : 'text-white/30'}`}>{cards.length}</span>
           </button>
           {portfolios.map(p => (
@@ -350,7 +349,7 @@ export function CollectionListView({
             </button>
           ))}
           <button onClick={() => setCreatingPortfolio(true)} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-white/40 hover:text-white border border-dashed border-white/15 hover:border-white/30 transition-colors whitespace-nowrap">
-            <FolderPlus className="w-3 h-3" /> New
+            <FolderPlus className="w-3 h-3" /> {t.collection.portfolio.new}
           </button>
         </div>
       </div>
@@ -397,8 +396,8 @@ export function CollectionListView({
               </div>
             ) : (
               <button onClick={() => setCreatingPortfolio(true)} className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-white/40 hover:text-white hover:bg-white/[0.04] transition-all duration-150 text-xs border border-dashed border-white/10 hover:border-white/20">
-                <FolderPlus className="w-3.5 h-3.5" />New Portfolio
-              </button>
+                    <FolderPlus className="w-3.5 h-3.5" />{t.collection.portfolio.newPortfolio}
+                  </button>
             )}
           </div>
         </aside>
@@ -408,7 +407,7 @@ export function CollectionListView({
 
           {/* Stats */}
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-5">
-            {[{ label: 'Total', value: baseCards.length, color: 'text-white' }, { label: 'Active', value: available, color: 'text-emerald-400' }, { label: 'Sold', value: soldCount, color: 'text-red-400' }].map(s => (
+            {[{ label: t.collection.stats.total, value: baseCards.length, color: 'text-white' }, { label: t.collection.stats.active, value: available, color: 'text-emerald-400' }, { label: t.collection.stats.sold, value: soldCount, color: 'text-red-400' }].map(s => (
               <div key={s.label} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center">
                 <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
                 <p className="text-white/50 text-xs uppercase tracking-widest mt-0.5">{s.label}</p>
@@ -424,12 +423,12 @@ export function CollectionListView({
           <div className="flex flex-col sm:flex-row gap-2 mb-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40 pointer-events-none" />
-              <input className="w-full bg-white/[0.04] border border-white/10 rounded-lg pl-9 pr-3 py-2 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#9B7EBF]/50 transition-colors" placeholder="Search by name, set, cert no…" value={search} onChange={e => setSearch(e.target.value)} />
+              <input className="w-full bg-white/[0.04] border border-white/10 rounded-lg pl-9 pr-3 py-2 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#9B7EBF]/50 transition-colors" placeholder={t.collection.searchPlaceholder} value={search} onChange={e => setSearch(e.target.value)} />
             </div>
             <select className="bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#9B7EBF]/50 transition-colors" value={filterSold} onChange={e => setFilterSold(e.target.value as typeof filterSold)}>
-              <option value="all">All Cards</option>
-              <option value="active">Active Only</option>
-              <option value="sold">Sold Only</option>
+              <option value="all">{t.collection.filters.all}</option>
+              <option value="active">{t.collection.filters.active}</option>
+              <option value="sold">{t.collection.filters.sold}</option>
             </select>
             <div className="flex bg-white/[0.04] border border-white/10 rounded-lg p-0.5 gap-0.5">
               <button type="button" onClick={() => setDisplayMode('list')} className={`p-1.5 rounded transition ${displayMode === 'list' ? 'bg-[#9B7EBF] text-[#1e1e2e]' : 'text-white/40 hover:text-white'}`} title="List"><List className="w-3.5 h-3.5" /></button>
@@ -437,7 +436,7 @@ export function CollectionListView({
             </div>
             {activePortfolio && (
               <button onClick={() => setShowAddPicker(v => !v)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${showAddPicker ? 'bg-[#9B7EBF]/15 border-[#9B7EBF]/40 text-[#9B7EBF]' : 'border-white/10 text-white/50 hover:text-white hover:border-white/20'}`}>
-                <FolderPlus className="w-3.5 h-3.5" />{showAddPicker ? 'Close' : 'Add Cards'}
+                <FolderPlus className="w-3.5 h-3.5" />{showAddPicker ? t.collection.toolbar.close : t.collection.toolbar.addCards}
               </button>
             )}
           </div>
@@ -446,11 +445,11 @@ export function CollectionListView({
           {activePortfolio && showAddPicker && (
             <div className="mb-4 rounded-xl border border-[#9B7EBF]/20 bg-[#9B7EBF]/[0.04] overflow-hidden">
               <div className="px-4 py-3 border-b border-[#9B7EBF]/15 flex items-center justify-between">
-                <p className="text-[#9B7EBF] text-xs font-semibold">Add cards to &ldquo;{activePortfolio.name}&rdquo;</p>
-                <span className="text-white/30 text-[10px]">{pickerCards.length} available</span>
+                <p className="text-[#9B7EBF] text-xs font-semibold">{t.collection.portfolio.addTo.replace('{name}', activePortfolio.name)}</p>
+                <span className="text-white/30 text-[10px]">{t.collection.portfolio.available.replace('{n}', String(pickerCards.length))}</span>
               </div>
               {pickerCards.length === 0 ? (
-                <p className="text-white/30 text-xs text-center py-6">All cards are already in this portfolio</p>
+                <p className="text-white/30 text-xs text-center py-6">{t.collection.empty.addCardsUsingButton}</p>
               ) : (
                 <div className="divide-y divide-white/[0.04] max-h-52 overflow-y-auto">
                   {pickerCards.map(card => (
@@ -478,7 +477,7 @@ export function CollectionListView({
           )}
 
           {/* Loading */}
-          {loading && <div className="flex items-center justify-center py-16 gap-2 text-white/40"><Loader2 className="w-5 h-5 animate-spin" /><span className="text-sm">Loading…</span></div>}
+          {loading && <div className="flex items-center justify-center py-16 gap-2 text-white/40"><Loader2 className="w-5 h-5 animate-spin" /><span className="text-sm">{t.common.loading}</span></div>}
 
           {/* Empty state */}
           {!loading && filtered.length === 0 && (
@@ -486,10 +485,10 @@ export function CollectionListView({
               <div className="w-14 h-14 rounded-2xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-4">
                 {activePortfolio ? <Folder className="w-6 h-6 text-white/30" /> : <Package className="w-6 h-6 text-white/30" />}
               </div>
-              <p className="text-white/40 text-sm mb-1">{search ? 'No cards found' : activePortfolio ? `"${activePortfolio.name}" is empty` : 'No cards yet'}</p>
-              <p className="text-white/30 text-xs mb-6">{search ? 'Try a different search term' : activePortfolio ? 'Add cards using the button above' : 'Add your first card to get started'}</p>
-              {!search && !activePortfolio && <button onClick={onOpenNew} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9B7EBF]/15 border border-[#9B7EBF]/30 text-[#9B7EBF] text-sm font-medium hover:bg-[#9B7EBF]/25 transition-all"><Plus className="w-4 h-4" />Add First Card</button>}
-              {!search && activePortfolio && <button onClick={() => setShowAddPicker(true)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9B7EBF]/15 border border-[#9B7EBF]/30 text-[#9B7EBF] text-sm font-medium hover:bg-[#9B7EBF]/25 transition-all"><FolderPlus className="w-4 h-4" />Pick Cards to Add</button>}
+              <p className="text-white/40 text-sm mb-1">{search ? t.collection.empty.noCardsFound : activePortfolio ? t.collection.empty.portfolioEmpty.replace('{name}', activePortfolio.name) : t.collection.empty.noCardsYet}</p>
+              <p className="text-white/30 text-xs mb-6">{search ? t.collection.empty.tryDifferentSearch : activePortfolio ? t.collection.empty.addCardsUsingButton : t.collection.empty.addYourFirstCard}</p>
+              {!search && !activePortfolio && <button onClick={onOpenNew} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9B7EBF]/15 border border-[#9B7EBF]/30 text-[#9B7EBF] text-sm font-medium hover:bg-[#9B7EBF]/25 transition-all"><Plus className="w-4 h-4" />{t.collection.toolbar.addFirstCard}</button>}
+              {!search && activePortfolio && <button onClick={() => setShowAddPicker(true)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9B7EBF]/15 border border-[#9B7EBF]/30 text-[#9B7EBF] text-sm font-medium hover:bg-[#9B7EBF]/25 transition-all"><FolderPlus className="w-4 h-4" />{t.collection.toolbar.pickCardsToAdd}</button>}
             </div>
           )}
 
@@ -497,8 +496,8 @@ export function CollectionListView({
           {!loading && filtered.length > 0 && displayMode === 'list' && (
             <div className="rounded-xl border border-white/[0.06] overflow-hidden">
               <div className="hidden sm:grid gap-3 items-center px-4 py-2.5 bg-white/[0.02] border-b border-white/[0.04]" style={{ gridTemplateColumns: activePortfolio ? '1fr 130px 100px 80px 110px' : '1fr 130px 100px 80px 80px' }}>
-                {['Card', 'Grade', 'Buy Price', 'Status', 'Actions'].map(h => <p key={h} className="text-white/40 text-[10px] uppercase tracking-widest">{h}</p>)}
-              </div>
+                  {[t.collection.table.card, t.collection.table.grade, t.collection.table.buyPrice, t.collection.table.status, t.collection.table.actions].map(h => <p key={h} className="text-white/40 text-[10px] uppercase tracking-widest">{h}</p>)}
+                </div>
               {filtered.map(card => {
                 const memberships = !activePortfolio ? cardPortfolios(card.id) : [];
                 return (
@@ -572,26 +571,26 @@ export function CollectionListView({
                     </div>
                     <div className="border-t border-white/[0.04] pt-3 flex items-center justify-between">
                       <div>
-                        <p className="text-white/35 text-[10px] uppercase tracking-widest">Buy</p>
+                        <p className="text-white/35 text-[10px] uppercase tracking-widest">{t.collection.table.buyPrice}</p>
                         <p className={`text-sm font-bold ${card.sold ? 'text-white/35 line-through' : 'text-[#9B7EBF]'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</p>
                       </div>
-                      {card.listPrice && <div className="text-right"><p className="text-white/35 text-[10px] uppercase tracking-widest">List</p><p className="text-white/50 text-sm font-medium">{card.listCurrency} {card.listPrice.toLocaleString()}</p></div>}
+                      {card.listPrice && <div className="text-right"><p className="text-white/35 text-[10px] uppercase tracking-widest">{t.collection.table.list}</p><p className="text-white/50 text-sm font-medium">{card.listCurrency} {card.listPrice.toLocaleString()}</p></div>}
                     </div>
                     <div className="flex gap-2">
-                      <button onClick={() => onOpenEdit(card)} className="flex-1 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-white/40 hover:text-white transition-colors text-xs font-medium flex items-center justify-center gap-1.5"><Pencil className="w-3 h-3" /> Edit</button>
+                      <button onClick={() => onOpenEdit(card)} className="flex-1 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-white/40 hover:text-white transition-colors text-xs font-medium flex items-center justify-center gap-1.5"><Pencil className="w-3 h-3" /> {t.collection.account.edit}</button>
                       {activePortfolio ? (
                         <button onClick={() => handleRemoveCard(card.id)} disabled={removingCardId === card.id} className="flex-1 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400/70 hover:text-red-400 transition-colors text-xs font-medium flex items-center justify-center gap-1.5 disabled:opacity-40">
-                          {removingCardId === card.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" />Remove</>}
+                          {removingCardId === card.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" />{t.collection.toolbar.remove}</>}
                         </button>
                       ) : (
-                        <button onClick={() => setDeleteId(card.id)} className="flex-1 py-1.5 rounded-lg bg-white/[0.04] hover:bg-red-500/10 text-white/40 hover:text-red-400 transition-colors text-xs font-medium flex items-center justify-center gap-1.5"><Trash2 className="w-3 h-3" /> Delete</button>
+                        <button onClick={() => setDeleteId(card.id)} className="flex-1 py-1.5 rounded-lg bg-white/[0.04] hover:bg-red-500/10 text-white/40 hover:text-red-400 transition-colors text-xs font-medium flex items-center justify-center gap-1.5"><Trash2 className="w-3 h-3" /> {t.collection.account.delete}</button>
                       )}
                     </div>
                     {deleteId === card.id && !activePortfolio && (
                       <div className="flex items-center gap-2 border-t border-white/[0.04] pt-2">
-                        <p className="text-red-400 text-xs flex-1">Delete this card?</p>
-                        <button onClick={handleDelete} disabled={deleting} className="px-3 py-1 rounded bg-red-500/20 text-red-400 text-xs font-bold disabled:opacity-40">{deleting ? '…' : 'Confirm'}</button>
-                        <button onClick={() => setDeleteId(null)} className="px-3 py-1 rounded bg-white/[0.06] text-white/40 text-xs">Cancel</button>
+                        <p className="text-red-400 text-xs flex-1">{t.collection.actions.confirmDeleteCard}</p>
+                        <button onClick={handleDelete} disabled={deleting} className="px-3 py-1 rounded bg-red-500/20 text-red-400 text-xs font-bold disabled:opacity-40">{deleting ? '…' : t.collection.actions.confirm}</button>
+                        <button onClick={() => setDeleteId(null)} className="px-3 py-1 rounded bg-white/[0.06] text-white/40 text-xs">{t.common.cancel}</button>
                       </div>
                     )}
                   </div>
@@ -606,18 +605,18 @@ export function CollectionListView({
       {creatingPortfolio && (
         <div className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }}>
           <div className="w-full bg-[#1e1e2e] border-t border-white/10 rounded-t-2xl p-6" onClick={e => e.stopPropagation()}>
-            <h3 className="text-white font-bold text-sm mb-4">New Portfolio</h3>
+            <h3 className="text-white font-bold text-sm mb-4">{t.collection.portfolio.newPortfolio}</h3>
             <input autoFocus value={newPortfolioName} onChange={e => setNewPortfolioName(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleCreatePortfolio(); }}
-              placeholder="Portfolio name…" className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#9B7EBF]/50 mb-3"
+              placeholder={t.collection.portfolio.namePlaceholder} className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#9B7EBF]/50 mb-3"
             />
             <label className="flex items-center gap-2 text-white/50 text-sm cursor-pointer mb-5 select-none">
               <input type="checkbox" checked={newPortfolioPublic} onChange={e => setNewPortfolioPublic(e.target.checked)} className="w-4 h-4 rounded accent-[#9B7EBF]" />
-              Make this portfolio public
+              {t.collection.portfolio.makePublic}
             </label>
             <div className="flex gap-2">
-              <button onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }} className="flex-1 py-2.5 rounded-xl bg-white/[0.06] text-white/60 text-sm font-medium">Cancel</button>
+              <button onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }} className="flex-1 py-2.5 rounded-xl bg-white/[0.06] text-white/60 text-sm font-medium">{t.common.cancel}</button>
               <button onClick={handleCreatePortfolio} disabled={portfolioActionLoading || !newPortfolioName.trim()} className="flex-1 py-2.5 rounded-xl bg-[#9B7EBF] text-[#1e1e2e] text-sm font-bold hover:bg-[#AF97D3] transition-colors disabled:opacity-40">
-                {portfolioActionLoading ? 'Creating…' : 'Create Portfolio'}
+                {portfolioActionLoading ? t.collection.portfolio.creating : t.collection.portfolio.create}
               </button>
             </div>
           </div>

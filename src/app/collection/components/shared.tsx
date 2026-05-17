@@ -66,7 +66,7 @@ export function GradePill({ company, grade, isBlackLabel }: { company: GradingCo
   );
 }
 
-export function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
+export function Section({ title, subtitle, children, extra }: { title: string; subtitle?: string; children: React.ReactNode; extra?: React.ReactNode }) {
   return (
     <div className="mb-7">
       <div className="flex items-center gap-2 mb-3">
@@ -74,6 +74,7 @@ export function Section({ title, subtitle, children }: { title: string; subtitle
           <p className="text-[#9B7EBF] text-[10px] uppercase tracking-[0.2em] font-semibold">{title}</p>
           {subtitle && <p className="text-white/30 text-[10px] mt-0.5 normal-case tracking-normal">{subtitle}</p>}
         </div>
+        {extra && <div className="ml-2 flex-shrink-0">{extra}</div>}
         <div className="flex-1 h-px bg-white/[0.04]" />
       </div>
       {children}
@@ -81,14 +82,28 @@ export function Section({ title, subtitle, children }: { title: string; subtitle
   );
 }
 
-export function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
+export function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: React.ReactNode }) {
+  const handleKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onChange(!value);
+    }
+  };
+
   return (
-    <button type="button" onClick={() => onChange(!value)} className="flex items-center gap-2.5 group">
+    <div
+      role="switch"
+      aria-checked={value}
+      tabIndex={0}
+      onKeyDown={handleKey}
+      onClick={() => onChange(!value)}
+      className="flex items-center gap-2.5 group cursor-pointer"
+    >
       <div className={`relative w-9 h-5 rounded-full transition-all duration-300 ${value ? 'bg-[#9B7EBF]' : 'bg-white/10'}`}>
         <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-all duration-300 ${value ? 'left-[18px]' : 'left-0.5'}`} />
       </div>
       <span className={`text-xs transition-colors ${value ? 'text-white' : 'text-white/40'} group-hover:text-white/70`}>{label}</span>
-    </button>
+    </div>
   );
 }
 
