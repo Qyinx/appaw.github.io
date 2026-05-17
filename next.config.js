@@ -9,14 +9,8 @@ const nextConfig = {
   // Proxy image requests through Next.js in dev to avoid CORS issues.
   // (rewrites are ignored in static export builds — in production the backend
   //  must have CORS configured for the deployed origin)
-  async rewrites() {
-    return [
-      {
-        source: '/api/imgproxy/:path*',
-        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/:path*`,
-      },
-    ];
-  },
+  // Note: `/api/imgproxy` is now obsolete — images are fetched directly
+  // from the backend URL and the backend must allow CORS for the site.
   // Custom domain (appaw.store) - no basePath needed
 }
 

@@ -68,13 +68,9 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   const fetchImageAsDataUrl = useCallback(async (url: string): Promise<string | undefined> => {
     try {
       const token = await getTokenRef.current();
-      // Use the imgproxy path so requests go through the Next.js proxy
-      // (or a production proxy) rather than fetching the backend URL
-      // directly. This keeps Authorization headers and CORS handling
-      // consistent with how we serve images elsewhere.
-      const fetchUrl = url.startsWith(BACKEND_URL)
-        ? url.replace(BACKEND_URL, '/api/imgproxy')
-        : url;
+      // Fetch images directly from the backend URL. Ensure the backend
+      // allows CORS for the site origin and accepts the Authorization header.
+      const fetchUrl = url;
       const res = await fetch(fetchUrl, { headers: { Authorization: `Bearer ${token}` } });
       if (!res.ok) {
         // eslint-disable-next-line no-console
