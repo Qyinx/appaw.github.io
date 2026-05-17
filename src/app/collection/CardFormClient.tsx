@@ -68,17 +68,19 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   const fetchImageAsDataUrl = useCallback(async (url: string): Promise<string | undefined> => {
     try {
       const token = await getTokenRef.current();
-      // Only rewrite to the local Next.js proxy in development when the
-      // backend is localhost. In production the rewrite is not present in
-      // static exports and will 404 — use the original backend URL there.
-      const isLocalBackend = BACKEND_URL.includes('localhost') || BACKEND_URL.includes('127.0.0.1');
-      const runningLocally = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-      const useProxy = isLocalBackend && runningLocally;
-      const fetchUrl = (useProxy && url.startsWith(BACKEND_URL))
+      // Use the imgproxy path so requests go through the Next.js proxy
+      // (or a production proxy) rather than fetching the backend URL
+      // directly. This keeps Authorization headers and CORS handling
+      // consistent with how we serve images elsewhere.
+      const fetchUrl = url.startsWith(BACKEND_URL)
         ? url.replace(BACKEND_URL, '/api/imgproxy')
         : url;
       const res = await fetch(fetchUrl, { headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) return undefined;
+      if (!res.ok) {
+        // eslint-disable-next-line no-console
+        console.debug('fetchImageAsDataUrl: non-OK response', { url: fetchUrl, status: res.status, statusText: res.statusText });
+        return undefined;
+      }
       const blob = await res.blob();
       return await new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -86,7 +88,11 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
-    } catch { return undefined; }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.debug('fetchImageAsDataUrl: error fetching', { url, error: err });
+      return undefined;
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -188,11 +194,19 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
       if (candidateUrl) {
         const fetched = await fetchImageAsDataUrl(candidateUrl).catch(() => undefined);
         if (fetched) return fetched;
+        // eslint-disable-next-line no-console
+        console.debug('loadImages: failed to fetch candidate image', { candidateUrl, seq });
       }
       // Only attempt backend images endpoint if the GET /cards response included an image for this seq
-      if (!hasSeqOnServer(seq)) return undefined;
+      if (!hasSeqOnServer(seq)) {
+        // eslint-disable-next-line no-console
+        console.debug('loadImages: backend did not report image seq', { id: raw.Id ?? raw.id, seq });
+        return undefined;
+      }
       const backendFetched = await fetchImageAsDataUrl(imageUrl(seq)).catch(() => undefined);
       if (backendFetched) return backendFetched;
+      // eslint-disable-next-line no-console
+      console.debug('loadImages: failed to fetch backend image', { url: imageUrl(seq), seq });
       return undefined;
     };
 
