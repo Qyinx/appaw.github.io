@@ -68,7 +68,13 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   const fetchImageAsDataUrl = useCallback(async (url: string): Promise<string | undefined> => {
     try {
       const token = await getTokenRef.current();
-      const fetchUrl = url.startsWith(BACKEND_URL)
+      // Only rewrite to the local Next.js proxy in development when the
+      // backend is localhost. In production the rewrite is not present in
+      // static exports and will 404 — use the original backend URL there.
+      const isLocalBackend = BACKEND_URL.includes('localhost') || BACKEND_URL.includes('127.0.0.1');
+      const runningLocally = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      const useProxy = isLocalBackend && runningLocally;
+      const fetchUrl = (useProxy && url.startsWith(BACKEND_URL))
         ? url.replace(BACKEND_URL, '/api/imgproxy')
         : url;
       const res = await fetch(fetchUrl, { headers: { Authorization: `Bearer ${token}` } });

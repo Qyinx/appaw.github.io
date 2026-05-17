@@ -13,7 +13,7 @@ const nextConfig = {
     return [
       {
         source: '/api/imgproxy/:path*',
-        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8787'}/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/:path*`,
       },
     ];
   },
