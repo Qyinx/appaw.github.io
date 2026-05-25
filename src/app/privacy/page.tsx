@@ -1,45 +1,30 @@
 import type { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
+import { webPageJsonLd, breadcrumbJsonLd } from '@/lib/seo';
+import { privacyMetadata } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy | Appaw Store',
-  description:
-    'Learn how Appaw Store collects, uses, and protects your data. We use Google Analytics 4 for site analytics. Purchases are handled securely through Etsy and Carousell.',
-  alternates: {
-    canonical: '/privacy/',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export const metadata = privacyMetadata;
 
 const LAST_UPDATED = 'April 17, 2026';
 
-const webPageJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
+const webPage = webPageJsonLd({
   name: 'Privacy Policy – Appaw Store',
   url: 'https://appaw.store/privacy/',
   datePublished: '2026-04-17',
   dateModified: '2026-04-17',
   publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
   inLanguage: 'en',
-  breadcrumb: {
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://appaw.store/' },
-      { '@type': 'ListItem', position: 2, name: 'Privacy Policy', item: 'https://appaw.store/privacy/' },
-    ],
-  },
-};
+});
+
+const breadcrumb = breadcrumbJsonLd([
+  { position: 1, name: 'Home', item: 'https://appaw.store/' },
+  { position: 2, name: 'Privacy Policy', item: 'https://appaw.store/privacy/' },
+]);
 
 export default function PrivacyPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
-      />
+      <StructuredData data={[webPage, breadcrumb]} />
 
       {/* ── Hero ── */}
       <section className="relative bg-[#1e1e2e] pt-20 pb-16 overflow-hidden">

@@ -331,7 +331,7 @@ export default function BusinessClient() {
                     label={t.business.cardProtector.cta}
                     shopOptions={t.shopOptions}
                     whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                    buttonClassName="inline-flex items-center gap-2 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap hover:shadow-[0_0_32px_rgba(212,137,154,0.3)] flex-shrink-0 active:scale-95"
+                    buttonClassName="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap shadow-sm flex-shrink-0 active:scale-95"
                   />
                 </div>
               </Reveal>

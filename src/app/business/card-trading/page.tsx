@@ -3,6 +3,8 @@ import path from 'path';
 import type { TradingCard } from '@/types/trading-card';
 import { en } from '@/i18n';
 import CardTradingPage from './CardTradingClient';
+import StructuredData from '@/components/StructuredData';
+import { itemListJsonLd, faqJsonLd, howToJsonLd } from '@/lib/seo';
 
 /* ──────────────────────────────────────────
    Server Component — Card Trading Page
@@ -21,10 +23,10 @@ async function getCards(): Promise<TradingCard[]> {
   return JSON.parse(raw) as TradingCard[];
 }
 
-function buildProductJsonLd(cards: TradingCard[]) {
+function buildItems(cards: TradingCard[]) {
   const BASE = 'https://appaw.store';
 
-  const items = cards.map((card, i) => ({
+  return cards.map((card, i) => ({
     '@type': 'ListItem',
     position: i + 1,
     item: {
@@ -49,109 +51,44 @@ function buildProductJsonLd(cards: TradingCard[]) {
       ...(card.certNumber ? { gtin: card.certNumber } : {}),
     },
   }));
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    name: 'Graded Trading Cards for Sale',
-    numberOfItems: items.length,
-    itemListElement: items,
-  };
 }
 
 // FAQPage — trading guide Q&As, scoped to /business/card-trading/ only
-const tradingFaqJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
-  datePublished: '2024-01-15',
-  dateModified: '2026-05-05',
-  mainEntity: [
-    ...en.tradingGuide.buy.faq.items,
-    ...en.tradingGuide.sell.faq.items,
-  ].map(({ q, a }) => ({
-    '@type': 'Question',
-    name: q,
-    acceptedAnswer: { '@type': 'Answer', text: a },
-  })),
-};
+const tradingFaqJsonLd = faqJsonLd([
+  ...en.tradingGuide.buy.faq.items,
+  ...en.tradingGuide.sell.faq.items,
+]);
 
-const buyHowToJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
+const buyHowToJsonLd = howToJsonLd({
   name: 'How to Buy a Graded Trading Card from Appaw Store',
   description: 'Step-by-step guide to purchasing PSA or CGC graded trading cards from Appaw Store in Hong Kong.',
   step: [
-    {
-      '@type': 'HowToStep',
-      position: 1,
-      name: 'Message us on WhatsApp with card name and offer price',
-      text: 'Send the card name and your offer price to +852-9285-1189 on WhatsApp. We will confirm availability and agree on a final price.',
-    },
-    {
-      '@type': 'HowToStep',
-      position: 2,
-      name: 'Complete payment',
-      text: 'Pay via Cash, FPS, or Wise (HKD settlement). For Hong Kong meetups, payment is made at handover. For international orders, payment is required before shipping.',
-    },
-    {
-      '@type': 'HowToStep',
-      position: 3,
-      name: 'Receive your card',
-      text: 'For Hong Kong meetups, collect your card on the spot. For international orders, we ship via DAP (Delivered At Place) — shipping costs and import duties are borne by the buyer.',
-    },
+    { position: 1, '@type': 'HowToStep', name: 'Message us on WhatsApp with card name and offer price', text: 'Send the card name and your offer price to +852-9285-1189 on WhatsApp. We will confirm availability and agree on a final price.' },
+    { position: 2, '@type': 'HowToStep', name: 'Complete payment', text: 'Pay via Cash, FPS, or Wise (HKD settlement). For Hong Kong meetups, payment is made at handover. For international orders, payment is required before shipping.' },
+    { position: 3, '@type': 'HowToStep', name: 'Receive your card', text: 'For Hong Kong meetups, collect your card on the spot. For international orders, we ship via DAP (Delivered At Place) — shipping costs and import duties are borne by the buyer.' },
   ],
-};
+});
 
-const sellHowToJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
+const sellHowToJsonLd = howToJsonLd({
   name: 'How to Sell or Consign a Graded Trading Card with Appaw Store in Hong Kong',
   description: 'Step-by-step guide to selling or consigning your PSA or CGC graded trading card through Appaw Store in Hong Kong.',
   step: [
-    {
-      '@type': 'HowToStep',
-      position: 1,
-      name: 'Contact us and get a quote',
-      text: 'WhatsApp +852-9285-1189 to initiate consignment. Cards undergo authenticity inspection — we may decline where authenticity cannot be confirmed.',
-    },
-    {
-      '@type': 'HowToStep',
-      position: 2,
-      name: 'Deliver your card face-to-face',
-      text: 'Bring the card to an agreed Hong Kong meetup location. No postal submissions accepted.',
-    },
-    {
-      '@type': 'HowToStep',
-      position: 3,
-      name: 'Your card is listed with no upfront fee',
-      text: 'We list your card on the marketplace. No listing fee — commission only on successful sale. Request a price change anytime; updates go live within 48 hours.',
-    },
-    {
-      '@type': 'HowToStep',
-      position: 4,
-      name: 'Quarterly stocktake',
-      text: 'Every 3 months we contact you to confirm whether to continue listing. No response within 2 months is treated as transfer of ownership to Appaw Store.',
-    },
-    {
-      '@type': 'HowToStep',
-      position: 5,
-      name: 'Receive payment upon sale',
-      text: 'Once sold, we arrange payment to you after deducting the agreed commission fee.',
-    },
+    { position: 1, '@type': 'HowToStep', name: 'Contact us and get a quote', text: 'WhatsApp +852-9285-1189 to initiate consignment. Cards undergo authenticity inspection — we may decline where authenticity cannot be confirmed.' },
+    { position: 2, '@type': 'HowToStep', name: 'Deliver your card face-to-face', text: 'Bring the card to an agreed Hong Kong meetup location. No postal submissions accepted.' },
+    { position: 3, '@type': 'HowToStep', name: 'Your card is listed with no upfront fee', text: 'We list your card on the marketplace. No listing fee — commission only on successful sale. Request a price change anytime; updates go live within 48 hours.' },
+    { position: 4, '@type': 'HowToStep', name: 'Quarterly stocktake', text: 'Every 3 months we contact you to confirm whether to continue listing. No response within 2 months is treated as transfer of ownership to Appaw Store.' },
+    { position: 5, '@type': 'HowToStep', name: 'Receive payment upon sale', text: 'Once sold, we arrange payment to you after deducting the agreed commission fee.' },
   ],
-};
+});
 
 export default async function Page() {
   const cards = await getCards();
-  const productJsonLd = buildProductJsonLd(cards);
+  const items = buildItems(cards);
+  const itemList = itemListJsonLd('Graded Trading Cards for Sale', items);
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(tradingFaqJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buyHowToJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sellHowToJsonLd) }} />
+      <StructuredData data={[itemList, tradingFaqJsonLd, buyHowToJsonLd, sellHowToJsonLd]} />
       {/* Server-rendered copy — crawlable by search engines, styled to blend into hero */}
       <div className="sr-only">
         <h1>Buy &amp; Sell PSA Graded Pokémon, Sports &amp; MTG Cards in Hong Kong</h1>

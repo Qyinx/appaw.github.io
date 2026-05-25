@@ -54,7 +54,7 @@ export const en = {
     },
     services: {
       badge: 'Our Services',
-      title: 'Two Ways We Serve Collectors',
+      title: 'Ways We Serve Collectors',
       subtitle: 'From premium protection to trusted trading, we\'ve got your collection covered.',
       protector: {
         subtitle: 'Industrial-grade aluminum protection meets gallery-worthy display for your prized PSA graded cards.',
@@ -216,6 +216,12 @@ export const en = {
         forestGreen: 'Forest Green',
         goldenEmberRed: 'Ember',
         dark: 'Midnight',
+      },
+      pricing: {
+        label: 'Suggested Price',
+        gradient: 'Gradient color',
+        single: 'Single color',
+        note: 'Prices are recommended retail prices in HKD. Taxes and shipping may apply.'
       },
     },
     ctaTitle: 'Ready to Protect Your Collection?',

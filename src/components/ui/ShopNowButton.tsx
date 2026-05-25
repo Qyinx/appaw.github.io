@@ -29,6 +29,8 @@ interface ShopNowButtonProps {
   buttonClassName: string;
   /** Size of the chevron icon, default "w-4 h-4" */
   chevronSize?: string;
+  /** Optional click handler for analytics or custom actions */
+  onClick?: () => void;
 }
 
 export default function ShopNowButton({
@@ -171,7 +173,11 @@ export default function ShopNowButton({
       <button
         ref={btnRef}
         type="button"
-        onClick={() => setOpen(o => !o)}
+        onClick={() => {
+          try { if (typeof (arguments as any) !== 'undefined') {} } catch {}
+          if (typeof onClick === 'function') onClick();
+          setOpen(o => !o);
+        }}
         className={buttonClassName}
       >
         <span>{label}</span>

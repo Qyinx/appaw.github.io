@@ -4,197 +4,15 @@ import { Header, Footer } from '@/components/layout';
 import { CookieConsent } from '@/components/CookieConsent';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import { Auth0ProviderWrapper } from '@/providers/Auth0Provider';
+import StructuredData from '@/components/StructuredData';
+import { webSiteJsonLd, storeJsonLd } from '@/lib/seo';
+import { rootMetadata } from '@/lib/seo/metadata';
 import '@/styles/globals.css';
 
-export const metadata: Metadata = {
-  title: {
-    default: 'Appaw Store - PSA Card Aluminum Protector & TCG Trading',
-    template: '%s | Appaw Store',
-  },
-  description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass, N52 magnetic closure, and precision aluminum frame. Trusted TCG trading & brokerage for graded Pokémon, sports, and MTG cards.',
-  keywords: [
-    // PSA Protector — Core
-    'PSA card protector',
-    'PSA card aluminum case',
-    'PSA slab protector',
-    'aluminum card case',
-    'UV protection card case',
-    'N52 magnetic card case',
-    'graded card protection',
-    'PSA 10 protector',
-    'PSA 10 display case',
-    // PSA Protector — Card types
-    'Pokemon card protector',
-    'Pokemon PSA slab case',
-    'sports card protector',
-    'baseball card case',
-    'basketball card protector',
-    'MTG card protector',
-    'trading card display case',
-    'card collection display',
-    // PSA Protector — Long-tail / Intent
-    'best PSA card protector',
-    'how to protect PSA graded cards',
-    'PSA slab scratch protection',
-    'premium card case aluminum',
-    'magnetic card display case',
-    'card protector UV glass',
-    'PSA card protector review',
-    'aluminum vs acrylic card case',
-    // Investment & high-end collector
-    'investment-grade card protection',
-    'museum-grade UV card case',
-    'archival card storage',
-    'high-value graded card protector',
-    'portfolio-grade slab case',
-    'N52 neodymium card case',
-    'industrial-grade PSA shell',
-    'precision CNC card case',
-    'vault-ready PSA protector',
-    // Bilingual / Chinese
-    'PSA卡鋁合金保護殼',
-    'PSA卡保護套',
-    '鋁合金卡片保護殼',
-    '評級卡牌買賣',
-    '寶可夢卡牌交易',
-    // Card Trading
-    'buy graded cards',
-    'sell PSA cards',
-    'TCG trading Hong Kong',
-    'Pokemon card trading',
-    'sports card broker',
-    'graded card marketplace',
-    'card consignment service',
-    // Brand
-    'Appaw Store',
-    'appaw.store',
-  ],
-  authors: [{ name: 'Appaw Store' }],
-  creator: 'Appaw Store',
-  publisher: 'Appaw Store',
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
-  metadataBase: new URL('https://appaw.store'),
-  alternates: {
-    canonical: '/',
-    languages: {
-      'en': '/',
-      'zh-HK': '/',
-    },
-  },
-  openGraph: {
-    title: 'Appaw Store – PSA Card Aluminum Protector & TCG Trading',
-    description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass and N52 magnetic closure. Trusted TCG trading & brokerage for graded cards.',
-    url: 'https://appaw.store',
-    siteName: 'Appaw Store',
-    type: 'website',
-    locale: 'en_US',
-    alternateLocale: ['zh_HK', 'zh_CN'],
-    images: [
-      {
-        url: '/images/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Appaw Store - PSA Card Aluminum Protector',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Appaw Store - PSA Card Aluminum Protector & TCG Trading',
-    description: 'Premium aluminum protector with >95% UV protection for PSA graded cards. Trusted TCG trading & brokerage.',
-    images: ['/images/og-image.png'],
-    creator: '@appaw.store',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    // Add your verification codes when you have them
-    // google: 'your-google-verification-code',
-  },
-};
+export const metadata = rootMetadata;
 
-// WebSite schema — enables site-level identity in Google Knowledge Graph
-const webSiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Appaw Store',
-  url: 'https://appaw.store',
-  description: 'Premium PSA Card Aluminum Protector and TCG trading & brokerage. Based in Hong Kong, shipping worldwide.',
-  inLanguage: ['en', 'zh-HK'],
-};
-
-// Structured Data for SEO & AEO
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Store',
-  name: 'Appaw Store',
-  legalName: 'Appaw Store',
-  alternateName: ['Appaw', 'APPAW Store'],
-  description: 'Premium PSA Card Aluminum Protector and TCG trading & brokerage in Hong Kong',
-  slogan: 'Protect What Matters. Display What You Love.',
-  foundingDate: '2024',
-  url: 'https://appaw.store',
-  logo: 'https://appaw.store/images/logo.png',
-  image: 'https://appaw.store/images/og-image.png',
-  priceRange: '$$',
-  knowsAbout: [
-    'PSA graded trading cards',
-    'CGC graded trading cards',
-    'Pokémon TCG card preservation',
-    'TCG card valuation and brokerage',
-    'Aluminum card case manufacturing',
-    'UV protection for trading cards',
-  ],
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'HK',
-    addressLocality: 'Hong Kong',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    addressCountry: 'HK',
-  },
-  telephone: '+852-9285-1189',
-  email: 'support@appaw.store',
-  openingHoursSpecification: {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    opens: '10:00',
-    closes: '22:00',
-  },
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: '+852-9285-1189',
-    contactType: 'customer service',
-    availableLanguage: ['English', 'Chinese', 'Cantonese'],
-    areaServed: ['HK', 'US', 'GB', 'CN', 'TW', 'SG', 'JP', 'AU'],
-  },
-  sameAs: [
-    'https://www.instagram.com/appaw.store/',
-    'https://www.threads.net/@appaw.store',
-    'https://appawstore.etsy.com/',
-    'https://www.carousell.com.hk/u/appaw.store/',
-  ],
-  // Full product & service schemas live on their own pages as single sources of truth.
-  // Root Store references them by URL only to avoid duplication.
-  makesOffer: [
-    { '@type': 'Offer', url: 'https://appaw.store/products/psa-protectors/', name: 'PSA Card Aluminum Protector' },
-    { '@type': 'Offer', url: 'https://appaw.store/business/card-trading/', name: 'TCG Trading & Brokerage' },
-  ],
-};
+// Site-level structured data is rendered via `src/lib/seo` factories and the
+// `StructuredData` server component to centralize schema handling.
 
 // FAQ Schema intentionally omitted from root layout.
 // Each page owns its FAQPage as a single source:
@@ -234,14 +52,7 @@ export default function RootLayout({
         />
         
         {/* Structured Data for Search Engines & AI */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
         {/* Language declared via <html lang> and hreflang <link> tags (generated from alternates.languages above) */}
       </head>
       <body>

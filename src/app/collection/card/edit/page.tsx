@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 import CardFormClient from '../../CardFormClient';
+import { editCardMetadata } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
-  title: 'Edit Card | Appaw Store',
-  robots: { index: false, follow: false },
-};
+export const metadata = editCardMetadata;
 
 export default function EditCardPage() {
   return <CardFormClient />;

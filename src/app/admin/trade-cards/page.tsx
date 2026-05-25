@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 import AdminClient from './AdminClient';
+import { adminTradeMetadata } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
-  title: 'Card Admin | Appaw Store',
-  robots: { index: false, follow: false },
-};
+export const metadata = adminTradeMetadata;
 
 export default function AdminPage() {
   return <AdminClient />;

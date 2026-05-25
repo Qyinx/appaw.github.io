@@ -9,29 +9,29 @@ export default function StyleGuidePage() {
   const { t } = useLanguage();
 
   const primaryColors = [
-    { name: '50', value: '#f6f3fb', className: 'bg-primary-50' },
-    { name: '100', value: '#efe9f8', className: 'bg-primary-100' },
-    { name: '200', value: '#e3d6f1', className: 'bg-primary-200' },
-    { name: '300', value: '#d1bfe6', className: 'bg-primary-300' },
-    { name: '400', value: '#b79ad8', className: 'bg-primary-400' },
-    { name: '500', value: '#9B7EBF', className: 'bg-primary-500' },
-    { name: '600', value: '#8567a8', className: 'bg-primary-600' },
-    { name: '700', value: '#6e4f86', className: 'bg-primary-700' },
-    { name: '800', value: '#553a63', className: 'bg-primary-800' },
-    { name: '900', value: '#3b2844', className: 'bg-primary-900' },
+    { name: '50', value: '#fff8f9', className: 'bg-primary-50' },
+    { name: '100', value: '#feeff1', className: 'bg-primary-100' },
+    { name: '200', value: '#ffdfe4', className: 'bg-primary-200' },
+    { name: '300', value: '#ffc2cc', className: 'bg-primary-300' },
+    { name: '400', value: '#ff9aa6', className: 'bg-primary-400' },
+    { name: '500', value: '#f07a86', className: 'bg-primary-500' },
+    { name: '600', value: '#D4899A', className: 'bg-primary-600' },
+    { name: '700', value: '#b36d80', className: 'bg-primary-700' },
+    { name: '800', value: '#8f4f62', className: 'bg-primary-800' },
+    { name: '900', value: '#6b3343', className: 'bg-primary-900' },
   ];
 
   const secondaryColors = [
-    { name: '50', value: '#f0fbff', className: 'bg-secondary-50' },
-    { name: '100', value: '#e6f8ff', className: 'bg-secondary-100' },
-    { name: '200', value: '#cfeeff', className: 'bg-secondary-200' },
-    { name: '300', value: '#9fe6ff', className: 'bg-secondary-300' },
-    { name: '400', value: '#6fd0ff', className: 'bg-secondary-400' },
-    { name: '500', value: '#6FC3FF', className: 'bg-secondary-500' },
-    { name: '600', value: '#4aa8e6', className: 'bg-secondary-600' },
-    { name: '700', value: '#2f83b3', className: 'bg-secondary-700' },
-    { name: '800', value: '#235f80', className: 'bg-secondary-800' },
-    { name: '900', value: '#18394d', className: 'bg-secondary-900' },
+    { name: '50', value: '#f8fbff', className: 'bg-secondary-50' },
+    { name: '100', value: '#eef2ff', className: 'bg-secondary-100' },
+    { name: '200', value: '#e0e7ff', className: 'bg-secondary-200' },
+    { name: '300', value: '#c7d2fe', className: 'bg-secondary-300' },
+    { name: '400', value: '#a5b4fc', className: 'bg-secondary-400' },
+    { name: '500', value: '#8b98fb', className: 'bg-secondary-500' },
+    { name: '600', value: '#818cf8', className: 'bg-secondary-600' },
+    { name: '700', value: '#5f66e6', className: 'bg-secondary-700' },
+    { name: '800', value: '#3d49c4', className: 'bg-secondary-800' },
+    { name: '900', value: '#2a2f8f', className: 'bg-secondary-900' },
   ];
 
   const accentColors = [
@@ -118,7 +118,7 @@ export default function StyleGuidePage() {
           <div className="mt-12">
             <h3 className="text-lg font-semibold text-neutral-800 mb-4">Gradients</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="h-24 rounded-xl bg-gradient-to-r from-[#9B7EBF] to-[#AF97D3] flex items-center justify-center text-white font-medium">
+              <div className="h-24 rounded-xl bg-gradient-to-r from-[#f07a86] to-[#d4899a] flex items-center justify-center text-white font-medium">
                 Primary Gradient
               </div>
               <div className="h-24 rounded-xl bg-gradient-to-r from-[#6FC3FF] to-[#4AA8E6] flex items-center justify-center text-white font-medium">

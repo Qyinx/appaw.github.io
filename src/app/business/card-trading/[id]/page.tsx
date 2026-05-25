@@ -3,6 +3,8 @@ import path from 'path';
 import type { Metadata } from 'next';
 import type { TradingCard } from '@/types/trading-card';
 import CardDetailClient from './CardDetailClient';
+import StructuredData from '@/components/StructuredData';
+import { productJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 
 /* ──────────────────────────────────────────
    Individual Card Page — Server Component
@@ -105,9 +107,7 @@ export default async function CardDetailPage(
   const cardUrl = `https://appaw.store/business/card-trading/${id}/`;
 
   // Product JSON-LD — additionalProperty surfaces card facts to AI entity parsers
-  const productJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
+  const productLd = productJsonLd({
     name: `${card.name} — ${card.company} ${grade}${bl}`,
     description: seoDesc,
     image: `https://appaw.store${card.image || card.bundleCards?.[0]?.image || ''}`,
@@ -123,7 +123,6 @@ export default async function CardDetailPage(
       { '@type': 'PropertyValue', name: 'Grading Company', value: card.company },
       { '@type': 'PropertyValue', name: 'Grade',           value: grade },
       ...(card.isBlackLabel ? [{ '@type': 'PropertyValue', name: 'Designation', value: 'Black Label' }]         : []),
-      // Cert number kept masked — intentional anti-clone protection
       ...(card.certNumber ? [{ '@type': 'PropertyValue', name: 'Cert Number',  value: card.certNumber }]        : []),
     ],
     offers: {
@@ -135,19 +134,15 @@ export default async function CardDetailPage(
       url: cardUrl,
       seller: { '@type': 'Organization', name: 'Appaw Store' },
     },
-  };
+  });
 
   // Breadcrumb JSON-LD
-  const breadcrumbJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home',         item: 'https://appaw.store/' },
-      { '@type': 'ListItem', position: 2, name: 'Services',     item: 'https://appaw.store/business/' },
-      { '@type': 'ListItem', position: 3, name: 'Card Trading', item: 'https://appaw.store/business/card-trading/' },
-      { '@type': 'ListItem', position: 4, name: card.name,      item: cardUrl },
-    ],
-  };
+  const breadcrumb = breadcrumbJsonLd([
+    { position: 1, name: 'Home',         item: 'https://appaw.store/' },
+    { position: 2, name: 'Services',     item: 'https://appaw.store/business/' },
+    { position: 3, name: 'Card Trading', item: 'https://appaw.store/business/card-trading/' },
+    { position: 4, name: card.name,      item: cardUrl },
+  ]);
 
   // FAQPage JSON-LD — primary GEO signal; AI engines (Perplexity, ChatGPT, Google AI Overview)
   // cite FAQ schema verbatim when answering user questions about specific cards.
@@ -158,60 +153,42 @@ export default async function CardDetailPage(
     CGC: `CGC ${grade} ${gradeLabel} means the card has been authenticated and encapsulated by Certified Guaranty Company at the ${gradeLabel.toLowerCase()} tier.`,
   };
 
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: `Is the ${card.name} (${card.company} ${grade}) available for purchase?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: card.sold
-            ? `This ${card.name} (${card.company} ${grade}) has been sold. Contact Appaw Store via WhatsApp to inquire about similar cards or upcoming inventory.`
-            : `Yes. The ${card.name} graded ${card.company} ${grade} is currently in stock at ${card.currency} ${card.price.toLocaleString()}. Contact Appaw Store via WhatsApp to purchase.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `What does ${card.company} ${grade} mean?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: gradeExplanations[card.company] ?? `${card.company} ${grade} is a professional grade issued to this trading card.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How do I buy a graded card from Appaw Store?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Contact Appaw Store directly via WhatsApp. All transactions are handled personally by our team in Hong Kong to ensure a secure and transparent purchase experience.',
-        },
-      },
-      ...(card.set ? [{
-        '@type': 'Question',
-        name: `What set is this ${card.name} from?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `This card is from the ${card.set}${card.number ? `, card number ${card.number}` : ''}${card.year ? `, released in ${card.year}` : ''}.`,
-        },
-      }] : []),
-      ...(card.language ? [{
-        '@type': 'Question',
-        name: `What language is this ${card.name} card?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `This is a ${card.language} language edition of the ${card.name}${card.set ? ` from ${card.set}` : ''}.`,
-        },
-      }] : []),
-    ],
-  };
+  const faqLd = faqJsonLd([
+    {
+      q: `Is the ${card.name} (${card.company} ${grade}) available for purchase?`,
+      a: card.sold
+        ? `This ${card.name} (${card.company} ${grade}) has been sold. Contact Appaw Store via WhatsApp to inquire about similar cards or upcoming inventory.`
+        : `Yes. The ${card.name} graded ${card.company} ${grade} is currently in stock at ${card.currency} ${card.price.toLocaleString()}. Contact Appaw Store via WhatsApp to purchase.`,
+    },
+    {
+      q: `What does ${card.company} ${grade} mean?`,
+      a: gradeExplanations[card.company] ?? `${card.company} ${grade} is a professional grade issued to this trading card.`,
+    },
+    {
+      q: 'How do I buy a graded card from Appaw Store?',
+      a: 'Contact Appaw Store directly via WhatsApp. All transactions are handled personally by our team in Hong Kong to ensure a secure and transparent purchase experience.',
+    },
+    ...(card.set
+      ? [
+          {
+            q: `What set is this ${card.name} from?`,
+            a: `This card is from the ${card.set}${card.number ? `, card number ${card.number}` : ''}${card.year ? `, released in ${card.year}` : ''}.`,
+          },
+        ]
+      : []),
+    ...(card.language
+      ? [
+          {
+            q: `What language is this ${card.name} card?`,
+            a: `This is a ${card.language} language edition of the ${card.name}${card.set ? ` from ${card.set}` : ''}.`,
+          },
+        ]
+      : []),
+  ]);
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <StructuredData data={[productLd, breadcrumb, faqLd]} />
       <CardDetailClient card={card} />
     </>
   );

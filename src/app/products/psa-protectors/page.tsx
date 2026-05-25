@@ -102,12 +102,24 @@ export default function PSAProtectorPage() {
   const [activeFeature, setActiveFeature] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
+  const [priceAnimating, setPriceAnimating] = useState(false);
   const colorDir  = useRef<'left' | 'right'>('right');
   const prevColor  = useRef<number>(0);
   const selectColor = useCallback((i: number) => {
     colorDir.current = i > selectedColor ? 'right' : 'left';
     prevColor.current = selectedColor;
     setSelectedColor(i);
+  }, [selectedColor]);
+
+  const prevSelectedRef = useRef<number>(selectedColor);
+  useEffect(() => {
+    if (prevSelectedRef.current !== selectedColor) {
+      setPriceAnimating(true);
+      const id = setTimeout(() => setPriceAnimating(false), 360);
+      prevSelectedRef.current = selectedColor;
+      return () => clearTimeout(id);
+    }
+    return;
   }, [selectedColor]);
 
   const featuresReveal = useReveal();
@@ -185,7 +197,7 @@ export default function PSAProtectorPage() {
                 label={t.business.cardProtector.cta}
                 shopOptions={t.shopOptions}
                 whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                buttonClassName="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.35)]"
+                buttonClassName="inline-flex items-center gap-3 bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 shadow-sm"
               />
             </div>
 
@@ -322,7 +334,7 @@ export default function PSAProtectorPage() {
                   label={t.business.cardProtector.cta}
                   shopOptions={t.shopOptions}
                   whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                  buttonClassName="inline-flex items-center gap-2 px-8 py-4 bg-[#D4899A] text-black font-semibold rounded-xl hover:bg-[#E8A3B2] transition-all duration-200 shadow-[0_8px_32px_rgba(212,137,154,0.3)]"
+                  buttonClassName="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-all duration-200 shadow-md"
                 />
               </div>
             </div>
@@ -623,10 +635,43 @@ export default function PSAProtectorPage() {
                     })}
                   </div>
 
-                  {/* Note */}
-                  <p className="text-white/20 text-xs leading-relaxed max-w-xs">
-                    {t.psaProtectorPage.colorVariants.note}
-                  </p>
+                  {/* Pricing panel */}
+                  <div className="mt-4 grid gap-3">
+                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#0b0b10] to-[#08080b] border border-white/[0.04] shadow-sm max-w-xs">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="text-[10px] text-white/30 uppercase tracking-wider">{t.psaProtectorPage.colorVariants.pricing.label}</div>
+                        <div className="text-[10px] text-white/40 uppercase tracking-wide">{active.hex2 ? 'Gradient' : 'Single'}</div>
+                      </div>
+
+                      <div className="flex items-end gap-3">
+                        <div className="flex-1">
+                          <div
+                            aria-live="polite"
+                            className="text-2xl md:text-3xl font-bold leading-tight text-white"
+                            style={{
+                              transform: priceAnimating ? 'translateY(-8px) scale(0.99)' : 'translateY(0) scale(1)',
+                              opacity: priceAnimating ? 0 : 1,
+                              transition: 'all 340ms cubic-bezier(0.2,0.9,0.3,1)'
+                            }}
+                          >
+                            {active.hex2 ? 'HK$80' : 'HK$72'}
+                          </div>
+                          <div className="text-xs text-white/50 mt-1">{active.hex2 ? t.psaProtectorPage.colorVariants.pricing.gradient : t.psaProtectorPage.colorVariants.pricing.single}</div>
+                        </div>
+
+                        <div style={{ minWidth: 56 }}>
+                          <div className="px-3 py-2 rounded-lg bg-white/6 border border-white/[0.03] text-[12px] text-white/80 font-medium text-center">Suggested</div>
+                        </div>
+                      </div>
+
+                      <div className="text-xs text-white/30 mt-3">{t.psaProtectorPage.colorVariants.pricing.note}</div>
+                    </div>
+
+                    {/* Note */}
+                    <p className="text-white/20 text-xs leading-relaxed max-w-xs">
+                      {t.psaProtectorPage.colorVariants.note}
+                    </p>
+                  </div>
                 </div>
 
               </div>

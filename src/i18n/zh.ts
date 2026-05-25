@@ -54,7 +54,7 @@ export const zh: Translations = {
     },
     services: {
       badge: '我們的服務',
-      title: '兩大收藏家服務',
+      title: '收藏家服務',
       subtitle: '從優質保護到值得信賴的交易，全方位守護您的收藏。',
       protector: {
         subtitle: '工業級鋁合金保護與展覽級展示，專為您的珍貴 PSA 評級卡片而設。',
@@ -216,6 +216,12 @@ export const zh: Translations = {
         forestGreen: '森林綠',
         goldenEmberRed: '烈焰',
         dark: '暗夜',
+      },
+      pricing: {
+        label: '建議售價',
+        gradient: '漸變色',
+        single: '單色',
+        note: '以上價格為建議零售價（港幣），運費及稅項另計。'
       },
     },
     ctaTitle: '準備好保護您的收藏了嗎？',
