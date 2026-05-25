@@ -39,6 +39,7 @@ export default function ShopNowButton({
   whatsappMessage,
   buttonClassName,
   chevronSize = 'w-4 h-4',
+  onClick,
 }: ShopNowButtonProps) {
   const [open, setOpen] = useState(false);
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
