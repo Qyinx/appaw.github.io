@@ -1,5 +1,7 @@
 SEO Draft — Pillar Pages
 
+Last updated: 2026-05-26 — Next.js sitemap generator implemented (`src/app/sitemap.ts`).
+
 Goal: Provide SEO-ready title/meta and JSON-LD examples for the three pillars to improve Google reach and SERP CTR.
 
 Site OG image (used across the site): `/images/og-image.png` — recommended size 1200x630, used for homepage and default social previews.
@@ -141,3 +143,109 @@ Recommended follow-ups
 
 - Migrate `psa-protectors` and `business/card-trading` to use the factories for `Product`/`FAQ` creation (these pages sometimes construct dynamic objects — factories can accept data and return a normalized `Product` object).
 - Run a headless render (build + puppeteer/playwright) to validate runtime HTML and confirm only intended JSON-LD appears on each route.
+
+Sitemap Strategy
+===============
+
+1. Sitemap Structure:
+   - Hierarchy (3 levels recommended):
+     1) Homepage -> 2) Section (Products, Tools, Collection, About, Blog, Business) -> 3) Resource (Category, Tool page, Product detail, Article).
+        - Examples:
+          - Homepage -> Products -> PSA Protectors -> Product detail (/products/psa-protectors/ or /products/[slug]/)
+          - Homepage -> Tools -> Card Centering Analyzer -> Tool result (/tools/centering/)
+          - Homepage -> Collection -> My Collection (private — exclude unless explicitly made public)
+   - Depth rationale: limit to ~3 levels for crawl efficiency and clear user navigation; use internal links and bread-crumbs to surface important pages.
+   - Canonicalization & faceting: include only canonical URLs in sitemaps. Exclude session, cart, auth, filter query permutations unless they are canonical and indexable.
+
+2. Sitemap Types:
+   - XML Sitemap (primary):
+     - Purpose: serve machine-readable list of canonical pages to crawlers, include `loc`, `lastmod`, optional `changefreq`, `priority` and `xhtml:link` alternates for locales.
+     - Structure: create a `sitemap_index.xml` that references smaller sitemaps by content type:
+       - sitemap_products.xml (all product detail pages)
+       - sitemap_categories.xml (category pages)
+       - sitemap_pages.xml (about, policies, support, blog index)
+       - sitemap_tools.xml (tools pages and canonical result endpoints)
+       - sitemap_images.xml (optional if you prefer separate image sitemaps; images can also be embedded in product sitemaps)
+     - Inclusion rules: include canonical product, category, tool, and public static pages. Exclude `/admin/`, `/api/`, `/cart/`, `/checkout/`, auth endpoints, and private user dashboards like `/collection/` (unless explicitly public).
+     - Extensions: use `image` namespace for product images; include `xhtml:link rel="alternate" hreflang` entries if you serve multi-locale content (en/zh).
+     - Size limits: obey 50,000 URLs / 50MB uncompressed — shard sitemaps and reference them from `sitemap_index.xml` if needed.
+
+   - HTML Sitemap (human-facing):
+     - Purpose: aid users and assist crawlers discovering site hierarchy. Place at `/sitemap/` or `/sitemap.html` and link from the footer.
+     - Structure: grouped lists: Shop (categories) -> Featured products, Tools -> Utility pages, Support -> Policies & contact, Blog -> Topics. Use pagination or collapse sections for very large catalogs.
+
+   - Image Sitemap:
+     - Purpose: ensure important product and gallery images are discovered and associated with the canonical page.
+     - Implementation: embed `<image:image>` entries in product sitemaps or generate `sitemap_images.xml` with `<image:loc>`, `<image:caption>`, `<image:title>`, and (where applicable) `<image:license>`.
+     - Optimization: use optimized formats (WebP/AVIF), include meaningful `alt` and `caption` text in page markup, and reference final CDN URLs (HTTPS, absolute).
+
+   - Video Sitemap (only if applicable):
+     - If you publish product demos, how-to videos, or tool walkthroughs, include a `sitemap_videos.xml` with required fields: `thumbnail_loc`, `title`, `description`, `content_loc` or `player_loc`, `duration`, `publication_date`.
+
+3. Sitemap Submission:
+   - Google Search Console:
+     1) Add and verify the `https://appaw.store` property (prefer Domain property if possible).
+     2) Go to Sitemaps > Add a new sitemap > submit `sitemap_index.xml` (enter only the filename or full path).
+     3) Monitor the Sitemaps report and Coverage for indexed URLs and errors; re-submit after major structural updates.
+   - Bing Webmaster Tools:
+     1) Add and verify site.
+     2) Submit `sitemap_index.xml` in the Sitemaps section.
+     3) Monitor index and crawl errors.
+   - Ping endpoints (for automated notifications):
+     - Google: `https://www.google.com/ping?sitemap=https://appaw.store/sitemap_index.xml`
+     - Bing: `https://www.bing.com/ping?sitemap=https://appaw.store/sitemap_index.xml`
+   - robots.txt:
+     - Place at `/public/robots.txt`. Example minimal config:
+       User-agent: *
+       Allow: /
+       Disallow: /admin/
+       Disallow: /api/
+       Disallow: /cart/
+       Disallow: /checkout/
+       Disallow: /auth/
+       # If collection remains private:
+       Disallow: /collection/
+       Sitemap: https://appaw.store/sitemap_index.xml
+     - Ensure robots.txt is reachable and lists the sitemap URL(s).
+
+4. Ongoing Maintenance:
+   - Generation cadence:
+     - Regenerate or update product sitemaps on publish/update events (webhook-backed). For small sites a nightly full regeneration is sufficient; large catalogs should use incremental updates.
+     - Touch `lastmod` with the resource's authoritative `updatedAt` timestamp.
+   - Automation & triggers:
+     - On product create/update/delete: update product sitemap shard and ping search engines.
+     - On deploy: run a sitemap generation job to catch static page changes.
+     - Cache generated sitemaps in memory or filesystem and serve gzipped versions (`sitemap.xml.gz`) to reduce bandwidth.
+   - Monitoring:
+     - Monitor Search Console / Bing reports for sitemap errors, 404s, or blocked resources.
+     - Run weekly link checks to detect broken internal links and orphan pages.
+     - Alert on sitemap generation failures and HTTP 5xx responses when serving sitemaps.
+   - Policy for removed pages:
+     - Prefer 301 redirects for moved pages; use 410 for intentionally removed content.
+     - Remove permanently deleted pages from sitemaps and allow search engines to deindex naturally; optionally submit removal requests in Search Console for urgent cases.
+   - Periodic review:
+     - Quarterly taxonomy review (categories, tags) to ensure sitemaps reflect business priorities.
+     - Validate sitemaps with an XML validator after structural changes.
+
+5. Technical Considerations & Implementation Options:
+   - Preferred generation method for this Next.js app:
+     - Automated server-side generation: build a server route (e.g., `/api/sitemap` or `/sitemap.xml`) that composes a `sitemap_index.xml` and shards using current DB / product feed. Cache results and regenerate on content webhooks.
+     - Use `next-sitemap` (npm) for a quick, supported setup; it supports robots, sitemap indexes, and alternate hreflang entries.
+     - For very large catalogs, generate per-shard sitemaps (by date range, by ID blocks, or by content-type) and publish a sitemap index.
+   - Platform constraints:
+     - Next.js (custom): full control; implement dynamic sitemap endpoints or build-time generation with ISR.
+     - WordPress: use Yoast/RankMath; they handle sharding and image/video sitemaps.
+     - Shopify: built-in sitemap generation — supplement if you host additional dynamic tools or pages off-platform.
+   - Security & privacy:
+     - Never expose private user dashboards or tokenized URLs in sitemaps.
+   - Performance:
+     - Serve gzipped sitemaps; use short cache TTLs for dynamic sitemaps but respect freshness for search engines when content changes.
+   - Validation & testing:
+     - Use Search Console’s sitemap tester and an XML validator.
+     - Run a headless render to confirm server-produced routes include correct canonical links and that sitemaps match rendered pages.
+
+Quick next steps I can take for you:
+ - Implement a Next.js `/sitemap_index.xml` generator (automated, incremental) and add `Sitemap:` to [public/robots.txt](public/robots.txt).
+ - Run a headless validation of key routes and the final sitemap (requires `npm install` / build in this environment or a staging URL).
+
+I've appended this strategy to [docs/seo-pillars.md](docs/seo-pillars.md).
