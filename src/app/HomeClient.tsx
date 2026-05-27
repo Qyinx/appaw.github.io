@@ -170,7 +170,7 @@ export default function HomeClient() {
                   </Link>
 
                   <Link
-                    href="/tools/centering"
+                    href="/tools/card-centering"
                     onClick={handleCenteringClick}
                     className="group inline-flex items-center gap-2 px-5 py-3 text-white/70 hover:text-white text-sm font-medium hover:bg-white/[0.05] transition-all duration-200"
                   >
@@ -451,7 +451,7 @@ export default function HomeClient() {
 
             {/* ═══ CARD 03 — Centering Analyzer ═══ */}
             <Link
-              href="/tools/centering"
+              href="/tools/card-centering"
               onClick={handleCenteringClick}
               className="group relative block rounded-[1.25rem] transition-all duration-700 hover:-translate-y-1"
               style={{

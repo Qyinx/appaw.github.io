@@ -1,6 +1,6 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-05-26 — Next.js sitemap generator implemented (`src/app/sitemap.ts`).
+Last updated: 2026-05-27 — Next.js sitemap generator updated (`src/app/sitemap.ts`) to include image entries for trade listings; `/business/card-trading/` has been hidden from sitemap and set to `noindex`.
 
 Goal: Provide SEO-ready title/meta and JSON-LD examples for the three pillars to improve Google reach and SERP CTR.
 
@@ -68,7 +68,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 ---
 
-3) Card Centering Analyzer (/tools/centering/)
+3) Visual Card Centering Analyzer (/tools/card-centering/)
 - Suggested Title: "Card Centering Analyzer — Instant Center Grade Tool | Appaw Store"
 - Suggested Meta Description: "Upload a photo or use your camera to get an instant centering grade (%) and downloadable report for trading cards. Free and easy to use."
 - Suggested H1: "Card Centering Analyzer"
@@ -84,7 +84,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
   "@type": "WebApplication",
   "name": "Card Centering Analyzer",
   "description": "Upload a card photo for instant centering grade and exportable report. Useful for grading preparation.",
-  "url": "https://appaw.store/tools/centering/",
+  "url": "https://appaw.store/tools/card-centering/",
   "applicationCategory": "EducationApplication",
   "author": { "@type": "Organization", "name": "Appaw Store" }
 }
@@ -103,7 +103,7 @@ General implementation checklist
 - Submit/update sitemap.xml after changes and monitor Search Console for indexing.
 
 Recommended next step
-- I can implement these meta tags and JSON-LD snippets directly into the page components (`src/app/products/psa-protectors/page.tsx`, `src/app/collection/page.tsx`, `src/app/tools/centering/page.tsx`). Would you like me to implement those now?
+- I can implement these meta tags and JSON-LD snippets directly into the page components (`src/app/products/psa-protectors/page.tsx`, `src/app/collection/page.tsx`, `src/app/tools/card-centering/page.tsx`). Would you like me to implement those now?
 
 Validation (source-level check)
 
@@ -112,7 +112,7 @@ I performed a source-level inspection of JSON-LD injection points across the app
 - Root site schema: `WebSite` + `Store` are injected in `src/app/layout.tsx` (site-level JSON-LD and GA script). These are intentionally global and present on all pages.
 - `/products/psa-protectors/`: `Product`, `BreadcrumbList`, and `FAQPage` are injected in `src/app/products/psa-protectors/layout.tsx` (single source for product data).
 - `/collection/`: `WebApplication` + `BreadcrumbList` are injected in `src/app/collection/page.tsx` (page-owned WebApplication schema). Note: this page is currently `robots: { index: false }`.
-- `/tools/centering/`: `WebApplication` + `BreadcrumbList` are injected in `src/app/tools/centering/layout.tsx` (page-owned metadata + JSON-LD).
+- `/tools/card-centering/`: `WebApplication` + `BreadcrumbList` are injected in `src/app/tools/card-centering/layout.tsx` (page-owned metadata + JSON-LD).
 
 Conclusion
 
@@ -137,7 +137,7 @@ Implementation note: JSON-LD has been centralized into `src/lib/seo` and rendere
 Migration status
 
 - Root layout (`src/app/layout.tsx`) now imports `webSiteJsonLd()` and `storeJsonLd()` and renders them with `<StructuredData />`.
-- `src/app/products/psa-protectors/layout.tsx`, `src/app/business/card-trading/page.tsx`, `src/app/collection/page.tsx`, and `src/app/tools/centering/layout.tsx` still own per-page schemas but can be migrated to use the centralized factories to keep wording consistent.
+- `src/app/products/psa-protectors/layout.tsx`, `src/app/business/card-trading/page.tsx`, `src/app/collection/page.tsx`, and `src/app/tools/card-centering/layout.tsx` still own per-page schemas but can be migrated to use the centralized factories to keep wording consistent.
 
 Recommended follow-ups
 
@@ -152,7 +152,7 @@ Sitemap Strategy
      1) Homepage -> 2) Section (Products, Tools, Collection, About, Blog, Business) -> 3) Resource (Category, Tool page, Product detail, Article).
         - Examples:
           - Homepage -> Products -> PSA Protectors -> Product detail (/products/psa-protectors/ or /products/[slug]/)
-          - Homepage -> Tools -> Card Centering Analyzer -> Tool result (/tools/centering/)
+          - Homepage -> Tools -> Card Centering Analyzer -> Tool result (/tools/card-centering/)
           - Homepage -> Collection -> My Collection (private — exclude unless explicitly made public)
    - Depth rationale: limit to ~3 levels for crawl efficiency and clear user navigation; use internal links and bread-crumbs to surface important pages.
    - Canonicalization & faceting: include only canonical URLs in sitemaps. Exclude session, cart, auth, filter query permutations unless they are canonical and indexable.

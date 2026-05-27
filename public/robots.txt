@@ -14,8 +14,8 @@ Disallow: /graphql/
 Disallow: /style-guide/
 
 # Block URL query parameters that create duplicate content
-# Filter & sort params on card marketplace — the base path itself is allowed
-Allow: /business/card-trading/
+# Filter & sort params on card marketplace — the `card-trading` section is blocked from indexing
+Disallow: /business/card-trading/
 Allow: /collection/
 Disallow: /business/card-trading/?*search=
 Disallow: /business/card-trading/?*sort=
@@ -59,10 +59,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 Disallow: /style-guide/
-Disallow: /business/card-trading/?*search=
-Disallow: /business/card-trading/?*sort=
-Disallow: /business/card-trading/?*grade=
-Disallow: /business/card-trading/?*company=
+Crawl-delay: 1
+Disallow: /business/card-trading/
 Crawl-delay: 1
 
 # ── Google ───────────────────────────────────────────────────────────────────
@@ -71,10 +69,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 Disallow: /style-guide/
-Disallow: /business/card-trading/?*search=
-Disallow: /business/card-trading/?*sort=
-Disallow: /business/card-trading/?*grade=
-Disallow: /business/card-trading/?*company=
+Disallow: /business/card-trading/
 
 # ── Sitemap ───────────────────────────────────────────────────────────────────
 Sitemap: https://appaw.store/sitemap.xml

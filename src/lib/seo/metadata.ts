@@ -193,4 +193,5 @@ export const cardTradingMetadata: Metadata = {
   description:
     'The premier Hong Kong destination for investment-grade PSA 10 Pokémon cards. Zero-fee consignment, museum-quality verified transactions & private acquisition of blue-chip graded assets.',
   alternates: { canonical: '/business/card-trading/' },
+  robots: { index: false, follow: false },
 };

@@ -3,7 +3,7 @@ Homepage Wireframe Draft
 Goal: Make homepage a clear hub for three pillars:
 - PSA Protectors (/products/psa-protectors/)
 - My Collection (/collection/)
-- Card Centering Analyzer (/tools/centering/)
+- Card Centering Analyzer (/tools/card-centering/)
 
 Layout (Desktop)
 
@@ -17,7 +17,7 @@ Layout (Desktop)
 - Headline: "Protect, Manage, and Analyze Your Cards — All in One Place"
 - Subhead: "Shop PSA-grade protectors, manage your collection, or check card centering in seconds."
 - Primary CTA (solid): "Shop PSA Protectors" -> /products/psa-protectors/
-- Secondary CTAs (outline): "View My Collection" -> /collection/  |  "Analyze Centering" -> /tools/centering/
+- Secondary CTAs (outline): "View My Collection" -> /collection/  |  "Analyze Centering" -> /tools/card-centering/
 - Visual: clean product photo or montage (light), subtle partner logos bar under hero
 
 3) Three Feature Tiles (immediately under hero, 3 columns)
@@ -34,7 +34,7 @@ Tile 2 — My Collection
 Tile 3 — Centering Analyzer
 - Mini-headline: "Centering Analyzer"
 - 2 bullets: "Upload photo or use camera"; "Instant center grade (%)"
-- CTA: "Analyze Now" -> /tools/centering/
+- CTA: "Analyze Now" -> /tools/card-centering/
 
 4) How it works (3-step horizontal)
 - For shop: Order -> Receive -> Protect
