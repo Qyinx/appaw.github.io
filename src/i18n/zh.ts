@@ -359,8 +359,8 @@ export const zh: Translations = {
   // Card Trading Marketplace
   cardMarketplace: {
     badge: '卡片販售',
-    title: '藍籌卡展廳',
-    subtitle: '精選投資級評級卡牌——經驗證、妥善保存，歡迎私下洽購。',
+    title: '卡牌市集',
+    subtitle: '精選評級卡牌——經驗證、妥善保存，歡迎洽購。',
     hero: {
       statsAvailable: '現貨卡牌',
       statsPsa: 'PSA 評級',

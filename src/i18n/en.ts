@@ -359,7 +359,7 @@ export const en = {
   // Card Trading Marketplace
   cardMarketplace: {
     badge: 'Curated Gallery',
-    title: 'Blue-Chip Card Gallery',
+    title: 'Trading Card Marketplace',
     subtitle: 'A curated gallery of investment-grade graded cards — authenticated, preserved, and available for private acquisition.',
     hero: {
       statsAvailable: 'Cards in stock',
