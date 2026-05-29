@@ -193,12 +193,15 @@ export default function PSAProtectorPage() {
                 {t.business.cardProtector.description}
               </p>
 
-              <ShopNowButton
-                label={t.business.cardProtector.cta}
-                shopOptions={t.shopOptions}
-                whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                buttonClassName="inline-flex items-center gap-3 bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 shadow-sm"
-              />
+              {/* CTA */}
+              <div className="mt-10">
+                <ShopNowButton
+                  label={t.business.cardProtector.cta}
+                  shopOptions={t.shopOptions}
+                  whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                  buttonClassName="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-all duration-200 shadow-md"
+                />
+              </div>
             </div>
 
             {/* Product visual */}
@@ -434,8 +437,8 @@ export default function PSAProtectorPage() {
           { name: t.psaProtectorPage.colorVariants.colors.blueDarkGrey,   hex: '#4a76a8', hex2: '#404858', accent: '#5080b0', glow: 'rgba(46,64,96,0.18)',    ring: 'rgba(100,140,180,0.5)',  image: '/images/describe/color/color-blue-dark-grey.png' },
           { name: t.psaProtectorPage.colorVariants.colors.roseTintedBlue, hex: '#c86888', hex2: '#4868b8', accent: '#b090c8', glow: 'rgba(128,96,152,0.14)',  ring: 'rgba(180,140,200,0.5)',  image: '/images/describe/color/color-rose-tinted-bule.png' },
           { name: t.psaProtectorPage.colorVariants.colors.navy,           hex: '#6b3fa0', hex2: undefined,  accent: '#9b6fd4', glow: 'rgba(107,63,160,0.18)',  ring: 'rgba(155,111,212,0.55)', image: '/images/describe/color/color-purple.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.forestGreen,    hex: '#2d5a3d', hex2: undefined,  accent: '#3d7a52', glow: 'rgba(45,90,61,0.14)',    ring: 'rgba(61,122,82,0.6)',    image: '/images/describe/color/color-green.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.dark,           hex: '#1a1a2e', hex2: undefined,  accent: '#3a3a50', glow: 'rgba(26,26,46,0.28)',    ring: 'rgba(80,80,110,0.55)',   image: '/images/describe/color/color-dark.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.forestGreen,    hex: '#2d5a3d', hex2: undefined,  accent: '#3b9c5d', glow: 'rgba(45,90,61,0.14)',    ring: 'rgba(61,122,82,0.6)',    image: '/images/describe/color/color-green.png' },
+          { name: t.psaProtectorPage.colorVariants.colors.dark,           hex: '#1a1a2e', hex2: undefined,  accent: '#565677', glow: 'rgba(26,26,46,.28)',    ring: 'rgba(80,80,110,0.55)',   image: '/images/describe/color/color-dark.png' },
         ];
         const active = colors[selectedColor];
 
@@ -493,7 +496,7 @@ export default function PSAProtectorPage() {
 
               {/* Two-column: image left / controls right */}
               <div
-                className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center"
+                className="grid lg:grid-cols-2 items-center"
                 style={{
                   opacity: colorsReveal.visible ? 1 : 0,
                   transform: colorsReveal.visible ? 'translateY(0)' : 'translateY(32px)',
@@ -634,20 +637,26 @@ export default function PSAProtectorPage() {
                       );
                     })}
                   </div>
-
-                  {/* Pricing panel */}
-                  <div className="mt-4 grid gap-3">
-                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#0b0b10] to-[#08080b] border border-white/[0.04] shadow-sm max-w-xs">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="text-[10px] text-white/30 uppercase tracking-wider">{t.psaProtectorPage.colorVariants.pricing.label}</div>
-                        <div className="text-[10px] text-white/40 uppercase tracking-wide">{active.hex2 ? 'Gradient' : 'Single'}</div>
-                      </div>
-
-                      <div className="flex items-end gap-3">
-                        <div className="flex-1">
+                </div>
+                <div></div>
+                {/* ── Pricing card ── */}
+                <div className="mt-1 w-full">
+                  <div className="flex justify-end w-full">
+                    <div
+                      className="p-5 rounded-2xl flex items-center justify-between gap-4 flex-wrap w-full"
+                      style={{
+                        border: `1px solid ${active.hex}33`,
+                        background: active.hex2
+                          ? `linear-gradient(135deg, ${active.hex}20, ${active.hex2}20)`
+                          : `${active.hex}35`
+                      }}
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] uppercase tracking-[0.3em] mb-1" style={{ color: `${active.accent}cc` }}>{t.business.cardProtector.startingPrice}</p>
+                        <div className="flex items-baseline gap-3 flex-wrap">
                           <div
                             aria-live="polite"
-                            className="text-2xl md:text-3xl font-bold leading-tight text-white"
+                            className="text-2xl md:text-3xl font-display font-bold leading-tight text-white"
                             style={{
                               transform: priceAnimating ? 'translateY(-8px) scale(0.99)' : 'translateY(0) scale(1)',
                               opacity: priceAnimating ? 0 : 1,
@@ -656,24 +665,34 @@ export default function PSAProtectorPage() {
                           >
                             {active.hex2 ? 'HK$80' : 'HK$72'}
                           </div>
-                          <div className="text-xs text-white/50 mt-1">{active.hex2 ? t.psaProtectorPage.colorVariants.pricing.gradient : t.psaProtectorPage.colorVariants.pricing.single}</div>
-                        </div>
 
-                        <div style={{ minWidth: 56 }}>
-                          <div className="px-3 py-2 rounded-lg bg-white/6 border border-white/[0.03] text-[12px] text-white/80 font-medium text-center">Suggested</div>
+                          <div
+                            className="px-3 py-1 rounded-lg text-[12px] font-medium"
+                            style={{
+                              border: `1px solid ${active.hex}33`,
+                              background: active.hex2
+                                ? `linear-gradient(135deg, ${active.hex}20, ${active.hex2}20)`
+                                : `${active.hex}12`,
+                              color: active.accent
+                            }}
+                          >
+                            Suggested
+                          </div>
                         </div>
+                        <p className="text-white/50 text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
                       </div>
 
-                      <div className="text-xs text-white/30 mt-3">{t.psaProtectorPage.colorVariants.pricing.note}</div>
+                      <div className="flex-shrink-0 mt-3 sm:mt-0">
+                        <ShopNowButton
+                          label={t.business.cardProtector.cta}
+                          shopOptions={t.shopOptions}
+                          whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                          buttonClassName="inline-flex bg-primary-600 hover:bg-primary-700 items-center text-white font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap shadow-sm flex-shrink-0 active:scale-95"
+                        />
+                      </div>
                     </div>
-
-                    {/* Note */}
-                    <p className="text-white/20 text-xs leading-relaxed max-w-xs">
-                      {t.psaProtectorPage.colorVariants.note}
-                    </p>
                   </div>
                 </div>
-
               </div>
             </div>
           </section>
