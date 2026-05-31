@@ -193,15 +193,6 @@ export default function PSAProtectorPage() {
                 {t.business.cardProtector.description}
               </p>
 
-              {/* CTA */}
-              <div className="mt-10">
-                <ShopNowButton
-                  label={t.business.cardProtector.cta}
-                  shopOptions={t.shopOptions}
-                  whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                  buttonClassName="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-all duration-200 shadow-md"
-                />
-              </div>
             </div>
 
             {/* Product visual */}
@@ -331,15 +322,7 @@ export default function PSAProtectorPage() {
                 </span>
               </div>
 
-              {/* CTA */}
-              <div className="mt-10">
-                <ShopNowButton
-                  label={t.business.cardProtector.cta}
-                  shopOptions={t.shopOptions}
-                  whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
-                  buttonClassName="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-all duration-200 shadow-md"
-                />
-              </div>
+
             </div>
 
             {/* Carousel — RIGHT (mirrored from index left) */}
@@ -700,12 +683,15 @@ export default function PSAProtectorPage() {
       })()}
 
       {/* ══════════════════════════════════════════
-           COMPATIBILITY — Luxury Fit Guide
+           COMPATIBILITY — Luxury Fit Guide (styled to match site theme)
       ══════════════════════════════════════════ */}
-      <section ref={compatReveal.ref} className="py-28 bg-white overflow-hidden">
-        <div className="container-custom">
+      <section ref={compatReveal.ref} className="py-28  relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_70%_at_15%_50%,rgba(212,137,154,0.04),transparent)] pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
 
-          {/* Centred header */}
+        <div className="container-custom relative">
+
+          {/* Centred header (dark) */}
           <div
             className="max-w-2xl mx-auto text-center mb-20 transition-all duration-700"
             style={{ opacity: compatReveal.visible ? 1 : 0, transform: compatReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
@@ -715,14 +701,14 @@ export default function PSAProtectorPage() {
               <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Fit Guide</span>
               <div className="w-8 h-px bg-[#D4899A]" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-neutral-900 leading-[1.1] mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-4">
               {t.psaProtectorPage.compatibilityTitle}
             </h2>
-            <p className="text-neutral-400 text-base leading-relaxed max-w-lg mx-auto">{t.psaProtectorPage.compatibilitySubtitle}</p>
+            <p className="text-white/40 text-base leading-relaxed max-w-lg mx-auto">{t.psaProtectorPage.compatibilitySubtitle}</p>
           </div>
 
-          {/* 3-column balanced gap-px editorial grid */}
-          <div className="grid md:grid-cols-3 gap-px bg-neutral-100 border border-neutral-100 max-w-5xl mx-auto">
+          {/* 3-column balanced gap-px editorial grid (dark) */}
+          <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 max-w-5xl mx-auto">
             {[
               { icon: CheckCircle, accent: '#16a34a', accentBg: 'rgba(22,163,74,0.08)', title: t.psaProtectorPage.compatible, text: t.business.cardProtector.compatibility.fits },
               { icon: XCircle,     accent: '#dc2626', accentBg: 'rgba(220,38,38,0.08)', title: t.psaProtectorPage.notCompatible, text: t.business.cardProtector.compatibility.notFits },
@@ -732,15 +718,16 @@ export default function PSAProtectorPage() {
               return (
                 <div
                   key={i}
-                  className="group bg-white p-10 relative overflow-hidden transition-all duration-700 hover:shadow-[0_0_0_2px_#D4899A]"
+                  className="group bg-[#0d0d14] p-10 relative overflow-hidden hover:shadow-[0_0_0_1px_rgba(212,137,154,0.4)] transition-all duration-700"
                   style={{
                     opacity: compatReveal.visible ? 1 : 0,
                     transform: compatReveal.visible ? 'translateY(0)' : 'translateY(24px)',
                     transitionDelay: `${(i + 1) * 120}ms`,
+                    transitionDuration: '700ms',
                   }}
                 >
                   {/* Watermark number */}
-                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-neutral-50 select-none leading-none group-hover:text-[#D4899A]/5 transition-colors duration-500">
+                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-white/[0.02] select-none leading-none group-hover:text-[#D4899A]/5 transition-colors duration-500">
                     {String(i + 1).padStart(2, '0')}
                   </span>
 
@@ -756,7 +743,7 @@ export default function PSAProtectorPage() {
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-lg font-bold text-neutral-900 mb-3 group-hover:text-[#c9972f] transition-colors duration-300 relative">
+                  <h3 className="text-lg font-bold text-white mb-3 group-hover:text-[#c9972f] transition-colors duration-300 relative">
                     {item.title}
                   </h3>
                   <p className="text-neutral-400 text-sm leading-relaxed relative">
