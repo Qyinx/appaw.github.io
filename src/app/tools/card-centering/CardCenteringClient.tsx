@@ -108,10 +108,9 @@ export default function CardCenteringClient() {
     };
     let loupeMag = 2.6;
     let loupeDrag: string | null = null;
-    // Per-corner adjustable reference offset (screen px relative to the edge corner)
-    const refOff: Record<string, { x: number; y: number }> = {
-      tl: { x: 0, y: 0 }, tr: { x: 0, y: 0 }, bl: { x: 0, y: 0 }, br: { x: 0, y: 0 },
-    };
+    // Shared reference ring radius (in card-base px), comparable across all four corners.
+    // 0 = no reference ring set (concentric measurement rings are always shown).
+    let refRadius = 0;
 
     const controls = {
       zoom: document.getElementById('zoom') as HTMLInputElement,
@@ -245,7 +244,7 @@ export default function CardCenteringClient() {
       innerGuides.left = DEFAULTS.inner.left;
       innerGuides.right = DEFAULTS.inner.right;
 
-      (['tl', 'tr', 'bl', 'br'] as const).forEach((k) => { refOff[k] = { x: 0, y: 0 }; });
+      refRadius = 0;
       loupeMag = 2.6;
 
       updateTransform();
@@ -533,6 +532,42 @@ export default function CardCenteringClient() {
 
     function drawLoupes() {
       if (!loupesOnRef.current) return;
+
+      // Read the live transform once — shared by every loupe this frame.
+      const z = parseFloat(controls.zoom.value) || 1;
+      const rz = ((parseFloat(controls.rotate.value) || 0) * Math.PI) / 180;
+      // Same effective 3D angles the wrapper uses (see updateTransform).
+      const ax = ((parseFloat(controls.tiltX.value) || 0) * Math.PI) / 180;
+      const ay = ((-(parseFloat(controls.tiltY.value) || 0)) * Math.PI) / 180;
+      const px = parseInt(controls.panX.value || '0');
+      const py = parseInt(controls.panY.value || '0');
+      const persp = 1000; // matches `perspective: 1000px` on the workspace container
+
+      // Project a base-image point (relative to the image centre, in CSS px)
+      // to overlay/screen coords, replicating the CSS perspective transform.
+      const project = (bx: number, by: number) => {
+        let x = bx, y = by, zc = 0;
+        // rotateY(ay)
+        let nx = x * Math.cos(ay) + zc * Math.sin(ay);
+        let nz = -x * Math.sin(ay) + zc * Math.cos(ay);
+        x = nx; zc = nz;
+        // rotateX(ax)
+        let ny = y * Math.cos(ax) - zc * Math.sin(ax);
+        nz = y * Math.sin(ax) + zc * Math.cos(ax);
+        y = ny; zc = nz;
+        // rotateZ(rz)
+        nx = x * Math.cos(rz) - y * Math.sin(rz);
+        ny = x * Math.sin(rz) + y * Math.cos(rz);
+        x = nx; y = ny;
+        // scale(z)
+        x *= z; y *= z;
+        // translate(px,py)
+        x += px; y += py;
+        // perspective divide
+        const s = persp / (persp - zc);
+        return { x: centerX + x * s, y: centerY + y * s };
+      };
+
       (['tl', 'tr', 'bl', 'br'] as const).forEach((key) => {
         const el = loupeEls[key];
         if (!el) return;
@@ -546,6 +581,7 @@ export default function CardCenteringClient() {
         lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         lctx.clearRect(0, 0, size, size);
         const R = size / 2;
+        const m = loupeMag;
 
         lctx.save();
         lctx.beginPath();
@@ -559,17 +595,37 @@ export default function CardCenteringClient() {
         if (imgEl.src && imgEl.complete && imgEl.naturalWidth > 0) {
           const bw = imgEl.offsetWidth || imgEl.naturalWidth;
           const bh = imgEl.offsetHeight || imgEl.naturalHeight;
-          const z = parseFloat(controls.zoom.value) || 1;
-          const r = ((parseFloat(controls.rotate.value) || 0) * Math.PI) / 180;
-          const px = parseInt(controls.panX.value || '0');
-          const py = parseInt(controls.panY.value || '0');
+
+          // Linearise the (perspective) projection about the image centre…
+          const O = project(0, 0);
+          const Ux = project(1, 0);
+          const Uy = project(0, 1);
+          const lx = { x: Ux.x - O.x, y: Ux.y - O.y };
+          const ly = { x: Uy.x - O.x, y: Uy.y - O.y };
+          const det = lx.x * ly.y - ly.x * lx.y;
+          // …then refine the linearisation around the base point that maps to S
+          // so the magnified area stays correct under tilt at every corner.
+          let aa = lx.x, ab = lx.y, ac = ly.x, ad = ly.y;
+          let t0x = O.x, t0y = O.y;
+          if (Math.abs(det) > 1e-6) {
+            const inv = 1 / det;
+            const sx = S.x - O.x, sy = S.y - O.y;
+            const p0x = (ly.y * sx - ly.x * sy) * inv;
+            const p0y = (-lx.y * sx + lx.x * sy) * inv;
+            const e = 0.5;
+            const Px = project(p0x, p0y);
+            const Jx1 = project(p0x + e, p0y), Jx0 = project(p0x - e, p0y);
+            const Jy1 = project(p0x, p0y + e), Jy0 = project(p0x, p0y - e);
+            aa = (Jx1.x - Jx0.x) / (2 * e); ab = (Jx1.y - Jx0.y) / (2 * e);
+            ac = (Jy1.x - Jy0.x) / (2 * e); ad = (Jy1.y - Jy0.y) / (2 * e);
+            t0x = Px.x - (aa * p0x + ac * p0y);
+            t0y = Px.y - (ab * p0x + ad * p0y);
+          }
+
           lctx.save();
-          lctx.translate(R, R);
-          lctx.scale(loupeMag, loupeMag);
-          lctx.translate(-S.x, -S.y);
-          lctx.translate(centerX + px, centerY + py);
-          lctx.rotate(r);
-          lctx.scale(z, z);
+          // loupePixel = R + (screen - S) * m, with screen = (t0) + J * base
+          lctx.setTransform(dpr, 0, 0, dpr, dpr * (R + (t0x - S.x) * m), dpr * (R + (t0y - S.y) * m));
+          lctx.transform(aa * m, ab * m, ac * m, ad * m, 0, 0);
           lctx.drawImage(imgEl, -bw / 2, -bh / 2, bw, bh);
           lctx.restore();
         } else {
@@ -580,11 +636,11 @@ export default function CardCenteringClient() {
           lctx.fillText('No image', R, R);
         }
 
-        // Edge guide cross (axis-aligned) anchored at the loupe center
+        // Edge guide cross (axis-aligned) anchored at the loupe centre = card corner
         lctx.save();
         lctx.strokeStyle = colorOuter;
-        lctx.globalAlpha = 0.85;
-        lctx.lineWidth = 1.5;
+        lctx.globalAlpha = 0.7;
+        lctx.lineWidth = 1.25;
         lctx.setLineDash([]);
         lctx.beginPath();
         lctx.moveTo(0, R); lctx.lineTo(size, R);
@@ -592,32 +648,40 @@ export default function CardCenteringClient() {
         lctx.stroke();
         lctx.restore();
 
-        // Adjustable reference reticle
-        const mx = R + refOff[key].x * loupeMag;
-        const my = R + refOff[key].y * loupeMag;
-        if (refOff[key].x !== 0 || refOff[key].y !== 0) {
-          lctx.save();
-          lctx.strokeStyle = 'rgba(255,255,255,0.5)';
-          lctx.setLineDash([3, 3]);
-          lctx.lineWidth = 1;
-          lctx.beginPath();
-          lctx.moveTo(R, R); lctx.lineTo(mx, my);
-          lctx.stroke();
-          lctx.restore();
-        }
+        // ----- Shared concentric reference target (identical scale in all 4 loupes) -----
+        // base px -> loupe px. Same for every corner, so rings are directly comparable.
+        const baseToLoupe = m * z;
+        const visibleBase = R / baseToLoupe;
+        const niceSteps = [1, 2, 5, 10, 20, 50, 100, 200];
+        const ringStep = niceSteps.find((s) => s * baseToLoupe >= 16) ?? 200;
+
         lctx.save();
-        lctx.strokeStyle = '#fde047';
-        lctx.fillStyle = '#fde047';
-        lctx.lineWidth = 2;
+        lctx.translate(R, R);
+        lctx.strokeStyle = 'rgba(255,255,255,0.16)';
+        lctx.lineWidth = 1;
+        lctx.setLineDash([2, 3]);
+        for (let k = 1; k * ringStep <= visibleBase + ringStep; k++) {
+          const rr = k * ringStep * baseToLoupe;
+          if (rr > R) break;
+          lctx.beginPath();
+          lctx.arc(0, 0, rr, 0, Math.PI * 2);
+          lctx.stroke();
+        }
         lctx.setLineDash([]);
-        lctx.beginPath(); lctx.arc(mx, my, 8, 0, Math.PI * 2); lctx.stroke();
+        // centre dot = corner tip
+        lctx.fillStyle = '#fde047';
         lctx.beginPath();
-        lctx.moveTo(mx - 12, my); lctx.lineTo(mx - 3, my);
-        lctx.moveTo(mx + 3, my); lctx.lineTo(mx + 12, my);
-        lctx.moveTo(mx, my - 12); lctx.lineTo(mx, my - 3);
-        lctx.moveTo(mx, my + 3); lctx.lineTo(mx, my + 12);
-        lctx.stroke();
-        lctx.beginPath(); lctx.arc(mx, my, 1.6, 0, Math.PI * 2); lctx.fill();
+        lctx.arc(0, 0, 1.8, 0, Math.PI * 2);
+        lctx.fill();
+        // shared adjustable reference ring
+        if (refRadius > 0) {
+          const rr = refRadius * baseToLoupe;
+          lctx.strokeStyle = '#fde047';
+          lctx.lineWidth = 1.75;
+          lctx.beginPath();
+          lctx.arc(0, 0, rr, 0, Math.PI * 2);
+          lctx.stroke();
+        }
         lctx.restore();
 
         lctx.restore(); // end clip
@@ -633,9 +697,12 @@ export default function CardCenteringClient() {
 
         // Labels
         loupeChip(lctx, key.toUpperCase(), 16, 12, '#bfdbfe');
-        const d = Math.round(Math.hypot(refOff[key].x, refOff[key].y));
-        loupeChip(lctx, `Δ ${d}px`, R, size - 11, d === 0 ? '#9ca3af' : '#fde047');
-        if (key === 'tl') loupeChip(lctx, `${loupeMag.toFixed(1)}×`, size - 18, 12, '#e5e7eb');
+        if (refRadius > 0) {
+          loupeChip(lctx, `ref ${Math.round(refRadius)}px`, R, size - 11, '#fde047');
+        } else {
+          loupeChip(lctx, `\u25CB ${ringStep}px`, R, size - 11, '#9ca3af');
+        }
+        if (key === 'tl') loupeChip(lctx, `${loupeMag.toFixed(1)}\u00d7`, size - 18, 12, '#e5e7eb');
       });
     }
 
@@ -959,7 +1026,7 @@ export default function CardCenteringClient() {
     window.addEventListener('touchend', pointerUp as any);
     window.addEventListener('touchcancel', pointerUp as any);
 
-    // --- Loupe reticle interaction ---
+    // --- Loupe reference-ring interaction ---
     function setRefFromEvent(key: string, e: any) {
       const el = loupeEls[key as 'tl' | 'tr' | 'bl' | 'br'];
       if (!el) return;
@@ -968,7 +1035,10 @@ export default function CardCenteringClient() {
       const size = el.clientWidth;
       const lx = pos.clientX - rect.left - size / 2;
       const ly = pos.clientY - rect.top - size / 2;
-      refOff[key] = { x: lx / loupeMag, y: ly / loupeMag };
+      const z = parseFloat(controls.zoom.value) || 1;
+      const baseToLoupe = loupeMag * z;
+      // distance from corner tip (loupe centre) in card-base px — shared by all loupes
+      refRadius = Math.max(0, Math.hypot(lx, ly) / baseToLoupe);
       drawLoupes();
     }
     const loupeBindings: Array<{ el: HTMLCanvasElement; type: string; fn: any }> = [];
@@ -976,7 +1046,7 @@ export default function CardCenteringClient() {
       const el = loupeEls[key];
       if (!el) return;
       const down = (e: any) => { e.preventDefault(); e.stopPropagation(); loupeDrag = key; setRefFromEvent(key, e); };
-      const dbl = () => { refOff[key] = { x: 0, y: 0 }; drawLoupes(); };
+      const dbl = () => { refRadius = 0; drawLoupes(); };
       const wheel = (e: any) => {
         e.preventDefault();
         const dir = e.deltaY > 0 ? -1 : 1;
