@@ -117,16 +117,39 @@ export const rootMetadata: Metadata = {
 };
 
 export const centeringMetadata: Metadata = {
-  title: 'Card Centering Analyzer — Instant Center Grade Tool | Appaw Store',
-  description: 'Upload a photo or use your camera to get an instant centering grade (%) and downloadable report for trading cards. Free and easy to use.',
-  alternates: { canonical: '/tools/centering/' },
+  title: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store',
+  description:
+    'Quickly check if your Pokémon, sports, or TCG cards meet PSA 10 centering standards. Upload your card, adjust the alignment lines, and get instant margin percentages — free.',
+  // NOTE: keep description ≤160 chars where possible for SERP display.
+  keywords: [
+    'card centering calculator',
+    'card centering tool',
+    'PSA 10 centering',
+    'PSA centering calculator',
+    'centering analyzer',
+    'how to check card centering',
+    'Pokemon card centering',
+    'sports card centering tool',
+    'TCG centering grader',
+    'BGS centering',
+    'card centering percentage',
+    'pre-grade centering tool',
+  ],
+  alternates: { canonical: '/tools/card-centering/' },
   openGraph: {
-    title: 'Card Centering Analyzer — Instant Center Grade Tool | Appaw Store',
-    description: 'Upload a photo or use your camera to get an instant centering grade (%) and downloadable report for trading cards. Free and easy to use.',
-    url: 'https://appaw.store/tools/centering/',
-    images: [{ url: '/images/og-centering.png', width: 1200, height: 630, alt: 'Card Centering Analyzer — Appaw Store' }],
+    title: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store',
+    description:
+      'Check if your Pokémon, sports, or TCG cards meet PSA 10 centering standards. Upload a card, align the guides, and get instant front & back margin percentages. Free.',
+    url: 'https://appaw.store/tools/card-centering/',
+    type: 'website',
+    images: [{ url: '/images/og-centering.png', width: 1200, height: 630, alt: 'Free Card Centering Calculator & PSA 10 Analyzer — Appaw Store' }],
   },
-  twitter: { card: 'summary_large_image', images: ['/images/og-centering.png'] },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store',
+    description: 'Check if your cards meet PSA 10 centering standards. Upload, align the guides, and get instant margin percentages. Free tool from Appaw Store.',
+    images: ['/images/og-centering.png'],
+  },
 };
 
 export const privacyMetadata: Metadata = {

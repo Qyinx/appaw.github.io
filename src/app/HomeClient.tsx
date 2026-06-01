@@ -131,6 +131,10 @@ export default function HomeClient() {
                     </span>
                   </div>
                 ))}
+                {/* Keyword-rich sub-line — SEO search-intent signal inside the H1 */}
+                <span className="block mt-5 text-base md:text-lg font-semibold tracking-normal leading-snug text-[#9ca3af]">
+                  {t.home.hero.h1Keyword}
+                </span>
               </h1>
 
               {/* Gold rule divider */}
@@ -502,6 +506,66 @@ export default function HomeClient() {
               </div>
             </Link>
 
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════
+           PRODUCT SPECIFICATIONS — Crawlable text table (SEO)
+           Plain-text spec data search bots can match against queries
+           like "Magnetic PSA case 35pt HK".
+      ══════════════════════════════════════════════════════════ */}
+      <section className="relative py-24 bg-[#0d0d14] overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(212,137,154,0.04),transparent)] pointer-events-none" />
+
+        <div className="container-custom relative">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-8 h-px bg-[#D4899A]" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.home.specs.badge}</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold font-display text-white leading-tight mb-5">
+              {t.home.specs.title}
+            </h2>
+            <p className="text-[#9ca3af] text-base leading-relaxed mb-9">
+              {t.home.specs.intro}
+            </p>
+
+            <table className="w-full text-left border-collapse">
+              <tbody>
+                {[
+                  [t.home.specs.rows.product, t.home.specs.rows.productValue],
+                  [t.home.specs.rows.compatibility, t.home.specs.rows.compatibilityValue],
+                  [t.home.specs.rows.material, t.home.specs.rows.materialValue],
+                  [t.home.specs.rows.closure, t.home.specs.rows.closureValue],
+                  [t.home.specs.rows.uvProtection, t.home.specs.rows.uvProtectionValue],
+                  [t.home.specs.rows.weight, t.home.specs.rows.weightValue],
+                  [t.home.specs.rows.dimensions, t.home.specs.rows.dimensionsValue],
+                  [t.home.specs.rows.origin, t.home.specs.rows.originValue],
+                ].map(([label, value]) => (
+                  <tr key={label} className="border-b border-white/[0.06]">
+                    <th scope="row" className="py-3.5 pr-6 align-top text-sm font-semibold text-white/80 whitespace-nowrap w-1/3">
+                      {label}
+                    </th>
+                    <td className="py-3.5 text-sm text-[#9ca3af] leading-relaxed">
+                      {value}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="mt-9">
+              <Link
+                href="/products/psa-protectors"
+                onClick={handleShopClick}
+                className="group inline-flex items-center gap-2.5 px-7 py-3.5 bg-primary-600 text-white font-bold text-[15px] rounded-2xl hover:bg-primary-700 active:scale-[0.97] transition-all duration-200 shadow-[0_0_24px_rgba(212,137,154,0.25)] hover:shadow-[0_0_40px_rgba(212,137,154,0.35)]"
+              >
+                {t.home.specs.cta}
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

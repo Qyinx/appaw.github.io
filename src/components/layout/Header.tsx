@@ -83,6 +83,7 @@ export default function Header() {
         { href: '/collection', label: t.nav.collection },
       ],
     },
+    { href: '/tools/card-centering', label: t.nav.centeringTool, highlight: true },
     { href: '/about', label: t.nav.about },
   ];
 
@@ -197,19 +198,35 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   className="relative px-4 py-2 text-sm font-medium transition-colors duration-200 group"
-                  style={{ color: isActive ? '#D4899A' : 'rgba(255,255,255,0.55)' }}
+                  style={
+                    'highlight' in link && link.highlight
+                      ? {
+                          color: isActive ? '#0B0C0D' : '#F59E0B',
+                          background: isActive ? '#F59E0B' : 'rgba(245,158,11,0.12)',
+                          border: '1px solid rgba(245,158,11,0.45)',
+                          borderRadius: '9999px',
+                          marginLeft: '6px',
+                        }
+                      : { color: isActive ? '#D4899A' : 'rgba(255,255,255,0.55)' }
+                  }
                 >
-                  <span className="group-hover:text-white transition-colors duration-200" style={{ color: 'inherit' }}>
+                  <span
+                    className={'highlight' in link && link.highlight ? '' : 'group-hover:text-white transition-colors duration-200'}
+                    style={{ color: 'inherit' }}
+                  >
                     {link.label}
                   </span>
-                  {/* Active underline */}
-                  <span
-                    className="absolute bottom-0 left-4 right-4 h-px bg-[#D4899A] transition-transform duration-300 origin-left"
-                    style={{ transform: isActive ? 'scaleX(1)' : 'scaleX(0)' }}
-                  />
-                  {/* Hover underline */}
-                  {!isActive && (
-                    <span className="absolute bottom-0 left-4 right-4 h-px bg-white/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                  {/* Active underline (non-highlighted links only) */}
+                  {!('highlight' in link && link.highlight) && (
+                    <>
+                      <span
+                        className="absolute bottom-0 left-4 right-4 h-px bg-[#D4899A] transition-transform duration-300 origin-left"
+                        style={{ transform: isActive ? 'scaleX(1)' : 'scaleX(0)' }}
+                      />
+                      {!isActive && (
+                        <span className="absolute bottom-0 left-4 right-4 h-px bg-white/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                      )}
+                    </>
                   )}
                 </Link>
               );

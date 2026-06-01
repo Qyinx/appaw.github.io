@@ -128,6 +128,7 @@ export default function PSAProtectorPage() {
   const specsReveal    = useReveal();
   const faqReveal      = useReveal();
   const ctaReveal      = useReveal();
+  const overviewReveal = useReveal();
 
   useEffect(() => {
     const timer = setTimeout(() => setHeroVisible(true), 80);
@@ -153,6 +154,8 @@ export default function PSAProtectorPage() {
     { icon: Weight, label: t.psaProtectorPage.specs.weight,       value: '74 g',                   desc: t.psaProtectorPage.specs.weightDesc },
     { icon: Layers, label: t.psaProtectorPage.specs.materials,    value: t.psaProtectorPage.specs.materialsValue, desc: t.psaProtectorPage.specs.materialsDesc },
     { icon: Sun,    label: t.psaProtectorPage.specs.uvProtection, value: '> 95 %',                 desc: t.psaProtectorPage.specs.uvProtectionDesc },
+    { icon: CheckCircle, label: t.psaProtectorPage.specs.compatibility, value: t.psaProtectorPage.specs.compatibilityValue, desc: t.psaProtectorPage.specs.compatibilityDesc },
+    { icon: Shield, label: t.psaProtectorPage.specs.closure,      value: t.psaProtectorPage.specs.closureValue, desc: t.psaProtectorPage.specs.closureDesc },
   ];
 
   return (
@@ -224,6 +227,36 @@ export default function PSAProtectorPage() {
                   />
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+           OVERVIEW — Text-rich product description (SEO)
+      ══════════════════════════════════════════ */}
+      <section ref={overviewReveal.ref} className="py-24 bg-[#181828] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(212,137,154,0.05),transparent)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
+
+        <div className="container-custom relative">
+          <div
+            className="max-w-3xl mx-auto transition-all duration-700"
+            style={{ opacity: overviewReveal.visible ? 1 : 0, transform: overviewReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
+          >
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-8 h-px bg-[#D4899A]" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.overview.badge}</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.15] mb-8">
+              {t.psaProtectorPage.overview.title}
+            </h2>
+            <div className="space-y-6">
+              {t.psaProtectorPage.overview.body.map((para, i) => (
+                <p key={i} className="text-[#9ca3af] text-base md:text-lg leading-relaxed">
+                  {para}
+                </p>
+              ))}
             </div>
           </div>
         </div>
@@ -683,75 +716,81 @@ export default function PSAProtectorPage() {
       })()}
 
       {/* ══════════════════════════════════════════
-           COMPATIBILITY — Luxury Fit Guide (styled to match site theme)
+           COMPATIBILITY — Glassmorphic Fit Guide
       ══════════════════════════════════════════ */}
-      <section ref={compatReveal.ref} className="py-28  relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_70%_at_15%_50%,rgba(212,137,154,0.04),transparent)] pointer-events-none" />
+      <section ref={compatReveal.ref} className="py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(212,137,154,0.05),transparent)] pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
 
         <div className="container-custom relative">
 
-          {/* Centred header (dark) */}
+          {/* Left-aligned header (consistent with other sections) */}
           <div
-            className="max-w-2xl mx-auto text-center mb-20 transition-all duration-700"
+            className="max-w-xl mb-16 transition-all duration-700"
             style={{ opacity: compatReveal.visible ? 1 : 0, transform: compatReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
           >
-            <div className="inline-flex items-center gap-3 mb-5">
+            <div className="flex items-center gap-3 mb-5">
               <div className="w-8 h-px bg-[#D4899A]" />
               <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Fit Guide</span>
-              <div className="w-8 h-px bg-[#D4899A]" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-4">
               {t.psaProtectorPage.compatibilityTitle}
             </h2>
-            <p className="text-white/40 text-base leading-relaxed max-w-lg mx-auto">{t.psaProtectorPage.compatibilitySubtitle}</p>
+            <p className="text-white/40 text-base leading-relaxed">{t.psaProtectorPage.compatibilitySubtitle}</p>
           </div>
 
-          {/* 3-column balanced gap-px editorial grid (dark) */}
-          <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 max-w-5xl mx-auto">
+          {/* 3-column glassmorphic cards */}
+          <div className="grid md:grid-cols-3 gap-5 max-w-5xl">
             {[
-              { icon: CheckCircle, accent: '#16a34a', accentBg: 'rgba(22,163,74,0.08)', title: t.psaProtectorPage.compatible, text: t.business.cardProtector.compatibility.fits },
-              { icon: XCircle,     accent: '#dc2626', accentBg: 'rgba(220,38,38,0.08)', title: t.psaProtectorPage.notCompatible, text: t.business.cardProtector.compatibility.notFits },
-              { icon: AlertCircle, accent: '#D4899A', accentBg: 'rgba(212,137,154,0.08)', title: t.psaProtectorPage.note, text: t.business.cardProtector.compatibility.note },
+              { icon: CheckCircle, accent: '#34D399', glow: 'rgba(52,211,153,0.06)', border: 'rgba(52,211,153,0.15)', title: t.psaProtectorPage.compatible, text: t.business.cardProtector.compatibility.fits },
+              { icon: XCircle,     accent: '#f87171', glow: 'rgba(248,113,113,0.06)', border: 'rgba(248,113,113,0.15)', title: t.psaProtectorPage.notCompatible, text: t.business.cardProtector.compatibility.notFits },
+              { icon: AlertCircle, accent: '#D4899A', glow: 'rgba(212,137,154,0.06)', border: 'rgba(212,137,154,0.15)', title: t.psaProtectorPage.note, text: t.business.cardProtector.compatibility.note },
             ].map((item, i) => {
               const Icon = item.icon;
               return (
                 <div
                   key={i}
-                  className="group bg-[#0d0d14] p-10 relative overflow-hidden hover:shadow-[0_0_0_1px_rgba(212,137,154,0.4)] transition-all duration-700"
+                  className="group relative rounded-2xl p-8 transition-all duration-700 hover:-translate-y-1"
                   style={{
+                    background: 'rgba(13,13,20,0.7)',
+                    backdropFilter: 'blur(12px)',
+                    border: `1px solid ${item.border}`,
                     opacity: compatReveal.visible ? 1 : 0,
                     transform: compatReveal.visible ? 'translateY(0)' : 'translateY(24px)',
                     transitionDelay: `${(i + 1) * 120}ms`,
                     transitionDuration: '700ms',
                   }}
                 >
-                  {/* Watermark number */}
-                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-white/[0.02] select-none leading-none group-hover:text-[#D4899A]/5 transition-colors duration-500">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
+                  {/* Subtle inner glow */}
+                  <div
+                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                    style={{ background: `radial-gradient(ellipse 80% 60% at 50% 100%, ${item.glow}, transparent)` }}
+                  />
 
-                  {/* Top accent line */}
-                  <div className="absolute top-0 left-0 right-0 h-0.5 transition-transform duration-500 origin-left" style={{ backgroundColor: item.accent, transform: 'scaleX(1)' }} />
+                  {/* Left accent stripe */}
+                  <div
+                    className="absolute top-6 bottom-6 left-0 w-[2px] rounded-full transition-all duration-500 origin-top"
+                    style={{ backgroundColor: item.accent, opacity: 0.6 }}
+                  />
 
                   {/* Icon */}
                   <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-7 transition-transform duration-500 group-hover:scale-110 relative"
-                    style={{ backgroundColor: item.accentBg, color: item.accent }}
+                    className="relative w-11 h-11 rounded-xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110"
+                    style={{ backgroundColor: `${item.accent}15`, color: item.accent }}
                   >
-                    <Icon className="w-6 h-6" />
+                    <Icon className="w-5 h-5" />
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-lg font-bold text-white mb-3 group-hover:text-[#c9972f] transition-colors duration-300 relative">
+                  <h3
+                    className="relative text-base font-bold text-white mb-3 transition-colors duration-300"
+                    style={{ color: 'white' }}
+                  >
                     {item.title}
                   </h3>
-                  <p className="text-neutral-400 text-sm leading-relaxed relative">
+                  <p className="relative text-white/45 text-sm leading-relaxed">
                     {item.text}
                   </p>
-
-                  {/* Bottom slide-in accent bar */}
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4899A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </div>
               );
             })}
@@ -760,17 +799,18 @@ export default function PSAProtectorPage() {
       </section>
 
       {/* ══════════════════════════════════════════
-           SPECS — Dark editorial card grid
+           SPECS — Glassmorphic specification grid
       ══════════════════════════════════════════ */}
       <section ref={specsReveal.ref} className="py-28 bg-[#0d0d14] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(212,137,154,0.05),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(212,137,154,0.04),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_60%_at_80%_20%,rgba(129,140,248,0.025),transparent)]" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
 
         <div className="container-custom relative">
 
           {/* Header */}
           <div
-            className="max-w-xl mb-20 transition-all duration-700"
+            className="max-w-xl mb-16 transition-all duration-700"
             style={{ opacity: specsReveal.visible ? 1 : 0, transform: specsReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
           >
             <div className="flex items-center gap-3 mb-5">
@@ -783,37 +823,43 @@ export default function PSAProtectorPage() {
             <p className="text-white/40 text-base leading-relaxed">{t.psaProtectorPage.techSubtitle}</p>
           </div>
 
-          {/* Spec cards — dark gap-px editorial */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5">
+          {/* Spec cards — 3×2 glassmorphic grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {specs.map((spec, i) => {
               const Icon = spec.icon;
               return (
                 <div
                   key={i}
-                  className="group bg-[#0d0d14] p-10 relative overflow-hidden hover:shadow-[0_0_0_1px_rgba(212,137,154,0.4)] transition-all duration-500"
+                  className="group relative rounded-2xl p-7 transition-all duration-700 hover:-translate-y-1"
                   style={{
+                    background: 'rgba(255,255,255,0.02)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255,255,255,0.05)',
                     opacity: specsReveal.visible ? 1 : 0,
-                    transform: specsReveal.visible ? 'translateY(0)' : 'translateY(32px)',
-                    transitionDelay: `${(i + 1) * 100}ms`,
+                    transform: specsReveal.visible ? 'translateY(0)' : 'translateY(24px)',
+                    transitionDelay: `${(i + 1) * 80}ms`,
                     transitionDuration: '700ms',
                   }}
                 >
-                  {/* Watermark */}
-                  <span className="absolute -top-6 -right-2 text-[7rem] font-bold text-white/[0.02] select-none leading-none group-hover:text-[#D4899A]/5 transition-colors duration-500">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
+                  {/* Gradient border glow on hover */}
+                  <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-[#D4899A]/20 via-transparent to-[#D4899A]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                  {/* Inner surface */}
+                  <div className="absolute inset-[1px] rounded-[15px] bg-[#0d0d14] pointer-events-none" />
+                  {/* Hover radial glow */}
+                  <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,rgba(212,137,154,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 bg-[#D4899A]/10 text-[#D4899A] transition-transform duration-500 group-hover:scale-110 relative">
-                    <Icon className="w-6 h-6" />
+                  {/* Content row */}
+                  <div className="relative flex items-start gap-5">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#D4899A]/10 text-[#D4899A] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_24px_rgba(212,137,154,0.15)]">
+                      <Icon className="w-5 h-5" />
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white/50 text-xs uppercase tracking-[0.15em] font-medium mb-1.5">{spec.label}</p>
+                      <p className="text-white text-lg font-bold font-display leading-snug mb-1 group-hover:text-[#D4899A] transition-colors duration-300">{spec.value}</p>
+                      <p className="text-white/30 text-xs leading-relaxed">{spec.desc}</p>
+                    </div>
                   </div>
-
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#D4899A] transition-colors duration-300 relative">
-                    {spec.label}
-                  </h3>
-                  <p className="text-[#D4899A] text-sm font-semibold mb-1 relative">{spec.value}</p>
-                  <p className="text-white/35 text-xs leading-relaxed relative">{spec.desc}</p>
-
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4899A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </div>
               );
             })}

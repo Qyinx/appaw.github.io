@@ -1,13 +1,81 @@
 "use client";
 import React, { useEffect } from 'react';
 import styles from './card-centering.module.css';
-import { Button } from '@/components/ui';
+
+type GradeZone = 'PSA10' | 'PSA9' | 'PSA8' | 'Below';
+
+interface GradeResult {
+  overall: GradeZone;
+  lr: number; // left percentage
+  tb: number; // top percentage
+  lrZone: GradeZone;
+  tbZone: GradeZone;
+}
+
+const ZONE_META: Record<GradeZone, { label: string; short: string; color: string; hint: string }> = {
+  PSA10: { label: 'PSA 10', short: 'Gem Mint', color: '#22c55e', hint: 'Centering within 55/45 — Gem Mint range.' },
+  PSA9: { label: 'PSA 9', short: 'Mint', color: '#f59e0b', hint: 'Centering within 60/40 — Mint range.' },
+  PSA8: { label: 'PSA 8', short: 'NM-MT', color: '#fb923c', hint: 'Centering within 65/35 — Near Mint–Mint range.' },
+  Below: { label: '< PSA 8', short: 'Off-center', color: '#ef4444', hint: 'Centering exceeds 65/35 — likely below PSA 8.' },
+};
+
+const ICON_PROPS = {
+  width: 18,
+  height: 18,
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 2,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+};
+
+const UploadIcon = () => (
+  <svg {...ICON_PROPS}><path d="M12 16V4" /><path d="m6 10 6-6 6 6" /><path d="M4 20h16" /></svg>
+);
+const FitIcon = () => (
+  <svg {...ICON_PROPS}><path d="M8 3H5a2 2 0 0 0-2 2v3" /><path d="M21 8V5a2 2 0 0 0-2-2h-3" /><path d="M3 16v3a2 2 0 0 0 2 2h3" /><path d="M16 21h3a2 2 0 0 0 2-2v-3" /></svg>
+);
+const ResetIcon = () => (
+  <svg {...ICON_PROPS}><path d="M3 2v6h6" /><path d="M3.51 15a9 9 0 1 0 .49-9.51L3 8" /></svg>
+);
+const SlidersIcon = () => (
+  <svg {...ICON_PROPS} width={16} height={16}><line x1="4" y1="21" x2="4" y2="14" /><line x1="4" y1="10" x2="4" y2="3" /><line x1="12" y1="21" x2="12" y2="12" /><line x1="12" y1="8" x2="12" y2="3" /><line x1="20" y1="21" x2="20" y2="16" /><line x1="20" y1="12" x2="20" y2="3" /><line x1="1" y1="14" x2="7" y2="14" /><line x1="9" y1="8" x2="15" y2="8" /><line x1="17" y1="16" x2="23" y2="16" /></svg>
+);
+const ChevronIcon = ({ className }: { className?: string }) => (
+  <svg {...ICON_PROPS} className={className}><path d="m6 9 6 6 6-6" /></svg>
+);
+const ZoomIcon = () => (
+  <svg {...ICON_PROPS} width={14} height={14}><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></svg>
+);
+const RotateIcon = () => (
+  <svg {...ICON_PROPS} width={14} height={14}><path d="M21 12a9 9 0 1 1-2.64-6.36" /><path d="M21 3v5h-5" /></svg>
+);
+const TiltHIcon = () => (
+  <svg {...ICON_PROPS} width={14} height={14}><line x1="2" y1="12" x2="22" y2="12" /><polyline points="6 8 2 12 6 16" /><polyline points="18 8 22 12 18 16" /></svg>
+);
+const TiltVIcon = () => (
+  <svg {...ICON_PROPS} width={14} height={14}><line x1="12" y1="2" x2="12" y2="22" /><polyline points="8 6 12 2 16 6" /><polyline points="8 18 12 22 16 18" /></svg>
+);
+const MagnifierIcon = () => (
+  <svg {...ICON_PROPS}><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></svg>
+);
 
 export default function CardCenteringClient() {
   const resetRef = React.useRef<(() => void) | null>(null);
   const fitRef = React.useRef<(() => void) | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+  const redrawRef = React.useRef<(() => void) | null>(null);
+  const loupesOnRef = React.useRef(true);
   const [fileName, setFileName] = React.useState<string | null>(null);
+  const [grade, setGrade] = React.useState<GradeResult | null>(null);
+  const [adjustOpen, setAdjustOpen] = React.useState(true);
+  const [loupesOn, setLoupesOn] = React.useState(true);
+
+  useEffect(() => {
+    loupesOnRef.current = loupesOn;
+    redrawRef.current?.();
+  }, [loupesOn]);
 
   useEffect(() => {
     // DOM elements
@@ -30,6 +98,20 @@ export default function CardCenteringClient() {
 
     const ctx = overlayEl.getContext('2d')!;
     const plotCtx = plotCanvasEl.getContext('2d')!;
+
+    // Corner magnifier ("loupe") canvases — may be absent in older markup
+    const loupeEls: Record<'tl' | 'tr' | 'bl' | 'br', HTMLCanvasElement | null> = {
+      tl: document.getElementById('loupe-tl') as HTMLCanvasElement | null,
+      tr: document.getElementById('loupe-tr') as HTMLCanvasElement | null,
+      bl: document.getElementById('loupe-bl') as HTMLCanvasElement | null,
+      br: document.getElementById('loupe-br') as HTMLCanvasElement | null,
+    };
+    let loupeMag = 2.6;
+    let loupeDrag: string | null = null;
+    // Per-corner adjustable reference offset (screen px relative to the edge corner)
+    const refOff: Record<string, { x: number; y: number }> = {
+      tl: { x: 0, y: 0 }, tr: { x: 0, y: 0 }, bl: { x: 0, y: 0 }, br: { x: 0, y: 0 },
+    };
 
     const controls = {
       zoom: document.getElementById('zoom') as HTMLInputElement,
@@ -70,12 +152,15 @@ export default function CardCenteringClient() {
     if (isCoarsePointer) {
       hitArea = 36;
     }
+    // Edge (blue) lines get two buttons offset to either side of center so they
+    // never sit under the centered border (pink) button.
+    const edgeOff = isCoarsePointer ? 56 : 46;
 
     // Pull colors from the site's style guide CSS variables when available
     const rootStyles = typeof window !== 'undefined' ? getComputedStyle(document.documentElement) : null;
-    const colorOuter = (rootStyles?.getPropertyValue('--color-accent-500') || '#f59e0b').trim();
+    // Outer = physical card edge (blue), Inner = design/art border (brand pink), Active = high-vis yellow
+    const colorOuter = '#3b82f6';
     const colorInner = (rootStyles?.getPropertyValue('--color-primary-500') || '#f07a86').trim();
-    const colorHover = (rootStyles?.getPropertyValue('--color-primary-300') || '#ffc2cc').trim();
 
     function resizeCanvas() {
       overlayEl.width = workspaceEl.clientWidth;
@@ -126,7 +211,20 @@ export default function CardCenteringClient() {
       if (tiltYValEl) tiltYValEl.innerText = ty.toFixed(2) + '°';
 
       imgWrapperEl.style.transform = `translate(${px}px, ${py}px) scale(${z}) rotateZ(${r}deg) rotateX(${tiltXdeg}deg) rotateY(${tiltYdeg}deg)`;
+      fillTrack(controls.zoom);
+      fillTrack(controls.rotate);
+      fillTrack(controls.tiltX);
+      fillTrack(controls.tiltY);
       drawOverlay();
+    }
+
+    function fillTrack(el: HTMLInputElement) {
+      if (!el) return;
+      const min = parseFloat(el.min || '0');
+      const max = parseFloat(el.max || '100');
+      const val = parseFloat(el.value || '0');
+      const pct = max > min ? ((val - min) / (max - min)) * 100 : 0;
+      el.style.background = `linear-gradient(90deg, var(--color-primary-500, #f07a86) ${pct}%, rgba(255,255,255,0.08) ${pct}%)`;
     }
 
     function resetAll() {
@@ -146,6 +244,9 @@ export default function CardCenteringClient() {
       innerGuides.bottom = DEFAULTS.inner.bottom;
       innerGuides.left = DEFAULTS.inner.left;
       innerGuides.right = DEFAULTS.inner.right;
+
+      (['tl', 'tr', 'bl', 'br'] as const).forEach((k) => { refOff[k] = { x: 0, y: 0 }; });
+      loupeMag = 2.6;
 
       updateTransform();
     }
@@ -167,45 +268,77 @@ export default function CardCenteringClient() {
     // expose controls to the component-level buttons via refs
     resetRef.current = resetAll;
     fitRef.current = fitToImage;
+    redrawRef.current = () => drawOverlay();
 
     Object.values(controls).forEach((ctrl: any) => ctrl.addEventListener('input', updateTransform));
 
     function drawOverlay() {
       ctx.clearRect(0, 0, overlayEl.width, overlayEl.height);
 
-      // Center and auxiliary alignment guides
-      // Strong, solid center cross for quick visual reference
+      // --- Background: fine grey alignment grid ---
+      const grid = 34;
       ctx.save();
-      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-      ctx.lineWidth = 1.4;
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.lineWidth = 1;
       ctx.setLineDash([]);
       ctx.beginPath();
-      ctx.moveTo(centerX, 0);
-      ctx.lineTo(centerX, overlayEl.height);
+      for (let x = centerX % grid; x < overlayEl.width; x += grid) {
+        ctx.moveTo(x + 0.5, 0);
+        ctx.lineTo(x + 0.5, overlayEl.height);
+      }
+      for (let y = centerY % grid; y < overlayEl.height; y += grid) {
+        ctx.moveTo(0, y + 0.5);
+        ctx.lineTo(overlayEl.width, y + 0.5);
+      }
       ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(0, centerY);
-      ctx.lineTo(overlayEl.width, centerY);
-      ctx.stroke();
+      ctx.restore();
 
-      // Faint quarter guides (25% and 75%) dashed for finer alignment
-      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      // Tiled diagonal "Appaw Store" watermark
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate(-Math.PI / 10);
+      ctx.fillStyle = 'rgba(255,255,255,0.04)';
+      ctx.font = '700 20px Inter, ui-sans-serif, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const wmSpan = Math.max(overlayEl.width, overlayEl.height);
+      for (let gx = -wmSpan; gx <= wmSpan; gx += 230) {
+        for (let gy = -wmSpan; gy <= wmSpan; gy += 130) {
+          ctx.fillText('Appaw Store', gx, gy);
+        }
+      }
+      ctx.restore();
+
+      // Quarter guides (25% / 75%)
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,255,255,0.07)';
       ctx.lineWidth = 1;
       ctx.setLineDash([4, 6]);
-      const vQuarters = [overlayEl.width * 0.25, overlayEl.width * 0.75];
-      vQuarters.forEach((x) => {
+      [overlayEl.width * 0.25, overlayEl.width * 0.75].forEach((x) => {
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, overlayEl.height);
         ctx.stroke();
       });
-      const hQuarters = [overlayEl.height * 0.25, overlayEl.height * 0.75];
-      hQuarters.forEach((y) => {
+      [overlayEl.height * 0.25, overlayEl.height * 0.75].forEach((y) => {
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(overlayEl.width, y);
         ctx.stroke();
       });
+      ctx.restore();
+
+      // Strong center cross
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+      ctx.lineWidth = 1.4;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(centerX, 0);
+      ctx.lineTo(centerX, overlayEl.height);
+      ctx.moveTo(0, centerY);
+      ctx.lineTo(overlayEl.width, centerY);
+      ctx.stroke();
       ctx.restore();
 
       const oxL = centerX + outerGuides.left;
@@ -220,50 +353,290 @@ export default function CardCenteringClient() {
       const iyT = centerY + innerGuides.top;
       const iyB = centerY + innerGuides.bottom;
 
+      // Subtle highlight of the margin band between card edge and art border
       ctx.save();
       ctx.beginPath();
       ctx.rect(oxL, oyT, oxW, oxH);
-      ctx.moveTo(ixL, iyT);
-      ctx.lineTo(ixL, iyB);
-      ctx.lineTo(ixR, iyB);
-      ctx.lineTo(ixR, iyT);
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(244, 67, 54, 0.15)';
+      ctx.rect(ixL, iyT, ixR - ixL, iyB - iyT);
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
       try { ctx.fill('evenodd'); } catch { ctx.fill(); }
       ctx.restore();
 
-      ctx.setLineDash([5, 5]);
-      drawDragLine(0, centerY + outerGuides.top, overlayEl.width, centerY + outerGuides.top, dragging === 'outerTop', true, colorOuter);
-      drawDragLine(0, centerY + outerGuides.bottom, overlayEl.width, centerY + outerGuides.bottom, dragging === 'outerBottom', true, colorOuter);
-      drawDragLine(centerX + outerGuides.left, 0, centerX + outerGuides.left, overlayEl.height, dragging === 'outerLeft', false, colorOuter);
-      drawDragLine(centerX + outerGuides.right, 0, centerX + outerGuides.right, overlayEl.height, dragging === 'outerRight', false, colorOuter);
-
+      // Card edge (outer) frame + corner brackets — blue
       ctx.setLineDash([]);
-      drawDragLine(0, centerY + innerGuides.top, overlayEl.width, centerY + innerGuides.top, dragging === 'innerTop', true, colorInner);
-      drawDragLine(0, centerY + innerGuides.bottom, overlayEl.width, centerY + innerGuides.bottom, dragging === 'innerBottom', true, colorInner);
-      drawDragLine(centerX + innerGuides.left, 0, centerX + innerGuides.left, overlayEl.height, dragging === 'innerLeft', false, colorInner);
-      drawDragLine(centerX + innerGuides.right, 0, centerX + innerGuides.right, overlayEl.height, dragging === 'innerRight', false, colorInner);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = colorOuter;
+      ctx.strokeRect(oxL, oyT, oxW, oxH);
+      drawCorners(oxL, oyT, oxW, oxH, colorOuter);
 
+      // Art border (inner) frame — pink
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = colorInner;
+      ctx.strokeRect(ixL, iyT, ixR - ixL, iyB - iyT);
+
+      // Identification labels
+      drawLabel(oxL, oyT, 'EDGE', colorOuter);
+      drawLabel(ixL, iyT, 'BORDER', colorInner);
+
+      // Draggable handles (outer first, inner rendered on top).
+      // Edge (blue) lines show two buttons offset from center; border (pink) keeps one centered.
+      drawGuide('h', outerGuides.top, colorOuter, dragging === 'outerTop', [-edgeOff, edgeOff]);
+      drawGuide('h', outerGuides.bottom, colorOuter, dragging === 'outerBottom', [-edgeOff, edgeOff]);
+      drawGuide('v', outerGuides.left, colorOuter, dragging === 'outerLeft', [-edgeOff, edgeOff]);
+      drawGuide('v', outerGuides.right, colorOuter, dragging === 'outerRight', [-edgeOff, edgeOff]);
+
+      drawGuide('h', innerGuides.top, colorInner, dragging === 'innerTop', [0]);
+      drawGuide('h', innerGuides.bottom, colorInner, dragging === 'innerBottom', [0]);
+      drawGuide('v', innerGuides.left, colorInner, dragging === 'innerLeft', [0]);
+      drawGuide('v', innerGuides.right, colorInner, dragging === 'innerRight', [0]);
+
+      drawLoupes();
       calculateCentering();
     }
 
-    function drawDragLine(x1: number, y1: number, x2: number, y2: number, isHovered: boolean, isHorizontal: boolean, baseColor: string) {
-      const color = isHovered ? colorHover : baseColor;
+    function roundRectPath(x: number, y: number, w: number, h: number, r: number) {
+      const rr = Math.min(r, w / 2, h / 2);
       ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-      ctx.stroke();
+      ctx.moveTo(x + rr, y);
+      ctx.arcTo(x + w, y, x + w, y + h, rr);
+      ctx.arcTo(x + w, y + h, x, y + h, rr);
+      ctx.arcTo(x, y + h, x, y, rr);
+      ctx.arcTo(x, y, x + w, y, rr);
+      ctx.closePath();
+    }
 
+    function drawCorners(x: number, y: number, w: number, h: number, color: string) {
+      const len = 22;
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(x, y + len); ctx.lineTo(x, y); ctx.lineTo(x + len, y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x + w - len, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y + len); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x + w, y + h - len); ctx.lineTo(x + w, y + h); ctx.lineTo(x + w - len, y + h); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x + len, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + h - len); ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawLabel(x: number, y: number, text: string, color: string) {
+      ctx.save();
+      ctx.font = '700 9px Inter, ui-sans-serif, system-ui, sans-serif';
+      const padX = 5;
+      const tw = ctx.measureText(text).width;
+      const w = tw + padX * 2;
+      const h = 14;
+      const ly = y - h - 5;
+      roundRectPath(x, ly, w, h, 4);
       ctx.fillStyle = color;
-      const handleSize = isCoarsePointer ? 28 : 20;
-      const offset = handleSize / 2;
-      if (isHorizontal) {
-        ctx.fillRect(centerX - offset, y1 - offset, handleSize, handleSize);
-      } else {
-        ctx.fillRect(x1 - offset, centerY - offset, handleSize, handleSize);
+      ctx.fill();
+      ctx.fillStyle = '#0b0c0d';
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'left';
+      ctx.fillText(text, x + padX, ly + h / 2 + 0.5);
+      ctx.restore();
+    }
+
+    function drawHandle(px: number, py: number, color: string, active: boolean, vertical: boolean) {
+      const long = active ? (isCoarsePointer ? 46 : 38) : (isCoarsePointer ? 38 : 30);
+      const short = active ? 18 : 15;
+      const w = vertical ? short : long;
+      const h = vertical ? long : short;
+      ctx.save();
+      ctx.shadowColor = color;
+      ctx.shadowBlur = active ? 16 : 9;
+      roundRectPath(px - w / 2, py - h / 2, w, h, short / 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.restore();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+      roundRectPath(px - w / 2, py - h / 2, w, h, short / 2);
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      for (let i = -1; i <= 1; i++) {
+        ctx.beginPath();
+        if (vertical) ctx.arc(px, py + i * 5, 1.5, 0, Math.PI * 2);
+        else ctx.arc(px + i * 5, py, 1.5, 0, Math.PI * 2);
+        ctx.fill();
       }
+    }
+
+    function drawGuide(orientation: 'h' | 'v', coord: number, color: string, active: boolean, offsets: number[]) {
+      if (orientation === 'h') {
+        const y = centerY + coord;
+        if (active) {
+          ctx.save();
+          ctx.strokeStyle = color;
+          ctx.globalAlpha = 0.5;
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([6, 7]);
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(overlayEl.width, y);
+          ctx.stroke();
+          ctx.restore();
+        }
+        offsets.forEach((o) => drawHandle(centerX + o, y, color, active, false));
+      } else {
+        const x = centerX + coord;
+        if (active) {
+          ctx.save();
+          ctx.strokeStyle = color;
+          ctx.globalAlpha = 0.5;
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([6, 7]);
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, overlayEl.height);
+          ctx.stroke();
+          ctx.restore();
+        }
+        offsets.forEach((o) => drawHandle(x, centerY + o, color, active, true));
+      }
+    }
+
+    // ---------- Corner magnifiers (loupes) ----------
+    function loupeCorner(key: string) {
+      switch (key) {
+        case 'tl': return { x: centerX + outerGuides.left, y: centerY + outerGuides.top };
+        case 'tr': return { x: centerX + outerGuides.right, y: centerY + outerGuides.top };
+        case 'bl': return { x: centerX + outerGuides.left, y: centerY + outerGuides.bottom };
+        default: return { x: centerX + outerGuides.right, y: centerY + outerGuides.bottom };
+      }
+    }
+
+    function loupeChip(lctx: CanvasRenderingContext2D, text: string, cx: number, cy: number, color: string) {
+      lctx.save();
+      lctx.font = '700 9px Inter, ui-sans-serif, system-ui, sans-serif';
+      const tw = lctx.measureText(text).width;
+      const w = tw + 10;
+      const h = 15;
+      const x = cx - w / 2;
+      const y = cy - h / 2;
+      const rr = 5;
+      lctx.beginPath();
+      lctx.moveTo(x + rr, y);
+      lctx.arcTo(x + w, y, x + w, y + h, rr);
+      lctx.arcTo(x + w, y + h, x, y + h, rr);
+      lctx.arcTo(x, y + h, x, y, rr);
+      lctx.arcTo(x, y, x + w, y, rr);
+      lctx.closePath();
+      lctx.fillStyle = 'rgba(0,0,0,0.62)';
+      lctx.fill();
+      lctx.fillStyle = color;
+      lctx.textAlign = 'center';
+      lctx.textBaseline = 'middle';
+      lctx.fillText(text, cx, cy + 0.5);
+      lctx.restore();
+    }
+
+    function drawLoupes() {
+      if (!loupesOnRef.current) return;
+      (['tl', 'tr', 'bl', 'br'] as const).forEach((key) => {
+        const el = loupeEls[key];
+        if (!el) return;
+        const size = el.clientWidth;
+        if (size < 8) return;
+        const dpr = window.devicePixelRatio || 1;
+        const target = Math.round(size * dpr);
+        if (el.width !== target) { el.width = target; el.height = target; }
+        const lctx = el.getContext('2d');
+        if (!lctx) return;
+        lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        lctx.clearRect(0, 0, size, size);
+        const R = size / 2;
+
+        lctx.save();
+        lctx.beginPath();
+        lctx.arc(R, R, R, 0, Math.PI * 2);
+        lctx.clip();
+        lctx.fillStyle = '#0b0c0d';
+        lctx.fillRect(0, 0, size, size);
+
+        const S = loupeCorner(key);
+
+        if (imgEl.src && imgEl.complete && imgEl.naturalWidth > 0) {
+          const bw = imgEl.offsetWidth || imgEl.naturalWidth;
+          const bh = imgEl.offsetHeight || imgEl.naturalHeight;
+          const z = parseFloat(controls.zoom.value) || 1;
+          const r = ((parseFloat(controls.rotate.value) || 0) * Math.PI) / 180;
+          const px = parseInt(controls.panX.value || '0');
+          const py = parseInt(controls.panY.value || '0');
+          lctx.save();
+          lctx.translate(R, R);
+          lctx.scale(loupeMag, loupeMag);
+          lctx.translate(-S.x, -S.y);
+          lctx.translate(centerX + px, centerY + py);
+          lctx.rotate(r);
+          lctx.scale(z, z);
+          lctx.drawImage(imgEl, -bw / 2, -bh / 2, bw, bh);
+          lctx.restore();
+        } else {
+          lctx.fillStyle = 'rgba(255,255,255,0.25)';
+          lctx.font = '600 11px Inter, ui-sans-serif, system-ui, sans-serif';
+          lctx.textAlign = 'center';
+          lctx.textBaseline = 'middle';
+          lctx.fillText('No image', R, R);
+        }
+
+        // Edge guide cross (axis-aligned) anchored at the loupe center
+        lctx.save();
+        lctx.strokeStyle = colorOuter;
+        lctx.globalAlpha = 0.85;
+        lctx.lineWidth = 1.5;
+        lctx.setLineDash([]);
+        lctx.beginPath();
+        lctx.moveTo(0, R); lctx.lineTo(size, R);
+        lctx.moveTo(R, 0); lctx.lineTo(R, size);
+        lctx.stroke();
+        lctx.restore();
+
+        // Adjustable reference reticle
+        const mx = R + refOff[key].x * loupeMag;
+        const my = R + refOff[key].y * loupeMag;
+        if (refOff[key].x !== 0 || refOff[key].y !== 0) {
+          lctx.save();
+          lctx.strokeStyle = 'rgba(255,255,255,0.5)';
+          lctx.setLineDash([3, 3]);
+          lctx.lineWidth = 1;
+          lctx.beginPath();
+          lctx.moveTo(R, R); lctx.lineTo(mx, my);
+          lctx.stroke();
+          lctx.restore();
+        }
+        lctx.save();
+        lctx.strokeStyle = '#fde047';
+        lctx.fillStyle = '#fde047';
+        lctx.lineWidth = 2;
+        lctx.setLineDash([]);
+        lctx.beginPath(); lctx.arc(mx, my, 8, 0, Math.PI * 2); lctx.stroke();
+        lctx.beginPath();
+        lctx.moveTo(mx - 12, my); lctx.lineTo(mx - 3, my);
+        lctx.moveTo(mx + 3, my); lctx.lineTo(mx + 12, my);
+        lctx.moveTo(mx, my - 12); lctx.lineTo(mx, my - 3);
+        lctx.moveTo(mx, my + 3); lctx.lineTo(mx, my + 12);
+        lctx.stroke();
+        lctx.beginPath(); lctx.arc(mx, my, 1.6, 0, Math.PI * 2); lctx.fill();
+        lctx.restore();
+
+        lctx.restore(); // end clip
+
+        // Rim
+        lctx.save();
+        lctx.strokeStyle = 'rgba(255,255,255,0.18)';
+        lctx.lineWidth = 2;
+        lctx.beginPath();
+        lctx.arc(R, R, R - 1, 0, Math.PI * 2);
+        lctx.stroke();
+        lctx.restore();
+
+        // Labels
+        loupeChip(lctx, key.toUpperCase(), 16, 12, '#bfdbfe');
+        const d = Math.round(Math.hypot(refOff[key].x, refOff[key].y));
+        loupeChip(lctx, `Δ ${d}px`, R, size - 11, d === 0 ? '#9ca3af' : '#fde047');
+        if (key === 'tl') loupeChip(lctx, `${loupeMag.toFixed(1)}×`, size - 18, 12, '#e5e7eb');
+      });
     }
 
     function calculateCentering() {
@@ -289,12 +662,6 @@ export default function CardCenteringClient() {
         tbPercentB = (distBottom / totalTB) * 100;
       }
 
-      const elLR = document.getElementById('lr-ratio');
-      const elTB = document.getElementById('tb-ratio');
-
-      if (elLR) elLR.innerText = `${lrPercentL.toFixed(1)} / ${lrPercentR.toFixed(1)}`;
-      if (elTB) elTB.innerText = `${tbPercentT.toFixed(1)} / ${tbPercentB.toFixed(1)}`;
-
       // Axis-aligned PSA thresholds (percent ranges)
       const PSA = {
         PSA10: { min: 45, max: 55 },
@@ -302,7 +669,7 @@ export default function CardCenteringClient() {
         PSA8: { min: 35, max: 65 },
       };
 
-      function axisZone(percent: number) {
+      function axisZone(percent: number): GradeZone {
         if (percent >= PSA.PSA10.min && percent <= PSA.PSA10.max) return 'PSA10';
         if (percent >= PSA.PSA9.min && percent <= PSA.PSA9.max) return 'PSA9';
         if (percent >= PSA.PSA8.min && percent <= PSA.PSA8.max) return 'PSA8';
@@ -312,18 +679,8 @@ export default function CardCenteringClient() {
       const lrZone = axisZone(lrPercentL);
       const tbZone = axisZone(tbPercentT);
 
-      const zoneColorMap: Record<string, string> = {
-        PSA10: '#4caf50', // green
-        PSA9: '#f59e0b', // accent/gold
-        PSA8: '#ffb020', // amber
-        Below: '#f44336', // red
-      };
-
-      if (elLR) (elLR as HTMLElement).style.color = zoneColorMap[lrZone];
-      if (elTB) (elTB as HTMLElement).style.color = zoneColorMap[tbZone];
-
       // Combined zone: the stricter (worst) axis determines the overall grade
-      let overallZone = 'Below';
+      let overallZone: GradeZone = 'Below';
       if (lrZone === 'PSA10' && tbZone === 'PSA10') {
         overallZone = 'PSA10';
       } else if (
@@ -338,14 +695,24 @@ export default function CardCenteringClient() {
         overallZone = 'PSA8';
       }
 
+      setGrade({
+        overall: overallZone,
+        lr: lrPercentL,
+        tb: tbPercentT,
+        lrZone,
+        tbZone,
+      });
+
       drawPlot(lrPercentL, tbPercentT, overallZone);
     }
 
     function drawPlot(lr: number, tb: number, overallZone: string) {
       // Hi-DPI support
       const dpr = window.devicePixelRatio || 1;
-      const cw = plotCanvasEl.clientWidth || plotCanvasEl.width;
-      const ch = plotCanvasEl.clientHeight || plotCanvasEl.height;
+      const rect = plotCanvasEl.getBoundingClientRect();
+      const cw = rect.width || plotCanvasEl.clientWidth;
+      const ch = rect.height || plotCanvasEl.clientHeight;
+      if (cw < 8 || ch < 8) return;
       plotCanvasEl.width = Math.round(cw * dpr);
       plotCanvasEl.height = Math.round(ch * dpr);
       plotCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -486,14 +853,27 @@ export default function CardCenteringClient() {
       const xRel = mouseX - centerX;
       const yRel = mouseY - centerY;
 
-      if (Math.abs(yRel - innerGuides.top) < hitArea) dragging = 'innerTop';
-      else if (Math.abs(yRel - innerGuides.bottom) < hitArea) dragging = 'innerBottom';
-      else if (Math.abs(xRel - innerGuides.left) < hitArea) dragging = 'innerLeft';
-      else if (Math.abs(xRel - innerGuides.right) < hitArea) dragging = 'innerRight';
-      else if (Math.abs(yRel - outerGuides.top) < hitArea) dragging = 'outerTop';
-      else if (Math.abs(yRel - outerGuides.bottom) < hitArea) dragging = 'outerBottom';
-      else if (Math.abs(xRel - outerGuides.left) < hitArea) dragging = 'outerLeft';
-      else if (Math.abs(xRel - outerGuides.right) < hitArea) dragging = 'outerRight';
+      // Pick the NEAREST guide within the hit area rather than the first match.
+      // This avoids grabbing the wrong line when the blue/pink guides sit close together.
+      // Inner (pink) guides are given a small bias so they win ties — they're drawn on top.
+      const candidates: { name: string; dist: number; bias: number }[] = [
+        { name: 'innerTop', dist: Math.abs(yRel - innerGuides.top), bias: 2 },
+        { name: 'innerBottom', dist: Math.abs(yRel - innerGuides.bottom), bias: 2 },
+        { name: 'innerLeft', dist: Math.abs(xRel - innerGuides.left), bias: 2 },
+        { name: 'innerRight', dist: Math.abs(xRel - innerGuides.right), bias: 2 },
+        { name: 'outerTop', dist: Math.abs(yRel - outerGuides.top), bias: 0 },
+        { name: 'outerBottom', dist: Math.abs(yRel - outerGuides.bottom), bias: 0 },
+        { name: 'outerLeft', dist: Math.abs(xRel - outerGuides.left), bias: 0 },
+        { name: 'outerRight', dist: Math.abs(xRel - outerGuides.right), bias: 0 },
+      ];
+
+      let best: { name: string; score: number } | null = null;
+      for (const c of candidates) {
+        if (c.dist > hitArea) continue;
+        const score = c.dist - c.bias;
+        if (!best || score < best.score) best = { name: c.name, score };
+      }
+      if (best) dragging = best.name;
 
       if (!dragging) {
         dragging = 'image';
@@ -579,6 +959,46 @@ export default function CardCenteringClient() {
     window.addEventListener('touchend', pointerUp as any);
     window.addEventListener('touchcancel', pointerUp as any);
 
+    // --- Loupe reticle interaction ---
+    function setRefFromEvent(key: string, e: any) {
+      const el = loupeEls[key as 'tl' | 'tr' | 'bl' | 'br'];
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const pos = getPointerPos(e);
+      const size = el.clientWidth;
+      const lx = pos.clientX - rect.left - size / 2;
+      const ly = pos.clientY - rect.top - size / 2;
+      refOff[key] = { x: lx / loupeMag, y: ly / loupeMag };
+      drawLoupes();
+    }
+    const loupeBindings: Array<{ el: HTMLCanvasElement; type: string; fn: any }> = [];
+    (['tl', 'tr', 'bl', 'br'] as const).forEach((key) => {
+      const el = loupeEls[key];
+      if (!el) return;
+      const down = (e: any) => { e.preventDefault(); e.stopPropagation(); loupeDrag = key; setRefFromEvent(key, e); };
+      const dbl = () => { refOff[key] = { x: 0, y: 0 }; drawLoupes(); };
+      const wheel = (e: any) => {
+        e.preventDefault();
+        const dir = e.deltaY > 0 ? -1 : 1;
+        loupeMag = Math.min(5, Math.max(1.5, +(loupeMag + dir * 0.2).toFixed(2)));
+        drawLoupes();
+      };
+      el.addEventListener('mousedown', down);
+      el.addEventListener('touchstart', down, { passive: false } as any);
+      el.addEventListener('dblclick', dbl);
+      el.addEventListener('wheel', wheel, { passive: false } as any);
+      loupeBindings.push({ el, type: 'mousedown', fn: down });
+      loupeBindings.push({ el, type: 'touchstart', fn: down });
+      loupeBindings.push({ el, type: 'dblclick', fn: dbl });
+      loupeBindings.push({ el, type: 'wheel', fn: wheel });
+    });
+    const loupeMoveGlobal = (e: any) => { if (!loupeDrag) return; e.preventDefault(); setRefFromEvent(loupeDrag, e); };
+    const loupeUpGlobal = () => { loupeDrag = null; };
+    window.addEventListener('mousemove', loupeMoveGlobal, { passive: false });
+    window.addEventListener('mouseup', loupeUpGlobal);
+    window.addEventListener('touchmove', loupeMoveGlobal, { passive: false });
+    window.addEventListener('touchend', loupeUpGlobal);
+
     // Initialization
     setTimeout(() => {
       resizeCanvas();
@@ -589,6 +1009,7 @@ export default function CardCenteringClient() {
     return () => {
       resetRef.current = null;
       fitRef.current = null;
+      redrawRef.current = null;
       window.removeEventListener('resize', resizeCanvas);
       uploadEl.removeEventListener('change', uploadHandler);
       Object.values(controls).forEach((ctrl: any) => ctrl.removeEventListener('input', updateTransform));
@@ -599,110 +1020,105 @@ export default function CardCenteringClient() {
       window.removeEventListener('touchmove', pointerMove as any);
       window.removeEventListener('touchend', pointerUp as any);
       window.removeEventListener('touchcancel', pointerUp as any);
+      loupeBindings.forEach(({ el, type, fn }) => el.removeEventListener(type, fn));
+      window.removeEventListener('mousemove', loupeMoveGlobal as any);
+      window.removeEventListener('mouseup', loupeUpGlobal);
+      window.removeEventListener('touchmove', loupeMoveGlobal as any);
+      window.removeEventListener('touchend', loupeUpGlobal);
       try { document.body.style.overflow = ''; } catch {}
     };
   }, []);
+
+  const zone = grade?.overall ?? null;
+  const zoneMeta = zone ? ZONE_META[zone] : null;
+  const fmt = (n?: number) => (typeof n === 'number' ? n.toFixed(1) : '—');
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.workspaceContainer} id="workspace">
         <div id="image-wrapper" className={styles.imageWrapper}>
-          <img id="card-image" className={styles.cardImage} style={{ display: 'none' }} />
+          <img id="card-image" className={styles.cardImage} alt="" style={{ display: 'none' }} />
         </div>
         <canvas id="overlay-canvas" className={styles.overlayCanvas}></canvas>
-      </div>
 
-      <div className={styles.controlsContainer}>
-        <div className="flex items-start justify-between mb-3">
-          <div>
-            <h2 className="text-xl font-display font-bold">Visual Centering Analyzer</h2>
-            <p className="text-sm text-neutral-400">Quickly check whether an uploaded card image can meet PSA 10 centering.</p>
+        {/* Corner magnifiers */}
+        <canvas id="loupe-tl" width={116} height={116} className={`${styles.loupe} ${styles.loupeTL} ${loupesOn ? '' : styles.loupeHidden}`} />
+        <canvas id="loupe-tr" width={116} height={116} className={`${styles.loupe} ${styles.loupeTR} ${loupesOn ? '' : styles.loupeHidden}`} />
+        <canvas id="loupe-bl" width={116} height={116} className={`${styles.loupe} ${styles.loupeBL} ${loupesOn ? '' : styles.loupeHidden}`} />
+        <canvas id="loupe-br" width={116} height={116} className={`${styles.loupe} ${styles.loupeBR} ${loupesOn ? '' : styles.loupeHidden}`} />
+
+        {!fileName && (
+          <div className={styles.emptyState}>
+            <div className={styles.emptyIcon}>🎴</div>
+            <p className={styles.emptyTitle}>Upload a card to start</p>
+            <button className={styles.emptyBtn} onClick={() => fileInputRef.current?.click()}>Choose image</button>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={() => resetRef.current?.()}>Reset</Button>
-            <Button variant="secondary" size="sm" onClick={() => fitRef.current?.()}>Fit</Button>
+        )}
+
+        {/* Floating top bar: grade + actions */}
+        <div className={styles.topBar}>
+          <div
+            className={styles.gradePill}
+            style={{ ['--zone-color' as any]: zoneMeta?.color ?? 'rgba(148,163,184,0.7)' }}
+          >
+            <span className={styles.gradePillLabel}>{zoneMeta?.label ?? '—'}</span>
+            <span className={styles.gradePillSub}>{zoneMeta?.short ?? 'Align guides'}</span>
+            <div className={styles.gradePillRatios}>
+              <span data-status={grade?.lrZone}>L·R {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
+              <span data-status={grade?.tbZone}>T·B {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
+            </div>
+          </div>
+
+          <div className={styles.topActions}>
+            <button className={`${styles.iconBtn} ${loupesOn ? styles.iconBtnOn : ''}`} title="Corner magnifiers" aria-label="Toggle corner magnifiers" aria-pressed={loupesOn} onClick={() => setLoupesOn((v) => !v)}><MagnifierIcon /></button>
+            <button className={styles.iconBtn} title="Upload image" aria-label="Upload image" onClick={() => fileInputRef.current?.click()}><UploadIcon /></button>
+            <button className={styles.iconBtn} title="Fit to view" aria-label="Fit to view" onClick={() => fitRef.current?.()}><FitIcon /></button>
+            <button className={styles.iconBtn} title="Reset" aria-label="Reset" onClick={() => resetRef.current?.()}><ResetIcon /></button>
           </div>
         </div>
 
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>Choose Image</Button>
-            <span className={styles.uploadFilename}>{fileName ?? 'No file selected'}</span>
-          </div>
-          <input type="file" id="upload" ref={fileInputRef} className={styles.hiddenFileInput} accept="image/*" aria-label="Upload card image" />
-          <p className={styles.instructions}>
-            <b>1.</b> Drag image to Pan / Pinch to Zoom.<br />
-            <b>2.</b> Drag <b>Blue Lines</b> to physical card edges.<br />
-            <b>3.</b> Drag <b>Red Lines</b> to inner art borders.
-          </p>
-        </div>
+        {/* Floating, collapsible adjustments sheet */}
+        <div className={styles.adjustSheet} data-open={adjustOpen}>
+          <div className={styles.sheetGrabber} onClick={() => setAdjustOpen((v) => !v)} />
+          <button className={styles.adjustToggle} onClick={() => setAdjustOpen((v) => !v)} aria-expanded={adjustOpen}>
+            <span className={styles.adjustToggleLeft}><SlidersIcon /> Adjust image</span>
+            <ChevronIcon className={styles.chevron} />
+          </button>
 
-        <div className={styles.controlGroup}>
-          <h3 className={styles.sectionTitle}>Image Adjustments</h3>
-          <div className={styles.controlRow}>
-            <div className={styles.controlHeader}>
-              <label htmlFor="zoom">Zoom</label>
-              <span id="zoom-val" className={styles.sliderValue}>1.0</span>
+          <div className={styles.adjustBody}>
+            <div className={styles.sliderGrid}>
+              <div className={styles.controlRow}>
+                <div className={styles.controlHeader}><label htmlFor="zoom" className={styles.controlLabel}><ZoomIcon /> Zoom</label><span id="zoom-val" className={styles.sliderValue}>1.0</span></div>
+                <input className={styles.rangeSlider} aria-label="Zoom" type="range" id="zoom" min="0.1" max="3" step="0.01" defaultValue="1" />
+              </div>
+              <div className={styles.controlRow}>
+                <div className={styles.controlHeader}><label htmlFor="rotate" className={styles.controlLabel}><RotateIcon /> Rotate</label><span id="rot-val" className={styles.sliderValue}>0°</span></div>
+                <input className={styles.rangeSlider} aria-label="Rotation" type="range" id="rotate" min="-45" max="45" step="0.05" defaultValue="0" />
+              </div>
+              <div className={styles.controlRow}>
+                <div className={styles.controlHeader}><label htmlFor="tiltY" className={styles.controlLabel}><TiltHIcon /> H-Tilt</label><span id="tiltY-val" className={styles.sliderValue}>0°</span></div>
+                <input className={styles.rangeSlider} aria-label="Horizontal tilt" type="range" id="tiltY" min="-45" max="45" step="0.05" defaultValue="0" />
+              </div>
+              <div className={styles.controlRow}>
+                <div className={styles.controlHeader}><label htmlFor="tiltX" className={styles.controlLabel}><TiltVIcon /> V-Tilt</label><span id="tiltX-val" className={styles.sliderValue}>0°</span></div>
+                <input className={styles.rangeSlider} aria-label="Vertical tilt" type="range" id="tiltX" min="-45" max="45" step="0.05" defaultValue="0" />
+              </div>
             </div>
-            <input className={styles.rangeSlider} aria-label="Zoom" type="range" id="zoom" min="0.1" max="3" step="0.01" defaultValue="1" />
-          </div>
 
-          <div className={styles.controlRow}>
-            <div className={styles.controlHeader}>
-              <label htmlFor="rotate">Rotation</label>
-              <span id="rot-val" className={styles.sliderValue}>0°</span>
-            </div>
-            <input className={styles.rangeSlider} aria-label="Rotation" type="range" id="rotate" min="-45" max="45" step="0.05" defaultValue="0" />
-          </div>
-
-          <div className={styles.controlRow}>
-            <div className={styles.controlHeader}>
-              <label htmlFor="tiltY">H-Tilt (Yaw)</label>
-              <span id="tiltY-val" className={styles.sliderValue}>0°</span>
-            </div>
-            <input className={styles.rangeSlider} aria-label="Horizontal tilt" type="range" id="tiltY" min="-45" max="45" step="0.05" defaultValue="0" />
-          </div>
-
-          <div className={styles.controlRow}>
-            <div className={styles.controlHeader}>
-              <label htmlFor="tiltX">V-Tilt (Pitch)</label>
-              <span id="tiltX-val" className={styles.sliderValue}>0°</span>
-            </div>
-            <input className={styles.rangeSlider} aria-label="Vertical tilt" type="range" id="tiltX" min="-45" max="45" step="0.05" defaultValue="0" />
-          </div>
-
-          <input aria-hidden="true" type="range" id="panX" min="-1500" max="1500" step="1" defaultValue="0" style={{ display: 'none' }} />
-          <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" style={{ display: 'none' }} />
-        </div>
-
-        <div className={styles.controlGroup}>
-          <h3 className={styles.sectionTitle}>Measurements</h3>
-          <div className={styles.resultsBox}>
-            L/R: <span id="lr-ratio">50.0 / 50.0</span>
-            <br />
-            T/B: <span id="tb-ratio">50.0 / 50.0</span>
-          </div>
-          <div className={styles.legend}>
-            <p>
-              <span style={{ background: '#2196F3' }}></span> Outer
-            </p>
-            <p>
-              <span style={{ background: '#f44336' }}></span> Inner/Border
-            </p>
-          </div>
-        </div>
-
-        <div className={styles.controlGroup}>
-          <h3 className={styles.sectionTitle}>Centering Plot (PSA 10 Zone)</h3>
-          <div className={styles.plotContainer}>
-            <canvas id="plot-canvas" className={styles.plotCanvas} width={200} height={200}></canvas>
-            <div className={styles.plotLegend} aria-hidden>
-              <div className={styles.plotLegendItem}><span className={styles.plotSwatch} style={{ background: '#f07a86' }}></span><span>PSA 10</span></div>
-              <div className={styles.plotLegendItem}><span className={styles.plotSwatch} style={{ background: '#ff9aa6' }}></span><span>PSA 9</span></div>
-              <div className={styles.plotLegendItem}><span className={styles.plotSwatch} style={{ background: '#ffc2cc' }}></span><span>PSA 8</span></div>
+            <div className={styles.mapRow}>
+              <canvas id="plot-canvas" className={styles.plotCanvas} width={160} height={160}></canvas>
+              <div className={styles.mapLegend}>
+                <span><i className={styles.dotEdge} /> Blue = card edge</span>
+                <span><i className={styles.dotBorder} /> Pink = art border</span>
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Off-screen inputs driven programmatically */}
+        <input type="file" id="upload" ref={fileInputRef} className={styles.srOnly} accept="image/*" aria-label="Upload card image" />
+        <input aria-hidden="true" type="range" id="panX" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
+        <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
       </div>
     </div>
   );

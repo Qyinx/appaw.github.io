@@ -1,43 +1,28 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-05-27 — Next.js sitemap generator updated (`src/app/sitemap.ts`) to include image entries for trade listings; `/business/card-trading/` has been hidden from sitemap and set to `noindex`.
+Last updated: 2026-06-02 — Optimised the homepage (`/`) for search intent: added a keyword-rich sub-line inside the H1 ("Premium Aluminum PSA Card Protectors & Trading Card Supplies in Hong Kong" / bilingual), injected a clean crawlable Product Specifications `<table>` (Compatibility: 35PT PSA slabs, Material, Closure: N52, UV >95%, Weight 74g, Dimensions, HK origin) directly under the Services bento, rewrote the hero subtitle to weave in primary keywords ("magnetic aluminum PSA card protectors / 35PT graded slabs" and zh "PSA 保護殼 / 評級卡保護殼 / 磁吸卡夾"), and confirmed the hero "Shop Now" CTA is the dominant path straight to `/products/psa-protectors`. Previous: strengthened `/products/psa-protectors/` (kept indexed URL, added ~180-word bilingual Product Overview, expanded spec grid with Compatibility + Closure rows) and repositioned `/tools/card-centering/` as a utility-first "Free Card Centering Calculator & PSA 10 Analyzer" pillar.
 
 Goal: Provide SEO-ready title/meta and JSON-LD examples for the three pillars to improve Google reach and SERP CTR.
 
 Site OG image (used across the site): `/images/og-image.png` — recommended size 1200x630, used for homepage and default social previews.
 
-1) PSA Protectors (/products/psa-protectors/)
-- Suggested Title: "PSA Card Protectors — Premium PSA-Grade Aluminum & Sleeves | Appaw Store"
-- Suggested Meta Description: "Shop PSA-grade card protectors — aluminum magnetic cases and archival sleeves engineered to protect graded cards. Fast shipping worldwide."
-- Suggested H1: "PSA-Grade Card Protectors"
+1) PSA Protectors (/products/psa-protectors/) — IMPLEMENTED
+- URL decision: KEEP `/products/psa-protectors/`. It is already clean, indexed, and contains the primary keyword "psa". Changing an established/indexed URL (e.g. to `/products/psa-card-aluminum-protector`) risks losing accumulated ranking equity for marginal slug gains, so no slug change and no redirect were applied. The legacy `/business/psa-protector` already 301-redirects here.
+- Metadata (`psaProtectorsMetadata` in `src/lib/seo/metadata.ts`): page-owned title/description/canonical, OG + Twitter tags, keyword cluster around "PSA card protector / PSA aluminum case / magnetic PSA slab case".
 - Primary Keywords: "PSA card protector", "PSA protectors", "PSA aluminum case"
-- Supporting long-tails: "best PSA card protector", "magnetic PSA card case", "UV-protection card protector"
+- Supporting long-tails: "best PSA card protector", "magnetic PSA card case", "UV-protection card protector", "35PT PSA slab case", "N52 magnetic card holder"
 
-- Open Graph / Twitter
-  - og:title: same as Title
-  - og:description: same as Meta
-  - og:image: /images/og-protectors.png
-  - twitter:card: summary_large_image
+- Implemented changes:
+  - Text-rich product description: a new "Product Overview" section (`overview` i18n block, en + zh) renders a ~180-word, keyword-dense paragraph pair below the hero — covering 35PT PSA compatibility, >95% UV/anti-fade protection, N52 neodymium closure, 74g aluminum/glass build, and Pokémon/sports/MTG use cases. Gives Google substantial indexable on-page copy beyond image alt text.
+  - Expanded "Technical Specifications" grid (`specs` array in `page.tsx`): now 6 cards — Size, Weight, Materials, UV Protection, plus new **Compatibility** (Standard 35PT PSA Slabs) and **Closure System** (N52 Neodymium Magnets) rows, each with bilingual labels/values/descriptions.
+  - Internal linking (already satisfied): homepage buy buttons (`HomeClient.tsx`), `Footer.tsx`, `BusinessClient.tsx`, and `CardTradingClient.tsx` all point to `/products/psa-protectors` — dominant internal link authority confirmed, no change needed.
 
-- JSON-LD (Product):
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "PSA Card Protector",
-  "description": "Premium PSA-grade aluminum card protector with UV-blocking glass and N52 magnets.",
-  "url": "https://appaw.store/products/psa-protectors/",
-  "image": ["https://appaw.store/images/og-protectors.png"],
-  "brand": { "@type": "Brand", "name": "Appaw Store" },
-  "offers": {
-    "@type": "Offer",
-    "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock"
-  }
-}
-```
+- JSON-LD (already comprehensive, in `src/app/products/psa-protectors/layout.tsx`): full `Product` with brand, SKU `APPAW-PSA-ALU-001`, material, weight/width/height/depth `QuantitativeValue`s, two `Offer`s (HKD), `additionalProperty` (UV Protection >95%, Magnet Grade N52 Neodymium, Compatibility Standard 35PT PSA Slabs, Closure Type Magnetic), `aggregateRating` (4.9 / 127), plus `BreadcrumbList` and `FAQPage`.
 
-Notes: Add product prices/offers where available and rich images. Include aggregateRating and reviews when available.
+- Manual follow-up (cannot be automated): submit `https://appaw.store/products/psa-protectors/` via Google Search Console "URL Inspection → Request Indexing" to accelerate re-crawl of the new copy.
+
+Open Graph / Twitter: handled by `psaProtectorsMetadata` (summary_large_image).
+
 
 ---
 
@@ -68,29 +53,76 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 ---
 
-3) Visual Card Centering Analyzer (/tools/card-centering/)
-- Suggested Title: "Card Centering Analyzer — Instant Center Grade Tool | Appaw Store"
-- Suggested Meta Description: "Upload a photo or use your camera to get an instant centering grade (%) and downloadable report for trading cards. Free and easy to use."
-- Suggested H1: "Card Centering Analyzer"
-- Primary Keywords: "card centering analyzer", "centered card grader", "PSA centering tool"
-- Supporting long-tails: "how to check card centering", "centered grade percent tool", "PSA centering calculator"
+3) Card Centering Calculator / PSA 10 Analyzer (/tools/card-centering/)
 
-- Open Graph / Twitter: screenshot of analyzer UI (result overlay) for `og:image`.
+> Updated 2026-06-01 — Repositioned this page from a commercial brand page to a utility-first
+> tool page after keyword research. This is the strongest organic-traffic opportunity on the site:
+> searchers looking for a "card centering calculator" have high intent and low commercial
+> competition compared to the protector/store keywords the homepage targets.
 
-- JSON-LD (WebApplication / Tool):
+- Implemented Title: "Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store"
+  - Rationale: leads with "Free" + the two highest-volume head terms ("card centering calculator"
+    and "PSA 10"). The previous inherited title ("Appaw Store - PSA Card Aluminum Protector & TCG
+    Trading") was purely commercial and lost the click for tool-intent searches.
+- Implemented Meta Description: "Quickly check if your Pokémon, sports, or TCG cards meet PSA 10
+  centering standards. Upload your card, adjust the alignment lines, and get instant margin
+  percentages — free."
+- Implemented H1: "Free Card Centering Calculator & PSA 10 Analyzer" (single H1 on the page, rendered
+  in `CenteringContent.tsx` below the tool canvas).
+
+Keyword research (target cluster)
+- Primary head terms: "card centering calculator", "card centering tool", "PSA 10 centering",
+  "PSA centering calculator".
+- High-intent long-tails (now covered by on-page H2s/FAQ): "how to check card centering",
+  "what centering for a PSA 10", "Pokémon card centering tool", "sports card centering calculator",
+  "BGS centering requirements", "card centering percentage".
+- Comparison/authority terms to expand into later: "PSA vs BGS centering", "55/45 centering",
+  "off-center card value", "centering before grading".
+
+On-page content (implemented)
+- "How to use the Appaw Centering Analyzer" — numbered step-by-step instructions (upload on a dark
+  background → align outer/blue guides to the card edge → align inner/pink guides to the art border →
+  read percentages). Mirrors `HowTo` JSON-LD.
+- "What are the centering requirements for a PSA 10?" — a markdown/HTML table of front & back
+  tolerances for PSA, BGS and SGC (incl. PSA's tightened 55/45 front standard for a 10).
+- "Why card centering matters" — explains how off-centre borders cap a card's grade and tank value,
+  with internal links to `/products/psa-protectors/` and `/business/card-trading/`.
+- FAQ block (accordion) wired to `FAQPage` JSON-LD: PSA 10 requirement, accuracy, best-photo tips,
+  card-type support, and "is it free".
+
+- Open Graph / Twitter: `og:image` = `/images/og-centering.png` (TODO: replace placeholder with a real
+  analyzer result-overlay screenshot, 1200×630).
+
+- JSON-LD (implemented in `src/app/tools/card-centering/page.tsx` via `src/lib/seo` factories):
+  - `WebApplication` (applicationCategory `UtilitiesApplication`)
+  - `BreadcrumbList` (Home → Card Centering Calculator)
+  - `HowTo` (the 4 measurement steps)
+  - `FAQPage` (the 5 Q&As above)
+
 ```json
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Card Centering Analyzer",
-  "description": "Upload a card photo for instant centering grade and exportable report. Useful for grading preparation.",
+  "name": "Card Centering Calculator & PSA 10 Analyzer",
+  "description": "Free browser tool that measures trading card centering against PSA, BGS and SGC standards.",
   "url": "https://appaw.store/tools/card-centering/",
-  "applicationCategory": "EducationApplication",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
   "author": { "@type": "Organization", "name": "Appaw Store" }
 }
 ```
 
-Notes: Provide sample result screenshots, explain measurement method (brief), and allow crawling of demo pages. Offer an FAQ section: "How accurate is the analyzer?" and "How to take photos for best results?" — these Q&As help appear in rich results.
+Internal linking / IA (implemented)
+- Added a highlighted "Centering Tool" link to the primary header navigation (`Header.tsx`,
+  i18n key `nav.centeringTool`, en/zh) so crawlers and users see it as a top-level, important page.
+- Page metadata is now page-owned (`centeringMetadata` exported from `src/app/tools/card-centering/page.tsx`)
+  and the canonical was corrected from the broken `/tools/centering/` to `/tools/card-centering/`.
+
+Notes / next steps
+- Replace the placeholder `og:image` with a real screenshot of the analyzer result overlay.
+- Consider a short "measurement method" explainer and a couple of worked examples (well-centred vs
+  off-centre card) to deepen topical authority versus competitors (e.g. Edge Grading's centering tool).
+- Add internal links to this tool from the homepage and the `/products/psa-protectors/` page body.
 
 ---
 
