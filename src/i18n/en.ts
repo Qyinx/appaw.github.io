@@ -1,12 +1,10 @@
-import { start } from "repl";
-
 export const en = {
   // Navigation
   nav: {
     home: 'Home',
     about: 'About Us',
-    business: 'Business',
-    psaProtector: 'PSA Protector',
+    business: 'Services',
+    psaProtector: 'Graded Slab Protector',
     collection: 'My Collection',
     cardTrading: 'Card Trading',
     centeringTool: 'Centering Tool',
@@ -20,8 +18,14 @@ export const en = {
     hero: {
       badge: 'Premium Card Protection',
       title: 'Showcase Your Passion. Protect Your Investment.',
-      h1Keyword: 'Premium Aluminum PSA Card Protectors & Trading Card Supplies in Hong Kong',
-      subtitle: 'Magnetic aluminum PSA card protectors for standard 35PT graded slabs, plus trusted graded card trading — all from Hong Kong.',
+      headlineLines: [
+        { text: 'Showcase', accent: false },
+        { text: 'Your Passion.', accent: true },
+        { text: 'Protect Your', accent: false },
+        { text: 'Investment.', accent: false },
+      ],
+      h1Keyword: 'Premium Graded Slab Aluminum Protectors & Trading Card Supplies in Hong Kong',
+      subtitle: 'Magnetic graded slab aluminum protectors for standard 35PT PSA & CGC slabs, plus trusted graded card trading — all from Hong Kong.',
       description: 'From our signature aluminum protectors to our professional card brokerage, we help collectors protect and grow their collections.',
       cta: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
@@ -34,12 +38,12 @@ export const en = {
     },
     specs: {
       badge: 'Product Specifications',
-      title: 'PSA Card Aluminum Protector — Full Specifications',
-      intro: 'A magnetic PSA case engineered in Hong Kong for standard 35PT PSA graded slabs. Aircraft-grade aluminum alloy, UV-blocking glass, and N52 neodymium closure protect Pokémon, sports, and MTG graded cards.',
-      cta: 'Buy the PSA Protector',
+      title: 'Graded Slab Aluminum Protector — Full Specifications',
+      intro: 'A magnetic graded slab case engineered in Hong Kong for standard 35PT PSA and CGC slabs. Aircraft-grade aluminum alloy, UV-blocking glass, and N52 neodymium closure protect Pokémon, sports, and MTG graded cards.',
+      cta: 'Buy the Graded Slab Protector',
       rows: {
         product: 'Product',
-        productValue: 'PSA Card Aluminum Protector (Magnetic Slab Case)',
+        productValue: 'Graded Slab Aluminum Protector (Magnetic Slab Case)',
         compatibility: 'Compatibility',
         compatibilityValue: 'Fits standard 35PT PSA graded slabs',
         material: 'Material',
@@ -83,8 +87,22 @@ export const en = {
       title: 'Ways We Serve Collectors',
       subtitle: 'From premium protection to trusted trading, we\'ve got your collection covered.',
       protector: {
+        badge: 'Premium Protection',
         subtitle: 'Industrial-grade aluminum protection meets gallery-worthy display for your prized PSA graded cards.',
         cta: 'View Product',
+        chips: ['>95% UV', 'N52 Magnet', 'Anti-Fade', '74g'],
+      },
+      collection: {
+        badge: 'Organize',
+        title: 'My Collection',
+        description: 'Add, organize and track your cards with values, provenance and condition.',
+        cta: 'Open Collection',
+      },
+      centering: {
+        badge: 'Analyze',
+        title: 'Centering Analyzer',
+        description: 'Upload a photo or use your camera for an instant centering grade and exportable report.',
+        cta: 'Analyze Now',
       },
       trading: {
         subtitle: 'A trusted marketplace for buying, selling, and brokering premium graded trading cards.',
@@ -111,7 +129,7 @@ export const en = {
     subtitle: 'Your Trusted Partner in Card Collection',
     story: {
       title: 'Our Story',
-      content: 'Founded in 2024 by a team of passionate collectors in Hong Kong, Appaw Store grew out of a simple frustration: the acrylic cases on the market for PSA graded cards just weren\'t good enough. They cracked on impact, offered no UV protection, and looked cheap on the shelf. So we built our own. Our PSA Card Aluminum Protector combines CNC-precision aluminum alloy, UV-blocking glass, and N52 magnetic closure — giving serious collectors industrial-grade protection with gallery-worthy display. Alongside the protector, we operate a trusted face-to-face TCG brokerage and consignment service in Hong Kong, connecting buyers and sellers of PSA and CGC graded Pokémon, sports, and MTG cards with full transparency and no upfront fees.',
+      content: 'Founded in 2024 by a team of passionate collectors in Hong Kong, Appaw Store grew out of a simple frustration: the acrylic cases on the market for graded slabs just weren\'t good enough. They cracked on impact, offered no UV protection, and looked cheap on the shelf. So we built our own. Our Graded Slab Aluminum Protector combines CNC-precision aluminum alloy, UV-blocking glass, and N52 magnetic closure — giving serious collectors industrial-grade protection with gallery-worthy display. Alongside the protector, we operate a trusted face-to-face TCG brokerage and consignment service in Hong Kong, connecting buyers and sellers of PSA and CGC graded Pokémon, sports, and MTG cards with full transparency and no upfront fees.',
       founderName: 'Appaw Store',
       founderRole: 'Founded 2024 · Hong Kong',
     },
@@ -156,13 +174,47 @@ export const en = {
 
   // Business Page
   business: {
-    title: 'Our Business',
+    title: 'Our Services',
     subtitle: 'Premium Card Protection & TCG Trading',
+    hero: {
+      line1: 'Protect.',
+      line2Collect: 'Collect.',
+      line2Trade: 'Trade.',
+      psaProtectorPill: 'Graded Slab Protector',
+      cardTradingPill: 'Card Trading',
+    },
+    service01Label: 'Service 01 — Protection',
     cardProtector: {
-      title: 'PSA Card Aluminum Protector',
-      description: 'Industrial-grade protection meets gallery-worthy display. Your valuable collection deserves better.',
+      title: 'Graded Slab Aluminum Protector',
+      description: 'Industrial-grade aluminum protection meets gallery-worthy display — engineered for standard 35PT PSA and CGC graded slabs.',
+      whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab Aluminum Protector.',
+      teaserLine: 'See full specs, colors, and pricing on our product page.',
       startingPrice: 'Recommended Price',
       shippingInfo: 'Worldwide shipping',
+      chips: ['Aluminum Alloy', '>95% UV Glass', 'N52 Magnets', '35PT PSA Fit'],
+      compatibilityHeading: 'Compatibility',
+      fitsLabel: 'Fits',
+      notFitsLabel: 'Does Not Fit',
+      pricing: {
+        single: 'HK$72',
+        gradient: 'HK$80',
+        singleNote: 'Single color',
+        gradientNote: 'Gradient color',
+      },
+      pillars: [
+        {
+          title: 'True Drop Protection',
+          description: 'Unlike acrylic cases that can crack upon impact, our aluminum frame acts as a rigid bumper, absorbing shock and keeping your slab safe.',
+        },
+        {
+          title: 'UV Defense',
+          description: 'Preserves the vibrant colors of your chrome, holo, and vintage cards by blocking harmful light.',
+        },
+        {
+          title: 'The "Click" of Quality',
+          description: 'Experience the satisfying snap of the magnetic closure. It creates a secure, dust-proof seal while allowing for easy access.',
+        },
+      ],
       features: [
         'Frame Material: Precision-cut Aluminum Alloy (Rigid & Impact Resistant)',
         'Lens Material: UV-Blocking Glass (High Clarity & Anti-Fade)',
@@ -182,6 +234,8 @@ export const en = {
       title: 'TCG Trading & Brokerage',
       description: 'A trusted marketplace for buying, selling, and brokering premium graded trading cards. Whether you\'re looking to acquire a grail or liquidate a collection, we handle the process with transparency and expertise.',
       badge: 'Trading Desk',
+      featureTitles: ['Buy & Sell', 'Price Appraisal', 'Consignment', 'Authenticity Check'],
+      chips: ['No Listing Fee', 'PSA & CGC', 'HK Face-to-Face', 'Commission on Sale Only'],
       features: [
         'Buy & sell PSA/CGC graded Pokémon, sports, and MTG cards',
         'Consignment sales — we sell on your behalf for competitive commission',
@@ -195,6 +249,25 @@ export const en = {
         repeatClients: 'Repeat Clients',
       },
     },
+    sell: {
+      acceptanceTitle: 'What We Accept',
+      acceptanceCriteria: [
+        'PSA and CGC graded Pokémon, sports, and MTG cards',
+        'BGS and TAG graded cards accepted for consignment',
+        'Other TCGs considered on a case-by-case basis',
+        'All cards subject to authenticity inspection',
+      ],
+      paymentRulesTitle: 'Consignment Rules',
+    },
+    faq: {
+      seeAllLink: 'See all product FAQs',
+    },
+    finalCta: {
+      protectorLabel: 'Graded Slab Protector',
+      protectorHeading: 'Protect Your Collection',
+      tradingLabel: 'Card Trading',
+      tradingHeading: 'Start Your Trade Today',
+    },
     cta: {
       title: 'Ready to Get Started?',
       description: "Whether you want to protect your collection with our premium aluminum cases or trade graded cards through our brokerage service, we're here to help.",
@@ -206,15 +279,39 @@ export const en = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: 'Premium Protection',
-    overview: {
-      badge: 'Product Overview',
-      title: 'Premium Aluminum PSA Card Protector',
+    seoH1: 'Appaw Store | Hong Kong Graded Slab Aluminum Protector',
+    heroImageAlt: 'Appaw Store graded slab aluminum protector with UV-blocking glass and N52 magnetic closure',
+    heroCta: 'See colors & pricing ↓',
+    centeringCrossLink: {
+      badge: 'Pre-Grade Tool',
+      title: 'Check centering before you grade',
+      body: 'Use our free Card Centering Calculator to measure front and back margins against PSA 10 standards — then protect your slab with our aluminum case.',
+      cta: 'Free Centering Calculator',
+    },
+    hkGuide: {
+      badge: 'Collector Guide',
+      title: 'How to choose a 35PT graded slab protector',
       body: [
-        'Upgrade your trading card display with the Appaw Store Premium Aluminum PSA Card Protector. Engineered specifically for standard 35PT PSA graded slabs, this case offers exhibition-level presentation combined with industrial-grade protection. Featuring over 95% UV resistance and anti-fade technology, your investment is safe from sun damage and the gradual colour fading that affects chrome, holographic, and vintage cards.',
-        'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the case firmly shut for display and transport. CNC-precision aluminum alloy and a UV-blocking glass lens give it a heavy-duty, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
+        'Standard PSA and CGC slabs measure roughly 35PT thick. A proper slab protector should add rigid aluminum framing—not just another acrylic shell—plus UV-blocking glass to slow holo and chrome fade over years on display.',
+        'Appaw Store designed this magnetic graded slab case in Hong Kong for Pokémon PTCG, sports cards, and MTG collectors who display slabs at home, at card shows, or in our Quarry Bay showroom and partner stores. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
+        'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a case built for long-term display and transport.',
       ],
     },
+    overview: {
+      badge: 'Product Overview',
+      title: 'Premium Graded Slab Aluminum Protector',
+      body: [
+        'Built for collectors who treat graded cards as long-term assets, the Appaw Store Premium Graded Slab Aluminum Protector delivers exhibition-level presentation with industrial-grade protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
+        'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the case firmly shut for display and transport. CNC-precision aluminum alloy and a UV-blocking glass lens give it a heavy-duty, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
+      ],
+    },
+    featuresBadge: 'Details',
     featuresTitle: 'Product Features',
+    carousel: {
+      paused: 'Paused',
+      autoPlaying: 'Auto-playing',
+    },
+    fitGuideBadge: 'Fit Guide',
     featuresSubtitle: 'Click on each feature to see the details',
     compatibilityTitle: 'Compatibility',
     compatibilitySubtitle: 'Make sure your cards fit perfectly',
@@ -226,16 +323,19 @@ export const en = {
     techSubtitle: 'Premium materials and precise engineering for ultimate protection',
     specs: {
       size: 'Size',
+      sizeValue: '8.7 × 14.2 × 0.98 cm',
       sizeDesc: 'Width × Length × Height',
       weight: 'Weight',
+      weightValue: '74 g',
       weightDesc: 'Lightweight & portable',
       materials: 'Materials',
       materialsValue: 'Aluminum & Glass',
       materialsDesc: 'Premium quality build',
       uvProtection: 'UV Protection',
+      uvProtectionValue: '> 95%',
       uvProtectionDesc: 'Blocks harmful UV rays',
       compatibility: 'Compatibility',
-      compatibilityValue: 'Standard 35PT PSA Slabs',
+      compatibilityValue: 'Standard 35PT PSA & CGC Slabs',
       compatibilityDesc: 'Pokémon, sports & MTG',
       closure: 'Closure System',
       closureValue: 'N52 Neodymium Magnets',
@@ -259,10 +359,21 @@ export const en = {
       },
       pricing: {
         label: 'Suggested Price',
+        suggestedBadge: 'Suggested',
         gradient: 'Gradient color',
         single: 'Single color',
+        singlePrice: 'HK$72',
+        gradientPrice: 'HK$80',
         note: 'Prices are recommended retail prices in HKD. Taxes and shipping may apply.'
       },
+    },
+    ctaBadge: 'Shop Now',
+    faqStats: {
+      questionsAnswered: 'questions answered',
+      uvBlocked: 'UV Blocked',
+      magnetGrade: 'Magnet Grade',
+      weight: 'Weight',
+      colors: 'Colors',
     },
     ctaTitle: 'Ready to Protect Your Collection?',
     ctaSubtitle: 'Give your prized cards the premium protection they deserve',
@@ -272,8 +383,8 @@ export const en = {
       subtitle: 'Everything you need to know before you order',
       items: [
         {
-          q: 'Does it fit all PSA graded slabs?',
-          a: 'The protector fits standard 35PT PSA graded slabs — Pokémon, sports cards, and MTG. It does NOT fit thick PSA memorabilia/jersey cards, half-pound slabs, BGS slabs, or CGC slabs.',
+          q: 'Does it fit all PSA and CGC graded slabs?',
+          a: 'The protector is engineered for standard 35PT PSA and CGC graded slabs — Pokémon, sports cards, and MTG. It does not fit thick PSA memorabilia/jersey cards, half-pound slabs, or BGS/TAG slabs.',
         },
         {
           q: 'How does the magnetic closure work?',
@@ -327,7 +438,7 @@ export const en = {
         items: [
           {
             q: 'Where can we meet for a card transaction in Hong Kong?',
-            a: 'We prefer meetups at Quarry Bay, Causeway Bay, Central, or Mong Kok East. Other locations across Hong Kong are available upon discussion. WhatsApp us at +852-9285-1189 to arrange a convenient spot and time.',
+            a: 'For card trading meetups, our primary location is the Appaw Store showroom at Shop No. 9, Basement, Manly Plaza, 995-997 King\'s Road, Quarry Bay. Causeway Bay, Central, or Mong Kok East are also available upon discussion. WhatsApp +852-9285-1189 to confirm a time.',
           },
           {
             q: 'What payment methods do you accept when buying graded cards?',
@@ -407,7 +518,7 @@ export const en = {
       statsHkLabel: 'HK Only',
       statsHk: 'Face-to-face verified',
       explore: 'Explore',
-      linkProtectors: 'PSA Protectors',
+      linkProtectors: 'Graded Slab Protectors',
       linkBuyingGuide: 'Buying Guide',
       linkConsign: 'Consign a Card',
     },
@@ -570,32 +681,38 @@ export const en = {
   retailPartners: {
     badge: 'Where to Buy',
     title: 'Purchase Channels',
-    subtitle: 'Choose your preferred way to shop',
+    subtitle: 'Shop online, visit our Quarry Bay showroom, or find us at partner stores',
     buyNow: 'Shop Now',
-    orVisit: 'or visit our retail partners',
+    orVisit: 'or visit our store & partners',
     visitStore: 'Visit Store',
+    getDirections: 'Get Directions',
     partners: {
-      appawstore: {
-        name: 'Appaw Store',
-        description: 'Direct from manufacturer',
+      appawShop: {
+        name: 'Appaw Store — Quarry Bay',
+        description: 'Our Hong Kong showroom — see graded slab protectors in person',
+        location: 'Shop No. 9, Basement, Manly Plaza, 995-997 King\'s Road, Quarry Bay, Hong Kong',
       },
       cardtheland: {
-        name: 'Cardtheland',
-        description: 'TCG specialty store',
+        name: 'Card The Land (咭之島)',
+        description: 'Authorised partner',
         location: 'Unit G1B, 3/F, Kaiser Estate, Phase 2, Hung Hom',
+      },
+      appawstore: {
+        name: 'Appaw Store Online',
+        description: 'Direct from manufacturer — Etsy, Carousell & WhatsApp',
       },
     },
     directDesc: 'Direct from manufacturer',
-    retailHint: 'Visit our authorized partners for personal service',
-    note: 'Interested in becoming a retail partner? Contact us!',
+    retailHint: 'Visit our Quarry Bay showroom or authorised partner stores',
     onlineTitle: 'Online Store',
-    retailTitle: 'Retail Partners',
+    retailTitle: 'Showroom & Partners',
     types: {
       online: 'Online',
       retail: 'Retail',
     },
     tags: {
-      authorized: 'Store',
+      authorized: 'Primary',
+      partner: 'Partner',
       official: 'Online Shop',
       inStock: 'In Stock',
     },

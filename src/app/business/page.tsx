@@ -13,8 +13,8 @@ const services = itemListJsonLd('Appaw Store Services', [
     position: 1,
     item: {
       '@type': 'Service',
-      name: 'PSA Card Aluminum Protector',
-      description: 'Premium aluminum protective case for PSA graded card slabs. Features >95% UV-blocking glass, N52 magnetic closure, and a precision aluminum frame. Fits standard 35PT PSA slabs including Pokémon, sports cards, and MTG.',
+      name: 'Graded Slab Aluminum Protector',
+      description: 'Premium aluminum protective case for PSA and CGC graded card slabs. Features >95% UV-blocking glass, N52 magnetic closure, and a precision aluminum frame. Fits standard 35PT PSA and CGC slabs including Pokémon, sports cards, and MTG.',
       provider: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
       serviceType: 'Card Protection Product',
       areaServed: [
@@ -27,10 +27,10 @@ const services = itemListJsonLd('Appaw Store Services', [
       url: 'https://appaw.store/products/psa-protectors/',
       offers: {
         '@type': 'Offer',
-        price: '17.99',
-        priceCurrency: 'USD',
+        price: '72',
+        priceCurrency: 'HKD',
         availability: 'https://schema.org/InStock',
-        url: 'https://appawstore.etsy.com/',
+        url: 'https://appaw.store/products/psa-protectors/',
       },
     },
   },
@@ -58,11 +58,11 @@ const breadcrumb = breadcrumbJsonLd([
 const businessFaq = faqJsonLd([
   {
     q: 'What services does Appaw Store offer?',
-    a: 'Appaw Store offers two services: (1) PSA Card Aluminum Protectors — premium aluminum cases with >95% UV-blocking glass and N52 magnetic closure for PSA graded slabs, shipping worldwide; (2) TCG Trading & Brokerage — a trusted buy, sell, and consignment service for PSA and CGC graded trading cards, conducted face-to-face in Hong Kong.',
+    a: 'Appaw Store offers two services: (1) Graded Slab Aluminum Protectors — premium aluminum cases with >95% UV-blocking glass and N52 magnetic closure for PSA and CGC graded slabs, shipping worldwide; (2) TCG Trading & Brokerage — a trusted buy, sell, and consignment service for PSA and CGC graded trading cards, conducted face-to-face in Hong Kong.',
   },
   {
     q: 'Does Appaw Store ship internationally?',
-    a: 'Yes — PSA Card Aluminum Protectors ship worldwide, including the USA, UK, Hong Kong, Singapore, and Taiwan. Card trading transactions are Hong Kong in-person only.',
+    a: 'Yes — Graded Slab Aluminum Protectors ship worldwide, including the USA, UK, Hong Kong, Singapore, and Taiwan. Card trading transactions are Hong Kong in-person only.',
   },
   {
     q: 'Can I consign my graded cards with Appaw Store?',

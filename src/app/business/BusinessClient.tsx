@@ -13,6 +13,7 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 import ShopNowButton from '@/components/ui/ShopNowButton';
+import ProtectorTechnicalSpecs from '@/components/products/ProtectorTechnicalSpecs';
 
 /* ─── Reveal hook ─── */
 function useReveal(threshold = 0.06) {
@@ -134,23 +135,8 @@ export default function BusinessClient() {
   const GOLD   = '#D4899A';
   const VIOLET = '#818cf8';
 
-  /* ── PSA specs ── */
-  const psaSpecs = [
-    { label: 'Frame',    value: 'Precision-cut Aluminum Alloy' },
-    { label: 'Lens',     value: 'UV-Blocking Glass (>95% UV blocked)' },
-    { label: 'Closure',  value: 'N52 Neodymium Magnets — no screws' },
-    { label: 'Interior', value: 'Precision fit · soft buffer zone' },
-    { label: 'Size',     value: '8.7 × 14.2 × 0.98 cm' },
-    { label: 'Weight',   value: '74 g' },
-  ];
-
   /* ── Trading features ── */
-  const tradingFeatures = [
-    { icon: Package,    title: 'Buy & Sell',          accent: VIOLET },
-    { icon: TrendingUp, title: 'Price Appraisal',     accent: VIOLET },
-    { icon: Users,      title: 'Consignment',         accent: VIOLET },
-    { icon: Shield,     title: 'Authenticity Check',  accent: VIOLET },
-  ];
+  const tradingFeatureIcons = [Package, TrendingUp, Users, Shield];
 
   const CARD_IMAGES = [
     '/images/cards/192.SV-P.refine.png',
@@ -197,9 +183,9 @@ export default function BusinessClient() {
             </div>
 
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.06] tracking-tight mb-6 max-w-3xl">
-              Protect.<br />
-              <span className="text-[#D4899A]">Collect.</span>{' '}
-              <span className="text-[#818cf8]">Trade.</span>
+              {t.business.hero.line1}<br />
+              <span className="text-[#D4899A]">{t.business.hero.line2Collect}</span>{' '}
+              <span className="text-[#818cf8]">{t.business.hero.line2Trade}</span>
             </h1>
 
             <p className="text-[#6b7280] text-lg max-w-xl leading-relaxed mb-10">
@@ -213,7 +199,7 @@ export default function BusinessClient() {
                 className="group inline-flex items-center gap-3 border border-[#D4899A]/40 hover:border-[#D4899A] bg-[#D4899A]/5 hover:bg-[#D4899A]/10 px-6 py-3 transition-all duration-300"
               >
                 <Shield className="w-4 h-4 text-[#D4899A]" />
-                <span className="text-[#D4899A] text-sm font-semibold uppercase tracking-[0.15em]">PSA Protector</span>
+                <span className="text-[#D4899A] text-sm font-semibold uppercase tracking-[0.15em]">{t.business.hero.psaProtectorPill}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#D4899A] group-hover:translate-x-0.5 transition-transform" />
               </a>
               <a
@@ -221,7 +207,7 @@ export default function BusinessClient() {
                 className="group inline-flex items-center gap-3 border border-[#818cf8]/40 hover:border-[#818cf8] bg-[#818cf8]/5 hover:bg-[#818cf8]/10 px-6 py-3 transition-all duration-300"
               >
                 <TrendingUp className="w-4 h-4 text-[#818cf8]" />
-                <span className="text-[#818cf8] text-sm font-semibold uppercase tracking-[0.15em]">Card Trading</span>
+                <span className="text-[#818cf8] text-sm font-semibold uppercase tracking-[0.15em]">{t.business.hero.cardTradingPill}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#818cf8] group-hover:translate-x-0.5 transition-transform" />
               </a>
             </div>
@@ -242,7 +228,7 @@ export default function BusinessClient() {
 
           {/* Overline */}
           <Reveal visible={psaRef.visible} dir="up">
-            <SectionLabel text="Service 01 — Protection" color={GOLD} />
+            <SectionLabel text={t.business.service01Label} color={GOLD} />
           </Reveal>
 
           {/* Two-column: text + visual */}
@@ -252,34 +238,28 @@ export default function BusinessClient() {
             <div>
               <Reveal visible={psaRef.visible} dir="left">
                 <h2 className="font-display text-5xl md:text-6xl font-bold text-white leading-[1.06] mb-6">
-                  PSA Card<br />
-                  <em className="not-italic text-[#D4899A]">Aluminum</em><br />
-                  Protector
+                  {t.business.cardProtector.title}
                 </h2>
-                <p className="text-[#6b7280] text-base md:text-lg leading-relaxed mb-8 max-w-md">
+                <p className="text-[#6b7280] text-base md:text-lg leading-relaxed mb-4 max-w-md">
                   {t.business.cardProtector.description}
+                </p>
+                <p className="text-[#9ca3af] text-sm leading-relaxed mb-8 max-w-md">
+                  {t.business.cardProtector.teaserLine}
                 </p>
               </Reveal>
 
-              {/* Spec table */}
-              <Reveal visible={psaRef.visible} dir="left" delay={100}>
-                <div className="border border-white/[0.06] mb-8 overflow-hidden">
-                  {psaSpecs.map((s, i) => (
-                    <div
-                      key={s.label}
-                      className={`grid grid-cols-[100px_1fr] gap-4 px-5 py-3.5 ${i % 2 === 0 ? 'bg-white/[0.02]' : ''} border-b border-white/[0.04] last:border-b-0`}
-                    >
-                      <span className="text-[#9ca3af] text-xs uppercase tracking-[0.2em]">{s.label}</span>
-                      <span className="text-white/70 text-sm">{s.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
+              {/* Technical specifications */}
+              <ProtectorTechnicalSpecs
+                variant="embedded"
+                visible={psaRef.visible}
+                animationDelay={100}
+                className="mb-8"
+              />
 
               {/* Chips */}
               <Reveal visible={psaRef.visible} dir="left" delay={150}>
                 <div className="flex flex-wrap gap-2 mb-10">
-                  {['Aluminum Alloy', '>95% UV Glass', 'N52 Magnets', '35PT PSA Fit'].map(s => (
+                  {t.business.cardProtector.chips.map(s => (
                     <Chip key={s} label={s} color={GOLD} />
                   ))}
                 </div>
@@ -309,7 +289,7 @@ export default function BusinessClient() {
                   <div className="absolute -inset-8 bg-[radial-gradient(ellipse_60%_50%_at_50%_60%,rgba(212,137,154,0.12),transparent)] pointer-events-none z-0" />
                   <Image
                     src={getImagePath('/images-optimized/describe/sell 3.png')}
-                    alt="PSA Card Aluminum Protector — aluminum frame holding a PSA graded card slab"
+                    alt={t.psaProtectorPage.heroImageAlt}
                     width={640}
                     height={640}
                     className="relative z-10 w-full object-cover"
@@ -324,13 +304,20 @@ export default function BusinessClient() {
                 <div className="border border-[#D4899A]/20 bg-[#D4899A]/[0.04] p-5 flex items-center justify-between gap-4 flex-wrap">
                   <div>
                     <p className="text-[#D4899A]/50 text-[10px] uppercase tracking-[0.3em] mb-1">{t.business.cardProtector.startingPrice}</p>
-                    <p className="text-white font-display text-3xl font-bold leading-none">USD 12.99</p>
+                    <p className="text-white font-display text-2xl font-bold leading-none">
+                      {t.business.cardProtector.pricing.single}
+                      <span className="text-white/40 text-lg font-normal mx-2">/</span>
+                      {t.business.cardProtector.pricing.gradient}
+                    </p>
+                    <p className="text-white/40 text-[10px] mt-1">
+                      {t.business.cardProtector.pricing.singleNote} · {t.business.cardProtector.pricing.gradientNote}
+                    </p>
                     <p className="text-white/50 text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
                   </div>
                   <ShopNowButton
                     label={t.business.cardProtector.cta}
                     shopOptions={t.shopOptions}
-                    whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                    whatsappMessage={t.business.cardProtector.whatsappOrder}
                     buttonClassName="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap shadow-sm flex-shrink-0 active:scale-95"
                   />
                 </div>
@@ -340,13 +327,13 @@ export default function BusinessClient() {
               <Reveal visible={psaRef.visible} dir="right" delay={220}>
                 <div className="border border-white/[0.06] overflow-hidden">
                   <div className="px-5 py-3 border-b border-white/[0.05] bg-white/[0.02]">
-                    <span className="text-white/50 text-[10px] uppercase tracking-[0.3em]">Compatibility</span>
+                    <span className="text-white/50 text-[10px] uppercase tracking-[0.3em]">{t.business.cardProtector.compatibilityHeading}</span>
                   </div>
                   <div className="p-5 space-y-4">
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-emerald-400 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">Fits</p>
+                        <p className="text-emerald-400 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.fitsLabel}</p>
                         <p className="text-white/50 text-sm leading-relaxed">{t.business.cardProtector.compatibility.fits}</p>
                       </div>
                     </div>
@@ -354,7 +341,7 @@ export default function BusinessClient() {
                     <div className="flex items-start gap-3">
                       <XCircle className="w-4 h-4 text-rose-400/70 flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-rose-400/70 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">Does Not Fit</p>
+                        <p className="text-rose-400/70 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.notFitsLabel}</p>
                         <p className="text-white/50 text-sm leading-relaxed">{t.business.cardProtector.compatibility.notFits}</p>
                       </div>
                     </div>
@@ -373,10 +360,10 @@ export default function BusinessClient() {
         <div className="container-custom">
           <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/[0.05] border border-white/[0.05]">
             {[
-              { icon: Shield, title: t.home.features.quality.title, body: t.home.features.quality.description },
-              { icon: Eye,    title: t.home.features.trust.title,   body: t.home.features.trust.description },
-              { icon: Lock,   title: t.home.features.support.title, body: t.home.features.support.description },
-            ].map(({ icon: Icon, title, body }, i) => (
+              { icon: Shield, ...t.business.cardProtector.pillars[0] },
+              { icon: Eye,    ...t.business.cardProtector.pillars[1] },
+              { icon: Lock,   ...t.business.cardProtector.pillars[2] },
+            ].map(({ icon: Icon, title, description: body }, i) => (
               <div
                 key={title}
                 className="p-8 md:p-10 bg-[#1e1e2e] hover:bg-[#161626] transition-colors duration-300"
@@ -487,7 +474,9 @@ export default function BusinessClient() {
 
               {/* Feature grid */}
               <div className="grid sm:grid-cols-2 gap-4">
-                {tradingFeatures.map(({ icon: Icon, title, accent }, i) => (
+                {t.business.cardTrading.featureTitles.map((title, i) => {
+                  const Icon = tradingFeatureIcons[i] ?? Package;
+                  return (
                   <div
                     key={title}
                     className="p-5 border border-white/[0.06] hover:border-[#818cf8]/20 hover:bg-[#818cf8]/[0.03] transition-all duration-300"
@@ -503,7 +492,8 @@ export default function BusinessClient() {
                     <h4 className="text-white font-semibold text-sm mb-1.5">{title}</h4>
                     <p className="text-[#9ca3af] text-sm leading-relaxed">{t.business.cardTrading.features[i]}</p>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -520,7 +510,7 @@ export default function BusinessClient() {
 
               <Reveal visible={tradingRef.visible} dir="right" delay={100}>
                 <div className="flex flex-wrap gap-2 mb-10">
-                  {['No Listing Fee', 'PSA & CGC', 'HK Face-to-Face', 'Commission on Sale Only'].map(c => (
+                  {t.business.cardTrading.chips.map(c => (
                     <Chip key={c} label={c} color={VIOLET} />
                   ))}
                 </div>
@@ -636,9 +626,9 @@ export default function BusinessClient() {
               }}
             >
               <div className="border border-[#818cf8]/20 bg-[#818cf8]/[0.04] p-7 mb-6">
-                <h4 className="text-[#818cf8] text-xs uppercase tracking-[0.25em] font-semibold mb-5">What We Accept</h4>
+                <h4 className="text-[#818cf8] text-xs uppercase tracking-[0.25em] font-semibold mb-5">{t.business.sell.acceptanceTitle}</h4>
                 <ul className="space-y-3">
-                  {t.business.cardTrading.features.map(item => (
+                  {t.business.sell.acceptanceCriteria.map(item => (
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle className="w-4 h-4 text-[#818cf8]/60 flex-shrink-0 mt-0.5" />
                       <span className="text-white/65 text-sm">{item}</span>
@@ -647,9 +637,9 @@ export default function BusinessClient() {
                 </ul>
               </div>
               <div className="border border-white/[0.06] p-7">
-                <h4 className="text-white/50 text-xs uppercase tracking-[0.25em] font-semibold mb-5">Payment Rules</h4>
+                <h4 className="text-white/50 text-xs uppercase tracking-[0.25em] font-semibold mb-5">{t.business.sell.paymentRulesTitle}</h4>
                 <ul className="space-y-3">
-                  {t.tradingGuide.buy.rules.map(rule => (
+                  {t.tradingGuide.sell.rules.map(rule => (
                     <li key={rule.heading} className="flex items-start gap-3">
                       <Zap className="w-4 h-4 text-[#D4899A]/50 flex-shrink-0 mt-0.5" />
                       <span className="text-white/60 text-sm">{rule.body}</span>
@@ -675,7 +665,7 @@ export default function BusinessClient() {
 
           <div className="space-y-1">
             {[
-              ...t.psaProtectorPage.faq.items.slice(0, 3).map(f => ({ ...f, accent: GOLD })),
+              ...t.psaProtectorPage.faq.items.slice(0, 2).map(f => ({ ...f, accent: GOLD })),
               ...t.tradingGuide.buy.faq.items.slice(0, 2).map(f => ({ ...f, accent: VIOLET })),
               ...t.tradingGuide.sell.faq.items.slice(0, 2).map(f => ({ ...f, accent: VIOLET })),
             ].map(({ q, a, accent }, i) => (
@@ -706,6 +696,18 @@ export default function BusinessClient() {
               </div>
             ))}
           </div>
+
+          <Reveal visible={faqRef.visible} dir="up" delay={200}>
+            <div className="mt-8 text-center">
+              <Link
+                href="/products/psa-protectors"
+                className="inline-flex items-center gap-2 text-[#D4899A]/70 hover:text-[#D4899A] text-sm uppercase tracking-[0.15em] transition-colors"
+              >
+                {t.business.faq.seeAllLink}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -726,9 +728,9 @@ export default function BusinessClient() {
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_10%_90%,rgba(212,137,154,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             <div className="absolute top-5 left-5 w-6 h-6 border-t-[1.5px] border-l-[1.5px] border-[#D4899A]/35" />
             <div className="relative">
-              <span className="text-[#D4899A]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">PSA Protector</span>
-              <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">Protect Your<br />Collection</h3>
-              <p className="text-white/45 text-base leading-relaxed mb-10 max-w-xs">{t.home.services.protector.subtitle}</p>
+              <span className="text-[#D4899A]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">{t.business.finalCta.protectorLabel}</span>
+              <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">{t.psaProtectorPage.ctaTitle}</h3>
+              <p className="text-white/45 text-base leading-relaxed mb-10 max-w-xs">{t.psaProtectorPage.ctaSubtitle}</p>
               <Link
                 href="/products/psa-protectors"
                 className="group/btn inline-flex items-center gap-3 border border-[#D4899A]/35 hover:border-[#D4899A] hover:bg-[#D4899A]/5 text-[#D4899A] text-sm uppercase tracking-[0.15em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
@@ -750,8 +752,8 @@ export default function BusinessClient() {
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_90%_90%,rgba(129,140,248,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             <div className="absolute top-5 right-5 w-6 h-6 border-t-[1.5px] border-r-[1.5px] border-[#818cf8]/35" />
             <div className="relative">
-              <span className="text-[#818cf8]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">Card Trading</span>
-              <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">Start Your<br />Trade Today</h3>
+              <span className="text-[#818cf8]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">{t.business.finalCta.tradingLabel}</span>
+              <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">{t.business.finalCta.tradingHeading}</h3>
               <p className="text-white/45 text-base leading-relaxed mb-10 max-w-xs">{t.home.services.trading.subtitle}</p>
               <a
                 href="https://wa.me/85292851189"

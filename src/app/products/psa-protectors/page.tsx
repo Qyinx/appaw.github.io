@@ -2,11 +2,14 @@
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { Shield, ArrowRight, CheckCircle, XCircle, AlertCircle, ChevronLeft, ChevronRight, ChevronDown, Pause, Play, Layers, Sun, Weight, Box, Palette } from 'lucide-react';
+import Link from 'next/link';
+import { Shield, CheckCircle, XCircle, AlertCircle, ChevronLeft, ChevronRight, ChevronDown, Pause, Play, Palette } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { en } from '@/i18n';
 import { getImagePath } from '@/lib/utils';
 import RetailPartners from '@/components/RetailPartners';
 import ShopNowButton from '@/components/ui/ShopNowButton';
+import ProtectorTechnicalSpecs from '@/components/products/ProtectorTechnicalSpecs';
 
 /* ─── Scroll-reveal ─── */
 function useReveal() {
@@ -98,6 +101,9 @@ function FaqAccordion({ items, visible }: {
 
 export default function PSAProtectorPage() {
   const { t } = useLanguage();
+  const centeringCrossLink = t.psaProtectorPage.centeringCrossLink ?? en.psaProtectorPage.centeringCrossLink;
+  const hkGuide = t.psaProtectorPage.hkGuide ?? en.psaProtectorPage.hkGuide;
+  const seoH1 = t.psaProtectorPage.seoH1 ?? en.psaProtectorPage.seoH1;
   const [heroVisible, setHeroVisible] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -125,7 +131,6 @@ export default function PSAProtectorPage() {
   const featuresReveal = useReveal();
   const colorsReveal   = useReveal();
   const compatReveal   = useReveal();
-  const specsReveal    = useReveal();
   const faqReveal      = useReveal();
   const ctaReveal      = useReveal();
   const overviewReveal = useReveal();
@@ -147,16 +152,6 @@ export default function PSAProtectorPage() {
   const goToFeature = useCallback((i: number) => { setActiveFeature(i); setIsPaused(false); }, []);
   const nextFeature = useCallback(() => setActiveFeature((p) => (p + 1) % featureImages.length), []);
   const prevFeature = useCallback(() => setActiveFeature((p) => (p - 1 + featureImages.length) % featureImages.length), []);
-
-  /* Spec cards data */
-  const specs = [
-    { icon: Box,    label: t.psaProtectorPage.specs.size,         value: '8.7 × 14.2 × 0.98 cm', desc: t.psaProtectorPage.specs.sizeDesc },
-    { icon: Weight, label: t.psaProtectorPage.specs.weight,       value: '74 g',                   desc: t.psaProtectorPage.specs.weightDesc },
-    { icon: Layers, label: t.psaProtectorPage.specs.materials,    value: t.psaProtectorPage.specs.materialsValue, desc: t.psaProtectorPage.specs.materialsDesc },
-    { icon: Sun,    label: t.psaProtectorPage.specs.uvProtection, value: '> 95 %',                 desc: t.psaProtectorPage.specs.uvProtectionDesc },
-    { icon: CheckCircle, label: t.psaProtectorPage.specs.compatibility, value: t.psaProtectorPage.specs.compatibilityValue, desc: t.psaProtectorPage.specs.compatibilityDesc },
-    { icon: Shield, label: t.psaProtectorPage.specs.closure,      value: t.psaProtectorPage.specs.closureValue, desc: t.psaProtectorPage.specs.closureDesc },
-  ];
 
   return (
     <div className="flex flex-col">
@@ -182,9 +177,12 @@ export default function PSAProtectorPage() {
                 <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.badge}</span>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-display leading-[1.08] tracking-tight text-white mb-6">
-                {t.business.cardProtector.title}
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display leading-[1.12] tracking-tight text-white mb-6">
+                {seoH1}
               </h1>
+              <p className="text-xl md:text-2xl font-semibold text-[#D4899A]/90 mb-6">
+                {t.business.cardProtector.title}
+              </p>
 
               <div className="flex items-center gap-4 mb-7">
                 <div className="w-12 h-px bg-[#D4899A]" />
@@ -192,9 +190,24 @@ export default function PSAProtectorPage() {
                 <div className="w-24 h-px bg-[#D4899A]/30" />
               </div>
 
-              <p className="text-[#9ca3af] text-lg md:text-xl leading-relaxed max-w-xl mb-12">
+              <p className="text-[#9ca3af] text-lg md:text-xl leading-relaxed max-w-xl mb-10">
                 {t.business.cardProtector.description}
               </p>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <ShopNowButton
+                  label={t.business.cardProtector.cta}
+                  shopOptions={t.shopOptions}
+                  whatsappMessage={t.business.cardProtector.whatsappOrder}
+                  buttonClassName="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.3)] active:scale-95"
+                />
+                <a
+                  href="#color-options"
+                  className="inline-flex items-center gap-2 text-[#D4899A]/70 hover:text-[#D4899A] text-sm uppercase tracking-[0.15em] transition-colors"
+                >
+                  {t.psaProtectorPage.heroCta}
+                </a>
+              </div>
 
             </div>
 
@@ -219,7 +232,7 @@ export default function PSAProtectorPage() {
                 <div className="relative aspect-[3/4]">
                   <Image
                     src={getImagePath('/images/cards/069.SM-P.refine.png')}
-                    alt="PSA Card Aluminum Protector"
+                    alt={t.psaProtectorPage.heroImageAlt}
                     fill
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, 400px"
@@ -263,6 +276,33 @@ export default function PSAProtectorPage() {
       </section>
 
       {/* ══════════════════════════════════════════
+           HK COLLECTOR GUIDE — deeper content (SEO)
+      ══════════════════════════════════════════ */}
+      <section className="py-24 bg-[#1e1e2e] relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
+        <div className="container-custom relative">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-8 h-px bg-[#D4899A]" />
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">
+                {hkGuide.badge}
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.15] mb-8">
+              {hkGuide.title}
+            </h2>
+            <div className="space-y-6">
+              {hkGuide.body.map((para, i) => (
+                <p key={i} className="text-[#9ca3af] text-base md:text-lg leading-relaxed">
+                  {para}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
            FEATURES — Immersive Dark Carousel (mirrored)
       ══════════════════════════════════════════ */}
       <section ref={featuresReveal.ref} className="py-28 bg-[#1e1e2e] relative overflow-hidden">
@@ -280,7 +320,7 @@ export default function PSAProtectorPage() {
           >
             <div className="inline-flex items-center gap-3 mb-5">
               <div className="w-8 h-px bg-[#D4899A]" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Details</span>
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.featuresBadge}</span>
               <div className="w-8 h-px bg-[#D4899A]" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-4">
@@ -351,7 +391,7 @@ export default function PSAProtectorPage() {
                   {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
                 </button>
                 <span className="text-white/25 text-xs tracking-wider uppercase">
-                  {isPaused ? 'Paused' : 'Auto-playing'}
+                  {isPaused ? t.psaProtectorPage.carousel.paused : t.psaProtectorPage.carousel.autoPlaying}
                 </span>
               </div>
 
@@ -385,7 +425,7 @@ export default function PSAProtectorPage() {
                     >
                       <Image
                         src={getImagePath(img)}
-                        alt={`Feature detail ${index + 1}`}
+                        alt={t.business.cardProtector.features[index]}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -459,7 +499,7 @@ export default function PSAProtectorPage() {
         const active = colors[selectedColor];
 
         return (
-          <section ref={colorsReveal.ref} className="py-24 md:py-32 bg-[#1e1e2e] relative overflow-hidden">
+          <section id="color-options" ref={colorsReveal.ref} className="py-24 md:py-32 bg-[#1e1e2e] relative overflow-hidden scroll-mt-20">
 
             {/* Reactive aurora background — fades in after section reveals to avoid jarring first load */}
             <div className="absolute inset-0 pointer-events-none">
@@ -552,7 +592,7 @@ export default function PSAProtectorPage() {
                         >
                           <Image
                             src={getImagePath(color.image)}
-                            alt={`PSA Protector – ${color.name}`}
+                            alt={`${t.business.cardProtector.title} – ${color.name}`}
                             fill
                             className="object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.65)] animate-[gentleFloat_6s_ease-in-out_infinite]"
                             sizes="(max-width: 1024px) 80vw, 480px"
@@ -595,7 +635,7 @@ export default function PSAProtectorPage() {
                             background: `linear-gradient(135deg, ${active.hex}20, ${active.hex2}20)`,
                           }}
                         >
-                          Gradient
+                          {t.psaProtectorPage.colorVariants.pricing.gradient}
                         </span>
                       )}
                     </div>
@@ -679,7 +719,7 @@ export default function PSAProtectorPage() {
                               transition: 'all 340ms cubic-bezier(0.2,0.9,0.3,1)'
                             }}
                           >
-                            {active.hex2 ? 'HK$80' : 'HK$72'}
+                            {active.hex2 ? t.psaProtectorPage.colorVariants.pricing.gradientPrice : t.psaProtectorPage.colorVariants.pricing.singlePrice}
                           </div>
 
                           <div
@@ -692,7 +732,7 @@ export default function PSAProtectorPage() {
                               color: active.accent
                             }}
                           >
-                            Suggested
+                            {t.psaProtectorPage.colorVariants.pricing.suggestedBadge}
                           </div>
                         </div>
                         <p className="text-white/50 text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
@@ -702,7 +742,7 @@ export default function PSAProtectorPage() {
                         <ShopNowButton
                           label={t.business.cardProtector.cta}
                           shopOptions={t.shopOptions}
-                          whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                          whatsappMessage={t.business.cardProtector.whatsappOrder}
                           buttonClassName="inline-flex bg-primary-600 hover:bg-primary-700 items-center text-white font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap shadow-sm flex-shrink-0 active:scale-95"
                         />
                       </div>
@@ -731,7 +771,7 @@ export default function PSAProtectorPage() {
           >
             <div className="flex items-center gap-3 mb-5">
               <div className="w-8 h-px bg-[#D4899A]" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Fit Guide</span>
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.fitGuideBadge}</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-4">
               {t.psaProtectorPage.compatibilityTitle}
@@ -798,79 +838,43 @@ export default function PSAProtectorPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-           SPECS — Glassmorphic specification grid
-      ══════════════════════════════════════════ */}
-      <section ref={specsReveal.ref} className="py-28 bg-[#0d0d14] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(212,137,154,0.04),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_60%_at_80%_20%,rgba(129,140,248,0.025),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
-
-        <div className="container-custom relative">
-
-          {/* Header */}
-          <div
-            className="max-w-xl mb-16 transition-all duration-700"
-            style={{ opacity: specsReveal.visible ? 1 : 0, transform: specsReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#D4899A]" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.techBadge}</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-4">
-              {t.psaProtectorPage.techTitle}
-            </h2>
-            <p className="text-white/40 text-base leading-relaxed">{t.psaProtectorPage.techSubtitle}</p>
-          </div>
-
-          {/* Spec cards — 3×2 glassmorphic grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {specs.map((spec, i) => {
-              const Icon = spec.icon;
-              return (
-                <div
-                  key={i}
-                  className="group relative rounded-2xl p-7 transition-all duration-700 hover:-translate-y-1"
-                  style={{
-                    background: 'rgba(255,255,255,0.02)',
-                    backdropFilter: 'blur(8px)',
-                    border: '1px solid rgba(255,255,255,0.05)',
-                    opacity: specsReveal.visible ? 1 : 0,
-                    transform: specsReveal.visible ? 'translateY(0)' : 'translateY(24px)',
-                    transitionDelay: `${(i + 1) * 80}ms`,
-                    transitionDuration: '700ms',
-                  }}
-                >
-                  {/* Gradient border glow on hover */}
-                  <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-[#D4899A]/20 via-transparent to-[#D4899A]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                  {/* Inner surface */}
-                  <div className="absolute inset-[1px] rounded-[15px] bg-[#0d0d14] pointer-events-none" />
-                  {/* Hover radial glow */}
-                  <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,rgba(212,137,154,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
-                  {/* Content row */}
-                  <div className="relative flex items-start gap-5">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#D4899A]/10 text-[#D4899A] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_24px_rgba(212,137,154,0.15)]">
-                      <Icon className="w-5 h-5" />
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white/50 text-xs uppercase tracking-[0.15em] font-medium mb-1.5">{spec.label}</p>
-                      <p className="text-white text-lg font-bold font-display leading-snug mb-1 group-hover:text-[#D4899A] transition-colors duration-300">{spec.value}</p>
-                      <p className="text-white/30 text-xs leading-relaxed">{spec.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <ProtectorTechnicalSpecs variant="section" />
 
       {/* ══════════════════════════════════════════
            RETAIL PARTNERS
       ══════════════════════════════════════════ */}
       <RetailPartners />
+
+      {/* ══════════════════════════════════════════
+           CENTERING CROSS-LINK — internal link to tool pillar
+      ══════════════════════════════════════════ */}
+      <section className="py-20 bg-[#181828] relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#818cf8]/25 to-transparent" />
+        <div className="container-custom relative">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center gap-3 mb-5">
+              <div className="w-8 h-px bg-[#818cf8]/60" />
+              <span className="text-[#818cf8] text-xs uppercase tracking-[0.25em] font-medium">
+                {centeringCrossLink.badge}
+              </span>
+              <div className="w-8 h-px bg-[#818cf8]/60" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.15] mb-5">
+              {centeringCrossLink.title}
+            </h2>
+            <p className="text-[#9ca3af] text-base md:text-lg leading-relaxed mb-8">
+              {centeringCrossLink.body}
+            </p>
+            <Link
+              href="/tools/card-centering"
+              className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.15em] text-[#818cf8] hover:text-[#a5b4fc] transition-colors"
+            >
+              {centeringCrossLink.cta}
+              <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* ══════════════════════════════════════════
            FAQ
@@ -905,7 +909,7 @@ export default function PSAProtectorPage() {
                   {t.psaProtectorPage.faq.items.length}
                 </span>
                 <span className="text-white/25 text-[0.65rem] uppercase tracking-[0.2em] leading-snug mb-4">
-                  questions<br />answered
+                  {t.psaProtectorPage.faqStats.questionsAnswered}
                 </span>
               </div>
 
@@ -914,10 +918,10 @@ export default function PSAProtectorPage() {
               {/* Product stat mini-grid */}
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { v: '> 95%', l: 'UV Blocked' },
-                  { v: 'N52',   l: 'Magnet Grade' },
-                  { v: '74 g',  l: 'Weight' },
-                  { v: '8',     l: 'Colors' },
+                  { v: '> 95%', l: t.psaProtectorPage.faqStats.uvBlocked },
+                  { v: 'N52',   l: t.psaProtectorPage.faqStats.magnetGrade },
+                  { v: '74 g',  l: t.psaProtectorPage.faqStats.weight },
+                  { v: '8',     l: t.psaProtectorPage.faqStats.colors },
                 ].map((s) => (
                   <div key={s.l} className="border border-white/[0.06] rounded-xl px-4 py-3 hover:border-[#D4899A]/20 transition-colors duration-300">
                     <p className="text-[#D4899A] text-base font-bold leading-none mb-1">{s.v}</p>
@@ -953,7 +957,7 @@ export default function PSAProtectorPage() {
           >
             <div className="inline-flex items-center gap-4 mb-10">
               <div className="w-14 h-px bg-[#D4899A]/40" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">Shop Now</span>
+              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.ctaBadge}</span>
               <div className="w-14 h-px bg-[#D4899A]/40" />
             </div>
 
@@ -967,7 +971,7 @@ export default function PSAProtectorPage() {
             <ShopNowButton
               label={t.business.cardProtector.cta}
               shopOptions={t.shopOptions}
-              whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+              whatsappMessage={t.business.cardProtector.whatsappOrder}
               buttonClassName="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.35)]"
             />
           </div>

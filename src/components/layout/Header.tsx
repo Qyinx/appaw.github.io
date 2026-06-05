@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import LocalLink from '@/components/LocalLink';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { stripZhPrefix, toggleLocalePath } from '@/lib/i18n-routing';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
@@ -87,18 +88,24 @@ export default function Header() {
     { href: '/about', label: t.nav.about },
   ];
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'zh' : 'en');
-  };
-
   const pathname = usePathname();
+  const router = useRouter();
   // trailingSlash: true in next.config.js means pathname may end with /
   // Normalize so /business/ matches link.href /business
   const normalizedPath = pathname.replace(/\/$/, '') || '/';
+
+  const toggleLanguage = () => {
+    const next = language === 'en' ? 'zh' : 'en';
+    setLanguage(next);
+    router.push(toggleLocalePath(pathname, next));
+  };
+
+  const pathWithoutLocale = stripZhPrefix(pathname);
+
   const isActivePath = (href: string) =>
     href === '/'
-      ? normalizedPath === '/'
-      : normalizedPath === href || normalizedPath.startsWith(href + '/');
+      ? pathWithoutLocale === '/'
+      : pathWithoutLocale === href || pathWithoutLocale.startsWith(href + '/');
 
   return (
     <header
@@ -116,7 +123,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <LocalLink href="/" className="flex items-center gap-3 group">
             <div className="w-9 h-9 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#D4899A]/40 transition-colors duration-300">
               <Image
                 src={getImagePath('/images/logo.png')}
@@ -129,7 +136,7 @@ export default function Header() {
             <span className="font-display font-bold text-base tracking-wide text-white/90 group-hover:text-[#D4899A] transition-colors duration-300">
               Appaw Store
             </span>
-          </Link>
+          </LocalLink>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
@@ -143,7 +150,7 @@ export default function Header() {
                     onMouseEnter={() => setIsBusinessOpen(true)}
                     onMouseLeave={() => setIsBusinessOpen(false)}
                   >
-                    <Link
+                    <LocalLink
                       href={link.href}
                       className="relative flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors duration-200 group"
                       style={{ color: isActive ? '#D4899A' : 'rgba(255,255,255,0.55)' }}
@@ -163,7 +170,7 @@ export default function Header() {
                       {!isActive && (
                         <span className="absolute bottom-0 left-4 right-4 h-px bg-white/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                       )}
-                    </Link>
+                    </LocalLink>
                     {/* Dropdown */}
                     <div
                       className="absolute top-full left-0 pt-1 transition-all duration-200"
@@ -176,7 +183,7 @@ export default function Header() {
                         {link.children.map((child) => {
                           const isChildActive = isActivePath(child.href);
                           return (
-                            <Link
+                            <LocalLink
                               key={child.href}
                               href={child.href}
                               className="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-white/5 transition-colors duration-150"
@@ -185,7 +192,7 @@ export default function Header() {
                             >
                               {isChildActive && <span className="w-1 h-1 rounded-full bg-[#D4899A] mr-2 flex-shrink-0" />}
                               {child.label}
-                            </Link>
+                            </LocalLink>
                           );
                         })}
                       </div>
@@ -194,7 +201,7 @@ export default function Header() {
                 );
               }
               return (
-                <Link
+                <LocalLink
                   key={link.href}
                   href={link.href}
                   className="relative px-4 py-2 text-sm font-medium transition-colors duration-200 group"
@@ -228,7 +235,7 @@ export default function Header() {
                       )}
                     </>
                   )}
-                </Link>
+                </LocalLink>
               );
             })}
           </nav>
@@ -293,7 +300,7 @@ export default function Header() {
                         {link.children.map((child) => {
                           const isChildActive = isActivePath(child.href);
                           return (
-                            <Link
+                            <LocalLink
                               key={child.href}
                               href={child.href}
                               className="flex items-center gap-2 pl-8 pr-4 py-2.5 rounded-xl transition-colors duration-200"
@@ -302,7 +309,7 @@ export default function Header() {
                             >
                               <span className="w-1 h-1 rounded-full bg-current opacity-60 flex-shrink-0" />
                               <span className="font-medium text-sm" style={{ color: 'inherit' }}>{child.label}</span>
-                            </Link>
+                            </LocalLink>
                           );
                         })}
                       </div>
@@ -310,7 +317,7 @@ export default function Header() {
                   );
                 }
                 return (
-                  <Link
+                  <LocalLink
                     key={link.href}
                     href={link.href}
                     className="flex items-center justify-between px-4 py-3 rounded-xl transition-colors duration-200 group"
@@ -319,7 +326,7 @@ export default function Header() {
                   >
                     <span className="font-medium text-sm group-hover:text-white transition-colors" style={{ color: 'inherit' }}>{link.label}</span>
                     {isActive && <span className="w-1 h-1 rounded-full bg-[#D4899A]" />}
-                  </Link>
+                  </LocalLink>
                 );
               })}
             </nav>

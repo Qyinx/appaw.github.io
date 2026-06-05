@@ -111,31 +111,27 @@ export default function HomeClient() {
                 <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.home.hero.badge}</span>
               </div>
 
-              {/* Headline — staggered line reveal */}
-              <h1 className="text-5xl md:text-6xl lg:text-[4.5rem] font-bold font-display leading-[1.08] tracking-tight mb-6">
-                {[
-                  { text: 'Showcase',      cls: 'text-white',     delay: '200ms' },
-                  { text: 'Your Passion.', cls: 'text-[#D4899A]', delay: '380ms' },
-                  { text: 'Protect Your',  cls: 'text-white',     delay: '530ms' },
-                  { text: 'Investment.',   cls: 'text-white',     delay: '680ms' },
-                ].map(({ text, cls, delay }) => (
-                  <div key={text} className="overflow-hidden leading-[1.08]">
+              {/* Single page H1 — product keyword target for crawlers */}
+              <h1 className="text-2xl md:text-3xl lg:text-[2rem] font-bold font-display leading-[1.15] tracking-tight text-white mb-5">
+                {t.home.hero.h1Keyword}
+              </h1>
+
+              {/* Brand display headline — visual tagline, not a heading */}
+              <p className="text-5xl md:text-6xl lg:text-[4.5rem] font-bold font-display leading-[1.08] tracking-tight mb-6">
+                {t.home.hero.headlineLines.map(({ text, accent }, i) => (
+                  <span key={`${text}-${i}`} className="block overflow-hidden leading-[1.08]">
                     <span
-                      className={`block ${cls}`}
+                      className={`block ${accent ? 'text-[#D4899A]' : 'text-white'}`}
                       style={heroVisible
-                        ? { animation: `line-rise 0.9s cubic-bezier(0.16,1,0.3,1) ${delay} both` }
+                        ? { animation: `line-rise 0.9s cubic-bezier(0.16,1,0.3,1) ${200 + i * 180}ms both` }
                         : { transform: 'translateY(110%)', opacity: 0 }
                       }
                     >
                       {text}
                     </span>
-                  </div>
+                  </span>
                 ))}
-                {/* Keyword-rich sub-line — SEO search-intent signal inside the H1 */}
-                <span className="block mt-5 text-base md:text-lg font-semibold tracking-normal leading-snug text-[#9ca3af]">
-                  {t.home.hero.h1Keyword}
-                </span>
-              </h1>
+              </p>
 
               {/* Gold rule divider */}
               <div className="flex items-center gap-4 mb-7">
@@ -169,7 +165,7 @@ export default function HomeClient() {
                     className="group inline-flex items-center gap-2 px-5 py-3 text-white/70 hover:text-white text-sm font-medium hover:bg-white/[0.05] transition-all duration-200 border-r border-white/[0.06]"
                   >
                     <Star className="w-3.5 h-3.5 text-[#34D399] flex-shrink-0" />
-                    My Collection
+                    {t.nav.collection}
                     <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                   </Link>
 
@@ -179,7 +175,7 @@ export default function HomeClient() {
                     className="group inline-flex items-center gap-2 px-5 py-3 text-white/70 hover:text-white text-sm font-medium hover:bg-white/[0.05] transition-all duration-200"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-[#818cf8] flex-shrink-0" />
-                    Centering
+                    {t.nav.centeringTool}
                     <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                   </Link>
                 </div>
@@ -214,7 +210,7 @@ export default function HomeClient() {
                   <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-[#111]">
                     <Image
                       src={getImagePath('/images/cards/069.SM-P.refine.png')}
-                      alt="PSA Card Aluminum Protector"
+                      alt={t.psaProtectorPage.heroImageAlt}
                       fill
                       className="object-contain p-4"
                       sizes="(max-width: 768px) 100vw, 400px"
@@ -353,7 +349,7 @@ export default function HomeClient() {
                     <div className="relative w-48 h-60 md:w-56 md:h-72 transition-all duration-700 group-hover:scale-105 group-hover:-translate-y-2" style={{ animation: 'float 6s ease-in-out infinite' }}>
                       <Image
                         src={getImagePath('/images/cards/069.SM-P.refine.png')}
-                        alt="PSA Card Aluminum Protector"
+                        alt={t.psaProtectorPage.heroImageAlt}
                         fill
                         className="object-contain drop-shadow-[0_30px_60px_rgba(212,137,154,0.2)]"
                         sizes="(max-width: 768px) 60vw, 300px"
@@ -368,7 +364,7 @@ export default function HomeClient() {
                       <div className="w-10 h-10 rounded-xl bg-[#D4899A]/10 flex items-center justify-center">
                         <Shield className="w-5 h-5 text-[#D4899A]" />
                       </div>
-                      <span className="text-[#D4899A] text-[10px] font-bold uppercase tracking-[0.25em]">Premium Protection</span>
+                      <span className="text-[#D4899A] text-[10px] font-bold uppercase tracking-[0.25em]">{t.home.services.protector.badge}</span>
                     </div>
 
                     <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 font-display leading-tight group-hover:text-[#D4899A] transition-colors duration-500">
@@ -380,7 +376,7 @@ export default function HomeClient() {
 
                     {/* Feature chips */}
                     <div className="flex flex-wrap gap-2 mb-8">
-                      {['>95% UV', 'N52 Magnet', 'Anti-Fade', '74g'].map((chip) => (
+                      {t.home.services.protector.chips.map((chip) => (
                         <span key={chip} className="px-3 py-1.5 text-[11px] font-medium text-white/60 bg-white/[0.04] border border-white/[0.06] rounded-full">
                           {chip}
                         </span>
@@ -432,19 +428,19 @@ export default function HomeClient() {
                   <div className="w-10 h-10 rounded-xl bg-[#34D399]/10 flex items-center justify-center">
                     <Star className="w-5 h-5 text-[#34D399]" />
                   </div>
-                  <span className="text-[#34D399] text-[10px] font-bold uppercase tracking-[0.2em]">Organize</span>
+                  <span className="text-[#34D399] text-[10px] font-bold uppercase tracking-[0.2em]">{t.home.services.collection.badge}</span>
                 </div>
 
                 <h3 className="relative text-xl font-bold text-white mb-3 font-display group-hover:text-[#34D399] transition-colors duration-500">
-                  My Collection
+                  {t.home.services.collection.title}
                 </h3>
                 <p className="relative text-white/45 text-sm leading-relaxed mb-6 flex-1">
-                  Add, organize and track your cards with values, provenance and condition.
+                  {t.home.services.collection.description}
                 </p>
 
                 {/* CTA */}
                 <span className="relative inline-flex items-center gap-2 text-[#34D399] text-sm font-semibold uppercase tracking-[0.08em] group-hover:gap-3.5 transition-all duration-500">
-                  Open Collection
+                  {t.home.services.collection.cta}
                   <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
                 </span>
 
@@ -485,19 +481,19 @@ export default function HomeClient() {
                   <div className="w-10 h-10 rounded-xl bg-[#818cf8]/10 flex items-center justify-center">
                     <Sparkles className="w-5 h-5 text-[#818cf8]" />
                   </div>
-                  <span className="text-[#818cf8] text-[10px] font-bold uppercase tracking-[0.2em]">Analyze</span>
+                  <span className="text-[#818cf8] text-[10px] font-bold uppercase tracking-[0.2em]">{t.home.services.centering.badge}</span>
                 </div>
 
                 <h3 className="relative text-xl font-bold text-white mb-3 font-display group-hover:text-[#818cf8] transition-colors duration-500">
-                  Centering Analyzer
+                  {t.home.services.centering.title}
                 </h3>
                 <p className="relative text-white/45 text-sm leading-relaxed mb-6 flex-1">
-                  Upload a photo or use your camera for an instant centering grade and exportable report.
+                  {t.home.services.centering.description}
                 </p>
 
                 {/* CTA */}
                 <span className="relative inline-flex items-center gap-2 text-[#818cf8] text-sm font-semibold uppercase tracking-[0.08em] group-hover:gap-3.5 transition-all duration-500">
-                  Analyze Now
+                  {t.home.services.centering.cta}
                   <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
                 </span>
 
@@ -619,7 +615,7 @@ export default function HomeClient() {
               <ShopNowButton
                 label={t.home.cta.button}
                 shopOptions={t.shopOptions}
-                whatsappMessage="Hi! I'm interested in ordering a PSA Card Aluminum Protector."
+                whatsappMessage={t.business.cardProtector.whatsappOrder}
                 buttonClassName="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-bold text-base rounded-xl hover:bg-primary-700 active:scale-95 transition-all duration-150 shadow-md"
                 chevronSize="w-5 h-5"
               />

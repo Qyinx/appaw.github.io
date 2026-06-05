@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { Header, Footer } from '@/components/layout';
 import { CookieConsent } from '@/components/CookieConsent';
+import DocumentMeta from '@/components/DocumentMeta';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import { Auth0ProviderWrapper } from '@/providers/Auth0Provider';
 import StructuredData from '@/components/StructuredData';
@@ -64,6 +65,7 @@ export default function RootLayout({
           audience={process.env.NEXT_PUBLIC_AUTH0_AUDIENCE}
         >
           <LanguageProvider>
+            <DocumentMeta />
             <Header />
             <main className="pt-16">
               {children}

@@ -1,27 +1,99 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-06-02 — Optimised the homepage (`/`) for search intent: added a keyword-rich sub-line inside the H1 ("Premium Aluminum PSA Card Protectors & Trading Card Supplies in Hong Kong" / bilingual), injected a clean crawlable Product Specifications `<table>` (Compatibility: 35PT PSA slabs, Material, Closure: N52, UV >95%, Weight 74g, Dimensions, HK origin) directly under the Services bento, rewrote the hero subtitle to weave in primary keywords ("magnetic aluminum PSA card protectors / 35PT graded slabs" and zh "PSA 保護殼 / 評級卡保護殼 / 磁吸卡夾"), and confirmed the hero "Shop Now" CTA is the dominant path straight to `/products/psa-protectors`. Previous: strengthened `/products/psa-protectors/` (kept indexed URL, added ~180-word bilingual Product Overview, expanded spec grid with Compatibility + Closure rows) and repositioned `/tools/card-centering/` as a utility-first "Free Card Centering Calculator & PSA 10 Analyzer" pillar.
+Last updated: 2026-06-05 (batch 2) — Full-site i18n routing (`/zh/...` mirrors), homepage H1 restructure, `llms.txt` for GEO, sitemap refresh with hreflang alternates, product rename to Graded Slab Aluminum Protector / 鑑定卡保護殼, Quarry Bay showroom + partner purchase channels, and metadata centralisation (`HOME_SEO`, `PRODUCT_NAME`, `locale-metadata.ts`).
 
-Goal: Provide SEO-ready title/meta and JSON-LD examples for the three pillars to improve Google reach and SERP CTR.
+**Changelog summary**
+
+| Date | Area | Changes |
+|------|------|---------|
+| 2026-06-05 | i18n URLs | All public routes mirrored under `/zh/...` via thin re-exports (`scripts/generate-zh-routes.mjs`). `alternates.languages` on EN + ZH metadata. Toggle navigates `/path` ↔ `/zh/path`. `DocumentMeta` + `LocalLink` for client title/lang. |
+| 2026-06-05 | Homepage `/` | Single `<h1>` = `home.hero.h1Keyword`; brand tagline demoted to `<p>`. Spec `<table>` for 35PT / UV / N52. Purchase channels (`RetailPartners`) with showroom, 咭之島 partner, Etsy/Carousell/WhatsApp. |
+| 2026-06-05 | Product naming | EN: **Graded Slab Aluminum Protector**. ZH: **鑑定卡保護殼** / 磁吸鋁合金鑑定卡保護殼. `src/lib/product-names.ts` canonical source. |
+| 2026-06-05 | Terminology | Site-wide ZH: 鑑定卡 (not 評級卡) for graded cards/slabs. |
+| 2026-06-05 | GEO | `public/llms.txt` — brand summary, pillar URLs (EN + ZH), purchase channels, crawl rules. Linked from `robots.txt`. |
+| 2026-06-05 | Sitemap | `src/lib/seo/sitemap-config.ts` + `sitemap.ts` — EN + zh-HK URL pairs with `alternates.languages`. Removed dead `/products/` URL. |
+| 2026-06-02 | Homepage SEO | Spec table, keyword-rich hero, services bento i18n. |
+| Earlier | Product pillar | `/products/psa-protectors/` overview, specs, FAQ, JSON-LD. Centering tool repositioned. |
+
+Goal: Provide SEO-ready title/meta, JSON-LD, sitemap, and GEO context for pillar pages to improve Google reach, SERP CTR, and LLM citation accuracy.
 
 Site OG image (used across the site): `/images/og-image.png` — recommended size 1200x630, used for homepage and default social previews.
 
+0) Homepage (`/` and `/zh/`) — IMPLEMENTED
+
+- **URLs:** `https://appaw.store/` (EN), `https://appaw.store/zh/` (zh-HK UI + metadata)
+- **Metadata:** `HOME_SEO` in `src/lib/product-names.ts` → `homeMetadata` / `zhHomeMetadata` in `src/lib/seo/metadata.ts`
+- **EN title:** Graded Slab Aluminum Protector & Trading Card Supplies HK – Appaw Store
+- **ZH title:** 鑑定卡鋁合金保護殼｜35PT 磁吸 Slab 防褪色 - Appaw Store 香港
+- **H1 structure (Gemini-corrected):**
+  - One `<h1>`: `home.hero.h1Keyword` (product-intent keywords)
+  - Brand tagline (`headlineLines`) in `<p>` — visual only
+  - Section headings: `home.services.title`, `retailPartners.title`, `home.cta.title` as `<h2>`
+- **Crawlable product specs:** `<table>` under services bento (35PT, UV >95%, N52, 74g, dimensions, HK origin)
+- **Purchase channels:** `RetailPartners.tsx` — Quarry Bay showroom (Manly Plaza), 咭之島 partner, online (Etsy / Carousell / WhatsApp)
+- **Internal links:** Primary CTA → `/products/psa-protectors/`; secondary → `/business/card-trading/`, `/tools/card-centering/`
+- **hreflang:** `alternates.languages: { en: '/', 'zh-HK': '/zh/' }` on both homepage metadata exports
+
+**Post-deploy:** Request indexing for `/` and `/zh/` in Google Search Console.
+
+---
+
 1) PSA Protectors (/products/psa-protectors/) — IMPLEMENTED
 - URL decision: KEEP `/products/psa-protectors/`. It is already clean, indexed, and contains the primary keyword "psa". Changing an established/indexed URL (e.g. to `/products/psa-card-aluminum-protector`) risks losing accumulated ranking equity for marginal slug gains, so no slug change and no redirect were applied. The legacy `/business/psa-protector` already 301-redirects here.
-- Metadata (`psaProtectorsMetadata` in `src/lib/seo/metadata.ts`): page-owned title/description/canonical, OG + Twitter tags, keyword cluster around "PSA card protector / PSA aluminum case / magnetic PSA slab case".
-- Primary Keywords: "PSA card protector", "PSA protectors", "PSA aluminum case"
-- Supporting long-tails: "best PSA card protector", "magnetic PSA card case", "UV-protection card protector", "35PT PSA slab case", "N52 magnetic card holder"
+- Metadata (`psaProtectorsMetadata` in `src/lib/seo/metadata.ts`): page-owned title/description/canonical, OG + Twitter tags, keyword cluster around "PSA card protector / PSA aluminum case / magnetic PSA slab case" plus Chinese keywords in `keywords` meta.
+- Primary Keywords (EN): "PSA card protector", "PSA protectors", "PSA aluminum case"
+- Supporting long-tails (EN): "best PSA card protector", "magnetic PSA card case", "UV-protection card protector", "35PT PSA slab case", "N52 magnetic card holder"
+- Primary Keywords (ZH): "鑑定卡保護殼", "磁吸鋁合金鑑定卡保護殼", "磁吸卡磚", "鋁合金保護殼"
+- Supporting long-tails (ZH): "35PT 鑑定卡磚保護殼", "N52 磁吸鑑定卡殼", "防UV 鑑定卡保護殼", "香港鑑定卡保護殼", "寶可夢鑑定卡", "CGC 鑑定卡磚"
+- Product display name (EN): **Graded Slab Aluminum Protector** (nav short: Graded Slab Protector) — broader than PSA-only, matches CGC compatibility
+- Product display name (ZH): **鑑定卡保護殼** (full: 磁吸鋁合金鑑定卡保護殼)
+
+**Terminology policy (ZH)**
+
+| Context | Preferred term | Avoid |
+|---------|----------------|-------|
+| Graded card / slab | 鑑定卡、鑑定卡牌、鑑定卡磚 | 評級卡、評級卡牌、評級卡磚 |
+| Protector product | 鑑定卡保護殼、磁吸鋁合金鑑定卡保護殼、磁吸卡磚 | 評級卡保護殼、PSA 保護殼（舊稱） |
+| Grade score UI (PSA 10 etc.) | Keep 評級 for numeric grade labels only | — |
 
 - Implemented changes:
   - Text-rich product description: a new "Product Overview" section (`overview` i18n block, en + zh) renders a ~180-word, keyword-dense paragraph pair below the hero — covering 35PT PSA compatibility, >95% UV/anti-fade protection, N52 neodymium closure, 74g aluminum/glass build, and Pokémon/sports/MTG use cases. Gives Google substantial indexable on-page copy beyond image alt text.
   - Expanded "Technical Specifications" grid (`specs` array in `page.tsx`): now 6 cards — Size, Weight, Materials, UV Protection, plus new **Compatibility** (Standard 35PT PSA Slabs) and **Closure System** (N52 Neodymium Magnets) rows, each with bilingual labels/values/descriptions.
-  - Internal linking (already satisfied): homepage buy buttons (`HomeClient.tsx`), `Footer.tsx`, `BusinessClient.tsx`, and `CardTradingClient.tsx` all point to `/products/psa-protectors` — dominant internal link authority confirmed, no change needed.
+  - Crawler-visible Chinese: expanded `sr-only` block in `layout.tsx` mirrors `zh.psaProtectorPage.overview.body` plus spec summary (site SSRs English by default; this block is the primary zh indexable surface for crawlers).
+  - Internal linking: homepage buy buttons (`HomeClient.tsx`), `Footer.tsx`, `BusinessClient.tsx`, and `CardTradingClient.tsx` point to `/products/psa-protectors`; reciprocal link from PSA page to `/tools/card-centering/` added before FAQ.
+  - Image SEO: hero and feature carousel alts wired to i18n (`heroImageAlt`, `business.cardProtector.features`).
+  - Terminology: all marketing zh copy in `src/i18n/zh.ts` uses 鑑定卡/鑑定卡牌; card-trading typos fixed (`鯨合金`→`鋁合金`, `礴鐵`→`釹磁鐵`).
 
-- JSON-LD (already comprehensive, in `src/app/products/psa-protectors/layout.tsx`): full `Product` with brand, SKU `APPAW-PSA-ALU-001`, material, weight/width/height/depth `QuantitativeValue`s, two `Offer`s (HKD), `additionalProperty` (UV Protection >95%, Magnet Grade N52 Neodymium, Compatibility Standard 35PT PSA Slabs, Closure Type Magnetic), `aggregateRating` (4.9 / 127), plus `BreadcrumbList` and `FAQPage`.
+- JSON-LD (in `src/app/products/psa-protectors/layout.tsx`): full `Product` with brand, SKU `APPAW-PSA-ALU-001`, `alternateName` includes 鑑定卡保護殼 / 磁吸鑑定卡磚, material, weight/width/height/depth `QuantitativeValue`s, two `Offer`s (HKD), `additionalProperty` (UV Protection >95%, Magnet Grade N52 Neodymium, Compatibility Standard 35PT PSA Slabs, Closure Type Magnetic), plus `BreadcrumbList` and `FAQPage`. `aggregateRating` removed — no on-page review source.
 
 - Manual follow-up (cannot be automated): submit `https://appaw.store/products/psa-protectors/` via Google Search Console "URL Inspection → Request Indexing" to accelerate re-crawl of the new copy.
 
-Open Graph / Twitter: handled by `psaProtectorsMetadata` (summary_large_image).
+Open Graph / Twitter: handled by `psaProtectorsMetadata` (summary_large_image). OG alt text includes bilingual product name.
+
+**Open improvements (tracked)**
+
+- Replace placeholder `og:centering.png` with real analyzer screenshot (centering pillar).
+- ~~Consider separate `/zh/` routes or dynamic `html lang` for full bilingual indexing.~~ **Done (2026-06-05):** `/zh/...` mirrors + `DocumentMeta` sets `html lang` on client.
+- Add visible review section before restoring `aggregateRating` in JSON-LD.
+- Optional: sr-only Chinese block on `/business/`.
+- Content marketing / blog pillar (e.g. 「如何選擇 35PT 卡磚？」、「鑑定卡防潮防 UV」) — not yet built; `hkGuide` section on product page is interim depth content.
+- Backlinks from HK TCG creators and local card communities — outreach, not code.
+- Physical showroom (primary): Shop No. 9, Basement, Manly Plaza, 995-997 King's Road, Quarry Bay (鰂魚涌英皇道995-997號萬利廣場地庫9號舖) — listed first in `RetailPartners`.
+- Cooperative retail partners (e.g. 咭之島 Card The Land, Hung Hom) — retained alongside own showroom in `RetailPartners` + i18n.
+
+**External SEO audit notes (2026-06-05, Gemini review) — response**
+
+| Gemini finding | Status | Our response |
+|----------------|--------|--------------|
+| Mixed zh-HK / zh-CN / English on same view | **Partially fixed** | Homepage hero, services bento, footer, and nav CTAs now use i18n (`headlineLines`, `home.services.*`). SSR still defaults to `en` until user toggles zh — sr-only zh block on product layout compensates for crawlers. |
+| Missing HK TCG keywords (PTCG, Slab, etc.) | **Fixed** | Woven into `zh.ts` copy, `HK_SEO_KEYWORDS`, product `hkGuide` section, and meta keywords. We use **鑑定卡** (not 評級卡) per brand terminology. |
+| Weak Meta Title / Description | **Fixed** | `PRODUCT_NAME.*.metaTitle/metaDescription` in `product-names.ts` → `psaProtectorsMetadata`. |
+| H1 not product-focused | **Fixed** | Homepage: single `<h1>` = `home.hero.h1Keyword`; brand tagline demoted to `<p>`. Section titles (`services`, `retailPartners`, `cta`) = `<h2>`. Product page `<h1>` = `psaProtectorPage.seoH1`. |
+| Multiple H1s on homepage | **Fixed** | Only one `<h1>` per homepage; former duplicate H1 sections are `<h2>`. |
+| Missing hreflang / zh route | **Fixed** | All public routes mirrored under `/zh/...` (thin re-exports, same components). `alternates.languages` on EN + ZH metadata + sitemap alternates. Language toggle navigates `/path` ↔ `/zh/path`. `DocumentMeta` syncs `<title>` + description client-side. |
+| Thin content | **Improved** | Added `hkGuide` (~3 paragraphs) on product page + existing overview, specs, FAQ. Blog remains future work. |
+| Image alt gaps | **Improved** | Hero/feature alts via i18n; zh alt includes product + PTCG context per Gemini example. |
+| Centering tool traffic opportunity | **Already implemented** | `/tools/card-centering/` pillar + reciprocal link from product page; zh nav = 「卡牌置中量度工具」. |
 
 
 ---
@@ -122,7 +194,7 @@ Notes / next steps
 - Replace the placeholder `og:image` with a real screenshot of the analyzer result overlay.
 - Consider a short "measurement method" explainer and a couple of worked examples (well-centred vs
   off-centre card) to deepen topical authority versus competitors (e.g. Edge Grading's centering tool).
-- Add internal links to this tool from the homepage and the `/products/psa-protectors/` page body.
+- ~~Add internal links to this tool from the homepage and the `/products/psa-protectors/` page body.~~ Done (2026-06-05): homepage secondary CTA + PSA page centering cross-link section before FAQ.
 
 ---
 
@@ -176,8 +248,62 @@ Recommended follow-ups
 - Migrate `psa-protectors` and `business/card-trading` to use the factories for `Product`/`FAQ` creation (these pages sometimes construct dynamic objects — factories can accept data and return a normalized `Product` object).
 - Run a headless render (build + puppeteer/playwright) to validate runtime HTML and confirm only intended JSON-LD appears on each route.
 
-Sitemap Strategy
-===============
+GEO — LLM discoverability (`llms.txt`)
+======================================
+
+**File:** `public/llms.txt` → served at `https://appaw.store/llms.txt`
+
+Purpose: Give LLM crawlers (GPTBot, Claude-Web, PerplexityBot, etc.) a concise, citation-friendly summary of what Appaw Store is, which URLs to prefer, purchase channels, and crawl boundaries. Complements JSON-LD for generative search / AI answers.
+
+Contents:
+- Brand one-liner + product definition (35PT PSA/CGC slab protector)
+- EN + ZH pillar URL table with hreflang note
+- Purchase channels (Quarry Bay showroom, 咭之島, Etsy/Carousell/WhatsApp)
+- Free centering tool pointer
+- JSON-LD types per route
+- Contact / social
+- **Do not index** list (`/admin/`, `/collection/`, `/business/card-trading/`)
+- ZH terminology policy (鑑定卡 not 評級卡)
+
+**robots.txt:** AI crawlers explicitly allowed on public pages; `llms.txt` URL noted in header comment.
+
+**Maintenance:** Update `llms.txt` whenever product name, showroom address, pillar URLs, or crawl policy changes. Keep in sync with `sitemap-config.ts` and `product-names.ts`.
+
+**Optional follow-up:** Add `<link rel="alternate" type="text/plain" href="/llms.txt">` in root layout if LLM discovery standards formalise.
+
+---
+
+Sitemap Strategy (implemented)
+==============================
+
+**Generator:** `src/app/sitemap.ts` (Next.js `MetadataRoute.Sitemap`, static export)
+**Config:** `src/lib/seo/sitemap-config.ts` — single list of public EN paths; ZH URLs derived automatically.
+
+**Included URLs (EN + zh-HK pairs, each with `alternates.languages`):**
+
+| Path | Priority | changefreq |
+|------|----------|------------|
+| `/` | 1.0 | weekly |
+| `/products/psa-protectors/` | 0.95 | weekly |
+| `/business/` | 0.9 | weekly |
+| `/about/` | 0.8 | monthly |
+| `/tools/card-centering/` | 0.8 | weekly |
+| `/products/graded-cards/` | 0.6 | monthly |
+| `/privacy/` | 0.2 | yearly |
+
+**Excluded (by design):**
+- `/business/card-trading/` and `/business/card-trading/[id]/` — `robots.txt` Disallow + `robots: noindex` on metadata
+- `/collection/`, `/admin/`, `/style-guide/` — private or dev
+- `/products/` — no index page exists (removed from sitemap 2026-06-05)
+
+**Submission:** `Sitemap: https://appaw.store/sitemap.xml` in `public/robots.txt`. Re-submit in GSC after deploy.
+
+**Future (optional):** Shard into `sitemap_index.xml` + per-type sitemaps if URL count exceeds 50k or product catalog grows.
+
+---
+
+Sitemap Strategy (reference notes)
+================================
 
 1. Sitemap Structure:
    - Hierarchy (3 levels recommended):
@@ -276,8 +402,20 @@ Sitemap Strategy
      - Use Search Console’s sitemap tester and an XML validator.
      - Run a headless render to confirm server-produced routes include correct canonical links and that sitemaps match rendered pages.
 
-Quick next steps I can take for you:
- - Implement a Next.js `/sitemap_index.xml` generator (automated, incremental) and add `Sitemap:` to [public/robots.txt](public/robots.txt).
- - Run a headless validation of key routes and the final sitemap (requires `npm install` / build in this environment or a staging URL).
+**i18n routing (reference)**
 
-I've appended this strategy to [docs/seo-pillars.md](docs/seo-pillars.md).
+| Module | Role |
+|--------|------|
+| `src/lib/i18n-routing.ts` | `localizedHref`, `toggleLocalePath`, `routeLanguage` |
+| `src/lib/seo/locale-metadata.ts` | `withLocaleAlternates`, `zhRouteMetadata` |
+| `src/lib/seo/page-meta.ts` | Client-side title/description per route |
+| `src/app/zh/**` | Thin re-exports; regenerate via `node scripts/generate-zh-routes.mjs` |
+| `src/components/LocalLink.tsx` | Locale-aware nav links (Header/Footer) |
+
+**Post large-change checklist (GSC / Bing)**
+
+1. Deploy to production
+2. Submit `https://appaw.store/sitemap.xml` in Search Console (ping if needed)
+3. Request indexing: `/`, `/zh/`, `/products/psa-protectors/`, `/zh/products/psa-protectors/`
+4. Validate hreflang report (EN ↔ zh-HK pairs)
+5. Confirm `https://appaw.store/llms.txt` is fetchable for GEO crawlers

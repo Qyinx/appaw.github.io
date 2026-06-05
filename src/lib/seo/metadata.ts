@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
+import { HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
+import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata';
 
-export const psaProtectorsMetadata: Metadata = {
-  title: 'Museum-Grade PSA Card Aluminum Protector – N52 Magnetic, UV-Blocking',
-  description:
-    'Investment-grade aluminum enclosure for PSA graded slabs. Museum-grade UV filtration >95%, N52 neodymium closure, precision CNC frame. For high-value Pokémon, sports & MTG cards.',
+const homeHreflang = { en: '/', 'zh-HK': '/zh/' } as const;
+
+const psaProtectorsMetadataBase: Metadata = {
+  title: PRODUCT_NAME.en.metaTitle,
+  description: PRODUCT_NAME.en.metaDescription,
   // NOTE: keep description ≤160 chars.
   keywords: [
     'PSA card protector',
@@ -17,12 +20,19 @@ export const psaProtectorsMetadata: Metadata = {
     'investment-grade card protection',
     'high-value card protection',
     'museum-grade UV filtration',
+    'graded slab protector',
+    'graded slab aluminum case',
+    '鑑定卡保護殼',
+    '磁吸卡磚',
+    '鋁合金保護殼',
+    '35PT 鑑定卡磚',
+    ...HK_SEO_KEYWORDS,
+    PRODUCT_NAME.zh.metaTitle,
   ],
   alternates: { canonical: '/products/psa-protectors/' },
   openGraph: {
-    title: 'Museum-Grade PSA Card Aluminum Protector – N52 Magnetic, UV-Blocking | Appaw Store',
-    description:
-      'Investment-grade aluminum enclosure for PSA slabs. Museum-grade UV filtration, N52 neodymium closure, CNC precision frame. For high-value Pokémon, sports & MTG graded cards.',
+    title: `${PRODUCT_NAME.en.metaTitle} | Appaw Store`,
+    description: PRODUCT_NAME.en.metaDescription,
     url: 'https://appaw.store/products/psa-protectors/',
     type: 'website',
     images: [
@@ -30,93 +40,127 @@ export const psaProtectorsMetadata: Metadata = {
         url: '/images-optimized/describe/sell%205.png',
         width: 1200,
         height: 630,
-        alt: 'PSA Card Aluminum Protector with UV-Blocking Glass and N52 Magnetic Closure',
+        alt: `${PRODUCT_NAME.en.full} with UV-Blocking Glass and N52 Magnetic Closure`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Museum-Grade PSA Card Aluminum Protector – Investment-Grade Slab Case',
-    description:
-      'Investment-grade aluminum enclosure for PSA graded cards. Museum-grade UV filtration, N52 neodymium magnets, CNC precision frame. Ships worldwide.',
+    title: PRODUCT_NAME.en.metaTitle,
+    description: PRODUCT_NAME.en.metaDescription,
     images: ['/images-optimized/describe/sell%205.png'],
   },
 };
+
+export const psaProtectorsMetadata = withLocaleAlternates(psaProtectorsMetadataBase, '/products/psa-protectors/');
+export const zhPsaProtectorsMetadata = zhRouteMetadata(psaProtectorsMetadataBase, '/products/psa-protectors/', {
+  title: PRODUCT_NAME.zh.metaTitle,
+  description: PRODUCT_NAME.zh.metaDescription,
+});
 
 export default {
   psaProtectorsMetadata,
 };
 
 export const homeMetadata: Metadata = {
-  title: 'PSA Card Aluminum Protector & Graded Card Trading – Appaw Store',
-  description:
-    'Hong Kong-based Appaw Store crafts premium PSA Card Aluminum Protectors with >95% UV-blocking glass and N52 magnetic closure. Browse our graded Pokémon, sports & MTG card marketplace. Ships worldwide.',
-  alternates: { canonical: '/' },
+  title: HOME_SEO.en.title,
+  description: HOME_SEO.en.description,
+  alternates: { canonical: '/', languages: homeHreflang },
   openGraph: {
-    title: 'PSA Card Aluminum Protector & Graded Card Trading – Appaw Store',
-    description:
-      'Premium PSA Card Aluminum Protectors with UV-blocking glass and N52 magnets. Browse our graded Pokémon, sports & MTG card marketplace. Based in Hong Kong, ships worldwide.',
+    title: HOME_SEO.en.title,
+    description: HOME_SEO.en.description,
     url: 'https://appaw.store/',
     type: 'website',
+    locale: 'en_US',
+    alternateLocale: ['zh_HK'],
     images: [
       {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Appaw Store – PSA Card Aluminum Protector & Graded Card Trading',
+        alt: 'Appaw Store – Graded Slab Aluminum Protector & Trading Card Supplies',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PSA Card Aluminum Protector & Graded Card Trading – Appaw Store',
-    description:
-      'Premium PSA Card Protectors with >95% UV-blocking glass + N52 magnets. Graded card marketplace based in Hong Kong.',
+    title: HOME_SEO.en.title,
+    description: HOME_SEO.en.description,
+    images: ['/images/og-image.png'],
+  },
+};
+
+export const zhHomeMetadata: Metadata = {
+  title: HOME_SEO.zh.title,
+  description: HOME_SEO.zh.description,
+  alternates: { canonical: '/zh/', languages: homeHreflang },
+  openGraph: {
+    title: HOME_SEO.zh.title,
+    description: HOME_SEO.zh.description,
+    url: 'https://appaw.store/zh/',
+    type: 'website',
+    locale: 'zh_HK',
+    alternateLocale: ['en_US'],
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Appaw Store – 鑑定卡保護殼・磁吸 Slab・PTCG 卡牌用品',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: HOME_SEO.zh.title,
+    description: HOME_SEO.zh.description,
     images: ['/images/og-image.png'],
   },
 };
 
 export const rootMetadata: Metadata = {
   title: {
-    default: 'Appaw Store - PSA Card Aluminum Protector & TCG Trading',
+    default: HOME_SEO.en.title,
     template: '%s | Appaw Store',
   },
-  description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass, N52 magnetic closure, and precision aluminum frame. Trusted TCG trading & brokerage for graded Pokémon, sports, and MTG cards.',
+  description: HOME_SEO.en.description,
   keywords: [
-    'PSA card protector',
-    'PSA card aluminum case',
+    'graded slab protector',
     'PSA slab protector',
     'aluminum card case',
     'UV protection card case',
     'N52 magnetic card case',
+    '鑑定卡保護殼',
+    '磁吸卡磚',
+    ...HK_SEO_KEYWORDS,
   ],
   authors: [{ name: 'Appaw Store' }],
   creator: 'Appaw Store',
   publisher: 'Appaw Store',
   icons: { icon: '/favicon.ico', shortcut: '/favicon.ico', apple: '/apple-touch-icon.png' },
   metadataBase: new URL('https://appaw.store'),
-  alternates: { canonical: '/', languages: { en: '/', 'zh-HK': '/' } },
+  alternates: { canonical: '/', languages: homeHreflang },
   openGraph: {
-    title: 'Appaw Store – PSA Card Aluminum Protector & TCG Trading',
-    description: 'Premium PSA Card Aluminum Protector with >95% UV-blocking glass and N52 magnetic closure. Trusted TCG trading & brokerage for graded cards.',
+    title: HOME_SEO.en.title,
+    description: HOME_SEO.en.description,
     url: 'https://appaw.store',
     siteName: 'Appaw Store',
     type: 'website',
     locale: 'en_US',
-    alternateLocale: ['zh_HK', 'zh_CN'],
-    images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: 'Appaw Store - PSA Card Aluminum Protector' }],
+    alternateLocale: ['zh_HK'],
+    images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: 'Appaw Store – Graded Slab Aluminum Protector' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Appaw Store - PSA Card Aluminum Protector & TCG Trading',
-    description: 'Premium aluminum protector with >95% UV protection for PSA graded cards. Trusted TCG trading & brokerage.',
+    title: HOME_SEO.en.title,
+    description: HOME_SEO.en.description,
     images: ['/images/og-image.png'],
     creator: '@appaw.store',
   },
   robots: { index: true, follow: true },
 };
 
-export const centeringMetadata: Metadata = {
+const centeringMetadataBase: Metadata = {
   title: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store',
   description:
     'Quickly check if your Pokémon, sports, or TCG cards meet PSA 10 centering standards. Upload your card, adjust the alignment lines, and get instant margin percentages — free.',
@@ -126,6 +170,10 @@ export const centeringMetadata: Metadata = {
     'card centering tool',
     'PSA 10 centering',
     'PSA centering calculator',
+    '寶可夢置中量度',
+    '卡牌置中工具',
+    'PTCG 置中',
+    '免費置中計算器',
     'centering analyzer',
     'how to check card centering',
     'Pokemon card centering',
@@ -152,14 +200,27 @@ export const centeringMetadata: Metadata = {
   },
 };
 
-export const privacyMetadata: Metadata = {
+export const centeringMetadata = withLocaleAlternates(centeringMetadataBase, '/tools/card-centering/');
+export const zhCenteringMetadata = zhRouteMetadata(centeringMetadataBase, '/tools/card-centering/', {
+  title: '免費卡牌置中量度工具 & PSA 10 分析器 | Appaw Store',
+  description:
+    '上傳卡牌即可量度前後邊距，對照 PSA 10 置中標準。適用寶可夢 PTCG、運動卡及 TCG — 完全免費。',
+});
+
+const privacyMetadataBase: Metadata = {
   title: 'Privacy Policy | Appaw Store',
   description: 'Learn how Appaw Store collects, uses, and protects your data. We use Google Analytics 4 for site analytics. Purchases are handled securely through Etsy and Carousell.',
   alternates: { canonical: '/privacy/' },
   robots: { index: true, follow: true },
 };
 
-export const aboutMetadata: Metadata = {
+export const privacyMetadata = withLocaleAlternates(privacyMetadataBase, '/privacy/');
+export const zhPrivacyMetadata = zhRouteMetadata(privacyMetadataBase, '/privacy/', {
+  title: '私隱政策 | Appaw Store',
+  description: '了解 Appaw Store 如何收集、使用及保護您的資料。網站分析使用 Google Analytics 4；購買透過 Etsy 及 Carousell 安全處理。',
+});
+
+const aboutMetadataBase: Metadata = {
   title: 'About Appaw Store – Premium PSA Card Protectors, Hong Kong',
   description:
     'Appaw Store is a Hong Kong-based brand specialising in PSA Card Aluminum Protectors and TCG graded card trading. Our UV-blocking, N52 magnetic cases ship to 100+ countries. Learn our story.',
@@ -175,46 +236,118 @@ export const aboutMetadata: Metadata = {
   twitter: { card: 'summary_large_image', title: 'About Appaw Store – Premium PSA Card Protectors, Hong Kong', description: 'Hong Kong-based brand crafting premium PSA card aluminum protectors & offering trusted TCG graded card trading services.', images: ['/images/og-image.png'] },
 };
 
-export const collectionMetadata: Metadata = {
+export const aboutMetadata = withLocaleAlternates(aboutMetadataBase, '/about/');
+export const zhAboutMetadata = zhRouteMetadata(aboutMetadataBase, '/about/', {
+  title: '關於 Appaw Store – 香港鑑定卡保護殼及卡牌交易',
+  description:
+    'Appaw Store 是香港鑑定卡保護殼品牌，提供磁吸鋁合金 Slab 保護殼及 TCG 鑑定卡交易服務。>95% 抗 UV、N52 磁吸，全球付運。',
+});
+
+const gradedCardsMetadataBase: Metadata = {
+  title: 'Graded Trading Cards | Appaw Store',
+  description: 'Browse graded Pokémon, sports, and MTG trading cards from Appaw Store in Hong Kong.',
+};
+
+export const gradedCardsMetadata = withLocaleAlternates(gradedCardsMetadataBase, '/products/graded-cards/');
+export const zhGradedCardsMetadata = zhRouteMetadata(gradedCardsMetadataBase, '/products/graded-cards/', {
+  title: '鑑定卡牌 | Appaw Store',
+  description: '瀏覽 Appaw Store 的寶可夢、運動卡及 MTG 鑑定卡牌。',
+});
+
+const collectionMetadataBase: Metadata = {
   title: 'My Collection | Appaw Store',
   description: 'Track your personal graded card collection — log buy prices, grades, cert numbers, and listing prices in one private dashboard.',
   robots: { index: false, follow: false },
 };
 
-export const adminTradeMetadata: Metadata = {
+export const collectionMetadata = withLocaleAlternates(collectionMetadataBase, '/collection/');
+
+const adminTradeMetadataBase: Metadata = {
   title: 'Card Admin | Appaw Store',
   robots: { index: false, follow: false },
 };
 
-export const collectionListMetadata: Metadata = {
+export const adminTradeMetadata = withLocaleAlternates(adminTradeMetadataBase, '/admin/trade-cards/');
+
+const collectionListMetadataBase: Metadata = {
   title: 'My Collection | Appaw Store',
   description: 'Manage your personal graded card collection — track buy prices, grades, cert numbers, and more.',
   robots: { index: false, follow: false },
 };
 
+export const collectionListMetadata = withLocaleAlternates(collectionListMetadataBase, '/collection/list/');
+
 export const collectionLayoutMetadata: Metadata = collectionListMetadata;
 
-export const newCardMetadata: Metadata = {
+const newCardMetadataBase: Metadata = {
   title: 'Add Card | Appaw Store',
   robots: { index: false, follow: false },
 };
 
-export const editCardMetadata: Metadata = {
+export const newCardMetadata = withLocaleAlternates(newCardMetadataBase, '/collection/card/new/');
+
+const editCardMetadataBase: Metadata = {
   title: 'Edit Card | Appaw Store',
   robots: { index: false, follow: false },
 };
 
-export const businessMetadata: Metadata = {
-  title: 'Our Services – PSA Card Protector & TCG Trading',
+export const editCardMetadata = withLocaleAlternates(editCardMetadataBase, '/collection/card/edit/');
+
+const businessMetadataBase: Metadata = {
+  title: 'Services – Graded Slab Protector & TCG Trading',
   description:
-    'Explore Appaw Store services: premium PSA Card Aluminum Protectors with UV-blocking glass & N52 magnetic closure, and trusted TCG trading & brokerage for graded Pokémon, sports, and MTG cards.',
-  alternates: { canonical: '/business/' },
+    'Explore Appaw Store services: premium graded slab aluminum protectors with UV-blocking glass & N52 magnetic closure, and trusted TCG trading for graded Pokémon, sports, and MTG cards.',
 };
 
-export const cardTradingMetadata: Metadata = {
+export const businessMetadata = withLocaleAlternates(businessMetadataBase, '/business/');
+export const zhBusinessMetadata = zhRouteMetadata(businessMetadataBase, '/business/', {
+  title: '服務 – 鑑定卡保護殼及卡牌交易 | Appaw Store',
+  description:
+    'Appaw Store 服務：磁吸鋁合金鑑定卡保護殼（>95% 抗 UV、N52 磁吸）及 TCG 鑑定卡交易、寄售服務。',
+});
+
+const cardTradingMetadataBase: Metadata = {
   title: 'PSA Pokémon Cards Hong Kong | Buy Rare Graded Cards – Appaw Store',
   description:
     'The premier Hong Kong destination for investment-grade PSA 10 Pokémon cards. Zero-fee consignment, museum-quality verified transactions & private acquisition of blue-chip graded assets.',
-  alternates: { canonical: '/business/card-trading/' },
   robots: { index: false, follow: false },
 };
+
+export const cardTradingMetadata = withLocaleAlternates(cardTradingMetadataBase, '/business/card-trading/');
+export const zhCardTradingMetadata = zhRouteMetadata(cardTradingMetadataBase, '/business/card-trading/', {
+  title: '香港 PSA 寶可夢鑑定卡 | 購買稀有鑑定卡 – Appaw Store',
+  description:
+    '香港投資級 PSA 10 寶可夢鑑定卡平台。零上架費寄售、面交驗證交易及高價值鑑定卡收購服務。',
+});
+
+export const zhCollectionMetadata = zhRouteMetadata(collectionMetadataBase, '/collection/', {
+  title: '我的收藏 | Appaw Store',
+  description: '追蹤及管理您的個人鑑定卡收藏。',
+});
+
+export const zhCollectionListMetadata = zhRouteMetadata(collectionListMetadataBase, '/collection/list/', {
+  title: '我的收藏 | Appaw Store',
+  description: '管理您的個人鑑定卡收藏。',
+});
+
+export const zhNewCardMetadata = zhRouteMetadata(newCardMetadataBase, '/collection/card/new/', {
+  title: '新增卡牌 | Appaw Store',
+});
+
+export const zhEditCardMetadata = zhRouteMetadata(editCardMetadataBase, '/collection/card/edit/', {
+  title: '編輯卡牌 | Appaw Store',
+});
+
+export const zhAdminTradeMetadata = zhRouteMetadata(adminTradeMetadataBase, '/admin/trade-cards/', {
+  title: '卡牌管理 | Appaw Store',
+});
+
+const styleGuideMetadataBase: Metadata = {
+  title: 'Style Guide | Appaw Store',
+  robots: { index: false, follow: false },
+};
+
+export const styleGuideMetadata = withLocaleAlternates(styleGuideMetadataBase, '/style-guide/');
+export const zhStyleGuideMetadata = zhRouteMetadata(styleGuideMetadataBase, '/style-guide/', {
+  title: 'Style Guide | Appaw Store',
+});

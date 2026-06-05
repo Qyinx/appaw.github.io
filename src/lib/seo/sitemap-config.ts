@@ -1,0 +1,23 @@
+/**
+ * Canonical public URLs included in sitemap.xml (EN path + mirrored /zh/ route).
+ * Excludes noindex, robots-disallowed, and auth/admin routes.
+ */
+export const SITEMAP_PUBLIC_PATHS = [
+  { path: '/', changeFrequency: 'weekly' as const, priority: 1 },
+  { path: '/about/', changeFrequency: 'monthly' as const, priority: 0.8 },
+  { path: '/privacy/', changeFrequency: 'yearly' as const, priority: 0.2 },
+  { path: '/products/psa-protectors/', changeFrequency: 'weekly' as const, priority: 0.95 },
+  { path: '/products/graded-cards/', changeFrequency: 'monthly' as const, priority: 0.6 },
+  { path: '/business/', changeFrequency: 'weekly' as const, priority: 0.9 },
+  { path: '/tools/card-centering/', changeFrequency: 'weekly' as const, priority: 0.8 },
+] as const;
+
+export const SITEMAP_BASE_URL = 'https://appaw.store';
+
+export function enUrl(path: string): string {
+  return `${SITEMAP_BASE_URL}${path === '/' ? '/' : path}`;
+}
+
+export function zhUrl(path: string): string {
+  return path === '/' ? `${SITEMAP_BASE_URL}/zh/` : `${SITEMAP_BASE_URL}/zh${path}`;
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import LocalLink from '@/components/LocalLink';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
@@ -15,8 +15,8 @@ export default function Footer() {
   const quickLinks = [
     { href: '/',                          label: t.nav.home },
     { href: '/business',                  label: t.nav.business },
-    { href: '/business/card-trading',     label: 'Card Trading' },
-    { href: '/products/psa-protectors',   label: 'PSA Protectors' },
+    { href: '/business/card-trading',     label: t.nav.cardTrading },
+    { href: '/products/psa-protectors',   label: t.nav.psaProtector },
     { href: '/about',                     label: t.nav.about },
   ];
 
@@ -74,7 +74,7 @@ export default function Footer() {
 
           {/* Brand row — logo + socials on one line on mobile */}
           <div className="flex items-center justify-between mb-6 md:mb-0">
-            <Link href="/" className="inline-flex items-center gap-3 group w-fit">
+            <LocalLink href="/" className="inline-flex items-center gap-3 group w-fit">
               <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#D4899A]/50 transition-colors duration-300 flex-shrink-0">
                 <Image
                   src={getImagePath('/images/logo.png')}
@@ -87,7 +87,7 @@ export default function Footer() {
               <span className="font-display font-bold text-base md:text-lg text-white group-hover:text-[#D4899A] transition-colors duration-300 tracking-wide">
                 Appaw Store
               </span>
-            </Link>
+            </LocalLink>
 
             {/* Social icons — visible on mobile in brand row */}
             <div className="flex items-center gap-1.5 md:hidden">
@@ -118,20 +118,20 @@ export default function Footer() {
 
           {/* Service badges — mobile */}
           <div className="flex flex-wrap gap-2 mb-6 md:hidden">
-            <Link
+            <LocalLink
               href="/products/psa-protectors"
               className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#D4899A]/25 bg-[#D4899A]/5 hover:bg-[#D4899A]/10 transition-all duration-200"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A]" />
-              <span className="text-[#D4899A]/80 text-xs font-medium">PSA Protector</span>
-            </Link>
-            <Link
+              <span className="text-[#D4899A]/80 text-xs font-medium">{t.nav.psaProtector}</span>
+            </LocalLink>
+            <LocalLink
               href="/business/card-trading"
               className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#818cf8]/25 bg-[#818cf8]/5 hover:bg-[#818cf8]/10 transition-all duration-200"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#818cf8]" />
-              <span className="text-[#818cf8]/80 text-xs font-medium">Card Trading</span>
-            </Link>
+              <span className="text-[#818cf8]/80 text-xs font-medium">{t.nav.cardTrading}</span>
+            </LocalLink>
           </div>
 
           {/* Mobile: nav + contact side by side */}
@@ -144,9 +144,9 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {quickLinks.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-white/45 hover:text-white text-xs transition-colors duration-200 leading-tight block">
+                    <LocalLink href={link.href} className="text-white/45 hover:text-white text-xs transition-colors duration-200 leading-tight block">
                       {link.label}
-                    </Link>
+                    </LocalLink>
                   </li>
                 ))}
               </ul>
@@ -200,20 +200,20 @@ export default function Footer() {
                 {t.footer.description}
               </p>
               <div className="flex flex-wrap gap-2 mb-8">
-                <Link
+                <LocalLink
                   href="/products/psa-protectors"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#D4899A]/25 bg-[#D4899A]/5 hover:bg-[#D4899A]/10 hover:border-[#D4899A]/50 transition-all duration-200 group"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] group-hover:scale-125 transition-transform" />
-                  <span className="text-[#D4899A]/80 text-xs font-medium tracking-wide">PSA Protector</span>
-                </Link>
-                <Link
+                  <span className="text-[#D4899A]/80 text-xs font-medium tracking-wide">{t.nav.psaProtector}</span>
+                </LocalLink>
+                <LocalLink
                   href="/business/card-trading"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#818cf8]/25 bg-[#818cf8]/5 hover:bg-[#818cf8]/10 hover:border-[#818cf8]/50 transition-all duration-200 group"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#818cf8] group-hover:scale-125 transition-transform" />
-                  <span className="text-[#818cf8]/80 text-xs font-medium tracking-wide">Card Trading</span>
-                </Link>
+                  <span className="text-[#818cf8]/80 text-xs font-medium tracking-wide">{t.nav.cardTrading}</span>
+                </LocalLink>
               </div>
               <div className="flex items-center gap-2 mt-auto">
                 {socialLinks.map((s) => (
@@ -252,13 +252,13 @@ export default function Footer() {
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.href}>
-                    <Link
+                    <LocalLink
                       href={link.href}
                       className="flex items-center gap-2.5 text-white/40 hover:text-white text-sm transition-colors duration-200 group w-fit"
                     >
                       <span className="w-0 h-px bg-[#D4899A] group-hover:w-4 transition-all duration-300 flex-shrink-0" />
                       {link.label}
-                    </Link>
+                    </LocalLink>
                   </li>
                 ))}
               </ul>
@@ -331,13 +331,13 @@ export default function Footer() {
           </div>
 
           <div className="hidden sm:flex order-3 items-center gap-4">
-            <Link href="/about" className="text-white/15 hover:text-white/40 text-xs transition-colors duration-200">
+            <LocalLink href="/about" className="text-white/15 hover:text-white/40 text-xs transition-colors duration-200">
               About
-            </Link>
+            </LocalLink>
             <div className="w-px h-3 bg-white/10" />
-            <Link href="/privacy" className="text-white/15 hover:text-white/40 text-xs transition-colors duration-200">
+            <LocalLink href="/privacy" className="text-white/15 hover:text-white/40 text-xs transition-colors duration-200">
               {t.footer.privacy}
-            </Link>
+            </LocalLink>
             <div className="w-px h-3 bg-white/10" />
             <a href="mailto:support@appaw.store" className="text-white/15 hover:text-white/40 text-xs transition-colors duration-200">
               support@appaw.store

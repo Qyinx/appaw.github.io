@@ -1,0 +1,7 @@
+'use client';
+
+import { redirect } from 'next/navigation';
+
+export default function ZhRedirect() {
+  redirect('/zh/products/psa-protectors/');
+}
