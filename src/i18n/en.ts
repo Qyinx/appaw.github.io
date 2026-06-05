@@ -626,6 +626,14 @@ export const en = {
       linkCopied: 'Link Copied!',
       viewPage: 'View full page',
     },
+    inProgress: {
+      badge: 'In Progress',
+      title: 'Marketplace Coming Soon',
+      description:
+        'We\'re preparing our curated gallery of investment-grade graded cards. Check back soon — or contact us privately in the meantime.',
+      whatsapp: 'Contact Us on WhatsApp',
+      dismiss: 'Got it',
+    },
   },
 
   // Style Guide Page
@@ -743,10 +751,73 @@ export const en = {
     openCollection: 'Open Collection',
     signIn: 'Sign In',
     learnAboutSignIn: 'Learn more about signing in',
+    landing: {
+      badge: 'Private Dashboard',
+      titleLine1: 'Your Graded',
+      titleAccent: 'Collection Hub',
+      subtitle:
+        'Catalogue PSA, BGS, and CGC slabs with buy prices, cert numbers, and listing values — organised in portfolios you control.',
+      stats: [
+        { value: 'Track', label: 'Cost Basis' },
+        { value: 'Group', label: 'Portfolios' },
+        { value: 'Scan', label: 'Slab Details' },
+        { value: 'Private', label: 'Your Data' },
+      ],
+      howItWorks: {
+        badge: 'How It Works',
+        title: 'Catalogue in three steps',
+        stepLabel: 'Step {n}',
+        steps: [
+          {
+            title: 'Sign in securely',
+            body: 'Use your account to access your private dashboard. No public listings unless you choose to share.',
+          },
+          {
+            title: 'Add your slabs',
+            body: 'Enter card details manually or scan a slab photo to auto-fill grade, cert number, and set info.',
+          },
+          {
+            title: 'Organise & track',
+            body: 'Group cards into portfolios, mark items sold, and filter your inventory at a glance.',
+          },
+        ],
+      },
+      featuresSection: {
+        badge: 'Capabilities',
+        title: 'Built for serious collectors',
+        subtitle: 'Everything you need to manage investment-grade graded cards in one place.',
+      },
+      preview: {
+        label: 'Dashboard Preview',
+        portfolio: 'Main Portfolio',
+        cardCount: '{n} cards',
+        statActive: 'Active',
+        statSold: 'Sold',
+        sampleCard: 'Charizard ex SAR',
+        sampleSet: 'SV-P · #192',
+        sampleGrade: 'PSA 10',
+        sampleBuy: 'HKD 4,200',
+        sampleBuyLabel: 'Buy',
+        sampleStatus: 'In collection',
+      },
+      aiBadge: 'AI-assisted',
+      privacy: {
+        badge: 'Privacy',
+        title: 'Yours alone',
+        body: 'Your collection data stays private. Sign in with your account — nothing is shared unless you decide to.',
+        points: ['Secure Auth0 login', 'Private by default', 'Export-ready inventory'],
+      },
+      finalCta: {
+        eyebrow: 'Get started',
+        title: 'Ready to catalogue your collection?',
+        subtitle: 'Free to use. Sign in and add your first card in under a minute.',
+      },
+    },
     features: [
       { title: 'Organise', body: 'Create portfolios and organise your cards for quick access.' },
       { title: 'Manage Inventory', body: 'Add, edit, and remove cards; mark items sold and use search and filters to find cards quickly.' },
       { title: 'Portfolios', body: 'Create public or private portfolios, add or remove cards, and group collections for display or sharing.' },
+      { title: 'Slab Scanner', body: 'Upload a slab photo and let AI extract grade, cert number, set, and card name — then review and save.' },
     ],
     cta: {
       prompt: 'Ready to manage your collection?',
@@ -864,6 +935,161 @@ export const en = {
       back: 'Back',
       addPrefix: 'Add',
       blackLabel: 'Black Label',
+    },
+  },
+
+  centeringPage: {
+    seo: {
+      webAppName: 'Card Centering Calculator & PSA 10 Analyzer',
+      webAppDescription:
+        'Free browser tool that measures trading card centering. Upload a card, align the guides, and get instant left/right and top/bottom margin percentages against PSA, BGS and SGC standards.',
+      breadcrumbHome: 'Home',
+      breadcrumbTool: 'Card Centering Calculator',
+      howToName: 'How to check card centering with the Appaw Centering Analyzer',
+      howToDescription:
+        'Measure the centering of any trading card and estimate its PSA grade in four steps.',
+      howToTool: 'A photo or scan of your trading card',
+    },
+    howToSteps: [
+      {
+        name: 'Upload a clear photo',
+        text: 'Upload a straight-on photo or scan of your card taken on a dark, flat background with even lighting.',
+      },
+      {
+        name: 'Align the outer guides to the card edge',
+        text: 'Drag the blue guide lines so they sit exactly on the outer cut edge of the card.',
+      },
+      {
+        name: 'Align the inner guides to the art border',
+        text: 'Drag the pink guide lines so they sit on the inner border of the printed artwork on all four sides.',
+      },
+      {
+        name: 'Read your centering percentage',
+        text: 'The tool instantly calculates left/right and top/bottom margin ratios and shows the estimated PSA grade zone.',
+      },
+    ],
+    faq: [
+      {
+        q: 'What centering is required for a PSA 10?',
+        a: 'PSA requires roughly 55/45 centering or better on the front and 75/25 or better on the back for a PSA 10 Gem Mint grade. A PSA 9 allows up to 60/40 on the front, and a PSA 8 up to 65/35.',
+      },
+      {
+        q: 'How accurate is the Appaw centering analyzer?',
+        a: 'Accuracy depends on your photo. A straight-on, distortion-free scan with the guides aligned precisely to the card edge and art border gives results within a percent or two of a grader\u2019s measurement. Angled phone photos reduce accuracy.',
+      },
+      {
+        q: 'How do I take the best photo for measuring centering?',
+        a: 'Place the card flat on a dark background, shoot directly from above with even lighting, and keep the camera parallel to the card to avoid keystone distortion. A flatbed scan is ideal.',
+      },
+      {
+        q: 'Does this tool work for Pokémon, sports, and other TCG cards?',
+        a: 'Yes. The analyzer works for any rectangular trading card including Pokémon, Magic: The Gathering, One Piece, sports cards and more, because it measures the printed border relative to the card edge.',
+      },
+      {
+        q: 'Is the card centering calculator free?',
+        a: 'Yes, the Appaw Store card centering calculator is completely free to use in your browser. No sign-up or upload to a server is required \u2014 measurement happens on your device.',
+      },
+    ],
+    tool: {
+      zones: {
+        PSA10: { label: 'PSA 10', short: 'Gem Mint', hint: 'Centering within 55/45 — Gem Mint range.' },
+        PSA9: { label: 'PSA 9', short: 'Mint', hint: 'Centering within 60/40 — Mint range.' },
+        PSA8: { label: 'PSA 8', short: 'NM-MT', hint: 'Centering within 65/35 — Near Mint–Mint range.' },
+        Below: { label: '< PSA 8', short: 'Off-center', hint: 'Centering exceeds 65/35 — likely below PSA 8.' },
+      },
+      emptyTitle: 'Upload a card to start',
+      chooseImage: 'Choose image',
+      alignGuides: 'Align guides',
+      cornerMagnifiers: 'Corner magnifiers',
+      cornerMagnifiersToggle: 'Toggle corner magnifiers',
+      uploadImage: 'Upload image',
+      uploadCardImage: 'Upload card image',
+      fitToView: 'Fit to view',
+      reset: 'Reset',
+      adjustImage: 'Adjust image',
+      zoom: 'Zoom',
+      rotate: 'Rotate',
+      rotation: 'Rotation',
+      hTilt: 'H-Tilt',
+      vTilt: 'V-Tilt',
+      horizontalTilt: 'Horizontal tilt',
+      verticalTilt: 'Vertical tilt',
+      mapLegendEdge: 'Blue = card edge',
+      mapLegendBorder: 'Pink = art border',
+      canvasEdge: 'EDGE',
+      canvasBorder: 'BORDER',
+      noImage: 'No image',
+      plotLabels: {
+        PSA10: 'PSA 10',
+        PSA9: 'PSA 9',
+        PSA8: 'PSA 8',
+        below: 'Below PSA 8',
+      },
+      lrLabel: 'L·R',
+      tbLabel: 'T·B',
+      guideModeLabel: 'Guide layer',
+      guideModeEdge: 'Edge',
+      guideModeBorder: 'Border',
+      guideModeBoth: 'Both',
+      dragHandlesHint: 'Drag the handles on each side to align guides',
+    },
+    content: {
+      h1: 'Free Card Centering Calculator & PSA 10 Analyzer',
+      lead:
+        'Measure the centering of any Pokémon, sports, or TCG card in seconds. Upload a photo, align the alignment lines to the card edge and art border, and get instant front and back margin percentages benchmarked against PSA, BGS, and SGC standards — completely free.',
+      howToTitle: 'How to use the Appaw Centering Analyzer',
+      howToBadge: '4-Step Workflow',
+      stepLabel: 'Step {n}',
+      steps: [
+        {
+          title: 'Upload a clear photo',
+          body: 'Place the card flat on a dark, non-reflective background and shoot straight from above with even lighting. A flatbed scan gives the most accurate result. Then upload the image, or use “Choose image”.',
+        },
+        {
+          title: 'Align the outer guides to the card edge',
+          body: 'Drag the blue guide lines until they sit exactly on the outer cut edge of the card on all four sides. The corner loupes help you place them precisely.',
+        },
+        {
+          title: 'Align the inner guides to the art border',
+          body: 'Drag the pink guide lines onto the inner edge of the printed border or artwork frame. Centering is the relationship between these two rectangles.',
+        },
+        {
+          title: 'Read your centering percentage',
+          body: 'The analyzer instantly calculates left/right and top/bottom margin ratios and shows the estimated PSA grade zone — Gem Mint, Mint, NM–MT, or below.',
+        },
+      ],
+      psaRequirementsTitle: 'What are the centering requirements for a PSA 10?',
+      psaRequirementsIntro:
+        '“Centering” describes how evenly the printed border sits inside the card\u2019s cut edges. It is measured as a left/right and top/bottom ratio. The closer to 50/50, the better. Each grading company publishes its own maximum tolerances — and PSA tightened its front standard to roughly 55/45 for a Gem Mint 10. The table below summarises the published front and back tolerances for the most common grades.',
+      gradeTable: {
+        headers: {
+          grade: 'Grade',
+          front: 'Max front centering',
+          back: 'Max back centering',
+        },
+        rows: [
+          { grade: 'PSA 10 (Gem Mint)', front: '55/45', back: '75/25' },
+          { grade: 'PSA 9 (Mint)', front: '60/40', back: '90/10' },
+          { grade: 'PSA 8 (NM–MT)', front: '65/35', back: '90/10' },
+          { grade: 'BGS 10 (Pristine)', front: '50/50', back: '55/45' },
+          { grade: 'BGS 9.5 (Gem Mint)', front: '55/45', back: '60/40' },
+          { grade: 'SGC 10 (Gem Mint)', front: '55/45', back: '70/30' },
+        ],
+      },
+      gradeTableNote:
+        'Tolerances are guidelines published by PSA, Beckett (BGS), and SGC and may change over time. Final grades also factor in corners, edges, and surface — centering alone does not guarantee a grade.',
+      whyMattersTitle: 'Why card centering matters',
+      whyMattersP1:
+        'Centering is one of the four pillars graders assess, and it is the one you can check before you spend money on submission. A card with razor-sharp corners and a flawless surface can still be capped at a PSA 8 or 9 purely because the border is off-centre. Because grade jumps — for example from a PSA 9 to a PSA 10 — can multiply a card\u2019s market value, screening centering first helps you decide which cards are worth submitting and which are better left raw.',
+      whyMattersBeforeProtector:
+        'Once you\u2019ve confirmed a card is well centred and worth grading, protect it on its way to and from the grader with a premium ',
+      protectorLink: 'PSA card aluminum protector',
+      whyMattersBeforeTrading: ', or explore our ',
+      tradingLink: 'graded card trading & brokerage',
+      whyMattersAfterTrading: ' service.',
+      faqTitle: 'Card centering — frequently asked questions',
+      faqBadge: 'Common Questions',
+      faqCountLabel: '{n} topics covered',
     },
   },
 };

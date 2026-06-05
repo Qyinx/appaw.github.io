@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import styles from './card-centering.module.css';
 
 type GradeZone = 'PSA10' | 'PSA9' | 'PSA8' | 'Below';
@@ -12,11 +13,11 @@ interface GradeResult {
   tbZone: GradeZone;
 }
 
-const ZONE_META: Record<GradeZone, { label: string; short: string; color: string; hint: string }> = {
-  PSA10: { label: 'PSA 10', short: 'Gem Mint', color: '#22c55e', hint: 'Centering within 55/45 — Gem Mint range.' },
-  PSA9: { label: 'PSA 9', short: 'Mint', color: '#f59e0b', hint: 'Centering within 60/40 — Mint range.' },
-  PSA8: { label: 'PSA 8', short: 'NM-MT', color: '#fb923c', hint: 'Centering within 65/35 — Near Mint–Mint range.' },
-  Below: { label: '< PSA 8', short: 'Off-center', color: '#ef4444', hint: 'Centering exceeds 65/35 — likely below PSA 8.' },
+const ZONE_COLORS: Record<GradeZone, string> = {
+  PSA10: '#22c55e',
+  PSA9: '#f59e0b',
+  PSA8: '#fb923c',
+  Below: '#ef4444',
 };
 
 const ICON_PROPS = {
@@ -62,6 +63,11 @@ const MagnifierIcon = () => (
 );
 
 export default function CardCenteringClient() {
+  const { t } = useLanguage();
+  const tool = t.centeringPage.tool;
+  const toolLabelsRef = React.useRef(tool);
+  toolLabelsRef.current = tool;
+
   const resetRef = React.useRef<(() => void) | null>(null);
   const fitRef = React.useRef<(() => void) | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -69,13 +75,24 @@ export default function CardCenteringClient() {
   const loupesOnRef = React.useRef(true);
   const [fileName, setFileName] = React.useState<string | null>(null);
   const [grade, setGrade] = React.useState<GradeResult | null>(null);
-  const [adjustOpen, setAdjustOpen] = React.useState(true);
+  const [adjustOpen, setAdjustOpen] = React.useState(false);
   const [loupesOn, setLoupesOn] = React.useState(true);
+  const [guideMode, setGuideMode] = React.useState<'edge' | 'border' | 'both'>('both');
+  const guideModeRef = React.useRef(guideMode);
 
   useEffect(() => {
     loupesOnRef.current = loupesOn;
     redrawRef.current?.();
   }, [loupesOn]);
+
+  useEffect(() => {
+    guideModeRef.current = guideMode;
+    redrawRef.current?.();
+  }, [guideMode]);
+
+  useEffect(() => {
+    redrawRef.current?.();
+  }, [t]);
 
   useEffect(() => {
     // DOM elements
@@ -141,25 +158,28 @@ export default function CardCenteringClient() {
     let dragging: string | null = null;
     let lastPointerX = 0,
       lastPointerY = 0;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
 
     let initialPinchDistance: number | null = null;
     let initialZoom = 1;
 
-    let hitArea = 25;
-    // Increase touch hit targets on coarse (touch) devices so handles are easier to grab
+    let overlayRaf = 0;
+    let gradeRaf = 0;
+    let pendingGrade: GradeResult | null = null;
+    const handleDisplay: Record<string, { x: number; y: number }> = {};
+    const HANDLE_SLIDE = 0.18;
+    const HANDLE_SNAP_PX = 0.45;
+
     const isCoarsePointer = typeof window !== 'undefined' && (window.matchMedia ? window.matchMedia('(pointer: coarse)').matches : ('ontouchstart' in window));
-    if (isCoarsePointer) {
-      hitArea = 36;
-    }
-    // Edge (blue) lines get two buttons offset to either side of center so they
-    // never sit under the centered border (pink) button.
-    const edgeOff = isCoarsePointer ? 56 : 46;
+    const handleRadius = isCoarsePointer ? 54 : 46;
 
     // Pull colors from the site's style guide CSS variables when available
     const rootStyles = typeof window !== 'undefined' ? getComputedStyle(document.documentElement) : null;
     // Outer = physical card edge (blue), Inner = design/art border (brand pink), Active = high-vis yellow
     const colorOuter = '#3b82f6';
     const colorInner = (rootStyles?.getPropertyValue('--color-primary-500') || '#f07a86').trim();
+    const colorOuterFill = 'rgba(59, 130, 246, 0.07)';
 
     function resizeCanvas() {
       overlayEl.width = workspaceEl.clientWidth;
@@ -247,6 +267,8 @@ export default function CardCenteringClient() {
       refRadius = 0;
       loupeMag = 2.6;
 
+      for (const key of Object.keys(handleDisplay)) delete handleDisplay[key];
+
       updateTransform();
     }
 
@@ -270,6 +292,66 @@ export default function CardCenteringClient() {
     redrawRef.current = () => drawOverlay();
 
     Object.values(controls).forEach((ctrl: any) => ctrl.addEventListener('input', updateTransform));
+
+    function smoothstep(t: number) {
+      const x = Math.max(0, Math.min(1, t));
+      return x * x * (3 - 2 * x);
+    }
+
+    function staggerMix(gapPx: number, closeGap: number) {
+      const start = closeGap * 1.35;
+      const t = 1 - Math.max(0, Math.min(1, gapPx / start));
+      return smoothstep(t);
+    }
+
+    function scheduleDrawOverlay() {
+      if (overlayRaf) return;
+      overlayRaf = requestAnimationFrame(() => {
+        overlayRaf = 0;
+        drawOverlay();
+      });
+    }
+
+    function flushGrade() {
+      gradeRaf = 0;
+      if (pendingGrade) {
+        setGrade(pendingGrade);
+        pendingGrade = null;
+      }
+    }
+
+    function scheduleGrade(result: GradeResult) {
+      pendingGrade = result;
+      if (!gradeRaf) gradeRaf = requestAnimationFrame(flushGrade);
+    }
+
+    function captureDragOffset(name: string, mouseX: number, mouseY: number) {
+      dragOffsetX = 0;
+      dragOffsetY = 0;
+      const oyT = centerY + outerGuides.top;
+      const oyB = centerY + outerGuides.bottom;
+      const oxL = centerX + outerGuides.left;
+      const oxR = centerX + outerGuides.right;
+      const iyT = centerY + innerGuides.top;
+      const iyB = centerY + innerGuides.bottom;
+      const ixL = centerX + innerGuides.left;
+      const ixR = centerX + innerGuides.right;
+
+      switch (name) {
+        case 'outerTop': dragOffsetY = mouseY - oyT; break;
+        case 'outerBottom': dragOffsetY = mouseY - oyB; break;
+        case 'innerTop': dragOffsetY = mouseY - iyT; break;
+        case 'innerBottom': dragOffsetY = mouseY - iyB; break;
+        case 'outerLeft': dragOffsetX = mouseX - oxL; break;
+        case 'outerRight': dragOffsetX = mouseX - oxR; break;
+        case 'innerLeft': dragOffsetX = mouseX - ixL; break;
+        case 'innerRight': dragOffsetX = mouseX - ixR; break;
+      }
+    }
+
+    function isGuideDrag() {
+      return dragging !== null && dragging !== 'image' && dragging !== 'pinch';
+    }
 
     function drawOverlay() {
       ctx.clearRect(0, 0, overlayEl.width, overlayEl.height);
@@ -352,42 +434,38 @@ export default function CardCenteringClient() {
       const iyT = centerY + innerGuides.top;
       const iyB = centerY + innerGuides.bottom;
 
-      // Subtle highlight of the margin band between card edge and art border
+      const mode = guideModeRef.current;
+      const outerAlpha = mode === 'border' ? 0.32 : 1;
+      const innerAlpha = mode === 'edge' ? 0.32 : 1;
+
+      // Tinted margin band between card edge and art border
       ctx.save();
+      ctx.globalAlpha = Math.max(outerAlpha, innerAlpha) * 0.9;
       ctx.beginPath();
-      ctx.rect(oxL, oyT, oxW, oxH);
-      ctx.rect(ixL, iyT, ixR - ixL, iyB - iyT);
-      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      roundRectPath(oxL, oyT, oxW, oxH, Math.min(10, oxW * 0.022, oxH * 0.016));
+      roundRectPath(ixL, iyT, ixR - ixL, iyB - iyT, Math.min(8, (ixR - ixL) * 0.02, (iyB - iyT) * 0.016));
+      ctx.fillStyle = colorOuterFill;
       try { ctx.fill('evenodd'); } catch { ctx.fill(); }
       ctx.restore();
 
-      // Card edge (outer) frame + corner brackets — blue
-      ctx.setLineDash([]);
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = colorOuter;
-      ctx.strokeRect(oxL, oyT, oxW, oxH);
-      drawCorners(oxL, oyT, oxW, oxH, colorOuter);
+      // Card edge (outer) — rounded glow frame
+      drawModernFrame(oxL, oyT, oxW, oxH, colorOuter, outerAlpha, mode === 'edge' || mode === 'both');
 
-      // Art border (inner) frame — pink
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = colorInner;
-      ctx.strokeRect(ixL, iyT, ixR - ixL, iyB - iyT);
+      // Art border (inner) — rounded glow frame
+      drawModernFrame(ixL, iyT, ixR - ixL, iyB - iyT, colorInner, innerAlpha, mode === 'border' || mode === 'both');
 
-      // Identification labels
-      drawLabel(oxL, oyT, 'EDGE', colorOuter);
-      drawLabel(ixL, iyT, 'BORDER', colorInner);
+      // Identification labels (only for active layers)
+      if (mode === 'edge' || mode === 'both') drawLabel(oxL, oyT, toolLabelsRef.current.canvasEdge, colorOuter);
+      if (mode === 'border' || mode === 'both') drawLabel(ixL, iyT, toolLabelsRef.current.canvasBorder, colorInner);
 
-      // Draggable handles (outer first, inner rendered on top).
-      // Edge (blue) lines show two buttons offset from center; border (pink) keeps one centered.
-      drawGuide('h', outerGuides.top, colorOuter, dragging === 'outerTop', [-edgeOff, edgeOff]);
-      drawGuide('h', outerGuides.bottom, colorOuter, dragging === 'outerBottom', [-edgeOff, edgeOff]);
-      drawGuide('v', outerGuides.left, colorOuter, dragging === 'outerLeft', [-edgeOff, edgeOff]);
-      drawGuide('v', outerGuides.right, colorOuter, dragging === 'outerRight', [-edgeOff, edgeOff]);
-
-      drawGuide('h', innerGuides.top, colorInner, dragging === 'innerTop', [0]);
-      drawGuide('h', innerGuides.bottom, colorInner, dragging === 'innerBottom', [0]);
-      drawGuide('v', innerGuides.left, colorInner, dragging === 'innerLeft', [0]);
-      drawGuide('v', innerGuides.right, colorInner, dragging === 'innerRight', [0]);
+      // Draggable handles — slide smoothly when stagger position changes
+      resolveHandles().forEach((h) => {
+        const isOuter = h.name.startsWith('outer');
+        const color = isOuter ? colorOuter : colorInner;
+        const active = dragging === h.name;
+        if (active) drawActiveEdgeHighlight(h.name, color);
+        drawHandle(h.x, h.y, h.anchorX, h.anchorY, color, active, h.vertical);
+      });
 
       drawLoupes();
       calculateCentering();
@@ -404,95 +482,312 @@ export default function CardCenteringClient() {
       ctx.closePath();
     }
 
-    function drawCorners(x: number, y: number, w: number, h: number, color: string) {
-      const len = 22;
+    function drawModernFrame(x: number, y: number, w: number, h: number, color: string, alpha: number, emphasized: boolean) {
+      if (w < 4 || h < 4) return;
+      const radius = Math.min(10, w * 0.022, h * 0.016);
+
       ctx.save();
+      ctx.globalAlpha = alpha;
+
+      // Soft color glow
+      ctx.shadowColor = color;
+      ctx.shadowBlur = emphasized ? 20 : 12;
       ctx.strokeStyle = color;
-      ctx.lineWidth = 4;
+      ctx.lineWidth = emphasized ? 1.75 : 1.25;
+      roundRectPath(x, y, w, h, radius);
+      ctx.stroke();
+
+      // Hairline highlight for depth
+      ctx.shadowBlur = 0;
+      ctx.globalAlpha = alpha * 0.3;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 0.5;
+      roundRectPath(x + 0.5, y + 0.5, Math.max(0, w - 1), Math.max(0, h - 1), Math.max(0, radius - 0.5));
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function drawActiveEdgeHighlight(name: string, color: string) {
+      const oxL = centerX + outerGuides.left;
+      const oxR = centerX + outerGuides.right;
+      const oyT = centerY + outerGuides.top;
+      const oyB = centerY + outerGuides.bottom;
+      const ixL = centerX + innerGuides.left;
+      const ixR = centerX + innerGuides.right;
+      const iyT = centerY + innerGuides.top;
+      const iyB = centerY + innerGuides.bottom;
+
+      let x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+      const span = 72;
+
+      switch (name) {
+        case 'outerTop': x1 = (oxL + oxR) / 2 - span; y1 = oyT; x2 = (oxL + oxR) / 2 + span; y2 = oyT; break;
+        case 'outerBottom': x1 = (oxL + oxR) / 2 - span; y1 = oyB; x2 = (oxL + oxR) / 2 + span; y2 = oyB; break;
+        case 'outerLeft': x1 = oxL; y1 = (oyT + oyB) / 2 - span; x2 = oxL; y2 = (oyT + oyB) / 2 + span; break;
+        case 'outerRight': x1 = oxR; y1 = (oyT + oyB) / 2 - span; x2 = oxR; y2 = (oyT + oyB) / 2 + span; break;
+        case 'innerTop': x1 = (ixL + ixR) / 2 - span; y1 = iyT; x2 = (ixL + ixR) / 2 + span; y2 = iyT; break;
+        case 'innerBottom': x1 = (ixL + ixR) / 2 - span; y1 = iyB; x2 = (ixL + ixR) / 2 + span; y2 = iyB; break;
+        case 'innerLeft': x1 = ixL; y1 = (iyT + iyB) / 2 - span; x2 = ixL; y2 = (iyT + iyB) / 2 + span; break;
+        case 'innerRight': x1 = ixR; y1 = (iyT + iyB) / 2 - span; x2 = ixR; y2 = (iyT + iyB) / 2 + span; break;
+        default: return;
+      }
+
+      ctx.save();
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 18;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
       ctx.lineCap = 'round';
-      ctx.setLineDash([]);
-      ctx.beginPath(); ctx.moveTo(x, y + len); ctx.lineTo(x, y); ctx.lineTo(x + len, y); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(x + w - len, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y + len); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(x + w, y + h - len); ctx.lineTo(x + w, y + h); ctx.lineTo(x + w - len, y + h); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(x + len, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + h - len); ctx.stroke();
+      ctx.globalAlpha = 0.95;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
       ctx.restore();
     }
 
     function drawLabel(x: number, y: number, text: string, color: string) {
       ctx.save();
-      ctx.font = '700 9px Inter, ui-sans-serif, system-ui, sans-serif';
-      const padX = 5;
+      ctx.font = '600 10px Inter, ui-sans-serif, system-ui, sans-serif';
+      const dotR = 3;
+      const gap = 6;
+      const padX = 8;
       const tw = ctx.measureText(text).width;
-      const w = tw + padX * 2;
-      const h = 14;
-      const ly = y - h - 5;
-      roundRectPath(x, ly, w, h, 4);
-      ctx.fillStyle = color;
+      const w = tw + padX * 2 + dotR * 2 + gap;
+      const h = 18;
+      const ly = y - h - 7;
+
+      roundRectPath(x, ly, w, h, 9);
+      ctx.fillStyle = 'rgba(11, 12, 13, 0.78)';
       ctx.fill();
-      ctx.fillStyle = '#0b0c0d';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(x + padX + dotR, ly + h / 2, dotR, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 6;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
       ctx.textBaseline = 'middle';
       ctx.textAlign = 'left';
-      ctx.fillText(text, x + padX, ly + h / 2 + 0.5);
+      ctx.fillText(text, x + padX + dotR * 2 + gap, ly + h / 2 + 0.5);
       ctx.restore();
     }
 
-    function drawHandle(px: number, py: number, color: string, active: boolean, vertical: boolean) {
-      const long = active ? (isCoarsePointer ? 46 : 38) : (isCoarsePointer ? 38 : 30);
-      const short = active ? 18 : 15;
-      const w = vertical ? short : long;
-      const h = vertical ? long : short;
+    function drawHandle(
+      px: number,
+      py: number,
+      anchorX: number,
+      anchorY: number,
+      color: string,
+      active: boolean,
+      vertical: boolean,
+    ) {
+      const outerR = active ? (isCoarsePointer ? 16 : 14) : (isCoarsePointer ? 14 : 12);
+      const innerR = outerR - 3;
+      const stemLen = Math.hypot(px - anchorX, py - anchorY);
+
       ctx.save();
+
+      // Connector stem from guide line to handle
+      if (stemLen > 3) {
+        ctx.strokeStyle = color;
+        ctx.globalAlpha = active ? 0.75 : 0.4;
+        ctx.lineWidth = active ? 2 : 1.25;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(anchorX, anchorY);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+      }
+
       ctx.shadowColor = color;
-      ctx.shadowBlur = active ? 16 : 9;
-      roundRectPath(px - w / 2, py - h / 2, w, h, short / 2);
-      ctx.fillStyle = color;
+      ctx.shadowBlur = active ? 20 : 10;
+
+      // Glass halo
+      ctx.beginPath();
+      ctx.arc(px, py, outerR + 4, 0, Math.PI * 2);
+      ctx.fillStyle = active ? 'rgba(255, 255, 255, 0.14)' : 'rgba(255, 255, 255, 0.07)';
+      ctx.globalAlpha = 1;
       ctx.fill();
-      ctx.restore();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = 'rgba(255,255,255,0.95)';
-      roundRectPath(px - w / 2, py - h / 2, w, h, short / 2);
+
+      // Core
+      ctx.beginPath();
+      ctx.arc(px, py, outerR, 0, Math.PI * 2);
+      ctx.fillStyle = active ? color : 'rgba(11, 12, 13, 0.82)';
+      ctx.fill();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = active ? 2.5 : 2;
       ctx.stroke();
-      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+
+      ctx.shadowBlur = 0;
+
+      // Grip marks
+      ctx.strokeStyle = active ? 'rgba(255, 255, 255, 0.95)' : color;
+      ctx.lineWidth = 1.35;
+      ctx.lineCap = 'round';
+      const grip = innerR * 0.45;
       for (let i = -1; i <= 1; i++) {
         ctx.beginPath();
-        if (vertical) ctx.arc(px, py + i * 5, 1.5, 0, Math.PI * 2);
-        else ctx.arc(px + i * 5, py, 1.5, 0, Math.PI * 2);
-        ctx.fill();
+        if (vertical) {
+          ctx.moveTo(px, py + i * grip - grip * 0.35);
+          ctx.lineTo(px, py + i * grip + grip * 0.35);
+        } else {
+          ctx.moveTo(px + i * grip - grip * 0.35, py);
+          ctx.lineTo(px + i * grip + grip * 0.35, py);
+        }
+        ctx.stroke();
       }
+      ctx.restore();
     }
 
-    function drawGuide(orientation: 'h' | 'v', coord: number, color: string, active: boolean, offsets: number[]) {
-      if (orientation === 'h') {
-        const y = centerY + coord;
-        if (active) {
-          ctx.save();
-          ctx.strokeStyle = color;
-          ctx.globalAlpha = 0.5;
-          ctx.lineWidth = 1.5;
-          ctx.setLineDash([6, 7]);
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(overlayEl.width, y);
-          ctx.stroke();
-          ctx.restore();
-        }
-        offsets.forEach((o) => drawHandle(centerX + o, y, color, active, false));
-      } else {
-        const x = centerX + coord;
-        if (active) {
-          ctx.save();
-          ctx.strokeStyle = color;
-          ctx.globalAlpha = 0.5;
-          ctx.lineWidth = 1.5;
-          ctx.setLineDash([6, 7]);
-          ctx.beginPath();
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, overlayEl.height);
-          ctx.stroke();
-          ctx.restore();
-        }
-        offsets.forEach((o) => drawHandle(x, centerY + o, color, active, true));
+    type HandleDef = { name: string; x: number; y: number; anchorX: number; anchorY: number; vertical: boolean };
+
+    function computeHandleTargets(): HandleDef[] {
+      const mode = guideModeRef.current;
+      const both = mode === 'both';
+      const showOuter = mode === 'edge' || both;
+      const showInner = mode === 'border' || both;
+
+      const oxL = centerX + outerGuides.left;
+      const oxR = centerX + outerGuides.right;
+      const oyT = centerY + outerGuides.top;
+      const oyB = centerY + outerGuides.bottom;
+      const oxW = oxR - oxL;
+      const oxH = oyB - oyT;
+
+      const ixL = centerX + innerGuides.left;
+      const ixR = centerX + innerGuides.right;
+      const iyT = centerY + innerGuides.top;
+      const iyB = centerY + innerGuides.bottom;
+      const ixW = ixR - ixL;
+      const ixH = iyB - iyT;
+
+      const list: HandleDef[] = [];
+      const perpOff = isCoarsePointer ? 24 : 20;
+      const closeGap = isCoarsePointer ? 58 : 46;
+
+      const place = (
+        name: string,
+        anchorX: number,
+        anchorY: number,
+        vertical: boolean,
+        normal: { x: number; y: number },
+        mix: number,
+      ) => {
+        const p = perpOff * mix;
+        const x = both ? anchorX + normal.x * p : anchorX;
+        const y = both ? anchorY + normal.y * p : anchorY;
+        list.push({ name, x, y, anchorX, anchorY, vertical });
+      };
+
+      const topMix = both ? staggerMix(Math.abs(iyT - oyT), closeGap) : 0;
+      const bottomMix = both ? staggerMix(Math.abs(iyB - oyB), closeGap) : 0;
+      const leftMix = both ? staggerMix(Math.abs(ixL - oxL), closeGap) : 0;
+      const rightMix = both ? staggerMix(Math.abs(ixR - oxR), closeGap) : 0;
+
+      // Top — outer sits above, inner below; stagger blends in smoothly when close
+      if (showOuter) {
+        const ratio = 0.5 + (0.36 - 0.5) * topMix;
+        place('outerTop', oxL + oxW * ratio, oyT, false, { x: 0, y: -1 }, topMix);
       }
+      if (showInner) {
+        const ratio = 0.5 + (0.64 - 0.5) * topMix;
+        place('innerTop', ixL + ixW * ratio, iyT, false, { x: 0, y: 1 }, topMix);
+      }
+
+      // Bottom — outer below, inner above
+      if (showOuter) {
+        const ratio = 0.5 + (0.36 - 0.5) * bottomMix;
+        place('outerBottom', oxL + oxW * ratio, oyB, false, { x: 0, y: 1 }, bottomMix);
+      }
+      if (showInner) {
+        const ratio = 0.5 + (0.64 - 0.5) * bottomMix;
+        place('innerBottom', ixL + ixW * ratio, iyB, false, { x: 0, y: -1 }, bottomMix);
+      }
+
+      // Left — outer left, inner right
+      if (showOuter) {
+        const ratio = 0.5 + (0.36 - 0.5) * leftMix;
+        place('outerLeft', oxL, oyT + oxH * ratio, true, { x: -1, y: 0 }, leftMix);
+      }
+      if (showInner) {
+        const ratio = 0.5 + (0.64 - 0.5) * leftMix;
+        place('innerLeft', ixL, iyT + ixH * ratio, true, { x: 1, y: 0 }, leftMix);
+      }
+
+      // Right — outer right, inner left
+      if (showOuter) {
+        const ratio = 0.5 + (0.36 - 0.5) * rightMix;
+        place('outerRight', oxR, oyT + oxH * ratio, true, { x: 1, y: 0 }, rightMix);
+      }
+      if (showInner) {
+        const ratio = 0.5 + (0.64 - 0.5) * rightMix;
+        place('innerRight', ixR, iyT + ixH * ratio, true, { x: -1, y: 0 }, rightMix);
+      }
+
+      return list;
+    }
+
+    function resolveHandles(): HandleDef[] {
+      const targets = computeHandleTargets();
+      let animating = false;
+
+      for (const t of targets) {
+        const prev = handleDisplay[t.name];
+        if (!prev) {
+          handleDisplay[t.name] = { x: t.x, y: t.y };
+          continue;
+        }
+
+        // Handle being dragged tracks its target immediately
+        if (dragging === t.name) {
+          handleDisplay[t.name] = { x: t.x, y: t.y };
+          continue;
+        }
+
+        const dx = t.x - prev.x;
+        const dy = t.y - prev.y;
+        if (Math.hypot(dx, dy) > HANDLE_SNAP_PX) {
+          handleDisplay[t.name] = {
+            x: prev.x + dx * HANDLE_SLIDE,
+            y: prev.y + dy * HANDLE_SLIDE,
+          };
+          animating = true;
+        } else {
+          handleDisplay[t.name] = { x: t.x, y: t.y };
+        }
+      }
+
+      for (const key of Object.keys(handleDisplay)) {
+        if (!targets.some((t) => t.name === key)) delete handleDisplay[key];
+      }
+
+      if (animating && !overlayRaf) scheduleDrawOverlay();
+
+      return targets.map((t) => {
+        const d = handleDisplay[t.name];
+        return { ...t, x: d?.x ?? t.x, y: d?.y ?? t.y };
+      });
+    }
+
+    function pickHandleAt(mouseX: number, mouseY: number): string | null {
+      let best: { name: string; dist: number } | null = null;
+      for (const h of resolveHandles()) {
+        const dist = Math.hypot(mouseX - h.x, mouseY - h.y);
+        if (dist > handleRadius) continue;
+        // Prefer the handle whose anchor is closer when two overlap
+        const anchorDist = Math.hypot(mouseX - h.anchorX, mouseY - h.anchorY);
+        const score = dist + anchorDist * 0.15;
+        if (!best || score < best.dist) best = { name: h.name, dist: score };
+      }
+      return best?.name ?? null;
     }
 
     // ---------- Corner magnifiers (loupes) ----------
@@ -633,7 +928,7 @@ export default function CardCenteringClient() {
           lctx.font = '600 11px Inter, ui-sans-serif, system-ui, sans-serif';
           lctx.textAlign = 'center';
           lctx.textBaseline = 'middle';
-          lctx.fillText('No image', R, R);
+          lctx.fillText(toolLabelsRef.current.noImage, R, R);
         }
 
         // Edge guide cross (axis-aligned) anchored at the loupe centre = card corner
@@ -762,13 +1057,16 @@ export default function CardCenteringClient() {
         overallZone = 'PSA8';
       }
 
-      setGrade({
+      const result: GradeResult = {
         overall: overallZone,
         lr: lrPercentL,
         tb: tbPercentT,
         lrZone,
         tbZone,
-      });
+      };
+
+      if (isGuideDrag()) scheduleGrade(result);
+      else setGrade(result);
 
       drawPlot(lrPercentL, tbPercentT, overallZone);
     }
@@ -860,7 +1158,8 @@ export default function CardCenteringClient() {
       const py = tb * pxPerPercent;
 
       // Determine which PSA zone the point falls into using axis thresholds
-      let zoneLabel = overallZone === 'PSA10' ? 'PSA 10' : overallZone === 'PSA9' ? 'PSA 9' : overallZone === 'PSA8' ? 'PSA 8' : 'Below PSA 8';
+      const plotLabels = toolLabelsRef.current.plotLabels;
+      let zoneLabel = overallZone === 'PSA10' ? plotLabels.PSA10 : overallZone === 'PSA9' ? plotLabels.PSA9 : overallZone === 'PSA8' ? plotLabels.PSA8 : plotLabels.below;
 
       // Draw the measured point with subtle glow
       plotCtx.beginPath();
@@ -880,14 +1179,11 @@ export default function CardCenteringClient() {
       plotCtx.strokeStyle = '#fff';
       plotCtx.stroke();
 
-      // Label (top-right)
+      // Label (top-right) — zone only; L/R T/B shown in grade pill
       plotCtx.fillStyle = 'rgba(255,255,255,0.95)';
       plotCtx.font = '12px Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue"';
       plotCtx.textAlign = 'right';
       plotCtx.fillText(`${zoneLabel}`, cw - 8, 16);
-      plotCtx.fillStyle = 'rgba(255,255,255,0.75)';
-      plotCtx.font = '11px Inter, ui-sans-serif';
-      plotCtx.fillText(`L/R ${lr.toFixed(1)}%  T/B ${tb.toFixed(1)}%`, cw - 8, 32);
     }
 
     // --- Touch / Mouse Interaction Logic ---
@@ -917,30 +1213,11 @@ export default function CardCenteringClient() {
       const mouseX = pos.clientX - rect.left;
       const mouseY = pos.clientY - rect.top;
 
-      const xRel = mouseX - centerX;
-      const yRel = mouseY - centerY;
-
-      // Pick the NEAREST guide within the hit area rather than the first match.
-      // This avoids grabbing the wrong line when the blue/pink guides sit close together.
-      // Inner (pink) guides are given a small bias so they win ties — they're drawn on top.
-      const candidates: { name: string; dist: number; bias: number }[] = [
-        { name: 'innerTop', dist: Math.abs(yRel - innerGuides.top), bias: 2 },
-        { name: 'innerBottom', dist: Math.abs(yRel - innerGuides.bottom), bias: 2 },
-        { name: 'innerLeft', dist: Math.abs(xRel - innerGuides.left), bias: 2 },
-        { name: 'innerRight', dist: Math.abs(xRel - innerGuides.right), bias: 2 },
-        { name: 'outerTop', dist: Math.abs(yRel - outerGuides.top), bias: 0 },
-        { name: 'outerBottom', dist: Math.abs(yRel - outerGuides.bottom), bias: 0 },
-        { name: 'outerLeft', dist: Math.abs(xRel - outerGuides.left), bias: 0 },
-        { name: 'outerRight', dist: Math.abs(xRel - outerGuides.right), bias: 0 },
-      ];
-
-      let best: { name: string; score: number } | null = null;
-      for (const c of candidates) {
-        if (c.dist > hitArea) continue;
-        const score = c.dist - c.bias;
-        if (!best || score < best.score) best = { name: c.name, score };
+      const handleHit = pickHandleAt(mouseX, mouseY);
+      if (handleHit) {
+        dragging = handleHit;
+        captureDragOffset(handleHit, mouseX, mouseY);
       }
-      if (best) dragging = best.name;
 
       if (!dragging) {
         dragging = 'image';
@@ -984,8 +1261,8 @@ export default function CardCenteringClient() {
         const mouseX = pos.clientX - rect.left;
         const mouseY = pos.clientY - rect.top;
 
-        let relY = mouseY - centerY;
-        let relX = mouseX - centerX;
+        let relY = mouseY - centerY - dragOffsetY;
+        let relX = mouseX - centerX - dragOffsetX;
         const gap = 10;
 
         if (dragging === 'innerTop') innerGuides.top = Math.max(outerGuides.top + gap, Math.min(relY, innerGuides.bottom - gap));
@@ -998,7 +1275,7 @@ export default function CardCenteringClient() {
         if (dragging === 'outerLeft') outerGuides.left = Math.min(relX, innerGuides.left - gap);
         if (dragging === 'outerRight') outerGuides.right = Math.max(relX, innerGuides.right + gap);
 
-        drawOverlay();
+        scheduleDrawOverlay();
       }
     }
 
@@ -1010,8 +1287,11 @@ export default function CardCenteringClient() {
       }
 
       if (!e || !e.touches || e.touches.length === 0) {
+        dragOffsetX = 0;
+        dragOffsetY = 0;
         dragging = null;
         overlayEl.style.cursor = 'grab';
+        flushGrade();
         drawOverlay();
         try { document.body.style.overflow = ''; } catch {}
       }
@@ -1077,6 +1357,8 @@ export default function CardCenteringClient() {
 
     // cleanup
     return () => {
+      if (overlayRaf) cancelAnimationFrame(overlayRaf);
+      if (gradeRaf) cancelAnimationFrame(gradeRaf);
       resetRef.current = null;
       fitRef.current = null;
       redrawRef.current = null;
@@ -1100,7 +1382,8 @@ export default function CardCenteringClient() {
   }, []);
 
   const zone = grade?.overall ?? null;
-  const zoneMeta = zone ? ZONE_META[zone] : null;
+  const zoneCopy = zone ? tool.zones[zone] : null;
+  const zoneMeta = zone ? { ...zoneCopy!, color: ZONE_COLORS[zone] } : null;
   const fmt = (n?: number) => (typeof n === 'number' ? n.toFixed(1) : '—');
 
   return (
@@ -1120,73 +1403,100 @@ export default function CardCenteringClient() {
         {!fileName && (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>🎴</div>
-            <p className={styles.emptyTitle}>Upload a card to start</p>
-            <button className={styles.emptyBtn} onClick={() => fileInputRef.current?.click()}>Choose image</button>
+            <p className={styles.emptyTitle}>{tool.emptyTitle}</p>
+            <button className={styles.emptyBtn} onClick={() => fileInputRef.current?.click()}>{tool.chooseImage}</button>
           </div>
         )}
 
-        {/* Floating top bar: grade + actions */}
+        {/* Floating top bar: grade (center) + actions (right) */}
         <div className={styles.topBar}>
           <div
             className={styles.gradePill}
             style={{ ['--zone-color' as any]: zoneMeta?.color ?? 'rgba(148,163,184,0.7)' }}
           >
-            <span className={styles.gradePillLabel}>{zoneMeta?.label ?? '—'}</span>
-            <span className={styles.gradePillSub}>{zoneMeta?.short ?? 'Align guides'}</span>
+            <div className={styles.gradePillMain}>
+              <span className={styles.gradePillLabel}>{zoneMeta?.label ?? '—'}</span>
+              <span className={styles.gradePillSub}>{zoneMeta?.short ?? tool.alignGuides}</span>
+            </div>
             <div className={styles.gradePillRatios}>
-              <span data-status={grade?.lrZone}>L·R {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
-              <span data-status={grade?.tbZone}>T·B {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
+              <span data-status={grade?.lrZone}>{tool.lrLabel} {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
+              <span data-status={grade?.tbZone}>{tool.tbLabel} {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
             </div>
           </div>
 
           <div className={styles.topActions}>
-            <button className={`${styles.iconBtn} ${loupesOn ? styles.iconBtnOn : ''}`} title="Corner magnifiers" aria-label="Toggle corner magnifiers" aria-pressed={loupesOn} onClick={() => setLoupesOn((v) => !v)}><MagnifierIcon /></button>
-            <button className={styles.iconBtn} title="Upload image" aria-label="Upload image" onClick={() => fileInputRef.current?.click()}><UploadIcon /></button>
-            <button className={styles.iconBtn} title="Fit to view" aria-label="Fit to view" onClick={() => fitRef.current?.()}><FitIcon /></button>
-            <button className={styles.iconBtn} title="Reset" aria-label="Reset" onClick={() => resetRef.current?.()}><ResetIcon /></button>
+            <button className={`${styles.iconBtn} ${loupesOn ? styles.iconBtnOn : ''}`} title={tool.cornerMagnifiers} aria-label={tool.cornerMagnifiersToggle} aria-pressed={loupesOn} onClick={() => setLoupesOn((v) => !v)}><MagnifierIcon /></button>
+            <button className={styles.iconBtn} title={tool.uploadImage} aria-label={tool.uploadImage} onClick={() => fileInputRef.current?.click()}><UploadIcon /></button>
+            <button className={styles.iconBtn} title={tool.fitToView} aria-label={tool.fitToView} onClick={() => fitRef.current?.()}><FitIcon /></button>
+            <button className={styles.iconBtn} title={tool.reset} aria-label={tool.reset} onClick={() => resetRef.current?.()}><ResetIcon /></button>
           </div>
         </div>
 
-        {/* Floating, collapsible adjustments sheet */}
-        <div className={styles.adjustSheet} data-open={adjustOpen}>
-          <div className={styles.sheetGrabber} onClick={() => setAdjustOpen((v) => !v)} />
-          <button className={styles.adjustToggle} onClick={() => setAdjustOpen((v) => !v)} aria-expanded={adjustOpen}>
-            <span className={styles.adjustToggleLeft}><SlidersIcon /> Adjust image</span>
+        {/* Guide layer switcher — focus on edge or border one at a time */}
+        <div className={styles.guideModeBar} role="toolbar" aria-label={tool.guideModeLabel}>
+          {(['edge', 'border', 'both'] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              className={styles.guideModeBtn}
+              data-active={guideMode === mode}
+              data-mode={mode}
+              aria-pressed={guideMode === mode}
+              onClick={() => setGuideMode(mode)}
+            >
+              <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
+              {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
+            </button>
+          ))}
+        </div>
+
+        {/* Compact side dock for image adjustments — collapsed by default */}
+        <aside className={styles.adjustDock} data-open={adjustOpen}>
+          <button
+            type="button"
+            className={styles.adjustDockToggle}
+            onClick={() => setAdjustOpen((v) => !v)}
+            aria-expanded={adjustOpen}
+          >
+            <span className={styles.adjustDockToggleLeft}>
+              <SlidersIcon />
+              <span className={styles.adjustDockLabel}>{tool.adjustImage}</span>
+            </span>
             <ChevronIcon className={styles.chevron} />
           </button>
 
-          <div className={styles.adjustBody}>
-            <div className={styles.sliderGrid}>
+          <div className={styles.adjustDockBody}>
+            <div className={styles.sliderStack}>
               <div className={styles.controlRow}>
-                <div className={styles.controlHeader}><label htmlFor="zoom" className={styles.controlLabel}><ZoomIcon /> Zoom</label><span id="zoom-val" className={styles.sliderValue}>1.0</span></div>
-                <input className={styles.rangeSlider} aria-label="Zoom" type="range" id="zoom" min="0.1" max="3" step="0.01" defaultValue="1" />
+                <div className={styles.controlHeader}><label htmlFor="zoom" className={styles.controlLabel}><ZoomIcon /> {tool.zoom}</label><span id="zoom-val" className={styles.sliderValue}>1.0</span></div>
+                <input className={styles.rangeSlider} aria-label={tool.zoom} type="range" id="zoom" min="0.1" max="3" step="0.01" defaultValue="1" />
               </div>
               <div className={styles.controlRow}>
-                <div className={styles.controlHeader}><label htmlFor="rotate" className={styles.controlLabel}><RotateIcon /> Rotate</label><span id="rot-val" className={styles.sliderValue}>0°</span></div>
-                <input className={styles.rangeSlider} aria-label="Rotation" type="range" id="rotate" min="-45" max="45" step="0.05" defaultValue="0" />
+                <div className={styles.controlHeader}><label htmlFor="rotate" className={styles.controlLabel}><RotateIcon /> {tool.rotate}</label><span id="rot-val" className={styles.sliderValue}>0°</span></div>
+                <input className={styles.rangeSlider} aria-label={tool.rotation} type="range" id="rotate" min="-45" max="45" step="0.05" defaultValue="0" />
               </div>
               <div className={styles.controlRow}>
-                <div className={styles.controlHeader}><label htmlFor="tiltY" className={styles.controlLabel}><TiltHIcon /> H-Tilt</label><span id="tiltY-val" className={styles.sliderValue}>0°</span></div>
-                <input className={styles.rangeSlider} aria-label="Horizontal tilt" type="range" id="tiltY" min="-45" max="45" step="0.05" defaultValue="0" />
+                <div className={styles.controlHeader}><label htmlFor="tiltY" className={styles.controlLabel}><TiltHIcon /> {tool.hTilt}</label><span id="tiltY-val" className={styles.sliderValue}>0°</span></div>
+                <input className={styles.rangeSlider} aria-label={tool.horizontalTilt} type="range" id="tiltY" min="-45" max="45" step="0.05" defaultValue="0" />
               </div>
               <div className={styles.controlRow}>
-                <div className={styles.controlHeader}><label htmlFor="tiltX" className={styles.controlLabel}><TiltVIcon /> V-Tilt</label><span id="tiltX-val" className={styles.sliderValue}>0°</span></div>
-                <input className={styles.rangeSlider} aria-label="Vertical tilt" type="range" id="tiltX" min="-45" max="45" step="0.05" defaultValue="0" />
+                <div className={styles.controlHeader}><label htmlFor="tiltX" className={styles.controlLabel}><TiltVIcon /> {tool.vTilt}</label><span id="tiltX-val" className={styles.sliderValue}>0°</span></div>
+                <input className={styles.rangeSlider} aria-label={tool.verticalTilt} type="range" id="tiltX" min="-45" max="45" step="0.05" defaultValue="0" />
               </div>
             </div>
 
             <div className={styles.mapRow}>
               <canvas id="plot-canvas" className={styles.plotCanvas} width={160} height={160}></canvas>
               <div className={styles.mapLegend}>
-                <span><i className={styles.dotEdge} /> Blue = card edge</span>
-                <span><i className={styles.dotBorder} /> Pink = art border</span>
+                <span><i className={styles.dotEdge} /> {tool.mapLegendEdge}</span>
+                <span><i className={styles.dotBorder} /> {tool.mapLegendBorder}</span>
               </div>
             </div>
           </div>
-        </div>
+        </aside>
 
         {/* Off-screen inputs driven programmatically */}
-        <input type="file" id="upload" ref={fileInputRef} className={styles.srOnly} accept="image/*" aria-label="Upload card image" />
+        <input type="file" id="upload" ref={fileInputRef} className={styles.srOnly} accept="image/*" aria-label={tool.uploadCardImage} />
         <input aria-hidden="true" type="range" id="panX" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
       </div>

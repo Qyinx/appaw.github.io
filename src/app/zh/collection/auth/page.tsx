@@ -1,2 +1,2 @@
 export { default } from '../../../collection/auth/page';
-export { zhCollectionMetadata as metadata } from '@/lib/seo/metadata';
+export { zhCollectionAuthMetadata as metadata } from '@/lib/seo/metadata';

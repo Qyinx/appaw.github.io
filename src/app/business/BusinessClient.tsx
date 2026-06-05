@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   Shield, ArrowRight, ArrowUpRight, CheckCircle, XCircle,
-  Eye, Lock, Zap, MapPin, CreditCard, MessageCircle,
-  Star, ChevronDown, Package, TrendingUp, Users,
+  Eye, Lock,
+  Star, Package, TrendingUp, Users,
 } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -80,51 +80,18 @@ function Chip({ label, color = '#D4899A' }: { label: string; color?: string }) {
   );
 }
 
-/* ─── Step ─── */
-function Step({
-  n, title, body, accent, visible, delay = 0, last = false,
-}: {
-  n: string; title: string; body: string; accent: string;
-  visible: boolean; delay?: number; last?: boolean;
-}) {
-  return (
-    <Reveal visible={visible} delay={delay} dir="up">
-      <div className="flex gap-5">
-        <div className="flex flex-col items-center flex-shrink-0">
-          <div
-            className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-black border"
-            style={{ borderColor: `${accent}50`, background: `${accent}12`, color: accent }}
-          >
-            {n}
-          </div>
-          {!last && <div className="w-px flex-1 min-h-10 mt-1" style={{ background: `${accent}20` }} />}
-        </div>
-        <div className={last ? '' : 'pb-10'}>
-          <h4 className="text-white font-semibold text-[15px] mb-2">{title}</h4>
-          <p className="text-[#9ca3af] text-sm leading-relaxed">{body}</p>
-        </div>
-      </div>
-    </Reveal>
-  );
-}
-
 /* ═══════════════════════════════════════════════════════════
    MAIN COMPONENT
 ═══════════════════════════════════════════════════════════ */
 export default function BusinessClient() {
   const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
   const heroRef    = useReveal();
   const psaRef     = useReveal();
   const featRef    = useReveal();
   const compatRef  = useReveal();
   const statsRef   = useReveal();
   const tradingRef = useReveal();
-  const buyRef     = useReveal();
-  const sellRef    = useReveal();
-  const faqRef     = useReveal();
   const ctaRef     = useReveal();
 
   useEffect(() => {
@@ -539,175 +506,6 @@ export default function BusinessClient() {
             </div>
 
           </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-           HOW BUYING WORKS
-      ══════════════════════════════════════════════════════ */}
-      <section ref={buyRef.ref} className="py-20 border-t border-white/[0.05] bg-[#161626]">
-        <div className="container-custom">
-
-          <Reveal visible={buyRef.visible} dir="up">
-            <SectionLabel text={t.tradingGuide.badge} color={GOLD} />
-            <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-12 leading-tight">
-              {t.tradingGuide.buy.title}
-            </h3>
-          </Reveal>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {t.tradingGuide.buy.rules.map((rule, i) => {
-              const icons = [MessageCircle, MapPin, CreditCard];
-              const Icon = icons[i] ?? MessageCircle;
-              const n = String(i + 1).padStart(2, '0');
-              return (
-                <div
-                  key={i}
-                  className="relative p-8 border border-white/[0.06] hover:border-[#D4899A]/20 transition-colors duration-300"
-                  style={{
-                    opacity: buyRef.visible ? 1 : 0,
-                    transform: buyRef.visible ? 'none' : 'translateY(28px)',
-                    transition: `opacity 0.8s ease ${i * 120}ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms`,
-                  }}
-                >
-                  <span className="absolute top-5 right-6 font-serif font-black text-5xl text-[#D4899A]/[0.07] select-none">{n}</span>
-                  <div className="w-10 h-10 rounded-xl border border-[#D4899A]/30 bg-[#D4899A]/10 flex items-center justify-center mb-5">
-                    <Icon className="w-4 h-4 text-[#D4899A]" />
-                  </div>
-                  <h4 className="text-white font-bold text-lg mb-2">{rule.heading}</h4>
-                  <p className="text-[#9ca3af] text-sm leading-relaxed">{rule.body}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-           HOW SELLING / CONSIGNING WORKS
-      ══════════════════════════════════════════════════════ */}
-      <section ref={sellRef.ref} className="py-20 border-t border-white/[0.05] bg-[#1e1e2e]">
-        <div className="container-custom">
-
-          <Reveal visible={sellRef.visible} dir="up">
-            <SectionLabel text={t.tradingGuide.badge} color={VIOLET} />
-            <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-              {t.tradingGuide.sell.title}
-            </h3>
-            <p className="text-[#9ca3af] text-base leading-relaxed mb-12 max-w-xl">
-              {t.tradingGuide.sell.rules[1].body}
-            </p>
-          </Reveal>
-
-          <div className="grid md:grid-cols-2 gap-10 md:gap-16">
-
-            {/* Steps */}
-            <div>
-              {t.tradingGuide.sell.rules.map((rule, i) => (
-                <Step
-                  key={i}
-                  n={String(i + 1).padStart(2, '0')}
-                  title={rule.heading}
-                  body={rule.body}
-                  accent={VIOLET}
-                  visible={sellRef.visible}
-                  delay={i * 80}
-                  last={i === t.tradingGuide.sell.rules.length - 1}
-                />
-              ))}
-            </div>
-
-            {/* Rules */}
-            <div
-              style={{
-                opacity: sellRef.visible ? 1 : 0,
-                transform: sellRef.visible ? 'none' : 'translateX(32px)',
-                transition: 'opacity 0.9s ease 0.2s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s',
-              }}
-            >
-              <div className="border border-[#818cf8]/20 bg-[#818cf8]/[0.04] p-7 mb-6">
-                <h4 className="text-[#818cf8] text-xs uppercase tracking-[0.25em] font-semibold mb-5">{t.business.sell.acceptanceTitle}</h4>
-                <ul className="space-y-3">
-                  {t.business.sell.acceptanceCriteria.map(item => (
-                    <li key={item} className="flex items-start gap-3">
-                      <CheckCircle className="w-4 h-4 text-[#818cf8]/60 flex-shrink-0 mt-0.5" />
-                      <span className="text-white/65 text-sm">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="border border-white/[0.06] p-7">
-                <h4 className="text-white/50 text-xs uppercase tracking-[0.25em] font-semibold mb-5">{t.business.sell.paymentRulesTitle}</h4>
-                <ul className="space-y-3">
-                  {t.tradingGuide.sell.rules.map(rule => (
-                    <li key={rule.heading} className="flex items-start gap-3">
-                      <Zap className="w-4 h-4 text-[#D4899A]/50 flex-shrink-0 mt-0.5" />
-                      <span className="text-white/60 text-sm">{rule.body}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-           FAQ ACCORDION
-      ══════════════════════════════════════════════════════ */}
-      <section ref={faqRef.ref} className="py-20 border-t border-white/[0.05] bg-[#161626]">
-        <div className="container-custom max-w-3xl">
-          <Reveal visible={faqRef.visible} dir="up">
-            <SectionLabel text={t.psaProtectorPage.faq.badge} color={GOLD} />
-            <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-10">{t.psaProtectorPage.faq.title}</h3>
-          </Reveal>
-
-          <div className="space-y-1">
-            {[
-              ...t.psaProtectorPage.faq.items.slice(0, 2).map(f => ({ ...f, accent: GOLD })),
-              ...t.tradingGuide.buy.faq.items.slice(0, 2).map(f => ({ ...f, accent: VIOLET })),
-              ...t.tradingGuide.sell.faq.items.slice(0, 2).map(f => ({ ...f, accent: VIOLET })),
-            ].map(({ q, a, accent }, i) => (
-              <div
-                key={i}
-                className="border border-white/[0.05] overflow-hidden"
-                style={{
-                  opacity: faqRef.visible ? 1 : 0,
-                  transform: faqRef.visible ? 'none' : 'translateY(16px)',
-                  transition: `opacity 0.7s ease ${i * 60}ms, transform 0.7s ease ${i * 60}ms`,
-                }}
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-white/[0.02] transition-colors"
-                >
-                  <span className="text-white/80 text-sm font-medium leading-snug">{q}</span>
-                  <ChevronDown
-                    className="w-4 h-4 flex-shrink-0 transition-transform duration-300"
-                    style={{ color: accent, transform: openFaq === i ? 'rotate(180deg)' : 'none' }}
-                  />
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-5">
-                    <p className="text-[#9ca3af] text-sm leading-relaxed">{a}</p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <Reveal visible={faqRef.visible} dir="up" delay={200}>
-            <div className="mt-8 text-center">
-              <Link
-                href="/products/psa-protectors"
-                className="inline-flex items-center gap-2 text-[#D4899A]/70 hover:text-[#D4899A] text-sm uppercase tracking-[0.15em] transition-colors"
-              >
-                {t.business.faq.seeAllLink}
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </Reveal>
         </div>
       </section>
 

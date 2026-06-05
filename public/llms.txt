@@ -20,6 +20,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | Product | https://appaw.store/products/psa-protectors/ | https://appaw.store/zh/products/psa-protectors/ | Full specs, FAQ, JSON-LD Product schema |
 | Centering tool | https://appaw.store/tools/card-centering/ | https://appaw.store/zh/tools/card-centering/ | Free PSA 10 centering calculator (browser tool) |
 | Services | https://appaw.store/business/ | https://appaw.store/zh/business/ | Protector + graded card trading overview |
+| Collection manager | https://appaw.store/collection/ | https://appaw.store/zh/collection/ | Free graded card inventory dashboard (landing only; sign-in required for app) |
 | About | https://appaw.store/about/ | https://appaw.store/zh/about/ | Brand story, Hong Kong origin |
 | Privacy | https://appaw.store/privacy/ | https://appaw.store/zh/privacy/ | Privacy policy |
 
@@ -38,6 +39,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 - Site-wide: WebSite, Store (root layout)
 - Product page: Product, BreadcrumbList, FAQPage
 - Centering tool: WebApplication, HowTo, FAQPage, BreadcrumbList
+- Collection landing: WebApplication, HowTo, BreadcrumbList
 - About: Organization, FAQPage
 
 ## Contact & social
@@ -50,7 +52,8 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 ## Crawling notes
 
 - Sitemap: https://appaw.store/sitemap.xml (includes EN + zh-HK alternates)
-- **Do not index:** `/admin/`, `/api/`, `/collection/` (private dashboard), `/business/card-trading/` (marketplace — robots.txt disallow)
+- **Public landing:** `/collection/` (indexable marketing page for the collection manager tool)
+- **Do not index:** `/admin/`, `/api/`, `/collection/list/`, `/collection/auth/`, `/collection/card/` (private app), `/business/card-trading/` (marketplace — robots.txt disallow)
 - **Language:** EN routes use `lang=en`; `/zh/*` routes use zh-HK UI and metadata. hreflang `en` ↔ `zh-HK` on all public pillar pages.
 
 ## Suggested citations

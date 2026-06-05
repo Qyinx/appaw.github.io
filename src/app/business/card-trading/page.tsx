@@ -5,6 +5,7 @@ import { en } from '@/i18n';
 import CardTradingPage from './CardTradingClient';
 import StructuredData from '@/components/StructuredData';
 import { itemListJsonLd, faqJsonLd, howToJsonLd } from '@/lib/seo';
+import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
 
 /* ──────────────────────────────────────────
    Server Component — Card Trading Page
@@ -82,13 +83,14 @@ const sellHowToJsonLd = howToJsonLd({
 });
 
 export default async function Page() {
-  const cards = await getCards();
-  const items = buildItems(cards);
-  const itemList = itemListJsonLd('Graded Trading Cards for Sale', items);
+  const cards = MARKETPLACE_IN_PROGRESS ? [] : await getCards();
+  const structuredData = MARKETPLACE_IN_PROGRESS
+    ? [tradingFaqJsonLd, buyHowToJsonLd, sellHowToJsonLd]
+    : [itemListJsonLd('Graded Trading Cards for Sale', buildItems(cards)), tradingFaqJsonLd, buyHowToJsonLd, sellHowToJsonLd];
 
   return (
     <>
-      <StructuredData data={[itemList, tradingFaqJsonLd, buyHowToJsonLd, sellHowToJsonLd]} />
+      <StructuredData data={structuredData} />
       {/* Server-rendered copy — crawlable by search engines, styled to blend into hero */}
       <div className="sr-only">
         <h1>Buy &amp; Sell PSA Graded Pokémon, Sports &amp; MTG Cards in Hong Kong</h1>

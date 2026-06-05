@@ -5,7 +5,7 @@
    ───────────────────────────────────────────────────── */
 import BusinessClient from './BusinessClient';
 import StructuredData from '@/components/StructuredData';
-import { itemListJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
+import { itemListJsonLd, breadcrumbJsonLd } from '@/lib/seo';
 
 const services = itemListJsonLd('Appaw Store Services', [
   {
@@ -55,29 +55,10 @@ const breadcrumb = breadcrumbJsonLd([
   { position: 2, name: 'Services', item: 'https://appaw.store/business/' },
 ]);
 
-const businessFaq = faqJsonLd([
-  {
-    q: 'What services does Appaw Store offer?',
-    a: 'Appaw Store offers two services: (1) Graded Slab Aluminum Protectors — premium aluminum cases with >95% UV-blocking glass and N52 magnetic closure for PSA and CGC graded slabs, shipping worldwide; (2) TCG Trading & Brokerage — a trusted buy, sell, and consignment service for PSA and CGC graded trading cards, conducted face-to-face in Hong Kong.',
-  },
-  {
-    q: 'Does Appaw Store ship internationally?',
-    a: 'Yes — Graded Slab Aluminum Protectors ship worldwide, including the USA, UK, Hong Kong, Singapore, and Taiwan. Card trading transactions are Hong Kong in-person only.',
-  },
-  {
-    q: 'Can I consign my graded cards with Appaw Store?',
-    a: 'Yes. Appaw Store accepts PSA and CGC graded cards for consignment. There is no upfront listing fee — commission is charged only upon successful sale. Contact us via WhatsApp at +852-9285-1189 to begin.',
-  },
-  {
-    q: 'What types of graded cards does Appaw Store trade?',
-    a: 'Appaw Store specialises in PSA and CGC graded Pokémon cards, sports cards (basketball, baseball, football), and Magic: The Gathering (MTG) cards. We also consider other trading card games on a case-by-case basis.',
-  },
-]);
-
 export default function BusinessPage() {
   return (
     <>
-      <StructuredData data={[services, breadcrumb, businessFaq]} />
+      <StructuredData data={[services, breadcrumb]} />
       <BusinessClient />
     </>
   );

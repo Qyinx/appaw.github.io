@@ -17,7 +17,9 @@ Disallow: /style-guide/
 # Block URL query parameters that create duplicate content
 # Filter & sort params on card marketplace — the `card-trading` section is blocked from indexing
 Disallow: /business/card-trading/
-Allow: /collection/
+Disallow: /collection/list/
+Disallow: /collection/auth/
+Disallow: /collection/card/
 Disallow: /business/card-trading/?*search=
 Disallow: /business/card-trading/?*sort=
 Disallow: /business/card-trading/?*grade=

@@ -10,6 +10,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 import { useCards } from '@/hooks/useCards';
 import { getGradeColor, getCompanyStyle, formatPrice, formatGrade } from '@/lib/card-helpers';
+import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
 import type { TradingCard, GradingCompany, GradeTier } from '@/types/trading-card';
 
 /* ──────────────────────────────────────────
@@ -706,6 +707,100 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
 }
 
 /* ──────────────────────────────────────────
+   Marketplace In Progress
+   ────────────────────────────────────────── */
+function InProgressPanel({ labels }: { labels: ReturnType<typeof useLanguage>['t']['cardMarketplace']['inProgress'] }) {
+  return (
+    <div className="flex flex-col items-center justify-center py-20 md:py-28 text-center">
+      <div className="relative w-full max-w-lg p-8 md:p-10 rounded-2xl border border-[#D4899A]/25 bg-gradient-to-b from-[#252538] to-[#1a1a2e] shadow-[0_8px_40px_rgba(212,137,154,0.12)]">
+        <div className="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#D4899A]/50 to-transparent" />
+        <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/30 rounded-full px-4 py-1.5 mb-6">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] animate-pulse" />
+          <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{labels.badge}</span>
+        </div>
+        <h2 className="text-2xl md:text-3xl font-bold font-display text-white leading-tight mb-4">{labels.title}</h2>
+        <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed mb-8">{labels.description}</p>
+        <a
+          href="https://wa.me/85292851189"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2.5 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.12em] px-8 py-3.5 rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,137,154,0.3)]"
+        >
+          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
+          {labels.whatsapp}
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function InProgressModal({
+  labels,
+  open,
+  onDismiss,
+}: {
+  labels: ReturnType<typeof useLanguage>['t']['cardMarketplace']['inProgress'];
+  open: boolean;
+  onDismiss: () => void;
+}) {
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onDismiss(); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [open, onDismiss]);
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8" onClick={onDismiss}>
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]" />
+      <div
+        className="relative w-full max-w-lg bg-[#1e1e2e] border border-white/[0.08] rounded-2xl shadow-2xl animate-[fadeUp_0.3s_ease-out] p-8 md:p-10 text-center"
+        onClick={e => e.stopPropagation()}
+      >
+        <button
+          onClick={onDismiss}
+          className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white/50 hover:text-white transition-all"
+          aria-label={labels.dismiss}
+        >
+          <X className="w-4 h-4" />
+        </button>
+        <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/30 rounded-full px-4 py-1.5 mb-6">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] animate-pulse" />
+          <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{labels.badge}</span>
+        </div>
+        <h2 className="text-2xl md:text-3xl font-bold font-display text-white leading-tight mb-4">{labels.title}</h2>
+        <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed mb-8">{labels.description}</p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href="https://wa.me/85292851189"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.12em] px-8 py-3.5 rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,137,154,0.3)]"
+          >
+            <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
+            {labels.whatsapp}
+          </a>
+          <button
+            onClick={onDismiss}
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/[0.12] text-white/60 hover:text-white hover:border-white/25 text-sm font-medium transition-all"
+          >
+            {labels.dismiss}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────
    Main Component
    ────────────────────────────────────────── */
 export default function CardTradingPage({ initialCards }: { initialCards?: TradingCard[] }) {
@@ -714,7 +809,14 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
   const guide = t.tradingGuide;
 
   // Data — seeded from server at build time, optionally refreshed from API
-  const { cards: allCards, loading, error } = useCards(initialCards);
+  const { cards: fetchedCards, loading: cardsLoading, error: cardsError } = useCards(
+    MARKETPLACE_IN_PROGRESS ? [] : initialCards,
+  );
+  const allCards = MARKETPLACE_IN_PROGRESS ? [] : fetchedCards;
+  const loading = MARKETPLACE_IN_PROGRESS ? false : cardsLoading;
+  const error = MARKETPLACE_IN_PROGRESS ? null : cardsError;
+
+  const [showInProgressModal, setShowInProgressModal] = useState(MARKETPLACE_IN_PROGRESS);
 
   // Filters
   const [search, setSearch]               = useState('');
@@ -921,7 +1023,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       </section>
 
       {/* ═══════════ STICKY FILTER BAR ═══════════ */}
-      <div className="sticky top-16 z-30 bg-[#1e1e2e]/95 backdrop-blur-xl border-y border-white/[0.06]">
+      {!MARKETPLACE_IN_PROGRESS && <div className="sticky top-16 z-30 bg-[#1e1e2e]/95 backdrop-blur-xl border-y border-white/[0.06]">
         <div className="container-custom py-4">
 
           {/* Desktop */}
@@ -1051,10 +1153,10 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
             )}
           </div>
         </div>
-      </div>
+      </div>}
 
       {/* ═══════════ RESULTS HEADER ═══════════ */}
-      <div className="container-custom pt-8 pb-2 flex items-center justify-between">
+      {!MARKETPLACE_IN_PROGRESS && <div className="container-custom pt-8 pb-2 flex items-center justify-between">
         {!loading && !error && (
           <p className="text-white/30 text-sm">
             <span className="text-[#D4899A] font-bold">{displayItems.length}</span> {mp.resultsCount}
@@ -1065,12 +1167,14 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
             <X className="w-3 h-3" />{mp.emptyState.reset}
           </button>
         )}
-      </div>
+      </div>}
 
       {/* ═══════════ CARD GRID ═══════════ */}
       <section className="container-custom py-6 flex-1">
-        {/* Loading state */}
-        {loading && (
+        {MARKETPLACE_IN_PROGRESS ? (
+          <InProgressPanel labels={mp.inProgress} />
+        ) : loading ? (
+        /* Loading state */
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden animate-pulse"
@@ -1084,10 +1188,8 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
               </div>
             ))}
           </div>
-        )}
-
-        {/* Error state */}
-        {error && (
+        ) : error ? (
+        /* Error state */
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6">
               <X className="w-7 h-7 text-red-400" />
@@ -1095,10 +1197,8 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
             <h3 className="text-white text-lg font-semibold mb-2">{t.common.error}</h3>
             <p className="text-white/40 text-sm mb-6 max-w-sm">{error}</p>
           </div>
-        )}
-
-        {/* Cards */}
-        {!loading && !error && displayItems.length > 0 ? (
+        ) : displayItems.length > 0 ? (
+        /* Cards */
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
             {displayItems.map((item, i) => {
               const { tileImage, tileName, tileCompany, tileGrade, tileIsBlackLabel, tileSet, tileNumber, tileYear, parentCard, isSubCard, bundleTotal } = item;
@@ -1210,7 +1310,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
               );
             })}
           </div>
-        ) : !loading && !error ? (
+        ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-6">
               <Package className="w-7 h-7 text-white/20" />
@@ -1221,7 +1321,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
               {mp.emptyState.reset}
             </button>
           </div>
-        ) : null}
+        )}
       </section>
 
       {/* ═══════════ TRADING GUIDE & FAQ ═══════════ */}
@@ -1254,8 +1354,16 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       </section>
 
       {/* ═══════════ DETAIL MODAL ═══════════ */}
-      {selectedCard && (
+      {!MARKETPLACE_IN_PROGRESS && selectedCard && (
         <CardDetailModal card={selectedCard} labels={mp} onClose={() => setSelectedCard(null)} />
+      )}
+
+      {MARKETPLACE_IN_PROGRESS && (
+        <InProgressModal
+          labels={mp.inProgress}
+          open={showInProgressModal}
+          onDismiss={() => setShowInProgressModal(false)}
+        />
       )}
     </div>
   );

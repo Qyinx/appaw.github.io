@@ -255,9 +255,42 @@ export const zhGradedCardsMetadata = zhRouteMetadata(gradedCardsMetadataBase, '/
 });
 
 const collectionMetadataBase: Metadata = {
-  title: 'My Collection | Appaw Store',
-  description: 'Track your personal graded card collection — log buy prices, grades, cert numbers, and listing prices in one private dashboard.',
-  robots: { index: false, follow: false },
+  title: 'My Collection — Manage & Track Your Trading Cards | Appaw Store',
+  description:
+    'Add, organize and value your graded card collection. Track buy prices, PSA/BGC grades, cert numbers, and listing prices in portfolios — free private dashboard.',
+  keywords: [
+    'card collection manager',
+    'manage trading card collection',
+    'card collection app',
+    'track card values',
+    'organize PSA cards',
+    'graded card inventory',
+    '鑑定卡收藏管理',
+    '卡牌收藏工具',
+  ],
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: 'My Collection — Graded Card Manager | Appaw Store',
+    description:
+      'Catalogue PSA, BGS, and CGC slabs with buy prices, cert numbers, and portfolios. Free private collection dashboard.',
+    url: 'https://appaw.store/collection/',
+    type: 'website',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Appaw Store My Collection — graded card inventory dashboard',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'My Collection — Graded Card Manager | Appaw Store',
+    description:
+      'Track buy prices, grades, and cert numbers for your PSA, BGS, and CGC slabs in one private dashboard.',
+    images: ['/images/og-image.png'],
+  },
 };
 
 export const collectionMetadata = withLocaleAlternates(collectionMetadataBase, '/collection/');
@@ -277,7 +310,15 @@ const collectionListMetadataBase: Metadata = {
 
 export const collectionListMetadata = withLocaleAlternates(collectionListMetadataBase, '/collection/list/');
 
-export const collectionLayoutMetadata: Metadata = collectionListMetadata;
+/** Neutral layout shell — each child route sets its own robots/title. */
+export const collectionLayoutMetadata: Metadata = {};
+
+const collectionAuthMetadataBase: Metadata = {
+  title: 'Sign In | My Collection | Appaw Store',
+  robots: { index: false, follow: false },
+};
+
+export const collectionAuthMetadata = withLocaleAlternates(collectionAuthMetadataBase, '/collection/auth/');
 
 const newCardMetadataBase: Metadata = {
   title: 'Add Card | Appaw Store',
@@ -321,8 +362,13 @@ export const zhCardTradingMetadata = zhRouteMetadata(cardTradingMetadataBase, '/
 });
 
 export const zhCollectionMetadata = zhRouteMetadata(collectionMetadataBase, '/collection/', {
-  title: '我的收藏 | Appaw Store',
-  description: '追蹤及管理您的個人鑑定卡收藏。',
+  title: '我的收藏 — 鑑定卡管理工具 | Appaw Store',
+  description:
+    '整理及追蹤鑑定卡收藏。記錄買入價、PSA/BGS 評級、證書編號及掛牌價，並以投資組合分類管理——免費私人儀表板。',
+});
+
+export const zhCollectionAuthMetadata = zhRouteMetadata(collectionAuthMetadataBase, '/collection/auth/', {
+  title: '登入 | 我的收藏 | Appaw Store',
 });
 
 export const zhCollectionListMetadata = zhRouteMetadata(collectionListMetadataBase, '/collection/list/', {

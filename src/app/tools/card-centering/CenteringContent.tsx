@@ -1,109 +1,218 @@
+'use client';
+
 import React from 'react';
-import Link from 'next/link';
+import { ImageUp, ScanLine, Frame, Gauge, ChevronDown, HelpCircle } from 'lucide-react';
+import LocalLink from '@/components/LocalLink';
+import { useLanguage } from '@/context/LanguageContext';
 import styles from './card-centering.module.css';
 
-const GRADE_ROWS = [
-  { grade: 'PSA 10 (Gem Mint)', front: '55/45', back: '75/25' },
-  { grade: 'PSA 9 (Mint)', front: '60/40', back: '90/10' },
-  { grade: 'PSA 8 (NM–MT)', front: '65/35', back: '90/10' },
-  { grade: 'BGS 10 (Pristine)', front: '50/50', back: '55/45' },
-  { grade: 'BGS 9.5 (Gem Mint)', front: '55/45', back: '60/40' },
-  { grade: 'SGC 10 (Gem Mint)', front: '55/45', back: '70/30' },
+const STEP_ICONS = [ImageUp, ScanLine, Frame, Gauge] as const;
+
+const STEP_THEMES = [
+  { accent: '#f59e0b', glow: 'rgba(245, 158, 11, 0.14)', border: 'rgba(245, 158, 11, 0.28)', variant: 'upload' as const },
+  { accent: '#3b82f6', glow: 'rgba(59, 130, 246, 0.14)', border: 'rgba(59, 130, 246, 0.32)', variant: 'edge' as const },
+  { accent: '#f07a86', glow: 'rgba(240, 122, 134, 0.14)', border: 'rgba(240, 122, 134, 0.32)', variant: 'border' as const },
+  { accent: '#22c55e', glow: 'rgba(34, 197, 94, 0.14)', border: 'rgba(34, 197, 94, 0.28)', variant: 'result' as const },
 ];
 
-const STEPS = [
-  {
-    n: 1,
-    title: 'Upload a clear photo',
-    body: 'Place the card flat on a dark, non-reflective background and shoot straight from above with even lighting. A flatbed scan gives the most accurate result. Then upload the image, or use “Choose image”.',
-  },
-  {
-    n: 2,
-    title: 'Align the outer guides to the card edge',
-    body: 'Drag the blue guide lines until they sit exactly on the outer cut edge of the card on all four sides. The corner loupes help you place them precisely.',
-  },
-  {
-    n: 3,
-    title: 'Align the inner guides to the art border',
-    body: 'Drag the pink guide lines onto the inner edge of the printed border or artwork frame. Centering is the relationship between these two rectangles.',
-  },
-  {
-    n: 4,
-    title: 'Read your centering percentage',
-    body: 'The analyzer instantly calculates left/right and top/bottom margin ratios and shows the estimated PSA grade zone — Gem Mint, Mint, NM–MT, or below.',
-  },
-];
+function StepVisual({ variant }: { variant: (typeof STEP_THEMES)[number]['variant'] }) {
+  return (
+    <div className={styles.stepVisual} data-variant={variant} aria-hidden="true">
+      <div className={styles.stepVisualCard}>
+        {variant === 'upload' && <span className={styles.stepVisualUpload}>↑</span>}
+        {variant === 'edge' && (
+          <>
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualTop}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualBottom}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualLeft}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualRight}`} />
+          </>
+        )}
+        {variant === 'border' && (
+          <>
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualTop}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualBottom}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualLeft}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualRight}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualBorder} ${styles.stepVisualTop} ${styles.stepVisualInset}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualBorder} ${styles.stepVisualBottom} ${styles.stepVisualInset}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualBorder} ${styles.stepVisualLeft} ${styles.stepVisualInset}`} />
+            <span className={`${styles.stepVisualLine} ${styles.stepVisualBorder} ${styles.stepVisualRight} ${styles.stepVisualInset}`} />
+          </>
+        )}
+        {variant === 'result' && (
+          <div className={styles.stepVisualMeter}>
+            <span>55</span>
+            <span className={styles.stepVisualMeterDot} />
+            <span>45</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
-const FAQS = [
-  {
-    q: 'What centering is required for a PSA 10?',
-    a: 'PSA requires roughly 55/45 centering or better on the front and 75/25 or better on the back for a PSA 10 Gem Mint grade. A PSA 9 allows up to 60/40 on the front, and a PSA 8 up to 65/35.',
-  },
-  {
-    q: 'How accurate is the Appaw centering analyzer?',
-    a: 'Accuracy depends on your photo. A straight-on, distortion-free scan with the guides aligned precisely to the card edge and art border gives results within a percent or two of a grader’s measurement. Angled phone photos reduce accuracy.',
-  },
-  {
-    q: 'How do I take the best photo for measuring centering?',
-    a: 'Place the card flat on a dark background, shoot directly from above with even lighting, and keep the camera parallel to the card to avoid keystone distortion. A flatbed scan is ideal.',
-  },
-  {
-    q: 'Does this tool work for Pokémon, sports, and other TCG cards?',
-    a: 'Yes. The analyzer works for any rectangular trading card — Pokémon, Magic: The Gathering, One Piece, sports cards and more — because it measures the printed border relative to the card edge.',
-  },
-  {
-    q: 'Is the card centering calculator free?',
-    a: 'Yes, it is completely free to use in your browser. No sign-up is required and measurement happens on your device, so your card photos are never uploaded to a server.',
-  },
-];
+function HowToSteps({
+  steps,
+  badge,
+  title,
+  stepLabel,
+}: {
+  steps: { title: string; body: string }[];
+  badge: string;
+  title: string;
+  stepLabel: string;
+}) {
+  return (
+    <section className={styles.howToSection} aria-labelledby="how-to-use">
+      <div className={styles.howToHeader}>
+        <span className={styles.howToBadge}>{badge}</span>
+        <h2 id="how-to-use" className={styles.howToTitle}>{title}</h2>
+      </div>
+
+      <div className={styles.stepRail} aria-hidden="true">
+        {steps.map((_, i) => (
+          <React.Fragment key={i}>
+            <span
+              className={styles.stepRailDot}
+              style={{
+                ['--step-accent' as string]: STEP_THEMES[i]?.accent ?? '#f59e0b',
+                ['--step-delay' as string]: `${i * 90}ms`,
+              }}
+            >
+              {i + 1}
+            </span>
+            {i < steps.length - 1 && <span className={styles.stepRailLine} style={{ ['--step-delay' as string]: `${i * 90 + 60}ms` }} />}
+          </React.Fragment>
+        ))}
+      </div>
+
+      <ol className={styles.stepGrid}>
+        {steps.map((step, i) => {
+          const theme = STEP_THEMES[i] ?? STEP_THEMES[0];
+          const Icon = STEP_ICONS[i] ?? ImageUp;
+          const n = String(i + 1).padStart(2, '0');
+
+          return (
+            <li
+              key={step.title}
+              className={styles.stepCard}
+              style={{
+                ['--step-accent' as string]: theme.accent,
+                ['--step-glow' as string]: theme.glow,
+                ['--step-border' as string]: theme.border,
+                ['--step-delay' as string]: `${120 + i * 80}ms`,
+              }}
+            >
+              <span className={styles.stepGhost}>{n}</span>
+
+              <div className={styles.stepCardTop}>
+                <div className={styles.stepIconWrap}>
+                  <Icon className={styles.stepIcon} strokeWidth={2} />
+                </div>
+                <span className={styles.stepChip}>{stepLabel.replace('{n}', String(i + 1))}</span>
+              </div>
+
+              <StepVisual variant={theme.variant} />
+
+              <div className={styles.stepCopy}>
+                <h3 className={styles.stepTitle}>{step.title}</h3>
+                <p className={styles.stepBody}>{step.body}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
+
+function CenteringFaq({
+  items,
+  title,
+  badge,
+  countLabel,
+}: {
+  items: { q: string; a: string }[];
+  title: string;
+  badge: string;
+  countLabel: string;
+}) {
+  return (
+    <section className={styles.faqSection} aria-labelledby="centering-faq">
+      <div className={styles.faqHeader}>
+        <div className={styles.faqHeaderCopy}>
+          <span className={styles.faqBadge}>
+            <HelpCircle className={styles.faqBadgeIcon} strokeWidth={2} />
+            {badge}
+          </span>
+          <h2 id="centering-faq" className={styles.faqTitle}>{title}</h2>
+        </div>
+        <div className={styles.faqStat} aria-hidden="true">
+          <span className={styles.faqStatNum}>{items.length}</span>
+          <span className={styles.faqStatLabel}>{countLabel.replace('{n}', String(items.length))}</span>
+        </div>
+      </div>
+
+      <div className={styles.faqList}>
+        {items.map((item, i) => (
+          <details
+            key={item.q}
+            className={styles.faqItem}
+            style={{ ['--faq-delay' as string]: `${100 + i * 75}ms` }}
+          >
+            <summary className={styles.faqSummary}>
+              <span className={styles.faqIndex}>{String(i + 1).padStart(2, '0')}</span>
+              <span className={styles.faqQuestion}>{item.q}</span>
+              <span className={styles.faqChevronWrap} aria-hidden="true">
+                <ChevronDown className={styles.faqChevron} strokeWidth={2.5} />
+              </span>
+            </summary>
+            <div className={styles.faqAnswerWrap}>
+              <div className={styles.faqAnswerInner}>
+                <div className={styles.faqAnswerRail} aria-hidden="true" />
+                <p className={styles.faqAnswer}>{item.a}</p>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export default function CenteringContent() {
+  const { t } = useLanguage();
+  const c = t.centeringPage.content;
+
   return (
     <article className={styles.contentWrapper}>
       <header className={styles.contentHeader}>
-        <h1 className={styles.contentH1}>Free Card Centering Calculator &amp; PSA 10 Analyzer</h1>
-        <p className={styles.contentLead}>
-          Measure the centering of any Pokémon, sports, or TCG card in seconds. Upload a photo,
-          align the alignment lines to the card edge and art border, and get instant front and back
-          margin percentages benchmarked against PSA, BGS, and SGC standards — completely free.
-        </p>
+        <h1 className={styles.contentH1}>{c.h1}</h1>
+        <p className={styles.contentLead}>{c.lead}</p>
       </header>
 
-      <section className={styles.contentSection} aria-labelledby="how-to-use">
-        <h2 id="how-to-use" className={styles.contentH2}>How to use the Appaw Centering Analyzer</h2>
-        <ol className={styles.stepList}>
-          {STEPS.map((s) => (
-            <li key={s.n} className={styles.stepItem}>
-              <span className={styles.stepNum}>{s.n}</span>
-              <div>
-                <h3 className={styles.stepTitle}>{s.title}</h3>
-                <p className={styles.stepBody}>{s.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <HowToSteps
+        steps={c.steps}
+        badge={c.howToBadge}
+        title={c.howToTitle}
+        stepLabel={c.stepLabel}
+      />
 
       <section className={styles.contentSection} aria-labelledby="psa-requirements">
-        <h2 id="psa-requirements" className={styles.contentH2}>What are the centering requirements for a PSA 10?</h2>
-        <p className={styles.contentP}>
-          “Centering” describes how evenly the printed border sits inside the card’s cut edges. It is
-          measured as a left/right and top/bottom ratio. The closer to 50/50, the better. Each grading
-          company publishes its own maximum tolerances — and PSA tightened its front standard to roughly
-          55/45 for a Gem Mint 10. The table below summarises the published front and back tolerances for
-          the most common grades.
-        </p>
+        <h2 id="psa-requirements" className={styles.contentH2}>{c.psaRequirementsTitle}</h2>
+        <p className={styles.contentP}>{c.psaRequirementsIntro}</p>
         <div className={styles.tableScroll}>
           <table className={styles.gradeTable}>
             <thead>
               <tr>
-                <th scope="col">Grade</th>
-                <th scope="col">Max front centering</th>
-                <th scope="col">Max back centering</th>
+                <th scope="col">{c.gradeTable.headers.grade}</th>
+                <th scope="col">{c.gradeTable.headers.front}</th>
+                <th scope="col">{c.gradeTable.headers.back}</th>
               </tr>
             </thead>
             <tbody>
-              {GRADE_ROWS.map((r) => (
+              {c.gradeTable.rows.map((r) => (
                 <tr key={r.grade}>
                   <th scope="row">{r.grade}</th>
                   <td>{r.front}</td>
@@ -113,42 +222,27 @@ export default function CenteringContent() {
             </tbody>
           </table>
         </div>
-        <p className={styles.contentNote}>
-          Tolerances are guidelines published by PSA, Beckett (BGS), and SGC and may change over time.
-          Final grades also factor in corners, edges, and surface — centering alone does not guarantee a grade.
-        </p>
+        <p className={styles.contentNote}>{c.gradeTableNote}</p>
       </section>
 
       <section className={styles.contentSection} aria-labelledby="why-it-matters">
-        <h2 id="why-it-matters" className={styles.contentH2}>Why card centering matters</h2>
+        <h2 id="why-it-matters" className={styles.contentH2}>{c.whyMattersTitle}</h2>
+        <p className={styles.contentP}>{c.whyMattersP1}</p>
         <p className={styles.contentP}>
-          Centering is one of the four pillars graders assess, and it is the one you can check before you
-          spend money on submission. A card with razor-sharp corners and a flawless surface can still be
-          capped at a PSA 8 or 9 purely because the border is off-centre. Because grade jumps — for example
-          from a PSA 9 to a PSA 10 — can multiply a card’s market value, screening centering first helps you
-          decide which cards are worth submitting and which are better left raw.
-        </p>
-        <p className={styles.contentP}>
-          Once you’ve confirmed a card is well centred and worth grading, protect it on its way to and from
-          the grader with a premium {' '}
-          <Link href="/products/psa-protectors/" className={styles.contentLink}>PSA card aluminum protector</Link>{' '}
-          , or explore our {' '}
-          <Link href="/business/card-trading/" className={styles.contentLink}>graded card trading &amp; brokerage</Link>{' '}
-          service.
+          {c.whyMattersBeforeProtector}
+          <LocalLink href="/products/psa-protectors/" className={styles.contentLink}>{c.protectorLink}</LocalLink>
+          {c.whyMattersBeforeTrading}
+          <LocalLink href="/business/card-trading/" className={styles.contentLink}>{c.tradingLink}</LocalLink>
+          {c.whyMattersAfterTrading}
         </p>
       </section>
 
-      <section className={styles.contentSection} aria-labelledby="centering-faq">
-        <h2 id="centering-faq" className={styles.contentH2}>Card centering — frequently asked questions</h2>
-        <div className={styles.faqList}>
-          {FAQS.map((f) => (
-            <details key={f.q} className={styles.faqItem}>
-              <summary className={styles.faqQ}>{f.q}</summary>
-              <p className={styles.faqA}>{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <CenteringFaq
+        items={t.centeringPage.faq}
+        title={c.faqTitle}
+        badge={c.faqBadge}
+        countLabel={c.faqCountLabel}
+      />
     </article>
   );
 }

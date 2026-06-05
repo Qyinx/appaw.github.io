@@ -1,10 +1,12 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import type { TradingCard } from '@/types/trading-card';
 import CardDetailClient from './CardDetailClient';
 import StructuredData from '@/components/StructuredData';
 import { productJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
+import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
 
 /* ──────────────────────────────────────────
    Individual Card Page — Server Component
@@ -88,6 +90,8 @@ export async function generateMetadata(
 export default async function CardDetailPage(
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (MARKETPLACE_IN_PROGRESS) redirect('/business/card-trading/');
+
   const { id } = await params;
   const cards = await getCards();
   const card = cards.find(c => c.id === id);

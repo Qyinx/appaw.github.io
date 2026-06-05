@@ -76,7 +76,13 @@ export const PAGE_META: Record<string, LocaleMeta> = {
     },
   },
   '/collection': {
-    en: { title: 'My Collection | Appaw Store', description: 'Track your personal graded card collection.' },
-    zh: { title: '我的收藏 | Appaw Store', description: '追蹤及管理您的個人鑑定卡收藏。' },
+    en: {
+      title: 'My Collection — Manage & Track Your Trading Cards | Appaw Store',
+      description: 'Add, organize and value your graded card collection. Track buy prices, grades, and cert numbers.',
+    },
+    zh: {
+      title: '我的收藏 — 鑑定卡管理工具 | Appaw Store',
+      description: '整理及追蹤鑑定卡收藏。記錄買入價、評級、證書編號及投資組合。',
+    },
   },
 };

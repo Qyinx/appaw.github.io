@@ -12,6 +12,7 @@ Last updated: 2026-06-05 (batch 2) — Full-site i18n routing (`/zh/...` mirrors
 | 2026-06-05 | Terminology | Site-wide ZH: 鑑定卡 (not 評級卡) for graded cards/slabs. |
 | 2026-06-05 | GEO | `public/llms.txt` — brand summary, pillar URLs (EN + ZH), purchase channels, crawl rules. Linked from `robots.txt`. |
 | 2026-06-05 | Sitemap | `src/lib/seo/sitemap-config.ts` + `sitemap.ts` — EN + zh-HK URL pairs with `alternates.languages`. Removed dead `/products/` URL. |
+| 2026-06-05 | `/collection/` | Landing page made **indexable** (`robots: index, follow`). Added keywords, OG/Twitter, sr-only copy, `HowTo` JSON-LD, sitemap entry (priority 0.75). App routes (`/list/`, `/auth/`, `/card/`) stay `noindex` + `robots.txt` Disallow. |
 | 2026-06-02 | Homepage SEO | Spec table, keyword-rich hero, services bento i18n. |
 | Earlier | Product pillar | `/products/psa-protectors/` overview, specs, FAQ, JSON-LD. Centering tool repositioned. |
 
@@ -98,10 +99,10 @@ Open Graph / Twitter: handled by `psaProtectorsMetadata` (summary_large_image). 
 
 ---
 
-2) My Collection (/collection/)
-- Suggested Title: "My Collection — Manage & Track Your Trading Cards | Appaw Store"
-- Suggested Meta Description: "Add, organize and value your card collection. Track provenance, condition and share lists. Secure, private collection dashboard."
-- Suggested H1: "Manage Your Collection"
+2) My Collection (/collection/) — **indexable** (landing only; `/collection/list/`, `/collection/auth/`, `/collection/card/*` remain `noindex`)
+- Implemented Title: "My Collection — Manage & Track Your Trading Cards | Appaw Store"
+- Implemented Meta Description: "Add, organize and value your graded card collection. Track buy prices, PSA/BGC grades, cert numbers, and listing prices in portfolios — free private dashboard."
+- Implemented H1: "Your Graded Collection Hub" (client) + sr-only "Manage Your Graded Card Collection" (server)
 - Primary Keywords: "card collection manager", "manage trading card collection", "card collection app"
 - Supporting long-tails: "track card values", "organize PSA cards", "collection provenance tracker"
 
@@ -215,7 +216,7 @@ I performed a source-level inspection of JSON-LD injection points across the app
 
 - Root site schema: `WebSite` + `Store` are injected in `src/app/layout.tsx` (site-level JSON-LD and GA script). These are intentionally global and present on all pages.
 - `/products/psa-protectors/`: `Product`, `BreadcrumbList`, and `FAQPage` are injected in `src/app/products/psa-protectors/layout.tsx` (single source for product data).
-- `/collection/`: `WebApplication` + `BreadcrumbList` are injected in `src/app/collection/page.tsx` (page-owned WebApplication schema). Note: this page is currently `robots: { index: false }`.
+- `/collection/`: `WebApplication` + `BreadcrumbList` + `HowTo` are injected in `src/app/collection/page.tsx`. `robots: { index: true, follow: true }`; included in `sitemap-config.ts`. Private app routes (`/collection/list/`, etc.) remain `noindex`.
 - `/tools/card-centering/`: `WebApplication` + `BreadcrumbList` are injected in `src/app/tools/card-centering/layout.tsx` (page-owned metadata + JSON-LD).
 
 Conclusion
@@ -262,7 +263,8 @@ Contents:
 - Free centering tool pointer
 - JSON-LD types per route
 - Contact / social
-- **Do not index** list (`/admin/`, `/collection/`, `/business/card-trading/`)
+- **Public:** `/collection/` landing (collection manager marketing page)
+- **Do not index:** `/admin/`, `/collection/list/`, `/collection/auth/`, `/collection/card/`, `/business/card-trading/`
 - ZH terminology policy (鑑定卡 not 評級卡)
 
 **robots.txt:** AI crawlers explicitly allowed on public pages; `llms.txt` URL noted in header comment.
@@ -286,6 +288,7 @@ Sitemap Strategy (implemented)
 | `/` | 1.0 | weekly |
 | `/products/psa-protectors/` | 0.95 | weekly |
 | `/business/` | 0.9 | weekly |
+| `/collection/` | 0.75 | monthly |
 | `/about/` | 0.8 | monthly |
 | `/tools/card-centering/` | 0.8 | weekly |
 | `/products/graded-cards/` | 0.6 | monthly |
@@ -293,7 +296,8 @@ Sitemap Strategy (implemented)
 
 **Excluded (by design):**
 - `/business/card-trading/` and `/business/card-trading/[id]/` — `robots.txt` Disallow + `robots: noindex` on metadata
-- `/collection/`, `/admin/`, `/style-guide/` — private or dev
+- `/collection/list/`, `/collection/auth/`, `/collection/card/*` — private app (noindex)
+- `/admin/`, `/style-guide/` — admin or dev
 - `/products/` — no index page exists (removed from sitemap 2026-06-05)
 
 **Submission:** `Sitemap: https://appaw.store/sitemap.xml` in `public/robots.txt`. Re-submit in GSC after deploy.

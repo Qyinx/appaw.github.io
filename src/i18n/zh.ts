@@ -292,11 +292,11 @@ export const zh: Translations = {
     },
     hkGuide: {
       badge: '香港收藏家指南',
-      title: '如何選擇 35PT Slab 鑑定卡保護殼？',
+      title: '如何選擇鑑定卡保護殼？',
       body: [
-        '標準 PSA 及 CGC 鑑定卡磚厚度約為 35PT。優質 Slab 保護殼應以剛性鋁合金框架取代易裂壓克力，並配備防紫外線玻璃，減慢閃卡及全息卡長期陳列褪色。',
-        'Appaw Store 於香港設計這款磁吸鑑定卡保護殼，適合寶可夢 PTCG、運動卡及 MTG 收藏家於家中、卡展或門市展示。歡迎親臨鰂魚涌門市試玩選購，亦可到合作店舖（如咭之島）選購。N52 磁吸鑑定卡夾讓您數秒內更換卡牌，無需螺絲或卡扣。',
-        '送鑑前可先使用免費卡牌置中量度工具檢查 PSA 10 邊距；取得鑑定卡磚後，再以本保護殼妥善保存及運送珍藏。',
+        '標準 PSA 及 CGC 鑑定卡磚厚度約為 35PT。優質保護殼應以剛性鋁合金框架取代易裂壓克力，並配備防紫外線玻璃，減慢閃卡及全息卡長期陳列褪色。',
+        'Appaw Store 於香港設計這款磁吸鑑定卡保護殼，適合寶可夢 PTCG、運動卡及 MTG 收藏家於家中、卡展或門市展示。歡迎親臨鰂魚涌門市選購，亦可到合作店舖（如咭之島）選購。N52 磁吸鑑定卡夾讓您數秒內更換卡牌，無需螺絲或卡扣。',
+        '送鑑前可先使用免費卡牌置中量度工具檢查 PSA 10 邊距；購買鑑定卡磚後，再以本保護殼妥善保存及運送珍藏。',
       ],
     },
     overview: {
@@ -628,6 +628,13 @@ export const zh: Translations = {
       linkCopied: '已複製連結！',
       viewPage: '查看完整頁面',
     },
+    inProgress: {
+      badge: '籌備中',
+      title: '市集即將推出',
+      description: '我們正在籌備精選投資級鑑定卡牌畫廊，敬請期待。如有特定卡牌需求，歡迎私下聯絡我們。',
+      whatsapp: 'WhatsApp 聯絡我們',
+      dismiss: '知道了',
+    },
   },
 
   // Style Guide Page
@@ -746,14 +753,76 @@ export const zh: Translations = {
     openCollection: '開啟收藏',
     signIn: '登入',
     learnAboutSignIn: '了解登入詳情',
+    landing: {
+      badge: '私人儀表板',
+      titleLine1: '您的鑑定卡',
+      titleAccent: '收藏中心',
+      subtitle: '記錄 PSA、BGS、CGC 鑑定卡的買入價、證書編號及掛牌價，並以投資組合靈活整理。',
+      stats: [
+        { value: '追蹤', label: '成本基礎' },
+        { value: '分組', label: '投資組合' },
+        { value: '掃描', label: '鑑定資訊' },
+        { value: '私人', label: '您的資料' },
+      ],
+      howItWorks: {
+        badge: '使用方式',
+        title: '三步完成整理',
+        stepLabel: '第 {n} 步',
+        steps: [
+          {
+            title: '安全登入',
+            body: '使用帳戶進入私人儀表板。除非您主動分享，否則收藏不會公開。',
+          },
+          {
+            title: '新增鑑定卡',
+            body: '手動輸入卡牌資料，或拍攝鑑定卡磚照片，自動填入評級、證書編號及系列資訊。',
+          },
+          {
+            title: '整理與追蹤',
+            body: '將卡牌分組至投資組合、標記已售出，並以篩選快速掌握庫存。',
+          },
+        ],
+      },
+      featuresSection: {
+        badge: '功能',
+        title: '為認真收藏家而設',
+        subtitle: '一站式管理投資級鑑定卡牌所需的一切。',
+      },
+      preview: {
+        label: '儀表板預覽',
+        portfolio: '主要組合',
+        cardCount: '{n} 張卡牌',
+        statActive: '在庫',
+        statSold: '已售出',
+        sampleCard: '噴火龍 ex SAR',
+        sampleSet: 'SV-P · #192',
+        sampleGrade: 'PSA 10',
+        sampleBuy: 'HKD 4,200',
+        sampleBuyLabel: '買入',
+        sampleStatus: '收藏中',
+      },
+      aiBadge: 'AI 輔助',
+      privacy: {
+        badge: '私隱',
+        title: '只屬於您',
+        body: '收藏資料完全私人。使用帳戶登入——除非您選擇分享，否則不會對外公開。',
+        points: ['Auth0 安全登入', '預設私人', '可匯出庫存'],
+      },
+      finalCta: {
+        eyebrow: '立即開始',
+        title: '準備好整理您的收藏了嗎？',
+        subtitle: '免費使用。登入後一分鐘內即可新增首張卡牌。',
+      },
+    },
     features: [
       { title: '分類管理', body: '建立投資組合並整理卡片以便快速存取。' },
       { title: '庫存管理', body: '新增、編輯與移除卡片；標記已售出，並透過搜尋與篩選快速尋找卡片。' },
-      { title: '組合', body: '建立公開或私人組合，新增或移除卡片，並將藏品分組以便展示或分享。' },
+      { title: '投資組合', body: '建立公開或私人組合，新增或移除卡片，並將藏品分組以便展示或分享。' },
+      { title: '鑑定卡掃描', body: '上傳鑑定卡磚照片，由 AI 擷取評級、證書編號、系列及卡名，確認後即可儲存。' },
     ],
     cta: {
       prompt: '準備好管理您的收藏了嗎？',
-      buttonSignIn: '登入以開始使用'
+      buttonSignIn: '登入以開始使用',
     },
     dropdown: {
       stored: '已儲存卡牌',
@@ -867,6 +936,159 @@ export const zh: Translations = {
       back: '背面',
       addPrefix: '新增',
       blackLabel: '黑標',
+    },
+  },
+
+  centeringPage: {
+    seo: {
+      webAppName: '卡牌置中量度工具 & PSA 10 分析器',
+      webAppDescription:
+        '免費瀏覽器工具，量度集換式卡牌置中比例。上傳卡牌、對齊導線，即時取得左右及上下邊距百分比，對照 PSA、BGS 及 SGC 標準。',
+      breadcrumbHome: '首頁',
+      breadcrumbTool: '卡牌置中量度工具',
+      howToName: '如何使用 Appaw 卡牌置中分析器',
+      howToDescription: '四步量度任何集換式卡牌的置中比例，並估算 PSA 評級區間。',
+      howToTool: '卡牌的正向照片或掃描檔',
+    },
+    howToSteps: [
+      {
+        name: '上傳清晰照片',
+        text: '上傳在深色平面背景、光線均勻下拍攝的正向卡牌照片或掃描檔。',
+      },
+      {
+        name: '對齊外框導線至卡牌邊緣',
+        text: '拖曳藍色導線，使其精確貼合卡牌四邊的外切邊緣。',
+      },
+      {
+        name: '對齊內框導線至圖框邊界',
+        text: '拖曳粉色導線，使其貼合四邊印刷圖案或邊框的內緣。',
+      },
+      {
+        name: '查看置中百分比',
+        text: '工具即時計算左右及上下邊距比例，並顯示估算的 PSA 評級區間。',
+      },
+    ],
+    faq: [
+      {
+        q: 'PSA 10 需要多少置中比例？',
+        a: 'PSA 10 Gem Mint 要求正面約 55/45 或更佳、背面 75/25 或更佳。PSA 9 正面容許至 60/40，PSA 8 至 65/35。',
+      },
+      {
+        q: 'Appaw 置中分析器有多準確？',
+        a: '準確度取決於照片。正視、無畸變的掃描，且導線精確對齊卡牌邊緣及圖框，結果可與評級員量度相差一兩個百分點以內。斜角手機照片會降低準確度。',
+      },
+      {
+        q: '如何拍攝最佳置中量度照片？',
+        a: '將卡牌平放於深色背景，從正上方拍攝並保持光線均勻，相機需與卡牌平行以避免透視畸變。平板掃描器效果最佳。',
+      },
+      {
+        q: '此工具適用於寶可夢、運動卡及其他 TCG 嗎？',
+        a: '適用。分析器可量度任何矩形集換式卡牌——包括寶可夢 PTCG、魔法風雲會、One Piece、運動卡等——因為它量度的是印刷邊框相對於卡牌邊緣的位置。',
+      },
+      {
+        q: '卡牌置中計算器是否免費？',
+        a: '完全免費，在瀏覽器中使用，無需註冊，亦無需上傳至伺服器——量度在您的裝置上進行。',
+      },
+    ],
+    tool: {
+      zones: {
+        PSA10: { label: 'PSA 10', short: 'Gem Mint', hint: '置中在 55/45 以內 — Gem Mint 區間。' },
+        PSA9: { label: 'PSA 9', short: 'Mint', hint: '置中在 60/40 以內 — Mint 區間。' },
+        PSA8: { label: 'PSA 8', short: 'NM-MT', hint: '置中在 65/35 以內 — Near Mint–Mint 區間。' },
+        Below: { label: '< PSA 8', short: '偏置中', hint: '置中超過 65/35 — 可能低於 PSA 8。' },
+      },
+      emptyTitle: '上傳卡牌以開始',
+      chooseImage: '選擇圖片',
+      alignGuides: '對齊導線',
+      cornerMagnifiers: '角落放大鏡',
+      cornerMagnifiersToggle: '切換角落放大鏡',
+      uploadImage: '上傳圖片',
+      uploadCardImage: '上傳卡牌圖片',
+      fitToView: '適應畫面',
+      reset: '重設',
+      adjustImage: '調整圖片',
+      zoom: '縮放',
+      rotate: '旋轉',
+      rotation: '旋轉',
+      hTilt: '水平傾斜',
+      vTilt: '垂直傾斜',
+      horizontalTilt: '水平傾斜',
+      verticalTilt: '垂直傾斜',
+      mapLegendEdge: '藍色 = 卡牌邊緣',
+      mapLegendBorder: '粉色 = 圖框邊界',
+      canvasEdge: '邊緣',
+      canvasBorder: '圖框',
+      noImage: '無圖片',
+      plotLabels: {
+        PSA10: 'PSA 10',
+        PSA9: 'PSA 9',
+        PSA8: 'PSA 8',
+        below: '低於 PSA 8',
+      },
+      lrLabel: '左·右',
+      tbLabel: '上·下',
+      guideModeLabel: '導線圖層',
+      guideModeEdge: '邊緣',
+      guideModeBorder: '圖框',
+      guideModeBoth: '全部',
+      dragHandlesHint: '拖曳各邊的手柄以對齊導線',
+    },
+    content: {
+      h1: '免費卡牌置中量度工具 & PSA 10 分析器',
+      lead:
+        '數秒內量度任何寶可夢、運動卡或 TCG 卡牌的置中比例。上傳照片，對齊卡牌邊緣及圖框導線，即時取得正反面邊距百分比，對照 PSA、BGS 及 SGC 標準——完全免費。',
+      howToTitle: '如何使用 Appaw 卡牌置中分析器',
+      howToBadge: '四步流程',
+      stepLabel: '第 {n} 步',
+      steps: [
+        {
+          title: '上傳清晰照片',
+          body: '將卡牌平放於深色、不反光背景，從正上方均勻光線下拍攝。平板掃描最為準確。然後上傳圖片，或點擊「選擇圖片」。',
+        },
+        {
+          title: '對齊外框導線至卡牌邊緣',
+          body: '拖曳藍色導線，使其精確貼合卡牌四邊的外切邊緣。角落放大鏡可協助精準定位。',
+        },
+        {
+          title: '對齊內框導線至圖框邊界',
+          body: '拖曳粉色導線至印刷邊框或圖框內緣。置中即這兩個矩形之間的關係。',
+        },
+        {
+          title: '查看置中百分比',
+          body: '分析器即時計算左右及上下邊距比例，並顯示估算的 PSA 評級區間——Gem Mint、Mint、NM–MT 或以下。',
+        },
+      ],
+      psaRequirementsTitle: 'PSA 10 的置中要求是什麼？',
+      psaRequirementsIntro:
+        '「置中」指印刷邊框在卡牌切邊內的分佈是否均勻，以左右及上下比例量度。越接近 50/50 越好。各評級機構公佈不同的最大容差——PSA 已將正面 Gem Mint 10 標準收緊至約 55/45。下表摘要最常見評級的正反面容差。',
+      gradeTable: {
+        headers: {
+          grade: '評級',
+          front: '正面最大置中偏差',
+          back: '背面最大置中偏差',
+        },
+        rows: [
+          { grade: 'PSA 10（Gem Mint）', front: '55/45', back: '75/25' },
+          { grade: 'PSA 9（Mint）', front: '60/40', back: '90/10' },
+          { grade: 'PSA 8（NM–MT）', front: '65/35', back: '90/10' },
+          { grade: 'BGS 10（Pristine）', front: '50/50', back: '55/45' },
+          { grade: 'BGS 9.5（Gem Mint）', front: '55/45', back: '60/40' },
+          { grade: 'SGC 10（Gem Mint）', front: '55/45', back: '70/30' },
+        ],
+      },
+      gradeTableNote:
+        '容差為 PSA、Beckett（BGS）及 SGC 公佈的指引，可能隨時間調整。最終評級亦考量四角、邊緣及表面——僅憑置中並不保證評級。',
+      whyMattersTitle: '為何卡牌置中很重要',
+      whyMattersP1:
+        '置中是評級員評估的四項要素之一，也是送鑑前您可以自行檢查的一項。四角銳利、表面完美的卡牌，若邊框偏置中，仍可能被限制在 PSA 8 或 9。評級差距——例如 PSA 9 與 PSA 10——可令卡牌市值倍增，因此先篩選置中有助決定哪些卡牌值得送鑑、哪些宜保留原卡。',
+      whyMattersBeforeProtector: '確認卡牌置中良好且值得送鑑後，來回評級機構途中可用優質 ',
+      protectorLink: 'PSA 鑑定卡鋁合金保護殼',
+      whyMattersBeforeTrading: ' 妥善保護，或了解我們的 ',
+      tradingLink: '鑑定卡交易及經紀服務',
+      whyMattersAfterTrading: '。',
+      faqTitle: '卡牌置中 — 常見問題',
+      faqBadge: '常見疑問',
+      faqCountLabel: '共 {n} 個主題',
     },
   },
 };
