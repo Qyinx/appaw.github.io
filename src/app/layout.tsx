@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { Header, Footer } from '@/components/layout';
 import { CookieConsent } from '@/components/CookieConsent';
@@ -11,6 +11,13 @@ import { rootMetadata } from '@/lib/seo/metadata';
 import '@/styles/globals.css';
 
 export const metadata = rootMetadata;
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#FAFAF8',
+  colorScheme: 'light dark',
+};
 
 // Site-level structured data is rendered via `src/lib/seo` factories and the
 // `StructuredData` server component to centralize schema handling.
@@ -32,9 +39,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       {/* Note: Consider making lang dynamic based on user's language selection in future */}
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#FAFAF8" />
-        <meta name="color-scheme" content="light dark" />
         {/* Google Analytics with Cookie Consent */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-MTFS1VS5S4"></script>
         <script

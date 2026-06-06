@@ -1,5 +1,16 @@
 import type { Metadata } from 'next';
 
+function resolveTitleString(title: Metadata['title']): string | undefined {
+  if (typeof title === 'string') return title;
+  if (title && typeof title === 'object' && 'absolute' in title && typeof title.absolute === 'string') {
+    return title.absolute;
+  }
+  if (title && typeof title === 'object' && 'default' in title && typeof title.default === 'string') {
+    return title.default;
+  }
+  return undefined;
+}
+
 export function localePaths(enPath: string): { en: string; zh: string } {
   const canonical = enPath.endsWith('/') ? enPath : `${enPath}/`;
   const zh = canonical === '/' ? '/zh/' : `/zh${canonical}`;
@@ -28,6 +39,7 @@ export function zhRouteMetadata(
   const { en, zh } = localePaths(enPath);
   const title = overrides?.title ?? enMetadata.title;
   const description = overrides?.description ?? enMetadata.description;
+  const titleString = resolveTitleString(title);
 
   return {
     ...enMetadata,
@@ -43,7 +55,7 @@ export function zhRouteMetadata(
     openGraph: {
       ...enMetadata.openGraph,
       ...overrides?.openGraph,
-      title: typeof title === 'string' ? title : enMetadata.openGraph?.title,
+      title: titleString ?? enMetadata.openGraph?.title,
       description: typeof description === 'string' ? description : enMetadata.openGraph?.description,
       url: `https://appaw.store${zh}`,
       locale: 'zh_HK',
@@ -52,7 +64,7 @@ export function zhRouteMetadata(
     twitter: {
       ...enMetadata.twitter,
       ...overrides?.twitter,
-      title: typeof title === 'string' ? title : enMetadata.twitter?.title,
+      title: titleString ?? enMetadata.twitter?.title,
       description: typeof description === 'string' ? description : enMetadata.twitter?.description,
     },
   };

@@ -63,7 +63,7 @@ export default {
 };
 
 export const homeMetadata: Metadata = {
-  title: HOME_SEO.en.title,
+  title: { absolute: HOME_SEO.en.title },
   description: HOME_SEO.en.description,
   alternates: { canonical: '/', languages: homeHreflang },
   openGraph: {
@@ -91,7 +91,7 @@ export const homeMetadata: Metadata = {
 };
 
 export const zhHomeMetadata: Metadata = {
-  title: HOME_SEO.zh.title,
+  title: { absolute: HOME_SEO.zh.title },
   description: HOME_SEO.zh.description,
   alternates: { canonical: '/zh/', languages: homeHreflang },
   openGraph: {
@@ -161,7 +161,7 @@ export const rootMetadata: Metadata = {
 };
 
 const centeringMetadataBase: Metadata = {
-  title: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store',
+  title: { absolute: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store' },
   description:
     'Quickly check if your Pokémon, sports, or TCG cards meet PSA 10 centering standards. Upload your card, adjust the alignment lines, and get instant margin percentages — free.',
   // NOTE: keep description ≤160 chars where possible for SERP display.
@@ -202,13 +202,13 @@ const centeringMetadataBase: Metadata = {
 
 export const centeringMetadata = withLocaleAlternates(centeringMetadataBase, '/tools/card-centering/');
 export const zhCenteringMetadata = zhRouteMetadata(centeringMetadataBase, '/tools/card-centering/', {
-  title: '免費卡牌置中量度工具 & PSA 10 分析器 | Appaw Store',
+  title: { absolute: '免費卡牌置中量度工具 & PSA 10 分析器 | Appaw Store' },
   description:
     '上傳卡牌即可量度前後邊距，對照 PSA 10 置中標準。適用寶可夢 PTCG、運動卡及 TCG — 完全免費。',
 });
 
 const privacyMetadataBase: Metadata = {
-  title: 'Privacy Policy | Appaw Store',
+  title: { absolute: 'Privacy Policy | Appaw Store' },
   description: 'Learn how Appaw Store collects, uses, and protects your data. We use Google Analytics 4 for site analytics. Purchases are handled securely through Etsy and Carousell.',
   alternates: { canonical: '/privacy/' },
   robots: { index: true, follow: true },
@@ -244,7 +244,7 @@ export const zhAboutMetadata = zhRouteMetadata(aboutMetadataBase, '/about/', {
 });
 
 const collectionMetadataBase: Metadata = {
-  title: 'My Collection — Manage & Track Your Trading Cards | Appaw Store',
+  title: { absolute: 'My Collection — Manage & Track Your Trading Cards | Appaw Store' },
   description:
     'Add, organize and value your graded card collection. Track buy prices, PSA/BGC grades, cert numbers, and listing prices in portfolios — free private dashboard.',
   keywords: [
@@ -331,7 +331,7 @@ const businessMetadataBase: Metadata = {
 
 export const businessMetadata = withLocaleAlternates(businessMetadataBase, '/business/');
 export const zhBusinessMetadata = zhRouteMetadata(businessMetadataBase, '/business/', {
-  title: '服務 – 鑑定卡保護殼及卡牌交易 | Appaw Store',
+  title: { absolute: '服務 – 鑑定卡保護殼及卡牌交易 | Appaw Store' },
   description:
     'Appaw Store 服務：磁吸鋁合金鑑定卡保護殼（>95% 抗 UV、N52 磁吸）及 TCG 鑑定卡交易、寄售服務。',
 });
@@ -351,7 +351,7 @@ export const zhCardTradingMetadata = zhRouteMetadata(cardTradingMetadataBase, '/
 });
 
 export const zhCollectionMetadata = zhRouteMetadata(collectionMetadataBase, '/collection/', {
-  title: '我的收藏 — 鑑定卡管理工具 | Appaw Store',
+  title: { absolute: '我的收藏 — 鑑定卡管理工具 | Appaw Store' },
   description:
     '整理及追蹤鑑定卡收藏。記錄買入價、PSA/BGS 評級、證書編號及掛牌價，並以投資組合分類管理——免費私人儀表板。',
 });
@@ -378,11 +378,11 @@ export const zhAdminTradeMetadata = zhRouteMetadata(adminTradeMetadataBase, '/ad
 });
 
 const styleGuideMetadataBase: Metadata = {
-  title: 'Style Guide | Appaw Store',
+  title: { absolute: 'Style Guide | Appaw Store' },
   robots: { index: false, follow: false },
 };
 
 export const styleGuideMetadata = withLocaleAlternates(styleGuideMetadataBase, '/style-guide/');
 export const zhStyleGuideMetadata = zhRouteMetadata(styleGuideMetadataBase, '/style-guide/', {
-  title: 'Style Guide | Appaw Store',
+  title: { absolute: 'Style Guide | Appaw Store' },
 });
