@@ -8,6 +8,7 @@ export const en = {
     collection: 'My Collection',
     cardTrading: 'Card Trading',
     centeringTool: 'Centering Tool',
+    guides: 'Guides',
     products: 'Products',
     styleGuide: 'Style Guide',
     language: 'Language',
@@ -111,6 +112,8 @@ export const en = {
         description: 'Upload a photo or use your camera for an instant centering grade and exportable report.',
         cta: 'Analyze Now',
       },
+      guidesLink: 'Collector guides on slab fit, UV storage, and centering',
+      guidesCta: 'Read Guides',
       trading: {
         subtitle: 'A trusted marketplace for buying, selling, and brokering premium graded trading cards.',
         cta: 'Start Trading',
@@ -303,6 +306,7 @@ export const en = {
         'Appaw Store designed this magnetic graded slab case in Hong Kong for Pokémon PTCG, sports cards, and MTG collectors who display slabs at home, at card shows, or in our Quarry Bay showroom and partner stores. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
         'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a case built for long-term display and transport.',
       ],
+      fullGuideLink: 'Read the full 35PT protector guide',
     },
     overview: {
       badge: 'Product Overview',
@@ -1096,6 +1100,7 @@ export const en = {
       },
       gradeTableNote:
         'Tolerances are guidelines published by PSA, Beckett (BGS), and SGC and may change over time. Final grades also factor in corners, edges, and surface — centering alone does not guarantee a grade.',
+      centeringGuideLink: 'PSA 10 centering requirements explained',
       whyMattersTitle: 'Why card centering matters',
       whyMattersP1:
         'Centering is one of the four pillars graders assess, and it is the one you can check before you spend money on submission. A card with razor-sharp corners and a flawless surface can still be capped at a PSA 8 or 9 purely because the border is off-centre. Because grade jumps — for example from a PSA 9 to a PSA 10 — can multiply a card\u2019s market value, screening centering first helps you decide which cards are worth submitting and which are better left raw.',

@@ -23,6 +23,16 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | Collection manager | https://appaw.store/collection/ | https://appaw.store/zh/collection/ | Free graded card inventory dashboard (landing only; sign-in required for app) |
 | About | https://appaw.store/about/ | https://appaw.store/zh/about/ | Brand story, Hong Kong origin |
 | Privacy | https://appaw.store/privacy/ | https://appaw.store/zh/privacy/ | Privacy policy |
+| Guides (index) | https://appaw.store/guides/ | https://appaw.store/zh/guides/ | Evergreen slab protection & grading how-to articles |
+
+## Collector guides (batch 1)
+
+| Slug | EN URL | ZH URL | Topic |
+|------|--------|--------|-------|
+| choose-35pt-slab-protector | https://appaw.store/guides/choose-35pt-slab-protector/ | https://appaw.store/zh/guides/choose-35pt-slab-protector/ | How to choose a 35PT PSA/CGC slab protector |
+| uv-protection-graded-cards | https://appaw.store/guides/uv-protection-graded-cards/ | https://appaw.store/zh/guides/uv-protection-graded-cards/ | UV blocking and humidity storage for graded slabs |
+| psa-10-centering-requirements | https://appaw.store/guides/psa-10-centering-requirements/ | https://appaw.store/zh/guides/psa-10-centering-requirements/ | PSA 10 centering tolerances (55/45 front, 75/25 back) |
+| grade-or-protect-first | https://appaw.store/guides/grade-or-protect-first/ | https://appaw.store/zh/guides/grade-or-protect-first/ | When to grade raw cards vs protect slabs first |
 
 ## Purchase channels
 
@@ -39,6 +49,8 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 - Site-wide: WebSite, Store (root layout)
 - Product page: Product, BreadcrumbList, FAQPage
 - Centering tool: WebApplication, HowTo, FAQPage, BreadcrumbList
+- Guide articles: Article, BreadcrumbList
+- Guides index: ItemList, BreadcrumbList
 - Collection landing: WebApplication, HowTo, BreadcrumbList
 - About: Organization, FAQPage
 

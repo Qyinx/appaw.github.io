@@ -248,6 +248,13 @@ export default function CenteringContent() {
           </table>
         </div>
         <p className={styles.contentNote}>{c.gradeTableNote}</p>
+        {'centeringGuideLink' in c && c.centeringGuideLink ? (
+          <p className={styles.contentP}>
+            <LocalLink href="/guides/psa-10-centering-requirements/" className={styles.contentLink}>
+              {c.centeringGuideLink}
+            </LocalLink>
+          </p>
+        ) : null}
         </div>
       </section>
 

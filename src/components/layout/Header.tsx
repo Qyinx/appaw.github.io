@@ -76,6 +76,7 @@ export default function Header() {
       ],
     },
     { href: '/tools/card-centering', label: t.nav.centeringTool, highlight: true },
+    { href: '/guides', label: t.nav.guides },
     { href: '/about', label: t.nav.about },
   ];
 

@@ -310,6 +310,17 @@ export default function HomeClient() {
 
           </div>
 
+          <Reveal visible={servicesReveal.visible} dir="up" delay={120} className="mt-8">
+            <LocalLink
+              href="/guides"
+              className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent-brand transition-colors duration-150"
+            >
+              <span>{t.home.services.guidesLink}</span>
+              <span className="font-semibold text-accent-brand">{t.home.services.guidesCta}</span>
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </LocalLink>
+          </Reveal>
+
         </div>
 
       </section>

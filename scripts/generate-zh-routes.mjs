@@ -9,6 +9,7 @@ const routes = [
   { slug: 'business/card-trading', layout: true, meta: 'zhCardTradingMetadata' },
   { slug: 'business/psa-protector', redirect: '/zh/products/psa-protectors/' },
   { slug: 'tools/card-centering', layout: false, meta: 'zhCenteringMetadata' },
+  { slug: 'guides', layout: true, meta: 'zhGuidesIndexMetadata' },
   { slug: 'collection', layout: true, meta: 'zhCollectionMetadata' },
   { slug: 'collection/list', layout: false, meta: 'zhCollectionListMetadata' },
   { slug: 'collection/auth', layout: false, meta: 'zhCollectionMetadata' },
@@ -71,6 +72,29 @@ export async function generateMetadata(
   const meta = await enGenerateMetadata(props);
   const { id } = await props.params;
   return zhRouteMetadata(meta, \`/business/card-trading/\${id}/\`);
+}
+
+export default Page;
+`,
+);
+
+const guideSlugDir = path.join(root, 'zh/guides/[slug]');
+fs.mkdirSync(guideSlugDir, { recursive: true });
+fs.writeFileSync(
+  path.join(guideSlugDir, 'page.tsx'),
+  `import Page, { generateStaticParams } from '../../../guides/[slug]/page';
+import { zhGuideMetadataForSlug } from '@/lib/guides/metadata';
+import type { Metadata } from 'next';
+
+export { generateStaticParams };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  return zhGuideMetadataForSlug(slug) ?? {};
 }
 
 export default Page;

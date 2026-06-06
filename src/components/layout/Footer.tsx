@@ -13,6 +13,7 @@ export default function Footer() {
     { href: '/business/card-trading', label: t.nav.cardTrading },
     { href: '/collection', label: t.nav.collection },
     { href: '/tools/card-centering', label: t.nav.centeringTool },
+    { href: '/guides', label: t.nav.guides },
     { href: '/about', label: t.nav.about },
   ];
 

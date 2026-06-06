@@ -147,6 +147,36 @@ export function webPageJsonLd(page: Record<string, any>) {
   };
 }
 
+export function articleJsonLd(opts: {
+  headline: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  dateModified: string;
+  inLanguage: string;
+  image?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: opts.headline,
+    description: opts.description,
+    url: opts.url,
+    datePublished: opts.datePublished,
+    dateModified: opts.dateModified,
+    inLanguage: opts.inLanguage,
+    author: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Appaw Store',
+      url: 'https://appaw.store',
+      logo: { '@type': 'ImageObject', url: 'https://appaw.store/images/logo.png' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': opts.url },
+    ...(opts.image ? { image: opts.image } : {}),
+  };
+}
+
 export default {
   webSiteJsonLd,
   storeJsonLd,

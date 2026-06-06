@@ -10,6 +10,7 @@ export const zh: Translations = {
     collection: '我的收藏',
     cardTrading: '卡牌交易',
     centeringTool: '卡牌置中量度工具',
+    guides: '收藏指南',
     products: '商品',
     styleGuide: '設計指南',
     language: '語言',
@@ -113,6 +114,8 @@ export const zh: Translations = {
         description: '上傳卡牌照片，即時量度置中比例，對照 PSA 10 標準。',
         cta: '免費量度置中',
       },
+      guidesLink: '鑑定卡保護、防 UV 與置中標準的收藏指南',
+      guidesCta: '閱讀指南',
       trading: {
         subtitle: '值得信賴的鑑定交易卡牌買賣平台。',
         cta: '開始交易',
@@ -305,6 +308,7 @@ export const zh: Translations = {
         'Appaw Store 於香港設計這款磁吸鑑定卡保護殼，適合寶可夢 PTCG、運動卡及 MTG 收藏家於家中、卡展或門市展示。歡迎親臨鰂魚涌門市選購，亦可到合作店舖（如咭之島）選購。N52 磁吸鑑定卡夾讓您數秒內更換卡牌，無需螺絲或卡扣。',
         '送鑑前可先使用免費卡牌置中量度工具檢查 PSA 10 邊距；購買鑑定卡磚後，再以本保護殼妥善保存及運送珍藏。',
       ],
+      fullGuideLink: '閱讀完整 35PT 保護殼指南',
     },
     overview: {
       badge: '產品概覽',
@@ -1096,9 +1100,10 @@ export const zh: Translations = {
       },
       gradeTableNote:
         '容差為 PSA、Beckett（BGS）及 SGC 公佈的指引，可能隨時間調整。最終評級亦考量四角、邊緣及表面——僅憑置中並不保證評級。',
+      centeringGuideLink: 'PSA 10 置中標準詳解',
       whyMattersTitle: '為何卡牌置中很重要',
       whyMattersP1:
-        '置中是評級員評估的四項要素之一，也是送鑑前您可以自行檢查的一項。四角銳利、表面完美的卡牌，若邊框偏置中，仍可能被限制在 PSA 8 或 9。評級差距——例如 PSA 9 與 PSA 10——可令卡牌市值倍增，因此先篩選置中有助決定哪些卡牌值得送鑑、哪些宜保留原卡。',
+        '置中是評級員評估的四項要素之一，也是送鑑前您可以自行檢查的一項。四角銳利、表面完美的卡牌，若邊框偏置中，仍可能被限制在 PSA 8 或 9。評級差距——例如 PSA 9 與 PSA 10——可令卡牌市值倍增，因此先篩選置中有助決定哪些卡牌值得送鑑、哪些宜保留裸卡。',
       whyMattersBeforeProtector: '確認卡牌置中良好且值得送鑑後，來回評級機構途中可用優質 ',
       protectorLink: 'PSA 鑑定卡鋁合金保護殼',
       whyMattersBeforeTrading: ' 妥善保護，或了解我們的 ',

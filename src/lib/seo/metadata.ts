@@ -386,3 +386,10 @@ export const styleGuideMetadata = withLocaleAlternates(styleGuideMetadataBase, '
 export const zhStyleGuideMetadata = zhRouteMetadata(styleGuideMetadataBase, '/style-guide/', {
   title: { absolute: 'Style Guide | Appaw Store' },
 });
+
+export {
+  guidesIndexMetadata,
+  zhGuidesIndexMetadata,
+  guideMetadataForSlug,
+  zhGuideMetadataForSlug,
+} from '@/lib/guides/metadata';

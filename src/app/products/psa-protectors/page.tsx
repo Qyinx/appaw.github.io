@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import LocalLink from '@/components/LocalLink';
-import { ChevronRight, ChevronDown, Palette } from 'lucide-react';
+import { ChevronRight, ChevronDown, Palette, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { en } from '@/i18n';
 import RetailPartners from '@/components/RetailPartners';
@@ -211,6 +211,15 @@ export default function PSAProtectorPage() {
                 </p>
               ))}
             </div>
+            {'fullGuideLink' in hkGuide && hkGuide.fullGuideLink ? (
+              <LocalLink
+                href="/guides/choose-35pt-slab-protector/"
+                className="inline-flex items-center gap-2 mt-8 text-accent-brand font-semibold text-sm group"
+              >
+                <span>{hkGuide.fullGuideLink}</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-150" aria-hidden="true" />
+              </LocalLink>
+            ) : null}
           </Reveal>
         </div>
       </section>
