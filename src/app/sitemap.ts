@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       languages: {
         en,
         'zh-HK': zh,
+        'x-default': en,
       },
     };
 

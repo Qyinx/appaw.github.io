@@ -37,6 +37,13 @@ export const zh: Translations = {
         n52Magnets: 'N52 磁鐵',
         antiFadeGlass: '防褪色玻璃',
       },
+      productShowcase: {
+        badge: '優質保護',
+        title: '鑑定卡保護殼',
+        chipUv: '>95% 防UV',
+        chipMagnets: 'N52 磁鐵',
+        chipAntiFade: '防褪色',
+      },
     },
     specs: {
       badge: '產品規格',
@@ -281,7 +288,7 @@ export const zh: Translations = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: '優質保護',
-    seoH1: 'Appaw Store｜香港磁吸鋁合金鑑定卡保護殼專門店',
+    seoH1: '磁吸鋁合金鑑定卡保護殼 — 35PT PSA 及 CGC 鑑定卡磚',
     heroImageAlt: 'Appaw Store 黑色磁吸鋁合金鑑定卡保護殼展示寶可夢 PTCG 鑑定卡磚',
     heroCta: '查看顏色及價格 ↓',
     centeringCrossLink: {
@@ -672,18 +679,6 @@ export const zh: Translations = {
     message: '我們使用 Cookie 和分析工具來改善您的體驗並了解您如何使用我們的網站。點擊「接受」即表示您同意我們使用 Cookie 和分析服務。',
     accept: '接受',
     decline: '拒絕',
-  },
-
-  // Graded Cards Page
-  gradedCards: {
-    badge: '精選收藏',
-    title: '鑑定卡牌收藏',
-    subtitle: '瀏覽我們精選的專業鑑定寶可夢卡牌',
-    searchPlaceholder: '搜尋卡牌...',
-    filter: '篩選',
-    viewDetails: '詳情',
-    comingSoon: '更多卡牌即將推出！',
-    comingSoonDesc: '我們持續更新收藏。敬請期待新品上架。',
   },
 
   // Retail Partners

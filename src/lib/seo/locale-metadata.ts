@@ -14,7 +14,7 @@ export function withLocaleAlternates(metadata: Metadata, enPath: string): Metada
     alternates: {
       ...metadata.alternates,
       canonical: en,
-      languages: { en, 'zh-HK': zh },
+      languages: { en, 'zh-HK': zh, 'x-default': en },
     },
   };
 }
@@ -38,7 +38,7 @@ export function zhRouteMetadata(
       ...enMetadata.alternates,
       ...overrides?.alternates,
       canonical: zh,
-      languages: { en, 'zh-HK': zh },
+      languages: { en, 'zh-HK': zh, 'x-default': en },
     },
     openGraph: {
       ...enMetadata.openGraph,

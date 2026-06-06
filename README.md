@@ -80,7 +80,6 @@ src/
 │   ├── privacy/                # Privacy policy
 │   ├── style-guide/            # Design system (dev only)
 │   ├── products/
-│   │   ├── graded-cards/       # Graded cards product page
 │   │   └── psa-protectors/     # PSA Aluminium Protector product page
 │   ├── business/
 │   │   ├── page.tsx            # Business overview
@@ -128,7 +127,6 @@ src/
 | `/` | Public | Home — hero, features, product showcase |
 | `/about/` | Public | About Us |
 | `/privacy/` | Public | Privacy policy |
-| `/products/graded-cards/` | Public | Graded Pokémon cards product page |
 | `/products/psa-protectors/` | Public | PSA Aluminium Protector product page |
 | `/business/` | Public | Business services overview |
 | `/business/card-trading/` | Public | TCG card marketplace listing |
@@ -306,7 +304,6 @@ Push to the `main` branch to trigger automatic deployment to GitHub Pages.
 src/
 ├── app/                     # Next.js App Router pages
 │   ├── products/           # Product pages
-│   │   ├── graded-cards/   # Graded cards collection
 │   │   └── psa-protectors/ # PSA protector product page
 │   ├── business/           # Business services
 │   │   └── psa-protector/  # Redirect to products
@@ -325,7 +322,6 @@ src/
 ## Pages
 
 - `/` - Home page with hero, features, and product showcase
-- `/products/graded-cards` - Graded Pokémon cards collection
 - `/products/psa-protectors` - PSA Card Aluminum Protector details
 - `/business` - Business overview with services
 - `/business/card-trading` - TCG card marketplace

@@ -35,6 +35,13 @@ export const en = {
         n52Magnets: 'N52 Magnets',
         antiFadeGlass: 'Anti-Fade Glass',
       },
+      productShowcase: {
+        badge: 'Premium Protection',
+        title: 'PSA Card Protector',
+        chipUv: '>95% UV',
+        chipMagnets: 'N52 Magnets',
+        chipAntiFade: 'Anti-Fade',
+      },
     },
     specs: {
       badge: 'Product Specifications',
@@ -279,7 +286,7 @@ export const en = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: 'Premium Protection',
-    seoH1: 'Appaw Store | Hong Kong Graded Slab Aluminum Protector',
+    seoH1: 'Graded Slab Aluminum Protector — 35PT Magnetic PSA & CGC Case',
     heroImageAlt: 'Appaw Store graded slab aluminum protector with UV-blocking glass and N52 magnetic closure',
     heroCta: 'See colors & pricing ↓',
     centeringCrossLink: {
@@ -671,18 +678,6 @@ export const en = {
     message: 'We use cookies and analytics to improve your experience and understand how you use our site. By clicking "Accept", you agree to our use of cookies and analytics services.',
     accept: 'Accept',
     decline: 'Decline',
-  },
-
-  // Graded Cards Page
-  gradedCards: {
-    badge: 'Premium Collection',
-    title: 'Graded Cards Collection',
-    subtitle: 'Browse our curated selection of professionally graded Pokémon cards',
-    searchPlaceholder: 'Search cards...',
-    filter: 'Filter',
-    viewDetails: 'Details',
-    comingSoon: 'More Cards Coming Soon!',
-    comingSoonDesc: 'We\'re constantly updating our collection. Check back soon for new additions.',
   },
 
   // Retail Partners

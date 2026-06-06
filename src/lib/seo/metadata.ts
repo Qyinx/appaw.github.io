@@ -5,7 +5,7 @@ import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata
 const homeHreflang = { en: '/', 'zh-HK': '/zh/' } as const;
 
 const psaProtectorsMetadataBase: Metadata = {
-  title: PRODUCT_NAME.en.metaTitle,
+  title: { absolute: PRODUCT_NAME.en.metaTitle },
   description: PRODUCT_NAME.en.metaDescription,
   // NOTE: keep description ≤160 chars.
   keywords: [
@@ -31,7 +31,7 @@ const psaProtectorsMetadataBase: Metadata = {
   ],
   alternates: { canonical: '/products/psa-protectors/' },
   openGraph: {
-    title: `${PRODUCT_NAME.en.metaTitle} | Appaw Store`,
+    title: PRODUCT_NAME.en.metaTitle,
     description: PRODUCT_NAME.en.metaDescription,
     url: 'https://appaw.store/products/psa-protectors/',
     type: 'website',
@@ -54,7 +54,7 @@ const psaProtectorsMetadataBase: Metadata = {
 
 export const psaProtectorsMetadata = withLocaleAlternates(psaProtectorsMetadataBase, '/products/psa-protectors/');
 export const zhPsaProtectorsMetadata = zhRouteMetadata(psaProtectorsMetadataBase, '/products/psa-protectors/', {
-  title: PRODUCT_NAME.zh.metaTitle,
+  title: { absolute: PRODUCT_NAME.zh.metaTitle },
   description: PRODUCT_NAME.zh.metaDescription,
 });
 
@@ -241,17 +241,6 @@ export const zhAboutMetadata = zhRouteMetadata(aboutMetadataBase, '/about/', {
   title: '關於 Appaw Store – 香港鑑定卡保護殼及卡牌交易',
   description:
     'Appaw Store 是香港鑑定卡保護殼品牌，提供磁吸鋁合金 Slab 保護殼及 TCG 鑑定卡交易服務。>95% 抗 UV、N52 磁吸，全球付運。',
-});
-
-const gradedCardsMetadataBase: Metadata = {
-  title: 'Graded Trading Cards | Appaw Store',
-  description: 'Browse graded Pokémon, sports, and MTG trading cards from Appaw Store in Hong Kong.',
-};
-
-export const gradedCardsMetadata = withLocaleAlternates(gradedCardsMetadataBase, '/products/graded-cards/');
-export const zhGradedCardsMetadata = zhRouteMetadata(gradedCardsMetadataBase, '/products/graded-cards/', {
-  title: '鑑定卡牌 | Appaw Store',
-  description: '瀏覽 Appaw Store 的寶可夢、運動卡及 MTG 鑑定卡牌。',
 });
 
 const collectionMetadataBase: Metadata = {

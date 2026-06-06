@@ -22,16 +22,6 @@ export const PAGE_META: Record<string, LocaleMeta> = {
     en: { title: PRODUCT_NAME.en.metaTitle, description: PRODUCT_NAME.en.metaDescription },
     zh: { title: PRODUCT_NAME.zh.metaTitle, description: PRODUCT_NAME.zh.metaDescription },
   },
-  '/products/graded-cards': {
-    en: {
-      title: 'Graded Trading Cards | Appaw Store',
-      description: 'Browse graded Pokémon, sports, and MTG trading cards from Appaw Store in Hong Kong.',
-    },
-    zh: {
-      title: '鑑定卡牌 | Appaw Store',
-      description: '瀏覽 Appaw Store 的寶可夢、運動卡及 MTG 鑑定卡牌。',
-    },
-  },
   '/business': {
     en: {
       title: 'Services – Graded Slab Protector & TCG Trading',

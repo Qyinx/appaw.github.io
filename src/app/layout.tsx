@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       {/* Note: Consider making lang dynamic based on user's language selection in future */}
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* Google Analytics with Cookie Consent */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-MTFS1VS5S4"></script>
         <script

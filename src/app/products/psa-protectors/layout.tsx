@@ -73,8 +73,7 @@ export default function PSAProtectorLayout({ children }: { children: React.React
 
   const breadcrumb = breadcrumbFactory([
     { position: 1, name: 'Home', item: 'https://appaw.store/' },
-    { position: 2, name: 'Products', item: 'https://appaw.store/products/' },
-    { position: 3, name: PRODUCT_NAME.en.full, item: 'https://appaw.store/products/psa-protectors/' },
+    { position: 2, name: PRODUCT_NAME.en.full, item: 'https://appaw.store/products/psa-protectors/' },
   ]);
 
   const psaFaq = faqFactory(en.psaProtectorPage.faq.items);

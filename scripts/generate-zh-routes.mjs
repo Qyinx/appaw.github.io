@@ -5,7 +5,6 @@ const routes = [
   { slug: 'about', layout: true, meta: 'zhAboutMetadata' },
   { slug: 'privacy', layout: false, meta: 'zhPrivacyMetadata' },
   { slug: 'products/psa-protectors', layout: true, meta: 'zhPsaProtectorsMetadata' },
-  { slug: 'products/graded-cards', layout: true, meta: 'zhGradedCardsMetadata' },
   { slug: 'business', layout: true, meta: 'zhBusinessMetadata' },
   { slug: 'business/card-trading', layout: true, meta: 'zhCardTradingMetadata' },
   { slug: 'business/psa-protector', redirect: '/zh/products/psa-protectors/' },

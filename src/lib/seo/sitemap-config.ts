@@ -7,7 +7,6 @@ export const SITEMAP_PUBLIC_PATHS = [
   { path: '/about/', changeFrequency: 'monthly' as const, priority: 0.8 },
   { path: '/privacy/', changeFrequency: 'yearly' as const, priority: 0.2 },
   { path: '/products/psa-protectors/', changeFrequency: 'weekly' as const, priority: 0.95 },
-  { path: '/products/graded-cards/', changeFrequency: 'monthly' as const, priority: 0.6 },
   { path: '/business/', changeFrequency: 'weekly' as const, priority: 0.9 },
   { path: '/collection/', changeFrequency: 'monthly' as const, priority: 0.75 },
   { path: '/tools/card-centering/', changeFrequency: 'weekly' as const, priority: 0.8 },

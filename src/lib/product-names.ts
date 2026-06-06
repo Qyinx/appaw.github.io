@@ -5,7 +5,7 @@ export const PRODUCT_NAME = {
     short: 'Graded Slab Protector',
     plural: 'Graded Slab Protectors',
     whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab Aluminum Protector.',
-    seoH1: 'Appaw Store | Hong Kong Graded Slab Aluminum Protector',
+    seoH1: 'Graded Slab Aluminum Protector — 35PT Magnetic PSA & CGC Case',
     metaTitle: 'Graded Slab Aluminum Protector HK | 35PT Magnetic Slab Case – Appaw Store',
     metaDescription:
       '35PT magnetic aluminum slab case for PSA & CGC graded cards. >95% UV-blocking glass, N52 closure. Hong Kong designed for Pokémon PTCG, sports & MTG slabs. Ships worldwide.',
@@ -14,7 +14,7 @@ export const PRODUCT_NAME = {
     full: '磁吸鋁合金鑑定卡保護殼',
     short: '鑑定卡保護殼',
     whatsappOrder: '你好！我想訂購磁吸鋁合金鑑定卡保護殼。',
-    seoH1: 'Appaw Store｜香港磁吸鋁合金鑑定卡保護殼專門店',
+    seoH1: '磁吸鋁合金鑑定卡保護殼 — 35PT PSA 及 CGC 鑑定卡磚',
     metaTitle: '鑑定卡鋁合金保護殼｜35PT 磁吸 Slab 防褪色 - Appaw Store 香港',
     metaDescription:
       '專為標準 35PT PSA 及 CGC 鑑定卡磚打造的航空級鋁合金保護殼。具備 >95% 抗紫外線與 N52 磁吸設計，全面保護寶可夢 PTCG、運動卡珍藏。香港設計，全球付運。',

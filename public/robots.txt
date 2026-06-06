@@ -56,6 +56,26 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: Bytespider
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
 # ── Bing ─────────────────────────────────────────────────────────────────────
 User-agent: Bingbot
 Allow: /

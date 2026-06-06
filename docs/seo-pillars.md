@@ -291,7 +291,6 @@ Sitemap Strategy (implemented)
 | `/collection/` | 0.75 | monthly |
 | `/about/` | 0.8 | monthly |
 | `/tools/card-centering/` | 0.8 | weekly |
-| `/products/graded-cards/` | 0.6 | monthly |
 | `/privacy/` | 0.2 | yearly |
 
 **Excluded (by design):**

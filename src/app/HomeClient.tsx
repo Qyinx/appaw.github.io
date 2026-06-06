@@ -225,8 +225,8 @@ export default function HomeClient() {
                   {/* Label bar */}
                   <div className="mt-5 flex items-center justify-between">
                     <div>
-                      <p className="text-[#D4899A]/60 text-[10px] uppercase tracking-[0.2em]">Premium Protection</p>
-                      <p className="text-white text-sm font-semibold mt-0.5">PSA Card Protector</p>
+                      <p className="text-[#D4899A]/60 text-[10px] uppercase tracking-[0.2em]">{t.home.hero.productShowcase.badge}</p>
+                      <p className="text-white text-sm font-semibold mt-0.5">{t.home.hero.productShowcase.title}</p>
                     </div>
                     <div className="flex gap-0.5">
                       {[1, 2, 3, 4, 5].map(s => (
@@ -242,7 +242,7 @@ export default function HomeClient() {
                   style={{ animation: 'float 4s ease-in-out infinite' }}
                 >
                   <Shield className="w-3 h-3 text-green-400" />
-                  <span className="text-green-400 text-[11px] font-semibold">&gt;95% UV</span>
+                  <span className="text-green-400 text-[11px] font-semibold">{t.home.hero.productShowcase.chipUv}</span>
                 </div>
 
                 <div
@@ -250,7 +250,7 @@ export default function HomeClient() {
                   style={{ animation: 'float 5s ease-in-out 1.3s infinite' }}
                 >
                   <Magnet className="w-3 h-3 text-[#D4899A]" />
-                  <span className="text-[#D4899A] text-[11px] font-semibold">N52 Magnets</span>
+                  <span className="text-[#D4899A] text-[11px] font-semibold">{t.home.hero.productShowcase.chipMagnets}</span>
                 </div>
 
                 <div
@@ -258,7 +258,7 @@ export default function HomeClient() {
                   style={{ animation: 'float 3.5s ease-in-out 2.2s infinite' }}
                 >
                   <Sparkles className="w-3 h-3 text-amber-400" />
-                  <span className="text-amber-400 text-[11px] font-semibold">Anti-Fade</span>
+                  <span className="text-amber-400 text-[11px] font-semibold">{t.home.hero.productShowcase.chipAntiFade}</span>
                 </div>
               </div>
             </div>
