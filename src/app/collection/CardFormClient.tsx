@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useLocalizedPath } from '@/hooks/useLocalizedPath';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Loader2 } from 'lucide-react';
 import {
@@ -24,6 +25,7 @@ interface CardFormClientProps {
 
 function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   const router = useRouter();
+  const localize = useLocalizedPath();
   const searchParams = useSearchParams();
   const cardId = cardIdProp ?? searchParams.get('id') ?? undefined;
   const { isAuthenticated, isLoading: auth0Loading, getAccessTokenSilently } = useAuth0();
@@ -350,36 +352,36 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
         setSaveMsg('Card updated');
         setTimeout(() => setSaveMsg(null), 3000);
       } else {
-        router.push('/collection/list');
+        router.push(localize('/collection/list'));
         router.refresh();
       }
     } catch (e) {
       setSaving(false);
       alert(e instanceof Error ? e.message : 'Save failed');
     }
-  }, [isEdit, card, cardPortfolioIds, serverImages, apiFetch, syncCardImages, portfolios, router]);
+  }, [isEdit, card, cardPortfolioIds, serverImages, apiFetch, syncCardImages, portfolios, router, localize]);
 
   /* ── Auth guard ── */
   if (auth0Loading || dataLoading) {
     return (
-      <div className="min-h-screen bg-[#1e1e2e] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-[#9B7EBF] animate-spin" />
+      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    if (typeof window !== 'undefined') window.location.replace('/collection/auth');
+    if (typeof window !== 'undefined') window.location.replace(localize('/collection/auth'));
     return (
-      <div className="min-h-screen bg-[#1e1e2e] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-[#9B7EBF] animate-spin" />
+      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
       </div>
     );
   }
 
   if (dataError) {
     return (
-      <div className="min-h-screen bg-[#1e1e2e] flex items-center justify-center">
+      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
         <p className="text-red-400 text-sm">{dataError}</p>
       </div>
     );
@@ -415,7 +417,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
         backImage: card.backImage,
       } : null}
       isEdit={isEdit}
-      onBack={() => router.push('/collection/list')}
+      onBack={() => router.push(localize('/collection/list'))}
       onSave={handleSave}
       onScan={handleScan}
       onLoadImages={loadImages}
@@ -430,8 +432,8 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
 export default function CardFormClient(props: CardFormClientProps) {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#1e1e2e] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-[#9B7EBF] animate-spin" />
+      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
       </div>
     }>
       <CardFormInner {...props} />

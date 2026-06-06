@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useLocalizedPath } from '@/hooks/useLocalizedPath';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Loader2 } from 'lucide-react';
 import {
@@ -17,6 +18,7 @@ import { cacheGet, cacheSet, cacheInvalidate } from './lib/apiCache';
 
 export default function CollectionClient() {
   const router = useRouter();
+  const localize = useLocalizedPath();
   const {
     isAuthenticated,
     isLoading: auth0Loading,
@@ -254,18 +256,18 @@ export default function CollectionClient() {
   /* ── Auth0 SDK still initialising ───────────────────────────────────────── */
   if (auth0Loading) {
     return (
-      <div className="min-h-screen bg-[#1e1e2e] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-[#9B7EBF] animate-spin" />
+      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
       </div>
     );
   }
 
   /* ── Not authenticated ───────────────────────────────────────────────────── */
   if (!isAuthenticated) {
-    if (typeof window !== 'undefined') window.location.replace('/collection/auth');
+    if (typeof window !== 'undefined') window.location.replace(localize('/collection/auth'));
     return (
-      <div className="min-h-screen bg-[#1e1e2e] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-[#9B7EBF] animate-spin" />
+      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
       </div>
     );
   }
@@ -281,14 +283,14 @@ export default function CollectionClient() {
       userName={userName}
       memberLevel={memberLevel}
       portfolios={portfolios}
-      onOpenNew={() => router.push('/collection/card/new')}
-      onOpenEdit={card => router.push(`/collection/card/edit?id=${card.id}`)}
+      onOpenNew={() => router.push(localize('/collection/card/new'))}
+      onOpenEdit={card => router.push(localize(`/collection/card/edit?id=${card.id}`))}
       onRefresh={loadCards}
       onDeleteCard={handleDeleteCard}
       onToggleSold={handleToggleSold}
       onLogout={() => {
         localStorage.removeItem('auth0_user');
-        logout({ logoutParams: { returnTo: (() => { const u = process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI ?? '/collection/auth'; return u.startsWith('http') ? u : (typeof window !== 'undefined' ? window.location.origin : '') + u; })() } });
+        logout({ logoutParams: { returnTo: (() => { const u = process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI ?? localize('/collection/auth'); return u.startsWith('http') ? u : (typeof window !== 'undefined' ? window.location.origin : '') + u; })() } });
       }}
       onCreatePortfolio={handleCreatePortfolio}
       onUpdatePortfolio={handleUpdatePortfolio}

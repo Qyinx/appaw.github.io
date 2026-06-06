@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import LocalLink from '@/components/LocalLink';
 import {
-  Shield, ArrowRight, ArrowUpRight, CheckCircle, XCircle,
+  Shield, ArrowRight, CheckCircle, XCircle,
   Eye, Lock,
   Star, Package, TrendingUp, Users,
 } from 'lucide-react';
@@ -14,67 +14,26 @@ import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 import ShopNowButton from '@/components/ui/ShopNowButton';
 import ProtectorTechnicalSpecs from '@/components/products/ProtectorTechnicalSpecs';
+import Reveal from '@/components/ui/Reveal';
+import { MotionStagger } from '@/components/ui/Reveal';
+import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
-/* ─── Reveal hook ─── */
-function useReveal(threshold = 0.06) {
-  const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold }
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return { ref, visible };
-}
-
-/* ─── Fade-in wrapper ─── */
-function Reveal({
-  children,
-  delay = 0,
-  dir = 'up',
-  visible,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  dir?: 'up' | 'left' | 'right' | 'none';
-  visible: boolean;
-}) {
-  const translateMap = { up: 'translateY(36px)', left: 'translateX(-36px)', right: 'translateX(36px)', none: 'none' };
+/* ─── Section label — use globals .section-label ─── */
+function SectionLabel({ text, variant = 'brand' }: { text: string; variant?: 'brand' | 'link' }) {
   return (
-    <div
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'none' : translateMap[dir],
-        transition: `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-/* ─── Section label ─── */
-function SectionLabel({ text, color = '#D4899A' }: { text: string; color?: string }) {
-  return (
-    <div className="flex items-center gap-3 mb-6">
-      <div className="w-6 h-px" style={{ background: color }} />
-      <span className="text-[11px] uppercase tracking-[0.35em] font-medium" style={{ color }}>
-        {text}
-      </span>
-    </div>
+    <p className={`section-label mb-6 ${variant === 'link' ? 'text-accent-link before:bg-accent-link' : ''}`}>
+      {text}
+    </p>
   );
 }
 
 /* ─── Spec chip ─── */
-function Chip({ label, color = '#D4899A' }: { label: string; color?: string }) {
+function Chip({ label, variant = 'brand' }: { label: string; variant?: 'brand' | 'link' }) {
+  const cls = variant === 'link'
+    ? 'border-accent-link/30 text-accent-link'
+    : 'border-accent-brand/30 text-accent-brand';
   return (
-    <span
-      className="px-3.5 py-1.5 text-[10px] uppercase tracking-[0.2em] border"
-      style={{ borderColor: `${color}28`, color: `${color}88` }}
-    >
+    <span className={`px-3.5 py-1.5 text-[10px] uppercase tracking-[0.2em] border font-mono ${cls}`}>
       {label}
     </span>
   );
@@ -85,22 +44,13 @@ function Chip({ label, color = '#D4899A' }: { label: string; color?: string }) {
 ═══════════════════════════════════════════════════════════ */
 export default function BusinessClient() {
   const { t } = useLanguage();
-  const [mounted, setMounted] = useState(false);
-  const heroRef    = useReveal();
-  const psaRef     = useReveal();
-  const featRef    = useReveal();
-  const compatRef  = useReveal();
-  const statsRef   = useReveal();
-  const tradingRef = useReveal();
-  const ctaRef     = useReveal();
+  const heroMounted = useHeroMount();
+  const heroRef    = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
+  const psaRef     = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
+  const featRef    = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
+  const tradingRef = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
+  const ctaRef     = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
 
-  useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 80);
-    return () => clearTimeout(t);
-  }, []);
-
-  const GOLD   = '#D4899A';
-  const VIOLET = '#818cf8';
 
   /* ── Trading features ── */
   const tradingFeatureIcons = [Package, TrendingUp, Users, Shield];
@@ -112,73 +62,43 @@ export default function BusinessClient() {
   ];
 
   return (
-    <div className="flex flex-col bg-[#1e1e2e]">
+    <div className="flex flex-col bg-surface-bg">
 
       {/* ══════════════════════════════════════════════════════
            HERO
       ══════════════════════════════════════════════════════ */}
       <section
         ref={heroRef.ref}
-        className="relative min-h-[70dvh] flex items-center overflow-hidden"
+        className="relative min-h-[70dvh] flex items-center overflow-hidden border-b border-border-default page-blueprint"
       >
-        {/* background layers */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.013)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.013)_1px,transparent_1px)] bg-[size:72px_72px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(212,137,154,0.09),transparent)]" />
-        {/* Top hairline */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/40 to-transparent" />
-        {/* Ambient orbs */}
-        <div className="absolute top-1/4 left-[15%] w-[480px] h-[480px] rounded-full bg-[rgba(212,137,154,0.06)] blur-[100px] pointer-events-none animate-[orb-drift-a_14s_ease-in-out_infinite]" />
-        <div className="absolute bottom-1/4 right-[15%] w-[360px] h-[360px] rounded-full bg-[rgba(129,140,248,0.04)] blur-[80px] pointer-events-none animate-[orb-drift-b_18s_ease-in-out_2s_infinite]" />
-        {/* Scanning light */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent animate-[scan-line_7s_linear_3s_infinite]" />
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#1e1e2e] to-transparent" />
 
         <div className="container-custom relative z-10 py-24 md:py-32">
-          <div
-            style={{
-              opacity: mounted ? 1 : 0,
-              transform: mounted ? 'none' : 'translateY(28px)',
-              transition: 'opacity 1s ease 0.1s, transform 1s cubic-bezier(0.16,1,0.3,1) 0.1s',
-            }}
-          >
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/35 rounded-full px-5 py-2 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] animate-pulse" />
-              <span className="text-[#D4899A] text-[11px] uppercase tracking-[0.3em]">{t.business.subtitle}</span>
-            </div>
+          <MotionStagger visible={heroMounted} className="max-w-3xl">
+            <p className="section-label mb-8 motion-stagger-item">{t.business.subtitle}</p>
 
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.06] tracking-tight mb-6 max-w-3xl">
+            <h1 className="motion-stagger-item font-display text-5xl sm:text-6xl md:text-7xl font-bold text-text-primary leading-[1.06] tracking-tight mb-6 max-w-3xl">
               {t.business.hero.line1}<br />
-              <span className="text-[#D4899A]">{t.business.hero.line2Collect}</span>{' '}
-              <span className="text-[#818cf8]">{t.business.hero.line2Trade}</span>
+              <span className="text-accent-brand">{t.business.hero.line2Collect}</span>{' '}
+              <span className="text-accent-link">{t.business.hero.line2Trade}</span>
             </h1>
 
-            <p className="text-[#6b7280] text-lg max-w-xl leading-relaxed mb-10">
+            <p className="motion-stagger-item text-text-muted text-lg max-w-xl leading-relaxed mb-10">
               {t.home.hero.description}
             </p>
 
-            {/* Service pills */}
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="#psa-protector"
-                className="group inline-flex items-center gap-3 border border-[#D4899A]/40 hover:border-[#D4899A] bg-[#D4899A]/5 hover:bg-[#D4899A]/10 px-6 py-3 transition-all duration-300"
-              >
-                <Shield className="w-4 h-4 text-[#D4899A]" />
-                <span className="text-[#D4899A] text-sm font-semibold uppercase tracking-[0.15em]">{t.business.hero.psaProtectorPill}</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#D4899A] group-hover:translate-x-0.5 transition-transform" />
+            <div className="motion-stagger-item flex flex-wrap gap-3">
+              <a href="#psa-protector" className="btn btn-secondary group">
+                <Shield className="w-4 h-4 text-accent-brand" />
+                <span className="text-accent-brand text-sm uppercase tracking-[0.15em]">{t.business.hero.psaProtectorPill}</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent-brand group-hover:translate-x-0.5 transition-transform duration-150" />
               </a>
-              <a
-                href="#card-trading"
-                className="group inline-flex items-center gap-3 border border-[#818cf8]/40 hover:border-[#818cf8] bg-[#818cf8]/5 hover:bg-[#818cf8]/10 px-6 py-3 transition-all duration-300"
-              >
-                <TrendingUp className="w-4 h-4 text-[#818cf8]" />
-                <span className="text-[#818cf8] text-sm font-semibold uppercase tracking-[0.15em]">{t.business.hero.cardTradingPill}</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#818cf8] group-hover:translate-x-0.5 transition-transform" />
+              <a href="#card-trading" className="btn btn-secondary group">
+                <TrendingUp className="w-4 h-4 text-accent-link" />
+                <span className="text-accent-link text-sm uppercase tracking-[0.15em]">{t.business.hero.cardTradingPill}</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent-link group-hover:translate-x-0.5 transition-transform duration-150" />
               </a>
             </div>
-          </div>
+          </MotionStagger>
         </div>
       </section>
 
@@ -188,14 +108,13 @@ export default function BusinessClient() {
       <section
         id="psa-protector"
         ref={psaRef.ref}
-        className="scroll-mt-20 py-24 md:py-32 relative overflow-hidden border-t border-white/[0.05]"
+        className="scroll-mt-20 py-24 md:py-32 relative overflow-hidden border-t border-border-default"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_0%_50%,rgba(212,137,154,0.04),transparent)]" />
         <div className="container-custom relative">
 
           {/* Overline */}
           <Reveal visible={psaRef.visible} dir="up">
-            <SectionLabel text={t.business.service01Label} color={GOLD} />
+            <SectionLabel text={t.business.service01Label} />
           </Reveal>
 
           {/* Two-column: text + visual */}
@@ -204,13 +123,13 @@ export default function BusinessClient() {
             {/* ── LEFT: copy ── */}
             <div>
               <Reveal visible={psaRef.visible} dir="left">
-                <h2 className="font-display text-5xl md:text-6xl font-bold text-white leading-[1.06] mb-6">
+                <h2 className="font-display text-5xl md:text-6xl font-bold text-text-primary leading-[1.06] mb-6">
                   {t.business.cardProtector.title}
                 </h2>
-                <p className="text-[#6b7280] text-base md:text-lg leading-relaxed mb-4 max-w-md">
+                <p className="text-text-muted text-base md:text-lg leading-relaxed mb-4 max-w-md">
                   {t.business.cardProtector.description}
                 </p>
-                <p className="text-[#9ca3af] text-sm leading-relaxed mb-8 max-w-md">
+                <p className="text-text-secondary text-sm leading-relaxed mb-8 max-w-md">
                   {t.business.cardProtector.teaserLine}
                 </p>
               </Reveal>
@@ -227,7 +146,7 @@ export default function BusinessClient() {
               <Reveal visible={psaRef.visible} dir="left" delay={150}>
                 <div className="flex flex-wrap gap-2 mb-10">
                   {t.business.cardProtector.chips.map(s => (
-                    <Chip key={s} label={s} color={GOLD} />
+                    <Chip key={s} label={s} />
                   ))}
                 </div>
               </Reveal>
@@ -235,13 +154,13 @@ export default function BusinessClient() {
               {/* CTAs */}
               <Reveal visible={psaRef.visible} dir="left" delay={200}>
                 <div className="flex flex-wrap items-center gap-5">
-                  <Link
+                  <LocalLink
                     href="/products/psa-protectors"
-                    className="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.3)] active:scale-95"
+                    className="btn btn-primary"
                   >
                     <Shield className="w-3.5 h-3.5" />
                     {t.home.services.protector.cta}
-                  </Link>
+                  </LocalLink>
                 </div>
               </Reveal>
             </div>
@@ -251,9 +170,7 @@ export default function BusinessClient() {
 
               {/* ── Product photo — no overlays ── */}
               <Reveal visible={psaRef.visible} dir="right" delay={80}>
-                <div className="relative overflow-hidden rounded-sm">
-                  {/* Subtle gold glow behind image */}
-                  <div className="absolute -inset-8 bg-[radial-gradient(ellipse_60%_50%_at_50%_60%,rgba(212,137,154,0.12),transparent)] pointer-events-none z-0" />
+                <div className="relative overflow-hidden border border-border-default">
                   <Image
                     src={getImagePath('/images-optimized/describe/sell 3.png')}
                     alt={t.psaProtectorPage.heroImageAlt}
@@ -268,52 +185,52 @@ export default function BusinessClient() {
 
               {/* ── Pricing card ── */}
               <Reveal visible={psaRef.visible} dir="right" delay={160}>
-                <div className="border border-[#D4899A]/20 bg-[#D4899A]/[0.04] p-5 flex items-center justify-between gap-4 flex-wrap">
+                <div className="panel p-5 flex items-center justify-between gap-4 flex-wrap">
                   <div>
-                    <p className="text-[#D4899A]/50 text-[10px] uppercase tracking-[0.3em] mb-1">{t.business.cardProtector.startingPrice}</p>
-                    <p className="text-white font-display text-2xl font-bold leading-none">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted mb-1">{t.business.cardProtector.startingPrice}</p>
+                    <p className="text-text-primary font-display text-2xl font-bold leading-none">
                       {t.business.cardProtector.pricing.single}
-                      <span className="text-white/40 text-lg font-normal mx-2">/</span>
+                      <span className="text-text-muted text-lg font-normal mx-2">/</span>
                       {t.business.cardProtector.pricing.gradient}
                     </p>
-                    <p className="text-white/40 text-[10px] mt-1">
+                    <p className="text-text-muted text-[10px] mt-1">
                       {t.business.cardProtector.pricing.singleNote} · {t.business.cardProtector.pricing.gradientNote}
                     </p>
-                    <p className="text-white/50 text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
+                    <p className="text-text-secondary text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
                   </div>
                   <ShopNowButton
                     label={t.business.cardProtector.cta}
                     shopOptions={t.shopOptions}
                     whatsappMessage={t.business.cardProtector.whatsappOrder}
-                    buttonClassName="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap shadow-sm flex-shrink-0 active:scale-95"
+                    buttonClassName="btn btn-primary whitespace-nowrap flex-shrink-0"
                   />
                 </div>
               </Reveal>
 
               {/* Compatibility */}
               <Reveal visible={psaRef.visible} dir="right" delay={220}>
-                <div className="border border-white/[0.06] overflow-hidden">
-                  <div className="px-5 py-3 border-b border-white/[0.05] bg-white/[0.02]">
-                    <span className="text-white/50 text-[10px] uppercase tracking-[0.3em]">{t.business.cardProtector.compatibilityHeading}</span>
+                <div className="panel p-0 overflow-hidden">
+                  <div className="px-5 py-3 border-b border-border-default bg-surface-raised">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted">{t.business.cardProtector.compatibilityHeading}</span>
                   </div>
                   <div className="p-5 space-y-4">
                     <div className="flex items-start gap-3">
-                      <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="w-4 h-4 text-accent-success flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-emerald-400 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.fitsLabel}</p>
-                        <p className="text-white/50 text-sm leading-relaxed">{t.business.cardProtector.compatibility.fits}</p>
+                        <p className="text-accent-success text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.fitsLabel}</p>
+                        <p className="text-text-secondary text-sm leading-relaxed">{t.business.cardProtector.compatibility.fits}</p>
                       </div>
                     </div>
-                    <div className="h-px bg-white/[0.05]" />
+                    <div className="h-px bg-border-default" />
                     <div className="flex items-start gap-3">
-                      <XCircle className="w-4 h-4 text-rose-400/70 flex-shrink-0 mt-0.5" />
+                      <XCircle className="w-4 h-4 text-accent-danger/70 flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-rose-400/70 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.notFitsLabel}</p>
-                        <p className="text-white/50 text-sm leading-relaxed">{t.business.cardProtector.compatibility.notFits}</p>
+                        <p className="text-accent-danger/70 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.notFitsLabel}</p>
+                        <p className="text-text-secondary text-sm leading-relaxed">{t.business.cardProtector.compatibility.notFits}</p>
                       </div>
                     </div>
-                    <div className="h-px bg-white/[0.05]" />
-                    <p className="text-[#D4899A]/40 text-xs italic">{t.business.cardProtector.compatibility.note}</p>
+                    <div className="h-px bg-border-default" />
+                    <p className="text-accent-brand/60 text-xs italic">{t.business.cardProtector.compatibility.note}</p>
                   </div>
                 </div>
               </Reveal>
@@ -325,27 +242,25 @@ export default function BusinessClient() {
       {/* ── §1b Product feature pillars ── */}
       <section ref={featRef.ref} className="pb-24 overflow-hidden">
         <div className="container-custom">
-          <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/[0.05] border border-white/[0.05]">
+          <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border-default border border-border-default">
             {[
               { icon: Shield, ...t.business.cardProtector.pillars[0] },
               { icon: Eye,    ...t.business.cardProtector.pillars[1] },
               { icon: Lock,   ...t.business.cardProtector.pillars[2] },
             ].map(({ icon: Icon, title, description: body }, i) => (
-              <div
+              <Reveal
                 key={title}
-                className="p-8 md:p-10 bg-[#1e1e2e] hover:bg-[#161626] transition-colors duration-300"
-                style={{
-                  opacity: featRef.visible ? 1 : 0,
-                  transform: featRef.visible ? 'none' : 'translateY(24px)',
-                  transition: `opacity 0.8s ease ${i * 120}ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms`,
-                }}
+                visible={featRef.visible}
+                dir="up"
+                delay={i * 40}
+                className="p-8 md:p-10 bg-surface-panel hover:bg-surface-raised transition-colors duration-300"
               >
-                <div className="w-10 h-10 rounded-xl border border-[#D4899A]/30 bg-[#D4899A]/10 flex items-center justify-center mb-5">
-                  <Icon className="w-4 h-4 text-[#D4899A]" />
+                <div className="w-10 h-10 border border-accent-brand/30 bg-accent-brand/10 flex items-center justify-center mb-5">
+                  <Icon className="w-4 h-4 text-accent-brand" />
                 </div>
-                <h3 className="font-display text-white font-bold text-lg mb-3">{title}</h3>
-                <p className="text-[#9ca3af] text-sm leading-relaxed">{body}</p>
-              </div>
+                <h3 className="font-display text-text-primary font-bold text-lg mb-3">{title}</h3>
+                <p className="text-text-secondary text-sm leading-relaxed">{body}</p>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -386,13 +301,12 @@ export default function BusinessClient() {
       <section
         id="card-trading"
         ref={tradingRef.ref}
-        className="scroll-mt-20 py-24 md:py-32 relative overflow-hidden border-t border-white/[0.05]"
+        className="scroll-mt-20 py-24 md:py-32 relative overflow-hidden border-t border-border-default"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_100%_50%,rgba(129,140,248,0.04),transparent)]" />
         <div className="container-custom relative">
 
           <Reveal visible={tradingRef.visible} dir="up">
-            <SectionLabel text={t.business.cardTrading.badge} color={VIOLET} />
+            <SectionLabel text={t.business.cardTrading.badge} variant="link" />
           </Reveal>
 
           {/* Two-column: visual + copy */}
@@ -402,11 +316,6 @@ export default function BusinessClient() {
             <div className="order-2 lg:order-1">
               <Reveal visible={tradingRef.visible} dir="left" delay={80}>
                 <div className="relative h-72 md:h-96 mb-8">
-                  {/* Glow */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-64 h-64 rounded-full bg-[rgba(129,140,248,0.08)] blur-[80px]" />
-                  </div>
-                  {/* Cards */}
                   {[
                     { src: CARD_IMAGES[0], r: -16, x: -80, y: 16, sc: 0.82, z: 1 },
                     { src: CARD_IMAGES[1], r: 0,   x: 0,   y: 0,  sc: 1,    z: 3 },
@@ -414,7 +323,7 @@ export default function BusinessClient() {
                   ].map((c, i) => (
                     <div
                       key={i}
-                      className="absolute top-1/2 left-1/2 w-32 md:w-40 h-44 md:h-56 -translate-x-1/2 -translate-y-1/2 rounded-xl overflow-hidden border border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.6)]"
+                      className="absolute top-1/2 left-1/2 w-32 md:w-40 h-44 md:h-56 -translate-x-1/2 -translate-y-1/2 overflow-hidden border border-border-default bg-surface-panel"
                       style={{
                         transform: `translate(calc(-50% + ${c.x}px), calc(-50% + ${c.y}px)) rotate(${c.r}deg) scale(${c.sc})`,
                         zIndex: c.z,
@@ -425,16 +334,15 @@ export default function BusinessClient() {
                     </div>
                   ))}
 
-                  {/* Floating badges */}
-                  <div className="absolute top-2 right-4 md:right-12 border border-[#818cf8]/25 bg-[#0e0e14] px-4 py-3 text-center shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-                    <div className="text-[#818cf8] text-2xl font-bold font-display leading-none">0%</div>
-                    <div className="text-white/45 text-[9px] uppercase tracking-wider mt-1">Listing Fee</div>
+                  <div className="absolute top-2 right-4 md:right-12 panel px-4 py-3 text-center">
+                    <div className="text-accent-link text-2xl font-bold font-display leading-none font-tabular">0%</div>
+                    <div className="text-text-muted text-[9px] uppercase tracking-wider mt-1">Listing Fee</div>
                   </div>
-                  <div className="absolute bottom-4 left-4 md:left-10 border border-[#D4899A]/20 bg-[#0e0e14] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-                    <div className="flex items-center gap-0.5 text-[#D4899A] justify-center">
+                  <div className="absolute bottom-4 left-4 md:left-10 panel px-4 py-3">
+                    <div className="flex items-center gap-0.5 text-accent-brand justify-center">
                       {[0,1,2,3,4].map(n => <Star key={n} className="w-2.5 h-2.5 fill-current" />)}
                     </div>
-                    <div className="text-white/45 text-[9px] uppercase tracking-wider mt-1 text-center">5.0 Rating</div>
+                    <div className="text-text-muted text-[9px] uppercase tracking-wider mt-1 text-center">5.0 Rating</div>
                   </div>
                 </div>
               </Reveal>
@@ -444,21 +352,19 @@ export default function BusinessClient() {
                 {t.business.cardTrading.featureTitles.map((title, i) => {
                   const Icon = tradingFeatureIcons[i] ?? Package;
                   return (
-                  <div
+                  <Reveal
                     key={title}
-                    className="p-5 border border-white/[0.06] hover:border-[#818cf8]/20 hover:bg-[#818cf8]/[0.03] transition-all duration-300"
-                    style={{
-                      opacity: tradingRef.visible ? 1 : 0,
-                      transform: tradingRef.visible ? 'none' : 'translateY(20px)',
-                      transition: `opacity 0.8s ease ${200 + i * 100}ms, transform 0.8s ease ${200 + i * 100}ms`,
-                    }}
+                    visible={tradingRef.visible}
+                    dir="up"
+                    delay={200 + i * 40}
+                    className="panel p-5 hover:bg-surface-raised transition-[background-color,border-color] duration-300"
                   >
-                    <div className="w-8 h-8 rounded-lg border border-[#818cf8]/25 bg-[#818cf8]/10 flex items-center justify-center mb-3">
-                      <Icon className="w-3.5 h-3.5 text-[#818cf8]" />
+                    <div className="w-8 h-8 border border-accent-link/25 bg-accent-link/10 flex items-center justify-center mb-3">
+                      <Icon className="w-3.5 h-3.5 text-accent-link" />
                     </div>
-                    <h4 className="text-white font-semibold text-sm mb-1.5">{title}</h4>
-                    <p className="text-[#9ca3af] text-sm leading-relaxed">{t.business.cardTrading.features[i]}</p>
-                  </div>
+                    <h4 className="text-text-primary font-semibold text-sm mb-1.5">{title}</h4>
+                    <p className="text-text-secondary text-sm leading-relaxed">{t.business.cardTrading.features[i]}</p>
+                  </Reveal>
                   );
                 })}
               </div>
@@ -467,10 +373,10 @@ export default function BusinessClient() {
             {/* ── RIGHT: headline + CTAs ── */}
             <div className="order-1 lg:order-2">
               <Reveal visible={tradingRef.visible} dir="right">
-                <h2 className="font-display text-5xl md:text-6xl font-bold text-white leading-[1.06] mb-6">
+                <h2 className="font-display text-5xl md:text-6xl font-bold text-text-primary leading-[1.06] mb-6">
                   {t.business.cardTrading.title}
                 </h2>
-                <p className="text-[#6b7280] text-base md:text-lg leading-relaxed mb-8 max-w-md">
+                <p className="text-text-muted text-base md:text-lg leading-relaxed mb-8 max-w-md">
                   {t.business.cardTrading.description}
                 </p>
               </Reveal>
@@ -478,25 +384,25 @@ export default function BusinessClient() {
               <Reveal visible={tradingRef.visible} dir="right" delay={100}>
                 <div className="flex flex-wrap gap-2 mb-10">
                   {t.business.cardTrading.chips.map(c => (
-                    <Chip key={c} label={c} color={VIOLET} />
+                    <Chip key={c} label={c} variant="link" />
                   ))}
                 </div>
               </Reveal>
 
               <Reveal visible={tradingRef.visible} dir="right" delay={160}>
                 <div className="flex flex-wrap items-center gap-5">
-                  <Link
+                  <LocalLink
                     href="/business/card-trading"
-                    className="inline-flex items-center gap-3 bg-[#818cf8] hover:bg-[#a5b4fc] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(129,140,248,0.3)] active:scale-95"
+                    className="btn btn-primary"
                   >
                     <TrendingUp className="w-3.5 h-3.5" />
                     {t.business.cardTrading.cta}
-                  </Link>
+                  </LocalLink>
                   <a
                     href="https://wa.me/85292851189"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm uppercase tracking-[0.15em] transition-colors"
+                    className="btn btn-ghost"
                   >
                     <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5" />
                     {t.business.cta.whatsapp}
@@ -512,62 +418,39 @@ export default function BusinessClient() {
       {/* ══════════════════════════════════════════════════════
            FINAL CTA
       ══════════════════════════════════════════════════════ */}
-      <section ref={ctaRef.ref} className="border-t border-white/[0.05] overflow-hidden">
+      <section ref={ctaRef.ref} className="border-t border-border-default overflow-hidden">
         <div className="grid md:grid-cols-2">
 
-          <div
-            className="relative group p-12 md:p-16 lg:p-20 border-b md:border-b-0 md:border-r border-white/[0.05] bg-[#1e1e2e] overflow-hidden"
-            style={{
-              opacity: ctaRef.visible ? 1 : 0,
-              transform: ctaRef.visible ? 'none' : 'translateY(28px)',
-              transition: 'opacity 0.9s ease, transform 0.9s ease',
-            }}
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_10%_90%,rgba(212,137,154,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="absolute top-5 left-5 w-6 h-6 border-t-[1.5px] border-l-[1.5px] border-[#D4899A]/35" />
-            <div className="relative">
-              <span className="text-[#D4899A]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">{t.business.finalCta.protectorLabel}</span>
-              <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">{t.psaProtectorPage.ctaTitle}</h3>
-              <p className="text-white/45 text-base leading-relaxed mb-10 max-w-xs">{t.psaProtectorPage.ctaSubtitle}</p>
-              <Link
+          <Reveal visible={ctaRef.visible} dir="up" className="p-12 md:p-16 lg:p-20 border-b md:border-b-0 md:border-r border-border-default bg-surface-panel">
+            <span className="section-label mb-4">{t.business.finalCta.protectorLabel}</span>
+              <h3 className="font-display text-4xl font-bold text-text-primary leading-[1.1] mb-4">{t.psaProtectorPage.ctaTitle}</h3>
+              <p className="text-text-secondary text-base leading-relaxed mb-10 max-w-xs">{t.psaProtectorPage.ctaSubtitle}</p>
+              <LocalLink
                 href="/products/psa-protectors"
-                className="group/btn inline-flex items-center gap-3 border border-[#D4899A]/35 hover:border-[#D4899A] hover:bg-[#D4899A]/5 text-[#D4899A] text-sm uppercase tracking-[0.15em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
+                className="btn btn-secondary group/btn"
               >
                 {t.home.services.protector.cta}
-                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-          </div>
+                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-150" />
+              </LocalLink>
+          </Reveal>
 
-          <div
-            className="relative group p-12 md:p-16 lg:p-20 bg-[#1e1e2e] overflow-hidden"
-            style={{
-              opacity: ctaRef.visible ? 1 : 0,
-              transform: ctaRef.visible ? 'none' : 'translateY(28px)',
-              transition: 'opacity 0.9s ease 0.12s, transform 0.9s ease 0.12s',
-            }}
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_90%_90%,rgba(129,140,248,0.06),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="absolute top-5 right-5 w-6 h-6 border-t-[1.5px] border-r-[1.5px] border-[#818cf8]/35" />
-            <div className="relative">
-              <span className="text-[#818cf8]/30 text-[10px] uppercase tracking-[0.4em] block mb-4">{t.business.finalCta.tradingLabel}</span>
-              <h3 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">{t.business.finalCta.tradingHeading}</h3>
-              <p className="text-white/45 text-base leading-relaxed mb-10 max-w-xs">{t.home.services.trading.subtitle}</p>
+          <Reveal visible={ctaRef.visible} dir="up" delay={40} className="p-12 md:p-16 lg:p-20 bg-surface-panel">
+            <span className="section-label mb-4 text-accent-link before:bg-accent-link">{t.business.finalCta.tradingLabel}</span>
+              <h3 className="font-display text-4xl font-bold text-text-primary leading-[1.1] mb-4">{t.business.finalCta.tradingHeading}</h3>
+              <p className="text-text-secondary text-base leading-relaxed mb-10 max-w-xs">{t.home.services.trading.subtitle}</p>
               <a
                 href="https://wa.me/85292851189"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/btn inline-flex items-center gap-3 border border-[#818cf8]/35 hover:border-[#818cf8] hover:bg-[#818cf8]/5 text-[#818cf8] text-sm uppercase tracking-[0.15em] font-bold px-8 py-4 rounded-xl transition-all duration-300"
+                className="btn btn-secondary group/btn"
               >
                 <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5" />
                 {t.business.cta.whatsapp}
-                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-150" />
               </a>
-            </div>
-          </div>
+          </Reveal>
 
         </div>
-        <div className="h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
       </section>
 
     </div>

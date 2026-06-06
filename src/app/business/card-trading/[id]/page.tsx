@@ -3,9 +3,12 @@ import path from 'path';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import type { TradingCard } from '@/types/trading-card';
+import type { Language } from '@/context/language-context';
 import CardDetailClient from './CardDetailClient';
+import LocalLink from '@/components/LocalLink';
 import StructuredData from '@/components/StructuredData';
 import { productJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
+import { localizedHref } from '@/lib/i18n-routing';
 import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
 
 /* ──────────────────────────────────────────
@@ -87,10 +90,10 @@ export async function generateMetadata(
   };
 }
 
-export default async function CardDetailPage(
-  { params }: { params: Promise<{ id: string }> }
+export async function CardDetailPageContent(
+  { params, language = 'en' }: { params: Promise<{ id: string }>; language?: Language }
 ) {
-  if (MARKETPLACE_IN_PROGRESS) redirect('/business/card-trading/');
+  if (MARKETPLACE_IN_PROGRESS) redirect(localizedHref('/business/card-trading/', language));
 
   const { id } = await params;
   const cards = await getCards();
@@ -98,9 +101,9 @@ export default async function CardDetailPage(
 
   if (!card) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090f] text-white">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-surface-bg text-text-primary">
         <h1 className="text-2xl font-bold mb-4">Card Not Found</h1>
-        <a href="/business/card-trading/" className="text-[#d4a843] hover:underline">← Back to Marketplace</a>
+        <LocalLink href="/business/card-trading/" className="text-[#d4a843] hover:underline">← Back to Marketplace</LocalLink>
       </div>
     );
   }
@@ -196,4 +199,10 @@ export default async function CardDetailPage(
       <CardDetailClient card={card} />
     </>
   );
+}
+
+export default async function CardDetailPage(
+  props: { params: Promise<{ id: string }> }
+) {
+  return CardDetailPageContent({ ...props, language: 'en' });
 }

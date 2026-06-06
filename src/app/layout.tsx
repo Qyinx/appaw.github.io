@@ -33,6 +33,8 @@ export default function RootLayout({
       {/* Note: Consider making lang dynamic based on user's language selection in future */}
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#FAFAF8" />
+        <meta name="color-scheme" content="light dark" />
         {/* Google Analytics with Cookie Consent */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-MTFS1VS5S4"></script>
         <script
@@ -56,7 +58,10 @@ export default function RootLayout({
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
         {/* Language declared via <html lang> and hreflang <link> tags (generated from alternates.languages above) */}
       </head>
-      <body>
+      <body className="page-noise bg-surface-bg text-text-primary antialiased">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <ScrollProgressBar />
         <Auth0ProviderWrapper
           domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN!}
@@ -67,7 +72,7 @@ export default function RootLayout({
           <LanguageProvider>
             <DocumentMeta />
             <Header />
-            <main className="pt-16">
+            <main id="main-content" className="pt-16" tabIndex={-1}>
               {children}
             </main>
             <Footer />

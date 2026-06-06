@@ -1,32 +1,21 @@
 'use client';
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Shield, CheckCircle, XCircle, AlertCircle, ChevronLeft, ChevronRight, ChevronDown, Pause, Play, Palette } from 'lucide-react';
+import LocalLink from '@/components/LocalLink';
+import { ChevronRight, ChevronDown, Palette } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { en } from '@/i18n';
-import { getImagePath } from '@/lib/utils';
 import RetailPartners from '@/components/RetailPartners';
 import ShopNowButton from '@/components/ui/ShopNowButton';
 import ProtectorTechnicalSpecs from '@/components/products/ProtectorTechnicalSpecs';
+import ProductSpecPanel from '@/components/products/ProductSpecPanel';
+import ColorVariantShowcase from '@/components/products/ColorVariantShowcase';
+import ProductFeaturesShowcase from '@/components/products/ProductFeaturesShowcase';
+import CompatibilityFitGuide from '@/components/products/CompatibilityFitGuide';
+import Reveal, { MotionStagger } from '@/components/ui/Reveal';
+import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
-/* ─── Scroll-reveal ─── */
-function useReveal() {
-  const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.12 }
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-  return { ref, visible };
-}
-
-/* ─── Feature data ─── */
+/* ─── FAQ Accordion ─── */
 const featureImages = [
   '/images/describe/sell 1.png',
   '/images/describe/sell 2.png',
@@ -35,8 +24,6 @@ const featureImages = [
   '/images/describe/sell 5.png',
 ];
 
-const CAROUSEL_INTERVAL = 4000;
-
 /* ─── FAQ Accordion ─── */
 function FaqAccordion({ items, visible }: {
   items: { q: string; a: string }[];
@@ -44,51 +31,38 @@ function FaqAccordion({ items, visible }: {
 }) {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <div className="divide-y divide-white/[0.06]">
+    <div className="divide-y divide-border-default border border-border-default">
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
           <div
             key={i}
-            style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateY(0)' : 'translateY(16px)',
-              transition: `opacity 0.6s ease ${i * 80}ms, transform 0.6s ease ${i * 80}ms`,
-            }}
+            className="bg-surface-panel motion-reveal motion-reveal-up"
+            data-visible={visible ? 'true' : 'false'}
+            style={{ '--motion-delay': `${i * 40}ms` } as React.CSSProperties}
           >
             <button
-              className="w-full flex items-start gap-5 py-6 text-left group"
+              className="w-full flex items-start gap-5 py-6 px-5 text-left group"
               onClick={() => setOpen(isOpen ? null : i)}
               aria-expanded={isOpen}
             >
-              <span
-                className="flex-shrink-0 text-[0.65rem] font-bold tracking-widest mt-0.5 font-mono transition-colors duration-300"
-                style={{ color: isOpen ? '#D4899A' : 'rgba(255,255,255,0.18)' }}
-              >
+              <span className={`flex-shrink-0 text-[0.65rem] font-bold tracking-widest mt-0.5 font-mono transition-colors duration-300 ${isOpen ? 'text-accent-brand' : 'text-text-muted'}`}>
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <span
-                className="flex-1 text-sm font-medium leading-relaxed transition-colors duration-300"
-                style={{ color: isOpen ? 'white' : 'rgba(255,255,255,0.65)' }}
-              >
+              <span className={`flex-1 text-sm font-medium leading-relaxed transition-colors duration-300 ${isOpen ? 'text-text-primary' : 'text-text-secondary'}`}>
                 {item.q}
               </span>
               <ChevronDown
-                className="flex-shrink-0 w-4 h-4 mt-0.5 transition-all duration-300"
-                style={{
-                  color: isOpen ? '#D4899A' : 'rgba(255,255,255,0.22)',
-                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                }}
+                className={`flex-shrink-0 w-4 h-4 mt-0.5 transition-[transform,color] duration-300 ${isOpen ? 'text-accent-brand rotate-180' : 'text-text-muted rotate-0'}`}
               />
             </button>
             <div
-              className="overflow-hidden transition-all duration-400"
+              className="overflow-hidden transition-[max-height,opacity] duration-300"
               style={{ maxHeight: isOpen ? '300px' : '0px', opacity: isOpen ? 1 : 0 }}
             >
-              <div className="pl-9 pb-6">
-                <div className="flex gap-4">
-                  <div className="w-px bg-[#D4899A]/30 flex-shrink-0" />
-                  <p className="text-white/45 text-sm leading-relaxed">{item.a}</p>
+              <div className="pl-14 pr-5 pb-6">
+                <div className="flex gap-4 border-l border-accent-brand/30 pl-4">
+                  <p className="text-text-secondary text-sm leading-relaxed">{item.a}</p>
                 </div>
               </div>
             </div>
@@ -104,143 +78,100 @@ export default function PSAProtectorPage() {
   const centeringCrossLink = t.psaProtectorPage.centeringCrossLink ?? en.psaProtectorPage.centeringCrossLink;
   const hkGuide = t.psaProtectorPage.hkGuide ?? en.psaProtectorPage.hkGuide;
   const seoH1 = t.psaProtectorPage.seoH1 ?? en.psaProtectorPage.seoH1;
-  const [heroVisible, setHeroVisible] = useState(false);
-  const [activeFeature, setActiveFeature] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const heroMounted = useHeroMount();
   const [selectedColor, setSelectedColor] = useState(0);
   const [priceAnimating, setPriceAnimating] = useState(false);
-  const colorDir  = useRef<'left' | 'right'>('right');
-  const prevColor  = useRef<number>(0);
+  const [colorSlideAnimated, setColorSlideAnimated] = useState(false);
+  const [slideDir, setSlideDir] = useState<'left' | 'right'>('right');
+  const [isScanning, setIsScanning] = useState(false);
+  const colorDir = useRef<'left' | 'right'>('right');
+  const prevColor = useRef<number>(0);
   const selectColor = useCallback((i: number) => {
-    colorDir.current = i > selectedColor ? 'right' : 'left';
+    if (i === selectedColor) return;
+    const dir = i > selectedColor ? 'right' : 'left';
+    colorDir.current = dir;
+    setSlideDir(dir);
     prevColor.current = selectedColor;
+    setColorSlideAnimated(true);
+    setIsScanning(true);
     setSelectedColor(i);
   }, [selectedColor]);
+
+  useEffect(() => {
+    if (!colorSlideAnimated) return;
+    const id = setTimeout(() => setIsScanning(false), 360);
+    return () => clearTimeout(id);
+  }, [selectedColor, colorSlideAnimated]);
 
   const prevSelectedRef = useRef<number>(selectedColor);
   useEffect(() => {
     if (prevSelectedRef.current !== selectedColor) {
       setPriceAnimating(true);
-      const id = setTimeout(() => setPriceAnimating(false), 360);
+      const id = setTimeout(() => setPriceAnimating(false), 240);
       prevSelectedRef.current = selectedColor;
       return () => clearTimeout(id);
     }
     return;
   }, [selectedColor]);
 
-  const featuresReveal = useReveal();
-  const colorsReveal   = useReveal();
-  const compatReveal   = useReveal();
-  const faqReveal      = useReveal();
-  const ctaReveal      = useReveal();
-  const overviewReveal = useReveal();
+  const featuresReveal = useRevealOnScroll<HTMLElement>();
+  const colorsReveal   = useRevealOnScroll<HTMLElement>();
+  const compatReveal   = useRevealOnScroll<HTMLElement>();
+  const faqReveal      = useRevealOnScroll<HTMLElement>();
+  const ctaReveal      = useRevealOnScroll<HTMLElement>();
+  const overviewReveal = useRevealOnScroll<HTMLElement>();
+  const hkGuideReveal  = useRevealOnScroll<HTMLElement>();
 
-  useEffect(() => {
-    const timer = setTimeout(() => setHeroVisible(true), 80);
-    return () => clearTimeout(timer);
-  }, []);
-
-  /* Carousel auto-advance */
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % featureImages.length);
-    }, CAROUSEL_INTERVAL);
-    return () => clearInterval(timer);
-  }, [isPaused, activeFeature]);
-
-  const goToFeature = useCallback((i: number) => { setActiveFeature(i); setIsPaused(false); }, []);
-  const nextFeature = useCallback(() => setActiveFeature((p) => (p + 1) % featureImages.length), []);
-  const prevFeature = useCallback(() => setActiveFeature((p) => (p - 1 + featureImages.length) % featureImages.length), []);
+  const heroSpecs: [string, string][] = [
+    [t.home.specs.rows.compatibility, t.home.specs.rows.compatibilityValue],
+    [t.home.specs.rows.uvProtection, t.home.specs.rows.uvProtectionValue],
+    [t.home.specs.rows.closure, t.home.specs.rows.closureValue],
+  ];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-surface-bg page-blueprint">
 
-      {/* ══════════════════════════════════════════
-           HERO — Cinematic Dark, split layout
-      ══════════════════════════════════════════ */}
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden bg-[#1e1e2e] pt-20">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_70%_50%,rgba(212,137,154,0.1),transparent)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.018)_1px,transparent_1px)] bg-[size:80px_80px]" />
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#1e1e2e] to-transparent pointer-events-none" />
+      {/* HERO — stamp + spec panel (aligned with homepage) */}
+      <section className="relative section-padding border-b border-border-default overflow-hidden">
+        <div className="container-custom">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
-        <div className="relative container-custom py-20 z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <MotionStagger visible={heroMounted} className="min-w-0">
+              <p className="section-label mb-6 motion-stagger-item">{t.psaProtectorPage.badge}</p>
 
-            {/* Text */}
-            <div
-              className="transition-all duration-1000"
-              style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(32px)' }}
-            >
-              <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/40 rounded-full px-5 py-2 mb-10">
-                <Shield className="w-4 h-4 text-[#D4899A]" />
-                <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.badge}</span>
-              </div>
-
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display leading-[1.12] tracking-tight text-white mb-6">
+              <h1 className="motion-stagger-item text-xl md:text-2xl font-display font-bold text-text-primary mb-4 leading-snug">
                 {seoH1}
               </h1>
-              <p className="text-xl md:text-2xl font-semibold text-[#D4899A]/90 mb-6">
-                {t.business.cardProtector.title}
+
+              <p className="motion-stagger-item text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight mb-6">
+                <span className="block text-accent-brand">{t.business.cardProtector.title}</span>
               </p>
 
-              <div className="flex items-center gap-4 mb-7">
-                <div className="w-12 h-px bg-[#D4899A]" />
-                <div className="w-2 h-2 rounded-full bg-[#D4899A]" />
-                <div className="w-24 h-px bg-[#D4899A]/30" />
-              </div>
-
-              <p className="text-[#9ca3af] text-lg md:text-xl leading-relaxed max-w-xl mb-10">
+              <p className="motion-stagger-item text-text-secondary text-base md:text-lg leading-relaxed max-w-lg mb-8">
                 {t.business.cardProtector.description}
               </p>
 
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="motion-stagger-item flex flex-col sm:flex-row flex-wrap gap-3">
                 <ShopNowButton
                   label={t.business.cardProtector.cta}
                   shopOptions={t.shopOptions}
                   whatsappMessage={t.business.cardProtector.whatsappOrder}
-                  buttonClassName="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.3)] active:scale-95"
+                  buttonClassName="btn btn-primary"
                 />
                 <a
                   href="#color-options"
-                  className="inline-flex items-center gap-2 text-[#D4899A]/70 hover:text-[#D4899A] text-sm uppercase tracking-[0.15em] transition-colors"
+                  className="btn btn-ghost text-accent-brand"
                 >
                   {t.psaProtectorPage.heroCta}
                 </a>
               </div>
+            </MotionStagger>
 
-            </div>
-
-            {/* Product visual */}
-            <div
-              className="relative transition-all duration-1000"
-              style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateX(0)' : 'translateX(32px)', transitionDelay: '200ms' }}
-            >
-              {/* Spinning rings */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-80 h-80 rounded-full border border-[#D4899A]/8 animate-[spin_30s_linear_infinite]" />
-                <div className="absolute w-64 h-64 rounded-full border border-[#D4899A]/12 animate-[spin_20s_linear_infinite_reverse]" />
-              </div>
-
-              {/* Dark product frame */}
-              <div className="relative mx-auto max-w-sm bg-gradient-to-b from-[#252538] to-[#181828] rounded-3xl p-8 border border-[#D4899A]/20 shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(212,137,154,0.15)]">
-                <div className="absolute top-4 left-4 w-5 h-5 border-t border-l border-[#D4899A]/50" />
-                <div className="absolute top-4 right-4 w-5 h-5 border-t border-r border-[#D4899A]/50" />
-                <div className="absolute bottom-4 left-4 w-5 h-5 border-b border-l border-[#D4899A]/50" />
-                <div className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-[#D4899A]/50" />
-
-                <div className="relative aspect-[3/4]">
-                  <Image
-                    src={getImagePath('/images/cards/069.SM-P.refine.png')}
-                    alt={t.psaProtectorPage.heroImageAlt}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 100vw, 400px"
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
+            <ProductSpecPanel
+              visible={heroMounted}
+              imageAlt={t.psaProtectorPage.heroImageAlt}
+              specs={heroSpecs}
+            />
           </div>
         </div>
       </section>
@@ -248,236 +179,64 @@ export default function PSAProtectorPage() {
       {/* ══════════════════════════════════════════
            OVERVIEW — Text-rich product description (SEO)
       ══════════════════════════════════════════ */}
-      <section ref={overviewReveal.ref} className="py-24 bg-[#181828] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(212,137,154,0.05),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
-
-        <div className="container-custom relative">
-          <div
-            className="max-w-3xl mx-auto transition-all duration-700"
-            style={{ opacity: overviewReveal.visible ? 1 : 0, transform: overviewReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#D4899A]" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.overview.badge}</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.15] mb-8">
+      <section ref={overviewReveal.ref} className="section-padding bg-surface-panel border-b border-border-default overflow-hidden">
+        <div className="container-custom">
+          <Reveal visible={overviewReveal.visible} dir="up" className="max-w-3xl mx-auto">
+            <p className="section-label mb-5">{t.psaProtectorPage.overview.badge}</p>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.15] mb-8">
               {t.psaProtectorPage.overview.title}
             </h2>
             <div className="space-y-6">
               {t.psaProtectorPage.overview.body.map((para, i) => (
-                <p key={i} className="text-[#9ca3af] text-base md:text-lg leading-relaxed">
+                <p key={i} className="text-text-secondary text-base md:text-lg leading-relaxed">
                   {para}
                 </p>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-           HK COLLECTOR GUIDE — deeper content (SEO)
-      ══════════════════════════════════════════ */}
-      <section className="py-24 bg-[#1e1e2e] relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
-        <div className="container-custom relative">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#D4899A]" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">
-                {hkGuide.badge}
-              </span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.15] mb-8">
+      <section ref={hkGuideReveal.ref} className="section-padding bg-surface-bg border-b border-border-default overflow-hidden">
+        <div className="container-custom">
+          <Reveal visible={hkGuideReveal.visible} dir="up" className="max-w-3xl mx-auto">
+            <p className="section-label mb-5">{hkGuide.badge}</p>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.15] mb-8">
               {hkGuide.title}
             </h2>
             <div className="space-y-6">
               {hkGuide.body.map((para, i) => (
-                <p key={i} className="text-[#9ca3af] text-base md:text-lg leading-relaxed">
+                <p key={i} className="text-text-secondary text-base md:text-lg leading-relaxed">
                   {para}
                 </p>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-           FEATURES — Immersive Dark Carousel (mirrored)
-      ══════════════════════════════════════════ */}
-      <section ref={featuresReveal.ref} className="py-28 bg-[#1e1e2e] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_50%,rgba(212,137,154,0.06),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_80%_20%,rgba(59,130,246,0.04),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/25 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/25 to-transparent" />
+      {/* FEATURES — spec list + panel carousel */}
+      <section ref={featuresReveal.ref} className="section-padding border-t border-border-default bg-surface-bg overflow-hidden">
+        <div className="container-custom">
 
-        <div className="container-custom relative">
-
-          {/* Section header — centred */}
-          <div
-            className="text-center mb-20 transition-all duration-700"
-            style={{ opacity: featuresReveal.visible ? 1 : 0, transform: featuresReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
-          >
-            <div className="inline-flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#D4899A]" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.featuresBadge}</span>
-              <div className="w-8 h-px bg-[#D4899A]" />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-4">
+          <Reveal visible={featuresReveal.visible} dir="up" className="text-center mb-16 max-w-xl mx-auto">
+            <p className="section-label mb-5">{t.psaProtectorPage.featuresBadge}</p>
+            <h2 className="text-4xl md:text-5xl font-bold font-display text-text-primary mb-4">
               {t.psaProtectorPage.featuresTitle}
             </h2>
-            <p className="text-[#6b7280] max-w-xl mx-auto leading-relaxed">
+            <p className="text-text-secondary leading-relaxed">
               {t.psaProtectorPage.featuresSubtitle}
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-            {/* Feature list — LEFT (mirrored from index right) */}
-            <div
-              className="transition-all duration-1000"
-              style={{
-                opacity: featuresReveal.visible ? 1 : 0,
-                transform: featuresReveal.visible ? 'translateX(0)' : 'translateX(-32px)',
-                transitionDelay: '200ms',
-              }}
-            >
-              <div className="space-y-1">
-                {t.business.cardProtector.features.map((feature, index) => (
-                  <div
-                    key={index}
-                    onClick={() => goToFeature(index)}
-                    className="flex items-center gap-4 p-5 rounded-xl cursor-pointer transition-all duration-300 border"
-                    style={{
-                      backgroundColor: activeFeature === index ? 'rgba(212,137,154,0.08)' : 'transparent',
-                      borderColor: activeFeature === index ? 'rgba(212,137,154,0.25)' : 'transparent',
-                    }}
-                  >
-                    {/* Step number */}
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
-                      style={{
-                        backgroundColor: activeFeature === index ? '#D4899A' : 'rgba(255,255,255,0.05)',
-                      }}
-                    >
-                      <span
-                        className="text-xs font-bold transition-colors duration-300"
-                        style={{ color: activeFeature === index ? '#000' : 'rgba(255,255,255,0.3)' }}
-                      >
-                        0{index + 1}
-                      </span>
-                    </div>
-
-                    <span
-                      className="text-sm leading-relaxed flex-1 transition-colors duration-300"
-                      style={{ color: activeFeature === index ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.4)' }}
-                    >
-                      {feature}
-                    </span>
-
-                    {activeFeature === index && (
-                      <ChevronRight className="w-4 h-4 text-[#D4899A] flex-shrink-0" />
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Play / pause */}
-              <div className="mt-6 flex items-center gap-3">
-                <button
-                  onClick={() => setIsPaused(!isPaused)}
-                  className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/40 hover:text-white/70 hover:border-white/40 transition-all"
-                >
-                  {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
-                </button>
-                <span className="text-white/25 text-xs tracking-wider uppercase">
-                  {isPaused ? t.psaProtectorPage.carousel.paused : t.psaProtectorPage.carousel.autoPlaying}
-                </span>
-              </div>
-
-
-            </div>
-
-            {/* Carousel — RIGHT (mirrored from index left) */}
-            <div
-              className="transition-all duration-1000"
-              style={{
-                opacity: featuresReveal.visible ? 1 : 0,
-                transform: featuresReveal.visible ? 'translateX(0)' : 'translateX(32px)',
-                transitionDelay: '400ms',
-              }}
-            >
-              <div className="relative aspect-square rounded-3xl overflow-hidden bg-[#111]">
-                {/* Ambient inside */}
-                <div className="absolute top-0 left-1/4 w-72 h-72 bg-[#D4899A]/8 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-
-                {/* Slides */}
-                <div className="relative w-full h-full">
-                  {featureImages.map((img, index) => (
-                    <div
-                      key={index}
-                      className="absolute inset-0 transition-all duration-[1000ms] ease-out"
-                      style={{
-                        opacity: activeFeature === index ? 1 : 0,
-                        transform: activeFeature === index ? 'scale(1)' : 'scale(1.04)',
-                      }}
-                    >
-                      <Image
-                        src={getImagePath(img)}
-                        alt={t.business.cardProtector.features[index]}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        priority={index === 0}
-                      />
-                    </div>
-                  ))}
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1e1e2e]/60 via-transparent to-transparent pointer-events-none z-10" />
-                </div>
-
-                {/* Navigation arrows */}
-                <button
-                  onClick={prevFeature}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-[#D4899A]/20 backdrop-blur-md border border-white/10 hover:border-[#D4899A]/40 rounded-full flex items-center justify-center z-20 transition-all group"
-                  aria-label="Previous"
-                >
-                  <ChevronLeft className="w-5 h-5 text-white/70 group-hover:text-[#D4899A]" />
-                </button>
-                <button
-                  onClick={nextFeature}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-[#D4899A]/20 backdrop-blur-md border border-white/10 hover:border-[#D4899A]/40 rounded-full flex items-center justify-center z-20 transition-all group"
-                  aria-label="Next"
-                >
-                  <ChevronRight className="w-5 h-5 text-white/70 group-hover:text-[#D4899A]" />
-                </button>
-
-                {/* Progress dots */}
-                <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20">
-                  {featureImages.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => goToFeature(i)}
-                      className="rounded-full transition-all duration-300"
-                      style={{
-                        width: activeFeature === i ? '24px' : '6px',
-                        height: '6px',
-                        backgroundColor: activeFeature === i ? '#D4899A' : 'rgba(255,255,255,0.25)',
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* Counter */}
-                <div className="absolute top-5 left-5 z-20">
-                  <span className="text-white/35 text-xs font-mono tracking-widest">
-                    0{activeFeature + 1} / 0{featureImages.length}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Reveal visible={featuresReveal.visible} dir="up" delay={80}>
+            <ProductFeaturesShowcase
+              features={t.business.cardProtector.features}
+              images={featureImages}
+              pausedLabel={t.psaProtectorPage.carousel.paused}
+              autoPlayingLabel={t.psaProtectorPage.carousel.autoPlaying}
+            />
+          </Reveal>
         </div>
       </section>
 
@@ -496,345 +255,83 @@ export default function PSAProtectorPage() {
           { name: t.psaProtectorPage.colorVariants.colors.forestGreen,    hex: '#2d5a3d', hex2: undefined,  accent: '#3b9c5d', glow: 'rgba(45,90,61,0.14)',    ring: 'rgba(61,122,82,0.6)',    image: '/images/describe/color/color-green.png' },
           { name: t.psaProtectorPage.colorVariants.colors.dark,           hex: '#1a1a2e', hex2: undefined,  accent: '#565677', glow: 'rgba(26,26,46,.28)',    ring: 'rgba(80,80,110,0.55)',   image: '/images/describe/color/color-dark.png' },
         ];
-        const active = colors[selectedColor];
 
         return (
-          <section id="color-options" ref={colorsReveal.ref} className="py-24 md:py-32 bg-[#1e1e2e] relative overflow-hidden scroll-mt-20">
+          <section id="color-options" ref={colorsReveal.ref} className="section-padding border-t border-border-default bg-surface-bg overflow-hidden scroll-mt-20">
+            <div className="container-custom">
 
-            {/* Reactive aurora background — fades in after section reveals to avoid jarring first load */}
-            <div className="absolute inset-0 pointer-events-none">
-              <div
-                className="absolute w-[700px] h-[700px] rounded-full blur-[160px] animate-[auroraOrbit_14s_ease-in-out_infinite]"
-                style={{
-                  backgroundColor: active.glow,
-                  top: '-15%', right: '-5%',
-                  opacity: colorsReveal.visible ? 1 : 0,
-                  transition: 'background-color 1.2s ease, opacity 2s ease 0.5s',
-                }}
-              />
-              <div
-                className="absolute w-[500px] h-[500px] rounded-full blur-[140px] animate-[auroraOrbit_20s_ease-in-out_infinite_reverse]"
-                style={{
-                  backgroundColor: active.ring,
-                  bottom: '-5%', left: '-5%',
-                  opacity: colorsReveal.visible ? 0.045 : 0,
-                  transition: 'background-color 1.2s ease, opacity 2s ease 0.7s',
-                }}
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:72px_72px]" />
-            </div>
-
-            {/* Reactive edge hairlines */}
-            <div className="absolute top-0 left-0 right-0 h-px transition-all duration-1000" style={{ background: `linear-gradient(to right, transparent 10%, ${active.ring} 50%, transparent 90%)` }} />
-            <div className="absolute bottom-0 left-0 right-0 h-px transition-all duration-1000" style={{ background: `linear-gradient(to right, transparent 10%, ${active.ring} 50%, transparent 90%)` }} />
-
-            <div className="container-custom relative">
-
-              {/* Section header — left-aligned */}
-              <div
-                className="mb-14 transition-all duration-700"
-                style={{ opacity: colorsReveal.visible ? 1 : 0, transform: colorsReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
-              >
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-6 h-px transition-colors duration-700" style={{ backgroundColor: active.accent }} />
-                  <span className="text-xs uppercase tracking-[0.3em] font-medium transition-colors duration-700" style={{ color: active.accent }}>
-                    <Palette className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" />
-                    {t.psaProtectorPage.colorVariants.badge}
-                  </span>
-                </div>
-                <h2 className="font-display text-4xl md:text-5xl font-bold text-white leading-tight mb-3">
+              <Reveal visible={colorsReveal.visible} dir="up" className="mb-14 max-w-xl">
+                <p className="section-label mb-5">
+                  <Palette className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" aria-hidden="true" />
+                  {t.psaProtectorPage.colorVariants.badge}
+                </p>
+                <h2 className="font-display text-4xl md:text-5xl font-bold text-text-primary leading-tight mb-3">
                   {t.psaProtectorPage.colorVariants.title}
                 </h2>
-                <p className="text-[#9ca3af] text-base max-w-lg leading-relaxed">
+                <p className="text-text-secondary text-base leading-relaxed">
                   {t.psaProtectorPage.colorVariants.subtitle}
                 </p>
-              </div>
+              </Reveal>
 
-              {/* Two-column: image left / controls right */}
-              <div
-                className="grid lg:grid-cols-2 items-center"
-                style={{
-                  opacity: colorsReveal.visible ? 1 : 0,
-                  transform: colorsReveal.visible ? 'translateY(0)' : 'translateY(32px)',
-                  transition: 'opacity 0.9s ease 0.18s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s',
-                }}
-              >
-
-                {/* ── LEFT: product image ── */}
-                <div className="relative flex items-center justify-center" style={{ perspective: '1200px' }}>
-                  {/* Decorative rings */}
-                  <div className="absolute inset-[-12%] rounded-full border transition-colors duration-1000 animate-[spin_28s_linear_infinite] pointer-events-none" style={{ borderColor: `${active.ring}12` }} />
-                  <div className="absolute inset-[-5%] rounded-full border transition-colors duration-1000 animate-[spin_20s_linear_infinite_reverse] pointer-events-none" style={{ borderColor: `${active.ring}08` }} />
-                  {/* Ambient glow — smooth color transition, no burst flash */}
-                  <div
-                    className="absolute inset-[-8%] rounded-full blur-[80px]"
-                    style={{ backgroundColor: active.hex, opacity: 0.17, transition: 'background-color 0.8s ease' }}
-                  />
-
-                  {/* Image stack — crossfade with scale + blur dissolve */}
-                  <div className="relative w-full aspect-square max-w-sm">
-                    {colors.map((color, i) => {
-                      const isActive = i === selectedColor;
-                      return (
-                        <div
-                          key={i}
-                          className="absolute inset-0"
-                          style={{
-                            opacity: isActive ? 1 : 0,
-                            transform: isActive ? 'scale(1)' : 'scale(0.93)',
-                            filter: isActive ? 'blur(0px)' : 'blur(4px)',
-                            transition: isActive
-                              ? 'opacity 0.55s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1), filter 0.45s ease'
-                              : 'opacity 0.28s ease, transform 0.28s ease, filter 0.22s ease',
-                            zIndex: isActive ? 2 : 1,
-                            pointerEvents: isActive ? 'auto' : 'none',
-                          }}
-                        >
-                          <Image
-                            src={getImagePath(color.image)}
-                            alt={`${t.business.cardProtector.title} – ${color.name}`}
-                            fill
-                            className="object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.65)] animate-[gentleFloat_6s_ease-in-out_infinite]"
-                            sizes="(max-width: 1024px) 80vw, 480px"
-                            priority={i === 0}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Reflection */}
-                  <div className="absolute left-[12%] right-[12%] top-[90%] h-[22%] overflow-hidden opacity-[0.07] blur-[3px] pointer-events-none" style={{ transform: 'scaleY(-1)' }}>
-                    <div className="relative w-full h-full">
-                      <Image src={getImagePath(active.image)} alt="" fill className="object-contain" sizes="280px" aria-hidden="true" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* ── RIGHT: colour selector & CTA ── */}
-                <div>
-
-                  {/* Active colour name + gradient badge */}
-                  <div className="mb-10">
-                    <p className="text-white/30 text-xs uppercase tracking-[0.3em] mb-3">
-                      {t.psaProtectorPage.colorVariants.pickColor}
-                    </p>
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <span
-                        key={selectedColor}
-                        className="font-display text-5xl md:text-6xl font-bold text-white animate-[fadeUp_0.4s_cubic-bezier(0.22,1,0.36,1)_both] leading-none tracking-tight"
-                      >
-                        {active.name}
-                      </span>
-                      {active.hex2 && (
-                        <span
-                          className="self-end mb-1.5 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] font-bold border rounded-full"
-                          style={{
-                            borderColor: `${active.ring}50`,
-                            color: active.accent,
-                            background: `linear-gradient(135deg, ${active.hex}20, ${active.hex2}20)`,
-                          }}
-                        >
-                          {t.psaProtectorPage.colorVariants.pricing.gradient}
-                        </span>
-                      )}
-                    </div>
-                    {/* Reactive underline */}
-                    <div
-                      className="mt-4 h-px w-16 transition-all duration-700"
-                      style={{ background: `linear-gradient(to right, ${active.accent}, transparent)` }}
-                    />
-                  </div>
-
-                  {/* Swatch chip grid — 4 columns, rectangular chips + name labels */}
-                  <div className="grid grid-cols-4 gap-3 mb-10">
-                    {colors.map((color, i) => {
-                      const isActive = selectedColor === i;
-                      return (
-                        <button
-                          key={i}
-                          onClick={() => selectColor(i)}
-                          aria-label={color.name}
-                          aria-pressed={isActive}
-                          className="group flex flex-col items-center gap-2 transition-all duration-300"
-                        >
-                          {/* Rectangular colour chip */}
-                          <div className="relative w-full">
-                            <div
-                              className="w-full h-9 rounded-lg"
-                              style={{
-                                background: color.hex2
-                                  ? `linear-gradient(135deg, ${color.hex} 0%, ${color.hex2} 100%)`
-                                  : `linear-gradient(145deg, ${color.accent} 0%, ${color.hex} 65%)`,
-                                boxShadow: isActive
-                                  ? `0 0 0 1.5px #1e1e2e, 0 0 0 3px ${color.ring}, 0 8px 24px ${color.glow}`
-                                  : '0 2px 8px rgba(0,0,0,0.45)',
-                                transform: isActive ? 'scale(1.06) translateY(-3px)' : 'scale(1) translateY(0)',
-                                transition: 'transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease',
-                              }}
-                            />
-                            {/* Ping ring fires once on activation */}
-                            {isActive && (
-                              <div
-                                key={selectedColor}
-                                className="absolute inset-0 rounded-lg pointer-events-none animate-[chipPing_0.55s_ease-out_both]"
-                                style={{ border: `1.5px solid ${color.ring}` }}
-                              />
-                            )}
-                          </div>
-                          {/* Name label */}
-                          <span
-                            className="text-[11px] uppercase tracking-[0.12em] leading-tight text-center line-clamp-1 transition-colors duration-300 w-full"
-                            style={{ color: isActive ? color.accent : 'rgba(255,255,255,0.28)' }}
-                          >
-                            {color.name}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div></div>
-                {/* ── Pricing card ── */}
-                <div className="mt-1 w-full">
-                  <div className="flex justify-end w-full">
-                    <div
-                      className="p-5 rounded-2xl flex items-center justify-between gap-4 flex-wrap w-full"
-                      style={{
-                        border: `1px solid ${active.hex}33`,
-                        background: active.hex2
-                          ? `linear-gradient(135deg, ${active.hex}20, ${active.hex2}20)`
-                          : `${active.hex}35`
-                      }}
-                    >
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[12px] uppercase tracking-[0.3em] mb-1" style={{ color: `${active.accent}cc` }}>{t.business.cardProtector.startingPrice}</p>
-                        <div className="flex items-baseline gap-3 flex-wrap">
-                          <div
-                            aria-live="polite"
-                            className="text-2xl md:text-3xl font-display font-bold leading-tight text-white"
-                            style={{
-                              transform: priceAnimating ? 'translateY(-8px) scale(0.99)' : 'translateY(0) scale(1)',
-                              opacity: priceAnimating ? 0 : 1,
-                              transition: 'all 340ms cubic-bezier(0.2,0.9,0.3,1)'
-                            }}
-                          >
-                            {active.hex2 ? t.psaProtectorPage.colorVariants.pricing.gradientPrice : t.psaProtectorPage.colorVariants.pricing.singlePrice}
-                          </div>
-
-                          <div
-                            className="px-3 py-1 rounded-lg text-[12px] font-medium"
-                            style={{
-                              border: `1px solid ${active.hex}33`,
-                              background: active.hex2
-                                ? `linear-gradient(135deg, ${active.hex}20, ${active.hex2}20)`
-                                : `${active.hex}12`,
-                              color: active.accent
-                            }}
-                          >
-                            {t.psaProtectorPage.colorVariants.pricing.suggestedBadge}
-                          </div>
-                        </div>
-                        <p className="text-white/50 text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
-                      </div>
-
-                      <div className="flex-shrink-0 mt-3 sm:mt-0">
-                        <ShopNowButton
-                          label={t.business.cardProtector.cta}
-                          shopOptions={t.shopOptions}
-                          whatsappMessage={t.business.cardProtector.whatsappOrder}
-                          buttonClassName="inline-flex bg-primary-600 hover:bg-primary-700 items-center text-white font-bold text-sm uppercase tracking-[0.15em] px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap shadow-sm flex-shrink-0 active:scale-95"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Reveal visible={colorsReveal.visible} dir="up" delay={80}>
+                <ColorVariantShowcase
+                  colors={colors}
+                  selectedColor={selectedColor}
+                  previousColorIndex={prevColor.current}
+                  slideDir={slideDir}
+                  colorSlideAnimated={colorSlideAnimated}
+                  isScanning={isScanning}
+                  priceAnimating={priceAnimating}
+                  productTitle={t.business.cardProtector.title}
+                  pickColorLabel={t.psaProtectorPage.colorVariants.pickColor}
+                  gradientBadge={t.psaProtectorPage.colorVariants.pricing.gradient}
+                  startingPriceLabel={t.business.cardProtector.startingPrice}
+                  singlePrice={t.psaProtectorPage.colorVariants.pricing.singlePrice}
+                  gradientPrice={t.psaProtectorPage.colorVariants.pricing.gradientPrice}
+                  shippingInfo={t.business.cardProtector.shippingInfo}
+                  ctaLabel={t.business.cardProtector.cta}
+                  shopOptions={t.shopOptions}
+                  whatsappMessage={t.business.cardProtector.whatsappOrder}
+                  onSelectColor={selectColor}
+                />
+              </Reveal>
             </div>
           </section>
         );
       })()}
 
-      {/* ══════════════════════════════════════════
-           COMPATIBILITY — Glassmorphic Fit Guide
-      ══════════════════════════════════════════ */}
-      <section ref={compatReveal.ref} className="py-28 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(212,137,154,0.05),transparent)] pointer-events-none" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
-
-        <div className="container-custom relative">
-
-          {/* Left-aligned header (consistent with other sections) */}
-          <div
-            className="max-w-xl mb-16 transition-all duration-700"
-            style={{ opacity: compatReveal.visible ? 1 : 0, transform: compatReveal.visible ? 'translateY(0)' : 'translateY(24px)' }}
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#D4899A]" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.fitGuideBadge}</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-4">
-              {t.psaProtectorPage.compatibilityTitle}
-            </h2>
-            <p className="text-white/40 text-base leading-relaxed">{t.psaProtectorPage.compatibilitySubtitle}</p>
+      {/* COMPATIBILITY — slab profile + verdict matrix */}
+      <section ref={compatReveal.ref} className="section-padding border-t border-border-default bg-surface-panel page-blueprint overflow-hidden">
+        <div className="container-custom">
+          <div className="grid lg:grid-cols-[minmax(0,0.42fr)_1fr] gap-10 lg:gap-16 items-end mb-12 lg:mb-14">
+            <Reveal visible={compatReveal.visible} dir="left" className="min-w-0">
+              <p className="section-label mb-5">{t.psaProtectorPage.fitGuideBadge}</p>
+              <h2 className="text-4xl md:text-5xl font-bold font-display text-text-primary leading-[1.08] mb-4">
+                {t.psaProtectorPage.compatibilityTitle}
+              </h2>
+            </Reveal>
+            <Reveal visible={compatReveal.visible} dir="right" delay={60} className="min-w-0 lg:pb-1">
+              <p className="text-text-secondary text-base md:text-lg leading-relaxed max-w-xl lg:ml-auto">
+                {t.psaProtectorPage.compatibilitySubtitle}
+              </p>
+            </Reveal>
           </div>
 
-          {/* 3-column glassmorphic cards */}
-          <div className="grid md:grid-cols-3 gap-5 max-w-5xl">
-            {[
-              { icon: CheckCircle, accent: '#34D399', glow: 'rgba(52,211,153,0.06)', border: 'rgba(52,211,153,0.15)', title: t.psaProtectorPage.compatible, text: t.business.cardProtector.compatibility.fits },
-              { icon: XCircle,     accent: '#f87171', glow: 'rgba(248,113,113,0.06)', border: 'rgba(248,113,113,0.15)', title: t.psaProtectorPage.notCompatible, text: t.business.cardProtector.compatibility.notFits },
-              { icon: AlertCircle, accent: '#D4899A', glow: 'rgba(212,137,154,0.06)', border: 'rgba(212,137,154,0.15)', title: t.psaProtectorPage.note, text: t.business.cardProtector.compatibility.note },
-            ].map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={i}
-                  className="group relative rounded-2xl p-8 transition-all duration-700 hover:-translate-y-1"
-                  style={{
-                    background: 'rgba(13,13,20,0.7)',
-                    backdropFilter: 'blur(12px)',
-                    border: `1px solid ${item.border}`,
-                    opacity: compatReveal.visible ? 1 : 0,
-                    transform: compatReveal.visible ? 'translateY(0)' : 'translateY(24px)',
-                    transitionDelay: `${(i + 1) * 120}ms`,
-                    transitionDuration: '700ms',
-                  }}
-                >
-                  {/* Subtle inner glow */}
-                  <div
-                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                    style={{ background: `radial-gradient(ellipse 80% 60% at 50% 100%, ${item.glow}, transparent)` }}
-                  />
-
-                  {/* Left accent stripe */}
-                  <div
-                    className="absolute top-6 bottom-6 left-0 w-[2px] rounded-full transition-all duration-500 origin-top"
-                    style={{ backgroundColor: item.accent, opacity: 0.6 }}
-                  />
-
-                  {/* Icon */}
-                  <div
-                    className="relative w-11 h-11 rounded-xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110"
-                    style={{ backgroundColor: `${item.accent}15`, color: item.accent }}
-                  >
-                    <Icon className="w-5 h-5" />
-                  </div>
-
-                  {/* Content */}
-                  <h3
-                    className="relative text-base font-bold text-white mb-3 transition-colors duration-300"
-                    style={{ color: 'white' }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="relative text-white/45 text-sm leading-relaxed">
-                    {item.text}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+          <CompatibilityFitGuide
+            visible={compatReveal.visible}
+            labels={{
+              fitGuideBadge: t.psaProtectorPage.fitGuideBadge,
+              compatibilityTitle: t.psaProtectorPage.compatibilityTitle,
+              compatibilitySubtitle: t.psaProtectorPage.compatibilitySubtitle,
+              compatible: t.psaProtectorPage.compatible,
+              notCompatible: t.psaProtectorPage.notCompatible,
+              note: t.psaProtectorPage.note,
+              fitsSummary: t.business.cardProtector.compatibility.fits,
+              notFitsSummary: t.business.cardProtector.compatibility.notFits,
+              noteSummary: t.business.cardProtector.compatibility.note,
+              fitGuide: t.psaProtectorPage.fitGuide ?? en.psaProtectorPage.fitGuide,
+            }}
+          />
         </div>
       </section>
 
@@ -848,30 +345,22 @@ export default function PSAProtectorPage() {
       {/* ══════════════════════════════════════════
            CENTERING CROSS-LINK — internal link to tool pillar
       ══════════════════════════════════════════ */}
-      <section className="py-20 bg-[#181828] relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#818cf8]/25 to-transparent" />
-        <div className="container-custom relative">
+      <section className="py-20 bg-surface-panel border-t border-border-default overflow-hidden">
+        <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-3 mb-5">
-              <div className="w-8 h-px bg-[#818cf8]/60" />
-              <span className="text-[#818cf8] text-xs uppercase tracking-[0.25em] font-medium">
-                {centeringCrossLink.badge}
-              </span>
-              <div className="w-8 h-px bg-[#818cf8]/60" />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.15] mb-5">
+            <p className="section-label mb-5 justify-center text-accent-link before:bg-accent-link">
+              {centeringCrossLink.badge}
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.15] mb-5">
               {centeringCrossLink.title}
             </h2>
-            <p className="text-[#9ca3af] text-base md:text-lg leading-relaxed mb-8">
+            <p className="text-text-secondary text-base md:text-lg leading-relaxed mb-8">
               {centeringCrossLink.body}
             </p>
-            <Link
-              href="/tools/card-centering"
-              className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.15em] text-[#818cf8] hover:text-[#a5b4fc] transition-colors"
-            >
+            <LocalLink href="/tools/card-centering" className="btn btn-secondary">
               {centeringCrossLink.cta}
               <ChevronRight className="w-4 h-4" />
-            </Link>
+            </LocalLink>
           </div>
         </div>
       </section>
@@ -879,65 +368,48 @@ export default function PSAProtectorPage() {
       {/* ══════════════════════════════════════════
            FAQ
       ══════════════════════════════════════════ */}
-      <section ref={faqReveal.ref} className="py-28 bg-[#0d0d14] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_70%_at_15%_50%,rgba(212,137,154,0.05),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/6 to-transparent" />
-
-        <div className="container-custom relative">
+      <section ref={faqReveal.ref} className="section-padding bg-surface-panel border-t border-border-default overflow-hidden">
+        <div className="container-custom">
           <div className="grid lg:grid-cols-[5fr_7fr] gap-16 xl:gap-24 items-start">
 
-            {/* LEFT — sticky section header */}
-            <div
-              className="lg:sticky lg:top-32 transition-all duration-700"
-              style={{ opacity: faqReveal.visible ? 1 : 0, transform: faqReveal.visible ? 'translateX(0)' : 'translateX(-24px)' }}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-px bg-[#D4899A]" />
-                <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.faq.badge}</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-5">
+            <Reveal visible={faqReveal.visible} dir="left" className="lg:sticky lg:top-32">
+              <p className="section-label mb-5">{t.psaProtectorPage.faq.badge}</p>
+              <h2 className="text-4xl md:text-5xl font-bold font-display text-text-primary leading-[1.1] mb-5">
                 {t.psaProtectorPage.faq.title}
               </h2>
-              <p className="text-white/35 text-sm leading-relaxed mb-12">
+              <p className="text-text-muted text-sm leading-relaxed mb-12">
                 {t.psaProtectorPage.faq.subtitle}
               </p>
 
-              {/* Decorative question count */}
               <div className="flex items-end gap-3 mb-10">
-                <span className="text-[5.5rem] font-bold font-display leading-none select-none" style={{ color: 'rgba(255,255,255,0.04)' }}>
+                <span className="text-[5.5rem] font-bold font-display leading-none select-none text-surface-raised">
                   {t.psaProtectorPage.faq.items.length}
                 </span>
-                <span className="text-white/25 text-[0.65rem] uppercase tracking-[0.2em] leading-snug mb-4">
+                <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-text-muted leading-snug mb-4">
                   {t.psaProtectorPage.faqStats.questionsAnswered}
                 </span>
               </div>
 
-              <div className="h-px bg-white/[0.06] mb-10" />
+              <div className="h-px bg-border-default mb-10" />
 
-              {/* Product stat mini-grid */}
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-px bg-border-default border border-border-default">
                 {[
                   { v: '> 95%', l: t.psaProtectorPage.faqStats.uvBlocked },
                   { v: 'N52',   l: t.psaProtectorPage.faqStats.magnetGrade },
                   { v: '74 g',  l: t.psaProtectorPage.faqStats.weight },
                   { v: '8',     l: t.psaProtectorPage.faqStats.colors },
                 ].map((s) => (
-                  <div key={s.l} className="border border-white/[0.06] rounded-xl px-4 py-3 hover:border-[#D4899A]/20 transition-colors duration-300">
-                    <p className="text-[#D4899A] text-base font-bold leading-none mb-1">{s.v}</p>
-                    <p className="text-white/30 text-[0.62rem] uppercase tracking-wider">{s.l}</p>
+                  <div key={s.l} className="bg-surface-panel px-4 py-3 hover:bg-surface-raised transition-colors duration-300">
+                    <p className="text-accent-brand text-base font-bold leading-none mb-1 font-tabular">{s.v}</p>
+                    <p className="font-mono text-[0.62rem] uppercase tracking-wider text-text-muted">{s.l}</p>
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
 
-            {/* RIGHT — accordion */}
-            <div
-              className="transition-all duration-700"
-              style={{ opacity: faqReveal.visible ? 1 : 0, transform: faqReveal.visible ? 'translateX(0)' : 'translateX(24px)', transitionDelay: '150ms' }}
-            >
+            <Reveal visible={faqReveal.visible} dir="right" delay={80}>
               <FaqAccordion items={t.psaProtectorPage.faq.items} visible={faqReveal.visible} />
-            </div>
+            </Reveal>
 
           </div>
         </div>
@@ -946,25 +418,15 @@ export default function PSAProtectorPage() {
       {/* ══════════════════════════════════════════
            CTA — Dark final stage
       ══════════════════════════════════════════ */}
-      <section ref={ctaReveal.ref} className="py-28 bg-[#1e1e2e] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(212,137,154,0.07),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/25 to-transparent" />
+      <section ref={ctaReveal.ref} className="section-padding bg-surface-bg border-t border-border-default overflow-hidden">
+        <div className="container-custom">
+          <Reveal visible={ctaReveal.visible} dir="up" className="max-w-2xl mx-auto text-center panel p-10">
+            <p className="section-label mb-10 justify-center">{t.psaProtectorPage.ctaBadge}</p>
 
-        <div className="container-custom relative">
-          <div
-            className="max-w-2xl mx-auto text-center transition-all duration-1000"
-            style={{ opacity: ctaReveal.visible ? 1 : 0, transform: ctaReveal.visible ? 'translateY(0)' : 'translateY(32px)' }}
-          >
-            <div className="inline-flex items-center gap-4 mb-10">
-              <div className="w-14 h-px bg-[#D4899A]/40" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{t.psaProtectorPage.ctaBadge}</span>
-              <div className="w-14 h-px bg-[#D4899A]/40" />
-            </div>
-
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-white leading-[1.1] mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold font-display text-text-primary leading-[1.1] mb-6">
               {t.psaProtectorPage.ctaTitle}
             </h2>
-            <p className="text-[#9ca3af] text-base leading-relaxed mb-12 max-w-xl mx-auto">
+            <p className="text-text-secondary text-base leading-relaxed mb-12 max-w-xl mx-auto">
               {t.psaProtectorPage.ctaSubtitle}
             </p>
 
@@ -972,9 +434,9 @@ export default function PSAProtectorPage() {
               label={t.business.cardProtector.cta}
               shopOptions={t.shopOptions}
               whatsappMessage={t.business.cardProtector.whatsappOrder}
-              buttonClassName="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.35)]"
+              buttonClassName="btn btn-primary"
             />
-          </div>
+          </Reveal>
         </div>
       </section>
 

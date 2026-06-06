@@ -2,6 +2,7 @@
 
 import React from 'react';
 import AnimatedCounter from './AnimatedCounter';
+import Reveal from './Reveal';
 
 export interface Stat {
   value: number;
@@ -13,7 +14,7 @@ export interface Stat {
 interface StatsGridProps {
   stats: Stat[];
   isVisible: boolean;
-  /** 'light' = white bg with neutral dividers (default); 'dark' = dark bg with white/5 borders */
+  /** 'light' = raised panels; 'dark' = surface panel grid */
   theme?: 'light' | 'dark';
 }
 
@@ -24,30 +25,28 @@ export default function StatsGrid({ stats, isVisible, theme = 'light' }: StatsGr
     <div
       className={
         isDark
-          ? 'grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 border border-white/5 max-w-5xl mx-auto'
-          : 'grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-neutral-100'
+          ? 'grid grid-cols-2 md:grid-cols-4 gap-px bg-border-default border border-border-default max-w-5xl mx-auto overflow-hidden'
+          : 'grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-border-default'
       }
     >
       {stats.map((stat, i) => (
-        <div
+        <Reveal
           key={i}
-          className={`text-center transition-all duration-700 ${isDark ? 'bg-[#1e1e2e] px-12 py-10' : 'px-8'}`}
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
-            transitionDelay: `${i * 150}ms`,
-          }}
+          visible={isVisible}
+          dir="up"
+          delay={i * 40}
+          className={`text-center ${isDark ? 'bg-surface-panel px-6 sm:px-12 py-8 sm:py-10' : 'px-4 sm:px-8'}`}
         >
-          <div className="text-5xl md:text-6xl font-bold font-display text-[#D4899A] mb-1 tabular-nums">
+          <div className="text-4xl sm:text-5xl md:text-6xl font-bold font-display text-accent-brand mb-1 tabular-nums">
             <AnimatedCounter target={stat.value} suffix={stat.suffix} isVisible={isVisible} />
           </div>
-          <div className={`text-sm font-semibold mb-0.5 ${isDark ? 'text-white/80' : 'text-neutral-800'}`}>
+          <div className="text-sm font-semibold mb-0.5 text-text-primary">
             {stat.label}
           </div>
-          <div className={`text-xs uppercase tracking-wider ${isDark ? 'text-white/30' : 'text-neutral-400'}`}>
+          <div className="text-xs uppercase tracking-wider text-text-muted">
             {stat.sub}
           </div>
-        </div>
+        </Reveal>
       ))}
     </div>
   );

@@ -26,18 +26,21 @@ interface ShopNowButtonProps {
   /** Pre-filled WhatsApp message */
   whatsappMessage?: string;
   /** Tailwind classes applied to the trigger <button> */
-  buttonClassName: string;
+  buttonClassName?: string;
   /** Size of the chevron icon, default "w-4 h-4" */
   chevronSize?: string;
   /** Optional click handler for analytics or custom actions */
   onClick?: () => void;
 }
 
+const DEFAULT_BUTTON_CLASS =
+  'btn btn-primary min-h-11 px-6 py-2.5 text-sm inline-flex items-center gap-2';
+
 export default function ShopNowButton({
   label,
   shopOptions,
   whatsappMessage,
-  buttonClassName,
+  buttonClassName = DEFAULT_BUTTON_CLASS,
   chevronSize = 'w-4 h-4',
   onClick,
 }: ShopNowButtonProps) {
@@ -50,15 +53,15 @@ export default function ShopNowButton({
     ? `${WA_BASE}?text=${encodeURIComponent(whatsappMessage)}`
     : WA_BASE;
 
-  /* Recompute portal position whenever dropdown opens or window resizes/scrolls */
   const reposition = useCallback(() => {
     if (!btnRef.current) return;
     const r = btnRef.current.getBoundingClientRect();
+    const panelWidth = Math.min(288, window.innerWidth - 16);
     setDropdownStyle({
       position: 'fixed',
       top: r.bottom + 10,
-      left: r.left,
-      width: 288,           // w-72
+      left: Math.max(8, Math.min(r.left, window.innerWidth - panelWidth - 8)),
+      width: panelWidth,
       zIndex: 9999,
     });
   }, []);
@@ -91,77 +94,71 @@ export default function ShopNowButton({
     };
   }, [open]);
 
-  /* Panel rendered via portal so no parent overflow/stacking context can clip it */
   const panel = (
     <div
       data-shopnow-panel
       style={dropdownStyle}
-      className="bg-[#111116] border border-[#D4899A]/20 rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.8),0_0_0_1px_rgba(212,137,154,0.06)]"
+      className="panel overflow-hidden shadow-[var(--shadow-panel)] max-w-[calc(100vw-1rem)]"
     >
-      {/* Header */}
-      <div className="px-5 pt-4 pb-2">
-        <p className="text-white/25 text-[10px] uppercase tracking-[0.2em] font-medium">
+      <div className="px-5 pt-4 pb-2 border-b border-border-default">
+        <p className="text-text-muted text-xs uppercase tracking-[0.2em] font-mono">
           Choose where to buy
         </p>
       </div>
 
-      {/* Etsy */}
       <a
         href={ETSY_URL}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => setOpen(false)}
-        className="flex items-center gap-4 px-5 py-3.5 hover:bg-white/[0.04] transition-colors group"
+        className="flex items-center gap-4 px-5 py-3.5 min-h-11 hover:bg-surface-raised transition-colors group touch-manipulation"
       >
-        <div className="w-9 h-9 rounded-xl bg-[#F1641E]/10 flex items-center justify-center flex-shrink-0">
-          <FontAwesomeIcon icon={faEtsy} className="w-4 h-4 text-[#F1641E]" />
+        <div className="w-9 h-9 border border-[#F1641E]/30 bg-[#F1641E]/10 flex items-center justify-center flex-shrink-0">
+          <FontAwesomeIcon icon={faEtsy} className="w-4 h-4 text-[#F1641E]" aria-hidden="true" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-white text-sm font-semibold leading-tight group-hover:text-[#D4899A] transition-colors">
+          <p className="text-text-primary text-sm font-semibold leading-tight group-hover:text-accent-brand transition-colors">
             {shopOptions.buyOnEtsy}
           </p>
-          <p className="text-white/35 text-xs mt-0.5">{shopOptions.buyOnEtsyDesc}</p>
+          <p className="text-text-muted text-xs mt-0.5">{shopOptions.buyOnEtsyDesc}</p>
         </div>
       </a>
 
-      {/* Carousell */}
       <a
         href={CAROUSELL_URL}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => setOpen(false)}
-        className="flex items-center gap-4 px-5 py-3.5 hover:bg-white/[0.04] transition-colors group"
+        className="flex items-center gap-4 px-5 py-3.5 min-h-11 hover:bg-surface-raised transition-colors group touch-manipulation"
       >
-        <div className="w-9 h-9 rounded-xl bg-[#FF2636]/10 flex items-center justify-center flex-shrink-0">
-          <CarousellIcon className="h-5 w-auto" />
+        <div className="w-9 h-9 border border-[#FF2636]/30 bg-[#FF2636]/10 flex items-center justify-center flex-shrink-0">
+          <CarousellIcon className="h-5 w-auto" aria-hidden="true" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-white text-sm font-semibold leading-tight group-hover:text-[#D4899A] transition-colors">
+          <p className="text-text-primary text-sm font-semibold leading-tight group-hover:text-accent-brand transition-colors">
             {shopOptions.buyOnCarousell}
           </p>
-          <p className="text-white/35 text-xs mt-0.5">{shopOptions.buyOnCarousellDesc}</p>
+          <p className="text-text-muted text-xs mt-0.5">{shopOptions.buyOnCarousellDesc}</p>
         </div>
       </a>
 
-      {/* Divider */}
-      <div className="mx-5 border-t border-white/[0.06] my-1" />
+      <div className="mx-5 border-t border-border-default my-1" />
 
-      {/* WhatsApp */}
       <a
         href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => setOpen(false)}
-        className="flex items-center gap-4 px-5 py-3.5 mb-1 hover:bg-[#25D366]/[0.05] transition-colors group"
+        className="flex items-center gap-4 px-5 py-3.5 mb-1 min-h-11 hover:bg-[#25D366]/[0.08] transition-colors group touch-manipulation"
       >
-        <div className="w-9 h-9 rounded-xl bg-[#25D366]/10 flex items-center justify-center flex-shrink-0">
-          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-[#25D366]" />
+        <div className="w-9 h-9 border border-[#25D366]/30 bg-[#25D366]/10 flex items-center justify-center flex-shrink-0">
+          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-[#25D366]" aria-hidden="true" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-white text-sm font-semibold leading-tight group-hover:text-[#25D366] transition-colors">
+          <p className="text-text-primary text-sm font-semibold leading-tight group-hover:text-[#25D366] transition-colors">
             {shopOptions.orderWhatsApp}
           </p>
-          <p className="text-white/35 text-xs mt-0.5">{shopOptions.orderWhatsAppDesc}</p>
+          <p className="text-text-muted text-xs mt-0.5">{shopOptions.orderWhatsAppDesc}</p>
         </div>
       </a>
     </div>
@@ -169,13 +166,12 @@ export default function ShopNowButton({
 
   return (
     <div ref={rootRef} className="relative inline-flex">
-
-      {/* ── Trigger ── */}
       <button
         ref={btnRef}
         type="button"
+        aria-expanded={open}
+        aria-haspopup="menu"
         onClick={() => {
-          try { if (typeof (arguments as any) !== 'undefined') {} } catch {}
           if (typeof onClick === 'function') onClick();
           setOpen(o => !o);
         }}
@@ -184,10 +180,10 @@ export default function ShopNowButton({
         <span>{label}</span>
         <ChevronDown
           className={`${chevronSize} flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          aria-hidden="true"
         />
       </button>
 
-      {/* ── Portal dropdown — escapes all overflow/stacking contexts ── */}
       {open && typeof document !== 'undefined' && createPortal(panel, document.body)}
     </div>
   );

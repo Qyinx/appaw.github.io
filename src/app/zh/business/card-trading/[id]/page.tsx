@@ -1,4 +1,5 @@
-import Page, {
+import {
+  CardDetailPageContent,
   generateStaticParams,
   generateMetadata as enGenerateMetadata,
 } from '../../../../business/card-trading/[id]/page';
@@ -15,4 +16,8 @@ export async function generateMetadata(
   return zhRouteMetadata(meta, `/business/card-trading/${id}/`);
 }
 
-export default Page;
+export default async function ZhCardDetailPage(
+  props: { params: Promise<{ id: string }> }
+) {
+  return CardDetailPageContent({ ...props, language: 'zh' });
+}

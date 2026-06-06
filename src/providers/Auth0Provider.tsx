@@ -1,6 +1,7 @@
 'use client';
 
 import { Auth0Provider, type AppState } from '@auth0/auth0-react';
+import { localizedHref, routeLanguage } from '@/lib/i18n-routing';
 
 export function Auth0ProviderWrapper({
   children,
@@ -17,7 +18,9 @@ export function Auth0ProviderWrapper({
 }) {
   function onRedirectCallback(appState?: AppState) {
     if (typeof window !== 'undefined') {
-      window.location.replace(appState?.returnTo ?? '/collection/list');
+      const lang = routeLanguage(window.location.pathname);
+      const returnTo = appState?.returnTo ?? '/collection/list';
+      window.location.replace(localizedHref(returnTo, lang));
     }
   }
 

@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import LocalLink from '@/components/LocalLink';
 import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, X, MessageCircle, Package, Eye, ExternalLink, Hash, Globe, Tag, ZoomIn, Layers, Loader2, Share2, Check, ShoppingBag, Tag as TagIcon, Shield } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -44,34 +44,29 @@ function TradingGuide({ guide, registerActivate }: {
   }, []);
 
   const side = activeTab === 'buy' ? guide.buy : guide.sell;
-  const tabAccent = activeTab === 'buy' ? '#D4899A' : '#818cf8';
-  const tabAccentRgb = activeTab === 'buy' ? '212,137,154' : '129,140,248';
+  const tabAccent = activeTab === 'buy' ? 'var(--accent-primary)' : 'var(--accent-secondary)';
+  const tabAccentRgb = activeTab === 'buy' ? '255,154,166' : '139,152,251';
 
   return (
-    <section id="consign" className="py-24 bg-[#1e1e2e] relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(212,137,154,0.04),transparent)]" />
+    <section id="consign" className="section-padding bg-surface-bg relative overflow-x-clip border-t border-border-default page-blueprint">
 
-      <div className="container-custom relative">
+      <div className="container-custom">
 
         {/* Header */}
         <div className="max-w-2xl mb-16">
-          <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/30 rounded-full px-4 py-1.5 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] animate-pulse" />
-            <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{guide.badge}</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.1] mb-4">{guide.title}</h2>
-          <p className="text-[#9ca3af] text-base leading-relaxed">{guide.subtitle}</p>
+          <p className="section-label mb-6">{guide.badge}</p>
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.1] mb-4">{guide.title}</h2>
+          <p className="text-text-secondary text-base leading-relaxed">{guide.subtitle}</p>
         </div>
 
         {/* Tab switcher */}
-        <div className="flex items-center gap-2 p-1 bg-white/[0.04] border border-white/[0.08] rounded-xl w-fit mb-12">
+        <div className="flex items-center gap-2 p-1 bg-surface-raised border border-border-default rounded-xl w-fit mb-12">
           <button
             onClick={() => { setActiveTab('buy'); setOpenFaq(null); }}
-            className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300"
+            className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300"
             style={activeTab === 'buy'
-              ? { background: `rgba(212,137,154,0.15)`, color: '#D4899A', boxShadow: `inset 0 0 0 1px rgba(212,137,154,0.3)` }
-              : { color: 'rgba(255,255,255,0.4)' }
+              ? { background: 'color-mix(in srgb, var(--accent-primary) 15%, transparent)', color: 'var(--accent-primary)', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--accent-primary) 30%, transparent)' }
+              : { color: 'var(--text-muted)' }
             }
           >
             <ShoppingBag className="w-4 h-4" />
@@ -79,10 +74,10 @@ function TradingGuide({ guide, registerActivate }: {
           </button>
           <button
             onClick={() => { setActiveTab('sell'); setOpenFaq(null); }}
-            className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300"
+            className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300"
             style={activeTab === 'sell'
-              ? { background: `rgba(129,140,248,0.12)`, color: '#818cf8', boxShadow: `inset 0 0 0 1px rgba(129,140,248,0.25)` }
-              : { color: 'rgba(255,255,255,0.4)' }
+              ? { background: 'color-mix(in srgb, var(--accent-secondary) 12%, transparent)', color: 'var(--accent-secondary)', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--accent-secondary) 25%, transparent)' }
+              : { color: 'var(--text-muted)' }
             }
           >
             <TagIcon className="w-4 h-4" />
@@ -94,7 +89,7 @@ function TradingGuide({ guide, registerActivate }: {
 
           {/* Rules list */}
           <div>
-            <h3 className="text-lg font-bold text-white mb-8 flex items-center gap-3">
+            <h3 className="text-lg font-bold text-text-primary mb-8 flex items-center gap-3">
               <span className="w-6 h-px" style={{ background: tabAccent }} />
               {side.title}
             </h3>
@@ -102,7 +97,7 @@ function TradingGuide({ guide, registerActivate }: {
               {side.rules.map((rule, i) => (
                 <div
                   key={i}
-                  className="group flex gap-5 p-5 rounded-2xl border transition-all duration-300 hover:border-opacity-60"
+                  className="group flex gap-5 p-5 panel transition-[border-color,background-color] duration-300"
                   style={{ borderColor: `rgba(${tabAccentRgb},0.12)`, background: `rgba(${tabAccentRgb},0.03)` }}
                 >
                   {/* Step number */}
@@ -113,8 +108,8 @@ function TradingGuide({ guide, registerActivate }: {
                     {i + 1}
                   </div>
                   <div>
-                    <p className="text-white font-semibold text-sm mb-1.5" style={{ color: 'white' }}>{rule.heading}</p>
-                    <p className="text-white/50 text-sm leading-relaxed">{rule.body}</p>
+                    <p className="text-text-primary font-semibold text-sm mb-1.5" style={{ color: 'white' }}>{rule.heading}</p>
+                    <p className="text-text-secondary text-sm leading-relaxed">{rule.body}</p>
                   </div>
                 </div>
               ))}
@@ -123,7 +118,7 @@ function TradingGuide({ guide, registerActivate }: {
 
           {/* FAQ accordion */}
           <div>
-            <h3 className="text-lg font-bold text-white mb-8 flex items-center gap-3">
+            <h3 className="text-lg font-bold text-text-primary mb-8 flex items-center gap-3">
               <span className="w-6 h-px bg-white/20" />
               {side.faq.title}
             </h3>
@@ -133,23 +128,23 @@ function TradingGuide({ guide, registerActivate }: {
                 return (
                   <div key={i} className="border border-white/[0.07] rounded-xl overflow-hidden">
                     <button
-                      className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-white/[0.03]"
+                      className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-surface-raised"
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     >
-                      <span className="text-white/80 text-sm font-medium leading-snug">{item.q}</span>
+                      <span className="text-text-primary text-sm font-medium leading-snug">{item.q}</span>
                       <ChevronDown
-                        className="flex-shrink-0 w-4 h-4 text-white/30 transition-transform duration-300"
+                        className="flex-shrink-0 w-4 h-4 text-text-muted transition-transform duration-300"
                         style={{ transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
                       />
                     </button>
                     <div
-                      className="overflow-hidden transition-all duration-300"
+                      className="overflow-hidden transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300"
                       style={{ maxHeight: openFaq === i ? (isCommission ? '700px' : '200px') : '0px', opacity: openFaq === i ? 1 : 0 }}
                     >
-                      <p className="px-5 pt-1 pb-3 text-white/50 text-sm leading-relaxed">{item.a}</p>
+                      <p className="px-5 pt-1 pb-3 text-text-secondary text-sm leading-relaxed">{item.a}</p>
                       {isCommission && (
                         <div className="px-5 pb-6">
-                          <p className="text-white/25 text-[9px] uppercase tracking-[0.2em] text-center mb-4">Commission Rate by Sale Price</p>
+                          <p className="text-text-muted text-[9px] uppercase tracking-[0.2em] text-center mb-4">Commission Rate by Sale Price</p>
                           {/*
                             Apex (140,8) → Base y=252, half-width=120 → (20,252)–(260,252)
                             Slope: right_x = 140 + (y−8)×120/244   left_x = mirror
@@ -158,41 +153,41 @@ function TradingGuide({ guide, registerActivate }: {
                           */}
                           <svg viewBox="0 0 380 272" className="w-full max-w-[380px] mx-auto block">
                             {/* Pyramid bands */}
-                            <polygon points="140,8 116,57 164,57"                   fill="rgba(212,137,154,0.42)" stroke="rgba(212,137,154,0.68)" strokeWidth="1" strokeLinejoin="round" />
-                            <polygon points="115,59 165,59 189,108 91,108"          fill="rgba(212,137,154,0.31)" stroke="rgba(212,137,154,0.50)" strokeWidth="1" />
-                            <polygon points="90,110 190,110 214,159 66,159"         fill="rgba(212,137,154,0.21)" stroke="rgba(212,137,154,0.37)" strokeWidth="1" />
-                            <polygon points="65,161 215,161 239,210 41,210"         fill="rgba(212,137,154,0.13)" stroke="rgba(212,137,154,0.25)" strokeWidth="1" />
-                            <polygon points="40,212 240,212 260,252 20,252"         fill="rgba(212,137,154,0.07)" stroke="rgba(212,137,154,0.16)" strokeWidth="1" />
+                            <polygon points="140,8 116,57 164,57"                   fill="var(--accent-primary)" fillOpacity="0.42" stroke="var(--accent-primary)" strokeOpacity="0.68" strokeWidth="1" strokeLinejoin="round" />
+                            <polygon points="115,59 165,59 189,108 91,108"          fill="var(--accent-primary)" fillOpacity="0.31" stroke="var(--accent-primary)" strokeOpacity="0.5" strokeWidth="1" />
+                            <polygon points="90,110 190,110 214,159 66,159"         fill="var(--accent-primary)" fillOpacity="0.21" stroke="var(--accent-primary)" strokeOpacity="0.37" strokeWidth="1" />
+                            <polygon points="65,161 215,161 239,210 41,210"         fill="var(--accent-primary)" fillOpacity="0.13" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="1" />
+                            <polygon points="40,212 240,212 260,252 20,252"         fill="var(--accent-primary)" fillOpacity="0.07" stroke="var(--accent-primary)" strokeOpacity="0.16" strokeWidth="1" />
 
                             {/* T1 — mid_y=32, right_x=152 */}
-                            <circle cx="152" cy="32" r="2.5" fill="#D4899A" fillOpacity="0.6" />
-                            <line x1="154" y1="32" x2="268" y2="32" stroke="rgba(212,137,154,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="28" fill="#D4899A" fontSize="11.5" fontWeight="bold" fontFamily="inherit">4.25%</text>
-                            <text x="272" y="40" fill="rgba(212,137,154,0.62)" fontSize="7.5" fontFamily="inherit">≥ HK$50,000</text>
+                            <circle cx="152" cy="32" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
+                            <line x1="154" y1="32" x2="268" y2="32" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="28" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">4.25%</text>
+                            <text x="272" y="40" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">≥ HK$50,000</text>
 
                             {/* T2 — mid_y=83, right_x=177 */}
-                            <circle cx="177" cy="83" r="2.5" fill="#D4899A" fillOpacity="0.6" />
-                            <line x1="179" y1="83" x2="268" y2="83" stroke="rgba(212,137,154,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="79" fill="#D4899A" fontSize="11.5" fontWeight="bold" fontFamily="inherit">4.5%</text>
-                            <text x="272" y="91" fill="rgba(212,137,154,0.62)" fontSize="7.5" fontFamily="inherit">HK$10,000–49,999</text>
+                            <circle cx="177" cy="83" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
+                            <line x1="179" y1="83" x2="268" y2="83" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="79" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">4.5%</text>
+                            <text x="272" y="91" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">HK$10,000–49,999</text>
 
                             {/* T3 — mid_y=134, right_x=202 */}
-                            <circle cx="202" cy="134" r="2.5" fill="#D4899A" fillOpacity="0.6" />
-                            <line x1="204" y1="134" x2="268" y2="134" stroke="rgba(212,137,154,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="130" fill="#D4899A" fontSize="11.5" fontWeight="bold" fontFamily="inherit">5.25%</text>
-                            <text x="272" y="142" fill="rgba(212,137,154,0.62)" fontSize="7.5" fontFamily="inherit">HK$2,000–9,999</text>
+                            <circle cx="202" cy="134" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
+                            <line x1="204" y1="134" x2="268" y2="134" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="130" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">5.25%</text>
+                            <text x="272" y="142" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">HK$2,000–9,999</text>
 
                             {/* T4 — mid_y=185, right_x=227 */}
-                            <circle cx="227" cy="185" r="2.5" fill="#D4899A" fillOpacity="0.6" />
-                            <line x1="229" y1="185" x2="268" y2="185" stroke="rgba(212,137,154,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="181" fill="#D4899A" fontSize="11.5" fontWeight="bold" fontFamily="inherit">6%</text>
-                            <text x="272" y="193" fill="rgba(212,137,154,0.62)" fontSize="7.5" fontFamily="inherit">HK$1,000–1,999</text>
+                            <circle cx="227" cy="185" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
+                            <line x1="229" y1="185" x2="268" y2="185" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="181" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">6%</text>
+                            <text x="272" y="193" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">HK$1,000–1,999</text>
 
                             {/* T5 — mid_y=232, right_x=250 */}
-                            <circle cx="250" cy="232" r="2.5" fill="#D4899A" fillOpacity="0.6" />
-                            <line x1="252" y1="232" x2="268" y2="232" stroke="rgba(212,137,154,0.25)" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="228" fill="#D4899A" fontSize="11.5" fontWeight="bold" fontFamily="inherit">7%</text>
-                            <text x="272" y="240" fill="rgba(212,137,154,0.62)" fontSize="7.5" fontFamily="inherit">{'< HK$1,000 · min HK$50'}</text>
+                            <circle cx="250" cy="232" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
+                            <line x1="252" y1="232" x2="268" y2="232" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
+                            <text x="272" y="228" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">7%</text>
+                            <text x="272" y="240" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">{'< HK$1,000 · min HK$50'}</text>
 
                             {/* Footnote */}
                             <text x="140" y="265" textAnchor="middle" fill="rgba(255,255,255,0.17)" fontSize="7" fontFamily="inherit">On final agreed sale price • No upfront fees</text>
@@ -221,48 +216,40 @@ function WhyAppaw({ labels, onSeeCommission }: {
   const wa = labels.whyAppaw;
 
   const pillarMeta = [
-    { icon: Shield, accent: '#D4899A', link: '/products/psa-protectors' as string | null },
-    { icon: Eye,    accent: '#818cf8', link: null },
-    { icon: Tag,    accent: '#34d399', link: '#consign' as string | null },
-    { icon: Check,  accent: '#f59e0b', link: null },
+    { icon: Shield, accent: 'var(--accent-primary)', link: '/products/psa-protectors' as string | null },
+    { icon: Eye,    accent: 'var(--accent-secondary)', link: null },
+    { icon: Tag,    accent: 'var(--accent-success)', link: '#consign' as string | null },
+    { icon: Check,  accent: 'var(--accent-warn)', link: null },
   ];
 
   return (
-    <section className="py-20 bg-[#161626] relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(212,137,154,0.04),transparent)]" />
-
-      <div className="container-custom relative">
+    <section className="section-padding border-t border-border-default bg-surface-panel overflow-hidden">
+      <div className="container-custom">
         {/* Header */}
         <div className="max-w-2xl mb-14">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-8 h-px bg-[#D4899A]" />
-            <span className="text-[#D4899A] text-xs uppercase tracking-[0.3em] font-medium">{wa.badge}</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.1] mb-3">
-            {wa.title} <span className="text-[#D4899A]">{wa.titleAccent}</span>
+          <p className="section-label mb-5">{wa.badge}</p>
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.1] mb-3">
+            {wa.title} <span className="text-accent-brand">{wa.titleAccent}</span>
           </h2>
-          <p className="text-white/40 text-sm leading-relaxed max-w-lg">
+          <p className="text-text-secondary text-sm leading-relaxed max-w-lg">
             {wa.subtitle}
           </p>
         </div>
 
         {/* Pillars grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.05] border border-white/[0.05]">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border-default border border-border-default">
           {wa.pillars.map((p, i) => {
             const { icon: Icon, accent, link } = pillarMeta[i];
-            // Index 2 = Zero-Fee Consignment — triggers commission FAQ
             const isCommission = i === 2;
             return (
-              <div key={i} className="group relative bg-[#161626] p-8 hover:bg-[#1d1d30] transition-colors duration-300 overflow-hidden">
+              <div key={i} className="group relative bg-surface-panel p-6 md:p-8 hover:bg-surface-raised transition-colors duration-200 overflow-hidden min-w-0">
                 {/* Top accent line */}
                 <div
                   className="absolute top-0 left-0 right-0 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
                   style={{ backgroundColor: accent }}
                 />
                 {/* Watermark number */}
-                <span className="absolute -top-4 -right-2 text-[6rem] font-bold text-white/[0.02] select-none leading-none group-hover:text-white/[0.04] transition-colors duration-500">
+                <span className="absolute -top-4 -right-2 text-[6rem] font-bold text-text-primary/[0.04] select-none leading-none group-hover:text-text-primary/[0.04] transition-colors duration-500">
                   {String(i + 1).padStart(2, '0')}
                 </span>
 
@@ -273,10 +260,10 @@ function WhyAppaw({ labels, onSeeCommission }: {
                   <Icon className="w-5 h-5" />
                 </div>
 
-                <h3 className="text-base font-bold text-white mb-3 transition-colors duration-300">
+                <h3 className="text-base font-bold text-text-primary mb-3">
                   {p.title}
                 </h3>
-                <p className="text-white/40 text-sm leading-relaxed mb-4">
+                <p className="text-text-secondary text-sm leading-relaxed mb-4">
                   {p.body}
                 </p>
                 {link && p.linkText && (
@@ -290,14 +277,14 @@ function WhyAppaw({ labels, onSeeCommission }: {
                       <ExternalLink className="w-3 h-3" />
                     </button>
                   ) : (
-                    <Link
+                    <LocalLink
                       href={link}
                       className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] transition-colors duration-200"
                       style={{ color: accent }}
                     >
                       {p.linkText}
                       <ExternalLink className="w-3 h-3" />
-                    </Link>
+                    </LocalLink>
                   )
                 )}
               </div>
@@ -406,11 +393,11 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8" onClick={onClose}>
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]" />
+      <div className="absolute inset-0 bg-black/80 animate-[fadeIn_0.2s_ease-out]" />
 
       {/* Panel */}
       <div
-        className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-[#1e1e2e] border border-white/[0.08] rounded-2xl shadow-2xl animate-[fadeUp_0.3s_ease-out]"
+        className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto panel animate-[fadeUp_0.3s_ease-out]"
         onClick={e => e.stopPropagation()}
       >
         {/* Top-right actions */}
@@ -418,33 +405,29 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
           {/* Copy link */}
           <button onClick={handleCopyLink}
             title={labels.detail?.copyLink ?? 'Copy link'}
-            className={`w-9 h-9 flex items-center justify-center rounded-full transition-all ${
+            className={`w-9 h-9 flex items-center justify-center rounded-full transition-[color,background-color,border-color,opacity,transform,box-shadow] ${
               copied
                 ? 'bg-emerald-500/20 text-emerald-400'
-                : 'bg-white/[0.06] hover:bg-white/[0.12] text-white/50 hover:text-white'
+                : 'bg-surface-raised hover:bg-white/[0.12] text-text-secondary hover:text-text-primary'
             }`}>
             {copied ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
           </button>
           {/* Open full page — carries ?card=N so the detail page pre-selects the right card */}
-          <Link href={`/business/card-trading/${card.id}/${selectedBundleIdx > 0 ? `?card=${selectedBundleIdx}` : ''}`}
+          <LocalLink href={`/business/card-trading/${card.id}/${selectedBundleIdx > 0 ? `?card=${selectedBundleIdx}` : ''}`}
             title={labels.detail?.viewPage ?? 'View full page'}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white/50 hover:text-white transition-all">
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-surface-raised hover:bg-white/[0.12] text-text-secondary hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]">
             <ExternalLink className="w-4 h-4" />
-          </Link>
+          </LocalLink>
           {/* Close */}
           <button onClick={onClose}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white/50 hover:text-white transition-all">
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-surface-raised hover:bg-white/[0.12] text-text-secondary hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]">
             <X className="w-4 h-4" />
           </button>
         </div>
 
         <div className="grid md:grid-cols-2">
           {/* Left — Image with front/back toggle */}
-          <div className="relative bg-gradient-to-br from-white/[0.04] to-transparent p-4 md:p-6 flex flex-col items-center justify-center min-h-[450px] md:min-h-[600px]">
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-56 h-56 rounded-full bg-[#D4899A]/5 blur-3xl" />
-            </div>
-
+          <div className="relative bg-surface-raised p-4 md:p-6 flex flex-col items-center justify-center min-h-[min(70dvh,600px)]">
             {/* Card image with 3D flip + magnifier */}
             <div
               ref={imgContainerRef}
@@ -477,33 +460,33 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
             </div>
 
             {/* Zoom hint */}
-            <div className="hidden md:flex items-center gap-1.5 mt-3 text-white/20 text-[10px] select-none">
+            <div className="hidden md:flex items-center gap-1.5 mt-3 text-text-muted text-[10px] select-none">
               <ZoomIn className="w-3 h-3" />
               <span>Hover to zoom</span>
             </div>
 
             {/* Front / Back toggle */}
             {hasBack && (
-              <div className="relative mt-5 flex items-center bg-white/[0.06] rounded-full p-0.5">
+              <div className="relative mt-5 flex items-center bg-surface-raised rounded-full p-0.5">
                 <button
                   onClick={() => setShowBack(false)}
-                  className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-all duration-300 ${
-                    !showBack ? 'text-[#1e1e2e]' : 'text-white/40 hover:text-white/60'
+                  className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 ${
+                    !showBack ? 'text-surface-bg' : 'text-text-muted hover:text-text-primary/60'
                   }`}
                 >
                   {labels.modal.front}
                 </button>
                 <button
                   onClick={() => setShowBack(true)}
-                  className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-all duration-300 ${
-                    showBack ? 'text-[#1e1e2e]' : 'text-white/40 hover:text-white/60'
+                  className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 ${
+                    showBack ? 'text-surface-bg' : 'text-text-muted hover:text-text-primary/60'
                   }`}
                 >
                   {labels.modal.back}
                 </button>
                 {/* Sliding highlight pill */}
                 <div
-                  className="absolute top-0.5 h-[calc(100%-4px)] rounded-full bg-[#D4899A] transition-all duration-300"
+                  className="absolute top-0.5 h-[calc(100%-4px)] rounded-full bg-accent-brand transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300"
                   style={{
                     width: 'calc(50% - 2px)',
                     left: showBack ? 'calc(50% + 2px)' : '2px',
@@ -521,11 +504,11 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                 <span className="text-[11px] font-bold leading-none">{activeCard.company}</span>
               </div>
               <div className={`h-7 min-w-[40px] flex items-center justify-center gap-1 px-2.5 rounded-md ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} border ${gradeColor.border}`}>
-                {activeCard.isBlackLabel && <span className="text-[8px] font-bold text-[#D4899A] leading-none">BL</span>}
+                {activeCard.isBlackLabel && <span className="text-[8px] font-bold text-accent-brand leading-none">BL</span>}
                 <span className="text-[11px] font-black leading-none">{activeCard.grade}</span>
               </div>
               {isBundle && (
-                <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-[#D4899A] text-[#1e1e2e]">
+                <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-accent-brand text-surface-bg">
                   <Layers className="w-3 h-3" />
                   <span className="text-[10px] font-extrabold leading-none">{labels.bundle.fullSet}</span>
                 </div>
@@ -537,9 +520,9 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
 
           {/* Right — Info */}
           <div className="p-6 md:p-8 flex flex-col">
-            <p className="text-[#D4899A] text-[10px] uppercase tracking-[0.2em] font-medium mb-2">{labels.modal.details}</p>
-            <h2 className="text-2xl font-bold text-white mb-1 font-display">{activeCard.name}</h2>
-            <p className="text-white/30 text-sm mb-4">
+            <p className="text-accent-brand text-[10px] uppercase tracking-[0.2em] font-medium mb-2">{labels.modal.details}</p>
+            <h2 className="text-2xl font-bold text-text-primary mb-1 font-display">{activeCard.name}</h2>
+            <p className="text-text-muted text-sm mb-4">
               {activeCard.set && <>{activeCard.set}</>}
               {activeCard.number && <> · {activeCard.number}</>}
             </p>
@@ -547,27 +530,27 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
             {/* Full Set indicator */}
             {isBundle && card.bundleCards && (
               <div className="flex items-center gap-2 mb-5">
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#D4899A]/10 border border-[#D4899A]/25">
-                  <Layers className="w-3.5 h-3.5 text-[#D4899A]" />
-                  <span className="text-[#D4899A] text-xs font-bold">{labels.bundle.fullSet} · {allInBundle.length} {labels.bundle.cards}</span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-brand/10 border border-accent-brand/25">
+                  <Layers className="w-3.5 h-3.5 text-accent-brand" />
+                  <span className="text-accent-brand text-xs font-bold">{labels.bundle.fullSet} · {allInBundle.length} {labels.bundle.cards}</span>
                 </div>
-                <span className="text-white/25 text-[10px] italic">{labels.bundle.setOnly}</span>
+                <span className="text-text-muted text-[10px] italic">{labels.bundle.setOnly}</span>
               </div>
             )}
 
             {/* Price */}
-            <div className="bg-[#D4899A]/8 border border-[#D4899A]/20 rounded-xl p-4 mb-5">
-              <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-1">{isBundle ? labels.bundle.setPrice : labels.card.price}</p>
-              <p className="text-[#D4899A] text-2xl font-bold font-display">{formatPrice(card.price, card.currency)}</p>
+            <div className="bg-accent-brand/8 border border-accent-brand/20 rounded-xl p-4 mb-5">
+              <p className="text-text-muted text-[10px] uppercase tracking-[0.2em] mb-1">{isBundle ? labels.bundle.setPrice : labels.card.price}</p>
+              <p className="text-accent-brand text-2xl font-bold font-display">{formatPrice(card.price, card.currency)}</p>
             </div>
 
             {/* Info table */}
             <div className="space-y-0 mb-5">
               {infoRows.map((row, i) => (
                 <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0">
-                  <span className="text-white/20">{row.icon}</span>
-                  <span className="text-white/40 text-xs flex-shrink-0 w-20">{row.label}</span>
-                  <span className="text-white text-sm font-medium">{row.value}</span>
+                  <span className="text-text-muted">{row.icon}</span>
+                  <span className="text-text-muted text-xs flex-shrink-0 w-20">{row.label}</span>
+                  <span className="text-text-primary text-sm font-medium">{row.value}</span>
                 </div>
               ))}
             </div>
@@ -575,7 +558,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
             {/* Bundle card list — uses allInBundle so idx matches thumbnail strip and activeCard */}
             {isBundle && allInBundle.length > 0 && (
               <div className="mb-5">
-                <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-3">{labels.bundle.cardsInSet}</p>
+                <p className="text-text-muted text-[10px] uppercase tracking-[0.2em] mb-3">{labels.bundle.cardsInSet}</p>
                 <div className="flex flex-col gap-1.5">
                   {allInBundle.map((bc, idx) => {
                     const bcGrade = getGradeColor(bc.grade, bc.isBlackLabel);
@@ -585,19 +568,19 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                       <button
                         key={idx}
                         onClick={() => { setSelectedBundleIdx(idx); setShowBack(false); }}
-                        className={`relative w-full flex items-center gap-3 pl-4 pr-3 py-2.5 rounded-xl transition-all duration-200 text-left overflow-hidden ${
+                        className={`relative w-full flex items-center gap-3 pl-4 pr-3 py-2.5 rounded-xl transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 text-left overflow-hidden ${
                           isActive
-                            ? 'bg-[#D4899A]/[0.07] shadow-[inset_0_0_0_1px_rgba(212,137,154,0.14)]'
-                            : 'bg-white/[0.025] hover:bg-white/[0.05]'
+                            ? 'bg-accent-brand/[0.07] shadow-[inset_0_0_0_1px_rgba(212,137,154,0.14)]'
+                            : 'bg-white/[0.025] hover:bg-surface-raised'
                         }`}
                       >
                         {/* Left accent bar */}
-                        <div className={`absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-full transition-all duration-200 ${isActive ? 'bg-[#D4899A]' : 'bg-transparent'}`} />
+                        <div className={`absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-full transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${isActive ? 'bg-accent-brand' : 'bg-transparent'}`} />
 
                         {/* Thumbnail */}
-                        <div className={`relative flex-shrink-0 w-10 h-[52px] rounded-lg overflow-hidden transition-all duration-200 ${
+                        <div className={`relative flex-shrink-0 w-10 h-[52px] rounded-lg overflow-hidden transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${
                           isActive
-                            ? 'ring-1 ring-[#D4899A]/50 shadow-[0_0_14px_rgba(212,137,154,0.18)]'
+                            ? 'ring-1 ring-accent-brand/50'
                             : 'ring-1 ring-white/[0.07]'
                         }`}>
                           {bc.image && <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-0.5" sizes="40px" />}
@@ -606,10 +589,10 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                         {/* Name + meta */}
                         <div className="flex flex-col flex-1 min-w-0 gap-0.5">
                           <span className={`text-[11px] font-semibold truncate leading-tight transition-colors ${
-                            isActive ? 'text-white' : 'text-white/55'
+                            isActive ? 'text-text-primary' : 'text-text-secondary'
                           }`}>{bc.name}</span>
                           {(bc.set || bc.number) && (
-                            <span className="text-[9px] text-white/25 truncate leading-tight">
+                            <span className="text-[9px] text-text-muted truncate leading-tight">
                               {[bc.set, bc.number].filter(Boolean).join(' · ')}
                             </span>
                           )}
@@ -622,24 +605,24 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                             style={{ background: bcCompany.background, color: bcCompany.color }}
                           >{bc.company}</div>
                           <div className={`h-[15px] px-1.5 flex items-center justify-center gap-0.5 rounded text-[8px] font-black leading-none ${bcGrade.bg} ${bcGrade.text} border ${bcGrade.border}`}>
-                            {bc.isBlackLabel && <span className="text-[5px] font-bold text-[#D4899A]">BL</span>}
+                            {bc.isBlackLabel && <span className="text-[5px] font-bold text-accent-brand">BL</span>}
                             {bc.grade}
                           </div>
                         </div>
 
                         {/* Open this specific card on the full detail page */}
-                        <Link
+                        <LocalLink
                           href={`/business/card-trading/${card.id}/${idx > 0 ? `?card=${idx}` : ''}`}
                           onClick={e => e.stopPropagation()}
                           title={labels.detail?.viewPage ?? 'View full page'}
-                          className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md transition-all duration-200 ${
+                          className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${
                             isActive
-                              ? 'bg-[#D4899A]/20 text-[#D4899A] hover:bg-[#D4899A]/30'
-                              : 'bg-white/[0.04] text-white/20 hover:bg-white/[0.08] hover:text-white/50'
+                              ? 'bg-accent-brand/20 text-accent-brand hover:bg-accent-brand/30'
+                              : 'bg-surface-raised text-text-muted hover:bg-surface-raised hover:text-text-secondary'
                           }`}
                         >
                           <ExternalLink className="w-3 h-3" />
-                        </Link>
+                        </LocalLink>
                       </button>
                     );
                   })}
@@ -653,9 +636,9 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                 <div className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-red-500/15 border border-red-500/25 text-red-400 text-sm font-bold uppercase tracking-[0.1em]">
                   <span>{labels.card.soldOut}</span>
                 </div>
-                <Link href="/business/card-trading/" className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] text-white/60 hover:text-white text-xs font-medium transition-all">
+                <LocalLink href="/business/card-trading/" className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-surface-raised hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow]">
                   <span>{labels.card.similarItems}</span>
-                </Link>
+                </LocalLink>
               </div>
             ) : (
               <a
@@ -665,7 +648,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                     : `Hi, I'd like to make an offer for: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year})\nListed price: ${formatPrice(card.price, card.currency)}\nCard link: https://appaw.store/business/card-trading/${card.id}/\nMy offer: `
                 )}`}
                 target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,137,154,0.3)] mt-auto"
+                className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-accent-brand hover:brightness-110 text-surface-bg text-sm font-bold uppercase tracking-[0.1em] transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 hover:shadow-[0_0_30px_rgba(212,137,154,0.3)] mt-auto"
               >
                 <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
                 <span>{labels.card.inquire}</span>
@@ -678,7 +661,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
       {/* Fixed magnifier lens — pixel-based positioning for accurate edge/corner viewing */}
       {magnifier.active && (
         <div
-          className="pointer-events-none fixed rounded-full border-2 border-[#D4899A]/50 shadow-[0_0_24px_rgba(0,0,0,0.6),inset_0_0_12px_rgba(0,0,0,0.2)] overflow-hidden z-[60]"
+          className="pointer-events-none fixed rounded-full border-2 border-accent-brand/50 shadow-[0_0_24px_rgba(0,0,0,0.6),inset_0_0_12px_rgba(0,0,0,0.2)] overflow-hidden z-[60]"
           style={{
             width: LENS,
             height: LENS,
@@ -712,19 +695,18 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
 function InProgressPanel({ labels }: { labels: ReturnType<typeof useLanguage>['t']['cardMarketplace']['inProgress'] }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 md:py-28 text-center">
-      <div className="relative w-full max-w-lg p-8 md:p-10 rounded-2xl border border-[#D4899A]/25 bg-gradient-to-b from-[#252538] to-[#1a1a2e] shadow-[0_8px_40px_rgba(212,137,154,0.12)]">
-        <div className="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#D4899A]/50 to-transparent" />
-        <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/30 rounded-full px-4 py-1.5 mb-6">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] animate-pulse" />
-          <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{labels.badge}</span>
+      <div className="relative w-full max-w-lg p-8 md:p-10 panel">
+        <div className="inline-flex items-center gap-2.5 border border-accent-brand/30 px-4 py-1.5 mb-6">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent-brand animate-pulse" />
+          <span className="text-accent-brand text-xs uppercase tracking-[0.25em] font-medium">{labels.badge}</span>
         </div>
-        <h2 className="text-2xl md:text-3xl font-bold font-display text-white leading-tight mb-4">{labels.title}</h2>
+        <h2 className="text-2xl md:text-3xl font-bold font-display text-text-primary leading-tight mb-4">{labels.title}</h2>
         <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed mb-8">{labels.description}</p>
         <a
           href="https://wa.me/85292851189"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2.5 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.12em] px-8 py-3.5 rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,137,154,0.3)]"
+          className="btn btn-primary"
         >
           <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
           {labels.whatsapp}
@@ -760,37 +742,37 @@ function InProgressModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8" onClick={onDismiss}>
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]" />
+      <div className="absolute inset-0 bg-black/80 animate-[fadeIn_0.2s_ease-out]" />
       <div
-        className="relative w-full max-w-lg bg-[#1e1e2e] border border-white/[0.08] rounded-2xl shadow-2xl animate-[fadeUp_0.3s_ease-out] p-8 md:p-10 text-center"
+        className="relative w-full max-w-lg bg-surface-bg border border-border-default rounded-2xl shadow-2xl animate-[fadeUp_0.3s_ease-out] p-8 md:p-10 text-center"
         onClick={e => e.stopPropagation()}
       >
         <button
           onClick={onDismiss}
-          className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white/50 hover:text-white transition-all"
+          className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-surface-raised hover:bg-white/[0.12] text-text-secondary hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]"
           aria-label={labels.dismiss}
         >
           <X className="w-4 h-4" />
         </button>
-        <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/30 rounded-full px-4 py-1.5 mb-6">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] animate-pulse" />
-          <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{labels.badge}</span>
+        <div className="inline-flex items-center gap-2.5 border border-accent-brand/30 rounded-full px-4 py-1.5 mb-6">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent-brand animate-pulse" />
+          <span className="text-accent-brand text-xs uppercase tracking-[0.25em] font-medium">{labels.badge}</span>
         </div>
-        <h2 className="text-2xl md:text-3xl font-bold font-display text-white leading-tight mb-4">{labels.title}</h2>
+        <h2 className="text-2xl md:text-3xl font-bold font-display text-text-primary leading-tight mb-4">{labels.title}</h2>
         <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed mb-8">{labels.description}</p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
             href="https://wa.me/85292851189"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.12em] px-8 py-3.5 rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,137,154,0.3)]"
+            className="btn btn-primary"
           >
             <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
             {labels.whatsapp}
           </a>
           <button
             onClick={onDismiss}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/[0.12] text-white/60 hover:text-white hover:border-white/25 text-sm font-medium transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-border-strong text-text-secondary hover:text-text-primary hover:border-border-strong text-sm font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow]"
           >
             {labels.dismiss}
           </button>
@@ -971,48 +953,45 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
   ];
 
   return (
-    <div className="flex flex-col bg-[#1e1e2e]">
+    <div className="flex flex-col bg-surface-bg min-h-dvh overflow-x-clip">
 
       {/* ═══════════ HERO ═══════════ */}
-      <section className="relative pt-24 pb-12 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,rgba(212,137,154,0.08),transparent)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4899A]/20 to-transparent" />
-
+      <section className="relative pt-24 pb-12 overflow-hidden border-b border-border-default">
         <div className="relative container-custom z-10">
-          <div className="max-w-4xl transition-all duration-1000" style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)' }}>
+          <div className="max-w-4xl transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-1000" style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)' }}>
 
             {/* Badge */}
-            <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/40 rounded-full px-4 py-1.5 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A] animate-pulse" />
-              <span className="text-[#D4899A] text-xs uppercase tracking-[0.25em] font-medium">{mp.badge}</span>
+            <div className="inline-flex items-center gap-2.5 border border-accent-brand/40 rounded-full px-4 py-1.5 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-brand animate-pulse" />
+              <span className="text-accent-brand text-xs uppercase tracking-[0.25em] font-medium">{mp.badge}</span>
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-white leading-[1.1] tracking-tight mb-4">{mp.title}</h1>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-text-primary leading-[1.1] tracking-tight mb-4">{mp.title}</h1>
 
             {/* Subtitle */}
             <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed max-w-2xl mb-6">{mp.subtitle}</p>
 
             {/* Quick-nav links */}
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="text-white/25 text-[10px] uppercase tracking-[0.2em] mr-1">{mp.hero.explore}</span>
-              <Link
+              <span className="text-text-muted text-[10px] uppercase tracking-[0.2em] mr-1">{mp.hero.explore}</span>
+              <LocalLink
                 href="/products/psa-protectors"
-                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] hover:border-[#D4899A]/35 hover:bg-[#D4899A]/[0.06] text-white/55 hover:text-[#D4899A] text-xs font-medium transition-all duration-200"
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-border-default hover:border-accent-brand/35 hover:bg-accent-brand/[0.06] text-text-secondary hover:text-accent-brand text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
               >
                 <Shield className="w-3.5 h-3.5" />
                 {mp.hero.linkProtectors}
-              </Link>
+              </LocalLink>
               <a
                 href="#consign"
-                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] hover:border-[#D4899A]/35 hover:bg-[#D4899A]/[0.06] text-white/55 hover:text-[#D4899A] text-xs font-medium transition-all duration-200"
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-border-default hover:border-accent-brand/35 hover:bg-accent-brand/[0.06] text-text-secondary hover:text-accent-brand text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
                 {mp.hero.linkBuyingGuide}
               </a>
               <a
                 href="#consign"
-                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] hover:border-[#D4899A]/35 hover:bg-[#D4899A]/[0.06] text-white/55 hover:text-[#D4899A] text-xs font-medium transition-all duration-200"
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-border-default hover:border-accent-brand/35 hover:bg-accent-brand/[0.06] text-text-secondary hover:text-accent-brand text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
               >
                 <TagIcon className="w-3.5 h-3.5" />
                 {mp.hero.linkConsign}
@@ -1023,18 +1002,18 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       </section>
 
       {/* ═══════════ STICKY FILTER BAR ═══════════ */}
-      {!MARKETPLACE_IN_PROGRESS && <div className="sticky top-16 z-30 bg-[#1e1e2e]/95 backdrop-blur-xl border-y border-white/[0.06]">
+      {!MARKETPLACE_IN_PROGRESS && <div className="sticky top-16 z-30 bg-surface-bg/95 border-y border-border-default">
         <div className="container-custom py-4">
 
           {/* Desktop */}
           <div className="hidden md:flex items-center gap-4">
             {/* Search */}
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
               <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={mp.searchPlaceholder}
-                className="w-full pl-10 pr-4 py-2.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4899A]/50 focus:ring-1 focus:ring-[#D4899A]/20 transition-all" />
+                className="w-full pl-10 pr-4 py-2.5 min-h-11 bg-surface-raised border border-border-default text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-brand/50 focus:ring-1 focus:ring-accent-brand/20 transition-[color,background-color,border-color,box-shadow]" />
               {search && (
-                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60">
+                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary/60">
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
@@ -1045,14 +1024,14 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
             {/* Company chips */}
             <div className="flex items-center gap-2">
               <button onClick={() => setCompanyFilter(null)}
-                className={`px-3.5 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-all ${!companyFilter ? 'bg-[#D4899A]/15 text-[#D4899A] border border-[#D4899A]/30' : 'text-white/70 border border-white/[0.15] hover:border-white/30 hover:text-white'}`}
+                className={`px-3.5 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform,box-shadow] ${!companyFilter ? 'bg-accent-brand/15 text-accent-brand border border-accent-brand/30' : 'text-text-secondary border border-border-strong hover:border-border-strong hover:text-text-primary'}`}
               >{mp.filters.allCompanies}</button>
               {companies.map(c => {
                 const style = getCompanyStyle(c);
                 const active = companyFilter === c;
                 return (
                   <button key={c} onClick={() => setCompanyFilter(active ? null : c)}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${active ? 'border-transparent' : 'text-white/70 border-white/[0.15] hover:border-white/30 hover:text-white'}`}
+                    className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform,box-shadow] border ${active ? 'border-transparent' : 'text-text-secondary border-border-strong hover:border-border-strong hover:text-text-primary'}`}
                     style={active ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
                   >{c}</button>
                 );
@@ -1067,7 +1046,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                 const active = gradeFilter === tier.key;
                 return (
                   <button key={tier.key} onClick={() => setGradeFilter(active ? null : tier.key)}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all border whitespace-nowrap ${active ? 'bg-[#D4899A]/15 text-[#D4899A] border-[#D4899A]/30' : 'text-white/70 border-white/[0.15] hover:border-white/30 hover:text-white'}`}
+                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] border whitespace-nowrap ${active ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong hover:border-border-strong hover:text-text-primary'}`}
                   >{tier.label}</button>
                 );
               })}
@@ -1078,16 +1057,16 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
             {/* Sort */}
             <div className="relative">
               <button onClick={e => { e.stopPropagation(); setShowSort(v => !v); }}
-                className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-xs text-white/70 border border-white/[0.15] hover:border-white/30 hover:text-white transition-all">
+                className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-xs text-text-secondary border border-border-strong hover:border-border-strong hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]">
                 <ArrowUpDown className="w-3.5 h-3.5" />
                 <span>{mp.sortBy}</span>
                 <ChevronDown className={`w-3 h-3 transition-transform ${showSort ? 'rotate-180' : ''}`} />
               </button>
               {showSort && (
-                <div className="absolute right-0 mt-2 w-52 bg-[#16161f] border border-white/10 rounded-xl shadow-2xl overflow-hidden">
+                <div className="absolute right-0 mt-2 w-52 bg-surface-panel border border-border-default rounded-xl shadow-2xl overflow-hidden">
                   {sortOptions.map(opt => (
                     <button key={opt.key} onClick={() => { setSortBy(opt.key); setShowSort(false); }}
-                      className={`w-full text-left px-4 py-3 text-xs transition-colors ${sortBy === opt.key ? 'bg-[#D4899A]/10 text-[#D4899A]' : 'text-white/70 hover:bg-white/[0.06] hover:text-white'}`}
+                      className={`w-full text-left px-4 py-3 text-xs transition-colors ${sortBy === opt.key ? 'bg-accent-brand/10 text-accent-brand' : 'text-text-secondary hover:bg-surface-raised hover:text-text-primary'}`}
                     >{opt.label}</button>
                   ))}
                 </div>
@@ -1099,30 +1078,30 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
           <div className="md:hidden space-y-3">
             <div className="flex items-center gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                 <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={mp.searchPlaceholder}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4899A]/50 transition-all" />
+                  className="w-full pl-10 pr-4 py-2.5 bg-surface-raised border border-border-default rounded-lg text-sm text-text-primary placeholder-white/30 focus:outline-none focus:border-accent-brand/50 transition-[color,background-color,border-color,opacity,transform,box-shadow]" />
               </div>
               <button onClick={() => setMobileFilters(v => !v)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium border transition-all ${mobileFilters || hasActiveFilters ? 'bg-[#D4899A]/15 text-[#D4899A] border-[#D4899A]/30' : 'text-white/50 border-white/[0.08]'}`}>
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${mobileFilters || hasActiveFilters ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-default'}`}>
                 <SlidersHorizontal className="w-4 h-4" />
-                {hasActiveFilters && <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A]" />}
+                {hasActiveFilters && <span className="w-1.5 h-1.5 rounded-full bg-accent-brand" />}
               </button>
             </div>
 
             {mobileFilters && (
-              <div className="space-y-4 pb-2 border-t border-white/[0.06] pt-4 animate-[fadeUp_0.3s_ease-out]">
+              <div className="space-y-4 pb-2 border-t border-border-default pt-4 animate-[fadeUp_0.3s_ease-out]">
                 <div>
-                  <p className="text-white/50 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.company}</p>
+                  <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.company}</p>
                   <div className="flex flex-wrap gap-2">
                     <button onClick={() => setCompanyFilter(null)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${!companyFilter ? 'bg-[#D4899A]/15 text-[#D4899A] border-[#D4899A]/30' : 'text-white/70 border-white/[0.15]'}`}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${!companyFilter ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
                     >{mp.filters.allCompanies}</button>
                     {companies.map(c => {
                       const style = getCompanyStyle(c);
                       return (
                         <button key={c} onClick={() => setCompanyFilter(companyFilter === c ? null : c)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${companyFilter === c ? 'border-transparent' : 'text-white/70 border-white/[0.15]'}`}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${companyFilter === c ? 'border-transparent' : 'text-text-secondary border-border-strong'}`}
                           style={companyFilter === c ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
                         >{c}</button>
                       );
@@ -1130,21 +1109,21 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                   </div>
                 </div>
                 <div>
-                  <p className="text-white/50 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.grade}</p>
+                  <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.grade}</p>
                   <div className="flex flex-wrap gap-2">
                     {gradeTiers.map(tier => (
                       <button key={tier.key} onClick={() => setGradeFilter(gradeFilter === tier.key ? null : tier.key)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${gradeFilter === tier.key ? 'bg-[#D4899A]/15 text-[#D4899A] border-[#D4899A]/30' : 'text-white/70 border-white/[0.15]'}`}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${gradeFilter === tier.key ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
                       >{tier.label}</button>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <p className="text-white/50 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.sortBy}</p>
+                  <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.sortBy}</p>
                   <div className="flex flex-wrap gap-2">
                     {sortOptions.map(opt => (
                       <button key={opt.key} onClick={() => setSortBy(opt.key)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${sortBy === opt.key ? 'bg-[#D4899A]/15 text-[#D4899A] border-[#D4899A]/30' : 'text-white/70 border-white/[0.15]'}`}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${sortBy === opt.key ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
                       >{opt.label}</button>
                     ))}
                   </div>
@@ -1158,12 +1137,12 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       {/* ═══════════ RESULTS HEADER ═══════════ */}
       {!MARKETPLACE_IN_PROGRESS && <div className="container-custom pt-8 pb-2 flex items-center justify-between">
         {!loading && !error && (
-          <p className="text-white/30 text-sm">
-            <span className="text-[#D4899A] font-bold">{displayItems.length}</span> {mp.resultsCount}
+          <p className="text-text-muted text-sm">
+            <span className="text-accent-brand font-bold">{displayItems.length}</span> {mp.resultsCount}
           </p>
         )}
         {hasActiveFilters && (
-          <button onClick={resetFilters} className="text-xs text-white/30 hover:text-[#D4899A] transition-colors flex items-center gap-1.5">
+          <button onClick={resetFilters} className="text-xs text-text-muted hover:text-accent-brand transition-colors flex items-center gap-1.5">
             <X className="w-3 h-3" />{mp.emptyState.reset}
           </button>
         )}
@@ -1177,13 +1156,13 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
         /* Loading state */
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden animate-pulse"
+              <div key={i} className="bg-surface-raised border border-border-default rounded-xl overflow-hidden animate-pulse"
                 style={{ animationDelay: `${i * 80}ms` }}>
-                <div className="aspect-[3/4] bg-white/[0.04]" />
+                <div className="aspect-[3/4] bg-surface-raised" />
                 <div className="p-3 space-y-2">
-                  <div className="h-3 bg-white/[0.06] rounded w-3/4" />
-                  <div className="h-2 bg-white/[0.04] rounded w-1/2" />
-                  <div className="h-4 bg-white/[0.06] rounded w-1/3 mt-3" />
+                  <div className="h-3 bg-surface-raised rounded w-3/4" />
+                  <div className="h-2 bg-surface-raised rounded w-1/2" />
+                  <div className="h-4 bg-surface-raised rounded w-1/3 mt-3" />
                 </div>
               </div>
             ))}
@@ -1194,8 +1173,8 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
             <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6">
               <X className="w-7 h-7 text-red-400" />
             </div>
-            <h3 className="text-white text-lg font-semibold mb-2">{t.common.error}</h3>
-            <p className="text-white/40 text-sm mb-6 max-w-sm">{error}</p>
+            <h3 className="text-text-primary text-lg font-semibold mb-2">{t.common.error}</h3>
+            <p className="text-text-muted text-sm mb-6 max-w-sm">{error}</p>
           </div>
         ) : displayItems.length > 0 ? (
         /* Cards */
@@ -1209,15 +1188,12 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
               return (
                 <div
                   key={item.key}
-                  className="group relative bg-gradient-to-b from-[#252538] to-[#1a1a2e] border border-white/[0.07] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:border-[#D4899A]/45 hover:shadow-[0_8px_40px_rgba(212,137,154,0.13)]"
+                  className="group relative panel overflow-hidden cursor-pointer transition-[border-color,box-shadow,transform] duration-300 hover:border-accent-brand/45 min-w-0"
                   style={{ animation: `fadeUp 0.4s ease-out ${i * 40}ms both` }}
                   onClick={() => setSelectedCard(parentCard)}
                 >
                   {/* Image area */}
-                  <div className="relative aspect-[3/4] overflow-hidden">
-                    {/* Ambient inner glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/[0.025] via-transparent to-[#D4899A]/[0.015] pointer-events-none" />
-
+                  <div className="relative aspect-[3/4] overflow-hidden bg-surface-raised">
                     {tileImage && (
                       <Image
                         src={getImagePath(tileImage)}
@@ -1227,9 +1203,6 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                         sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
                       />
                     )}
-
-                    {/* Bottom gradient fade into info panel */}
-                    <div className="absolute bottom-0 left-0 right-0 h-14 bg-gradient-to-t from-[#0d0d15] to-transparent pointer-events-none" />
 
                     {/* RIGHT-SIDE badge column — company + grade stacked */}
                     <div className="absolute top-2.5 right-2.5 flex flex-col items-end gap-1.5">
@@ -1242,7 +1215,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                       </div>
                       {/* Grade score */}
                       <div className={`min-w-[32px] px-2 py-1.5 flex flex-col items-center justify-center rounded-lg border ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} ${gradeColor.border}`}>
-                        {tileIsBlackLabel && <span className="text-[6px] font-black text-[#D4899A] leading-none mb-0.5">BL</span>}
+                        {tileIsBlackLabel && <span className="text-[6px] font-black text-accent-brand leading-none mb-0.5">BL</span>}
                         <span className="text-[11px] font-black leading-none">{tileGrade}</span>
                       </div>
                     </div>
@@ -1250,12 +1223,12 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                     {/* Bundle badge — bottom left */}
                     {isBundle && (
                       <div className="absolute bottom-2 left-2 flex items-center gap-1.5 z-10">
-                        <div className="h-6 flex items-center gap-1 px-2 rounded-md bg-[#D4899A] text-[#1e1e2e] shadow-[0_2px_8px_rgba(212,137,154,0.4)]">
+                        <div className="h-6 flex items-center gap-1 px-2 rounded-md bg-accent-brand text-surface-bg shadow-[0_2px_8px_rgba(212,137,154,0.4)]">
                           <Layers className="w-3 h-3" />
                           <span className="text-[9px] font-extrabold uppercase tracking-wider leading-none">{mp.bundle.fullSet}</span>
                         </div>
-                        <div className="h-6 flex items-center px-1.5 rounded-md bg-black/60 backdrop-blur-sm border border-white/10">
-                          <span className="text-[9px] font-bold text-white leading-none">
+                        <div className="h-6 flex items-center px-1.5 border border-border-default bg-surface-bg/80">
+                          <span className="text-[9px] font-bold text-text-primary leading-none">
                             {isSubCard
                               ? `${(parentCard.bundleCards?.findIndex(bc => bc.name === tileName) ?? -1) + 2}/${bundleTotal}`
                               : `1/${bundleTotal}`
@@ -1268,15 +1241,15 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                     {/* Sold overlay — gold to signal "price realized" prestige */}
                     {parentCard.sold && (
                       <div className="absolute inset-0 bg-black/65 flex items-center justify-center z-10">
-                        <div className="px-4 py-1.5 rounded-full bg-[#D4899A]/90 backdrop-blur-sm border border-[#D4899A]/50 shadow-[0_4px_16px_rgba(212,137,154,0.25)]">
-                          <span className="text-[#1e1e2e] text-xs font-bold uppercase tracking-wider">{mp.card.sold}</span>
+                        <div className="px-4 py-1.5 border border-accent-brand/50 bg-accent-brand/90">
+                          <span className="text-surface-bg text-xs font-bold uppercase tracking-wider">{mp.card.sold}</span>
                         </div>
                       </div>
                     )}
 
                     {/* Hover overlay — golden CTA pill */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                      <div className="flex items-center gap-1.5 px-4 py-2 bg-[#D4899A] text-[#1e1e2e] rounded-full text-[11px] font-bold transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 shadow-[0_4px_20px_rgba(212,137,154,0.45)]">
+                      <div className="flex items-center gap-1.5 px-4 py-2 bg-accent-brand text-surface-bg rounded-full text-[11px] font-bold transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 shadow-[0_4px_20px_rgba(212,137,154,0.45)]">
                         <Eye className="w-3.5 h-3.5" />
                         {mp.card.viewDetails}
                       </div>
@@ -1285,19 +1258,19 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
 
                   {/* Info panel */}
                   <div className="px-3.5 pt-2.5 pb-3">
-                    <h3 className="text-white font-bold text-sm leading-snug mb-0.5 truncate group-hover:text-[#D4899A] transition-colors duration-200">
+                    <h3 className="text-text-primary font-bold text-sm leading-snug mb-0.5 truncate group-hover:text-accent-brand transition-colors duration-200">
                       {tileName}
                     </h3>
-                    <p className="text-white/30 text-[11px] truncate mb-3 leading-tight">
+                    <p className="text-text-muted text-[11px] truncate mb-3 leading-tight">
                       {tileYear}{tileSet ? ` · ${tileSet}` : ''}
                     </p>
 
                     {/* Price + WhatsApp action */}
                     <div className="flex items-center justify-between">
                       {parentCard.sold ? (
-                        <span className="text-[10px] font-bold text-[#D4899A]/60 uppercase tracking-wider">{mp.card.sold}</span>
+                        <span className="text-[10px] font-bold text-accent-brand/60 uppercase tracking-wider">{mp.card.sold}</span>
                       ) : (
-                        <span className="text-white/50 text-xs">{mp.card.inquire} →</span>
+                        <span className="text-text-secondary text-xs">{mp.card.inquire} →</span>
                       )}
                       {!parentCard.sold && (
                         <div className="w-7 h-7 rounded-full bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center group-hover:bg-[#25D366]/20 transition-colors duration-200">
@@ -1312,12 +1285,12 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-6">
-              <Package className="w-7 h-7 text-white/20" />
+            <div className="w-16 h-16 rounded-2xl bg-surface-raised border border-border-default flex items-center justify-center mb-6">
+              <Package className="w-7 h-7 text-text-muted" />
             </div>
-            <h3 className="text-white text-lg font-semibold mb-2">{mp.emptyState.title}</h3>
-            <p className="text-white/40 text-sm mb-6 max-w-sm">{mp.emptyState.description}</p>
-            <button onClick={resetFilters} className="px-6 py-2.5 rounded-lg bg-[#D4899A]/15 border border-[#D4899A]/30 text-[#D4899A] text-sm font-medium hover:bg-[#D4899A]/25 transition-all">
+            <h3 className="text-text-primary text-lg font-semibold mb-2">{mp.emptyState.title}</h3>
+            <p className="text-text-muted text-sm mb-6 max-w-sm">{mp.emptyState.description}</p>
+            <button onClick={resetFilters} className="px-6 py-2.5 rounded-lg bg-accent-brand/15 border border-accent-brand/30 text-accent-brand text-sm font-medium hover:bg-accent-brand/25 transition-[color,background-color,border-color,opacity,transform,box-shadow]">
               {mp.emptyState.reset}
             </button>
           </div>
@@ -1331,20 +1304,20 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       <WhyAppaw labels={mp} onSeeCommission={handleSeeCommission} />
 
       {/* ═══════════ CTA BANNER ═══════════ */}
-      <section ref={ctaRef} className="border-t border-white/[0.06] bg-gradient-to-b from-[#1e1e2e] to-[#161626]">
+      <section ref={ctaRef} className="border-t border-border-default bg-surface-panel section-padding">
         <div className="container-custom py-20">
-          <div className="relative max-w-3xl mx-auto text-center transition-all duration-1000"
+          <div className="relative max-w-3xl mx-auto text-center transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-1000"
             style={{ opacity: ctaVisible ? 1 : 0, transform: ctaVisible ? 'translateY(0)' : 'translateY(24px)' }}>
-            <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-32 bg-[#D4899A]/8 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-32 bg-accent-brand/8 rounded-full blur-3xl pointer-events-none" />
             <div className="relative">
-              <div className="inline-flex items-center gap-2.5 border border-[#D4899A]/30 rounded-full px-5 py-2 mb-8">
-                <MessageCircle className="w-3.5 h-3.5 text-[#D4899A]" />
-                <span className="text-[#D4899A] text-xs uppercase tracking-[0.2em] font-medium">Get in Touch</span>
+              <div className="inline-flex items-center gap-2.5 border border-accent-brand/30 rounded-full px-5 py-2 mb-8">
+                <MessageCircle className="w-3.5 h-3.5 text-accent-brand" />
+                <span className="text-accent-brand text-xs uppercase tracking-[0.2em] font-medium">Get in Touch</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold font-display text-white leading-[1.1] mb-4">{mp.ctaBanner.title}</h2>
+              <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.1] mb-4">{mp.ctaBanner.title}</h2>
               <p className="text-[#9ca3af] text-base leading-relaxed mb-10 max-w-xl mx-auto">{mp.ctaBanner.description}</p>
               <a href="https://wa.me/85292851189" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-[#D4899A] hover:bg-[#E8A3B2] text-[#1e1e2e] font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.35)]">
+                className="inline-flex items-center gap-3 bg-accent-brand hover:brightness-110 text-surface-bg font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.35)]">
                 <FontAwesomeIcon icon={faWhatsapp} className="w-5 h-5" />
                 {mp.ctaBanner.button}
               </a>

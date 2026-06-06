@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import LocalLink from '@/components/LocalLink';
 import { ArrowLeft, Hash, Globe, Tag, ExternalLink, ZoomIn, Layers, Share2, Check, ShieldOff, Clock } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -134,22 +134,22 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
   ];
 
   return (
-    <div className="bg-[#09090f]">
+    <div className="bg-surface-bg min-h-dvh overflow-x-clip page-blueprint">
 
       {/* ═══ Top bar ═══ */}
-      <div className="sticky top-16 md:top-20 z-30 bg-[#09090f]/95 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="sticky top-16 md:top-20 z-30 bg-surface-bg/95 border-b border-border-default">
         <div className="container-custom flex items-center justify-between py-3">
-          <Link
+          <LocalLink
             href="/business/card-trading/"
-            className="flex items-center gap-2 text-white/50 hover:text-[#d4a843] text-sm transition-colors"
+            className="flex items-center gap-2 text-text-secondary hover:text-accent-warn text-sm transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="hidden sm:inline">{mp.detail?.backToMarketplace ?? 'Back to Marketplace'}</span>
-          </Link>
+          </LocalLink>
 
           <div className="flex items-center gap-3">
             {/* Card name breadcrumb — desktop only */}
-            <span className="hidden md:block text-white/25 text-xs truncate max-w-[200px]">{card.name}</span>
+            <span className="hidden md:block text-text-muted text-xs truncate max-w-[200px]">{card.name}</span>
 
             {/* Sold indicator in top bar */}
             {card.sold && (
@@ -161,10 +161,10 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
 
             <button
               onClick={handleCopyLink}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-[color,background-color,border-color,opacity,transform] ${
                 copied
                   ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                  : 'bg-white/[0.06] text-white/50 hover:text-white border border-white/[0.08] hover:border-white/[0.15]'
+                  : 'bg-surface-raised text-text-secondary hover:text-text-primary border border-border-default hover:border-border-strong'
               }`}
             >
               {copied ? <Check className="w-3.5 h-3.5" /> : <Share2 className="w-3.5 h-3.5" />}
@@ -182,12 +182,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
             {/* ── Left: Image viewer ── */}
             <div className="relative">
               {/* Card container with padding for badges */}
-              <div className="relative bg-gradient-to-b from-white/[0.03] to-transparent rounded-2xl p-4 md:p-6 overflow-hidden">
-                {/* Glow — muted for sold cards */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className={`w-64 h-64 rounded-full blur-3xl ${card.sold ? 'bg-white/[0.02]' : 'bg-[#d4a843]/5'}`} />
-                </div>
-
+              <div className="relative panel p-4 md:p-6 overflow-hidden min-w-0 bg-surface-panel">
                 {/* Badges — inside padded container */}
                 <div className="relative flex items-center gap-1.5 mb-4 z-10">
                   <div
@@ -201,7 +196,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                     <span className="text-[11px] font-black leading-none">{activeCard.grade}</span>
                   </div>
                   {isBundle && (
-                    <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-[#d4a843] text-[#09090f]">
+                    <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-accent-warn text-[#09090f]">
                       <Layers className="w-3 h-3" />
                       <span className="text-[10px] font-extrabold leading-none">{mp.bundle.fullSet}</span>
                     </div>
@@ -257,32 +252,32 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 {/* Controls row — zoom hint + flip toggle */}
                 <div className="flex items-center justify-center gap-4 mt-4">
                   {/* Zoom hint */}
-                  <div className="hidden md:flex items-center gap-1.5 text-white/20 text-[10px] select-none">
+                  <div className="hidden md:flex items-center gap-1.5 text-text-muted text-[10px] select-none">
                     <ZoomIn className="w-3 h-3" />
                     <span>Hover to zoom</span>
                   </div>
 
                   {/* Front / Back toggle */}
                   {hasBack && (
-                    <div className="relative flex items-center bg-white/[0.06] rounded-full p-0.5">
+                    <div className="relative flex items-center bg-surface-raised rounded-full p-0.5">
                       <button
                         onClick={() => setShowBack(false)}
-                        className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-all duration-300 ${
-                          !showBack ? 'text-[#09090f]' : 'text-white/40 hover:text-white/60'
+                        className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-[color,background-color,border-color,opacity,transform] duration-300 ${
+                          !showBack ? 'text-[#09090f]' : 'text-text-muted hover:text-text-primary/60'
                         }`}
                       >
                         {mp.modal.front}
                       </button>
                       <button
                         onClick={() => setShowBack(true)}
-                        className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-all duration-300 ${
-                          showBack ? 'text-[#09090f]' : 'text-white/40 hover:text-white/60'
+                        className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-[color,background-color,border-color,opacity,transform] duration-300 ${
+                          showBack ? 'text-[#09090f]' : 'text-text-muted hover:text-text-primary/60'
                         }`}
                       >
                         {mp.modal.back}
                       </button>
                       <div
-                        className="absolute top-0.5 h-[calc(100%-4px)] rounded-full bg-[#d4a843] transition-all duration-300"
+                        className="absolute top-0.5 h-[calc(100%-4px)] rounded-full bg-accent-warn transition-[color,background-color,border-color,opacity,transform] duration-300"
                         style={{ width: 'calc(50% - 2px)', left: showBack ? 'calc(50% + 2px)' : '2px' }}
                       />
                     </div>
@@ -300,19 +295,19 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                         <button
                           key={idx}
                           onClick={() => { setSelectedBundleIdx(idx); setShowBack(false); }}
-                          className={`relative flex-shrink-0 w-16 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                          className={`relative flex-shrink-0 w-16 h-20 rounded-lg overflow-hidden border-2 transition-[color,background-color,border-color,opacity,transform] duration-200 ${
                             active
                               ? 'border-[#d4a843] shadow-[0_0_12px_rgba(212,168,67,0.4)]'
                               : 'border-white/10 hover:border-white/25 opacity-60 hover:opacity-100'
                           }`}
                         >
                           {bc.image && <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-1" sizes="64px" />}
-                          {active && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#d4a843]" />}
+                          {active && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-warn" />}
                         </button>
                       );
                     })}
                   </div>
-                  <p className="text-center text-white/25 text-[10px] mt-1.5">{selectedBundleIdx + 1} / {allInBundle.length}</p>
+                  <p className="text-center text-text-muted text-[10px] mt-1.5">{selectedBundleIdx + 1} / {allInBundle.length}</p>
                 </div>
               )}
             </div>
@@ -320,8 +315,8 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
             {/* ── Right: Info panel ── */}
             <div className="flex flex-col md:py-2">
               <p className="text-[#d4a843] text-[10px] uppercase tracking-[0.2em] font-medium mb-2">{mp.modal.details}</p>
-              <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 font-display">{card.name}</h1>
-              <p className="text-white/30 text-sm mb-5">
+              <h1 className="text-2xl md:text-3xl font-bold text-text-primary mb-1 font-display">{card.name}</h1>
+              <p className="text-text-muted text-sm mb-5">
                 {card.set && <>{card.set}</>}
                 {card.number && <> · {card.number}</>}
               </p>
@@ -329,19 +324,19 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
               {/* Full Set indicator */}
               {isBundle && card.bundleCards && (
                 <div className="flex flex-wrap items-center gap-2 mb-5">
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#d4a843]/10 border border-[#d4a843]/25">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-warn/10 border border-[#d4a843]/25">
                     <Layers className="w-3.5 h-3.5 text-[#d4a843]" />
                     <span className="text-[#d4a843] text-xs font-bold">{mp.bundle.fullSet} · {allInBundle.length} {mp.bundle.cards}</span>
                   </div>
-                  <span className="text-white/25 text-[10px] italic">{mp.bundle.setOnly}</span>
+                  <span className="text-text-muted text-[10px] italic">{mp.bundle.setOnly}</span>
                 </div>
               )}
 
               {/* Price */}
-              <div className={`rounded-xl p-4 mb-5 border ${card.sold ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-[#d4a843]/8 border-[#d4a843]/20'}`}>
-                <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-1">{isBundle ? mp.bundle.setPrice : mp.card.price}</p>
+              <div className={`rounded-xl p-4 mb-5 border ${card.sold ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-accent-warn/8 border-[#d4a843]/20'}`}>
+                <p className="text-text-muted text-[10px] uppercase tracking-[0.2em] mb-1">{isBundle ? mp.bundle.setPrice : mp.card.price}</p>
                 <div className="flex items-center gap-3">
-                  <p className={`text-2xl md:text-3xl font-bold font-display ${card.sold ? 'text-white/25 line-through' : 'text-[#d4a843]'}`}>{formatPrice(card.price, card.currency)}</p>
+                  <p className={`text-2xl md:text-3xl font-bold font-display ${card.sold ? 'text-text-muted line-through' : 'text-[#d4a843]'}`}>{formatPrice(card.price, card.currency)}</p>
                   {card.sold && (
                     <span className="px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-[10px] font-bold uppercase tracking-wider">
                       {mp.card.sold}
@@ -354,9 +349,9 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
               <div className="space-y-0 mb-5">
                 {infoRows.map((row, i) => (
                   <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0">
-                    <span className="text-white/20">{row.icon}</span>
-                    <span className="text-white/40 text-xs flex-shrink-0 w-20">{row.label}</span>
-                    <span className="text-white text-sm font-medium">{row.value}</span>
+                    <span className="text-text-muted">{row.icon}</span>
+                    <span className="text-text-muted text-xs flex-shrink-0 w-20">{row.label}</span>
+                    <span className="text-text-primary text-sm font-medium">{row.value}</span>
                   </div>
                 ))}
               </div>
@@ -366,18 +361,18 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 <div className="mb-5">
                   {card.createdAt && (
                     <div className="flex items-center gap-3 py-2.5 border-b border-white/[0.04]">
-                      <span className="text-white/20"><Clock className="w-3.5 h-3.5" /></span>
-                      <span className="text-white/40 text-xs flex-shrink-0 w-20">Listed</span>
-                      <time dateTime={card.createdAt} className="text-white text-sm font-medium">
+                      <span className="text-text-muted"><Clock className="w-3.5 h-3.5" /></span>
+                      <span className="text-text-muted text-xs flex-shrink-0 w-20">Listed</span>
+                      <time dateTime={card.createdAt} className="text-text-primary text-sm font-medium">
                         {new Date(card.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </time>
                     </div>
                   )}
                   {card.updatedAt && card.updatedAt !== card.createdAt && (
                     <div className="flex items-center gap-3 py-2.5 border-b border-white/[0.04]">
-                      <span className="text-white/20"><Clock className="w-3.5 h-3.5" /></span>
-                      <span className="text-white/40 text-xs flex-shrink-0 w-20">Updated</span>
-                      <time dateTime={card.updatedAt} className="text-white text-sm font-medium">
+                      <span className="text-text-muted"><Clock className="w-3.5 h-3.5" /></span>
+                      <span className="text-text-muted text-xs flex-shrink-0 w-20">Updated</span>
+                      <time dateTime={card.updatedAt} className="text-text-primary text-sm font-medium">
                         {new Date(card.updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </time>
                     </div>
@@ -388,7 +383,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
               {/* Bundle card list — uses allInBundle so idx matches thumbnail strip and activeCard */}
               {isBundle && allInBundle.length > 0 && (
                 <div className="mb-5">
-                  <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] mb-2">{mp.bundle.cardsInSet}</p>
+                  <p className="text-text-muted text-[10px] uppercase tracking-[0.2em] mb-2">{mp.bundle.cardsInSet}</p>
                   <div className="rounded-xl border border-white/[0.06] overflow-hidden">
                     {allInBundle.map((bc, idx) => {
                       const bcGrade = getGradeColor(bc.grade, bc.isBlackLabel);
@@ -398,18 +393,18 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                         <button
                           key={idx}
                           onClick={() => { setSelectedBundleIdx(idx); setShowBack(false); }}
-                          className={`w-full flex items-center gap-2.5 px-3 py-2.5 transition-all text-left border-b border-white/[0.04] last:border-b-0 ${
-                            isActive ? 'bg-[#d4a843]/[0.06]' : 'bg-transparent hover:bg-white/[0.03]'
+                          className={`w-full flex items-center gap-2.5 px-3 py-2.5 transition-[color,background-color,border-color,opacity,transform] text-left border-b border-white/[0.04] last:border-b-0 ${
+                            isActive ? 'bg-accent-warn/[0.06]' : 'bg-transparent hover:bg-white/[0.03]'
                           }`}
                         >
-                          <span className={`text-[10px] font-mono w-4 text-center flex-shrink-0 ${isActive ? 'text-[#d4a843]' : 'text-white/20'}`}>{idx + 1}</span>
-                          <div className={`relative w-7 h-9 flex-shrink-0 rounded overflow-hidden transition-all ${isActive ? 'ring-1 ring-[#d4a843]/40' : 'ring-1 ring-white/[0.06]'}`}>
+                          <span className={`text-[10px] font-mono w-4 text-center flex-shrink-0 ${isActive ? 'text-[#d4a843]' : 'text-text-muted'}`}>{idx + 1}</span>
+                          <div className={`relative w-7 h-9 flex-shrink-0 rounded overflow-hidden transition-[color,background-color,border-color,opacity,transform] ${isActive ? 'ring-1 ring-accent-warn/40' : 'ring-1 ring-white/[0.06]'}`}>
                             {bc.image && <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-0.5" sizes="28px" />}
                           </div>
                           <div className="flex flex-col flex-1 min-w-0">
-                            <span className={`text-xs font-medium truncate transition-colors ${isActive ? 'text-white' : 'text-white/50'}`}>{bc.name}</span>
+                            <span className={`text-xs font-medium truncate transition-colors ${isActive ? 'text-text-primary' : 'text-text-secondary'}`}>{bc.name}</span>
                             {(bc.set || bc.number) && (
-                              <span className="text-[9px] text-white/20 truncate">
+                              <span className="text-[9px] text-text-muted truncate">
                                 {[bc.set, bc.number].filter(Boolean).join(' · ')}
                               </span>
                             )}
@@ -422,7 +417,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                               {bc.grade}
                             </div>
                           </div>
-                          {isActive && <div className="w-1 h-4 rounded-full bg-[#d4a843] flex-shrink-0" />}
+                          {isActive && <div className="w-1 h-4 rounded-full bg-accent-warn flex-shrink-0" />}
                         </button>
                       );
                     })}
@@ -439,7 +434,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                       <ShieldOff className="w-4 h-4 text-red-400" />
                       <span className="text-red-400 text-sm font-bold">{mp.card.soldOut}</span>
                     </div>
-                    <p className="text-white/40 text-xs leading-relaxed">{mp.card.soldDescription}</p>
+                    <p className="text-text-muted text-xs leading-relaxed">{mp.card.soldDescription}</p>
                   </div>
 
                   {/* Ask about similar via WhatsApp */}
@@ -448,20 +443,20 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                       `Hi, I see the ${card.name} (${card.company}) is sold. Do you have similar cards available?`
                     )}`}
                     target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] hover:border-white/[0.15] text-white/70 hover:text-white text-sm font-medium transition-all duration-300"
+                    className="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-surface-raised hover:bg-surface-raised border border-border-default hover:border-border-strong text-text-primary/70 hover:text-text-primary text-sm font-medium transition-[color,background-color,border-color,opacity,transform] duration-300"
                   >
                     <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-[#25D366]" />
                     <span>{mp.card.askSimilar}</span>
                   </a>
 
                   {/* Browse marketplace */}
-                  <Link
+                  <LocalLink
                     href="/business/card-trading/"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-white/40 hover:text-[#d4a843] text-xs font-medium transition-all"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-text-muted hover:text-accent-warn text-xs font-medium transition-[color,background-color,border-color,opacity,transform]"
                   >
                     <ArrowLeft className="w-3 h-3" />
                     <span>{mp.card.similarItems}</span>
-                  </Link>
+                  </LocalLink>
                 </div>
               ) : (
                 <a
@@ -471,7 +466,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                       : `Hi, I'd like to make an offer for: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year})\nListed price: ${formatPrice(card.price, card.currency)}\nCard link: https://appaw.store/business/card-trading/${card.id}/\nMy offer: `
                   )}`}
                   target="_blank" rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,168,67,0.3)]"
+                  className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-accent-brand hover:brightness-110 text-surface-bg text-sm font-bold uppercase tracking-[0.1em] transition-[color,background-color,border-color,opacity,transform] duration-300 hover:shadow-[0_0_30px_rgba(212,168,67,0.3)]"
                 >
                   <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
                   <span>{mp.card.inquire}</span>

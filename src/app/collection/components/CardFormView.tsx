@@ -97,15 +97,15 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
   }
 
   return (
-    <div className="min-h-screen bg-[#1e1e2e]">
+    <div className="min-h-dvh bg-surface-bg overflow-x-clip">
       {/* Sticky header */}
-      <div className="sticky top-16 md:top-20 z-20 bg-[#1e1e2e]/95 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="sticky top-16 md:top-20 z-20 bg-surface-bg/95 border-b border-border-default">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
-          <button onClick={onBack} className="flex items-center gap-2 text-white/50 hover:text-white text-sm transition-colors">
+          <button onClick={onBack} className="flex items-center gap-2 text-text-secondary hover:text-text-primary text-sm transition-colors">
             <List className="w-4 h-4" />
             <span>{t.common.back}</span>
           </button>
-          <h2 className="text-white font-semibold text-sm">{isEdit ? t.collection.form.editTitle : t.collection.form.addTitle}</h2>
+          <h2 className="text-text-primary font-semibold text-sm">{isEdit ? t.collection.form.editTitle : t.collection.form.addTitle}</h2>
           <div className="flex items-center gap-2">
           </div>
         </div>
@@ -128,10 +128,10 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
 
         {/* Photo zoom lightbox */}
         {photoZoom && (
-          <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setPhotoZoom(null)}>
+          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4" onClick={() => setPhotoZoom(null)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={photoZoom} alt="Card photo" className="max-w-full max-h-full object-contain rounded-lg shadow-2xl cursor-zoom-out" onClick={e => e.stopPropagation()} />
-            <button type="button" onClick={() => setPhotoZoom(null)} className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
+            <button type="button" onClick={() => setPhotoZoom(null)} className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-text-primary transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -142,18 +142,18 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
           <div className="mb-6">
             {/* Idle: compact callout bar */}
             {scanState === 'idle' && (
-              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#9B7EBF]/[0.07] border border-[#9B7EBF]/20">
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-accent-link/[0.07] border border-accent-link/20">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <Sparkles className="w-4 h-4 text-[#9B7EBF] flex-shrink-0" />
+                  <Sparkles className="w-4 h-4 text-accent-link flex-shrink-0" />
                   <div className="min-w-0">
-                    <p className="text-white/80 text-sm font-medium">{t.collection.form.scan.title}</p>
-                    <p className="text-white/40 text-xs truncate">{t.collection.form.scan.subtitle}</p>
+                    <p className="text-text-primary text-sm font-medium">{t.collection.form.scan.title}</p>
+                    <p className="text-text-muted text-xs truncate">{t.collection.form.scan.subtitle}</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => scanRef.current?.click()}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#9B7EBF] hover:bg-[#AF97D3] text-[#1e1e2e] text-xs font-bold transition-colors flex-shrink-0"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-link hover:brightness-110 text-surface-bg text-xs font-bold transition-colors flex-shrink-0"
                 >
                   <ScanLine className="w-3.5 h-3.5" />{t.collection.form.scan.scanButton}
                 </button>
@@ -162,9 +162,9 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
 
             {/* Scanning: slim progress bar */}
             {scanState === 'scanning' && (
-              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#9B7EBF]/[0.07] border border-[#9B7EBF]/20">
-                <Loader2 className="w-4 h-4 text-[#9B7EBF] animate-spin flex-shrink-0" />
-                <p className="text-white/60 text-sm flex-1">{t.collection.form.scan.analysing}</p>
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-accent-link/[0.07] border border-accent-link/20">
+                <Loader2 className="w-4 h-4 text-accent-link animate-spin flex-shrink-0" />
+                <p className="text-text-secondary text-sm flex-1">{t.collection.form.scan.analysing}</p>
               </div>
             )}
 
@@ -177,7 +177,7 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
                   <button type="button" onClick={() => { setScanState('idle'); scanRef.current?.click(); }} className="text-emerald-400/70 hover:text-emerald-300 text-xs underline-offset-2 hover:underline transition-colors">
                     {t.collection.form.scan.rescan}
                   </button>
-                  <button type="button" onClick={() => setScanState('idle')} className="p-1 rounded-lg hover:bg-white/10 text-white/30 hover:text-white transition-colors">
+                  <button type="button" onClick={() => setScanState('idle')} className="p-1 rounded-lg hover:bg-surface-raised text-text-muted hover:text-text-primary transition-colors">
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -193,7 +193,7 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
                   <button type="button" onClick={() => { setScanState('idle'); scanRef.current?.click(); }} className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 text-xs font-medium transition-colors">
                     <Camera className="w-3 h-3" />{t.collection.form.scan.tryAgain}
                   </button>
-                  <button type="button" onClick={() => setScanState('idle')} className="p-1 rounded-lg hover:bg-white/10 text-white/30 hover:text-white transition-colors">
+                  <button type="button" onClick={() => setScanState('idle')} className="p-1 rounded-lg hover:bg-surface-raised text-text-muted hover:text-text-primary transition-colors">
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -272,10 +272,10 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
                       if (co === 'PSA' || co === 'TAG') set('isBlackLabel', false);
                     }}
                     style={style}
-                    className={`py-2 rounded-lg text-sm font-bold border transition-all ${
+                    className={`py-2 rounded-lg text-sm font-bold border transition-[color,background-color,border-color,opacity,transform] ${
                       isActive
                         ? 'border-transparent'
-                        : 'bg-white/[0.03] border-white/10 text-white/40 hover:text-white/70'
+                        : 'bg-surface-raised border-border-default text-text-muted hover:text-text-primary/70'
                     }`}
                   >
                     {co}
@@ -307,10 +307,10 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
         <Section title={t.collection.form.pricing}>
           <div className="space-y-3">
             <div>
-              <label className={lbl}>Buy Price <span className="text-white/40 font-normal normal-case tracking-normal">(optional)</span></label>
+              <label className={lbl}>Buy Price <span className="text-text-muted font-normal normal-case tracking-normal">(optional)</span></label>
               <div className="flex gap-2">
                 <select
-                  className="bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#9B7EBF]/50 transition-colors"
+                  className="bg-surface-raised border border-border-default rounded-lg px-3 py-2 text-text-primary text-sm focus:outline-none focus:border-accent-link/50 transition-colors"
                   value={form.buyCurrency}
                   onChange={e => set('buyCurrency', e.target.value as typeof form.buyCurrency)}
                 >
@@ -322,11 +322,11 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
             <div>
               <label className={lbl}>
                 List / Sell Price
-                <span className="text-white/40 font-normal normal-case tracking-normal ml-1.5">(optional)</span>
+                <span className="text-text-muted font-normal normal-case tracking-normal ml-1.5">(optional)</span>
               </label>
               <div className="flex gap-2">
                 <select
-                  className="bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#9B7EBF]/50 transition-colors"
+                  className="bg-surface-raised border border-border-default rounded-lg px-3 py-2 text-text-primary text-sm focus:outline-none focus:border-accent-link/50 transition-colors"
                   value={form.listCurrency ?? 'HKD'}
                   onChange={e => set('listCurrency', e.target.value as typeof form.listCurrency)}
                 >
@@ -371,17 +371,17 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
                   <div key={side} className="flex flex-col gap-2">
                     <p className={lbl}>{label}</p>
                     {value ? (
-                      <div className="relative rounded-xl overflow-hidden border border-white/10 aspect-[3/4] bg-black/40 group">
+                      <div className="relative rounded-xl overflow-hidden border border-border-default aspect-[3/4] bg-black/40 group">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={value} alt={label} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
-                          <button type="button" onClick={() => setPhotoZoom(value)} className="p-2 rounded-full bg-black/60 hover:bg-white/20 text-white transition-colors"><ZoomIn className="w-4 h-4" /></button>
-                          <button type="button" onClick={() => ref.current?.click()} className="p-2 rounded-full bg-black/60 hover:bg-white/20 text-white transition-colors"><Camera className="w-4 h-4" /></button>
-                          <button type="button" onClick={() => set(side, undefined)} className="p-2 rounded-full bg-black/60 hover:bg-red-500/80 text-white transition-colors"><X className="w-4 h-4" /></button>
+                          <button type="button" onClick={() => setPhotoZoom(value)} className="p-2 rounded-full bg-black/60 hover:bg-white/20 text-text-primary transition-colors"><ZoomIn className="w-4 h-4" /></button>
+                          <button type="button" onClick={() => ref.current?.click()} className="p-2 rounded-full bg-black/60 hover:bg-white/20 text-text-primary transition-colors"><Camera className="w-4 h-4" /></button>
+                          <button type="button" onClick={() => set(side, undefined)} className="p-2 rounded-full bg-black/60 hover:bg-red-500/80 text-text-primary transition-colors"><X className="w-4 h-4" /></button>
                         </div>
                       </div>
                     ) : (
-                      <button type="button" onClick={() => ref.current?.click()} className="flex flex-col items-center justify-center gap-2 aspect-[3/4] rounded-xl border-2 border-dashed border-white/10 hover:border-white/25 bg-white/[0.02] hover:bg-white/[0.04] text-white/30 hover:text-white/60 transition-all">
+                      <button type="button" onClick={() => ref.current?.click()} className="flex flex-col items-center justify-center gap-2 aspect-[3/4] rounded-xl border-2 border-dashed border-border-default hover:border-border-strong bg-white/[0.02] hover:bg-surface-raised text-text-muted hover:text-text-primary/60 transition-[color,background-color,border-color,opacity,transform]">
                         <ImagePlus className="w-6 h-6" />
                         <span className="text-xs font-medium">{t.collection.form.addPrefix} {label}</span>
                       </button>
@@ -404,15 +404,15 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
                     key={p.id}
                     type="button"
                     onClick={() => togglePortfolio(p.id)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium transition-all text-left ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium transition-[color,background-color,border-color,opacity,transform] text-left ${
                       selected
-                        ? 'bg-[#9B7EBF]/15 border-[#9B7EBF]/40 text-white'
-                        : 'bg-white/[0.03] border-white/10 text-white/45 hover:text-white hover:border-white/20'
+                        ? 'bg-accent-link/15 border-accent-link/40 text-text-primary'
+                        : 'bg-surface-raised border-border-default text-text-muted hover:text-text-primary hover:border-border-strong'
                     }`}
                   >
-                    <Folder className={`w-3.5 h-3.5 flex-shrink-0 ${selected ? 'text-[#9B7EBF]' : 'text-white/30'}`} />
+                    <Folder className={`w-3.5 h-3.5 flex-shrink-0 ${selected ? 'text-accent-link' : 'text-text-muted'}`} />
                     <span className="truncate">{p.name}</span>
-                    {selected && <Check className="w-3 h-3 text-[#9B7EBF] ml-auto flex-shrink-0" />}
+                    {selected && <Check className="w-3 h-3 text-accent-link ml-auto flex-shrink-0" />}
                   </button>
                 );
               })}
@@ -422,13 +422,13 @@ export function CardFormView({ initial, isEdit, onBack, onSave, onScan, onLoadIm
 
         {/* Footer actions */}
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/[0.06]">
-          <button onClick={onBack} className="px-4 py-2 rounded-lg text-white/40 hover:text-white text-sm transition-colors">
+          <button onClick={onBack} className="px-4 py-2 rounded-lg text-text-muted hover:text-text-primary text-sm transition-colors">
             {t.common.cancel}
           </button>
           <button
             onClick={handleSubmit}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2 rounded-lg bg-[#9B7EBF] hover:bg-[#AF97D3] text-[#1e1e2e] text-sm font-bold transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2 rounded-lg bg-accent-link hover:brightness-110 text-surface-bg text-sm font-bold transition-colors disabled:opacity-50"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
             {saving ? t.collection.form.saving : (isEdit ? t.collection.form.updateCard : t.collection.form.addCard)}

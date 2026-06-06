@@ -15,7 +15,6 @@ type UserProfile = {
   roles?: string[];
 };
 
-// Cache profile for the session to avoid repeat fetches on navigation
 let cachedProfile: UserProfile | null = null;
 
 function getProfileFromLocalStorage(): UserProfile | null {
@@ -42,27 +41,19 @@ function getProfileFromLocalStorage(): UserProfile | null {
   }
 }
 
+const linkBase =
+  'relative px-3 py-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-150';
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isBusinessOpen, setIsBusinessOpen] = useState(false);
   const [isMobileBusinessOpen, setIsMobileBusinessOpen] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(cachedProfile);
-  const [loadingProfile, setLoadingProfile] = useState(!cachedProfile);
   const { language, setLanguage, t } = useLanguage();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     if (cachedProfile) {
       setProfile(cachedProfile);
-      setLoadingProfile(false);
       return;
     }
 
@@ -71,7 +62,6 @@ export default function Header() {
       cachedProfile = profileFromStorage;
       setProfile(profileFromStorage);
     }
-    setLoadingProfile(false);
   }, []);
 
   const navLinks = [
@@ -80,7 +70,8 @@ export default function Header() {
       href: '/business',
       label: t.nav.business,
       children: [
-        { href: '/business/psa-protector', label: t.nav.psaProtector },
+        { href: '/products/psa-protectors', label: t.nav.psaProtector },
+        { href: '/business/card-trading', label: t.nav.cardTrading },
         { href: '/collection', label: t.nav.collection },
       ],
     },
@@ -90,8 +81,6 @@ export default function Header() {
 
   const pathname = usePathname();
   const router = useRouter();
-  // trailingSlash: true in next.config.js means pathname may end with /
-  // Normalize so /business/ matches link.href /business
   const normalizedPath = pathname.replace(/\/$/, '') || '/';
 
   const toggleLanguage = () => {
@@ -108,23 +97,12 @@ export default function Header() {
       : pathWithoutLocale === href || pathWithoutLocale.startsWith(href + '/');
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-      style={{
-        background: isScrolled
-          ? 'rgba(30,30,46,0.96)'
-          : 'rgba(30,30,46,0.75)',
-        backdropFilter: 'blur(20px) saturate(160%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-        borderBottom: isScrolled ? '1px solid rgba(212,137,154,0.12)' : '1px solid rgba(255,255,255,0.04)',
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border-default bg-surface-panel">
+      <div className="max-w-7xl mx-auto px-[var(--space-page-x)]">
+        <div className="flex items-center justify-between h-16">
 
-          {/* Logo */}
           <LocalLink href="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#D4899A]/40 transition-colors duration-300">
+            <div className="w-9 h-9 overflow-hidden border border-border-strong group-hover:border-accent-brand transition-colors duration-150">
               <Image
                 src={getImagePath('/images/logo.png')}
                 alt="Appaw Store Logo"
@@ -133,13 +111,12 @@ export default function Header() {
                 className="object-cover"
               />
             </div>
-            <span className="font-display font-bold text-base tracking-wide text-white/90 group-hover:text-[#D4899A] transition-colors duration-300">
+            <span className="font-display font-bold text-sm tracking-wide text-text-primary group-hover:text-accent-brand transition-colors duration-150">
               Appaw Store
             </span>
           </LocalLink>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-0.5" aria-label="Main">
             {navLinks.map((link) => {
               const isActive = isActivePath(link.href);
               if (link.children) {
@@ -149,48 +126,39 @@ export default function Header() {
                     className="relative"
                     onMouseEnter={() => setIsBusinessOpen(true)}
                     onMouseLeave={() => setIsBusinessOpen(false)}
+                    onFocus={() => setIsBusinessOpen(true)}
+                    onBlur={(e) => {
+                      if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                        setIsBusinessOpen(false);
+                      }
+                    }}
                   >
                     <LocalLink
                       href={link.href}
-                      className="relative flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors duration-200 group"
-                      style={{ color: isActive ? '#D4899A' : 'rgba(255,255,255,0.55)' }}
+                      className={`${linkBase} flex items-center gap-1 ${isActive ? 'text-accent-brand' : ''}`}
+                      aria-expanded={isBusinessOpen}
+                      aria-haspopup="true"
                     >
-                      <span className="group-hover:text-white transition-colors duration-200" style={{ color: 'inherit' }}>
-                        {link.label}
-                      </span>
+                      {link.label}
                       <ChevronDown
-                        className="w-3.5 h-3.5 transition-transform duration-200"
-                        style={{ transform: isBusinessOpen ? 'rotate(180deg)' : 'rotate(0deg)', color: 'inherit' }}
+                        className="w-3.5 h-3.5 transition-transform duration-150"
+                        style={{ transform: isBusinessOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                        aria-hidden="true"
                       />
-                      {/* Active underline */}
-                      <span
-                        className="absolute bottom-0 left-4 right-4 h-px bg-[#D4899A] transition-transform duration-300 origin-left"
-                        style={{ transform: isActive ? 'scaleX(1)' : 'scaleX(0)' }}
-                      />
-                      {!isActive && (
-                        <span className="absolute bottom-0 left-4 right-4 h-px bg-white/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                      )}
                     </LocalLink>
-                    {/* Dropdown */}
                     <div
-                      className="absolute top-full left-0 pt-1 transition-all duration-200"
-                      style={{ opacity: isBusinessOpen ? 1 : 0, pointerEvents: isBusinessOpen ? 'auto' : 'none', transform: isBusinessOpen ? 'translateY(0)' : 'translateY(-4px)' }}
+                      className={`absolute top-full left-0 pt-1 transition-opacity duration-150 ${isBusinessOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
                     >
-                      <div
-                        className="min-w-[180px] rounded-xl border border-white/10 py-1 overflow-hidden"
-                        style={{ background: 'rgba(30,30,46,0.97)', backdropFilter: 'blur(20px)' }}
-                      >
+                      <div className="min-w-[200px] panel py-1 border border-border-strong">
                         {link.children.map((child) => {
                           const isChildActive = isActivePath(child.href);
                           return (
                             <LocalLink
                               key={child.href}
                               href={child.href}
-                              className="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-white/5 transition-colors duration-150"
-                              style={{ color: isChildActive ? '#D4899A' : 'rgba(255,255,255,0.6)' }}
+                              className={`flex items-center px-4 py-2.5 text-sm hover:bg-surface-raised transition-colors duration-150 ${isChildActive ? 'text-accent-brand' : 'text-text-secondary'}`}
                               onClick={() => setIsBusinessOpen(false)}
                             >
-                              {isChildActive && <span className="w-1 h-1 rounded-full bg-[#D4899A] mr-2 flex-shrink-0" />}
                               {child.label}
                             </LocalLink>
                           );
@@ -200,115 +168,100 @@ export default function Header() {
                   </div>
                 );
               }
+
+              if ('highlight' in link && link.highlight) {
+                return (
+                  <LocalLink
+                    key={link.href}
+                    href={link.href}
+                    className={`ml-2 px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-colors duration-150 ${
+                      isActive
+                        ? 'bg-accent-warn text-surface-bg border-accent-warn'
+                        : 'border-accent-warn/50 text-accent-warn hover:bg-accent-warn/10'
+                    }`}
+                  >
+                    {link.label}
+                  </LocalLink>
+                );
+              }
+
               return (
                 <LocalLink
                   key={link.href}
                   href={link.href}
-                  className="relative px-4 py-2 text-sm font-medium transition-colors duration-200 group"
-                  style={
-                    'highlight' in link && link.highlight
-                      ? {
-                          color: isActive ? '#0B0C0D' : '#F59E0B',
-                          background: isActive ? '#F59E0B' : 'rgba(245,158,11,0.12)',
-                          border: '1px solid rgba(245,158,11,0.45)',
-                          borderRadius: '9999px',
-                          marginLeft: '6px',
-                        }
-                      : { color: isActive ? '#D4899A' : 'rgba(255,255,255,0.55)' }
-                  }
+                  className={`${linkBase} ${isActive ? 'text-accent-brand' : ''}`}
                 >
-                  <span
-                    className={'highlight' in link && link.highlight ? '' : 'group-hover:text-white transition-colors duration-200'}
-                    style={{ color: 'inherit' }}
-                  >
-                    {link.label}
-                  </span>
-                  {/* Active underline (non-highlighted links only) */}
-                  {!('highlight' in link && link.highlight) && (
-                    <>
-                      <span
-                        className="absolute bottom-0 left-4 right-4 h-px bg-[#D4899A] transition-transform duration-300 origin-left"
-                        style={{ transform: isActive ? 'scaleX(1)' : 'scaleX(0)' }}
-                      />
-                      {!isActive && (
-                        <span className="absolute bottom-0 left-4 right-4 h-px bg-white/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                      )}
-                    </>
+                  {link.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-3 right-3 h-px bg-accent-brand" aria-hidden="true" />
                   )}
                 </LocalLink>
               );
             })}
           </nav>
 
-          {/* Right controls */}
-          <div className="flex items-center gap-3">
-            {/* Language switcher */}
+          <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#D4899A]/30 hover:border-[#D4899A]/70 text-[#D4899A] text-xs font-medium tracking-[0.12em] uppercase transition-all duration-200 hover:bg-[#D4899A]/5"
+              className="btn btn-secondary px-3 py-1.5 text-xs font-mono uppercase tracking-wider"
               aria-label="Toggle language"
             >
               {language === 'en' ? '中文' : 'EN'}
             </button>
 
-            {/* Mobile menu button */}
             <button
-              className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-white/10 hover:border-[#D4899A]/40 text-white/60 hover:text-white transition-all duration-200"
+              type="button"
+              className="md:hidden min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors duration-150"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMenuOpen}
             >
-              {isMenuOpen
-                ? <X className="w-4 h-4" />
-                : <Menu className="w-4 h-4" />}
+              {isMenuOpen ? <X className="w-4 h-4" aria-hidden="true" /> : <Menu className="w-4 h-4" aria-hidden="true" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         <div
-          className="md:hidden overflow-hidden transition-all duration-300"
-          style={{ maxHeight: isMenuOpen ? '400px' : '0px', opacity: isMenuOpen ? 1 : 0 }}
+          className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-200 ${isMenuOpen ? 'max-h-[480px] opacity-100' : 'max-h-0 opacity-0'}`}
         >
-          <div className="py-4 border-t border-white/8">
+          <div className="py-4 border-t border-border-default">
             {profile && (
-              <div className="px-4 py-3 mb-2 flex items-center gap-2 rounded-xl border border-white/8 bg-white/4">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D4899A]" />
-                <span className="text-white/70 text-sm font-medium">{profile.name}</span>
+              <div className="px-4 py-3 mb-2 flex items-center gap-2 panel-raised">
+                <span className="w-1.5 h-1.5 bg-accent-brand" aria-hidden="true" />
+                <span className="text-text-secondary text-sm font-medium">{profile.name}</span>
               </div>
             )}
-            <nav className="flex flex-col">
+            <nav className="flex flex-col" aria-label="Mobile">
               {navLinks.map((link) => {
                 const isActive = isActivePath(link.href);
                 if (link.children) {
                   return (
                     <div key={link.href}>
                       <button
-                        className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-colors duration-200"
-                        style={{ color: isActive ? '#D4899A' : 'rgba(255,255,255,0.5)' }}
+                        type="button"
+                        className={`w-full flex items-center justify-between px-4 py-3 text-left text-sm font-medium ${isActive ? 'text-accent-brand' : 'text-text-secondary'}`}
                         onClick={() => setIsMobileBusinessOpen(!isMobileBusinessOpen)}
+                        aria-expanded={isMobileBusinessOpen}
                       >
-                        <span className="font-medium text-sm" style={{ color: 'inherit' }}>{link.label}</span>
+                        {link.label}
                         <ChevronDown
-                          className="w-4 h-4 transition-transform duration-200"
-                          style={{ transform: isMobileBusinessOpen ? 'rotate(180deg)' : 'rotate(0deg)', color: 'inherit' }}
+                          className="w-4 h-4 transition-transform duration-150"
+                          style={{ transform: isMobileBusinessOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                          aria-hidden="true"
                         />
                       </button>
-                      <div
-                        className="overflow-hidden transition-all duration-300"
-                        style={{ maxHeight: isMobileBusinessOpen ? '200px' : '0px', opacity: isMobileBusinessOpen ? 1 : 0 }}
-                      >
+                      <div className={`overflow-hidden transition-[max-height,opacity] duration-200 ${isMobileBusinessOpen ? 'max-h-56 opacity-100' : 'max-h-0 opacity-0'}`}>
                         {link.children.map((child) => {
                           const isChildActive = isActivePath(child.href);
                           return (
                             <LocalLink
                               key={child.href}
                               href={child.href}
-                              className="flex items-center gap-2 pl-8 pr-4 py-2.5 rounded-xl transition-colors duration-200"
-                              style={{ color: isChildActive ? '#D4899A' : 'rgba(255,255,255,0.45)' }}
+                              className={`block pl-8 pr-4 py-2.5 text-sm ${isChildActive ? 'text-accent-brand' : 'text-text-secondary'}`}
                               onClick={() => setIsMenuOpen(false)}
                             >
-                              <span className="w-1 h-1 rounded-full bg-current opacity-60 flex-shrink-0" />
-                              <span className="font-medium text-sm" style={{ color: 'inherit' }}>{child.label}</span>
+                              {child.label}
                             </LocalLink>
                           );
                         })}
@@ -320,12 +273,10 @@ export default function Header() {
                   <LocalLink
                     key={link.href}
                     href={link.href}
-                    className="flex items-center justify-between px-4 py-3 rounded-xl transition-colors duration-200 group"
-                    style={{ color: isActive ? '#D4899A' : 'rgba(255,255,255,0.5)' }}
+                    className={`block px-4 py-3 text-sm font-medium ${isActive ? 'text-accent-brand' : 'text-text-secondary'}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <span className="font-medium text-sm group-hover:text-white transition-colors" style={{ color: 'inherit' }}>{link.label}</span>
-                    {isActive && <span className="w-1 h-1 rounded-full bg-[#D4899A]" />}
+                    {link.label}
                   </LocalLink>
                 );
               })}

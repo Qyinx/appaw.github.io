@@ -13,13 +13,6 @@ interface GradeResult {
   tbZone: GradeZone;
 }
 
-const ZONE_COLORS: Record<GradeZone, string> = {
-  PSA10: '#22c55e',
-  PSA9: '#f59e0b',
-  PSA8: '#fb923c',
-  Below: '#ef4444',
-};
-
 const ICON_PROPS = {
   width: 18,
   height: 18,
@@ -72,11 +65,11 @@ export default function CardCenteringClient() {
   const fitRef = React.useRef<(() => void) | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const redrawRef = React.useRef<(() => void) | null>(null);
-  const loupesOnRef = React.useRef(true);
   const [fileName, setFileName] = React.useState<string | null>(null);
   const [grade, setGrade] = React.useState<GradeResult | null>(null);
   const [adjustOpen, setAdjustOpen] = React.useState(false);
   const [loupesOn, setLoupesOn] = React.useState(true);
+  const loupesOnRef = React.useRef(true);
   const [guideMode, setGuideMode] = React.useState<'edge' | 'border' | 'both'>('both');
   const guideModeRef = React.useRef(guideMode);
 
@@ -84,6 +77,12 @@ export default function CardCenteringClient() {
     loupesOnRef.current = loupesOn;
     redrawRef.current?.();
   }, [loupesOn]);
+
+  useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      setLoupesOn(false);
+    }
+  }, []);
 
   useEffect(() => {
     guideModeRef.current = guideMode;
@@ -125,8 +124,8 @@ export default function CardCenteringClient() {
     };
     let loupeMag = 2.6;
     let loupeDrag: string | null = null;
-    // Shared reference ring radius (in card-base px), comparable across all four corners.
-    // 0 = no reference ring set (concentric measurement rings are always shown).
+    // Shared corner fillet radius (card-base px), comparable across all four loupes.
+    // 0 = no adjustable arc (stepped quarter-arc guides still show).
     let refRadius = 0;
 
     const controls = {
@@ -140,6 +139,7 @@ export default function CardCenteringClient() {
 
     let centerX = 0;
     let centerY = 0;
+    const PERSPECTIVE = 1000;
 
     const outerGuides = { top: -245, bottom: 245, left: -175, right: 175 };
     const innerGuides = { top: -210, bottom: 210, left: -140, right: 140 };
@@ -174,21 +174,136 @@ export default function CardCenteringClient() {
     const isCoarsePointer = typeof window !== 'undefined' && (window.matchMedia ? window.matchMedia('(pointer: coarse)').matches : ('ontouchstart' in window));
     const handleRadius = isCoarsePointer ? 54 : 46;
 
-    // Pull colors from the site's style guide CSS variables when available
+    // Pull colors from semantic site tokens (style.md §2)
     const rootStyles = typeof window !== 'undefined' ? getComputedStyle(document.documentElement) : null;
-    // Outer = physical card edge (blue), Inner = design/art border (brand pink), Active = high-vis yellow
-    const colorOuter = '#3b82f6';
-    const colorInner = (rootStyles?.getPropertyValue('--color-primary-500') || '#f07a86').trim();
-    const colorOuterFill = 'rgba(59, 130, 246, 0.07)';
+    const colorOuter = (rootStyles?.getPropertyValue('--accent-secondary') || '#5B6FD6').trim();
+    const colorInner = (rootStyles?.getPropertyValue('--accent-primary') || '#E85D6F').trim();
+    const outerRgb = colorOuter.match(/^#([0-9a-f]{6})$/i);
+    const colorOuterFill = outerRgb
+      ? `rgba(${parseInt(outerRgb[1].slice(0, 2), 16)}, ${parseInt(outerRgb[1].slice(2, 4), 16)}, ${parseInt(outerRgb[1].slice(4, 6), 16)}, 0.07)`
+      : 'rgba(91, 111, 214, 0.07)';
+
+    let bgCache: HTMLCanvasElement | null = null;
+    let bgCacheW = 0;
+    let bgCacheH = 0;
+    let plotW = 0;
+    let plotH = 0;
+    let plotDpr = 0;
+    let lastGradeSnapshot: GradeResult | null = null;
+    let resizeRaf = 0;
+
+    function gradesEqual(a: GradeResult, b: GradeResult) {
+      return (
+        a.overall === b.overall &&
+        a.lrZone === b.lrZone &&
+        a.tbZone === b.tbZone &&
+        Math.abs(a.lr - b.lr) < 0.05 &&
+        Math.abs(a.tb - b.tb) < 0.05
+      );
+    }
+
+    function rebuildBgCache() {
+      if (!bgCache) bgCache = document.createElement('canvas');
+      bgCache.width = overlayEl.width;
+      bgCache.height = overlayEl.height;
+      bgCacheW = overlayEl.width;
+      bgCacheH = overlayEl.height;
+
+      const bctx = bgCache.getContext('2d');
+      if (!bctx) return;
+
+      const cx = centerX;
+      const cy = centerY;
+      const w = overlayEl.width;
+      const h = overlayEl.height;
+      const compact = w < 768 || isCoarsePointer;
+
+      bctx.clearRect(0, 0, w, h);
+
+      const grid = compact ? 40 : 34;
+      bctx.save();
+      bctx.strokeStyle = 'rgba(255,255,255,0.10)';
+      bctx.lineWidth = 1;
+      bctx.setLineDash([]);
+      bctx.beginPath();
+      for (let x = cx % grid; x < w; x += grid) {
+        bctx.moveTo(x + 0.5, 0);
+        bctx.lineTo(x + 0.5, h);
+      }
+      for (let y = cy % grid; y < h; y += grid) {
+        bctx.moveTo(0, y + 0.5);
+        bctx.lineTo(w, y + 0.5);
+      }
+      bctx.stroke();
+      bctx.restore();
+
+      if (!compact) {
+        bctx.save();
+        bctx.translate(cx, cy);
+        bctx.rotate(-Math.PI / 10);
+        bctx.fillStyle = 'rgba(255,255,255,0.04)';
+        bctx.font = '700 20px Inter, ui-sans-serif, system-ui, sans-serif';
+        bctx.textAlign = 'center';
+        bctx.textBaseline = 'middle';
+        const wmSpan = Math.max(w, h);
+        for (let gx = -wmSpan; gx <= wmSpan; gx += 230) {
+          for (let gy = -wmSpan; gy <= wmSpan; gy += 130) {
+            bctx.fillText('Appaw Store', gx, gy);
+          }
+        }
+        bctx.restore();
+      }
+
+      bctx.save();
+      bctx.strokeStyle = 'rgba(255,255,255,0.07)';
+      bctx.lineWidth = 1;
+      bctx.setLineDash([4, 6]);
+      [w * 0.25, w * 0.75].forEach((x) => {
+        bctx.beginPath();
+        bctx.moveTo(x, 0);
+        bctx.lineTo(x, h);
+        bctx.stroke();
+      });
+      [h * 0.25, h * 0.75].forEach((y) => {
+        bctx.beginPath();
+        bctx.moveTo(0, y);
+        bctx.lineTo(w, y);
+        bctx.stroke();
+      });
+      bctx.restore();
+
+      bctx.save();
+      bctx.strokeStyle = 'rgba(255,255,255,0.14)';
+      bctx.lineWidth = 1.4;
+      bctx.setLineDash([]);
+      bctx.beginPath();
+      bctx.moveTo(cx, 0);
+      bctx.lineTo(cx, h);
+      bctx.moveTo(0, cy);
+      bctx.lineTo(w, cy);
+      bctx.stroke();
+      bctx.restore();
+    }
 
     function resizeCanvas() {
       overlayEl.width = workspaceEl.clientWidth;
       overlayEl.height = workspaceEl.clientHeight;
       centerX = overlayEl.width / 2;
       centerY = overlayEl.height / 2;
-      drawOverlay();
+      plotW = 0;
+      plotH = 0;
+      rebuildBgCache();
+      scheduleDrawOverlay();
     }
-    window.addEventListener('resize', resizeCanvas);
+
+    function onResize() {
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = 0;
+        resizeCanvas();
+      });
+    }
+    window.addEventListener('resize', onResize);
 
     const uploadHandler = (e: Event) => {
       const file = (e.target as HTMLInputElement).files?.[0];
@@ -229,12 +344,13 @@ export default function CardCenteringClient() {
       if (tiltXValEl) tiltXValEl.innerText = tx.toFixed(2) + '°';
       if (tiltYValEl) tiltYValEl.innerText = ty.toFixed(2) + '°';
 
-      imgWrapperEl.style.transform = `translate(${px}px, ${py}px) scale(${z}) rotateZ(${r}deg) rotateX(${tiltXdeg}deg) rotateY(${tiltYdeg}deg)`;
+      // Inline perspective() — parent perspective + overflow:hidden breaks 3D on iOS Safari
+      imgEl.style.transform = `perspective(${PERSPECTIVE}px) translate3d(${px}px, ${py}px, 0) scale(${z}) rotateZ(${r}deg) rotateX(${tiltXdeg}deg) rotateY(${tiltYdeg}deg)`;
       fillTrack(controls.zoom);
       fillTrack(controls.rotate);
       fillTrack(controls.tiltX);
       fillTrack(controls.tiltY);
-      drawOverlay();
+      scheduleDrawOverlay();
     }
 
     function fillTrack(el: HTMLInputElement) {
@@ -243,7 +359,7 @@ export default function CardCenteringClient() {
       const max = parseFloat(el.max || '100');
       const val = parseFloat(el.value || '0');
       const pct = max > min ? ((val - min) / (max - min)) * 100 : 0;
-      el.style.background = `linear-gradient(90deg, var(--color-primary-500, #f07a86) ${pct}%, rgba(255,255,255,0.08) ${pct}%)`;
+      el.style.background = `linear-gradient(90deg, var(--accent-primary) ${pct}%, var(--tool-overlay-active) ${pct}%)`;
     }
 
     function resetAll() {
@@ -266,6 +382,7 @@ export default function CardCenteringClient() {
 
       refRadius = 0;
       loupeMag = 2.6;
+      lastGradeSnapshot = null;
 
       for (const key of Object.keys(handleDisplay)) delete handleDisplay[key];
 
@@ -289,7 +406,7 @@ export default function CardCenteringClient() {
     // expose controls to the component-level buttons via refs
     resetRef.current = resetAll;
     fitRef.current = fitToImage;
-    redrawRef.current = () => drawOverlay();
+    redrawRef.current = () => scheduleDrawOverlay();
 
     Object.values(controls).forEach((ctrl: any) => ctrl.addEventListener('input', updateTransform));
 
@@ -354,73 +471,9 @@ export default function CardCenteringClient() {
     }
 
     function drawOverlay() {
+      if (bgCacheW !== overlayEl.width || bgCacheH !== overlayEl.height) rebuildBgCache();
       ctx.clearRect(0, 0, overlayEl.width, overlayEl.height);
-
-      // --- Background: fine grey alignment grid ---
-      const grid = 34;
-      ctx.save();
-      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([]);
-      ctx.beginPath();
-      for (let x = centerX % grid; x < overlayEl.width; x += grid) {
-        ctx.moveTo(x + 0.5, 0);
-        ctx.lineTo(x + 0.5, overlayEl.height);
-      }
-      for (let y = centerY % grid; y < overlayEl.height; y += grid) {
-        ctx.moveTo(0, y + 0.5);
-        ctx.lineTo(overlayEl.width, y + 0.5);
-      }
-      ctx.stroke();
-      ctx.restore();
-
-      // Tiled diagonal "Appaw Store" watermark
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.rotate(-Math.PI / 10);
-      ctx.fillStyle = 'rgba(255,255,255,0.04)';
-      ctx.font = '700 20px Inter, ui-sans-serif, system-ui, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      const wmSpan = Math.max(overlayEl.width, overlayEl.height);
-      for (let gx = -wmSpan; gx <= wmSpan; gx += 230) {
-        for (let gy = -wmSpan; gy <= wmSpan; gy += 130) {
-          ctx.fillText('Appaw Store', gx, gy);
-        }
-      }
-      ctx.restore();
-
-      // Quarter guides (25% / 75%)
-      ctx.save();
-      ctx.strokeStyle = 'rgba(255,255,255,0.07)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 6]);
-      [overlayEl.width * 0.25, overlayEl.width * 0.75].forEach((x) => {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, overlayEl.height);
-        ctx.stroke();
-      });
-      [overlayEl.height * 0.25, overlayEl.height * 0.75].forEach((y) => {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(overlayEl.width, y);
-        ctx.stroke();
-      });
-      ctx.restore();
-
-      // Strong center cross
-      ctx.save();
-      ctx.strokeStyle = 'rgba(255,255,255,0.14)';
-      ctx.lineWidth = 1.4;
-      ctx.setLineDash([]);
-      ctx.beginPath();
-      ctx.moveTo(centerX, 0);
-      ctx.lineTo(centerX, overlayEl.height);
-      ctx.moveTo(0, centerY);
-      ctx.lineTo(overlayEl.width, centerY);
-      ctx.stroke();
-      ctx.restore();
+      if (bgCache) ctx.drawImage(bgCache, 0, 0);
 
       const oxL = centerX + outerGuides.left;
       const oxR = centerX + outerGuides.right;
@@ -459,7 +512,9 @@ export default function CardCenteringClient() {
       if (mode === 'border' || mode === 'both') drawLabel(ixL, iyT, toolLabelsRef.current.canvasBorder, colorInner);
 
       // Draggable handles — slide smoothly when stagger position changes
-      resolveHandles().forEach((h) => {
+      const handles = resolveHandles();
+      const fastDraw = dragging === 'image' || dragging === 'pinch';
+      handles.forEach((h) => {
         const isOuter = h.name.startsWith('outer');
         const color = isOuter ? colorOuter : colorInner;
         const active = dragging === h.name;
@@ -467,8 +522,10 @@ export default function CardCenteringClient() {
         drawHandle(h.x, h.y, h.anchorX, h.anchorY, color, active, h.vertical);
       });
 
-      drawLoupes();
-      calculateCentering();
+      if (!fastDraw) {
+        drawLoupes();
+        calculateCentering();
+      }
     }
 
     function roundRectPath(x: number, y: number, w: number, h: number, r: number) {
@@ -549,7 +606,7 @@ export default function CardCenteringClient() {
 
     function drawLabel(x: number, y: number, text: string, color: string) {
       ctx.save();
-      ctx.font = '600 10px Inter, ui-sans-serif, system-ui, sans-serif';
+      ctx.font = '600 12px var(--font-sans, ui-sans-serif, system-ui, sans-serif)';
       const dotR = 3;
       const gap = 6;
       const padX = 8;
@@ -559,9 +616,9 @@ export default function CardCenteringClient() {
       const ly = y - h - 7;
 
       roundRectPath(x, ly, w, h, 9);
-      ctx.fillStyle = 'rgba(11, 12, 13, 0.78)';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
       ctx.fill();
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)';
       ctx.lineWidth = 1;
       ctx.stroke();
 
@@ -573,7 +630,7 @@ export default function CardCenteringClient() {
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+      ctx.fillStyle = 'rgba(17, 24, 39, 0.92)';
       ctx.textBaseline = 'middle';
       ctx.textAlign = 'left';
       ctx.fillText(text, x + padX + dotR * 2 + gap, ly + h / 2 + 0.5);
@@ -613,14 +670,14 @@ export default function CardCenteringClient() {
       // Glass halo
       ctx.beginPath();
       ctx.arc(px, py, outerR + 4, 0, Math.PI * 2);
-      ctx.fillStyle = active ? 'rgba(255, 255, 255, 0.14)' : 'rgba(255, 255, 255, 0.07)';
+      ctx.fillStyle = active ? 'rgba(0, 0, 0, 0.08)' : 'rgba(0, 0, 0, 0.04)';
       ctx.globalAlpha = 1;
       ctx.fill();
 
       // Core
       ctx.beginPath();
       ctx.arc(px, py, outerR, 0, Math.PI * 2);
-      ctx.fillStyle = active ? color : 'rgba(11, 12, 13, 0.82)';
+      ctx.fillStyle = active ? color : 'rgba(255, 255, 255, 0.95)';
       ctx.fill();
       ctx.strokeStyle = color;
       ctx.lineWidth = active ? 2.5 : 2;
@@ -800,6 +857,117 @@ export default function CardCenteringClient() {
       }
     }
 
+    type LoupeCorner = 'tl' | 'tr' | 'bl' | 'br';
+
+    function loupeCornerMeta(key: LoupeCorner) {
+      switch (key) {
+        case 'tl':
+          return { sx: 1, sy: 1, arcStart: Math.PI, arcEnd: Math.PI * 1.5 };
+        case 'tr':
+          return { sx: -1, sy: 1, arcStart: Math.PI * 1.5, arcEnd: Math.PI * 2 };
+        case 'bl':
+          return { sx: 1, sy: -1, arcStart: Math.PI * 0.5, arcEnd: Math.PI };
+        default:
+          return { sx: -1, sy: -1, arcStart: 0, arcEnd: Math.PI * 0.5 };
+      }
+    }
+
+    function filletRadiusFromPointer(key: LoupeCorner, lx: number, ly: number) {
+      const { sx, sy } = loupeCornerMeta(key);
+      return Math.max(0, Math.max(sx * lx, sy * ly));
+    }
+
+    function drawLoupeFilletGuides(
+      lctx: CanvasRenderingContext2D,
+      key: LoupeCorner,
+      R: number,
+      baseToLoupe: number,
+      ringStep: number,
+      edgeColor: string,
+    ) {
+      const { sx, sy, arcStart, arcEnd } = loupeCornerMeta(key);
+      const visibleBase = R / baseToLoupe;
+      const edgeLen = Math.min(
+        R * 0.88,
+        Math.max(28, (refRadius > 0 ? refRadius : visibleBase * 0.35) * baseToLoupe + 10),
+      );
+
+      lctx.save();
+      lctx.translate(R, R);
+
+      // Straight edge legs from the corner tip (card extends inward along +sx / +sy)
+      lctx.strokeStyle = edgeColor;
+      lctx.globalAlpha = 0.78;
+      lctx.lineWidth = 1.35;
+      lctx.setLineDash([]);
+      lctx.beginPath();
+      lctx.moveTo(0, 0);
+      lctx.lineTo(sx * edgeLen, 0);
+      lctx.moveTo(0, 0);
+      lctx.lineTo(0, sy * edgeLen);
+      lctx.stroke();
+
+      // Stepped quarter-arc guides — same fillet R in every loupe
+      lctx.strokeStyle = 'rgba(255,255,255,0.16)';
+      lctx.globalAlpha = 1;
+      lctx.lineWidth = 1;
+      lctx.setLineDash([2, 3]);
+      for (let k = 1; k * ringStep <= visibleBase + ringStep; k++) {
+        const rr = k * ringStep * baseToLoupe;
+        if (rr > R * 1.45) break;
+        lctx.beginPath();
+        lctx.arc(sx * rr, sy * rr, rr, arcStart, arcEnd);
+        lctx.stroke();
+      }
+      lctx.setLineDash([]);
+
+      // Corner tip
+      lctx.fillStyle = '#fde047';
+      lctx.beginPath();
+      lctx.arc(0, 0, 2, 0, Math.PI * 2);
+      lctx.fill();
+
+      if (refRadius > 0) {
+        const rr = refRadius * baseToLoupe;
+        const cx = sx * rr;
+        const cy = sy * rr;
+
+        // Tangent marks where the curve meets each straight edge
+        lctx.strokeStyle = 'rgba(253, 224, 71, 0.5)';
+        lctx.lineWidth = 1;
+        lctx.beginPath();
+        lctx.moveTo(0, cy);
+        lctx.lineTo(cx, cy);
+        lctx.moveTo(cx, 0);
+        lctx.lineTo(cx, cy);
+        lctx.stroke();
+
+        // Fillet centre (shared R is distance from each edge)
+        lctx.fillStyle = 'rgba(253, 224, 71, 0.4)';
+        lctx.beginPath();
+        lctx.arc(cx, cy, 2.4, 0, Math.PI * 2);
+        lctx.fill();
+
+        // Adjustable corner-radius arc
+        lctx.shadowColor = '#fde047';
+        lctx.shadowBlur = 7;
+        lctx.strokeStyle = '#fde047';
+        lctx.lineWidth = 2.15;
+        lctx.beginPath();
+        lctx.arc(cx, cy, rr, arcStart, arcEnd);
+        lctx.stroke();
+        lctx.shadowBlur = 0;
+
+        lctx.strokeStyle = 'rgba(255,255,255,0.32)';
+        lctx.lineWidth = 0.75;
+        lctx.beginPath();
+        lctx.arc(cx, cy, rr, arcStart, arcEnd);
+        lctx.stroke();
+      }
+
+      lctx.restore();
+    }
+
     function loupeChip(lctx: CanvasRenderingContext2D, text: string, cx: number, cy: number, color: string) {
       lctx.save();
       lctx.font = '700 9px Inter, ui-sans-serif, system-ui, sans-serif';
@@ -831,12 +999,12 @@ export default function CardCenteringClient() {
       // Read the live transform once — shared by every loupe this frame.
       const z = parseFloat(controls.zoom.value) || 1;
       const rz = ((parseFloat(controls.rotate.value) || 0) * Math.PI) / 180;
-      // Same effective 3D angles the wrapper uses (see updateTransform).
+      // Same effective 3D angles the card image uses (see updateTransform).
       const ax = ((parseFloat(controls.tiltX.value) || 0) * Math.PI) / 180;
       const ay = ((-(parseFloat(controls.tiltY.value) || 0)) * Math.PI) / 180;
       const px = parseInt(controls.panX.value || '0');
       const py = parseInt(controls.panY.value || '0');
-      const persp = 1000; // matches `perspective: 1000px` on the workspace container
+      const persp = PERSPECTIVE; // matches perspective() in updateTransform
 
       // Project a base-image point (relative to the image centre, in CSS px)
       // to overlay/screen coords, replicating the CSS perspective transform.
@@ -882,7 +1050,7 @@ export default function CardCenteringClient() {
         lctx.beginPath();
         lctx.arc(R, R, R, 0, Math.PI * 2);
         lctx.clip();
-        lctx.fillStyle = '#0b0c0d';
+        lctx.fillStyle = '#FAFAF8';
         lctx.fillRect(0, 0, size, size);
 
         const S = loupeCorner(key);
@@ -925,59 +1093,17 @@ export default function CardCenteringClient() {
           lctx.restore();
         } else {
           lctx.fillStyle = 'rgba(255,255,255,0.25)';
-          lctx.font = '600 11px Inter, ui-sans-serif, system-ui, sans-serif';
+          lctx.font = '600 12px var(--font-sans, ui-sans-serif, system-ui, sans-serif)';
           lctx.textAlign = 'center';
           lctx.textBaseline = 'middle';
           lctx.fillText(toolLabelsRef.current.noImage, R, R);
         }
 
-        // Edge guide cross (axis-aligned) anchored at the loupe centre = card corner
-        lctx.save();
-        lctx.strokeStyle = colorOuter;
-        lctx.globalAlpha = 0.7;
-        lctx.lineWidth = 1.25;
-        lctx.setLineDash([]);
-        lctx.beginPath();
-        lctx.moveTo(0, R); lctx.lineTo(size, R);
-        lctx.moveTo(R, 0); lctx.lineTo(R, size);
-        lctx.stroke();
-        lctx.restore();
-
-        // ----- Shared concentric reference target (identical scale in all 4 loupes) -----
-        // base px -> loupe px. Same for every corner, so rings are directly comparable.
+        // Corner fillet guides — quarter arcs aligned to each card corner
         const baseToLoupe = m * z;
-        const visibleBase = R / baseToLoupe;
         const niceSteps = [1, 2, 5, 10, 20, 50, 100, 200];
         const ringStep = niceSteps.find((s) => s * baseToLoupe >= 16) ?? 200;
-
-        lctx.save();
-        lctx.translate(R, R);
-        lctx.strokeStyle = 'rgba(255,255,255,0.16)';
-        lctx.lineWidth = 1;
-        lctx.setLineDash([2, 3]);
-        for (let k = 1; k * ringStep <= visibleBase + ringStep; k++) {
-          const rr = k * ringStep * baseToLoupe;
-          if (rr > R) break;
-          lctx.beginPath();
-          lctx.arc(0, 0, rr, 0, Math.PI * 2);
-          lctx.stroke();
-        }
-        lctx.setLineDash([]);
-        // centre dot = corner tip
-        lctx.fillStyle = '#fde047';
-        lctx.beginPath();
-        lctx.arc(0, 0, 1.8, 0, Math.PI * 2);
-        lctx.fill();
-        // shared adjustable reference ring
-        if (refRadius > 0) {
-          const rr = refRadius * baseToLoupe;
-          lctx.strokeStyle = '#fde047';
-          lctx.lineWidth = 1.75;
-          lctx.beginPath();
-          lctx.arc(0, 0, rr, 0, Math.PI * 2);
-          lctx.stroke();
-        }
-        lctx.restore();
+        drawLoupeFilletGuides(lctx, key, R, baseToLoupe, ringStep, colorOuter);
 
         lctx.restore(); // end clip
 
@@ -993,9 +1119,9 @@ export default function CardCenteringClient() {
         // Labels
         loupeChip(lctx, key.toUpperCase(), 16, 12, '#bfdbfe');
         if (refRadius > 0) {
-          loupeChip(lctx, `ref ${Math.round(refRadius)}px`, R, size - 11, '#fde047');
+          loupeChip(lctx, `R ${Math.round(refRadius)}px`, R, size - 11, '#fde047');
         } else {
-          loupeChip(lctx, `\u25CB ${ringStep}px`, R, size - 11, '#9ca3af');
+          loupeChip(lctx, `\u2312 ${ringStep}px`, R, size - 11, '#9ca3af');
         }
         if (key === 'tl') loupeChip(lctx, `${loupeMag.toFixed(1)}\u00d7`, size - 18, 12, '#e5e7eb');
       });
@@ -1065,22 +1191,27 @@ export default function CardCenteringClient() {
         tbZone,
       };
 
-      if (isGuideDrag()) scheduleGrade(result);
-      else setGrade(result);
-
-      drawPlot(lrPercentL, tbPercentT, overallZone);
+      if (!lastGradeSnapshot || !gradesEqual(lastGradeSnapshot, result)) {
+        lastGradeSnapshot = result;
+        if (isGuideDrag()) scheduleGrade(result);
+        else setGrade(result);
+        drawPlot(lrPercentL, tbPercentT, overallZone);
+      }
     }
 
     function drawPlot(lr: number, tb: number, overallZone: string) {
-      // Hi-DPI support
       const dpr = window.devicePixelRatio || 1;
-      const rect = plotCanvasEl.getBoundingClientRect();
-      const cw = rect.width || plotCanvasEl.clientWidth;
-      const ch = rect.height || plotCanvasEl.clientHeight;
+      const cw = plotCanvasEl.clientWidth;
+      const ch = plotCanvasEl.clientHeight;
       if (cw < 8 || ch < 8) return;
-      plotCanvasEl.width = Math.round(cw * dpr);
-      plotCanvasEl.height = Math.round(ch * dpr);
-      plotCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (plotW !== cw || plotH !== ch || plotDpr !== dpr) {
+        plotW = cw;
+        plotH = ch;
+        plotDpr = dpr;
+        plotCanvasEl.width = Math.round(cw * dpr);
+        plotCanvasEl.height = Math.round(ch * dpr);
+        plotCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
       plotCtx.clearRect(0, 0, cw, ch);
 
       const cx = cw / 2;
@@ -1227,7 +1358,7 @@ export default function CardCenteringClient() {
       }
       // prevent the page from scrolling while interacting with the canvas
       try { document.body.style.overflow = 'hidden'; } catch {}
-      drawOverlay();
+      scheduleDrawOverlay();
     }
 
     function pointerMove(e: any) {
@@ -1292,7 +1423,7 @@ export default function CardCenteringClient() {
         dragging = null;
         overlayEl.style.cursor = 'grab';
         flushGrade();
-        drawOverlay();
+        scheduleDrawOverlay();
         try { document.body.style.overflow = ''; } catch {}
       }
     }
@@ -1306,9 +1437,9 @@ export default function CardCenteringClient() {
     window.addEventListener('touchend', pointerUp as any);
     window.addEventListener('touchcancel', pointerUp as any);
 
-    // --- Loupe reference-ring interaction ---
+    // --- Loupe corner-radius arc interaction ---
     function setRefFromEvent(key: string, e: any) {
-      const el = loupeEls[key as 'tl' | 'tr' | 'bl' | 'br'];
+      const el = loupeEls[key as LoupeCorner];
       if (!el) return;
       const rect = el.getBoundingClientRect();
       const pos = getPointerPos(e);
@@ -1317,9 +1448,9 @@ export default function CardCenteringClient() {
       const ly = pos.clientY - rect.top - size / 2;
       const z = parseFloat(controls.zoom.value) || 1;
       const baseToLoupe = loupeMag * z;
-      // distance from corner tip (loupe centre) in card-base px — shared by all loupes
-      refRadius = Math.max(0, Math.hypot(lx, ly) / baseToLoupe);
-      drawLoupes();
+      // Fillet radius = inset along either card edge from the corner tip
+      refRadius = filletRadiusFromPointer(key as LoupeCorner, lx, ly) / baseToLoupe;
+      scheduleDrawOverlay();
     }
     const loupeBindings: Array<{ el: HTMLCanvasElement; type: string; fn: any }> = [];
     (['tl', 'tr', 'bl', 'br'] as const).forEach((key) => {
@@ -1359,10 +1490,11 @@ export default function CardCenteringClient() {
     return () => {
       if (overlayRaf) cancelAnimationFrame(overlayRaf);
       if (gradeRaf) cancelAnimationFrame(gradeRaf);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
       resetRef.current = null;
       fitRef.current = null;
       redrawRef.current = null;
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('resize', onResize);
       uploadEl.removeEventListener('change', uploadHandler);
       Object.values(controls).forEach((ctrl: any) => ctrl.removeEventListener('input', updateTransform));
       overlayEl.removeEventListener('mousedown', pointerDown as any);
@@ -1383,14 +1515,40 @@ export default function CardCenteringClient() {
 
   const zone = grade?.overall ?? null;
   const zoneCopy = zone ? tool.zones[zone] : null;
-  const zoneMeta = zone ? { ...zoneCopy!, color: ZONE_COLORS[zone] } : null;
   const fmt = (n?: number) => (typeof n === 'number' ? n.toFixed(1) : '—');
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.workspaceContainer} id="workspace">
+      <section className={styles.toolInstrument} aria-label={tool.workspaceTitle}>
+        <header className={styles.toolInstrumentHeader}>
+          <span className={styles.toolInstrumentLabel}>{tool.workspaceTitle}</span>
+          <div
+            className={`${styles.gradePill} ${styles.gradePillHeader}`}
+            data-zone={zone ?? undefined}
+            aria-live="polite"
+            aria-atomic="true"
+            role="status"
+          >
+            <div className={styles.gradePillMain}>
+              <span className={styles.gradePillLabel}>{zoneCopy?.label ?? '—'}</span>
+              <span className={styles.gradePillSub}>{zoneCopy?.short ?? tool.alignGuides}</span>
+            </div>
+            <div className={styles.gradePillRatios}>
+              <span data-status={grade?.lrZone}>{tool.lrLabel} {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
+              <span data-status={grade?.tbZone}>{tool.tbLabel} {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
+            </div>
+          </div>
+        </header>
+
+        <div className={styles.workspaceContainer} id="workspace">
+          <div className={styles.workspaceAtmosphere} aria-hidden="true" />
         <div id="image-wrapper" className={styles.imageWrapper}>
-          <img id="card-image" className={styles.cardImage} alt="" style={{ display: 'none' }} />
+          <img
+            id="card-image"
+            className={styles.cardImage}
+            alt={fileName ? `${tool.uploadCardImage}: ${fileName}` : ''}
+            style={{ display: 'none' }}
+          />
         </div>
         <canvas id="overlay-canvas" className={styles.overlayCanvas}></canvas>
 
@@ -1402,28 +1560,16 @@ export default function CardCenteringClient() {
 
         {!fileName && (
           <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>🎴</div>
+            <div className={styles.emptyIcon} aria-hidden="true">
+              <UploadIcon />
+            </div>
             <p className={styles.emptyTitle}>{tool.emptyTitle}</p>
-            <button className={styles.emptyBtn} onClick={() => fileInputRef.current?.click()}>{tool.chooseImage}</button>
+            <button type="button" className={styles.emptyBtn} onClick={() => fileInputRef.current?.click()}>{tool.chooseImage}</button>
           </div>
         )}
 
-        {/* Floating top bar: grade (center) + actions (right) */}
+        {/* Floating top bar — workspace actions */}
         <div className={styles.topBar}>
-          <div
-            className={styles.gradePill}
-            style={{ ['--zone-color' as any]: zoneMeta?.color ?? 'rgba(148,163,184,0.7)' }}
-          >
-            <div className={styles.gradePillMain}>
-              <span className={styles.gradePillLabel}>{zoneMeta?.label ?? '—'}</span>
-              <span className={styles.gradePillSub}>{zoneMeta?.short ?? tool.alignGuides}</span>
-            </div>
-            <div className={styles.gradePillRatios}>
-              <span data-status={grade?.lrZone}>{tool.lrLabel} {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
-              <span data-status={grade?.tbZone}>{tool.tbLabel} {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
-            </div>
-          </div>
-
           <div className={styles.topActions}>
             <button className={`${styles.iconBtn} ${loupesOn ? styles.iconBtnOn : ''}`} title={tool.cornerMagnifiers} aria-label={tool.cornerMagnifiersToggle} aria-pressed={loupesOn} onClick={() => setLoupesOn((v) => !v)}><MagnifierIcon /></button>
             <button className={styles.iconBtn} title={tool.uploadImage} aria-label={tool.uploadImage} onClick={() => fileInputRef.current?.click()}><UploadIcon /></button>
@@ -1445,7 +1591,9 @@ export default function CardCenteringClient() {
               onClick={() => setGuideMode(mode)}
             >
               <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
-              {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
+              <span className={styles.guideModeBtnLabel}>
+                {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
+              </span>
             </button>
           ))}
         </div>
@@ -1473,7 +1621,7 @@ export default function CardCenteringClient() {
               </div>
               <div className={styles.controlRow}>
                 <div className={styles.controlHeader}><label htmlFor="rotate" className={styles.controlLabel}><RotateIcon /> {tool.rotate}</label><span id="rot-val" className={styles.sliderValue}>0°</span></div>
-                <input className={styles.rangeSlider} aria-label={tool.rotation} type="range" id="rotate" min="-45" max="45" step="0.05" defaultValue="0" />
+                <input className={styles.rangeSlider} aria-label={tool.rotation} type="range" id="rotate" min="-20" max="20" step="0.05" defaultValue="0" />
               </div>
               <div className={styles.controlRow}>
                 <div className={styles.controlHeader}><label htmlFor="tiltY" className={styles.controlLabel}><TiltHIcon /> {tool.hTilt}</label><span id="tiltY-val" className={styles.sliderValue}>0°</span></div>
@@ -1499,7 +1647,8 @@ export default function CardCenteringClient() {
         <input type="file" id="upload" ref={fileInputRef} className={styles.srOnly} accept="image/*" aria-label={tool.uploadCardImage} />
         <input aria-hidden="true" type="range" id="panX" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

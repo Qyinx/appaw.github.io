@@ -22,15 +22,15 @@ export function getMemberLevel(): MemberLevel | undefined {
 
 const LEVEL_STYLES: Record<MemberLevel, { background: string; shadow: string; border: string; icon: string }> = {
   Foil:   { background: 'linear-gradient(135deg,#B8B8B8 0%,#E4E4E4 45%,#A0A0A0 55%,#CACACA 100%)', shadow: '0 0 10px rgba(200,200,200,0.3)',  border: 'rgba(220,220,220,0.45)', icon: '✦' },
-  Prism:  { background: 'linear-gradient(135deg,#D4899A 0%,#9B7EBF 40%,#7BAFD4 70%,#D4899A 100%)', shadow: '0 0 12px rgba(155,126,191,0.45)', border: 'rgba(155,126,191,0.55)', icon: '◈' },
-  Aurora: { background: 'linear-gradient(135deg,#5EC9A0 0%,#9B7EBF 45%,#D4899A 85%,#5EC9A0 100%)', shadow: '0 0 14px rgba(94,201,160,0.45)',  border: 'rgba(94,201,160,0.5)',   icon: '✧' },
+  Prism:  { background: 'linear-gradient(135deg,var(--accent-primary) 0%,var(--accent-secondary) 40%,#7BAFD4 70%,var(--accent-primary) 100%)', shadow: '0 0 12px rgba(139,152,251,0.35)', border: 'rgba(139,152,251,0.55)', icon: '◈' },
+  Aurora: { background: 'linear-gradient(135deg,#5EC9A0 0%,var(--accent-secondary) 45%,var(--accent-primary) 85%,#5EC9A0 100%)', shadow: '0 0 14px rgba(94,201,160,0.35)',  border: 'rgba(94,201,160,0.5)',   icon: '✧' },
 };
 
 export function MemberBadge({ level }: { level: MemberLevel }) {
   const s = LEVEL_STYLES[level];
   return (
     <span
-      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-[0.1em] text-[#1e1e2e] flex-shrink-0"
+      className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-bold uppercase tracking-[0.1em] text-surface-bg flex-shrink-0"
       style={{ background: s.background, boxShadow: s.shadow, border: `1px solid ${s.border}` }}
     >
       <span className="text-[9px]">{s.icon}</span>{level}
@@ -40,8 +40,8 @@ export function MemberBadge({ level }: { level: MemberLevel }) {
 
 /* ─── Style constants ─────────────────────────────────────────────────────── */
 
-export const inp = 'w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#9B7EBF]/50 transition-colors cursor-pointer';
-export const lbl = 'text-white/60 text-xs uppercase tracking-widest mb-1 block';
+export const inp = 'w-full bg-surface-raised border border-border-default px-3 py-2.5 min-h-11 text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus:border-accent-link transition-colors cursor-pointer';
+export const lbl = 'text-text-secondary text-xs uppercase tracking-widest mb-1 block font-mono';
 
 /* ─── Shared UI components ────────────────────────────────────────────────── */
 
@@ -49,7 +49,7 @@ export function GradePill({ company, grade, isBlackLabel }: { company: GradingCo
   const gradeColor = grade >= 10 ? 'text-amber-300 border-amber-400/40 bg-amber-400/10'
     : grade >= 9 ? 'text-emerald-400 border-emerald-400/40 bg-emerald-400/10'
     : grade >= 7 ? 'text-blue-400 border-blue-400/40 bg-blue-400/10'
-    : 'text-white/50 border-white/20 bg-white/5';
+    : 'text-text-muted border-border-default bg-surface-raised';
   const coStyle: React.CSSProperties =
     company === 'PSA' ? { backgroundColor: '#EE0403', color: '#ffffff' }
     : company === 'BGS' ? { backgroundColor: '#161619', color: '#B6975B', border: '1px solid #B6975B' }
@@ -71,11 +71,11 @@ export function Section({ title, subtitle, children, extra }: { title: string; s
     <div className="mb-7">
       <div className="flex items-center gap-2 mb-3">
         <div className="min-w-0">
-          <p className="text-[#9B7EBF] text-[10px] uppercase tracking-[0.2em] font-semibold">{title}</p>
-          {subtitle && <p className="text-white/30 text-[10px] mt-0.5 normal-case tracking-normal">{subtitle}</p>}
+          <p className="text-accent-link text-xs uppercase tracking-[0.2em] font-semibold font-mono">{title}</p>
+          {subtitle && <p className="text-text-muted text-xs mt-0.5 normal-case tracking-normal">{subtitle}</p>}
         </div>
         {extra && <div className="ml-2 flex-shrink-0">{extra}</div>}
-        <div className="flex-1 h-px bg-white/[0.04]" />
+        <div className="flex-1 h-px bg-border-default" />
       </div>
       {children}
     </div>
@@ -99,10 +99,10 @@ export function Toggle({ value, onChange, label }: { value: boolean; onChange: (
       onClick={() => onChange(!value)}
       className="flex items-center gap-2.5 group cursor-pointer"
     >
-      <div className={`relative w-9 h-5 rounded-full transition-all duration-300 ${value ? 'bg-[#9B7EBF]' : 'bg-white/10'}`}>
-        <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-all duration-300 ${value ? 'left-[18px]' : 'left-0.5'}`} />
+      <div className={`relative w-11 h-6 border border-border-default transition-[background-color] duration-300 ${value ? 'bg-accent-link' : 'bg-surface-raised'}`}>
+        <div className={`absolute top-0.5 w-5 h-5 bg-text-primary transition-[left] duration-300 ${value ? 'left-[22px]' : 'left-0.5'}`} />
       </div>
-      <span className={`text-xs transition-colors ${value ? 'text-white' : 'text-white/40'} group-hover:text-white/70`}>{label}</span>
+      <span className={`text-sm transition-colors ${value ? 'text-text-primary' : 'text-text-muted'} group-hover:text-text-secondary`}>{label}</span>
     </div>
   );
 }

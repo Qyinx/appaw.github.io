@@ -1,18 +1,19 @@
 'use client';
 
 import React from 'react';
-import { ImageUp, ScanLine, Frame, Gauge, ChevronDown, HelpCircle } from 'lucide-react';
+import { ImageUp, ScanLine, Frame, Gauge, ChevronDown } from 'lucide-react';
 import LocalLink from '@/components/LocalLink';
+import HeroStamp from '@/components/ui/HeroStamp';
 import { useLanguage } from '@/context/LanguageContext';
 import styles from './card-centering.module.css';
 
 const STEP_ICONS = [ImageUp, ScanLine, Frame, Gauge] as const;
 
 const STEP_THEMES = [
-  { accent: '#f59e0b', glow: 'rgba(245, 158, 11, 0.14)', border: 'rgba(245, 158, 11, 0.28)', variant: 'upload' as const },
-  { accent: '#3b82f6', glow: 'rgba(59, 130, 246, 0.14)', border: 'rgba(59, 130, 246, 0.32)', variant: 'edge' as const },
-  { accent: '#f07a86', glow: 'rgba(240, 122, 134, 0.14)', border: 'rgba(240, 122, 134, 0.32)', variant: 'border' as const },
-  { accent: '#22c55e', glow: 'rgba(34, 197, 94, 0.14)', border: 'rgba(34, 197, 94, 0.28)', variant: 'result' as const },
+  { accent: 'var(--accent-warn)', glow: 'color-mix(in srgb, var(--accent-warn) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-warn) 28%, transparent)', variant: 'upload' as const },
+  { accent: 'var(--accent-secondary)', glow: 'color-mix(in srgb, var(--accent-secondary) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-secondary) 32%, transparent)', variant: 'edge' as const },
+  { accent: 'var(--accent-primary)', glow: 'color-mix(in srgb, var(--accent-primary) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-primary) 32%, transparent)', variant: 'border' as const },
+  { accent: 'var(--accent-success)', glow: 'color-mix(in srgb, var(--accent-success) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-success) 28%, transparent)', variant: 'result' as const },
 ];
 
 function StepVisual({ variant }: { variant: (typeof STEP_THEMES)[number]['variant'] }) {
@@ -64,9 +65,14 @@ function HowToSteps({
   stepLabel: string;
 }) {
   return (
-    <section className={styles.howToSection} aria-labelledby="how-to-use">
+    <section className={`panel p-0 overflow-hidden border-l-[3px] border-l-accent-primary ${styles.howToSection}`} aria-labelledby="how-to-use">
+      <div className={styles.howToInstrumentHeader}>
+        <span className="font-mono text-xs text-text-muted uppercase tracking-wider">{badge}</span>
+        <span className="font-mono text-xs text-text-secondary font-tabular tracking-widest">
+          {String(steps.length).padStart(2, '0')} steps
+        </span>
+      </div>
       <div className={styles.howToHeader}>
-        <span className={styles.howToBadge}>{badge}</span>
         <h2 id="how-to-use" className={styles.howToTitle}>{title}</h2>
       </div>
 
@@ -76,7 +82,7 @@ function HowToSteps({
             <span
               className={styles.stepRailDot}
               style={{
-                ['--step-accent' as string]: STEP_THEMES[i]?.accent ?? '#f59e0b',
+                ['--step-accent' as string]: STEP_THEMES[i]?.accent ?? 'var(--accent-warn)',
                 ['--step-delay' as string]: `${i * 90}ms`,
               }}
             >
@@ -139,13 +145,15 @@ function CenteringFaq({
   countLabel: string;
 }) {
   return (
-    <section className={styles.faqSection} aria-labelledby="centering-faq">
+    <section className={`panel p-0 overflow-hidden ${styles.faqSection}`} aria-labelledby="centering-faq">
+      <div className={styles.faqInstrumentHeader}>
+        <span className="font-mono text-xs text-text-muted uppercase tracking-wider">{badge}</span>
+        <span className="font-mono text-xs text-text-secondary font-tabular tracking-widest">
+          {String(items.length).padStart(2, '0')} items
+        </span>
+      </div>
       <div className={styles.faqHeader}>
         <div className={styles.faqHeaderCopy}>
-          <span className={styles.faqBadge}>
-            <HelpCircle className={styles.faqBadgeIcon} strokeWidth={2} />
-            {badge}
-          </span>
           <h2 id="centering-faq" className={styles.faqTitle}>{title}</h2>
         </div>
         <div className={styles.faqStat} aria-hidden="true">
@@ -187,9 +195,21 @@ export default function CenteringContent() {
 
   return (
     <article className={styles.contentWrapper}>
+      <div className={styles.contentInner}>
       <header className={styles.contentHeader}>
+        <HeroStamp className="mb-8 max-w-md" lines={{ muted: c.howToBadge }} />
+        <p className="section-label mb-5">{c.howToBadge}</p>
         <h1 className={styles.contentH1}>{c.h1}</h1>
         <p className={styles.contentLead}>{c.lead}</p>
+        <div className={`color-terminal-readout terminal-block ${styles.contentTerminal}`} aria-hidden="true">
+          <p>
+            <span className="prompt">&gt;</span> init_centering_analyzer
+          </p>
+          <p className="text-text-secondary mt-1">
+            <span className="prompt">&gt;</span> standards PSA · BGS · SGC
+            <span className="cursor" aria-hidden="true" />
+          </p>
+        </div>
       </header>
 
       <HowToSteps
@@ -199,10 +219,15 @@ export default function CenteringContent() {
         stepLabel={c.stepLabel}
       />
 
-      <section className={styles.contentSection} aria-labelledby="psa-requirements">
+      <section className={`panel p-0 overflow-hidden border-l-[3px] border-l-accent-secondary ${styles.contentSection}`} aria-labelledby="psa-requirements">
+        <div className={styles.contentSectionHeader}>
+          <span className="font-mono text-xs text-text-muted uppercase tracking-wider">PSA Spec</span>
+          <span className="font-mono text-xs text-accent-warn uppercase tracking-wider">Reference</span>
+        </div>
+        <div className={styles.contentSectionBody}>
         <h2 id="psa-requirements" className={styles.contentH2}>{c.psaRequirementsTitle}</h2>
         <p className={styles.contentP}>{c.psaRequirementsIntro}</p>
-        <div className={styles.tableScroll}>
+        <div className={`panel-raised ${styles.tableScroll}`}>
           <table className={styles.gradeTable}>
             <thead>
               <tr>
@@ -223,9 +248,10 @@ export default function CenteringContent() {
           </table>
         </div>
         <p className={styles.contentNote}>{c.gradeTableNote}</p>
+        </div>
       </section>
 
-      <section className={styles.contentSection} aria-labelledby="why-it-matters">
+      <section className={`panel ${styles.contentSection}`} aria-labelledby="why-it-matters">
         <h2 id="why-it-matters" className={styles.contentH2}>{c.whyMattersTitle}</h2>
         <p className={styles.contentP}>{c.whyMattersP1}</p>
         <p className={styles.contentP}>
@@ -243,6 +269,7 @@ export default function CenteringContent() {
         badge={c.faqBadge}
         countLabel={c.faqCountLabel}
       />
+      </div>
     </article>
   );
 }

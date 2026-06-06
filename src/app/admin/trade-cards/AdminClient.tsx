@@ -118,8 +118,8 @@ function cfToCard(f: CF): TradingCard {
 /* ──────────────────────────────────────────────────────────────────────────────
    SHARED STYLE CONSTANTS
    ────────────────────────────────────────────────────────────────────────────── */
-const inp = 'w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#d4a843]/50 transition-colors';
-const lbl = 'text-white/60 text-xs uppercase tracking-widest mb-1 block';
+const inp = 'w-full bg-white/[0.04] border border-border-default rounded-lg px-3 py-2 text-text-primary text-sm placeholder-text-muted focus:outline-none focus:border-accent-warn/50 transition-colors';
+const lbl = 'text-text-secondary text-xs uppercase tracking-widest mb-1 block';
 
 /* ──────────────────────────────────────────────────────────────────────────────
    IMAGE UPLOAD FIELD
@@ -135,35 +135,35 @@ function ImageField({ label, path, preview, uploading, onFile }: {
       <p className={lbl}>{label}</p>
       <div
         onClick={() => ref.current?.click()}
-        className="relative w-[88px] h-[117px] rounded-lg border-2 border-dashed border-white/10 hover:border-[#d4a843]/40 bg-white/[0.02] cursor-pointer transition-all overflow-hidden flex items-center justify-center group"
+        className="relative w-[88px] h-[117px] rounded-lg border-2 border-dashed border-border-default hover:border-accent-warn/40 bg-white/[0.02] cursor-pointer transition-[color,background-color,border-color,opacity,transform] overflow-hidden flex items-center justify-center group"
       >
         {src ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={src} alt="" className="w-full h-full object-contain p-1.5" />
         ) : (
           <div className="flex flex-col items-center gap-1.5 group-hover:opacity-80 transition-opacity">
-            <ImageIcon className="w-5 h-5 text-white/20" />
-            <span className="text-[9px] text-white/20 text-center leading-tight">Click to<br />upload</span>
+            <ImageIcon className="w-5 h-5 text-text-muted" />
+            <span className="text-[9px] text-text-muted text-center leading-tight">Click to<br />upload</span>
           </div>
         )}
         {uploading && (
           <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-            <Loader2 className="w-5 h-5 text-white animate-spin" />
+            <Loader2 className="w-5 h-5 text-text-primary animate-spin" />
           </div>
         )}
         {path && !uploading && (
           <div className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500/90 flex items-center justify-center">
-            <Check className="w-2.5 h-2.5 text-white" />
+            <Check className="w-2.5 h-2.5 text-text-primary" />
           </div>
         )}
         {src && !uploading && (
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
-            <span className="text-[9px] text-white font-medium bg-black/60 px-2 py-0.5 rounded">Change</span>
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-[color,background-color,border-color,opacity,transform] flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <span className="text-[9px] text-text-primary font-medium bg-black/60 px-2 py-0.5 rounded">Change</span>
           </div>
         )}
       </div>
       {path && (
-        <p className="text-white/20 text-[8px] truncate max-w-[88px]" title={path}>
+        <p className="text-text-muted text-[8px] truncate max-w-[88px]" title={path}>
           {path.split('/').pop()}
         </p>
       )}
@@ -179,7 +179,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div className="mb-7">
       <div className="flex items-center gap-2 mb-3">
-        <p className="text-[#d4a843] text-[10px] uppercase tracking-[0.2em] font-semibold">{title}</p>
+        <p className="text-accent-warn text-[10px] uppercase tracking-[0.2em] font-semibold">{title}</p>
         <div className="flex-1 h-px bg-white/[0.04]" />
       </div>
       {children}
@@ -197,10 +197,10 @@ function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: bool
       onClick={() => onChange(!value)}
       className="flex items-center gap-2.5 group"
     >
-      <div className={`relative w-9 h-5 rounded-full transition-all duration-300 ${value ? 'bg-[#d4a843]' : 'bg-white/10'}`}>
-        <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-all duration-300 ${value ? 'left-[18px]' : 'left-0.5'}`} />
+      <div className={`relative w-9 h-5 rounded-full transition-[color,background-color,border-color,opacity,transform] duration-300 ${value ? 'bg-accent-warn' : 'bg-white/10'}`}>
+        <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-[color,background-color,border-color,opacity,transform] duration-300 ${value ? 'left-[18px]' : 'left-0.5'}`} />
       </div>
-      <span className={`text-xs transition-colors ${value ? 'text-white' : 'text-white/40'} group-hover:text-white/70`}>{label}</span>
+      <span className={`text-xs transition-colors ${value ? 'text-text-primary' : 'text-text-muted'} group-hover:text-text-primary/70`}>{label}</span>
     </button>
   );
 }
@@ -212,15 +212,15 @@ function GradePill({ company, grade, isBlackLabel }: { company: string; grade: n
   const color = grade >= 10 ? 'text-amber-300 border-amber-400/40 bg-amber-400/10'
     : grade >= 9 ? 'text-emerald-400 border-emerald-400/40 bg-emerald-400/10'
     : grade >= 7 ? 'text-blue-400 border-blue-400/40 bg-blue-400/10'
-    : 'text-white/50 border-white/20 bg-white/5';
-  const coBg = company === 'PSA' ? 'bg-red-700 text-white'
-    : company === 'BGS' ? 'bg-blue-700 text-white'
-    : 'bg-purple-700 text-white';
+    : 'text-text-secondary border-border-strong bg-white/5';
+  const coBg = company === 'PSA' ? 'bg-red-700 text-text-primary'
+    : company === 'BGS' ? 'bg-blue-700 text-text-primary'
+    : 'bg-purple-700 text-text-primary';
   return (
     <div className="flex items-center gap-1">
       <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${coBg}`}>{company}</span>
       <span className={`text-[9px] font-black px-1.5 py-0.5 rounded border ${color}`}>
-        {isBlackLabel && <span className="text-[7px] text-[#d4a843] mr-0.5">BL</span>}
+        {isBlackLabel && <span className="text-[7px] text-accent-warn mr-0.5">BL</span>}
         {grade}
       </span>
     </div>
@@ -500,15 +500,15 @@ export default function AdminClient() {
      ════════════════════════════════════════════════════════════ */
   if (!authed) {
     return (
-      <div className="min-h-screen bg-[#09090f] flex items-center justify-center p-4">
-        <form onSubmit={handleLogin} className="w-full max-w-sm bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8">
+      <div className="min-h-screen bg-surface-bg flex items-center justify-center p-4">
+        <form onSubmit={handleLogin} className="w-full max-w-sm bg-surface-raised border border-white/[0.06] rounded-2xl p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-[#d4a843]/10 border border-[#d4a843]/25 flex items-center justify-center">
-              <Lock className="w-5 h-5 text-[#d4a843]" />
+            <div className="w-10 h-10 rounded-xl bg-accent-warn/10 border border-accent-warn/25 flex items-center justify-center">
+              <Lock className="w-5 h-5 text-accent-warn" />
             </div>
             <div>
-              <h1 className="text-white font-bold text-base">Card Admin</h1>
-              <p className="text-white/30 text-xs">Enter password to manage inventory</p>
+              <h1 className="text-text-primary font-bold text-base">Card Admin</h1>
+              <p className="text-text-muted text-xs">Enter password to manage inventory</p>
             </div>
           </div>
           <div className="relative mb-4">
@@ -521,15 +521,15 @@ export default function AdminClient() {
               className={`${inp} pr-10 ${authErr ? 'border-red-500/50 text-red-400' : ''}`}
             />
             <button type="button" onClick={() => setShowPw(s => !s)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60">
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary/60">
               {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
           {authErr && <p className="text-red-400 text-xs mb-3 flex items-center gap-1.5"><AlertCircle className="w-3 h-3" />Incorrect password</p>}
-          <button type="submit" className="w-full py-2.5 rounded-xl bg-[#d4a843] text-[#09090f] text-sm font-bold hover:bg-[#e5bc5a] transition-colors">
+          <button type="submit" className="w-full py-2.5 rounded-xl bg-accent-warn text-surface-bg text-sm font-bold hover:bg-[#e5bc5a] transition-colors">
             Unlock
           </button>
-          <p className="text-white/15 text-[10px] text-center mt-4">
+          <p className="text-text-muted text-[10px] text-center mt-4">
             Only works in development mode (npm run dev)
           </p>
         </form>
@@ -542,25 +542,25 @@ export default function AdminClient() {
      ════════════════════════════════════════════════════════════ */
   if (view === 'form') {
     return (
-      <div className="min-h-screen bg-[#09090f]">
+      <div className="min-h-screen bg-surface-bg">
         {/* Header */}
-        <div className="sticky top-16 md:top-20 z-20 bg-[#09090f]/95 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="sticky top-16 md:top-20 z-20 bg-surface-bg/95 border-b border-border-default">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
-            <button onClick={() => setView('list')} className="flex items-center gap-2 text-white/50 hover:text-white text-sm transition-colors">
+            <button onClick={() => setView('list')} className="flex items-center gap-2 text-text-secondary hover:text-text-primary text-sm transition-colors">
               <ArrowLeft className="w-4 h-4" />
               <span>Back to list</span>
             </button>
-            <h2 className="text-white font-semibold text-sm">
+            <h2 className="text-text-primary font-semibold text-sm">
               {editId ? 'Edit Card' : 'Add New Card'}
             </h2>
             <div className="flex items-center gap-2">
-              <button onClick={() => setView('list')} className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs transition-colors">
+              <button onClick={() => setView('list')} className="px-3 py-1.5 rounded-lg text-text-muted hover:text-text-primary text-xs transition-colors">
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] text-xs font-bold transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-accent-warn hover:bg-[#e5bc5a] text-surface-bg text-xs font-bold transition-colors disabled:opacity-50"
               >
                 {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
                 {saving ? 'Saving…' : 'Save Card'}
@@ -586,14 +586,14 @@ export default function AdminClient() {
           {/* ID (read-only for existing cards) */}
           <div className="mb-7 p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
             <p className={lbl}>Card ID (UUID)</p>
-            <p className="text-white/30 text-xs font-mono break-all">{form.id}</p>
-            <p className="text-white/15 text-[10px] mt-1">This becomes the URL: /business/card-trading/{form.id}/</p>
+            <p className="text-text-muted text-xs font-mono break-all">{form.id}</p>
+            <p className="text-text-muted text-[10px] mt-1">This becomes the URL: /business/card-trading/{form.id}/</p>
             {editId && (
               <div className="flex gap-4 mt-2 pt-2 border-t border-white/[0.04]">
                 {form.createdAt && (
                   <div>
                     <p className={lbl}>Created</p>
-                    <p className="text-white/25 text-[10px]">{new Date(form.createdAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}</p>
+                    <p className="text-text-muted text-[10px]">{new Date(form.createdAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}</p>
                   </div>
                 )}
               </div>
@@ -636,7 +636,7 @@ export default function AdminClient() {
                 </div>
               </div>
               <div>
-                <label className={lbl}>Notes <span className="text-white/20 font-normal normal-case tracking-normal">(internal — not shown publicly)</span></label>
+                <label className={lbl}>Notes <span className="text-text-muted font-normal normal-case tracking-normal">(internal — not shown publicly)</span></label>
                 <textarea
                   className={`${inp} resize-none`} rows={3}
                   value={form.notes} onChange={e => setF('notes', e.target.value)}
@@ -653,11 +653,11 @@ export default function AdminClient() {
                 {COMPANIES.map(co => (
                   <button key={co} type="button"
                     onClick={() => setF('company', co)}
-                    className={`py-2 rounded-lg text-sm font-bold border transition-all ${form.company === co
-                      ? co === 'PSA' ? 'bg-red-700/80 border-red-600 text-white'
-                        : co === 'BGS' ? 'bg-blue-700/80 border-blue-600 text-white'
-                        : 'bg-purple-700/80 border-purple-600 text-white'
-                      : 'bg-white/[0.03] border-white/10 text-white/40 hover:text-white/70'
+                    className={`py-2 rounded-lg text-sm font-bold border transition-[color,background-color,border-color,opacity,transform] ${form.company === co
+                      ? co === 'PSA' ? 'bg-red-700/80 border-red-600 text-text-primary'
+                        : co === 'BGS' ? 'bg-blue-700/80 border-blue-600 text-text-primary'
+                        : 'bg-purple-700/80 border-purple-600 text-text-primary'
+                      : 'bg-surface-raised border-border-default text-text-muted hover:text-text-primary/70'
                     }`}
                   >{co}</button>
                 ))}
@@ -677,7 +677,7 @@ export default function AdminClient() {
                         disabled={fetchingPsa === 'main'}
                         onClick={() => fetchPsaImages(form.certNumber, 'main')}
                         title="Fetch front & back images from PSA"
-                        className="flex items-center gap-1.5 px-3 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-white text-[10px] font-bold uppercase tracking-wider transition-all disabled:opacity-50 whitespace-nowrap"
+                        className="flex items-center gap-1.5 px-3 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-text-primary text-[10px] font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform] disabled:opacity-50 whitespace-nowrap"
                       >
                         {fetchingPsa === 'main'
                           ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -698,12 +698,12 @@ export default function AdminClient() {
                       <AlertCircle className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" />
                       <div>
                         <p className="text-amber-300 text-xs font-semibold">PSA blocked automatic fetch</p>
-                        <p className="text-white/40 text-[10px] mt-0.5 leading-relaxed">
-                          Open the cert page below, right-click each card image → <strong className="text-white/60">Copy image address</strong>, then paste below.
+                        <p className="text-text-muted text-[10px] mt-0.5 leading-relaxed">
+                          Open the cert page below, right-click each card image → <strong className="text-text-secondary">Copy image address</strong>, then paste below.
                         </p>
                       </div>
                     </div>
-                    <button onClick={() => setPsaManual(null)} className="text-white/30 hover:text-white/60 transition-colors flex-shrink-0">
+                    <button onClick={() => setPsaManual(null)} className="text-text-muted hover:text-text-primary/60 transition-colors flex-shrink-0">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -736,14 +736,14 @@ export default function AdminClient() {
                             } catch { /* clipboard blocked */ }
                           }}
                           title="Paste from clipboard"
-                          className="px-2 rounded-lg border border-white/10 bg-white/[0.04] text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors"
+                          className="px-2 rounded-lg border border-border-default bg-white/[0.04] text-text-muted hover:text-text-primary hover:bg-surface-raised transition-colors"
                         >
                           <Clipboard className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
                     <div>
-                      <label className={lbl}>Back Image URL <span className="text-white/20 font-normal normal-case tracking-normal">(optional)</span></label>
+                      <label className={lbl}>Back Image URL <span className="text-text-muted font-normal normal-case tracking-normal">(optional)</span></label>
                       <div className="flex gap-1.5">
                         <input
                           className={`${inp} flex-1`}
@@ -760,7 +760,7 @@ export default function AdminClient() {
                             } catch { /* clipboard blocked */ }
                           }}
                           title="Paste from clipboard"
-                          className="px-2 rounded-lg border border-white/10 bg-white/[0.04] text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors"
+                          className="px-2 rounded-lg border border-border-default bg-white/[0.04] text-text-muted hover:text-text-primary hover:bg-surface-raised transition-colors"
                         >
                           <Clipboard className="w-3.5 h-3.5" />
                         </button>
@@ -772,7 +772,7 @@ export default function AdminClient() {
                     type="button"
                     disabled={!psaManual.frontUrl.trim() || fetchingPsa === 'main'}
                     onClick={downloadPsaUrls}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#d4a843]/20 border border-[#d4a843]/30 text-[#d4a843] hover:bg-[#d4a843]/30 text-xs font-bold transition-all disabled:opacity-40"
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent-warn/20 border border-accent-warn/30 text-accent-warn hover:bg-accent-warn/30 text-xs font-bold transition-[color,background-color,border-color,opacity,transform] disabled:opacity-40"
                   >
                     {fetchingPsa === 'main'
                       ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -800,8 +800,8 @@ export default function AdminClient() {
 
           {/* ── IMAGES ── */}
           <Section title="Card Images">
-            <p className="text-white/30 text-xs mb-4">
-              Images are saved to <code className="text-white/50 bg-white/[0.06] px-1.5 py-0.5 rounded text-[10px]">public/images/trade/{form.id}/</code>
+            <p className="text-text-muted text-xs mb-4">
+              Images are saved to <code className="text-text-secondary bg-surface-raised px-1.5 py-0.5 rounded text-[10px]">public/images/trade/{form.id}/</code>
             </p>
             <div className="flex gap-6">
               <ImageField
@@ -830,13 +830,13 @@ export default function AdminClient() {
             />
             {form.isBundle && (
               <div className="mt-4 space-y-4">
-                <p className="text-white/30 text-xs">
+                <p className="text-text-muted text-xs">
                   The price above is the total set price. Add each card in the set below.
                 </p>
                 {form.bundleCards.map((b, idx) => (
                   <div key={idx} className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 space-y-3">
                     <div className="flex items-center justify-between mb-1">
-                      <p className="text-white/50 text-xs font-semibold">Card #{idx + 1}</p>
+                      <p className="text-text-secondary text-xs font-semibold">Card #{idx + 1}</p>
                       <button
                         type="button"
                         onClick={() => setForm(f => ({ ...f, bundleCards: f.bundleCards.filter((_, i) => i !== idx) }))}
@@ -870,11 +870,11 @@ export default function AdminClient() {
                       {COMPANIES.map(co => (
                         <button key={co} type="button"
                           onClick={() => setBF(idx, 'company', co)}
-                          className={`py-1.5 rounded-lg text-xs font-bold border transition-all ${b.company === co
-                            ? co === 'PSA' ? 'bg-red-700/80 border-red-600 text-white'
-                              : co === 'BGS' ? 'bg-blue-700/80 border-blue-600 text-white'
-                              : 'bg-purple-700/80 border-purple-600 text-white'
-                            : 'bg-white/[0.03] border-white/10 text-white/40 hover:text-white/70'
+                          className={`py-1.5 rounded-lg text-xs font-bold border transition-[color,background-color,border-color,opacity,transform] ${b.company === co
+                            ? co === 'PSA' ? 'bg-red-700/80 border-red-600 text-text-primary'
+                              : co === 'BGS' ? 'bg-blue-700/80 border-blue-600 text-text-primary'
+                              : 'bg-purple-700/80 border-purple-600 text-text-primary'
+                            : 'bg-surface-raised border-border-default text-text-muted hover:text-text-primary/70'
                           }`}
                         >{co}</button>
                       ))}
@@ -895,7 +895,7 @@ export default function AdminClient() {
                               disabled={fetchingPsa === `bundle-${idx}`}
                               onClick={() => fetchPsaImages(b.certNumber, `bundle-${idx}`)}
                               title="Fetch images from PSA"
-                              className="flex items-center gap-1 px-2.5 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-white text-[10px] font-bold uppercase tracking-wider transition-all disabled:opacity-50 whitespace-nowrap"
+                              className="flex items-center gap-1 px-2.5 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-text-primary text-[10px] font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform] disabled:opacity-50 whitespace-nowrap"
                             >
                               {fetchingPsa === `bundle-${idx}`
                                 ? <Loader2 className="w-3 h-3 animate-spin" />
@@ -932,7 +932,7 @@ export default function AdminClient() {
                 <button
                   type="button"
                   onClick={() => setForm(f => ({ ...f, bundleCards: [...f.bundleCards, emptyBF()] }))}
-                  className="flex items-center gap-2 w-full py-2.5 rounded-xl border-2 border-dashed border-white/10 hover:border-[#d4a843]/30 text-white/30 hover:text-[#d4a843] text-xs font-medium transition-all"
+                  className="flex items-center gap-2 w-full py-2.5 rounded-xl border-2 border-dashed border-border-default hover:border-accent-warn/30 text-text-muted hover:text-accent-warn text-xs font-medium transition-[color,background-color,border-color,opacity,transform]"
                 >
                   <Plus className="w-3.5 h-3.5" />Add Card to Bundle
                 </button>
@@ -942,13 +942,13 @@ export default function AdminClient() {
 
           {/* Footer actions (also at bottom for long forms) */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/[0.06]">
-            <button onClick={() => setView('list')} className="px-4 py-2 rounded-lg text-white/40 hover:text-white text-sm transition-colors">
+            <button onClick={() => setView('list')} className="px-4 py-2 rounded-lg text-text-muted hover:text-text-primary text-sm transition-colors">
               Cancel
             </button>
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-6 py-2 rounded-lg bg-[#d4a843] hover:bg-[#e5bc5a] text-[#09090f] text-sm font-bold transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-6 py-2 rounded-lg bg-accent-warn hover:bg-[#e5bc5a] text-surface-bg text-sm font-bold transition-colors disabled:opacity-50"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               {saving ? 'Saving…' : (editId ? 'Update Card' : 'Add Card')}
@@ -966,14 +966,14 @@ export default function AdminClient() {
   const sold = cards.filter(c => c.sold).length;
 
   return (
-    <div className="min-h-screen bg-[#09090f]">
+    <div className="min-h-screen bg-surface-bg">
       {/* Header */}
-      <div className="sticky top-16 md:top-20 z-20 bg-[#09090f]/95 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="sticky top-16 md:top-20 z-20 bg-surface-bg/95 border-b border-border-default">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
           <div className="flex items-center gap-4">
-            <h1 className="text-white font-bold text-sm">Card Inventory Admin</h1>
+            <h1 className="text-text-primary font-bold text-sm">Card Inventory Admin</h1>
             <a href="/business/card-trading/" target="_blank" rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1 text-white/50 hover:text-[#d4a843] text-xs transition-colors">
+              className="hidden sm:flex items-center gap-1 text-text-secondary hover:text-accent-warn text-xs transition-colors">
               <ExternalLink className="w-3 h-3" />View Store
             </a>
           </div>
@@ -983,12 +983,12 @@ export default function AdminClient() {
                 <Check className="w-3.5 h-3.5" />{saveMsg}
               </span>
             )}
-            <button onClick={load} disabled={loading} className="p-1.5 rounded-lg text-white/50 hover:text-white transition-colors disabled:opacity-40">
+            <button onClick={load} disabled={loading} className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40">
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             </button>
             <button
               onClick={openNew}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#d4a843] text-[#09090f] text-xs font-bold hover:bg-[#e5bc5a] transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-warn text-surface-bg text-xs font-bold hover:bg-[#e5bc5a] transition-colors"
             >
               <Plus className="w-3.5 h-3.5" />Add Card
             </button>
@@ -1000,13 +1000,13 @@ export default function AdminClient() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           {[
-            { label: 'Total', value: cards.length, color: 'text-white' },
+            { label: 'Total', value: cards.length, color: 'text-text-primary' },
             { label: 'Available', value: available, color: 'text-emerald-400' },
             { label: 'Sold', value: sold, color: 'text-red-400' },
           ].map(s => (
-            <div key={s.label} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center">
+            <div key={s.label} className="bg-surface-raised border border-white/[0.06] rounded-xl p-4 text-center">
               <p className={`text-2xl font-bold font-display ${s.color}`}>{s.value}</p>
-              <p className="text-white/50 text-xs uppercase tracking-widest mt-0.5">{s.label}</p>
+              <p className="text-text-secondary text-xs uppercase tracking-widest mt-0.5">{s.label}</p>
             </div>
           ))}
         </div>
@@ -1018,14 +1018,14 @@ export default function AdminClient() {
             <div>
               <p className="text-red-400 text-sm font-medium">Error</p>
               <p className="text-red-400/70 text-xs mt-0.5">{dataError}</p>
-              <p className="text-white/30 text-[10px] mt-1">Saving requires <code className="text-white/60">npm run dev</code> — the write API is unavailable in static export.</p>
+              <p className="text-text-muted text-[10px] mt-1">Saving requires <code className="text-text-secondary">npm run dev</code> — the write API is unavailable in static export.</p>
             </div>
           </div>
         )}
 
         {/* Loading */}
         {loading && (
-          <div className="flex items-center justify-center py-16 gap-2 text-white/30">
+          <div className="flex items-center justify-center py-16 gap-2 text-text-muted">
             <Loader2 className="w-5 h-5 animate-spin" />
             <span className="text-sm">Loading cards…</span>
           </div>
@@ -1036,12 +1036,12 @@ export default function AdminClient() {
           <div className="rounded-xl border border-white/[0.06] overflow-hidden">
             {/* Table header */}
             <div className="hidden sm:grid grid-cols-[72px_1fr_140px_100px_80px_80px] gap-3 items-center px-4 py-2.5 bg-white/[0.02] border-b border-white/[0.04]">
-              <p className="text-white/50 text-xs uppercase tracking-widest">Image</p>
-              <p className="text-white/50 text-xs uppercase tracking-widest">Card</p>
-              <p className="text-white/50 text-xs uppercase tracking-widest">Grade</p>
-              <p className="text-white/50 text-xs uppercase tracking-widest">Price</p>
-              <p className="text-white/50 text-xs uppercase tracking-widest">Status</p>
-              <p className="text-white/50 text-xs uppercase tracking-widest">Actions</p>
+              <p className="text-text-secondary text-xs uppercase tracking-widest">Image</p>
+              <p className="text-text-secondary text-xs uppercase tracking-widest">Card</p>
+              <p className="text-text-secondary text-xs uppercase tracking-widest">Grade</p>
+              <p className="text-text-secondary text-xs uppercase tracking-widest">Price</p>
+              <p className="text-text-secondary text-xs uppercase tracking-widest">Status</p>
+              <p className="text-text-secondary text-xs uppercase tracking-widest">Actions</p>
             </div>
 
             {/* Rows */}
@@ -1054,7 +1054,7 @@ export default function AdminClient() {
                   {/* Desktop row */}
                   <div className="hidden sm:grid grid-cols-[72px_1fr_140px_100px_80px_80px] gap-3 items-center px-4 py-3">
                     {/* Thumbnail */}
-                    <div className="relative w-12 h-16 rounded-md overflow-hidden bg-white/[0.03] border border-white/[0.06] flex-shrink-0">
+                    <div className="relative w-12 h-16 rounded-md overflow-hidden bg-surface-raised border border-white/[0.06] flex-shrink-0">
                       {imgSrc ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -1064,7 +1064,7 @@ export default function AdminClient() {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <ImageIcon className="w-4 h-4 text-white/10" />
+                          <ImageIcon className="w-4 h-4 text-text-muted" />
                         </div>
                       )}
                       {card.sold && (
@@ -1077,18 +1077,18 @@ export default function AdminClient() {
                     {/* Name */}
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5 mb-0.5">
-                        <p className={`text-sm font-medium truncate ${card.sold ? 'text-white/30 line-through' : 'text-white'}`}>{card.name}</p>
-                        {isBundle && <Layers className="w-3 h-3 text-[#d4a843] flex-shrink-0" />}
+                        <p className={`text-sm font-medium truncate ${card.sold ? 'text-text-muted line-through' : 'text-text-primary'}`}>{card.name}</p>
+                        {isBundle && <Layers className="w-3 h-3 text-accent-warn flex-shrink-0" />}
                       </div>
-                      <p className="text-white/50 text-xs truncate">
+                      <p className="text-text-secondary text-xs truncate">
                         {card.year}{card.set ? ` · ${card.set}` : ''}
                         {card.updatedAt && (
-                          <span className="ml-1.5 text-white/30">
+                          <span className="ml-1.5 text-text-muted">
                             · updated {new Date(card.updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' })}
                           </span>
                         )}
                         {!card.updatedAt && card.createdAt && (
-                          <span className="ml-1.5 text-white/30">
+                          <span className="ml-1.5 text-text-muted">
                             · added {new Date(card.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' })}
                           </span>
                         )}
@@ -1101,7 +1101,7 @@ export default function AdminClient() {
                     </div>
 
                     {/* Price */}
-                    <p className={`text-sm font-bold ${card.sold ? 'text-white/25 line-through' : 'text-[#d4a843]'}`}>
+                    <p className={`text-sm font-bold ${card.sold ? 'text-text-muted line-through' : 'text-accent-warn'}`}>
                       {card.currency} {card.price.toLocaleString()}
                     </p>
 
@@ -1109,7 +1109,7 @@ export default function AdminClient() {
                     <button
                       onClick={() => toggleSold(card)}
                       disabled={saving}
-                      className={`text-[9px] font-bold px-2 py-1 rounded-md border transition-all ${
+                      className={`text-[9px] font-bold px-2 py-1 rounded-md border transition-[color,background-color,border-color,opacity,transform] ${
                         card.sold
                           ? 'bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25'
                           : 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400 hover:bg-emerald-500/20'
@@ -1125,20 +1125,20 @@ export default function AdminClient() {
                         <button onClick={handleDelete} disabled={saving} className="p-1.5 rounded bg-red-500/20 hover:bg-red-500/30 text-red-400 transition-colors disabled:opacity-40">
                           <Check className="w-3.5 h-3.5" />
                         </button>
-                        <button onClick={() => setDeleteId(null)} className="p-1.5 rounded bg-white/[0.06] hover:bg-white/[0.1] text-white/40 transition-colors">
+                        <button onClick={() => setDeleteId(null)} className="p-1.5 rounded bg-surface-raised hover:bg-surface-raised text-text-muted transition-colors">
                           <X className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     ) : (
                       <div className="flex items-center gap-1">
-                        <button onClick={() => openEdit(card)} className="p-1.5 rounded bg-white/[0.04] hover:bg-white/[0.08] text-white/40 hover:text-white transition-colors" title="Edit">
+                        <button onClick={() => openEdit(card)} className="p-1.5 rounded bg-white/[0.04] hover:bg-surface-raised text-text-muted hover:text-text-primary transition-colors" title="Edit">
                           <Pencil className="w-3.5 h-3.5" />
                         </button>
-                        <button onClick={() => setDeleteId(card.id)} className="p-1.5 rounded bg-white/[0.04] hover:bg-red-500/10 text-white/40 hover:text-red-400 transition-colors" title="Delete">
+                        <button onClick={() => setDeleteId(card.id)} className="p-1.5 rounded bg-white/[0.04] hover:bg-red-500/10 text-text-muted hover:text-red-400 transition-colors" title="Delete">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                         <a href={`/business/card-trading/${card.id}/`} target="_blank" rel="noopener noreferrer"
-                          className="p-1.5 rounded bg-white/[0.04] hover:bg-white/[0.08] text-white/40 hover:text-[#d4a843] transition-colors" title="Preview">
+                          className="p-1.5 rounded bg-white/[0.04] hover:bg-surface-raised text-text-muted hover:text-accent-warn transition-colors" title="Preview">
                           <ExternalLink className="w-3.5 h-3.5" />
                         </a>
                       </div>
@@ -1151,10 +1151,10 @@ export default function AdminClient() {
                       {/* main card as first row */}
                       {[{ name: card.name, company: card.company, grade: card.grade, isBlackLabel: card.isBlackLabel, set: card.set, number: card.number }, ...card.bundleCards].map((bc, idx) => (
                         <div key={idx} className="hidden sm:flex items-center gap-3 pl-[88px] pr-4 py-1.5 border-b border-white/[0.03] last:border-b-0 bg-white/[0.01]">
-                          <span className="text-white/30 text-[10px] font-mono w-3 text-center flex-shrink-0">{idx + 1}</span>
-                          <span className="text-white/60 text-xs flex-1 truncate">{bc.name}</span>
+                          <span className="text-text-muted text-[10px] font-mono w-3 text-center flex-shrink-0">{idx + 1}</span>
+                          <span className="text-text-secondary text-xs flex-1 truncate">{bc.name}</span>
                           {(bc.set || bc.number) && (
-                            <span className="text-white/40 text-[10px] truncate max-w-[160px]">{[bc.set, bc.number].filter(Boolean).join(' · ')}</span>
+                            <span className="text-text-muted text-[10px] truncate max-w-[160px]">{[bc.set, bc.number].filter(Boolean).join(' · ')}</span>
                           )}
                           <GradePill company={bc.company} grade={bc.grade} isBlackLabel={bc.isBlackLabel} />
                         </div>
@@ -1164,28 +1164,28 @@ export default function AdminClient() {
 
                   {/* Mobile row */}
                   <div className="sm:hidden flex items-center gap-3 px-4 py-3">
-                    <div className="relative w-10 h-14 rounded bg-white/[0.03] border border-white/[0.06] flex-shrink-0 overflow-hidden">
+                    <div className="relative w-10 h-14 rounded bg-surface-raised border border-white/[0.06] flex-shrink-0 overflow-hidden">
                       {imgSrc ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={imgSrc.replace('/images/', '/images-optimized/')} alt="" className="w-full h-full object-contain p-0.5" />
                       ) : (
-                        <ImageIcon className="w-3 h-3 text-white/10 m-auto" />
+                        <ImageIcon className="w-3 h-3 text-text-muted m-auto" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium truncate ${card.sold ? 'text-white/30 line-through' : 'text-white'}`}>{card.name}</p>
+                      <p className={`text-sm font-medium truncate ${card.sold ? 'text-text-muted line-through' : 'text-text-primary'}`}>{card.name}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
-                        <span className={`text-xs font-bold ${card.sold ? 'text-white/25 line-through' : 'text-[#d4a843]'}`}>
+                        <span className={`text-xs font-bold ${card.sold ? 'text-text-muted line-through' : 'text-accent-warn'}`}>
                           {card.currency} {card.price.toLocaleString()}
                         </span>
                       </div>
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
-                      <button onClick={() => openEdit(card)} className="p-1.5 rounded bg-white/[0.04] text-white/40 hover:text-white transition-colors">
+                      <button onClick={() => openEdit(card)} className="p-1.5 rounded bg-white/[0.04] text-text-muted hover:text-text-primary transition-colors">
                         <Pencil className="w-4 h-4" />
                       </button>
-                      <button onClick={() => setDeleteId(card.id)} className="p-1.5 rounded bg-white/[0.04] text-white/40 hover:text-red-400 transition-colors">
+                      <button onClick={() => setDeleteId(card.id)} className="p-1.5 rounded bg-white/[0.04] text-text-muted hover:text-red-400 transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -1196,7 +1196,7 @@ export default function AdminClient() {
                     <div className="sm:hidden flex items-center gap-2 px-4 pb-3">
                       <p className="text-red-400 text-xs flex-1">Delete &ldquo;{card.name}&rdquo;?</p>
                       <button onClick={handleDelete} disabled={saving} className="px-3 py-1 rounded bg-red-500/20 text-red-400 text-xs font-bold">Confirm</button>
-                      <button onClick={() => setDeleteId(null)} className="px-3 py-1 rounded bg-white/[0.06] text-white/40 text-xs">Cancel</button>
+                      <button onClick={() => setDeleteId(null)} className="px-3 py-1 rounded bg-surface-raised text-text-muted text-xs">Cancel</button>
                     </div>
                   )}
                 </div>
@@ -1209,17 +1209,17 @@ export default function AdminClient() {
         {!loading && cards.length === 0 && !dataError && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-4">
-              <Layers className="w-7 h-7 text-white/15" />
+              <Layers className="w-7 h-7 text-text-muted" />
             </div>
-            <p className="text-white/30 text-sm mb-1">No cards yet</p>
-            <p className="text-white/15 text-xs mb-6">Add your first card to get started</p>
-            <button onClick={openNew} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#d4a843]/15 border border-[#d4a843]/30 text-[#d4a843] text-sm font-medium hover:bg-[#d4a843]/25 transition-all">
+            <p className="text-text-muted text-sm mb-1">No cards yet</p>
+            <p className="text-text-muted text-xs mb-6">Add your first card to get started</p>
+            <button onClick={openNew} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-warn/15 border border-accent-warn/30 text-accent-warn text-sm font-medium hover:bg-accent-warn/25 transition-[color,background-color,border-color,opacity,transform]">
               <Plus className="w-4 h-4" />Add First Card
             </button>
           </div>
         )}
 
-        <p className="text-white/10 text-[10px] text-center mt-8">
+        <p className="text-text-muted text-[10px] text-center mt-8">
           Admin panel · dev mode only · not indexed by search engines
         </p>
       </div>
