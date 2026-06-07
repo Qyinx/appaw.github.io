@@ -7,9 +7,10 @@ import {
   Plus, Pencil, Trash2, X, Loader2, LogOut,
   List, Package, Search, AlertCircle,
   Check, RefreshCw, LayoutGrid, Folder, FolderOpen,
-  FolderPlus, Globe, ChevronRight,
+  FolderPlus, Globe, ChevronRight, Link2,
 } from 'lucide-react';
 import HeroStamp from '@/components/ui/HeroStamp';
+import { localizedHref } from '@/lib/i18n-routing';
 import { WorkspaceNotice } from './WorkspaceNotice';
 import type { CollectorCard, Portfolio } from '../types';
 import { GradePill, MemberBadge, type MemberLevel } from './shared';
@@ -73,6 +74,7 @@ export function CollectionListView({
   const [addingCardKey, setAddingCardKey] = useState<string | null>(null);
   const [removingCardId, setRemovingCardId] = useState<string | null>(null);
   const [showPlan, setShowPlan] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
   const planMenuRef = useRef<HTMLDivElement | null>(null);
   const accountBtnRef = useRef<HTMLButtonElement | null>(null);
 
@@ -126,7 +128,7 @@ export function CollectionListView({
   const portfoliosCount = portfolios.length;
   const storedPct = Math.min(100, Math.round((storedCount / Math.max(1, limits.cards)) * 100));
   const portfoliosPct = Math.min(100, Math.round((portfoliosCount / Math.max(1, limits.portfolios)) * 100));
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const workspaceMuted = activePortfolio?.name ?? '';
 
@@ -188,7 +190,7 @@ export function CollectionListView({
   };
 
   const selectPortfolio = (id: string | null) => {
-    setActivePortfolioId(id); setShowAddPicker(false); setSearch(''); setDeleteId(null);
+    setActivePortfolioId(id); setShowAddPicker(false); setSearch(''); setDeleteId(null); setLinkCopied(false);
     if (id) {
       const p = portfolios.find(pf => pf.id === id);
       if (p && p.cardIds.length === 0 && p.count > 0) {
@@ -196,6 +198,18 @@ export function CollectionListView({
       }
     }
   };
+
+  const handleCopyShareLink = useCallback(async () => {
+    if (!activePortfolio) return;
+    const url = `${window.location.origin}${localizedHref(`/collection/p/${activePortfolio.id}`, language)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setLinkCopied(true);
+      window.setTimeout(() => setLinkCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable */
+    }
+  }, [activePortfolio, language]);
 
   /* ── Sidebar portfolio item ──────────────────────────────────────────────── */
   const SidebarPortfolioItem = ({ p }: { p: Portfolio }) => {
@@ -223,6 +237,9 @@ export function CollectionListView({
               <button type="button" onClick={() => setEditingPortfolioId(null)} aria-label={t.common.cancel} className="p-1 border border-border-default bg-surface-raised text-text-muted hover:text-text-primary transition-colors"><X className="w-2.5 h-2.5" /></button>
             </div>
           </div>
+          {editingPublic && (
+            <p className="text-text-muted text-[10px] mt-2 leading-snug">{t.collection.portfolio.publicShareHint}</p>
+          )}
         </div>
       );
     }
@@ -511,6 +528,9 @@ export function CollectionListView({
                     <button type="button" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }} className="p-1 border border-border-default bg-surface-raised text-text-muted hover:text-text-primary transition-colors"><X className="w-2.5 h-2.5" /></button>
                   </div>
                 </div>
+                {newPortfolioPublic && (
+                  <p className="text-text-muted text-[10px] mt-2 leading-snug px-2">{t.collection.portfolio.publicShareHint}</p>
+                )}
               </div>
             ) : (
               <button
@@ -577,6 +597,17 @@ export function CollectionListView({
               <button type="button" onClick={() => setDisplayMode('list')} className={`p-2 min-w-11 min-h-11 flex items-center justify-center transition-[background-color,color] ${displayMode === 'list' ? 'bg-accent-structural text-surface-bg' : 'text-text-muted hover:text-text-primary hover:bg-surface-raised'}`} title="List view" aria-label="List view" aria-pressed={displayMode === 'list'}><List className="w-3.5 h-3.5" /></button>
               <button type="button" onClick={() => setDisplayMode('grid')} className={`p-2 min-w-11 min-h-11 flex items-center justify-center transition-[background-color,color] ${displayMode === 'grid' ? 'bg-accent-structural text-surface-bg' : 'text-text-muted hover:text-text-primary hover:bg-surface-raised'}`} title="Grid view" aria-label="Grid view" aria-pressed={displayMode === 'grid'}><LayoutGrid className="w-3.5 h-3.5" /></button>
             </div>
+            {activePortfolio?.isPublic && (
+              <button
+                type="button"
+                onClick={handleCopyShareLink}
+                className={`btn min-h-11 text-xs ${linkCopied ? 'btn-secondary border-accent-success text-accent-success' : 'btn-secondary'}`}
+                title={t.collection.portfolio.shareLink}
+              >
+                <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
+                {linkCopied ? t.collection.portfolio.linkCopied : t.collection.portfolio.shareLink}
+              </button>
+            )}
             {activePortfolio && (
               <button
                 type="button"
@@ -809,10 +840,13 @@ export function CollectionListView({
               placeholder={t.collection.portfolio.namePlaceholder}
               className="w-full bg-surface-raised border border-border-default px-4 py-3 min-h-11 text-text-primary text-sm placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg mb-3"
             />
-            <label className="flex items-center gap-2 text-text-secondary text-sm cursor-pointer mb-5 select-none">
+            <label className="flex items-center gap-2 text-text-secondary text-sm cursor-pointer mb-3 select-none">
               <input type="checkbox" checked={newPortfolioPublic} onChange={e => setNewPortfolioPublic(e.target.checked)} className="w-4 h-4 accent-accent-secondary" />
               {t.collection.portfolio.makePublic}
             </label>
+            {newPortfolioPublic && (
+              <p className="text-text-muted text-xs mb-5 leading-snug">{t.collection.portfolio.publicShareHint}</p>
+            )}
             <div className="flex gap-2">
               <button type="button" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }} className="btn btn-secondary flex-1 min-h-11">{t.common.cancel}</button>
               <button type="button" onClick={handleCreatePortfolio} disabled={portfolioActionLoading || !newPortfolioName.trim()} className="btn btn-primary flex-1 min-h-11 disabled:opacity-40">

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
+import type { PublicPortfolio } from '@/lib/collection/publicPortfolio';
 import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata';
 
 const homeHreflang = { en: '/', 'zh-HK': '/zh/' } as const;
@@ -393,3 +394,63 @@ export {
   guideMetadataForSlug,
   zhGuideMetadataForSlug,
 } from '@/lib/guides/metadata';
+
+function publicPortfolioOgImage(portfolio: PublicPortfolio): string {
+  const first = portfolio.cards.find(c => c.frontImage)?.frontImage;
+  return first ?? '/images/og-image.png';
+}
+
+/** Dynamic metadata for `/collection/p/[id]/` (indexable public portfolios). */
+export function buildPublicPortfolioMetadata(
+  portfolio: PublicPortfolio,
+  id: string,
+  locale: 'en' | 'zh',
+): Metadata {
+  const enPath = `/collection/p/${id}/`;
+  const count = portfolio.cards.length;
+  const owner = portfolio.ownerDisplayName;
+  const ogImage = publicPortfolioOgImage(portfolio);
+
+  const enTitle = `${portfolio.name}${owner ? ` by ${owner}` : ''} — Graded Card Portfolio | Appaw Store`;
+  const enDescription =
+    `Browse ${count} graded card${count === 1 ? '' : 's'} in ${portfolio.name}${owner ? `, shared by ${owner}` : ''}. PSA, BGS, and CGC slabs with grades and listing prices.`;
+
+  const zhTitle = `${portfolio.name}${owner ? ` — ${owner}` : ''} — 鑑定卡公開組合 | Appaw Store`;
+  const zhDescription =
+    `瀏覽「${portfolio.name}」中的 ${count} 張鑑定卡${owner ? `（由 ${owner} 分享）` : ''}。含 PSA、BGS、CGC 評級及掛牌價。`;
+
+  const title = locale === 'zh' ? zhTitle : enTitle;
+  const description = locale === 'zh' ? zhDescription : enDescription;
+
+  const base: Metadata = {
+    title: { absolute: title },
+    description,
+    robots: { index: true, follow: true },
+    openGraph: {
+      title,
+      description,
+      url: `https://appaw.store${locale === 'zh' ? `/zh${enPath}` : enPath}`,
+      type: 'website',
+      locale: locale === 'zh' ? 'zh_HK' : 'en_US',
+      alternateLocale: locale === 'zh' ? ['en_US'] : ['zh_HK'],
+      images: [
+        {
+          url: ogImage,
+          width: 600,
+          height: 800,
+          alt: portfolio.name,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+
+  return locale === 'zh'
+    ? zhRouteMetadata(base, enPath, { title: { absolute: zhTitle }, description: zhDescription })
+    : withLocaleAlternates(base, enPath);
+}

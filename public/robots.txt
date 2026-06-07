@@ -20,6 +20,7 @@ Disallow: /business/card-trading/
 Disallow: /collection/list/
 Disallow: /collection/auth/
 Disallow: /collection/card/
+# Public shared portfolios at /collection/p/ are indexable (Allow: / above)
 Disallow: /business/card-trading/?*search=
 Disallow: /business/card-trading/?*sort=
 Disallow: /business/card-trading/?*grade=
