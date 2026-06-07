@@ -31,6 +31,7 @@ export type GuideContent = {
   published: string;
   updated: string;
   readTime: string;
+  heroImage?: string;
   heroSpecs: GuideSpecRow[];
   sections: GuideSection[];
   cta: {

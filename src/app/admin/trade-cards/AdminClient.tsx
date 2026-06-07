@@ -801,7 +801,7 @@ export default function AdminClient() {
           {/* ── IMAGES ── */}
           <Section title="Card Images">
             <p className="text-text-muted text-xs mb-4">
-              Images are saved to <code className="text-text-secondary bg-surface-raised px-1.5 py-0.5 rounded text-[10px]">public/images/trade/{form.id}/</code>
+              Images are saved to <code className="text-text-secondary bg-surface-raised px-1.5 py-0.5 rounded text-[10px]">public/images-optimized/trade/{form.id}/</code>
             </p>
             <div className="flex gap-6">
               <ImageField

@@ -9,7 +9,7 @@ import path from 'path';
  *
  * 1. Auto-scrape:  { certNumber, cardId }
  *    → Fetches psacard.com/cert/{certNumber}, extracts CloudFront image URLs,
- *      downloads them, and saves into public/images/trade/{cardId}/
+ *      downloads them, and saves into public/images-optimized/trade/{cardId}/
  *
  * 2. Direct URLs:  { cardId, urls: [frontUrl, backUrl?] }
  *    → Downloads the provided image URLs directly (bypasses scraping).
@@ -137,16 +137,11 @@ async function fetchCertPage(certNumber: string): Promise<string | null> {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
-   Download images from URLs and save to both image directories.
+   Download images from URLs and save to images-optimized/trade.
    ────────────────────────────────────────────────────────────────────── */
 async function downloadAndSave(imageUrls: string[], cardId: string) {
-  const dirs = [
-    path.join(process.cwd(), 'public', 'images', 'trade', cardId),
-    path.join(process.cwd(), 'public', 'images-optimized', 'trade', cardId),
-  ];
-  for (const dir of dirs) {
-    await fs.mkdir(dir, { recursive: true });
-  }
+  const dir = path.join(process.cwd(), 'public', 'images-optimized', 'trade', cardId);
+  await fs.mkdir(dir, { recursive: true });
 
   const result: { front?: string; back?: string } = {};
 
@@ -186,9 +181,7 @@ async function downloadAndSave(imageUrls: string[], cardId: string) {
     const buffer = Buffer.from(await imgRes.arrayBuffer());
     const filename = `${side}.${ext}`;
 
-    for (const dir of dirs) {
-      await fs.writeFile(path.join(dir, filename), buffer);
-    }
+    await fs.writeFile(path.join(dir, filename), buffer);
 
     result[side] = `/images/trade/${cardId}/${filename}`;
   }

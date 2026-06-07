@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getAllGuides } from '@/lib/guides/registry';
 import Reveal, { MotionStagger } from '@/components/ui/Reveal';
+import GuideHeroBackground from '@/components/guides/GuideHeroBackground';
 import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
 const UI = {
@@ -35,8 +36,9 @@ export default function GuidesIndex() {
 
   return (
     <div className="flex flex-col bg-surface-bg">
-      <section className="relative min-h-[45vh] flex items-center overflow-hidden bg-surface-bg pt-20 border-b border-border-default page-blueprint">
-        <div className="container-custom max-w-[1080px] py-20">
+      <section className="relative min-h-[45vh] flex items-center overflow-hidden bg-surface-bg pt-20 border-b border-border-default page-blueprint hero-bg-slab">
+        <GuideHeroBackground src="/images/background/background.png" />
+        <div className="container-custom relative z-[2] max-w-[1080px] py-20">
           <MotionStagger visible={heroMounted} className="max-w-2xl">
             <p className="section-label mb-8 motion-stagger-item">{ui.badge}</p>
             <h1 className="motion-stagger-item text-4xl md:text-5xl font-display font-bold leading-tight text-text-primary mb-6">

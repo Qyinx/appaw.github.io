@@ -11,6 +11,7 @@ const guide: GuideContent = {
   published: '2026-06-07',
   updated: '2026-06-07',
   readTime: '6 分鐘',
+  heroImage: '/images/background/guide-35pt-slab-protector.png',
   heroSpecs: [
     { label: 'PSA 磚外徑', value: '3.16 × 5.32 × 0.27 in' },
     { label: '磚 profile 帶', value: '25–40 PT 級' },

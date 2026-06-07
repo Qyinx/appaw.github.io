@@ -11,6 +11,7 @@ const guide: GuideContent = {
   published: '2026-06-07',
   updated: '2026-06-07',
   readTime: '7 分鐘',
+  heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
     { label: '鑑定卡防UV保護殼', value: '400 nm 以下 >95%' },
     { label: '鑑定殼內層', value: '345 nm 以上阻隔極少' },

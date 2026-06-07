@@ -19,17 +19,28 @@ const QUALITY = {
 // Max dimensions (maintain aspect ratio)
 const MAX_WIDTH = 1000;
 const MAX_HEIGHT = 1000;
+const BACKGROUND_MAX_WIDTH = 1920;
+const BACKGROUND_MAX_HEIGHT = 1080;
 
-async function optimizeImage(inputPath, outputPath) {
+function getMaxDimensions(relativePath) {
+  const normalized = relativePath.replace(/\\/g, '/');
+  if (normalized.includes('/background/') || normalized.startsWith('background/')) {
+    return { maxWidth: BACKGROUND_MAX_WIDTH, maxHeight: BACKGROUND_MAX_HEIGHT };
+  }
+  return { maxWidth: MAX_WIDTH, maxHeight: MAX_HEIGHT };
+}
+
+async function optimizeImage(inputPath, outputPath, relativePath) {
   const ext = extname(inputPath).toLowerCase();
+  const { maxWidth, maxHeight } = getMaxDimensions(relativePath);
   
   try {
     const image = sharp(inputPath);
     const metadata = await image.metadata();
     
     // Resize if larger than max dimensions
-    if (metadata.width > MAX_WIDTH || metadata.height > MAX_HEIGHT) {
-      image.resize(MAX_WIDTH, MAX_HEIGHT, {
+    if (metadata.width > maxWidth || metadata.height > maxHeight) {
+      image.resize(maxWidth, maxHeight, {
         fit: 'inside',
         withoutEnlargement: true,
       });
@@ -69,7 +80,7 @@ async function optimizeImage(inputPath, outputPath) {
   }
 }
 
-async function processDirectory(inputDir, outputDir) {
+async function processDirectory(inputDir, outputDir, relativeDir = '') {
   if (!existsSync(outputDir)) {
     mkdirSync(outputDir, { recursive: true });
   }
@@ -80,13 +91,14 @@ async function processDirectory(inputDir, outputDir) {
     const inputPath = join(inputDir, item);
     const outputPath = join(outputDir, item);
     const stats = statSync(inputPath);
+    const relativePath = join(relativeDir, item);
     
     if (stats.isDirectory()) {
-      await processDirectory(inputPath, outputPath);
+      await processDirectory(inputPath, outputPath, relativePath);
     } else if (stats.isFile()) {
       const ext = extname(item).toLowerCase();
       if (['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
-        await optimizeImage(inputPath, outputPath);
+        await optimizeImage(inputPath, outputPath, relativePath);
       }
     }
   }

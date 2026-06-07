@@ -17,16 +17,9 @@ export async function POST(req: NextRequest) {
     const filename = `${side}.${ext}`;
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    // Save to both /images/trade/ and /images-optimized/trade/ so getImagePath() works
-    const dirs = [
-      path.join(process.cwd(), 'public', 'images', 'trade', cardId),
-      path.join(process.cwd(), 'public', 'images-optimized', 'trade', cardId),
-    ];
-
-    for (const dir of dirs) {
-      await fs.mkdir(dir, { recursive: true });
-      await fs.writeFile(path.join(dir, filename), buffer);
-    }
+    const dir = path.join(process.cwd(), 'public', 'images-optimized', 'trade', cardId);
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(path.join(dir, filename), buffer);
 
     return NextResponse.json({ path: `/images/trade/${cardId}/${filename}` });
   } catch (e) {

@@ -11,6 +11,7 @@ const guide: GuideContent = {
   published: '2026-06-07',
   updated: '2026-06-07',
   readTime: '7 min',
+  heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
     { label: 'UV-filter Slab Protector', value: '>95% below 400 nm' },
     { label: 'Grader inner case', value: 'Little above ~345 nm' },

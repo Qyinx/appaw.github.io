@@ -11,6 +11,7 @@ const guide: GuideContent = {
   published: '2026-06-07',
   updated: '2026-06-07',
   readTime: '6 min',
+  heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
     { label: 'PSA 10 front', value: '55/45 or better' },
     { label: 'PSA 10 back', value: '75/25 or better' },

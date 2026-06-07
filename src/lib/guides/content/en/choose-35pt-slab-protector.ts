@@ -11,6 +11,7 @@ const guide: GuideContent = {
   published: '2026-06-07',
   updated: '2026-06-07',
   readTime: '6 min',
+  heroImage: '/images/background/guide-35pt-slab-protector.png',
   heroSpecs: [
     { label: 'PSA slab (ext.)', value: '3.16 × 5.32 × 0.27 in' },
     { label: 'Slab profile band', value: '25–40 PT class' },

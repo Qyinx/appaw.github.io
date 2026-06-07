@@ -595,7 +595,7 @@ select option {
   background-attachment: fixed;
 }
 
-.page-blueprint > * {
+.page-blueprint > *:not(.hero-bg-slab-art) {
   position: relative;
   z-index: 1;
 }
@@ -605,6 +605,91 @@ select option {
   .page-blueprint::after {
     background-attachment: scroll;
   }
+}
+
+/* Guides hub hero — full illustration at 50% over section-scoped blueprint grid */
+.hero-bg-slab {
+  min-height: 42vh;
+}
+
+.hero-bg-slab.page-blueprint::before,
+.hero-bg-slab.page-blueprint::after {
+  background-attachment: scroll;
+}
+
+.hero-bg-slab.page-blueprint::after {
+  opacity: 0.35;
+}
+
+.page-blueprint.hero-bg-slab > .hero-bg-slab-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.page-blueprint.hero-bg-slab > *:not(.hero-bg-slab-art) {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-bg-slab-art {
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-bg-slab-art__img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: left bottom;
+  opacity: 0.5;
+}
+
+.hero-bg-slab-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--surface-bg) 50%, transparent) 0%,
+    color-mix(in srgb, var(--surface-bg) 20%, transparent) 36%,
+    transparent 52%
+  );
+}
+
+@media (max-width: 767px) {
+  .hero-bg-slab.page-blueprint::after {
+    opacity: 0.12;
+  }
+
+  .hero-bg-slab-art::after {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--surface-bg) 96%, transparent) 0%,
+      color-mix(in srgb, var(--surface-bg) 72%, transparent) 22%,
+      color-mix(in srgb, var(--surface-bg) 18%, transparent) 48%,
+      transparent 72%
+    );
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-bg-slab {
+    min-height: 0;
+  }
+}
+
+.dark .hero-bg-slab-art {
+  display: none;
 }
 
 /* Motion-gated decorative animations */

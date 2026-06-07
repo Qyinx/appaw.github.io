@@ -47,6 +47,7 @@ export default function GuideArticle({ slug }: GuideArticleProps) {
         lead={guide.lead}
         readTime={guide.readTime}
         updated={guide.updated}
+        heroImage={guide.heroImage}
       />
 
       <section className="section-padding overflow-x-clip">
