@@ -3,8 +3,9 @@
 import React, { useState, useCallback, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useLocalizedPath } from '@/hooks/useLocalizedPath';
+import { useLanguage } from '@/context/LanguageContext';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 import {
   BACKEND_URL,
   type CollectorCard,
@@ -17,6 +18,7 @@ import {
 import { compressImage, getMemberLevel } from './components/shared';
 import { CardFormView } from './components/CardFormView';
 import { cacheGet, cacheSet, cacheInvalidate } from './lib/apiCache';
+import { useCollectionAuth } from './hooks/useCollectionAuth';
 
 interface CardFormClientProps {
   /** undefined = new card, string = card ID to edit */
@@ -26,34 +28,13 @@ interface CardFormClientProps {
 function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   const router = useRouter();
   const localize = useLocalizedPath();
+  const { t } = useLanguage();
   const searchParams = useSearchParams();
   const cardId = cardIdProp ?? searchParams.get('id') ?? undefined;
-  const { isAuthenticated, isLoading: auth0Loading, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, isLoading: auth0Loading } = useAuth0();
+  const { apiFetch, getAccessToken } = useCollectionAuth();
 
   const isEdit = !!cardId;
-
-  /* ── Stable refs for auth helpers (avoids effect re-runs on token refresh) ── */
-  const getTokenRef = useRef(getAccessTokenSilently);
-  useEffect(() => { getTokenRef.current = getAccessTokenSilently; }, [getAccessTokenSilently]);
-
-  /* ── API helper ── */
-  const apiFetch = useCallback(async (path: string, options?: RequestInit) => {
-    const token = await getTokenRef.current();
-    const res = await fetch(`${BACKEND_URL}${path}`, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-        ...(options?.headers ?? {}),
-      },
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-      throw new Error(err.error ?? `HTTP ${res.status}`);
-    }
-    return res.json();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   /* ── Data state ── */
   const [card, setCard] = useState<CollectorCard | null>(null);
@@ -69,7 +50,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   /* ── Fetch card image as authenticated data URL ── */
   const fetchImageAsDataUrl = useCallback(async (url: string): Promise<string | undefined> => {
     try {
-      const token = await getTokenRef.current();
+      const token = await getAccessToken();
       // Fetch images directly from the backend URL. Ensure the backend
       // allows CORS for the site origin and accepts the Authorization header.
       const fetchUrl = url;
@@ -91,8 +72,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
       console.debug('fetchImageAsDataUrl: error fetching', { url, error: err });
       return undefined;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getAccessToken]);
 
   /* ── Load data on mount ── */
   const loadedRef = useRef(false);
@@ -170,7 +150,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
       }
     }
     load();
-  }, [isAuthenticated, isEdit, cardId]); // apiFetch/fetchImageAsDataUrl are stable (ref-based)
+  }, [isAuthenticated, isEdit, cardId, apiFetch]);
 
   /* ── Lazy load images on demand ── */
   const loadImages = useCallback(async () => {
@@ -249,7 +229,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
     hadFront:   boolean,
     hadBack:    boolean,
   ) => {
-    const token = await getTokenRef.current();
+    const token = await getAccessToken();
     const isDataUrl = (s?: string) => !!s && s.startsWith('data:');
 
     const uploadImage = async (dataUrl: string, seq: number) => {
@@ -279,8 +259,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
       isDataUrl(backImage)  ? uploadImage(backImage!,  1)
         : (!backImage  && hadBack  ? deleteImage(1) : Promise.resolve()),
     ]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getAccessToken]);
 
   /* ── Save handler ── */
   const handleSave = useCallback(async (form: CardFormState, portfolioIds: string[]) => {
@@ -364,8 +343,8 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   /* ── Auth guard ── */
   if (auth0Loading || dataLoading) {
     return (
-      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
+      <div className="min-h-dvh bg-surface-bg collection-workspace flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-accent-secondary animate-spin" aria-label={t.common.loading} />
       </div>
     );
   }
@@ -373,16 +352,22 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   if (!isAuthenticated) {
     if (typeof window !== 'undefined') window.location.replace(localize('/collection/auth'));
     return (
-      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
+      <div className="min-h-dvh bg-surface-bg collection-workspace flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-accent-secondary animate-spin" aria-label={t.common.loading} />
       </div>
     );
   }
 
   if (dataError) {
     return (
-      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
-        <p className="text-red-400 text-sm">{dataError}</p>
+      <div className="min-h-dvh bg-surface-bg collection-workspace flex items-center justify-center p-4">
+        <div className="panel max-w-md w-full p-6 border-l-[3px] border-l-accent-danger text-center">
+          <AlertCircle className="w-6 h-6 text-accent-danger mx-auto mb-3" aria-hidden="true" />
+          <p className="text-accent-danger text-sm mb-4">{dataError}</p>
+          <button type="button" onClick={() => router.push(localize('/collection/list'))} className="btn btn-secondary min-h-11 w-full">
+            {t.common.back}
+          </button>
+        </div>
       </div>
     );
   }
@@ -432,8 +417,8 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
 export default function CardFormClient(props: CardFormClientProps) {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
+      <div className="min-h-dvh bg-surface-bg collection-workspace flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-accent-secondary animate-spin" aria-hidden="true" />
       </div>
     }>
       <CardFormInner {...props} />

@@ -2,6 +2,7 @@
 
 import { Auth0Provider, type AppState } from '@auth0/auth0-react';
 import { localizedHref, routeLanguage } from '@/lib/i18n-routing';
+import { AUTH0_SCOPE } from '@/app/collection/lib/authSession';
 
 export function Auth0ProviderWrapper({
   children,
@@ -30,11 +31,13 @@ export function Auth0ProviderWrapper({
       clientId={clientId}
       authorizationParams={{
         redirect_uri: redirectUri,
+        scope: AUTH0_SCOPE,
         ...(audience ? { audience } : {}),
       }}
       onRedirectCallback={onRedirectCallback}
       cacheLocation="localstorage"
       useRefreshTokens
+      useRefreshTokensFallback
     >
       {children}
     </Auth0Provider>

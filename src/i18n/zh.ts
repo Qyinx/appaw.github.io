@@ -867,6 +867,7 @@ export const zh: Translations = {
       sold: '僅顯示已售出',
     },
     stats: {
+      sectionTitle: '庫存摘要',
       total: '總數',
       active: '在庫',
       sold: '已售出',

@@ -6,7 +6,6 @@ import { useLocalizedPath } from '@/hooks/useLocalizedPath';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Loader2 } from 'lucide-react';
 import {
-  BACKEND_URL,
   type CollectorCard,
   type Portfolio,
   normalizeCard,
@@ -15,6 +14,7 @@ import {
 import { getMemberLevel, type MemberLevel } from './components/shared';
 import { CollectionListView } from './components/CollectionListView';
 import { cacheGet, cacheSet, cacheInvalidate } from './lib/apiCache';
+import { useCollectionAuth } from './hooks/useCollectionAuth';
 
 export default function CollectionClient() {
   const router = useRouter();
@@ -24,27 +24,9 @@ export default function CollectionClient() {
     isLoading: auth0Loading,
     logout,
     user,
-    getAccessTokenSilently,
     getIdTokenClaims,
   } = useAuth0();
-
-  /* ── API helper ──────────────────────────────────────────────────────────── */
-  const apiFetch = useCallback(async (path: string, options?: RequestInit) => {
-    const token = await getAccessTokenSilently();
-    const res = await fetch(`${BACKEND_URL}${path}`, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-        ...(options?.headers ?? {}),
-      },
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-      throw new Error(err.error ?? `HTTP ${res.status}`);
-    }
-    return res.json();
-  }, [getAccessTokenSilently]);
+  const { apiFetch } = useCollectionAuth();
 
   /* ── Auto-register helper ────────────────────────────────────────────────── */
   const registerAndReload = useCallback(async () => {
@@ -105,7 +87,7 @@ export default function CollectionClient() {
       setLoading(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apiFetch]);
 
   const loadPortfolios = useCallback(async () => {
     const cached = cacheGet<object[]>('/portfolios');

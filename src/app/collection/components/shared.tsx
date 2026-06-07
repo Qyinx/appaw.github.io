@@ -40,7 +40,7 @@ export function MemberBadge({ level }: { level: MemberLevel }) {
 
 /* ─── Style constants ─────────────────────────────────────────────────────── */
 
-export const inp = 'w-full bg-surface-raised border border-border-default px-3 py-2.5 min-h-11 text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus:border-accent-link transition-colors cursor-pointer';
+export const inp = 'w-full bg-surface-raised border border-border-default px-3 py-2.5 min-h-11 text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg focus:border-accent-secondary transition-[border-color,box-shadow] cursor-pointer';
 export const lbl = 'text-text-secondary text-xs uppercase tracking-widest mb-1 block font-mono';
 
 /* ─── Shared UI components ────────────────────────────────────────────────── */
@@ -69,40 +69,45 @@ export function GradePill({ company, grade, isBlackLabel }: { company: GradingCo
 export function Section({ title, subtitle, children, extra }: { title: string; subtitle?: string; children: React.ReactNode; extra?: React.ReactNode }) {
   return (
     <div className="mb-7">
-      <div className="flex items-center gap-2 mb-3">
-        <div className="min-w-0">
-          <p className="text-accent-link text-xs uppercase tracking-[0.2em] font-semibold font-mono">{title}</p>
-          {subtitle && <p className="text-text-muted text-xs mt-0.5 normal-case tracking-normal">{subtitle}</p>}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-3">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <p className="text-accent-primary text-xs uppercase tracking-[0.2em] font-semibold font-mono">{title}</p>
+            <div className="hidden sm:block flex-1 h-px bg-border-default min-w-[1rem]" />
+          </div>
+          {subtitle && <p className="text-text-muted text-xs mt-1 normal-case tracking-normal leading-relaxed">{subtitle}</p>}
         </div>
-        {extra && <div className="ml-2 flex-shrink-0">{extra}</div>}
-        <div className="flex-1 h-px bg-border-default" />
+        {extra && (
+          <div className="flex-shrink-0 w-full sm:w-auto sm:max-w-[55%] sm:justify-end flex sm:justify-end border-t border-border-default pt-3 sm:border-t-0 sm:pt-0">
+            {extra}
+          </div>
+        )}
       </div>
       {children}
     </div>
   );
 }
 
-export function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: React.ReactNode }) {
-  const handleKey = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onChange(!value);
-    }
-  };
+export function Toggle({ value, onChange, label, id }: { value: boolean; onChange: (v: boolean) => void; label: React.ReactNode; id?: string }) {
+  const autoId = React.useId();
+  const switchId = id ?? autoId;
 
   return (
-    <div
-      role="switch"
-      aria-checked={value}
-      tabIndex={0}
-      onKeyDown={handleKey}
-      onClick={() => onChange(!value)}
-      className="flex items-center gap-2.5 group cursor-pointer"
-    >
-      <div className={`relative w-11 h-6 border border-border-default transition-[background-color] duration-300 ${value ? 'bg-accent-link' : 'bg-surface-raised'}`}>
-        <div className={`absolute top-0.5 w-5 h-5 bg-text-primary transition-[left] duration-300 ${value ? 'left-[22px]' : 'left-0.5'}`} />
-      </div>
-      <span className={`text-sm transition-colors ${value ? 'text-text-primary' : 'text-text-muted'} group-hover:text-text-secondary`}>{label}</span>
+    <div className="flex items-center justify-between gap-4 min-h-11 w-full touch-manipulation">
+      <label htmlFor={switchId} className={`text-sm leading-snug min-w-0 flex-1 cursor-pointer ${value ? 'text-text-primary' : 'text-text-secondary'}`}>
+        {label}
+      </label>
+      <button
+        id={switchId}
+        type="button"
+        role="switch"
+        aria-checked={value}
+        data-state={value ? 'checked' : 'unchecked'}
+        onClick={() => onChange(!value)}
+        className="switch"
+      >
+        <span className="switch__thumb" aria-hidden="true" />
+      </button>
     </div>
   );
 }

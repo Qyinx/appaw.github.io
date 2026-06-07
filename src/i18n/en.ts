@@ -866,6 +866,7 @@ export const en = {
       sold: 'Sold Only',
     },
     stats: {
+      sectionTitle: 'Inventory Summary',
       total: 'Total',
       active: 'Active',
       sold: 'Sold',

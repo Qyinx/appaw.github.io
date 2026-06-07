@@ -5,10 +5,12 @@ import { useLanguage } from '@/context/LanguageContext';
 import type { User } from '@auth0/auth0-react';
 import {
   Plus, Pencil, Trash2, X, Loader2, LogOut,
-  List, Package, DollarSign, Search, AlertCircle,
+  List, Package, Search, AlertCircle,
   Check, RefreshCw, LayoutGrid, Folder, FolderOpen,
   FolderPlus, Globe, ChevronRight,
 } from 'lucide-react';
+import HeroStamp from '@/components/ui/HeroStamp';
+import { WorkspaceNotice } from './WorkspaceNotice';
 import type { CollectorCard, Portfolio } from '../types';
 import { GradePill, MemberBadge, type MemberLevel } from './shared';
 
@@ -34,6 +36,11 @@ interface CollectionListViewProps {
   onRemoveCardFromPortfolio: (portfolioId: string, cardId: string) => Promise<void>;
   onLoadPortfolioCards: (portfolioId: string) => Promise<void>;
 }
+
+const navActive =
+  'border-l-[3px] border-accent-primary bg-surface-raised text-text-primary font-semibold';
+const navIdle =
+  'border-l-[3px] border-transparent text-text-secondary hover:text-text-primary hover:bg-surface-raised font-medium';
 
 export function CollectionListView({
   cards, loading, apiError, saveMsg,
@@ -70,15 +77,26 @@ export function CollectionListView({
   const accountBtnRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
+    if (!showPlan) return;
+
     function onDocClick(e: MouseEvent) {
       const t = e.target as Node;
-      if (planMenuRef.current && planMenuRef.current.contains(t)) return;
-      if (accountBtnRef.current && accountBtnRef.current.contains(t)) return;
+      if (planMenuRef.current?.contains(t)) return;
+      if (accountBtnRef.current?.contains(t)) return;
       setShowPlan(false);
     }
+
+    function onEscape(e: KeyboardEvent) {
+      if (e.key === 'Escape') setShowPlan(false);
+    }
+
     document.addEventListener('mousedown', onDocClick);
-    return () => document.removeEventListener('mousedown', onDocClick);
-  }, []);
+    document.addEventListener('keydown', onEscape);
+    return () => {
+      document.removeEventListener('mousedown', onDocClick);
+      document.removeEventListener('keydown', onEscape);
+    };
+  }, [showPlan]);
 
   /* ── Derived ─────────────────────────────────────────────────────────────── */
   const activePortfolio = portfolios.find(p => p.id === activePortfolioId) ?? null;
@@ -109,6 +127,15 @@ export function CollectionListView({
   const storedPct = Math.min(100, Math.round((storedCount / Math.max(1, limits.cards)) * 100));
   const portfoliosPct = Math.min(100, Math.round((portfoliosCount / Math.max(1, limits.portfolios)) * 100));
   const { t } = useLanguage();
+
+  const workspaceMuted = activePortfolio?.name ?? '';
+
+  const statRows = [
+    { label: t.collection.stats.total, value: String(baseCards.length), tone: 'text-text-primary' },
+    { label: t.collection.stats.active, value: String(available), tone: 'text-accent-success' },
+    { label: t.collection.stats.sold, value: String(soldCount), tone: 'text-accent-danger' },
+    { label: t.collection.stats.buyHKD, value: totalBuy.toLocaleString(), tone: 'text-accent-secondary font-tabular' },
+  ];
 
   /* ── Card handlers ───────────────────────────────────────────────────────── */
   const handleDelete = useCallback(async () => {
@@ -162,7 +189,6 @@ export function CollectionListView({
 
   const selectPortfolio = (id: string | null) => {
     setActivePortfolioId(id); setShowAddPicker(false); setSearch(''); setDeleteId(null);
-    // Lazy-load card IDs from detail API if not yet populated
     if (id) {
       const p = portfolios.find(pf => pf.id === id);
       if (p && p.cardIds.length === 0 && p.count > 0) {
@@ -177,39 +203,63 @@ export function CollectionListView({
     const isEditing = editingPortfolioId === p.id;
     if (isEditing) {
       return (
-        <div className="px-3 py-2.5 bg-surface-raised rounded-xl border border-accent-link/30 mb-1">
-              <input autoFocus value={editingName} onChange={e => setEditingName(e.target.value)}
+        <div className="px-3 py-2.5 panel-raised mb-1 border-l-[3px] border-accent-secondary">
+          <input
+            autoFocus
+            value={editingName}
+            onChange={e => setEditingName(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter') handleUpdatePortfolio(); if (e.key === 'Escape') setEditingPortfolioId(null); }}
-            className="w-full bg-transparent text-text-primary text-xs font-medium mb-2 placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-1 rounded-sm"
+            className="w-full bg-transparent text-text-primary text-xs font-medium mb-2 placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-1 rounded-sm"
           />
           <div className="flex items-center justify-between">
-            <label className="flex items-center gap-1.5 text-text-muted text-[10px] cursor-pointer select-none">
-              <input type="checkbox" checked={editingPublic} onChange={e => setEditingPublic(e.target.checked)} className="w-3 h-3 rounded accent-accent-link" />
+            <label className="flex items-center gap-1.5 text-text-muted text-xs cursor-pointer select-none">
+              <input type="checkbox" checked={editingPublic} onChange={e => setEditingPublic(e.target.checked)} className="w-3 h-3 accent-accent-secondary" />
               {t.collection.portfolio.public}
             </label>
             <div className="flex items-center gap-1">
-              <button onClick={handleUpdatePortfolio} disabled={portfolioActionLoading} className="p-1 rounded bg-accent-link text-surface-bg hover:bg-accent-link/30 transition-colors disabled:opacity-40">
+              <button type="button" onClick={handleUpdatePortfolio} disabled={portfolioActionLoading} aria-label={t.collection.actions.confirm} className="p-1 border border-border-default bg-accent-secondary text-surface-bg hover:brightness-110 transition-[background-color,opacity] disabled:opacity-40">
                 {portfolioActionLoading ? <Loader2 className="w-2.5 h-2.5 animate-spin" /> : <Check className="w-2.5 h-2.5" />}
               </button>
-              <button onClick={() => setEditingPortfolioId(null)} className="p-1 rounded bg-surface-raised text-text-muted hover:text-text-primary transition-colors"><X className="w-2.5 h-2.5" /></button>
+              <button type="button" onClick={() => setEditingPortfolioId(null)} aria-label={t.common.cancel} className="p-1 border border-border-default bg-surface-raised text-text-muted hover:text-text-primary transition-colors"><X className="w-2.5 h-2.5" /></button>
             </div>
           </div>
         </div>
       );
     }
     return (
-      <div className={`group flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150 mb-0.5 ${isActive ? 'bg-accent-link/15 text-text-primary' : 'hover:bg-surface-raised text-text-secondary hover:text-text-primary'}`} onClick={() => selectPortfolio(p.id)}>
-        {isActive ? <FolderOpen className="w-3.5 h-3.5 text-accent-link flex-shrink-0" /> : <Folder className="w-3.5 h-3.5 flex-shrink-0 text-text-muted" />}
+      <div
+        role="button"
+        tabIndex={0}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectPortfolio(p.id); } }}
+        className={`group flex items-center gap-2 px-3 py-2 cursor-pointer transition-[color,background-color,border-color] duration-150 mb-px ${isActive ? navActive : navIdle}`}
+        onClick={() => selectPortfolio(p.id)}
+      >
+        {isActive ? <FolderOpen className="w-3.5 h-3.5 text-accent-primary flex-shrink-0" aria-hidden="true" /> : <Folder className="w-3.5 h-3.5 flex-shrink-0 text-text-muted" aria-hidden="true" />}
         <span className="flex-1 text-sm font-medium truncate">{p.name}</span>
-        {p.isPublic && <Globe className="w-3 h-3 text-text-muted flex-shrink-0" />}
-        <span className={`text-xs tabular-nums flex-shrink-0 ${isActive ? 'text-accent-link' : 'text-text-muted'}`}>{p.count}</span>
+        {p.isPublic && <Globe className="w-3 h-3 text-text-muted flex-shrink-0" aria-hidden="true" />}
+        <span className={`text-xs font-tabular flex-shrink-0 ${isActive ? 'text-accent-primary' : 'text-text-muted'}`}>{p.count}</span>
         <div className="hidden group-hover:flex items-center gap-0.5 flex-shrink-0">
-          <button onClick={e => { e.stopPropagation(); setEditingPortfolioId(p.id); setEditingName(p.name); setEditingPublic(p.isPublic); }} className="p-1 rounded hover:bg-surface-raised text-text-muted hover:text-text-primary transition-colors" title={t.collection.account.rename}><Pencil className="w-2.5 h-2.5" /></button>
-          <button onClick={e => { e.stopPropagation(); handleDeletePortfolio(p.id); }} className="p-1 rounded hover:bg-red-500/15 text-text-muted hover:text-red-400 transition-colors" title={t.collection.account.delete}><Trash2 className="w-2.5 h-2.5" /></button>
+          <button type="button" onClick={e => { e.stopPropagation(); setEditingPortfolioId(p.id); setEditingName(p.name); setEditingPublic(p.isPublic); }} className="p-1 border border-transparent hover:border-border-default hover:bg-surface-panel text-text-muted hover:text-text-primary transition-[color,background-color,border-color]" title={t.collection.account.rename} aria-label={t.collection.account.rename}><Pencil className="w-2.5 h-2.5" /></button>
+          <button type="button" onClick={e => { e.stopPropagation(); handleDeletePortfolio(p.id); }} className="p-1 border border-transparent hover:border-accent-danger/30 hover:bg-accent-danger/10 text-text-muted hover:text-accent-danger transition-[color,background-color,border-color]" title={t.collection.account.delete} aria-label={t.collection.account.delete}><Trash2 className="w-2.5 h-2.5" /></button>
         </div>
       </div>
     );
   };
+
+  /* ── Status badge ────────────────────────────────────────────────────────── */
+  const StatusBadge = ({ sold, onClick }: { sold: boolean; onClick: () => void }) => (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`font-mono text-[10px] font-bold px-2 py-1 border transition-[background-color,border-color,color] uppercase tracking-wider ${
+        sold
+          ? 'bg-accent-danger/10 border-accent-danger/30 text-accent-danger hover:bg-accent-danger/15'
+          : 'bg-accent-success/10 border-accent-success/25 text-accent-success hover:bg-accent-success/15'
+      }`}
+    >
+      {sold ? 'Sold' : 'Active'}
+    </button>
+  );
 
   /* ── Inline card actions ─────────────────────────────────────────────────── */
   const CardActions = ({ card, compact = false }: { card: CollectorCard; compact?: boolean }) => {
@@ -218,24 +268,24 @@ export function CollectionListView({
     if (isDeleting && !activePortfolio) {
       return (
         <div className="flex items-center gap-1">
-          <button onClick={handleDelete} disabled={deleting} className="p-1.5 rounded bg-red-500/20 hover:bg-red-500/30 text-red-400 transition-colors disabled:opacity-40">
+          <button type="button" onClick={handleDelete} disabled={deleting} aria-label={t.collection.actions.confirm} className="p-1.5 border border-accent-danger/30 bg-accent-danger/15 hover:bg-accent-danger/25 text-accent-danger transition-[background-color,opacity] disabled:opacity-40">
             {deleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
           </button>
-          <button onClick={() => setDeleteId(null)} className="p-1.5 rounded bg-surface-raised text-text-muted transition-colors"><X className="w-3.5 h-3.5" /></button>
+          <button type="button" onClick={() => setDeleteId(null)} aria-label={t.common.cancel} className="p-1.5 border border-border-default bg-surface-raised text-text-muted transition-colors"><X className="w-3.5 h-3.5" /></button>
         </div>
       );
     }
     return (
       <div className="flex items-center gap-1">
-        <button onClick={() => onOpenEdit(card)} className="p-1.5 rounded bg-surface-raised hover:bg-surface-raised text-text-muted hover:text-text-primary transition-colors" title={t.collection.account.edit}>
+        <button type="button" onClick={() => onOpenEdit(card)} className="p-1.5 border border-border-default bg-surface-panel hover:bg-surface-raised text-text-muted hover:text-text-primary transition-[color,background-color]" title={t.collection.account.edit} aria-label={t.collection.account.edit}>
           <Pencil className={compact ? 'w-4 h-4' : 'w-3.5 h-3.5'} />
         </button>
         {activePortfolio ? (
-          <button onClick={() => handleRemoveCard(card.id)} disabled={isRemoving} className="flex items-center gap-1 px-2 py-1.5 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400/70 hover:text-red-400 transition-colors text-[10px] font-medium disabled:opacity-40" title={t.collection.toolbar.remove}>
-            {isRemoving ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" />{!compact && t.collection.toolbar.remove}</>}
+          <button type="button" onClick={() => handleRemoveCard(card.id)} disabled={isRemoving} className="flex items-center gap-1 px-2 py-1.5 border border-accent-danger/20 bg-accent-danger/5 hover:bg-accent-danger/10 text-accent-danger/80 hover:text-accent-danger transition-[background-color,color,opacity] text-xs font-medium disabled:opacity-40" title={t.collection.toolbar.remove} aria-label={t.collection.toolbar.remove}>
+            {isRemoving ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" aria-hidden="true" />{!compact && t.collection.toolbar.remove}</>}
           </button>
         ) : (
-          <button onClick={() => setDeleteId(card.id)} className="p-1.5 rounded bg-surface-raised hover:bg-red-500/10 text-text-muted hover:text-red-400 transition-colors" title={t.collection.account.delete}>
+          <button type="button" onClick={() => setDeleteId(card.id)} className="p-1.5 border border-border-default bg-surface-panel hover:border-accent-danger/30 hover:bg-accent-danger/10 text-text-muted hover:text-accent-danger transition-[color,background-color,border-color]" title={t.collection.account.delete} aria-label={t.collection.account.delete}>
             <Trash2 className={compact ? 'w-4 h-4' : 'w-3.5 h-3.5'} />
           </button>
         )}
@@ -247,51 +297,73 @@ export function CollectionListView({
      RENDER
   ═══════════════════════════════════════════════════════════════════════════ */
   return (
-    <div className="min-h-dvh bg-surface-bg collection-page overflow-x-clip page-blueprint">
+    <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip overflow-y-visible">
 
-      {/* ── Sticky top bar ──────────────────────────────────────────────────── */}
-      <div className="sticky top-16 md:top-20 z-20 bg-surface-bg/95 border-b border-border-default">
-        <div className="max-w-6xl mx-auto px-3 sm:px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 py-2 sm:py-0 collection-topbar-inner">
-          <h1 className="sr-sm-visible text-text-primary font-bold text-xs sm:text-sm flex items-center gap-1 min-w-0">
-            {activePortfolio ? (
-              <>
-                <button onClick={() => selectPortfolio(null)} className="text-text-muted font-normal hover:text-text-primary transition-colors whitespace-nowrap">{t.collection.title}</button>
-                <ChevronRight className="w-3.5 h-3.5 text-text-muted flex-shrink-0" />
-                <span className="truncate">{activePortfolio.name}</span>
-              </>
-            ) : t.collection.title}
-          </h1>
-          <div className="flex items-center gap-1 sm:gap-3 sm:flex-shrink-0 w-full sm:w-auto justify-end">
-            {saveMsg && <span className="hidden sm:flex items-center gap-1.5 text-emerald-400 text-xs"><Check className="w-3.5 h-3.5" />{saveMsg}</span>}
-            <button onClick={onRefresh} disabled={loading} className="min-w-11 min-h-11 flex items-center justify-center rounded-lg text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40" title={t.collection.account.refresh} aria-label={t.collection.account.refresh}>
+      {/* ── Workspace chrome bar ─────────────────────────────────────────────── */}
+      <div className="workspace-chrome sticky top-16 md:top-20 z-30 border-b border-border-default shadow-[0_1px_0_var(--border-default)] overflow-visible">
+        <div className="container-tool flex flex-row items-center justify-between gap-2 py-2 collection-topbar-inner min-h-[2.75rem] overflow-visible">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <div className="hidden sm:flex items-center gap-1.5 flex-shrink-0" aria-hidden="true">
+              <div className="w-2 h-2 bg-accent-primary" />
+              <div className="w-2 h-2 bg-border-strong" />
+              <div className="w-2 h-2 bg-border-strong" />
+            </div>
+            <h1 className="text-text-primary font-semibold text-xs sm:text-sm flex items-center gap-1 min-w-0">
+              {activePortfolio ? (
+                <>
+                  <button type="button" onClick={() => selectPortfolio(null)} className="text-text-muted font-normal hover:text-text-primary transition-colors whitespace-nowrap">{t.collection.title}</button>
+                  <ChevronRight className="w-3.5 h-3.5 text-text-muted flex-shrink-0" aria-hidden="true" />
+                  <span className="truncate">{activePortfolio.name}</span>
+                </>
+              ) : t.collection.title}
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+            <button type="button" onClick={onRefresh} disabled={loading} className="btn btn-ghost btn-icon" title={t.collection.account.refresh} aria-label={t.collection.account.refresh}>
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             </button>
-            <button onClick={onOpenNew} className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-accent-link text-surface-bg text-xs font-bold hover:bg-accent-link/30 transition-colors">
-              <Plus className="w-3.5 h-3.5" />
-              <span className="ml-1 inline-block max-w-[6.5rem] truncate">{t.collection.toolbar.addCard}</span>
+            <button type="button" onClick={onOpenNew} className="btn btn-primary text-xs min-h-11 px-3">
+              <Plus className="w-3.5 h-3.5" aria-hidden="true" />
+              <span className="max-w-[6.5rem] truncate">{t.collection.toolbar.addCard}</span>
             </button>
-            <div className="relative">
-              <button ref={accountBtnRef} onClick={() => setShowPlan(v => !v)} className="flex items-center gap-2 border border-border-default rounded-full pl-1 pr-2.5 py-1 min-h-11 bg-surface-panel" aria-expanded={showPlan} aria-haspopup="true">
+
+            <div className="relative z-40">
+              <button
+                ref={accountBtnRef}
+                type="button"
+                onClick={() => setShowPlan(v => !v)}
+                className={`flex items-center gap-2 border pl-1 pr-2.5 py-1 min-h-11 bg-surface-panel hover:bg-surface-raised transition-[background-color,border-color] ${showPlan ? 'border-accent-secondary' : 'border-border-strong'}`}
+                aria-expanded={showPlan}
+                aria-haspopup="true"
+                aria-label={user?.email ?? userName}
+              >
                 {user?.picture ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={user.picture} alt={userName} className="w-6 h-6 rounded-full object-cover flex-shrink-0" />
+                  <img src={user.picture} alt="" className="w-6 h-6 object-cover flex-shrink-0 border border-border-default" />
                 ) : (
-                  <div className="w-6 h-6 rounded-full bg-accent-link/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-accent-link text-[10px] font-bold">{userName[0]?.toUpperCase()}</span>
+                  <div className="w-6 h-6 border border-border-default bg-accent-primary/15 flex items-center justify-center flex-shrink-0">
+                    <span className="text-accent-primary text-[10px] font-bold">{userName[0]?.toUpperCase()}</span>
                   </div>
                 )}
                 {memberLevel && <MemberBadge level={memberLevel} />}
               </button>
 
               {showPlan && (
-                <div ref={planMenuRef} className="absolute right-0 mt-2 w-80 panel collection-plan-menu z-50">
-                  <div className="flex items-center gap-3 mb-3">
+                <div
+                  ref={planMenuRef}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label={t.collection.dropdown.planFree}
+                  className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-80 max-w-[calc(100vw-1rem)] panel collection-plan-menu p-4 shadow-[0_8px_24px_rgba(15,20,25,0.12)]"
+                >
+                  <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border-default">
                     {user?.picture ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={user.picture} alt={userName} className="w-10 h-10 rounded-full object-cover" />
+                      <img src={user.picture} alt="" className="w-10 h-10 object-cover border border-border-default" />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-accent-link/20 flex items-center justify-center">
-                        <span className="text-accent-link font-bold">{userName[0]?.toUpperCase()}</span>
+                      <div className="w-10 h-10 border border-border-default bg-accent-primary/15 flex items-center justify-center">
+                        <span className="text-accent-primary font-bold">{userName[0]?.toUpperCase()}</span>
                       </div>
                     )}
                     <div className="min-w-0">
@@ -299,172 +371,249 @@ export function CollectionListView({
                         <div className="text-text-primary text-sm font-semibold truncate">{user?.email ?? userName}</div>
                         {memberLevel && <MemberBadge level={memberLevel} />}
                       </div>
-                      <div className="text-text-muted text-xs mt-0.5">{memberLevel ? memberLevel : t.collection.dropdown.planFree}</div>
+                      <div className="text-text-muted text-xs mt-0.5 font-mono">{memberLevel ? memberLevel : t.collection.dropdown.planFree}</div>
                     </div>
                   </div>
 
-                  <div className="mb-3">
-                    <div className="flex items-center justify-between text-xs text-text-secondary mb-1"> 
-                      <span>{t.collection.dropdown.stored}</span>
-                      <span className="tabular-nums">{storedCount}/{limits.cards}</span>
+                  <div className="mb-4">
+                    <div className="spec-row px-0 !py-2">
+                      <span className="spec-row__label">{t.collection.dropdown.stored}</span>
+                      <span className="spec-row__value font-tabular">{storedCount}/{limits.cards}</span>
                     </div>
-                    <div className="w-full bg-surface-raised h-2 rounded overflow-hidden mb-2">
-                      <div className={`h-2 ${storedPct >= 90 ? 'bg-red-400' : storedPct >= 70 ? 'bg-amber-400' : 'bg-accent-link'}`} style={{ width: `${storedPct}%` }} />
+                    <div className="w-full bg-surface-raised h-1 border border-border-default mb-3" role="progressbar" aria-valuenow={storedPct} aria-valuemin={0} aria-valuemax={100} aria-label={t.collection.dropdown.stored}>
+                      <div className={`h-full transition-[width] duration-300 ${storedPct >= 90 ? 'bg-accent-danger' : storedPct >= 70 ? 'bg-accent-warn' : 'bg-accent-secondary'}`} style={{ width: `${storedPct}%` }} />
                     </div>
-                    <div className="flex items-center justify-between text-xs text-text-secondary mb-1"> 
-                      <span>{t.collection.dropdown.portfolios}</span>
-                      <span className="tabular-nums">{portfoliosCount}/{limits.portfolios}</span>
+                    <div className="spec-row px-0 !py-2">
+                      <span className="spec-row__label">{t.collection.dropdown.portfolios}</span>
+                      <span className="spec-row__value font-tabular">{portfoliosCount}/{limits.portfolios}</span>
                     </div>
-                    <div className="w-full bg-surface-raised h-2 rounded overflow-hidden">
-                      <div className={`h-2 ${portfoliosPct >= 90 ? 'bg-red-400' : portfoliosPct >= 70 ? 'bg-amber-400' : 'bg-accent-link'}`} style={{ width: `${portfoliosPct}%` }} />
+                    <div className="w-full bg-surface-raised h-1 border border-border-default" role="progressbar" aria-valuenow={portfoliosPct} aria-valuemin={0} aria-valuemax={100} aria-label={t.collection.dropdown.portfolios}>
+                      <div className={`h-full transition-[width] duration-300 ${portfoliosPct >= 90 ? 'bg-accent-danger' : portfoliosPct >= 70 ? 'bg-accent-warn' : 'bg-accent-secondary'}`} style={{ width: `${portfoliosPct}%` }} />
                     </div>
                   </div>
 
-                  <div className="mb-2">
-                    <p className="text-text-secondary text-sm">{t.collection.dropdown.upgradeDesc}</p>
-                  </div>
-                        <label className="text-[10px] uppercase tracking-[0.15em] text-text-muted font-medium">{t.collection.portfolio.title}</label>
-                  <div className="flex items-center gap-2">
-                    <button onClick={() => { /* TODO: upgrade flow */ }} className="flex-1 px-3 py-2 bg-accent-link text-[#0f1213] rounded-lg text-sm font-bold">{t.collection.dropdown.upgrade}</button>
-                  </div>
+                  <p className="text-text-secondary text-sm mb-3">{t.collection.dropdown.upgradeDesc}</p>
+                  <button type="button" onClick={() => { /* TODO: upgrade flow */ }} className="btn btn-primary w-full min-h-11 mb-3">{t.collection.dropdown.upgrade}</button>
+                  <button
+                    type="button"
+                    onClick={() => { setShowPlan(false); onLogout(); }}
+                    className="btn btn-secondary w-full min-h-11"
+                  >
+                    <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
+                    {t.collection.account.signOut}
+                  </button>
                 </div>
               )}
             </div>
-            <button onClick={onLogout} className="p-1.5 rounded-lg text-text-muted hover:text-text-primary transition-colors" title="Sign out"><LogOut className="w-3.5 h-3.5" /></button>
+
+            <button
+              type="button"
+              onClick={onLogout}
+              className="hidden md:inline-flex btn btn-secondary text-xs min-h-11 px-3"
+              title={t.collection.account.signOut}
+            >
+              <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>{t.collection.account.signOut}</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* ── Mobile portfolio tabs (compact, scrollable) ───────────────────────── */}
-      <div className="md:hidden bg-surface-bg/95 border-b border-white/[0.05]">
+      {saveMsg && (
+        <WorkspaceNotice
+          message={saveMsg}
+          tone={saveMsg.toLowerCase().includes('error') || saveMsg.toLowerCase().includes('fail') ? 'error' : 'success'}
+          specLabel={saveMsg.toLowerCase().includes('error') || saveMsg.toLowerCase().includes('fail') ? 'ERR' : 'SAVED'}
+          anchor="bottom"
+        />
+      )}
+
+      {/* ── Mobile portfolio tabs ────────────────────────────────────────────── */}
+      <div className="workspace-mobile-tabs md:hidden bg-surface-panel border-b border-border-default">
         <div className="collection-portfolio-scroll">
           <div className="collection-portfolio-inner">
-            <button onClick={() => selectPortfolio(null)} className={`collection-portfolio-item flex-shrink-0 min-w-[6.5rem] flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${!activePortfolioId ? 'bg-accent-link/15 text-text-primary' : 'text-text-secondary hover:text-text-primary'}`}>
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span className="ml-1">{t.collection.filters.all}</span>
-              <span className={`ml-2 text-[10px] tabular-nums ${!activePortfolioId ? 'text-accent-link' : 'text-text-muted'}`}>{cards.length}</span>
+            <button
+              type="button"
+              onClick={() => selectPortfolio(null)}
+              className={`collection-portfolio-item flex-shrink-0 min-w-[6.5rem] flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium whitespace-nowrap border transition-[color,background-color,border-color] ${!activePortfolioId ? 'border-accent-primary bg-surface-raised text-text-primary' : 'border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong'}`}
+            >
+              <LayoutGrid className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>{t.collection.filters.all}</span>
+              <span className={`ml-auto text-[10px] font-tabular ${!activePortfolioId ? 'text-accent-primary' : 'text-text-muted'}`}>{cards.length}</span>
             </button>
             {portfolios.map(p => (
-              <button key={p.id} onClick={() => selectPortfolio(p.id)} className={`collection-portfolio-item flex-shrink-0 min-w-[6.5rem] flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${activePortfolioId === p.id ? 'bg-accent-link/15 text-text-primary' : 'text-text-secondary hover:text-text-primary'}`}>
-                <Folder className="w-3.5 h-3.5" />
-                <span className="truncate ml-1">{p.name}</span>
-                <span className={`ml-2 text-[10px] tabular-nums ${activePortfolioId === p.id ? 'text-accent-link' : 'text-text-muted'}`}>{p.cardIds?.length ?? 0}</span>
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => selectPortfolio(p.id)}
+                className={`collection-portfolio-item flex-shrink-0 min-w-[6.5rem] flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium whitespace-nowrap border transition-[color,background-color,border-color] ${activePortfolioId === p.id ? 'border-accent-primary bg-surface-raised text-text-primary' : 'border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong'}`}
+              >
+                <Folder className="w-3.5 h-3.5" aria-hidden="true" />
+                <span className="truncate">{p.name}</span>
+                <span className={`ml-auto text-[10px] font-tabular ${activePortfolioId === p.id ? 'text-accent-primary' : 'text-text-muted'}`}>{p.cardIds?.length ?? 0}</span>
               </button>
             ))}
-            <button onClick={() => setCreatingPortfolio(true)} className="collection-portfolio-item flex-shrink-0 min-w-[6.5rem] flex items-center gap-1 px-3 py-1 rounded-lg text-xs text-text-muted hover:text-text-primary border border-dashed border-border-default hover:border-border-strong transition-colors whitespace-nowrap">
-              <FolderPlus className="w-3 h-3" /> <span className="ml-1">{t.collection.portfolio.new}</span>
+            <button
+              type="button"
+              onClick={() => setCreatingPortfolio(true)}
+              className="collection-portfolio-item flex-shrink-0 min-w-[6.5rem] flex items-center gap-1 px-3 py-1.5 text-xs text-text-muted hover:text-text-primary border border-dashed border-border-default hover:border-border-strong transition-[color,border-color] whitespace-nowrap"
+            >
+              <FolderPlus className="w-3 h-3" aria-hidden="true" />
+              <span>{t.collection.portfolio.new}</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* ── Two-panel layout ─────────────────────────────────────────────────── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 md:flex md:gap-6">
+      <div className="workspace-canvas container-tool py-6 md:flex md:gap-6">
 
         {/* Sidebar */}
-        <aside className="hidden md:flex flex-col w-52 flex-shrink-0 gap-0.5 self-start sticky top-[calc(5rem+3.5rem)]">
-          <button onClick={() => selectPortfolio(null)} className={`flex items-center gap-2 px-3 py-2.5 rounded-xl transition-[color,background-color,border-color,opacity,transform] duration-150 ${!activePortfolioId ? 'bg-accent-link/15 text-text-primary font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-surface-raised font-medium'}`}>
-            <LayoutGrid className={`w-3.5 h-3.5 flex-shrink-0 ${!activePortfolioId ? 'text-accent-link' : 'text-text-muted'}`} />
-            <span className="flex-1 text-sm text-left">All Cards</span>
-            <span className={`text-xs tabular-nums ${!activePortfolioId ? 'text-accent-link' : 'text-text-muted'}`}>{cards.length}</span>
-          </button>
+        <aside className="hidden md:flex flex-col w-52 flex-shrink-0 self-start sticky top-[calc(4rem+3.25rem)] lg:top-[calc(5rem+3.25rem)] panel p-0">
+          <div className="px-3 py-2 border-b border-border-default bg-surface-raised">
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-muted">{t.collection.portfolio.title}</span>
+          </div>
 
-          {portfolios.length > 0 && (
-            <div className="mt-3">
-              <div className="flex items-center gap-2 px-3 mb-1.5">
-                <p className="text-[10px] uppercase tracking-[0.15em] text-text-muted font-medium">Portfolios</p>
-                <div className="flex-1 h-px bg-white/[0.05]" />
-              </div>
-              {portfolios.map(p => <SidebarPortfolioItem key={p.id} p={p} />)}
-            </div>
-          )}
+          <div className="py-1">
+            <button
+              type="button"
+              onClick={() => selectPortfolio(null)}
+              className={`w-full flex items-center gap-2 px-3 py-2.5 transition-[color,background-color,border-color] duration-150 ${!activePortfolioId ? navActive : navIdle}`}
+            >
+              <LayoutGrid className={`w-3.5 h-3.5 flex-shrink-0 ${!activePortfolioId ? 'text-accent-primary' : 'text-text-muted'}`} aria-hidden="true" />
+              <span className="flex-1 text-sm text-left">{t.collection.filters.all}</span>
+              <span className={`text-xs font-tabular ${!activePortfolioId ? 'text-accent-primary' : 'text-text-muted'}`}>{cards.length}</span>
+            </button>
 
-          <div className="mt-3">
+            {portfolios.map(p => <SidebarPortfolioItem key={p.id} p={p} />)}
+          </div>
+
+          <div className="mt-auto border-t border-border-default p-2">
             {creatingPortfolio ? (
-              <div className="px-3 py-2.5 bg-surface-raised rounded-xl border border-accent-link/25">
-                <input autoFocus value={newPortfolioName} onChange={e => setNewPortfolioName(e.target.value)}
+              <div className="px-2 py-2 panel-raised border-l-[3px] border-accent-secondary">
+                <input
+                  autoFocus
+                  value={newPortfolioName}
+                  onChange={e => setNewPortfolioName(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter') handleCreatePortfolio(); if (e.key === 'Escape') { setCreatingPortfolio(false); setNewPortfolioName(''); } }}
-                  placeholder="Portfolio name…" className="w-full bg-transparent text-text-primary text-xs font-medium mb-2 placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-1 rounded-sm"
+                  placeholder={t.collection.portfolio.namePlaceholder}
+                  className="w-full bg-transparent text-text-primary text-xs font-medium mb-2 placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-1 rounded-sm"
                 />
                 <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-1.5 text-text-muted text-[10px] cursor-pointer select-none">
-                    <input type="checkbox" checked={newPortfolioPublic} onChange={e => setNewPortfolioPublic(e.target.checked)} className="w-3 h-3 rounded accent-accent-link" /> Public
+                  <label className="flex items-center gap-1.5 text-text-muted text-xs cursor-pointer select-none">
+                    <input type="checkbox" checked={newPortfolioPublic} onChange={e => setNewPortfolioPublic(e.target.checked)} className="w-3 h-3 accent-accent-secondary" />
+                    {t.collection.portfolio.public}
                   </label>
                   <div className="flex items-center gap-1">
-                    <button onClick={handleCreatePortfolio} disabled={portfolioActionLoading || !newPortfolioName.trim()} className="p-1 rounded bg-accent-link text-surface-bg hover:bg-accent-link/30 transition-colors disabled:opacity-40">
+                    <button type="button" onClick={handleCreatePortfolio} disabled={portfolioActionLoading || !newPortfolioName.trim()} className="p-1 border border-border-default bg-accent-secondary text-surface-bg hover:brightness-110 transition-[opacity,filter] disabled:opacity-40">
                       {portfolioActionLoading ? <Loader2 className="w-2.5 h-2.5 animate-spin" /> : <Check className="w-2.5 h-2.5" />}
                     </button>
-                    <button onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }} className="p-1 rounded bg-surface-raised text-text-muted hover:text-text-primary transition-colors"><X className="w-2.5 h-2.5" /></button>
+                    <button type="button" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }} className="p-1 border border-border-default bg-surface-raised text-text-muted hover:text-text-primary transition-colors"><X className="w-2.5 h-2.5" /></button>
                   </div>
                 </div>
               </div>
             ) : (
-              <button onClick={() => setCreatingPortfolio(true)} className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-surface-raised transition-[color,background-color,border-color,opacity,transform] duration-150 text-xs border border-dashed border-border-default hover:border-border-strong">
-                    <FolderPlus className="w-3.5 h-3.5" />{t.collection.portfolio.newPortfolio}
-                  </button>
+              <button
+                type="button"
+                onClick={() => setCreatingPortfolio(true)}
+                className="w-full flex items-center gap-2 px-3 py-2 text-text-muted hover:text-text-primary hover:bg-surface-raised transition-[color,background-color] text-xs border border-dashed border-border-default hover:border-border-strong"
+              >
+                <FolderPlus className="w-3.5 h-3.5" aria-hidden="true" />
+                {t.collection.portfolio.newPortfolio}
+              </button>
             )}
           </div>
         </aside>
 
         {/* Main */}
         <main className="flex-1 min-w-0">
-
-          {/* Stats */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-5">
-            {[{ label: t.collection.stats.total, value: baseCards.length, color: 'text-text-primary' }, { label: t.collection.stats.active, value: available, color: 'text-emerald-400' }, { label: t.collection.stats.sold, value: soldCount, color: 'text-red-400' }].map(s => (
-              <div key={s.label} className="bg-surface-raised border border-border-default rounded-xl p-4 text-center">
-                <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
-                <p className="text-text-secondary text-xs uppercase tracking-widest mt-0.5">{s.label}</p>
-              </div>
-            ))}
-            <div className="hidden sm:block bg-surface-raised border border-border-default rounded-xl p-4 text-center">
-              <p className="text-2xl font-bold text-accent-link">{totalBuy.toLocaleString()}</p>
-              <p className="text-text-secondary text-xs uppercase tracking-widest mt-0.5 flex items-center justify-center gap-1"><DollarSign className="w-3 h-3" />Buy (HKD)</p>
+          <HeroStamp
+            decorative={false}
+            layout="dashboard"
+            className="mb-5"
+            lines={{
+              brand: t.collection.landing.badge,
+              tagline: t.collection.title,
+              muted: workspaceMuted,
+            }}
+          >
+            <div className="hero-stamp__stats" aria-label={t.collection.stats.sectionTitle}>
+              {statRows.map(row => (
+                <div key={row.label} className="hero-stamp__stat">
+                  <span className="hero-stamp__stat-label">{row.label}</span>
+                  <span className={`hero-stamp__stat-value ${row.tone}`}>{row.value}</span>
+                </div>
+              ))}
             </div>
-          </div>
+          </HeroStamp>
 
           {/* Toolbar */}
           <div className="flex flex-col sm:flex-row gap-2 mb-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-muted pointer-events-none" />
-              <input className="w-full bg-surface-raised border border-border-default rounded-lg pl-9 pr-3 py-1.5 sm:py-2 text-text-primary text-xs sm:text-sm placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-colors" placeholder={t.collection.searchPlaceholder} value={search} onChange={e => setSearch(e.target.value)} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-muted pointer-events-none" aria-hidden="true" />
+              <label htmlFor="collection-search" className="sr-only">{t.collection.searchPlaceholder}</label>
+              <input
+                id="collection-search"
+                className="w-full bg-surface-panel border border-border-default pl-9 pr-3 py-2 min-h-11 text-text-primary text-sm placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-[border-color,box-shadow]"
+                placeholder={t.collection.searchPlaceholder}
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                spellCheck={false}
+              />
             </div>
-            <select className="bg-surface-raised border border-border-default rounded-lg px-3 py-2 text-text-primary text-sm focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-colors" value={filterSold} onChange={e => setFilterSold(e.target.value as typeof filterSold)}>
+            <label htmlFor="collection-filter" className="sr-only">{t.collection.filters.all}</label>
+            <select
+              id="collection-filter"
+              className="bg-surface-panel border border-border-default px-3 py-2 min-h-11 text-text-primary text-sm focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-[border-color,box-shadow]"
+              style={{ backgroundColor: 'var(--surface-panel)', color: 'var(--text-primary)' }}
+              value={filterSold}
+              onChange={e => setFilterSold(e.target.value as typeof filterSold)}
+            >
               <option value="all">{t.collection.filters.all}</option>
               <option value="active">{t.collection.filters.active}</option>
               <option value="sold">{t.collection.filters.sold}</option>
             </select>
-            <div className="flex bg-surface-raised border border-border-default rounded-lg p-0.5 gap-0.5">
-              <button type="button" onClick={() => setDisplayMode('list')} className={`p-1.5 rounded transition ${displayMode === 'list' ? 'bg-accent-link text-surface-bg' : 'text-text-muted hover:text-text-primary'}`} title="List"><List className="w-3.5 h-3.5" /></button>
-              <button type="button" onClick={() => setDisplayMode('grid')} className={`p-1.5 rounded transition ${displayMode === 'grid' ? 'bg-accent-link text-surface-bg' : 'text-text-muted hover:text-text-primary'}`} title="Grid"><LayoutGrid className="w-3.5 h-3.5" /></button>
+            <div className="flex border border-border-default p-0.5 gap-0.5 bg-surface-panel" role="group" aria-label="View mode">
+              <button type="button" onClick={() => setDisplayMode('list')} className={`p-2 min-w-11 min-h-11 flex items-center justify-center transition-[background-color,color] ${displayMode === 'list' ? 'bg-accent-structural text-surface-bg' : 'text-text-muted hover:text-text-primary hover:bg-surface-raised'}`} title="List view" aria-label="List view" aria-pressed={displayMode === 'list'}><List className="w-3.5 h-3.5" /></button>
+              <button type="button" onClick={() => setDisplayMode('grid')} className={`p-2 min-w-11 min-h-11 flex items-center justify-center transition-[background-color,color] ${displayMode === 'grid' ? 'bg-accent-structural text-surface-bg' : 'text-text-muted hover:text-text-primary hover:bg-surface-raised'}`} title="Grid view" aria-label="Grid view" aria-pressed={displayMode === 'grid'}><LayoutGrid className="w-3.5 h-3.5" /></button>
             </div>
             {activePortfolio && (
-              <button onClick={() => setShowAddPicker(v => !v)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform] ${showAddPicker ? 'bg-accent-link/15 border-accent-link/40 text-accent-link' : 'border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong'}`}>
-                <FolderPlus className="w-3.5 h-3.5" />{showAddPicker ? t.collection.toolbar.close : t.collection.toolbar.addCards}
+              <button
+                type="button"
+                onClick={() => setShowAddPicker(v => !v)}
+                className={`btn min-h-11 text-xs ${showAddPicker ? 'btn-secondary border-accent-secondary text-accent-secondary' : 'btn-secondary'}`}
+              >
+                <FolderPlus className="w-3.5 h-3.5" aria-hidden="true" />
+                {showAddPicker ? t.collection.toolbar.close : t.collection.toolbar.addCards}
               </button>
             )}
           </div>
 
           {/* Add Cards Picker */}
           {activePortfolio && showAddPicker && (
-            <div className="mb-4 rounded-xl border border-accent-link/20 bg-accent-link/[0.04] overflow-hidden">
-              <div className="px-4 py-3 border-b border-accent-link/15 flex items-center justify-between">
-                <p className="text-accent-link text-xs font-semibold">{t.collection.portfolio.addTo.replace('{name}', activePortfolio.name)}</p>
-                <span className="text-text-muted text-[10px]">{t.collection.portfolio.available.replace('{n}', String(pickerCards.length))}</span>
+            <div className="mb-4 panel overflow-hidden border-l-[3px] border-l-accent-secondary">
+              <div className="px-4 py-3 border-b border-border-default bg-surface-raised flex items-center justify-between">
+                <p className="text-accent-secondary text-xs font-semibold font-mono uppercase tracking-wider">{t.collection.portfolio.addTo.replace('{name}', activePortfolio.name)}</p>
+                <span className="text-text-muted text-xs font-tabular">{t.collection.portfolio.available.replace('{n}', String(pickerCards.length))}</span>
               </div>
               {pickerCards.length === 0 ? (
                 <p className="text-text-muted text-xs text-center py-6">{t.collection.empty.addCardsUsingButton}</p>
               ) : (
-                <div className="divide-y divide-white/[0.04] max-h-52 overflow-y-auto">
+                <div className="divide-y divide-border-default max-h-52 overflow-y-auto overscroll-contain">
                   {pickerCards.map(card => (
-                    <div key={card.id} className="flex items-center gap-3 px-4 py-2.5 hover:bg-surface-raised transition-colors">
+                    <div key={card.id} className="flex items-center gap-3 px-4 py-2.5 hover:bg-surface-raised transition-[background-color]">
                       <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
                       <div className="flex-1 min-w-0">
                         <p className="text-text-primary text-xs font-medium truncate">{card.name}</p>
-                        <p className="text-text-muted text-[10px]">{[card.year, card.set].filter(Boolean).join(' · ')}</p>
+                        <p className="text-text-muted text-xs font-mono">{[card.year, card.set].filter(Boolean).join(' · ')}</p>
                       </div>
-                      <button onClick={() => handleAddCard(activePortfolio.id, card.id)} disabled={addingCardKey === activePortfolio.id + card.id} className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-accent-link/15 text-accent-link text-[10px] font-bold hover:bg-accent-link/30 transition-colors disabled:opacity-40 flex-shrink-0">
-                        {addingCardKey === activePortfolio.id + card.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <><Plus className="w-3 h-3" />Add</>}
+                      <button
+                        type="button"
+                        onClick={() => handleAddCard(activePortfolio.id, card.id)}
+                        disabled={addingCardKey === activePortfolio.id + card.id}
+                        className="btn btn-secondary text-[10px] px-2.5 py-1 min-h-0 disabled:opacity-40 flex-shrink-0"
+                      >
+                        {addingCardKey === activePortfolio.id + card.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <><Plus className="w-3 h-3" aria-hidden="true" />Add</>}
                       </button>
                     </div>
                   ))}
@@ -475,56 +624,79 @@ export function CollectionListView({
 
           {/* API Error */}
           {apiError && (
-            <div className="mb-4 flex items-center gap-2 rounded-xl bg-red-500/10 border border-red-500/25 px-4 py-3">
-              <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" /><p className="text-red-400 text-sm">{apiError}</p>
+            <div className="mb-4 flex items-center gap-2 panel border-l-[3px] border-l-accent-danger px-4 py-3" role="alert">
+              <AlertCircle className="w-4 h-4 text-accent-danger flex-shrink-0" aria-hidden="true" />
+              <p className="text-accent-danger text-sm">{apiError}</p>
             </div>
           )}
 
           {/* Loading */}
-          {loading && <div className="flex items-center justify-center py-16 gap-2 text-text-muted"><Loader2 className="w-5 h-5 animate-spin" /><span className="text-sm">{t.common.loading}</span></div>}
+          {loading && (
+            <div className="flex items-center justify-center py-16 gap-2 text-text-muted" aria-live="polite">
+              <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+              <span className="text-sm font-mono">{t.common.loading}</span>
+            </div>
+          )}
 
           {/* Empty state */}
           {!loading && filtered.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="w-14 h-14 panel flex items-center justify-center mb-4">
-                {activePortfolio ? <Folder className="w-6 h-6 text-text-muted" /> : <Package className="w-6 h-6 text-text-muted" />}
+            <div className="flex flex-col items-center justify-center py-20 text-center panel">
+              <div className="w-14 h-14 border border-border-strong flex items-center justify-center mb-4 bg-surface-raised">
+                {activePortfolio ? <Folder className="w-6 h-6 text-text-muted" aria-hidden="true" /> : <Package className="w-6 h-6 text-text-muted" aria-hidden="true" />}
               </div>
-              <p className="text-text-muted text-sm mb-1">{search ? t.collection.empty.noCardsFound : activePortfolio ? t.collection.empty.portfolioEmpty.replace('{name}', activePortfolio.name) : t.collection.empty.noCardsYet}</p>
+              <p className="text-text-secondary text-sm mb-1">{search ? t.collection.empty.noCardsFound : activePortfolio ? t.collection.empty.portfolioEmpty.replace('{name}', activePortfolio.name) : t.collection.empty.noCardsYet}</p>
               <p className="text-text-muted text-xs mb-6">{search ? t.collection.empty.tryDifferentSearch : activePortfolio ? t.collection.empty.addCardsUsingButton : t.collection.empty.addYourFirstCard}</p>
-              {!search && !activePortfolio && <button onClick={onOpenNew} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-link/15 border border-accent-link/30 text-accent-link text-sm font-medium hover:bg-accent-link/25 transition-[color,background-color,border-color,opacity,transform]"><Plus className="w-4 h-4" />{t.collection.toolbar.addFirstCard}</button>}
-              {!search && activePortfolio && <button onClick={() => setShowAddPicker(true)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-link/15 border border-accent-link/30 text-accent-link text-sm font-medium hover:bg-accent-link/25 transition-[color,background-color,border-color,opacity,transform]"><FolderPlus className="w-4 h-4" />{t.collection.toolbar.pickCardsToAdd}</button>}
+              {!search && !activePortfolio && (
+                <button type="button" onClick={onOpenNew} className="btn btn-primary">
+                  <Plus className="w-4 h-4" aria-hidden="true" />
+                  {t.collection.toolbar.addFirstCard}
+                </button>
+              )}
+              {!search && activePortfolio && (
+                <button type="button" onClick={() => setShowAddPicker(true)} className="btn btn-secondary">
+                  <FolderPlus className="w-4 h-4" aria-hidden="true" />
+                  {t.collection.toolbar.pickCardsToAdd}
+                </button>
+              )}
             </div>
           )}
 
           {/* LIST VIEW */}
           {!loading && filtered.length > 0 && displayMode === 'list' && (
-            <div className="rounded-xl border border-border-default overflow-hidden">
-              <div className="hidden sm:grid gap-3 items-center px-4 py-2.5 bg-surface-raised border-b border-white/[0.04]" style={{ gridTemplateColumns: activePortfolio ? '1fr 130px 100px 80px 110px' : '1fr 130px 100px 80px 80px' }}>
-                  {[t.collection.table.card, t.collection.table.grade, t.collection.table.buyPrice, t.collection.table.status, t.collection.table.actions].map(h => <p key={h} className="text-text-muted text-[10px] uppercase tracking-widest">{h}</p>)}
-                </div>
+            <div className="panel overflow-hidden">
+              <div
+                className="hidden sm:grid gap-3 items-center px-4 py-2.5 bg-surface-raised border-b border-border-default"
+                style={{ gridTemplateColumns: activePortfolio ? '1fr 130px 100px 80px 110px' : '1fr 130px 100px 80px 80px' }}
+              >
+                {[t.collection.table.card, t.collection.table.grade, t.collection.table.buyPrice, t.collection.table.status, t.collection.table.actions].map(h => (
+                  <p key={h} className="spec-row__label !text-[10px]">{h}</p>
+                ))}
+              </div>
               {filtered.map(card => {
                 const memberships = !activePortfolio ? cardPortfolios(card.id) : [];
                 return (
-                  <div key={card.id} className={`border-b border-white/[0.04] last:border-b-0 transition-colors ${deleteId === card.id ? 'bg-red-500/5' : 'hover:bg-surface-raised'}`}>
+                  <div key={card.id} className={`border-b border-border-default last:border-b-0 transition-[background-color] ${deleteId === card.id ? 'bg-accent-danger/5' : 'hover:bg-surface-raised'}`}>
                     <div className="hidden sm:grid gap-3 items-center px-4 py-3" style={{ gridTemplateColumns: activePortfolio ? '1fr 130px 100px 80px 110px' : '1fr 130px 100px 80px 80px' }}>
                       <div className="min-w-0">
                         <p className={`text-sm font-medium truncate ${card.sold ? 'text-text-muted line-through' : 'text-text-primary'}`}>{card.name}</p>
                         <p className="text-text-muted text-xs truncate mt-0.5">{[card.year, card.set, card.number, card.language].filter(Boolean).join(' · ')}</p>
-                        {card.certNumber && <p className="text-text-muted text-[10px] truncate mt-0.5">Cert {card.certNumber}</p>}
+                        {card.certNumber && <p className="text-text-muted text-xs font-mono truncate mt-0.5">Cert {card.certNumber}</p>}
                         {memberships.length > 0 && (
                           <div className="flex items-center gap-1 mt-1 flex-wrap">
-                            {memberships.map(p => <span key={p.id} className="inline-flex items-center gap-0.5 text-[9px] text-accent-link/60 bg-accent-link/8 px-1.5 py-0.5 rounded-full border border-accent-link/15"><Folder className="w-2 h-2" />{p.name}</span>)}
+                            {memberships.map(p => (
+                              <span key={p.id} className="inline-flex items-center gap-0.5 text-[10px] text-accent-secondary bg-accent-secondary/8 px-1.5 py-0.5 border border-accent-secondary/20 font-mono">
+                                <Folder className="w-2 h-2" aria-hidden="true" />{p.name}
+                              </span>
+                            ))}
                           </div>
                         )}
                       </div>
                       <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
                       <div>
-                        <p className={`text-sm font-bold ${card.sold ? 'text-text-muted line-through' : 'text-accent-link'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</p>
-                        {card.listPrice && <p className="text-text-muted text-[10px]">List: {card.listCurrency} {card.listPrice.toLocaleString()}</p>}
+                        <p className={`text-sm font-bold font-tabular ${card.sold ? 'text-text-muted line-through' : 'text-accent-secondary'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</p>
+                        {card.listPrice && <p className="text-text-muted text-xs font-tabular">List: {card.listCurrency} {card.listPrice.toLocaleString()}</p>}
                       </div>
-                      <button onClick={() => onToggleSold(card)} className={`text-[10px] font-bold px-2 py-1 rounded-md border transition-[color,background-color,border-color,opacity,transform] uppercase tracking-wider ${card.sold ? 'bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25' : 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400 hover:bg-emerald-500/20'}`}>
-                        {card.sold ? 'Sold' : 'Active'}
-                      </button>
+                      <StatusBadge sold={card.sold} onClick={() => onToggleSold(card)} />
                       <CardActions card={card} />
                     </div>
                     <div className="sm:hidden flex items-center gap-3 px-3 py-2">
@@ -532,16 +704,16 @@ export function CollectionListView({
                         <p className={`text-sm font-medium truncate ${card.sold ? 'text-text-muted line-through' : 'text-text-primary'}`}>{card.name}</p>
                         <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                           <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
-                          <span className={`text-xs font-bold ${card.sold ? 'text-text-muted line-through' : 'text-accent-link'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</span>
+                          <span className={`text-xs font-bold font-tabular ${card.sold ? 'text-text-muted line-through' : 'text-accent-secondary'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</span>
                         </div>
                       </div>
                       <CardActions card={card} compact />
                     </div>
                     {deleteId === card.id && !activePortfolio && (
-                      <div className="sm:hidden flex items-center gap-2 px-3 pb-2">
-                        <p className="text-red-400 text-xs flex-1">Delete &ldquo;{card.name}&rdquo;?</p>
-                        <button onClick={handleDelete} disabled={deleting} className="px-3 py-1 rounded bg-red-500/20 text-red-400 text-xs font-bold disabled:opacity-40">{deleting ? '…' : 'Confirm'}</button>
-                        <button onClick={() => setDeleteId(null)} className="px-3 py-1 rounded bg-surface-raised text-text-muted text-xs">Cancel</button>
+                      <div className="sm:hidden flex items-center gap-2 px-3 pb-2 border-t border-border-default bg-accent-danger/5">
+                        <p className="text-accent-danger text-xs flex-1">{t.collection.actions.confirmDeleteCard}</p>
+                        <button type="button" onClick={handleDelete} disabled={deleting} className="btn btn-destructive text-xs min-h-0 px-3 py-1 disabled:opacity-40">{deleting ? '…' : t.collection.actions.confirm}</button>
+                        <button type="button" onClick={() => setDeleteId(null)} className="btn btn-secondary text-xs min-h-0 px-3 py-1">{t.common.cancel}</button>
                       </div>
                     )}
                   </div>
@@ -556,48 +728,59 @@ export function CollectionListView({
               {filtered.map(card => {
                 const memberships = !activePortfolio ? cardPortfolios(card.id) : [];
                 return (
-                  <div key={card.id} className="bg-surface-raised border border-border-default rounded-xl p-4 hover:border-white/[0.12] transition-colors flex flex-col gap-3">
+                  <article key={card.id} className="panel p-4 hover:border-border-strong transition-[border-color] flex flex-col gap-3">
                     <div className="flex items-start justify-between">
                       <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
-                      <span onClick={() => onToggleSold(card)} className={`text-[10px] font-bold px-2 py-1 rounded-md border uppercase tracking-wider cursor-pointer ${card.sold ? 'bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25' : 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400 hover:bg-emerald-500/20'}`}>
-                        {card.sold ? 'Sold' : 'Active'}
-                      </span>
+                      <StatusBadge sold={card.sold} onClick={() => onToggleSold(card)} />
                     </div>
                     <div className="flex-1">
                       <p className={`text-sm font-semibold leading-snug ${card.sold ? 'text-text-muted line-through' : 'text-text-primary'}`}>{card.name}</p>
                       <p className="text-text-muted text-xs mt-1 line-clamp-1">{[card.year, card.set].filter(Boolean).join(' · ')}</p>
-                      {card.certNumber && <p className="text-text-muted text-[10px] mt-0.5">Cert #{card.certNumber}</p>}
+                      {card.certNumber && <p className="text-text-muted text-xs font-mono mt-0.5">Cert #{card.certNumber}</p>}
                       {memberships.length > 0 && (
                         <div className="flex items-center gap-1 mt-2 flex-wrap">
-                          {memberships.map(p => <span key={p.id} className="inline-flex items-center gap-0.5 text-[9px] text-accent-link/60 bg-accent-link/8 px-1.5 py-0.5 rounded-full border border-accent-link/15"><Folder className="w-2 h-2" />{p.name}</span>)}
+                          {memberships.map(p => (
+                            <span key={p.id} className="inline-flex items-center gap-0.5 text-[10px] text-accent-secondary bg-accent-secondary/8 px-1.5 py-0.5 border border-accent-secondary/20 font-mono">
+                              <Folder className="w-2 h-2" aria-hidden="true" />{p.name}
+                            </span>
+                          ))}
                         </div>
                       )}
                     </div>
-                    <div className="border-t border-white/[0.04] pt-3 flex items-center justify-between">
-                      <div>
-                        <p className="text-text-muted text-[10px] uppercase tracking-widest">{t.collection.table.buyPrice}</p>
-                        <p className={`text-sm font-bold ${card.sold ? 'text-text-muted line-through' : 'text-accent-link'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</p>
+                    <div className="border-t border-border-default pt-3">
+                      <div className="spec-row !py-2 !px-0">
+                        <span className="spec-row__label">{t.collection.table.buyPrice}</span>
+                        <span className={`spec-row__value ${card.sold ? 'text-text-muted line-through' : 'text-accent-secondary'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</span>
                       </div>
-                      {card.listPrice && <div className="text-right"><p className="text-text-muted text-[10px] uppercase tracking-widest">{t.collection.table.list}</p><p className="text-text-secondary text-sm font-medium">{card.listCurrency} {card.listPrice.toLocaleString()}</p></div>}
+                      {card.listPrice && (
+                        <div className="spec-row !py-2 !px-0">
+                          <span className="spec-row__label">{t.collection.table.list}</span>
+                          <span className="spec-row__value text-text-secondary">{card.listCurrency} {card.listPrice.toLocaleString()}</span>
+                        </div>
+                      )}
                     </div>
                     <div className="flex gap-2">
-                      <button onClick={() => onOpenEdit(card)} className="flex-1 py-1.5 rounded-lg bg-surface-raised hover:bg-surface-raised text-text-muted hover:text-text-primary transition-colors text-xs font-medium flex items-center justify-center gap-1.5"><Pencil className="w-3 h-3" /> {t.collection.account.edit}</button>
+                      <button type="button" onClick={() => onOpenEdit(card)} className="btn btn-secondary flex-1 text-xs min-h-11 py-1.5">
+                        <Pencil className="w-3 h-3" aria-hidden="true" /> {t.collection.account.edit}
+                      </button>
                       {activePortfolio ? (
-                        <button onClick={() => handleRemoveCard(card.id)} disabled={removingCardId === card.id} className="flex-1 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400/70 hover:text-red-400 transition-colors text-xs font-medium flex items-center justify-center gap-1.5 disabled:opacity-40">
-                          {removingCardId === card.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" />{t.collection.toolbar.remove}</>}
+                        <button type="button" onClick={() => handleRemoveCard(card.id)} disabled={removingCardId === card.id} className="btn btn-destructive flex-1 text-xs min-h-11 py-1.5 disabled:opacity-40">
+                          {removingCardId === card.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" aria-hidden="true" />{t.collection.toolbar.remove}</>}
                         </button>
                       ) : (
-                        <button onClick={() => setDeleteId(card.id)} className="flex-1 py-1.5 rounded-lg bg-surface-raised hover:bg-red-500/10 text-text-muted hover:text-red-400 transition-colors text-xs font-medium flex items-center justify-center gap-1.5"><Trash2 className="w-3 h-3" /> {t.collection.account.delete}</button>
+                        <button type="button" onClick={() => setDeleteId(card.id)} className="btn btn-secondary flex-1 text-xs min-h-11 py-1.5 hover:border-accent-danger/40 hover:text-accent-danger">
+                          <Trash2 className="w-3 h-3" aria-hidden="true" /> {t.collection.account.delete}
+                        </button>
                       )}
                     </div>
                     {deleteId === card.id && !activePortfolio && (
-                      <div className="flex items-center gap-2 border-t border-white/[0.04] pt-2">
-                        <p className="text-red-400 text-xs flex-1">{t.collection.actions.confirmDeleteCard}</p>
-                        <button onClick={handleDelete} disabled={deleting} className="px-3 py-1 rounded bg-red-500/20 text-red-400 text-xs font-bold disabled:opacity-40">{deleting ? '…' : t.collection.actions.confirm}</button>
-                        <button onClick={() => setDeleteId(null)} className="px-3 py-1 rounded bg-surface-raised text-text-muted text-xs">{t.common.cancel}</button>
+                      <div className="flex items-center gap-2 border-t border-border-default pt-2 bg-accent-danger/5 -mx-4 px-4 pb-1">
+                        <p className="text-accent-danger text-xs flex-1">{t.collection.actions.confirmDeleteCard}</p>
+                        <button type="button" onClick={handleDelete} disabled={deleting} className="btn btn-destructive text-xs min-h-0 px-3 py-1 disabled:opacity-40">{deleting ? '…' : t.collection.actions.confirm}</button>
+                        <button type="button" onClick={() => setDeleteId(null)} className="btn btn-secondary text-xs min-h-0 px-3 py-1">{t.common.cancel}</button>
                       </div>
                     )}
-                  </div>
+                  </article>
                 );
               })}
             </div>
@@ -607,19 +790,32 @@ export function CollectionListView({
 
       {/* Mobile: create portfolio bottom sheet */}
       {creatingPortfolio && (
-        <div className="md:hidden fixed inset-0 bg-black/60 z-50 flex items-end pb-[env(safe-area-inset-bottom)]" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }}>
-          <div className="w-full bg-surface-panel border-t border-border-default p-6 min-w-0" onClick={e => e.stopPropagation()}>
-            <h3 className="text-text-primary font-bold text-sm mb-4">{t.collection.portfolio.newPortfolio}</h3>
-            <input autoFocus value={newPortfolioName} onChange={e => setNewPortfolioName(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleCreatePortfolio(); }}
-              placeholder={t.collection.portfolio.namePlaceholder} className="w-full bg-surface-raised border border-border-default rounded-xl px-4 py-3 text-text-primary text-sm placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg mb-3"
+        <div className="md:hidden fixed inset-0 z-[60] flex items-end pb-[env(safe-area-inset-bottom)] overscroll-contain" role="presentation">
+          <button
+            type="button"
+            className="absolute inset-0 bg-accent-structural/60"
+            aria-label={t.common.cancel}
+            onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }}
+          />
+          <div className="relative z-[61] w-full panel border-b-0 p-6 min-w-0" role="dialog" aria-modal="true" aria-labelledby="new-portfolio-title">
+            <h3 id="new-portfolio-title" className="text-text-primary font-bold text-sm mb-4">{t.collection.portfolio.newPortfolio}</h3>
+            <label htmlFor="new-portfolio-name" className="sr-only">{t.collection.portfolio.namePlaceholder}</label>
+            <input
+              id="new-portfolio-name"
+              autoFocus
+              value={newPortfolioName}
+              onChange={e => setNewPortfolioName(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleCreatePortfolio(); }}
+              placeholder={t.collection.portfolio.namePlaceholder}
+              className="w-full bg-surface-raised border border-border-default px-4 py-3 min-h-11 text-text-primary text-sm placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg mb-3"
             />
             <label className="flex items-center gap-2 text-text-secondary text-sm cursor-pointer mb-5 select-none">
-              <input type="checkbox" checked={newPortfolioPublic} onChange={e => setNewPortfolioPublic(e.target.checked)} className="w-4 h-4 rounded accent-accent-link" />
+              <input type="checkbox" checked={newPortfolioPublic} onChange={e => setNewPortfolioPublic(e.target.checked)} className="w-4 h-4 accent-accent-secondary" />
               {t.collection.portfolio.makePublic}
             </label>
             <div className="flex gap-2">
-              <button onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }} className="flex-1 py-2.5 rounded-xl bg-surface-raised text-text-secondary text-sm font-medium">{t.common.cancel}</button>
-              <button onClick={handleCreatePortfolio} disabled={portfolioActionLoading || !newPortfolioName.trim()} className="btn btn-primary flex-1 min-h-11 disabled:opacity-40">
+              <button type="button" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }} className="btn btn-secondary flex-1 min-h-11">{t.common.cancel}</button>
+              <button type="button" onClick={handleCreatePortfolio} disabled={portfolioActionLoading || !newPortfolioName.trim()} className="btn btn-primary flex-1 min-h-11 disabled:opacity-40">
                 {portfolioActionLoading ? t.collection.portfolio.creating : t.collection.portfolio.create}
               </button>
             </div>

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Loader2, LogIn, Package, AlertCircle } from 'lucide-react';
 import { useLocalizedPath } from '@/hooks/useLocalizedPath';
+import { authAuthorizationParams } from '@/app/collection/lib/authSession';
 
 export default function CollectionAuthPage() {
   const localize = useLocalizedPath();
@@ -52,7 +53,10 @@ export default function CollectionAuthPage() {
           </p>
           <button
             type="button"
-            onClick={() => loginWithRedirect({ appState: { returnTo: localize('/collection/list') } })}
+            onClick={() => loginWithRedirect({
+              appState: { returnTo: localize('/collection/list') },
+              authorizationParams: authAuthorizationParams(),
+            })}
             className="btn btn-primary w-full min-h-11 flex items-center justify-center gap-2"
           >
             <LogIn className="w-4 h-4" aria-hidden="true" />
@@ -76,7 +80,10 @@ export default function CollectionAuthPage() {
         </p>
         <button
           type="button"
-          onClick={() => loginWithRedirect({ appState: { returnTo: localize('/collection/list') } })}
+          onClick={() => loginWithRedirect({
+            appState: { returnTo: localize('/collection/list') },
+            authorizationParams: authAuthorizationParams(),
+          })}
           className="btn btn-primary w-full min-h-11 flex items-center justify-center gap-2"
         >
           <LogIn className="w-4 h-4" aria-hidden="true" />

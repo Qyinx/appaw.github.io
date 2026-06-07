@@ -11,6 +11,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useLocalizedPath } from '@/hooks/useLocalizedPath';
 import LocalLink from '@/components/LocalLink';
+import { authAuthorizationParams } from '@/app/collection/lib/authSession';
 import { getImagePath } from '@/lib/utils';
 import Reveal, { MotionStagger } from '@/components/ui/Reveal';
 import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
@@ -186,7 +187,10 @@ export default function CollectionLandingClient() {
     if (isAuthenticated) {
       window.location.href = localize('/collection/list');
     } else {
-      loginWithRedirect({ appState: { returnTo: localize('/collection/list') } });
+      loginWithRedirect({
+        appState: { returnTo: localize('/collection/list') },
+        authorizationParams: authAuthorizationParams(),
+      });
     }
   }
 

@@ -410,8 +410,15 @@ select option {
   filter: brightness(1.08);
 }
 
+.btn-primary:active:not(:disabled) {
+  filter: none;
+  background: color-mix(in srgb, var(--accent-primary) 78%, var(--accent-structural));
+  border-color: var(--accent-structural);
+  color: var(--surface-panel);
+}
+
 .btn-secondary {
-  background: transparent;
+  background: var(--surface-panel);
   border-color: var(--border-strong);
   color: var(--text-primary);
 }
@@ -419,6 +426,12 @@ select option {
 .btn-secondary:hover:not(:disabled) {
   background: var(--surface-raised);
   border-color: var(--accent-secondary);
+}
+
+.btn-secondary:active:not(:disabled) {
+  background: color-mix(in srgb, var(--surface-raised) 70%, var(--accent-secondary) 30%);
+  border-color: var(--accent-secondary);
+  color: var(--accent-structural);
 }
 
 .btn-ghost {
@@ -432,9 +445,26 @@ select option {
   color: var(--text-primary);
 }
 
+.btn-ghost:active:not(:disabled) {
+  background: color-mix(in srgb, var(--surface-raised) 85%, var(--border-strong));
+  color: var(--text-primary);
+  border-color: var(--border-default);
+}
+
 .btn-destructive {
   background: var(--accent-danger);
   border-color: color-mix(in srgb, var(--accent-danger) 80%, black);
+  color: #fff;
+}
+
+.btn-destructive:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.btn-destructive:active:not(:disabled) {
+  filter: none;
+  background: color-mix(in srgb, var(--accent-danger) 82%, black);
+  border-color: color-mix(in srgb, var(--accent-danger) 65%, black);
   color: #fff;
 }
 
@@ -516,6 +546,103 @@ select option {
   font-size: 0.625rem;
   letter-spacing: 0.1em;
   color: var(--text-muted);
+}
+
+/* Full-width workspace dashboard — identity + horizontal stat grid */
+.hero-stamp--dashboard {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0;
+  max-width: none;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.hero-stamp--dashboard .hero-stamp__identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  flex: 0 0 100%;
+  padding: 0.875rem 1rem 0.875rem 1.125rem;
+  border-bottom: var(--border-width) solid var(--border-default);
+}
+
+.hero-stamp--dashboard .hero-stamp__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  flex: 1 1 100%;
+  width: 100%;
+  min-width: 0;
+}
+
+.hero-stamp__stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.125rem;
+  padding: 0.75rem 1rem;
+  border-right: var(--border-width) solid var(--border-default);
+  border-bottom: var(--border-width) solid var(--border-default);
+  min-width: 0;
+}
+
+.hero-stamp__stat:nth-child(2n) {
+  border-right: none;
+}
+
+.hero-stamp__stat:nth-last-child(-n + 2) {
+  border-bottom: none;
+}
+
+.hero-stamp__stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hero-stamp__stat-value {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 640px) {
+  .hero-stamp--dashboard {
+    flex-wrap: nowrap;
+  }
+
+  .hero-stamp--dashboard .hero-stamp__identity {
+    flex: 0 0 min(14rem, 32%);
+    border-bottom: none;
+    border-right: var(--border-width) solid var(--border-default);
+  }
+
+  .hero-stamp--dashboard .hero-stamp__stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .hero-stamp__stat {
+    border-bottom: none;
+  }
+
+  .hero-stamp__stat:nth-child(2n) {
+    border-right: var(--border-width) solid var(--border-default);
+  }
+
+  .hero-stamp__stat:last-child {
+    border-right: none;
+  }
 }
 
 @media (min-width: 768px) {
@@ -1355,13 +1482,257 @@ main {
 .collection-plan-menu {
   box-sizing: border-box;
   max-width: calc(100vw - 1rem);
-  right: 0;
-  left: auto;
 }
 .collection-plan-menu .w-full {
   max-width: 100%;
 }
 .collection-page { overflow-wrap: anywhere; }
+
+/* Operational workspace — blueprint grid in canvas; panels stay opaque */
+.collection-workspace.page-blueprint {
+  isolation: isolate;
+}
+
+.collection-workspace.page-blueprint::before,
+.collection-workspace.page-blueprint::after {
+  z-index: 0;
+}
+
+/* Reset page-blueprint flat z-index — later siblings were painting over sticky chrome */
+.collection-workspace.page-blueprint > *:not(.hero-bg-slab-art) {
+  z-index: auto;
+}
+
+.collection-workspace.page-blueprint > .workspace-chrome {
+  position: sticky;
+  z-index: 30;
+}
+
+.collection-workspace.page-blueprint > .workspace-canvas,
+.collection-workspace.page-blueprint > .workspace-mobile-tabs {
+  position: relative;
+  z-index: 0;
+}
+
+.collection-workspace.page-blueprint > .workspace-overlay-backdrop {
+  z-index: 45;
+}
+
+.collection-workspace.page-blueprint > .workspace-overlay-menu {
+  z-index: 46;
+}
+
+.collection-workspace.page-blueprint > .workspace-lightbox {
+  z-index: 60;
+}
+
+.collection-workspace .workspace-chrome {
+  background: var(--surface-panel);
+  overflow: visible;
+}
+
+/* Spec-sheet toast — portaled to body, always viewport-fixed */
+.workspace-notice-host {
+  position: fixed;
+  z-index: 200;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(28rem, calc(100vw - 2rem));
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.workspace-notice-host--bottom {
+  bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+}
+
+.workspace-notice-host--top {
+  top: calc(4rem + 3.25rem + 0.75rem);
+  bottom: auto;
+}
+
+.workspace-notice-host--above-footer {
+  bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  .workspace-notice-host {
+    left: auto;
+    right: max(var(--space-page-x), 1rem);
+    transform: none;
+    width: min(26rem, calc(100vw - 2rem));
+  }
+
+  .workspace-notice-host--bottom {
+    bottom: 1.5rem;
+  }
+
+  .workspace-notice-host--top {
+    top: calc(5rem + 3.25rem + 0.75rem);
+  }
+
+  .workspace-notice-host--above-footer {
+    bottom: 1.5rem;
+  }
+}
+
+.workspace-notice-host .workspace-notice {
+  pointer-events: auto;
+  width: 100%;
+}
+
+.workspace-notice {
+  background: var(--surface-panel);
+  border: var(--border-width) solid var(--border-strong);
+  box-shadow:
+    0 4px 0 color-mix(in srgb, var(--accent-structural) 12%, transparent),
+    0 12px 32px color-mix(in srgb, var(--accent-structural) 10%, transparent);
+}
+
+.workspace-notice--success {
+  background: color-mix(in srgb, var(--accent-success) 10%, var(--surface-panel));
+  border-color: color-mix(in srgb, var(--accent-success) 45%, var(--border-strong));
+  box-shadow:
+    0 4px 0 color-mix(in srgb, var(--accent-success) 28%, transparent),
+    0 12px 32px color-mix(in srgb, var(--accent-success) 12%, transparent);
+}
+
+.workspace-notice--success .workspace-notice__spec {
+  background: color-mix(in srgb, var(--accent-success) 14%, var(--surface-raised));
+}
+
+.workspace-notice--success .workspace-notice__label {
+  color: color-mix(in srgb, var(--accent-success) 80%, var(--text-primary));
+}
+
+.workspace-notice--error {
+  background: color-mix(in srgb, var(--accent-danger) 10%, var(--surface-panel));
+  border-color: color-mix(in srgb, var(--accent-danger) 45%, var(--border-strong));
+  box-shadow:
+    0 4px 0 color-mix(in srgb, var(--accent-danger) 28%, transparent),
+    0 12px 32px color-mix(in srgb, var(--accent-danger) 12%, transparent);
+}
+
+.workspace-notice--error .workspace-notice__spec {
+  background: color-mix(in srgb, var(--accent-danger) 14%, var(--surface-raised));
+}
+
+.workspace-notice--error .workspace-notice__label {
+  color: color-mix(in srgb, var(--accent-danger) 80%, var(--text-primary));
+}
+
+.workspace-notice--info {
+  background: color-mix(in srgb, var(--accent-secondary) 8%, var(--surface-panel));
+  border-color: color-mix(in srgb, var(--accent-secondary) 40%, var(--border-strong));
+}
+
+.workspace-notice--info .workspace-notice__spec {
+  background: color-mix(in srgb, var(--accent-secondary) 12%, var(--surface-raised));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .workspace-notice-host--bottom .workspace-notice {
+    animation: workspace-notice-in-bottom 0.28s ease-out;
+  }
+
+  .workspace-notice-host--top .workspace-notice {
+    animation: workspace-notice-in-top 0.22s ease-out;
+  }
+}
+
+@keyframes workspace-notice-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes workspace-notice-in-top {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspace-notice-host .workspace-notice {
+    animation: none;
+  }
+}
+
+.workspace-notice__spec {
+  flex-shrink: 0;
+}
+
+.workspace-notice__label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.workspace-notice__message {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+/* Switch — neo-brutalist, WCAG contrast on all states */
+.switch {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 1.5rem;
+  border: var(--border-width) solid var(--border-strong);
+  background: var(--surface-raised);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  touch-action: manipulation;
+}
+
+.switch:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 2px;
+}
+
+.switch[data-state='checked'] {
+  background: var(--accent-secondary);
+  border-color: color-mix(in srgb, var(--accent-secondary) 75%, var(--accent-structural));
+}
+
+.switch:active:not(:disabled) {
+  filter: brightness(0.94);
+}
+
+.switch__thumb {
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: var(--border-width) solid var(--border-strong);
+  background: var(--surface-panel);
+  transition: left 0.15s ease, border-color 0.15s ease;
+}
+
+.switch[data-state='checked'] .switch__thumb {
+  left: calc(100% - 1.375rem);
+  border-color: var(--border-default);
+  background: var(--surface-panel);
+}
 
 @media (max-width: 640px) {
   .sr-sm-visible {
