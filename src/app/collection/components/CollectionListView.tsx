@@ -14,6 +14,13 @@ import { localizedHref } from '@/lib/i18n-routing';
 import { WorkspaceNotice } from './WorkspaceNotice';
 import type { CollectorCard, Portfolio } from '../types';
 import { GradePill, MemberBadge, type MemberLevel } from './shared';
+import {
+  CardMetaBlock,
+  CardPriceBlock,
+  CardStatusBadge,
+  CardThumbnail,
+  gradeTierClass,
+} from './CollectionCardDisplay';
 
 interface CollectionListViewProps {
   cards: CollectorCard[];
@@ -263,52 +270,45 @@ export function CollectionListView({
     );
   };
 
-  /* ── Status badge ────────────────────────────────────────────────────────── */
-  const StatusBadge = ({ sold, onClick }: { sold: boolean; onClick: () => void }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`font-mono text-[10px] font-bold px-2 py-1 border transition-[background-color,border-color,color] uppercase tracking-wider ${
-        sold
-          ? 'bg-accent-danger/10 border-accent-danger/30 text-accent-danger hover:bg-accent-danger/15'
-          : 'bg-accent-success/10 border-accent-success/25 text-accent-success hover:bg-accent-success/15'
-      }`}
-    >
-      {sold ? 'Sold' : 'Active'}
-    </button>
-  );
-
   /* ── Inline card actions ─────────────────────────────────────────────────── */
   const CardActions = ({ card, compact = false }: { card: CollectorCard; compact?: boolean }) => {
     const isDeleting = deleteId === card.id;
     const isRemoving = removingCardId === card.id;
     if (isDeleting && !activePortfolio) {
       return (
-        <div className="flex items-center gap-1">
-          <button type="button" onClick={handleDelete} disabled={deleting} aria-label={t.collection.actions.confirm} className="p-1.5 border border-accent-danger/30 bg-accent-danger/15 hover:bg-accent-danger/25 text-accent-danger transition-[background-color,opacity] disabled:opacity-40">
+        <div className="collection-card-actions">
+          <button type="button" onClick={handleDelete} disabled={deleting} aria-label={t.collection.actions.confirm} className="collection-card-actions__btn collection-card-actions__btn--danger disabled:opacity-40">
             {deleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
           </button>
-          <button type="button" onClick={() => setDeleteId(null)} aria-label={t.common.cancel} className="p-1.5 border border-border-default bg-surface-raised text-text-muted transition-colors"><X className="w-3.5 h-3.5" /></button>
+          <button type="button" onClick={() => setDeleteId(null)} aria-label={t.common.cancel} className="collection-card-actions__btn"><X className="w-3.5 h-3.5" /></button>
         </div>
       );
     }
     return (
-      <div className="flex items-center gap-1">
-        <button type="button" onClick={() => onOpenEdit(card)} className="p-1.5 border border-border-default bg-surface-panel hover:bg-surface-raised text-text-muted hover:text-text-primary transition-[color,background-color]" title={t.collection.account.edit} aria-label={t.collection.account.edit}>
+      <div className="collection-card-actions">
+        <button type="button" onClick={() => onOpenEdit(card)} className="collection-card-actions__btn" title={t.collection.account.edit} aria-label={t.collection.account.edit}>
           <Pencil className={compact ? 'w-4 h-4' : 'w-3.5 h-3.5'} />
         </button>
         {activePortfolio ? (
-          <button type="button" onClick={() => handleRemoveCard(card.id)} disabled={isRemoving} className="flex items-center gap-1 px-2 py-1.5 border border-accent-danger/20 bg-accent-danger/5 hover:bg-accent-danger/10 text-accent-danger/80 hover:text-accent-danger transition-[background-color,color,opacity] text-xs font-medium disabled:opacity-40" title={t.collection.toolbar.remove} aria-label={t.collection.toolbar.remove}>
+          <button type="button" onClick={() => handleRemoveCard(card.id)} disabled={isRemoving} className="collection-card-actions__btn--remove disabled:opacity-40" title={t.collection.toolbar.remove} aria-label={t.collection.toolbar.remove}>
             {isRemoving ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" aria-hidden="true" />{!compact && t.collection.toolbar.remove}</>}
           </button>
         ) : (
-          <button type="button" onClick={() => setDeleteId(card.id)} className="p-1.5 border border-border-default bg-surface-panel hover:border-accent-danger/30 hover:bg-accent-danger/10 text-text-muted hover:text-accent-danger transition-[color,background-color,border-color]" title={t.collection.account.delete} aria-label={t.collection.account.delete}>
+          <button type="button" onClick={() => setDeleteId(card.id)} className="collection-card-actions__btn collection-card-actions__btn--danger" title={t.collection.account.delete} aria-label={t.collection.account.delete}>
             <Trash2 className={compact ? 'w-4 h-4' : 'w-3.5 h-3.5'} />
           </button>
         )}
       </div>
     );
   };
+
+  const DeleteConfirmRow = ({ className = '' }: { className?: string }) => (
+    <div className={`collection-ledger__confirm ${className}`}>
+      <p className="text-accent-danger text-xs flex-1">{t.collection.actions.confirmDeleteCard}</p>
+      <button type="button" onClick={handleDelete} disabled={deleting} className="btn btn-destructive text-xs min-h-0 px-3 py-1 disabled:opacity-40">{deleting ? '…' : t.collection.actions.confirm}</button>
+      <button type="button" onClick={() => setDeleteId(null)} className="btn btn-secondary text-xs min-h-0 px-3 py-1">{t.common.cancel}</button>
+    </div>
+  );
 
   /* ═══════════════════════════════════════════════════════════════════════════
      RENDER
@@ -568,55 +568,90 @@ export function CollectionListView({
           </HeroStamp>
 
           {/* Toolbar */}
-          <div className="flex flex-col sm:flex-row gap-2 mb-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-muted pointer-events-none" aria-hidden="true" />
-              <label htmlFor="collection-search" className="sr-only">{t.collection.searchPlaceholder}</label>
-              <input
-                id="collection-search"
-                className="w-full bg-surface-panel border border-border-default pl-9 pr-3 py-2 min-h-11 text-text-primary text-sm placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-[border-color,box-shadow]"
-                placeholder={t.collection.searchPlaceholder}
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                spellCheck={false}
-              />
+          <div className="collection-toolbar">
+            <div className="collection-toolbar__head">
+              <span className="collection-toolbar__label">{t.collection.stats.sectionTitle}</span>
+              <span className="collection-toolbar__count">
+                <strong>{filtered.length}</strong> / {baseCards.length}
+              </span>
             </div>
-            <label htmlFor="collection-filter" className="sr-only">{t.collection.filters.all}</label>
-            <select
-              id="collection-filter"
-              className="bg-surface-panel border border-border-default px-3 py-2 min-h-11 text-text-primary text-sm focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-[border-color,box-shadow]"
-              style={{ backgroundColor: 'var(--surface-panel)', color: 'var(--text-primary)' }}
-              value={filterSold}
-              onChange={e => setFilterSold(e.target.value as typeof filterSold)}
-            >
-              <option value="all">{t.collection.filters.all}</option>
-              <option value="active">{t.collection.filters.active}</option>
-              <option value="sold">{t.collection.filters.sold}</option>
-            </select>
-            <div className="flex border border-border-default p-0.5 gap-0.5 bg-surface-panel" role="group" aria-label="View mode">
-              <button type="button" onClick={() => setDisplayMode('list')} className={`p-2 min-w-11 min-h-11 flex items-center justify-center transition-[background-color,color] ${displayMode === 'list' ? 'bg-accent-structural text-surface-bg' : 'text-text-muted hover:text-text-primary hover:bg-surface-raised'}`} title="List view" aria-label="List view" aria-pressed={displayMode === 'list'}><List className="w-3.5 h-3.5" /></button>
-              <button type="button" onClick={() => setDisplayMode('grid')} className={`p-2 min-w-11 min-h-11 flex items-center justify-center transition-[background-color,color] ${displayMode === 'grid' ? 'bg-accent-structural text-surface-bg' : 'text-text-muted hover:text-text-primary hover:bg-surface-raised'}`} title="Grid view" aria-label="Grid view" aria-pressed={displayMode === 'grid'}><LayoutGrid className="w-3.5 h-3.5" /></button>
+            <div className="collection-toolbar__row">
+              <div className="collection-toolbar__search">
+                <Search className="collection-toolbar__search-icon" aria-hidden="true" />
+                <label htmlFor="collection-search" className="sr-only">{t.collection.searchPlaceholder}</label>
+                <input
+                  id="collection-search"
+                  className="collection-toolbar__input"
+                  placeholder={t.collection.searchPlaceholder}
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  spellCheck={false}
+                />
+              </div>
+              <div className="collection-filter-pills" role="group" aria-label={t.collection.filters.all}>
+                {([
+                  ['all', t.collection.filters.all],
+                  ['active', t.collection.filters.active],
+                  ['sold', t.collection.filters.sold],
+                ] as const).map(([value, label]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    className="collection-filter-pill"
+                    aria-pressed={filterSold === value}
+                    onClick={() => setFilterSold(value)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="collection-view-toggle" role="group" aria-label="View mode">
+                <button
+                  type="button"
+                  onClick={() => setDisplayMode('list')}
+                  className="collection-view-toggle__btn"
+                  title="List view"
+                  aria-label="List view"
+                  aria-pressed={displayMode === 'list'}
+                >
+                  <List className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span className="collection-view-toggle__label">Ledger</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDisplayMode('grid')}
+                  className="collection-view-toggle__btn"
+                  title="Grid view"
+                  aria-label="Grid view"
+                  aria-pressed={displayMode === 'grid'}
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span className="collection-view-toggle__label">Vault</span>
+                </button>
+              </div>
             </div>
-            {activePortfolio?.isPublic && (
-              <button
-                type="button"
-                onClick={handleCopyShareLink}
-                className={`btn min-h-11 text-xs ${linkCopied ? 'btn-secondary border-accent-success text-accent-success' : 'btn-secondary'}`}
-                title={t.collection.portfolio.shareLink}
-              >
-                <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
-                {linkCopied ? t.collection.portfolio.linkCopied : t.collection.portfolio.shareLink}
-              </button>
-            )}
             {activePortfolio && (
-              <button
-                type="button"
-                onClick={() => setShowAddPicker(v => !v)}
-                className={`btn min-h-11 text-xs ${showAddPicker ? 'btn-secondary border-accent-secondary text-accent-secondary' : 'btn-secondary'}`}
-              >
-                <FolderPlus className="w-3.5 h-3.5" aria-hidden="true" />
-                {showAddPicker ? t.collection.toolbar.close : t.collection.toolbar.addCards}
-              </button>
+              <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-border-default">
+                {activePortfolio.isPublic && (
+                  <button
+                    type="button"
+                    onClick={handleCopyShareLink}
+                    className={`btn min-h-11 text-xs ${linkCopied ? 'btn-secondary border-accent-success text-accent-success' : 'btn-secondary'}`}
+                    title={t.collection.portfolio.shareLink}
+                  >
+                    <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
+                    {linkCopied ? t.collection.portfolio.linkCopied : t.collection.portfolio.shareLink}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setShowAddPicker(v => !v)}
+                  className={`btn min-h-11 text-xs ${showAddPicker ? 'btn-secondary border-accent-secondary text-accent-secondary' : 'btn-secondary'}`}
+                >
+                  <FolderPlus className="w-3.5 h-3.5" aria-hidden="true" />
+                  {showAddPicker ? t.collection.toolbar.close : t.collection.toolbar.addCards}
+                </button>
+              </div>
             )}
           </div>
 
@@ -692,123 +727,124 @@ export function CollectionListView({
             </div>
           )}
 
-          {/* LIST VIEW */}
+          {/* LIST VIEW — spec ledger */}
           {!loading && filtered.length > 0 && displayMode === 'list' && (
-            <div className="panel overflow-hidden">
-              <div
-                className="hidden sm:grid gap-3 items-center px-4 py-2.5 bg-surface-raised border-b border-border-default"
-                style={{ gridTemplateColumns: activePortfolio ? '1fr 130px 100px 80px 110px' : '1fr 130px 100px 80px 80px' }}
-              >
-                {[t.collection.table.card, t.collection.table.grade, t.collection.table.buyPrice, t.collection.table.status, t.collection.table.actions].map(h => (
-                  <p key={h} className="spec-row__label !text-[10px]">{h}</p>
-                ))}
+            <div className="collection-ledger">
+              <div className={`collection-ledger__header ${activePortfolio ? 'collection-ledger__header--portfolio' : ''}`}>
+                <span className="collection-ledger__header-cell" aria-hidden="true" />
+                <span className="collection-ledger__header-cell">#</span>
+                <span className="collection-ledger__header-cell">{t.collection.table.card}</span>
+                <span className="collection-ledger__header-cell">{t.collection.table.grade}</span>
+                <span className="collection-ledger__header-cell">{t.collection.table.buyPrice}</span>
+                <span className="collection-ledger__header-cell">{t.collection.table.list}</span>
+                <span className="collection-ledger__header-cell">{t.collection.table.status}</span>
+                <span className="collection-ledger__header-cell">{t.collection.table.actions}</span>
               </div>
-              {filtered.map(card => {
+              {filtered.map((card, index) => {
                 const memberships = !activePortfolio ? cardPortfolios(card.id) : [];
+                const tierClass = gradeTierClass(card.grade);
+                const rowConfirm = deleteId === card.id && !activePortfolio;
                 return (
-                  <div key={card.id} className={`border-b border-border-default last:border-b-0 transition-[background-color] ${deleteId === card.id ? 'bg-accent-danger/5' : 'hover:bg-surface-raised'}`}>
-                    <div className="hidden sm:grid gap-3 items-center px-4 py-3" style={{ gridTemplateColumns: activePortfolio ? '1fr 130px 100px 80px 110px' : '1fr 130px 100px 80px 80px' }}>
-                      <div className="min-w-0">
-                        <p className={`text-sm font-medium truncate ${card.sold ? 'text-text-muted line-through' : 'text-text-primary'}`}>{card.name}</p>
-                        <p className="text-text-muted text-xs truncate mt-0.5">{[card.year, card.set, card.number, card.language].filter(Boolean).join(' · ')}</p>
-                        {card.certNumber && <p className="text-text-muted text-xs font-mono truncate mt-0.5">Cert {card.certNumber}</p>}
-                        {memberships.length > 0 && (
-                          <div className="flex items-center gap-1 mt-1 flex-wrap">
-                            {memberships.map(p => (
-                              <span key={p.id} className="inline-flex items-center gap-0.5 text-[10px] text-accent-secondary bg-accent-secondary/8 px-1.5 py-0.5 border border-accent-secondary/20 font-mono">
-                                <Folder className="w-2 h-2" aria-hidden="true" />{p.name}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                  <div
+                    key={card.id}
+                    className={`collection-ledger__row ${tierClass} ${activePortfolio ? 'collection-ledger__row--portfolio' : ''} ${rowConfirm ? 'collection-ledger__row--confirm' : ''}`}
+                  >
+                    <div className="collection-ledger__thumb">
+                      <CardThumbnail card={card} size="md" />
+                    </div>
+                    <span className="collection-ledger__index">{String(index + 1).padStart(2, '0')}</span>
+                    <div className="collection-ledger__cell collection-ledger__cell--meta">
+                      <CardMetaBlock card={card} memberships={memberships} />
+                    </div>
+                    <div className="collection-ledger__cell collection-ledger__cell--grade">
                       <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
-                      <div>
-                        <p className={`text-sm font-bold font-tabular ${card.sold ? 'text-text-muted line-through' : 'text-accent-secondary'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</p>
-                        {card.listPrice && <p className="text-text-muted text-xs font-tabular">List: {card.listCurrency} {card.listPrice.toLocaleString()}</p>}
-                      </div>
-                      <StatusBadge sold={card.sold} onClick={() => onToggleSold(card)} />
+                    </div>
+                    <div className="collection-ledger__cell collection-ledger__cell--buy">
+                      <CardPriceBlock card={card} showList={false} />
+                    </div>
+                    <div className="collection-ledger__cell collection-ledger__cell--list">
+                      {card.listPrice != null ? (
+                        <span className={`collection-ledger__list-value ${card.sold ? 'collection-price--sold' : ''}`}>
+                          <span className="collection-price-buy__currency">{card.listCurrency}</span>
+                          {card.listPrice.toLocaleString()}
+                        </span>
+                      ) : (
+                        <span className="collection-ledger__list-empty" aria-hidden="true">—</span>
+                      )}
+                    </div>
+                    <div className="collection-ledger__cell collection-ledger__cell--status">
+                      <CardStatusBadge sold={card.sold} onClick={() => onToggleSold(card)} />
+                    </div>
+                    <div className="collection-ledger__cell collection-ledger__cell--actions">
                       <CardActions card={card} />
                     </div>
-                    <div className="sm:hidden flex items-center gap-3 px-3 py-2">
-                      <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-medium truncate ${card.sold ? 'text-text-muted line-through' : 'text-text-primary'}`}>{card.name}</p>
-                        <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                          <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
-                          <span className={`text-xs font-bold font-tabular ${card.sold ? 'text-text-muted line-through' : 'text-accent-secondary'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</span>
-                        </div>
-                      </div>
-                      <CardActions card={card} compact />
+                    <div className="collection-ledger__cell collection-ledger__cell--mobile-extra">
+                      <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
+                      <CardPriceBlock card={card} />
+                      <CardStatusBadge sold={card.sold} onClick={() => onToggleSold(card)} />
                     </div>
-                    {deleteId === card.id && !activePortfolio && (
-                      <div className="sm:hidden flex items-center gap-2 px-3 pb-2 border-t border-border-default bg-accent-danger/5">
-                        <p className="text-accent-danger text-xs flex-1">{t.collection.actions.confirmDeleteCard}</p>
-                        <button type="button" onClick={handleDelete} disabled={deleting} className="btn btn-destructive text-xs min-h-0 px-3 py-1 disabled:opacity-40">{deleting ? '…' : t.collection.actions.confirm}</button>
-                        <button type="button" onClick={() => setDeleteId(null)} className="btn btn-secondary text-xs min-h-0 px-3 py-1">{t.common.cancel}</button>
-                      </div>
-                    )}
+                    {rowConfirm && <DeleteConfirmRow />}
                   </div>
                 );
               })}
             </div>
           )}
 
-          {/* GRID VIEW */}
+          {/* GRID VIEW — slab vault */}
           {!loading && filtered.length > 0 && displayMode === 'grid' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {filtered.map(card => {
+            <div className="collection-vault">
+              {filtered.map((card, index) => {
                 const memberships = !activePortfolio ? cardPortfolios(card.id) : [];
+                const rowConfirm = deleteId === card.id && !activePortfolio;
                 return (
-                  <article key={card.id} className="panel p-4 hover:border-border-strong transition-[border-color] flex flex-col gap-3">
-                    <div className="flex items-start justify-between">
-                      <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
-                      <StatusBadge sold={card.sold} onClick={() => onToggleSold(card)} />
-                    </div>
-                    <div className="flex-1">
-                      <p className={`text-sm font-semibold leading-snug ${card.sold ? 'text-text-muted line-through' : 'text-text-primary'}`}>{card.name}</p>
-                      <p className="text-text-muted text-xs mt-1 line-clamp-1">{[card.year, card.set].filter(Boolean).join(' · ')}</p>
-                      {card.certNumber && <p className="text-text-muted text-xs font-mono mt-0.5">Cert #{card.certNumber}</p>}
-                      {memberships.length > 0 && (
-                        <div className="flex items-center gap-1 mt-2 flex-wrap">
-                          {memberships.map(p => (
-                            <span key={p.id} className="inline-flex items-center gap-0.5 text-[10px] text-accent-secondary bg-accent-secondary/8 px-1.5 py-0.5 border border-accent-secondary/20 font-mono">
-                              <Folder className="w-2 h-2" aria-hidden="true" />{p.name}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <div className="border-t border-border-default pt-3">
-                      <div className="spec-row !py-2 !px-0">
-                        <span className="spec-row__label">{t.collection.table.buyPrice}</span>
-                        <span className={`spec-row__value ${card.sold ? 'text-text-muted line-through' : 'text-accent-secondary'}`}>{card.buyCurrency} {card.buyPrice.toLocaleString()}</span>
+                  <article
+                    key={card.id}
+                    className={`collection-vault-card ${gradeTierClass(card.grade)}`}
+                    style={{ '--vault-index': index } as React.CSSProperties}
+                  >
+                    <div className="collection-vault-card__media">
+                      <div className="collection-vault-card__badges">
+                        <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
+                        <CardStatusBadge sold={card.sold} onClick={() => onToggleSold(card)} />
                       </div>
-                      {card.listPrice && (
-                        <div className="spec-row !py-2 !px-0">
-                          <span className="spec-row__label">{t.collection.table.list}</span>
-                          <span className="spec-row__value text-text-secondary">{card.listCurrency} {card.listPrice.toLocaleString()}</span>
+                      <CardThumbnail card={card} size="lg" />
+                    </div>
+                    <div className="collection-vault-card__body">
+                      <CardMetaBlock card={card} memberships={memberships} />
+                    </div>
+                    <div className="collection-vault-card__specs">
+                      <div className="collection-vault-card__spec-row">
+                        <span className="collection-vault-card__spec-label">{t.collection.table.buyPrice}</span>
+                        <span className={`collection-vault-card__spec-value ${card.sold ? 'collection-vault-card__spec-value--sold' : ''}`}>
+                          {card.buyCurrency} {card.buyPrice.toLocaleString()}
+                        </span>
+                      </div>
+                      {card.listPrice != null && (
+                        <div className="collection-vault-card__spec-row">
+                          <span className="collection-vault-card__spec-label">{t.collection.table.list}</span>
+                          <span className="collection-vault-card__spec-value text-text-secondary">
+                            {card.listCurrency} {card.listPrice.toLocaleString()}
+                          </span>
                         </div>
                       )}
                     </div>
-                    <div className="flex gap-2">
+                    <div className="collection-vault-card__actions">
                       <button type="button" onClick={() => onOpenEdit(card)} className="btn btn-secondary flex-1 text-xs min-h-11 py-1.5">
-                        <Pencil className="w-3 h-3" aria-hidden="true" /> {t.collection.account.edit}
+                        <Pencil className="w-3 h-3 shrink-0" aria-hidden="true" /> {t.collection.account.edit}
                       </button>
                       {activePortfolio ? (
                         <button type="button" onClick={() => handleRemoveCard(card.id)} disabled={removingCardId === card.id} className="btn btn-destructive flex-1 text-xs min-h-11 py-1.5 disabled:opacity-40">
-                          {removingCardId === card.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <><X className="w-3 h-3" aria-hidden="true" />{t.collection.toolbar.remove}</>}
+                          {removingCardId === card.id ? <Loader2 className="w-3 h-3 shrink-0 animate-spin" /> : <><X className="w-3 h-3 shrink-0" aria-hidden="true" />{t.collection.toolbar.remove}</>}
                         </button>
                       ) : (
                         <button type="button" onClick={() => setDeleteId(card.id)} className="btn btn-secondary flex-1 text-xs min-h-11 py-1.5 hover:border-accent-danger/40 hover:text-accent-danger">
-                          <Trash2 className="w-3 h-3" aria-hidden="true" /> {t.collection.account.delete}
+                          <Trash2 className="w-3 h-3 shrink-0" aria-hidden="true" /> {t.collection.account.delete}
                         </button>
                       )}
                     </div>
-                    {deleteId === card.id && !activePortfolio && (
-                      <div className="flex items-center gap-2 border-t border-border-default pt-2 bg-accent-danger/5 -mx-4 px-4 pb-1">
-                        <p className="text-accent-danger text-xs flex-1">{t.collection.actions.confirmDeleteCard}</p>
-                        <button type="button" onClick={handleDelete} disabled={deleting} className="btn btn-destructive text-xs min-h-0 px-3 py-1 disabled:opacity-40">{deleting ? '…' : t.collection.actions.confirm}</button>
-                        <button type="button" onClick={() => setDeleteId(null)} className="btn btn-secondary text-xs min-h-0 px-3 py-1">{t.common.cancel}</button>
+                    {rowConfirm && (
+                      <div className="collection-vault-card__confirm">
+                        <DeleteConfirmRow />
                       </div>
                     )}
                   </article>

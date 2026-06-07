@@ -101,35 +101,26 @@ export default Page;
 `,
 );
 
-const publicPortfolioDir = path.join(root, 'zh/collection/p/[id]');
+const publicPortfolioDir = path.join(root, 'zh/collection/p/view');
 fs.mkdirSync(publicPortfolioDir, { recursive: true });
 fs.writeFileSync(
   path.join(publicPortfolioDir, 'page.tsx'),
-  `import Page, {
-  generateStaticParams,
-  generateMetadata as enGenerateMetadata,
-} from '../../../../collection/p/[id]/page';
-import { fetchPublicPortfolioRaw } from '@/lib/collection/publicPortfolio';
-import { buildPublicPortfolioMetadata } from '@/lib/seo/metadata';
-import type { Metadata } from 'next';
+  `import type { Metadata } from 'next';
+import { PublicPortfolioPageClient } from '@/app/collection/components/PublicPortfolioPageClient';
 
-export { generateStaticParams };
+export const metadata: Metadata = {
+  title: '公開組合 | Appaw Store',
+  robots: { index: false, follow: false },
+};
 
-export async function generateMetadata(
-  props: Parameters<typeof enGenerateMetadata>[0],
-): Promise<Metadata> {
-  const { id } = await props.params;
-  const portfolio = await fetchPublicPortfolioRaw(id);
-  if (!portfolio) {
-    return {
-      title: '找不到組合 | Appaw Store',
-      robots: { index: false, follow: false },
-    };
-  }
-  return buildPublicPortfolioMetadata(portfolio, id, 'zh');
+export default function ZhPublicPortfolioViewPage() {
+  return <PublicPortfolioPageClient />;
 }
-
-export default Page;
+`,
+);
+fs.writeFileSync(
+  path.join(publicPortfolioDir, 'not-found.tsx'),
+  `export { default } from '@/app/collection/p/view/not-found';
 `,
 );
 

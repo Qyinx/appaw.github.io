@@ -43,6 +43,24 @@
       "skillPath": "skills/caveman-stats/SKILL.md",
       "computedHash": "331f720e2fa97b68cacdae44384878071e8cac6013479edea68f4c8eca308852"
     },
+    "exa-best-practices": {
+      "source": "exa-labs/exa-cursor-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/exa-best-practices/SKILL.md",
+      "computedHash": "4aa850d07eea1efdd3985dd8ad5d3c3ba6701406f2fa9da20824f413b1222c80"
+    },
+    "exa-fetch": {
+      "source": "exa-labs/exa-cursor-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/exa-fetch/SKILL.md",
+      "computedHash": "16c4178925907c80a0dbee0f3e261c8449cd9ab7629eaa6715c21c479d879046"
+    },
+    "exa-web-search": {
+      "source": "exa-labs/exa-cursor-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/exa-web-search/SKILL.md",
+      "computedHash": "91bc36503e749d72d0f77c9a3218dd1e913e6c613bf4ec1b0536a2864e480b9c"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
@@ -66,6 +84,42 @@
       "sourceType": "github",
       "skillPath": "plugins/frontend-mobile-development/skills/tailwind-design-system/SKILL.md",
       "computedHash": "992ab1e874c4f4159aa18d4ff45d1c3f86f322f0bd2a6744cc32f7d6147f9f06"
+    },
+    "tavily-best-practices": {
+      "source": "tavily-ai/tavily-cursor-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/tavily-best-practices/SKILL.md",
+      "computedHash": "b1912363d3ad92011952118994dbf9e01bcd6544aab166f9bf1ce243cd44f7a0"
+    },
+    "tavily-cli": {
+      "source": "tavily-ai/tavily-cursor-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/tavily-cli/SKILL.md",
+      "computedHash": "524054fc3d04cf2acc47b00f263ccffc82b086fc9eb031c80a54f8f840c46f54"
+    },
+    "tavily-crawl": {
+      "source": "tavily-ai/tavily-cursor-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/tavily-crawl/SKILL.md",
+      "computedHash": "994005f0396dfa719f7ff8a3836420e12cbe61267b565f395a34bc36696c198d"
+    },
+    "tavily-extract": {
+      "source": "tavily-ai/tavily-cursor-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/tavily-extract/SKILL.md",
+      "computedHash": "2df648170992a5ff91ea1190be1125a7ca226d995f1a905066edf0475a0bad89"
+    },
+    "tavily-research": {
+      "source": "tavily-ai/tavily-cursor-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/tavily-research/SKILL.md",
+      "computedHash": "11aeac3143919fb05809c046a978f451842c098c99200be5f87e69d4d068ef3c"
+    },
+    "tavily-search": {
+      "source": "tavily-ai/tavily-cursor-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/tavily-search/SKILL.md",
+      "computedHash": "818f04f0b6aa030a574be69757d116f37ca48f63e0c1e8395d1633bf91a01f00"
     },
     "ui-animation": {
       "source": "mblode/agent-skills",

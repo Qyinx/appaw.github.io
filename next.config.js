@@ -26,6 +26,20 @@ const nextConfig = {
   // Note: `/api/imgproxy` is now obsolete — images are fetched directly
   // from the backend URL and the backend must allow CORS for the site.
   // Custom domain (appaw.store) - no basePath needed
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/collection/p/:id((?!view|_)[^/]+)/',
+          destination: '/collection/p/view/',
+        },
+        {
+          source: '/zh/collection/p/:id((?!view|_)[^/]+)/',
+          destination: '/zh/collection/p/view/',
+        },
+      ],
+    };
+  },
 }
 
 module.exports = nextConfig

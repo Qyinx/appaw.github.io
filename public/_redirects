@@ -1,0 +1,3 @@
+# Public portfolio share links — static view shell, client reads id from URL path.
+/collection/p/*  /collection/p/view/  200!
+/zh/collection/p/*  /zh/collection/p/view/  200!

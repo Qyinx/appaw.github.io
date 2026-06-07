@@ -91,12 +91,30 @@ export async function fetchPublicPortfolioIdsForBuild(): Promise<string[]> {
   }
 }
 
+/** Client-safe fetch for static-export pages (handles 404/403 as null). */
+export async function fetchPublicPortfolioForClient(id: string): Promise<PublicPortfolio | null> {
+  if (!id) return null;
+  try {
+    const res = await fetch(
+      `${BACKEND_URL.replace(/\/$/, '')}/portfolios/public/${encodeURIComponent(id)}`,
+      { cache: 'no-store' },
+    );
+    if (res.status === 404 || res.status === 403) return null;
+    if (!res.ok) return null;
+    const raw = await res.json();
+    const payload = raw.data ?? raw;
+    return normalizePublicPortfolio(payload, id);
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchPublicPortfolioRaw(id: string): Promise<PublicPortfolio | null> {
   const res = await fetch(`${BACKEND_URL}/portfolios/public/${encodeURIComponent(id)}`, {
     next: { revalidate: 60 },
   });
 
-  if (res.status === 404) return null;
+  if (res.status === 404 || res.status === 403) return null;
   if (!res.ok) {
     throw new Error(`Failed to fetch public portfolio (${res.status})`);
   }
