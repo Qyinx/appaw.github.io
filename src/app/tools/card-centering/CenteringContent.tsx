@@ -219,7 +219,7 @@ export default function CenteringContent() {
         stepLabel={c.stepLabel}
       />
 
-      <section className={`panel p-0 overflow-hidden border-l-[3px] border-l-accent-secondary ${styles.contentSection}`} aria-labelledby="psa-requirements">
+      <section className={`panel p-0 overflow-hidden border-l-[3px] border-l-accent-secondary ${styles.contentSpecSection}`} aria-labelledby="psa-requirements">
         <div className={styles.contentSectionHeader}>
           <span className="font-mono text-xs text-text-muted uppercase tracking-wider">PSA Spec</span>
           <span className="font-mono text-xs text-accent-warn uppercase tracking-wider">Reference</span>

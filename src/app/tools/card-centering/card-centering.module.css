@@ -888,9 +888,9 @@
 }
 
 .contentSectionHeader {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   padding: 10px 16px;
   border-bottom: var(--border-width, 1px) solid var(--border-default);
@@ -903,9 +903,9 @@
 
 .howToInstrumentHeader,
 .faqInstrumentHeader {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   padding: 10px 16px;
   border-bottom: var(--border-width, 1px) solid var(--border-default);
@@ -935,8 +935,26 @@
   padding: clamp(24px, 4vw, 32px);
 }
 
+.contentSpecSection {
+  margin-top: clamp(40px, 6vw, 56px);
+  padding: 0;
+  border: var(--border-width, 1px) solid var(--border-default);
+  background: var(--surface-panel);
+  border-radius: var(--radius-panel, 0);
+  box-shadow: none;
+}
+
 .contentSection.panel {
   padding: clamp(24px, 4vw, 32px);
+}
+
+.contentSpecSection.panel {
+  padding: 0;
+}
+
+.contentSpecSection .contentH2 {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .contentH2 {
