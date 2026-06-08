@@ -690,10 +690,14 @@ export const zh: Translations = {
 
   // Footer
   footer: {
-    description: '您值得信賴的卡片保護與交易卡牌買賣夥伴。',
-    quickLinks: '快速連結',
-    contact: '聯絡方式',
-    followUs: '關注我們',
+    sitemap: '網站地圖',
+    sitemapShop: '商店',
+    sitemapTools: '工具',
+    sitemapInfo: '資訊',
+    email: '電郵',
+    phone: '電話',
+    location: '地點',
+    locationValue: '香港',
     rights: '版權所有。',
     privacy: '私隱政策',
   },

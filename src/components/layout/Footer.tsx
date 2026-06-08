@@ -4,77 +4,93 @@ import React from 'react';
 import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
 
+const TOOL_HREF = '/tools/card-centering';
+
 export default function Footer() {
   const { t } = useLanguage();
+  const year = new Date().getFullYear();
 
-  const quickLinks = [
-    { href: '/', label: t.nav.home },
-    { href: '/products/psa-protectors', label: t.nav.psaProtector },
-    { href: '/business/card-trading', label: t.nav.cardTrading },
-    { href: '/collection', label: t.nav.collection },
-    { href: '/tools/card-centering', label: t.nav.centeringTool },
-    { href: '/guides', label: t.nav.guides },
-    { href: '/about', label: t.nav.about },
+  const sitemapGroups = [
+    {
+      label: t.footer.sitemapShop,
+      links: [
+        { href: '/products/psa-protectors', label: t.nav.psaProtector },
+        { href: '/business/card-trading', label: t.nav.cardTrading },
+        { href: '/collection', label: t.nav.collection },
+      ],
+    },
+    {
+      label: t.footer.sitemapTools,
+      links: [{ href: TOOL_HREF, label: t.nav.centeringTool, highlight: true }],
+    },
+    {
+      label: t.footer.sitemapInfo,
+      links: [
+        { href: '/', label: t.nav.home },
+        { href: '/guides', label: t.nav.guides },
+        { href: '/about', label: t.nav.about },
+      ],
+    },
   ];
 
   return (
-    <footer className="border-t border-border-default bg-surface-panel text-text-secondary">
-      <div className="max-w-7xl mx-auto px-[var(--space-page-x)] py-10 md:py-12">
-        <div className="grid gap-8 md:grid-cols-12 md:gap-6">
-          <div className="md:col-span-5">
-            <LocalLink href="/" className="font-display font-bold text-text-primary text-base hover:text-accent-brand transition-colors duration-150">
-              Appaw Store
-            </LocalLink>
-            <p className="mt-3 text-sm leading-relaxed max-w-sm text-text-secondary">
-              {t.footer.description}
+    <footer className="site-footer">
+      <div className="container-custom site-footer__inner">
+        <div className="site-footer__panel panel">
+          <nav className="site-footer__sitemap" aria-label={t.footer.sitemap}>
+            <div className="site-footer__sitemap-header">
+              <span className="site-footer__sitemap-title">{t.footer.sitemap}</span>
+            </div>
+            {sitemapGroups.map((group) => (
+              <div key={group.label} className="site-footer__sitemap-row">
+                <span className="site-footer__sitemap-label">{group.label}</span>
+                <ul className="site-footer__sitemap-links">
+                  {group.links.map((link) => (
+                    <li key={link.href}>
+                      <LocalLink
+                        href={link.href}
+                        className={`site-footer__link${'highlight' in link && link.highlight ? ' site-footer__link--tool' : ''}`}
+                      >
+                        {link.label}
+                      </LocalLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+
+          <div className="site-footer__specs">
+            <div className="spec-row">
+              <span className="spec-row__label">{t.footer.email}</span>
+              <a href="mailto:support@appaw.store" className="spec-row__value site-footer__link">
+                support@appaw.store
+              </a>
+            </div>
+            <div className="spec-row">
+              <span className="spec-row__label">{t.footer.phone}</span>
+              <a
+                href="https://wa.me/85292851189"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="spec-row__value site-footer__link font-tabular"
+              >
+                +852 9285 1189
+              </a>
+            </div>
+            <div className="spec-row">
+              <span className="spec-row__label">{t.footer.location}</span>
+              <span className="spec-row__value">{t.footer.locationValue}</span>
+            </div>
+          </div>
+
+          <div className="site-footer__bar">
+            <p className="site-footer__bar-text">
+              <span translate="no">© {year} Appaw Store</span>
+              <span aria-hidden="true"> · </span>
+              {t.footer.rights}
             </p>
-          </div>
-
-          <div className="md:col-span-3">
-            <h2 className="section-label mb-4">{t.footer.quickLinks}</h2>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <LocalLink
-                    href={link.href}
-                    className="text-sm text-text-secondary hover:text-text-primary transition-colors duration-150"
-                  >
-                    {link.label}
-                  </LocalLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="md:col-span-4">
-            <h2 className="section-label mb-4">{t.footer.contact}</h2>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href="mailto:support@appaw.store" className="hover:text-text-primary transition-colors duration-150">
-                  support@appaw.store
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://wa.me/85292851189"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-text-primary transition-colors duration-150"
-                >
-                  +852 9285 1189
-                </a>
-              </li>
-              <li className="text-text-muted">Hong Kong</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-10 pt-6 border-t border-border-default flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-text-muted">
-          <p>
-            © {new Date().getFullYear()} Appaw Store. {t.footer.rights}
-          </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <LocalLink href="/privacy" className="hover:text-text-secondary transition-colors duration-150">
+            <LocalLink href="/privacy" className="site-footer__bar-link">
               {t.footer.privacy}
             </LocalLink>
           </div>

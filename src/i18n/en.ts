@@ -689,10 +689,14 @@ export const en = {
 
   // Footer
   footer: {
-    description: 'Your trusted partner for card protection and TCG trading.',
-    quickLinks: 'Quick Links',
-    contact: 'Contact',
-    followUs: 'Follow Us',
+    sitemap: 'Site Map',
+    sitemapShop: 'Shop',
+    sitemapTools: 'Tools',
+    sitemapInfo: 'Info',
+    email: 'Email',
+    phone: 'Phone',
+    location: 'Location',
+    locationValue: 'Hong Kong',
     rights: 'All rights reserved.',
     privacy: 'Privacy Policy',
   },

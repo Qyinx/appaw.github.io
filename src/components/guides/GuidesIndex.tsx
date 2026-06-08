@@ -15,6 +15,8 @@ const UI = {
     title: 'Slab Protection & Grading Guides',
     subtitle:
       'Evergreen how-to articles on 35PT cases, UV storage, PSA 10 centering, and when to grade vs protect. Written for Hong Kong and worldwide TCG collectors.',
+    indexLabel: 'Guide Index',
+    articleCount: (n: number) => `${n} articles`,
     read: 'Read guide',
   },
   zh: {
@@ -22,9 +24,15 @@ const UI = {
     title: '鑑定卡保護與置中指南',
     subtitle:
       '關於35PT卡盒、UV保存、PSA 10卡牌居中以及何時評級何時保護等實用技巧文章，常青推薦。專為香港及全球集換式卡牌遊戲收藏家撰寫。',
+    indexLabel: '指南索引',
+    articleCount: (n: number) => `${n} 篇`,
     read: '閱讀指南',
   },
 } as const;
+
+function formatIndex(n: number) {
+  return String(n).padStart(2, '0');
+}
 
 export default function GuidesIndex() {
   const { language } = useLanguage();
@@ -50,30 +58,60 @@ export default function GuidesIndex() {
         </div>
       </section>
 
-      <section ref={listReveal.ref} className="section-padding border-b border-border-default">
+      <section ref={listReveal.ref} className="section-padding border-b border-border-default" aria-labelledby="guides-index-heading">
         <div className="container-custom max-w-[1080px]">
-          <ul className="grid sm:grid-cols-2 gap-px bg-border-default border border-border-default">
-            {guides.map((guide, i) => (
-              <li key={guide.slug}>
-                <Reveal visible={listReveal.visible} dir="up" delay={i * 40}>
-                  <LocalLink
-                    href={`/guides/${guide.slug}/`}
-                    className="block bg-surface-panel p-8 h-full hover:border-accent-brand border border-transparent transition-colors duration-150 group"
+          <div className="guides-index panel overflow-hidden">
+            <div className="guides-index__header">
+              <h2 id="guides-index-heading" className="guides-index__heading">
+                {ui.indexLabel}
+              </h2>
+              <span className="guides-index__count">{ui.articleCount(guides.length)}</span>
+            </div>
+
+            <ul className="guides-index__list">
+              {guides.map((guide, i) => {
+                const keySpec = guide.heroSpecs[0];
+
+                return (
+                  <Reveal
+                    key={guide.slug}
+                    as="li"
+                    visible={listReveal.visible}
+                    dir="up"
+                    delay={i * 40}
+                    className="guides-index__item"
                   >
-                    <p className="font-mono text-[10px] uppercase tracking-widest text-text-muted mb-3">{guide.badge}</p>
-                    <h2 className="text-lg font-bold text-text-primary mb-3 group-hover:text-accent-brand transition-colors duration-150">
-                      {guide.title}
-                    </h2>
-                    <p className="text-text-secondary text-sm leading-relaxed mb-5">{guide.description}</p>
-                    <span className="inline-flex items-center gap-2 text-sm text-accent-link font-semibold">
-                      {ui.read}
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-150" aria-hidden="true" />
-                    </span>
-                  </LocalLink>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
+                    <LocalLink
+                      href={`/guides/${guide.slug}/`}
+                      className="guides-index__row"
+                      aria-label={`${ui.read}: ${guide.title}`}
+                    >
+                      <span className="guides-index__index" aria-hidden="true">
+                        {formatIndex(i + 1)}
+                      </span>
+
+                      <div className="guides-index__body">
+                        <span className="guides-index__badge">{guide.badge}</span>
+                        <h3 className="guides-index__title">{guide.title}</h3>
+                        <p className="guides-index__desc">{guide.description}</p>
+                        {keySpec ? (
+                          <div className="guides-index__spec" aria-hidden="true">
+                            <span className="guides-index__spec-label">{keySpec.label}</span>
+                            <span className="guides-index__spec-value">{keySpec.value}</span>
+                          </div>
+                        ) : null}
+                      </div>
+
+                      <div className="guides-index__meta">
+                        <span className="guides-index__read-time font-tabular">{guide.readTime}</span>
+                        <ArrowRight className="guides-index__arrow" aria-hidden="true" />
+                      </div>
+                    </LocalLink>
+                  </Reveal>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </section>
     </div>
