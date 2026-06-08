@@ -31,6 +31,8 @@ export function storeJsonLd() {
       'TCG card valuation and brokerage',
       'Aluminum card case manufacturing',
       'UV protection for trading cards',
+      'PSA slab authentication',
+      'Counterfeit graded card detection',
     ],
     address: {
       '@type': 'PostalAddress',

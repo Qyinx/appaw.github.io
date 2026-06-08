@@ -6,7 +6,7 @@ import type { GuideLocale } from './types';
 const guidesIndexBase: Metadata = {
   title: { absolute: 'Collector Guides – Slab Protection & Grading Tips | Appaw Store' },
   description:
-    'Practical guides on 35PT slab protectors, UV storage, PSA 10 centering, and when to grade vs protect your cards. Written for Hong Kong and worldwide TCG collectors.',
+    'Practical guides on 35PT slab protectors, UV storage, PSA 10 centering, fake PSA slab detection, and when to grade vs protect your cards. Written for Hong Kong and worldwide TCG collectors.',
   keywords: [
     'graded card guide',
     '35PT slab protector',
@@ -15,12 +15,15 @@ const guidesIndexBase: Metadata = {
     '鑑定卡保護',
     '鑑定卡防潮',
     'PSA 10 置中',
+    'fake PSA slab',
+    'PSA cert verification',
+    '假 PSA 鑑定殼',
   ],
   alternates: { canonical: '/guides/' },
   openGraph: {
     title: 'Collector Guides – Slab Protection & Grading Tips | Appaw Store',
     description:
-      'Evergreen how-to guides on slab cases, UV storage, PSA 10 centering, and grading decisions for Pokémon, sports, and TCG collectors.',
+      'Evergreen how-to guides on slab cases, UV storage, PSA 10 centering, fake PSA authentication, and grading decisions for Pokémon, sports, and TCG collectors.',
     url: 'https://appaw.store/guides/',
     type: 'website',
     images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: 'Appaw Store Collector Guides' }],
@@ -38,7 +41,7 @@ export const guidesIndexMetadata = withLocaleAlternates(guidesIndexBase, '/guide
 export const zhGuidesIndexMetadata = zhRouteMetadata(guidesIndexBase, '/guides/', {
   title: { absolute: '收藏指南 – 鑑定卡保護與置中技巧 | Appaw Store' },
   description:
-    '35PT 鑑定卡保護殼選購、防 UV 收納、PSA 10 置中標準、鑑定 vs 先保護的實用指南。適用香港及全球 TCG 收藏家。',
+    '35PT 鑑定卡保護殼選購、防 UV 收納、PSA 10 置中標準、假 PSA 鑑定殼辨識、鑑定 vs 先保護的實用指南。適用香港及全球 TCG 收藏家。',
 });
 
 export function guideMetadata(slug: GuideSlug, locale: GuideLocale): Metadata {

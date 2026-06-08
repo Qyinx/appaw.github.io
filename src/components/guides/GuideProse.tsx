@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { renderGuideParagraph } from '@/lib/guides/parseParagraphLinks';
 import GuideSpecPanel from './GuideSpecPanel';
 import type { GuideSection } from '@/lib/guides/types';
 
@@ -17,7 +20,7 @@ export default function GuideProse({ sections }: GuideProseProps) {
           <div className="space-y-4">
             {section.paragraphs.map((para, i) => (
               <p key={i} className="text-text-secondary text-base leading-relaxed">
-                {para}
+                {renderGuideParagraph(para)}
               </p>
             ))}
           </div>

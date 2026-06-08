@@ -8,6 +8,7 @@ export type GuideSpecRow = {
 export type GuideSection = {
   id: string;
   title: string;
+  /** Plain text; use `[label](href)` for inline links (rendered in GuideProse). */
   paragraphs: string[];
   specs?: GuideSpecRow[];
 };
