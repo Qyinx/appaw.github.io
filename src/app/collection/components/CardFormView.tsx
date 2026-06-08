@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useRef, type ChangeEvent, type FormEvent } from 'react';
+import React, { useState, useRef, useEffect, useMemo, type ChangeEvent, type FormEvent } from 'react';
+import { createPortal } from 'react-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import {
   X, Loader2, ArrowLeft,
@@ -8,6 +9,7 @@ import {
 } from 'lucide-react';
 import {
   type CardFormState,
+  type CollectorCard,
   type Language,
   type GradingCompany,
   type Portfolio,
@@ -16,7 +18,8 @@ import {
 } from '../types';
 import HeroStamp from '@/components/ui/HeroStamp';
 import { WorkspaceNotice } from './WorkspaceNotice';
-import { inp, lbl, Section, Toggle, compressImage } from './shared';
+import { inp, lbl, Section, Toggle, compressImage, GradePill } from './shared';
+import { CardThumbnail, CardMetaBlock, gradeTierClass, resolveCardImageUrl } from './CollectionCardDisplay';
 
 export interface CardFormViewProps {
   initial: CardFormState | null;
@@ -25,10 +28,56 @@ export interface CardFormViewProps {
   onSave: (form: CardFormState, portfolioIds: string[]) => Promise<void>;
   onScan: (file: File) => Promise<Partial<CardFormState>>;
   onLoadImages?: () => Promise<{ frontImage?: string; backImage?: string } | undefined>;
+  serverImageFlags?: { front: boolean; back: boolean };
   saving: boolean;
   saveMsg?: string | null;
   portfolios: Portfolio[];
   initialPortfolioIds: string[];
+}
+
+function CardPhotoLightbox({
+  src,
+  onClose,
+  cancelLabel,
+}: {
+  src: string;
+  onClose: () => void;
+  cancelLabel: string;
+}) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <div
+      className="workspace-lightbox workspace-lightbox--portal fixed inset-0 flex items-center justify-center p-4 overscroll-contain"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Card photo preview"
+    >
+      <button
+        type="button"
+        className="absolute inset-0 bg-accent-structural/90"
+        aria-label={cancelLabel}
+        onClick={onClose}
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" className="relative z-[1] max-w-full max-h-full object-contain border border-border-strong" />
+      <button type="button" onClick={onClose} aria-label={cancelLabel} className="absolute top-4 right-4 z-[1] btn btn-secondary btn-icon">
+        <X className="w-5 h-5" />
+      </button>
+    </div>,
+    document.body,
+  );
 }
 
 const GRADE_CO_STYLES: Record<GradingCompany, React.CSSProperties> = {
@@ -39,7 +88,7 @@ const GRADE_CO_STYLES: Record<GradingCompany, React.CSSProperties> = {
 };
 
 export function CardFormView({
-  initial, isEdit, onBack, onSave, onScan, onLoadImages,
+  initial, isEdit, onBack, onSave, onScan, onLoadImages, serverImageFlags,
   saving, saveMsg, portfolios, initialPortfolioIds,
 }: CardFormViewProps) {
   const { t } = useLanguage();
@@ -54,8 +103,32 @@ export function CardFormView({
   const scanRef = useRef<HTMLInputElement>(null);
 
   const [photoZoom, setPhotoZoom] = useState<string | null>(null);
-  const [photosCollapsed, setPhotosCollapsed] = useState(true);
+  const [photosCollapsed, setPhotosCollapsed] = useState(
+    () => !(initial?.frontImage || initial?.backImage),
+  );
   const [loadingPhotos, setLoadingPhotos] = useState(false);
+
+  const previewCard = useMemo<CollectorCard>(() => ({
+    id: 'preview',
+    name: form.name.trim() || '—',
+    year: Number(form.year) || CURRENT_YEAR,
+    company: form.company,
+    grade: Number(form.grade) || 0,
+    buyPrice: Number(form.buyPrice) || 0,
+    buyCurrency: form.buyCurrency,
+    sold: form.sold,
+    listPrice: form.listPrice ? Number(form.listPrice) : undefined,
+    listCurrency: form.listCurrency,
+    set: form.set || undefined,
+    number: form.number || undefined,
+    certNumber: form.certNumber || undefined,
+    language: form.language,
+    isBlackLabel: form.isBlackLabel,
+    frontImage: form.frontImage,
+    backImage: form.backImage,
+    createdAt: '',
+  }), [form]);
+
   const [scanState, setScanState] = useState<'idle' | 'scanning' | 'done' | 'error'>('idle');
   const [scanMsg, setScanMsg] = useState('');
 
@@ -174,6 +247,25 @@ export function CardFormView({
             muted: isEdit ? t.collection.form.basicInfo : t.collection.form.scan.subtitle,
           }}
         />
+
+        {isEdit && (
+          <div className={`panel collection-form-preview mb-6 overflow-hidden border-l-[3px] ${gradeTierClass(previewCard.grade)}`}>
+            <div className="flex items-stretch gap-4 p-4">
+              <div className="relative flex-shrink-0">
+                <CardThumbnail card={previewCard} size="md" />
+                {loadingPhotos && !form.frontImage && serverImageFlags?.front && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-surface-panel/80" aria-hidden="true">
+                    <Loader2 className="w-5 h-5 text-accent-secondary animate-spin" />
+                  </div>
+                )}
+              </div>
+              <div className="min-w-0 flex-1 flex flex-col justify-center gap-2">
+                <GradePill company={previewCard.company} grade={previewCard.grade} isBlackLabel={previewCard.isBlackLabel} />
+                <CardMetaBlock card={previewCard} compact />
+              </div>
+            </div>
+          </div>
+        )}
 
         <form id="card-form" onSubmit={handleSubmit} noValidate className="space-y-6">
 
@@ -428,7 +520,7 @@ export function CardFormView({
                       {value ? (
                         <div className="relative overflow-hidden border border-border-default aspect-[3/4] bg-surface-raised group">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={value} alt={label} className="w-full h-full object-cover" />
+                          <img src={resolveCardImageUrl(value) ?? value} alt={label} className="w-full h-full object-contain" />
                           <div className="absolute inset-0 flex items-center justify-center gap-2 bg-accent-structural/40 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                             <button type="button" onClick={() => setPhotoZoom(value)} aria-label="Zoom" className="btn btn-secondary btn-icon min-w-11 min-h-11"><ZoomIn className="w-4 h-4" aria-hidden="true" /></button>
                             <button type="button" onClick={() => ref.current?.click()} aria-label="Replace photo" className="btn btn-secondary btn-icon min-w-11 min-h-11"><Camera className="w-4 h-4" aria-hidden="true" /></button>
@@ -508,21 +600,8 @@ export function CardFormView({
         </div>
       </div>
 
-      {/* Photo lightbox */}
       {photoZoom && (
-        <div className="workspace-lightbox fixed inset-0 flex items-center justify-center p-4 overscroll-contain" role="dialog" aria-modal="true" aria-label="Card photo preview">
-          <button
-            type="button"
-            className="absolute inset-0 bg-accent-structural/90"
-            aria-label={t.common.cancel}
-            onClick={() => setPhotoZoom(null)}
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={photoZoom} alt="" className="relative z-[61] max-w-full max-h-full object-contain border border-border-strong" />
-          <button type="button" onClick={() => setPhotoZoom(null)} aria-label={t.common.cancel} className="absolute top-4 right-4 z-[61] btn btn-secondary btn-icon">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+        <CardPhotoLightbox src={photoZoom} onClose={() => setPhotoZoom(null)} cancelLabel={t.common.cancel} />
       )}
     </div>
   );

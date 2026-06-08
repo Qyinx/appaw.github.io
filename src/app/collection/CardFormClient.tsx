@@ -18,6 +18,10 @@ import {
 import { compressImage, getMemberLevel } from './components/shared';
 import { CardFormView } from './components/CardFormView';
 import { cacheGet, cacheSet, cacheInvalidate } from './lib/apiCache';
+import {
+  cardReportsImage,
+  resolveStoredCardImageUrls,
+} from './lib/cardImages';
 import { useCollectionAuth } from './hooks/useCollectionAuth';
 
 interface CardFormClientProps {
@@ -44,42 +48,17 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   const [dataError, setDataError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState<string | null>(null);
-  // Track whether the server actually has front/back images (independent of data-URL fetch success)
+  // Track whether the server has front/back images (for upload/delete sync on save)
   const [serverImages, setServerImages] = useState<{ front: boolean; back: boolean }>({ front: false, back: false });
 
-  /* ── Fetch card image as authenticated data URL ── */
-  const fetchImageAsDataUrl = useCallback(async (url: string): Promise<string | undefined> => {
-    try {
-      const token = await getAccessToken();
-      // Fetch images directly from the backend URL. Ensure the backend
-      // allows CORS for the site origin and accepts the Authorization header.
-      const fetchUrl = url;
-      const res = await fetch(fetchUrl, { headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) {
-        // eslint-disable-next-line no-console
-        console.debug('fetchImageAsDataUrl: non-OK response', { url: fetchUrl, status: res.status, statusText: res.statusText });
-        return undefined;
-      }
-      const blob = await res.blob();
-      return await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.debug('fetchImageAsDataUrl: error fetching', { url, error: err });
-      return undefined;
-    }
-  }, [getAccessToken]);
-
   /* ── Load data on mount ── */
-  const loadedRef = useRef(false);
+  const loadedForCardRef = useRef<string | null>(null);
   const imageCandidatesRef = useRef<{ front?: string; back?: string; raw?: any }>({});
   useEffect(() => {
-    if (!isAuthenticated || loadedRef.current) return;
-    loadedRef.current = true;
+    if (!isAuthenticated) return;
+    const loadKey = isEdit ? cardId ?? '' : '__new__';
+    if (loadedForCardRef.current === loadKey) return;
+    loadedForCardRef.current = loadKey;
     const isServerUrl = (s?: string) => !!s && !s.startsWith('data:');
 
     async function load() {
@@ -102,46 +81,16 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rawPortfolios: any[] = Array.isArray((rawCard as any).portfolios) ? (rawCard as any).portfolios : [];
           setCardPortfolioIds(rawPortfolios.map(p => String(p.Id ?? p.id ?? '')).filter(Boolean));
-          // For edit mode, inspect the raw card response's `images` array. The
-          // backend may return an array of objects like `{ url, seq }` where
-          // `seq === 0` means front and `seq === 1` means back. If entries are
-          // plain strings, try to map by index. Fall back to the backend images
-          // endpoint if no direct URL is present.
-          const imageUrl = (seq: number) => `${BACKEND_URL}/cards/${c.id}/images/${seq}`;
+          const { frontImage, backImage } = resolveStoredCardImageUrls(c.id, rawCard, c);
+          imageCandidatesRef.current = { front: frontImage, back: backImage, raw: rawCard };
 
-          const getRawImageUrl = (raw: any, seq: number): string | undefined => {
-            if (Array.isArray(raw.images) && raw.images.length > 0) {
-              // Prefer object entries with an explicit seq
-              const obj = raw.images.find((it: any) => it && typeof it === 'object' && (it.seq === seq || it.seq === String(seq) || it.index === seq));
-              if (obj) return obj.url ?? obj.Url ?? obj.path ?? obj.image ?? undefined;
-              // Otherwise, if it's an array of strings, use by index
-              if (typeof raw.images[seq] === 'string') return raw.images[seq];
-              // As a last attempt, if there's only one image and seq===0, use that
-              if (raw.images.length === 1 && seq === 0 && typeof raw.images[0] === 'string') return raw.images[0];
-            }
-            // Fallback to explicit front/back fields
-            return seq === 0 ? (raw.FrontImage ?? raw.frontImage ?? undefined) : (raw.BackImage ?? raw.backImage ?? undefined);
-          };
+          setServerImages({
+            front: cardReportsImage(rawCard, 0) || isServerUrl(frontImage),
+            back: cardReportsImage(rawCard, 1) || isServerUrl(backImage),
+          });
 
-          const candidateFront = getRawImageUrl(rawCard, 0) ?? c.frontImage;
-          const candidateBack  = getRawImageUrl(rawCard, 1) ?? c.backImage;
-
-          const hasSeq = (seq: number) => {
-            if (!Array.isArray(rawCard.images)) return false;
-            const hasObj = rawCard.images.some((it: any) => it && typeof it === 'object' && (it.seq === seq || it.seq === String(seq) || it.index === seq));
-            const hasIndexString = typeof rawCard.images[seq] === 'string';
-            return hasObj || hasIndexString;
-          };
-
-          // Save candidates for lazy loading later
-          imageCandidatesRef.current = { front: candidateFront, back: candidateBack, raw: rawCard };
-
-          const serverHasFront = hasSeq(0) || isServerUrl(candidateFront);
-          const serverHasBack  = hasSeq(1) || isServerUrl(candidateBack);
-          setServerImages({ front: serverHasFront, back: serverHasBack });
-
-          // Do not fetch image data now — load lazily when user requests
-          setCard({ ...c, frontImage: undefined, backImage: undefined });
+          // Public image URLs — no token; usable directly in <img src>
+          setCard({ ...c, frontImage, backImage });
         }
       } catch (e) {
         setDataError(e instanceof Error ? e.message : 'Failed to load data');
@@ -152,49 +101,18 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
     load();
   }, [isAuthenticated, isEdit, cardId, apiFetch]);
 
-  /* ── Lazy load images on demand ── */
+  /* ── Resolve public image URLs (GET /cards/:id/images/:seq needs no auth) ── */
   const loadImages = useCallback(async () => {
     const raw = imageCandidatesRef.current.raw;
     if (!raw) return undefined;
-    const candidateFront = imageCandidatesRef.current.front;
-    const candidateBack  = imageCandidatesRef.current.back;
-    const imageUrl = (seq: number) => `${BACKEND_URL}/cards/${raw.Id ?? raw.id}/images/${seq}`;
-    const hasSeqOnServer = (seq: number) => {
-      if (!Array.isArray(raw.images)) return false;
-      const hasObj = raw.images.some((it: any) => it && typeof it === 'object' && (it.seq === seq || it.seq === String(seq) || it.index === seq));
-      const hasIndexString = typeof raw.images[seq] === 'string';
-      return hasObj || hasIndexString;
-    };
-
-    const fetchCandidate = async (candidateUrl: string | undefined, seq: number) => {
-      if (candidateUrl && candidateUrl.startsWith('data:')) return candidateUrl;
-      // Try candidate URL if present
-      if (candidateUrl) {
-        const fetched = await fetchImageAsDataUrl(candidateUrl).catch(() => undefined);
-        if (fetched) return fetched;
-        // eslint-disable-next-line no-console
-        console.debug('loadImages: failed to fetch candidate image', { candidateUrl, seq });
-      }
-      // Only attempt backend images endpoint if the GET /cards response included an image for this seq
-      if (!hasSeqOnServer(seq)) {
-        // eslint-disable-next-line no-console
-        console.debug('loadImages: backend did not report image seq', { id: raw.Id ?? raw.id, seq });
-        return undefined;
-      }
-      const backendFetched = await fetchImageAsDataUrl(imageUrl(seq)).catch(() => undefined);
-      if (backendFetched) return backendFetched;
-      // eslint-disable-next-line no-console
-      console.debug('loadImages: failed to fetch backend image', { url: imageUrl(seq), seq });
-      return undefined;
-    };
-
-    const [frontImage, backImage] = await Promise.all([
-      fetchCandidate(candidateFront, 0),
-      fetchCandidate(candidateBack, 1),
-    ]);
+    const cardIdForImages = String(raw.Id ?? raw.id ?? cardId ?? '');
+    const { frontImage, backImage } = resolveStoredCardImageUrls(cardIdForImages, raw, {
+      frontImage: imageCandidatesRef.current.front,
+      backImage: imageCandidatesRef.current.back,
+    });
     setCard(prev => prev ? { ...prev, frontImage, backImage } : prev);
     return { frontImage, backImage };
-  }, [fetchImageAsDataUrl]);
+  }, [cardId]);
 
   /* ── Scan helper ── */
   const handleScan = useCallback(async (file: File): Promise<Partial<CardFormState>> => {
@@ -383,6 +301,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
 
   return (
     <CardFormView
+      key={cardId ?? 'new'}
       initial={card ? {
         name: card.name,
         year: String(card.year),
@@ -406,6 +325,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
       onSave={handleSave}
       onScan={handleScan}
       onLoadImages={loadImages}
+      serverImageFlags={serverImages}
       saving={saving}
       saveMsg={saveMsg}
       portfolios={portfolios}

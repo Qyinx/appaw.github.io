@@ -20,12 +20,12 @@ export const zh: Translations = {
   home: {
     hero: {
       badge: '優質鑑定卡保護',
-      title: '展示您的熱情。保護您的投資。',
+      title: '陳列你的卡磚。守住評級價值。',
       headlineLines: [
-        { text: '展示您的', accent: false },
+        { text: '展示你的', accent: false },
         { text: '熱情。', accent: true },
-        { text: '保護您的', accent: false },
-        { text: '投資。', accent: false },
+        { text: '守住你的', accent: false },
+        { text: '價值。', accent: false },
       ],
       h1Keyword: '香港磁吸鋁合金鑑定卡保護殼・35PT Slab・PTCG 卡牌用品專門店',
       subtitle: '香港設計磁吸鑑定卡保護殼，適用標準 35PT PSA 及 CGC 鑑定卡磚，兼營寶可夢 PTCG 及運動卡交易服務。',
@@ -627,7 +627,7 @@ export const zh: Translations = {
     },
     whyAppaw: {
       badge: '為何選擇 Appaw Store',
-      title: '投資級標準。',
+      title: '投資級標準',
       titleAccent: '不只是一個交易平台。',
       subtitle: '我們對每一筆收購與寄賣交易均認真看待——因為您的資產恰如其分。',
       pillars: [

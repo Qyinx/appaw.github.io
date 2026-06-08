@@ -6,7 +6,7 @@ export const PRODUCT_NAME = {
     plural: 'Graded Slab Protectors',
     whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab Aluminum Protector.',
     seoH1: 'Graded Slab Aluminum Protector — 35PT Magnetic PSA & CGC Case',
-    metaTitle: 'Graded Slab Aluminum Protector HK | 35PT Magnetic Slab Case – Appaw Store',
+    metaTitle: '35PT Graded Slab Protector, Hong Kong – Appaw Store',
     metaDescription:
       '35PT magnetic aluminum slab case for PSA & CGC graded cards. >95% UV-blocking glass, N52 closure. Hong Kong designed for Pokémon PTCG, sports & MTG slabs. Ships worldwide.',
   },
@@ -44,12 +44,12 @@ export const HK_SEO_KEYWORDS = [
 /** Homepage meta — keep in sync with i18n home.hero.h1Keyword */
 export const HOME_SEO = {
   en: {
-    title: 'Graded Slab Aluminum Protector & Trading Card Supplies HK – Appaw Store',
+    title: 'Graded Slab Protectors & Card Trading, Hong Kong – Appaw Store',
     description:
       'Premium graded slab aluminum protectors for 35PT PSA & CGC slabs, plus trusted graded card trading in Hong Kong. >95% UV-blocking glass, N52 magnetic closure. Ships worldwide.',
   },
   zh: {
-    title: '鑑定卡鋁合金保護殼｜35PT 磁吸 Slab 防褪色 - Appaw Store 香港',
+    title: 'Appaw Store 香港｜鑑定卡保護殼・卡牌交易・收藏工具',
     description:
       '香港設計磁吸鋁合金鑑定卡保護殼，適用標準 35PT PSA 及 CGC 鑑定卡磚。>95% 抗紫外線、N52 磁吸。兼營 PTCG 及運動卡交易，全球付運。',
   },

@@ -2085,6 +2085,11 @@ main {
   z-index: 60;
 }
 
+/* Photo zoom — portaled to body so isolation/stacking on workspace cannot bury it */
+.workspace-lightbox--portal {
+  z-index: 200;
+}
+
 .collection-workspace .workspace-chrome {
   background: var(--surface-panel);
   overflow: visible;

@@ -1,3 +1,9 @@
+import {
+  cardReportsImage,
+  getCardImageUrlFromRaw,
+  resolveStoredCardImageUrl,
+} from './lib/cardImages';
+
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://localhost:8787';
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
@@ -90,8 +96,12 @@ export function normalizePortfolio(raw: any): Portfolio {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function normalizeCard(raw: any): CollectorCard {
+  const id = String(raw.Id ?? raw.id ?? '');
+  const frontCandidate = getCardImageUrlFromRaw(raw, 0);
+  const backCandidate = getCardImageUrlFromRaw(raw, 1);
+
   return {
-    id:           raw.Id           ?? raw.id,
+    id,
     name:         raw.Name         ?? raw.name         ?? '',
     year:         raw.Year         ?? raw.year         ?? new Date().getFullYear(),
     company:      (raw.Company     ?? raw.company      ?? 'PSA') as GradingCompany,
@@ -106,8 +116,12 @@ export function normalizeCard(raw: any): CollectorCard {
     certNumber:   raw.CertNumber   ?? raw.certNumber,
     language:     (raw.Language    ?? raw.language) as Language | undefined,
     isBlackLabel: raw.IsBlackLabel === 1 || raw.isBlackLabel === true,
-    frontImage:   Array.isArray(raw.images) ? (raw.images[0] ?? undefined) : (raw.FrontImage ?? raw.frontImage ?? undefined),
-    backImage:    Array.isArray(raw.images) ? (raw.images[1] ?? undefined) : (raw.BackImage  ?? raw.backImage  ?? undefined),
+    frontImage:   id
+      ? resolveStoredCardImageUrl(frontCandidate, id, 0, cardReportsImage(raw, 0) || !!frontCandidate)
+      : frontCandidate,
+    backImage:    id
+      ? resolveStoredCardImageUrl(backCandidate, id, 1, cardReportsImage(raw, 1) || !!backCandidate)
+      : backCandidate,
     createdAt:    raw.CreatedAt    ?? raw.createdAt    ?? new Date().toISOString(),
   };
 }

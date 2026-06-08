@@ -18,7 +18,7 @@ export const en = {
   home: {
     hero: {
       badge: 'Premium Card Protection',
-      title: 'Showcase Your Passion. Protect Your Investment.',
+      title: 'Display Your Slabs. Keep Them Worth Grading.',
       headlineLines: [
         { text: 'Showcase', accent: false },
         { text: 'Your Passion.', accent: true },
@@ -625,7 +625,7 @@ export const en = {
     },
     whyAppaw: {
       badge: 'Why Appaw Store',
-      title: 'Investment-Grade Standards.',
+      title: 'Investment-Grade Standards',
       titleAccent: 'Not Just a Marketplace.',
       subtitle: 'We apply museum-grade and institutional-level standards to every acquisition and consignment — because your assets deserve it.',
       pillars: [

@@ -3,17 +3,15 @@
 import React from 'react';
 import { Package } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { BACKEND_URL } from '../types';
 import type { CollectorCard, Portfolio } from '../types';
+import { resolveAbsoluteBackendUrl } from '../lib/cardImages';
 import { GradePill } from './shared';
 
 /* ─── Image URL ───────────────────────────────────────────────────────────── */
 
 export function resolveCardImageUrl(src?: string): string | undefined {
   if (!src) return undefined;
-  if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:')) return src;
-  const base = BACKEND_URL.replace(/\/$/, '');
-  return src.startsWith('/') ? `${base}${src}` : `${base}/${src}`;
+  return resolveAbsoluteBackendUrl(src);
 }
 
 /* ─── Grade tier accent ───────────────────────────────────────────────────── */

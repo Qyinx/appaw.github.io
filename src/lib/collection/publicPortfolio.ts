@@ -6,6 +6,7 @@ import {
   type GradingCompany,
   type Language,
 } from '@/app/collection/types';
+import { getCardImagesArray, imageEntryToUrl, resolveAbsoluteBackendUrl } from '@/app/collection/lib/cardImages';
 
 const BACKEND_URL =
   process.env.BACKEND_URL ??
@@ -40,20 +41,14 @@ export interface PublicPortfolio {
   cards: PublicCard[];
 }
 
-function resolveImageUrl(url: string): string {
-  if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  const base = BACKEND_URL.replace(/\/$/, '');
-  return url.startsWith('/') ? `${base}${url}` : `${base}/${url}`;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizePublicCard(raw: any): PublicCard {
   const base = normalizeCard(raw);
-  const rawImages: string[] = Array.isArray(raw.images)
-    ? raw.images.map(String)
-    : [base.frontImage, base.backImage].filter(Boolean) as string[];
-
-  const images = rawImages.map(resolveImageUrl);
+  const rawImages = getCardImagesArray(raw)
+    .map(imageEntryToUrl)
+    .filter((url): url is string => !!url);
+  const fallback = [base.frontImage, base.backImage].filter(Boolean) as string[];
+  const images = (rawImages.length > 0 ? rawImages : fallback).map(resolveAbsoluteBackendUrl);
   const { buyPrice: _buy, buyCurrency: _cur, createdAt: _at, ...rest } = base;
 
   return {

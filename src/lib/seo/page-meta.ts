@@ -8,7 +8,7 @@ export const PAGE_META: Record<string, LocaleMeta> = {
   '/': HOME_SEO,
   '/about': {
     en: {
-      title: 'About Appaw Store – Premium PSA Card Protectors, Hong Kong',
+      title: 'About Appaw Store – Hong Kong PSA Card Protectors & Trading',
       description:
         'Appaw Store is a Hong Kong-based brand specialising in PSA Card Aluminum Protectors and TCG graded card trading. Our UV-blocking, N52 magnetic cases ship to 100+ countries.',
     },
@@ -67,7 +67,7 @@ export const PAGE_META: Record<string, LocaleMeta> = {
   },
   '/collection': {
     en: {
-      title: 'My Collection — Manage & Track Your Trading Cards | Appaw Store',
+      title: 'My Collection — Track Graded Cards & Portfolios | Appaw Store',
       description: 'Add, organize and value your graded card collection. Track buy prices, grades, and cert numbers.',
     },
     zh: {

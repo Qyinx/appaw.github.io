@@ -222,19 +222,19 @@ export const zhPrivacyMetadata = zhRouteMetadata(privacyMetadataBase, '/privacy/
 });
 
 const aboutMetadataBase: Metadata = {
-  title: 'About Appaw Store – Premium PSA Card Protectors, Hong Kong',
+  title: 'About Appaw Store – Hong Kong PSA Card Protectors & Trading',
   description:
     'Appaw Store is a Hong Kong-based brand specialising in PSA Card Aluminum Protectors and TCG graded card trading. Our UV-blocking, N52 magnetic cases ship to 100+ countries. Learn our story.',
   keywords: ['Appaw Store', 'about Appaw Store', 'Appaw Store Hong Kong'],
   alternates: { canonical: '/about/' },
   openGraph: {
-    title: 'About Appaw Store – Premium PSA Card Protectors, Hong Kong',
+    title: 'About Appaw Store – Hong Kong PSA Card Protectors & Trading',
     description: 'Hong Kong-based brand crafting premium PSA card aluminum protectors & offering trusted TCG trading services. UV-blocking glass, N52 magnets, ships to 100+ countries.',
     url: 'https://appaw.store/about/',
     type: 'website',
     images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: 'About Appaw Store – Premium Card Protection & TCG Trading' }],
   },
-  twitter: { card: 'summary_large_image', title: 'About Appaw Store – Premium PSA Card Protectors, Hong Kong', description: 'Hong Kong-based brand crafting premium PSA card aluminum protectors & offering trusted TCG graded card trading services.', images: ['/images/og-image.png'] },
+  twitter: { card: 'summary_large_image', title: 'About Appaw Store – Hong Kong PSA Card Protectors & Trading', description: 'Hong Kong-based brand crafting premium PSA card aluminum protectors & offering trusted TCG graded card trading services.', images: ['/images/og-image.png'] },
 };
 
 export const aboutMetadata = withLocaleAlternates(aboutMetadataBase, '/about/');
@@ -245,7 +245,7 @@ export const zhAboutMetadata = zhRouteMetadata(aboutMetadataBase, '/about/', {
 });
 
 const collectionMetadataBase: Metadata = {
-  title: { absolute: 'My Collection — Manage & Track Your Trading Cards | Appaw Store' },
+  title: { absolute: 'My Collection — Track Graded Cards & Portfolios | Appaw Store' },
   description:
     'Add, organize and value your graded card collection. Track buy prices, PSA/BGC grades, cert numbers, and listing prices in portfolios — free private dashboard.',
   keywords: [
@@ -260,7 +260,7 @@ const collectionMetadataBase: Metadata = {
   ],
   robots: { index: true, follow: true },
   openGraph: {
-    title: 'My Collection — Graded Card Manager | Appaw Store',
+    title: 'My Collection — Track Graded Cards & Portfolios | Appaw Store',
     description:
       'Catalogue PSA, BGS, and CGC slabs with buy prices, cert numbers, and portfolios. Free private collection dashboard.',
     url: 'https://appaw.store/collection/',
@@ -276,7 +276,7 @@ const collectionMetadataBase: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'My Collection — Graded Card Manager | Appaw Store',
+    title: 'My Collection — Track Graded Cards & Portfolios | Appaw Store',
     description:
       'Track buy prices, grades, and cert numbers for your PSA, BGS, and CGC slabs in one private dashboard.',
     images: ['/images/og-image.png'],
