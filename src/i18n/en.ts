@@ -687,17 +687,10 @@ export const en = {
     },
   },
 
-  // Footer
+  // Footer — single factual line (style.md §1)
   footer: {
-    sitemap: 'Site Map',
-    sitemapShop: 'Shop',
-    sitemapTools: 'Tools',
-    sitemapInfo: 'Info',
-    email: 'Email',
-    phone: 'Phone',
-    location: 'Location',
     locationValue: 'Hong Kong',
-    rights: 'All rights reserved.',
+    phoneDisplay: '+852 9285 1189',
     privacy: 'Privacy Policy',
   },
 

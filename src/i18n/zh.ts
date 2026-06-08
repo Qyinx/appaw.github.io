@@ -690,15 +690,8 @@ export const zh: Translations = {
 
   // Footer
   footer: {
-    sitemap: '網站地圖',
-    sitemapShop: '商店',
-    sitemapTools: '工具',
-    sitemapInfo: '資訊',
-    email: '電郵',
-    phone: '電話',
-    location: '地點',
     locationValue: '香港',
-    rights: '版權所有。',
+    phoneDisplay: '+852 9285 1189',
     privacy: '私隱政策',
   },
 
