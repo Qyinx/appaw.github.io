@@ -60,6 +60,7 @@ export default function RootLayout({
         
         {/* Structured Data for Search Engines & AI */}
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM site summary" />
         {/* Language declared via <html lang> and hreflang <link> tags (generated from alternates.languages above) */}
       </head>
       <body className="page-noise bg-surface-bg text-text-primary antialiased">

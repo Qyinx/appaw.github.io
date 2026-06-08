@@ -1,0 +1,28 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://appaw.store/.well-known/api-catalog",
+      "item": [
+        {
+          "href": "https://appaw.store/tools/card-centering/",
+          "type": "text/html"
+        }
+      ]
+    },
+    {
+      "anchor": "https://appaw.store/tools/card-centering/",
+      "service-doc": [
+        {
+          "href": "https://appaw.store/tools/card-centering/",
+          "type": "text/html"
+        }
+      ],
+      "service-desc": [
+        {
+          "href": "https://appaw.store/llms.txt",
+          "type": "text/plain"
+        }
+      ]
+    }
+  ]
+}

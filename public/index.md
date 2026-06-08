@@ -1,0 +1,36 @@
+# Appaw Store
+
+> Hong Kong brand — premium magnetic aluminum protectors for standard 35PT PSA & CGC graded card slabs (Pokémon PTCG, sports cards, MTG). Ships worldwide.
+
+**Canonical HTML:** https://appaw.store/  
+**Chinese (zh-HK):** https://appaw.store/zh/  
+**LLM summary:** https://appaw.store/llms.txt
+
+## Primary product
+
+[Graded Slab Aluminum Protector](https://appaw.store/products/psa-protectors/) — 35PT magnetic aluminum slab case, >95% UV-blocking glass, N52 neodymium closure. Fits standard PSA and CGC slabs. 74 g · 8.7 × 14.2 × 0.98 cm.
+
+## Free tool
+
+[Card Centering Calculator](https://appaw.store/tools/card-centering/) — measure front/back margins against PSA, BGS, and SGC standards. No login.
+
+## Collector guides
+
+| Guide | URL |
+|-------|-----|
+| Choose 35PT protector | https://appaw.store/guides/choose-35pt-slab-protector/ |
+| UV + humidity storage | https://appaw.store/guides/uv-protection-graded-cards/ |
+| PSA 10 centering | https://appaw.store/guides/psa-10-centering-requirements/ |
+| Grade vs protect | https://appaw.store/guides/grade-or-protect-first/ |
+| Spot fake PSA slabs | https://appaw.store/guides/identify-fake-psa-slabs/ |
+
+## Purchase (Hong Kong)
+
+1. Quarry Bay showroom — Manly Plaza, 995–997 King's Road
+2. Partner: Card The Land (咭之島), Hung Hom
+3. Online: Etsy · Carousell · WhatsApp +852-9285-1189
+
+## Contact
+
+- support@appaw.store
+- https://www.instagram.com/appaw.store/

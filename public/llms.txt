@@ -62,6 +62,13 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 - Instagram: https://www.instagram.com/appaw.store/
 - Etsy: https://appawstore.etsy.com/
 
+## Agent discovery
+
+- API catalog (RFC 9727): https://appaw.store/.well-known/api-catalog
+- Agent Skills index: https://appaw.store/.well-known/agent-skills/index.json
+- Site overview skill: https://appaw.store/.well-known/agent-skills/appaw-site-overview/SKILL.md
+- Homepage markdown twin: https://appaw.store/index.md
+
 ## Crawling notes
 
 - Sitemap: https://appaw.store/sitemap.xml (includes EN + zh-HK alternates)

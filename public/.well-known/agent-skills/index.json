@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "appaw-site-overview",
+      "type": "skill-md",
+      "description": "Canonical URLs, product specs, purchase channels, collector guides, and crawl policy for Appaw Store (graded slab protectors, Hong Kong).",
+      "url": "https://appaw.store/.well-known/agent-skills/appaw-site-overview/SKILL.md",
+      "digest": "sha256:4ee0f647e29dfcd4891a03551cc0a0bbc648cb7cb457293a1b0a133c8a05f226"
+    }
+  ]
+}

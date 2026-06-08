@@ -1,11 +1,16 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-06-05 (batch 2) — Full-site i18n routing (`/zh/...` mirrors), homepage H1 restructure, `llms.txt` for GEO, sitemap refresh with hreflang alternates, product rename to Graded Slab Aluminum Protector / 鑑定卡保護殼, Quarry Bay showroom + partner purchase channels, and metadata centralisation (`HOME_SEO`, `PRODUCT_NAME`, `locale-metadata.ts`).
+Last updated: 2026-06-08 (batch 3) — Agent Readiness / AI Search pass ([isitagentready.com](https://isitagentready.com/appaw.store)): Content-Signal in `robots.txt`, RFC 8288 `Link` headers + HTML `llms.txt` discovery, Agent Skills index, guides pillar (`/guides/` + 5 articles incl. fake PSA slab guide), `llms.txt` guide table refresh.
+
+Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H1 restructure, `llms.txt` for GEO, sitemap refresh with hreflang alternates, product rename to Graded Slab Aluminum Protector / 鑑定卡保護殼, Quarry Bay showroom + partner purchase channels, and metadata centralisation (`HOME_SEO`, `PRODUCT_NAME`, `locale-metadata.ts`).
 
 **Changelog summary**
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-06-08 | Agent Readiness | `Content-Signal` in `robots.txt`. RFC 8288 `Link` header (`api-catalog`, `describedby`, `sitemap`) in `_headers` + `next.config.js`. `/.well-known/api-catalog` (RFC 9727). Agent Skills index v0.2.0 + digest script. `public/index.md` markdown twin. HTML `llms.txt` link in layout. |
+| 2026-06-08 | Guides pillar | `/guides/` index + 5 evergreen articles (35PT fit, UV, PSA 10 centering, grade vs protect, fake PSA slabs). Auto sitemap via `GUIDE_SLUGS`. `Article` + `ItemList` JSON-LD. Inline product links in prose (`[label](href)`). Hero backgrounds per guide. |
+| 2026-06-08 | llms.txt | Added `identify-fake-psa-slabs` row; citation hint for fake PSA / cert verification. |
 | 2026-06-05 | i18n URLs | All public routes mirrored under `/zh/...` via thin re-exports (`scripts/generate-zh-routes.mjs`). `alternates.languages` on EN + ZH metadata. Toggle navigates `/path` ↔ `/zh/path`. `DocumentMeta` + `LocalLink` for client title/lang. |
 | 2026-06-05 | Homepage `/` | Single `<h1>` = `home.hero.h1Keyword`; brand tagline demoted to `<p>`. Spec `<table>` for 35PT / UV / N52. Purchase channels (`RetailPartners`) with showroom, 咭之島 partner, Etsy/Carousell/WhatsApp. |
 | 2026-06-05 | Product naming | EN: **Graded Slab Aluminum Protector**. ZH: **鑑定卡保護殼** / 磁吸鋁合金鑑定卡保護殼. `src/lib/product-names.ts` canonical source. |
@@ -77,7 +82,7 @@ Open Graph / Twitter: handled by `psaProtectorsMetadata` (summary_large_image). 
 - ~~Consider separate `/zh/` routes or dynamic `html lang` for full bilingual indexing.~~ **Done (2026-06-05):** `/zh/...` mirrors + `DocumentMeta` sets `html lang` on client.
 - Add visible review section before restoring `aggregateRating` in JSON-LD.
 - Optional: sr-only Chinese block on `/business/`.
-- Content marketing / blog pillar (e.g. 「如何選擇 35PT 卡磚？」、「鑑定卡防潮防 UV」) — not yet built; `hkGuide` section on product page is interim depth content.
+- ~~Content marketing / blog pillar~~ **Partially done (2026-06-08):** `/guides/` evergreen articles cover 35PT fit, UV/humidity, PSA 10 centering, grade vs protect, fake PSA slabs. `hkGuide` on product page remains supplementary.
 - Backlinks from HK TCG creators and local card communities — outreach, not code.
 - Physical showroom (primary): Shop No. 9, Basement, Manly Plaza, 995-997 King's Road, Quarry Bay (鰂魚涌英皇道995-997號萬利廣場地庫9號舖) — listed first in `RetailPartners`.
 - Cooperative retail partners (e.g. 咭之島 Card The Land, Hung Hom) — retained alongside own showroom in `RetailPartners` + i18n.
@@ -271,7 +276,95 @@ Contents:
 
 **Maintenance:** Update `llms.txt` whenever product name, showroom address, pillar URLs, or crawl policy changes. Keep in sync with `sitemap-config.ts` and `product-names.ts`.
 
-**Optional follow-up:** Add `<link rel="alternate" type="text/plain" href="/llms.txt">` in root layout if LLM discovery standards formalise.
+**HTML discovery (implemented 2026-06-08):** `<link rel="alternate" type="text/plain" href="/llms.txt">` in `src/app/layout.tsx`.
+
+**HTTP Link header (implemented 2026-06-08, RFC 8288):** `public/_headers` + `next.config.js` on `/`:
+
+```http
+Link: <https://appaw.store/.well-known/api-catalog>; rel="api-catalog",
+      <https://appaw.store/llms.txt>; rel="describedby"; type="text/plain",
+      <https://appaw.store/.well-known/agent-skills/index.json>; rel="describedby"; type="application/json",
+      </sitemap.xml>; rel="sitemap"
+```
+
+> **Deploy note:** `_headers` applies on Cloudflare Pages / Netlify. If [isitagentready](https://isitagentready.com/appaw.store) still reports missing Link header after deploy, add the same value in Cloudflare **Rules → Transform Rules → Modify Response Header** for hostname `appaw.store` path `/`.
+
+---
+
+Agent Readiness / AI Search ([isitagentready.com](https://isitagentready.com))
+================================================================================
+
+**Tool:** Cloudflare [Is It Agent Ready?](https://isitagentready.com) — scores Discoverability, Content, Bot Access Control, and Capabilities (MCP, Agent Skills, API catalog, OAuth, commerce).
+
+**isitagentready.com scan map (2026-06-08)** — full result list from production scan:
+
+| # | Check | Verdict | Action |
+|---|--------|---------|--------|
+| 1 | **Link response header** (RFC 8288) | ✅ Fixed (deploy) | `rel="api-catalog"` + `rel="describedby"` on `/` — `public/_headers`, `next.config.js` |
+| 2 | **DNS-AID** (SVCB/HTTPS + DNSSEC) | ⏭ Skip | DNS panel only; marketing site — document if enterprise agents need it |
+| 3 | **Markdown negotiation** (`Accept: text/markdown`) | ⚠️ Partial | Static `public/index.md` shipped; **full pass** needs Cloudflare Transform (see below) |
+| 4 | **API catalog** (RFC 9727) | ✅ Fixed (deploy) | `public/.well-known/api-catalog` — linkset for centering tool + `llms.txt` service-desc |
+| 5 | **OAuth/OIDC discovery** | ⏭ Skip | No agent-facing API; Auth0 is user login for `/collection/app` only |
+| 6 | **OAuth protected resource** (RFC 9728) | ⏭ Skip | Same — do not publish fake OAuth metadata |
+| 7 | **auth.md** (agent registration) | ⏭ Skip | WorkOS pattern for SaaS APIs; not applicable to slab retail |
+| 8 | **MCP server card** | ⏭ Skip | No MCP server; content site not tool host |
+| 9 | **Agent Skills index** (RFC v0.2.0) | ✅ Fixed (deploy) | `$schema`, `type`, `url`, `digest: sha256:…` — run `node scripts/update-agent-skills-digest.mjs` after SKILL edits |
+| 10 | **WebMCP** (`navigator.modelContext`) | ⏭ Backlog | Optional client tool on centering page; Chrome experimental |
+| 11 | **x402** HTTP payments | ⏭ Skip | Sales via showroom / Etsy / Carousell / WhatsApp |
+| 12 | **MPP** machine payments | ⏭ Skip | No paid API routes |
+| 13 | **UCP** universal commerce | ⏭ Skip | No agent checkout |
+| 14 | **ACP** agentic commerce | ⏭ Skip | No agent checkout |
+
+**Implemented files (batch 3b):**
+
+| File | Purpose |
+|------|---------|
+| `public/.well-known/api-catalog` | `application/linkset+json` — centering tool anchor |
+| `public/.well-known/agent-skills/index.json` | Discovery v0.2.0 with `digest` |
+| `public/index.md` | Homepage markdown twin (linked from `llms.txt`) |
+| `scripts/update-agent-skills-digest.mjs` | Re-hash SKILL.md → `index.json` |
+
+**Markdown negotiation — Cloudflare Transform (required for scan #3 pass):**
+
+Static export cannot vary `Content-Type` on `GET /` by `Accept` header. Configure in Cloudflare dashboard:
+
+1. **Rewrite:** `https://appaw.store/*/index.md` → strip `/index.md` (or serve `.md` files directly at `/index.md`, `/guides/*/index.md`)
+2. **Request header transform (optional):** when path ends in `/index.md`, set `Accept: text/markdown`
+3. **Response header:** `Content-Type: text/markdown` for `*.md` paths (`_headers` already sets this for `/index.md`)
+
+Agents can use `https://appaw.store/index.md` today without negotiation.
+
+**Post-deploy checklist:**
+
+1. Deploy static export + `_headers`
+2. Verify: `curl -sI https://appaw.store/ | grep -i link`
+3. Verify: `curl -sI https://appaw.store/.well-known/api-catalog`
+4. Verify: `curl -s https://appaw.store/.well-known/agent-skills/index.json`
+5. Re-scan [isitagentready.com/appaw.store](https://isitagentready.com/appaw.store)
+
+**Maintenance:** After editing `appaw-site-overview/SKILL.md`, run `node scripts/update-agent-skills-digest.mjs`. Keep `llms.txt`, api-catalog, and Link header URLs in sync when guides or tools change.
+
+---
+
+4) Collector Guides (`/guides/`) — **IMPLEMENTED (2026-06-08)**
+
+- **URLs:** `https://appaw.store/guides/` (index) + `/guides/{slug}/` (EN); `/zh/guides/...` mirrors
+- **Registry:** `src/lib/guides/registry.ts` — `GUIDE_SLUGS` drives sitemap, static params, `ItemList` on index
+- **Current slugs:** `choose-35pt-slab-protector`, `uv-protection-graded-cards`, `psa-10-centering-requirements`, `grade-or-protect-first`, `identify-fake-psa-slabs`
+- **Metadata:** `guideMetadata()` / `guideMetadataForSlug()` — per-article title, description, canonical, OG `article`, hreflang
+- **JSON-LD:** `Article` + `BreadcrumbList` on each slug page; `ItemList` on `/guides/`
+- **GEO:** All guides listed in `llms.txt` with EN + ZH URLs and one-line topic
+- **Internal links:** Guide prose supports `[label](href)` → `LocalLink` (locale-aware). Product CTA + related guides footer on every article
+- **Hero art:** `heroImage: '/images/background/{slug}.png'` → `images-optimized/` via `getImagePath()`; run `npm run optimize-images` after adding source PNG
+
+**SEO keywords (new guide):** fake PSA slab, PSA cert verification, counterfeit graded card, 假 PSA 鑑定殼
+
+**Open improvements:**
+
+- Guide-specific `og:image` (not site default)
+- Static `/guides/{slug}/index.md` for agent markdown negotiation
+- Cross-link guides from product `hkGuide` block and centering tool FAQ
+- `BlogPosting` vs `Article` — keep `Article` unless author bylines added
 
 ---
 
@@ -291,6 +384,8 @@ Sitemap Strategy (implemented)
 | `/collection/` | 0.75 | monthly |
 | `/about/` | 0.8 | monthly |
 | `/tools/card-centering/` | 0.8 | weekly |
+| `/guides/` | 0.7 | monthly |
+| `/guides/{slug}/` (×5) | 0.7 | monthly |
 | `/privacy/` | 0.2 | yearly |
 
 **Excluded (by design):**
@@ -422,3 +517,4 @@ Sitemap Strategy (reference notes)
 3. Request indexing: `/`, `/zh/`, `/products/psa-protectors/`, `/zh/products/psa-protectors/`
 4. Validate hreflang report (EN ↔ zh-HK pairs)
 5. Confirm `https://appaw.store/llms.txt` is fetchable for GEO crawlers
+6. Re-run [isitagentready.com/appaw.store](https://isitagentready.com/appaw.store) after deploy; verify `Link` header and `/.well-known/agent-skills/index.json` return 200
