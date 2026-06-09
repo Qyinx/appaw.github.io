@@ -2,9 +2,9 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'choose-35pt-slab-protector',
-  title: '如何選擇 35PT 鑑定卡保護殼',
+  title: '如何選擇鑑定卡保護殼',
   description:
-    '對照 鑑定卡外徑選購 35PT 保護殼：量度方法、合 fit 檢查表，以及應避開的產品類型。',
+    '對照鑑定卡外徑選購 35PT PSA卡殼：量度方法、合 fit 檢查表，以及選購 PSA卡保護殼時應避開的產品類型。',
   badge: 'Slab 硬件',
   lead:
     '卡展和店舖裡大多數 鑑定卡都落在35PT。合尺寸的保護殼能固定標籤位置、減少背包擠壓，展示時也不會左右晃動。',
@@ -58,7 +58,7 @@ const guide: GuideContent = {
   cta: {
     title: '為標準 35PT 鑑定卡而設',
     body: 'Appaw Store 磁吸鋁合金殼適用 PSA、CGC 35PT profile，>95% 抗 UV 玻璃及 N52 磁吸。',
-    primary: { label: '查看鑑定卡保護殼', href: '/products/psa-protectors/' },
+    primary: { label: '查看 PSA卡殼及鑑定卡殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定卡防 UV', href: '/guides/uv-protection-graded-cards/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'grade-or-protect-first'],

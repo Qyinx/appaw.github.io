@@ -2,9 +2,9 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'choose-35pt-slab-protector',
-  title: 'How to Choose a 35PT Slab Protector',
+  title: 'How to Choose a 35PT Graded Card Case',
   description:
-    'Match your PSA or CGC slab to a 35PT protector: external dimensions, fit checks, and what to skip before you buy a graded card case.',
+    'Match your PSA or CGC slab to a 35PT PSA slab case: external dimensions, fit checks, and what to skip before you buy a graded card protector.',
   badge: 'Slab Hardware',
   lead:
     'Most PSA and CGC slabs you see at card shows sit in the same thickness band: standard 35PT holders. A protector that fits that profile keeps the label visible, stops corner crush in a bag, and does not wobble on a shelf.',
@@ -58,7 +58,7 @@ const guide: GuideContent = {
   cta: {
     title: 'Built for standard 35PT slabs',
     body: 'Appaw Store\'s magnetic aluminum case is sized for PSA and CGC 35PT profiles, with >95% UV-blocking glass and N52 closure.',
-    primary: { label: 'See Graded Slab Protector', href: '/products/psa-protectors/' },
+    primary: { label: 'See PSA Slab Case & Graded Card Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'UV protection for slabs', href: '/guides/uv-protection-graded-cards/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'grade-or-protect-first'],

@@ -21,13 +21,18 @@ export default function PSAProtectorLayout({ children }: { children: React.React
     alternateName: [
       PRODUCT_NAME.zh.full,
       PRODUCT_NAME.zh.short,
-      'PSA卡鋁合金保護殼',
+      'PSA Slab Case',
+      'Graded Card Case',
+      'PSA Card Protector',
+      'PSA卡殼',
+      '鑑定卡殼',
+      'PSA卡保護殼',
       '磁吸鑑定卡磚',
       'PSA Card Case',
       'Aluminum Graded Slab Protector',
     ],
     description:
-      'Industrial-grade aluminum protector with >95% UV-blocking glass and N52 magnetic closure for PSA and CGC graded cards. Fits standard 35PT PSA and CGC slabs including Pokemon, sports cards, and MTG.',
+      '35PT magnetic PSA slab case and graded card protector with >95% UV-blocking glass and N52 closure for PSA and CGC graded cards. Fits standard 35PT slabs including Pokemon, sports cards, and MTG.',
     image: [
       'https://appaw.store/images-optimized/describe/sell%205.png',
       'https://appaw.store/images-optimized/describe/sell%201.png',
@@ -84,9 +89,9 @@ export default function PSAProtectorLayout({ children }: { children: React.React
       {/* Server-rendered static copy for search engine crawlers */}
       <div className="sr-only">
         <h2>{PRODUCT_NAME.zh.seoH1}</h2>
-        <p>Museum‑Grade {PRODUCT_NAME.en.full} — &gt;95% UV Glass, N52 Magnetic Closure for PSA 10 &amp; Investment‑Grade Cards</p>
+        <p>35PT PSA Slab Case &amp; Graded Card Protector — &gt;95% UV Glass, N52 Magnetic Closure for PSA 10 &amp; Investment‑Grade Cards</p>
         <p>
-          Appaw Store Museum‑Grade {PRODUCT_NAME.zh.full}：精密 CNC 鋁合金 + &gt;95% 防UV 玻璃與 N52 磁吸設計，專為標準 35PT PSA 及 CGC 鑑定卡磚提供防刮耐曬保護。香港設計，全球付運。
+          Appaw Store 35PT PSA卡殼及鑑定卡殼：精密 CNC 鋁合金 + &gt;95% 防UV 玻璃與 N52 磁吸 PSA卡保護殼，專為標準 35PT PSA 及 CGC 鑑定卡磚提供防刮耐曬保護。香港設計，全球付運。
         </p>
         {zh.psaProtectorPage.overview.body.map((para, i) => (
           <p key={i}>{para}</p>

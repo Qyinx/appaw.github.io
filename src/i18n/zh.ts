@@ -27,8 +27,8 @@ export const zh: Translations = {
         { text: '守住你的', accent: false },
         { text: '價值。', accent: false },
       ],
-      h1Keyword: '香港磁吸鋁合金鑑定卡保護殼・35PT Slab・PTCG 卡牌用品專門店',
-      subtitle: '香港設計磁吸鑑定卡保護殼，適用標準 35PT PSA 及 CGC 鑑定卡磚，兼營寶可夢 PTCG 及運動卡交易服務。',
+      h1Keyword: '香港 PSA卡殼・鑑定卡殼・35PT PSA卡保護殼專門店',
+      subtitle: '香港設計磁吸 PSA卡殼及鑑定卡殼，適用標準 35PT PSA/CGC 鑑定卡磚，兼營寶可夢 PTCG 及運動卡交易服務。',
       description: '從我們的鋁合金保護殼到專業的卡牌交易服務，全方位助您保護與擴展收藏。',
       cta: '立即購買',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
@@ -291,8 +291,8 @@ export const zh: Translations = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: '優質保護',
-    seoH1: '磁吸鋁合金鑑定卡保護殼 — 35PT PSA 及 CGC 鑑定卡磚',
-    heroImageAlt: 'Appaw Store 黑色磁吸鋁合金鑑定卡保護殼展示寶可夢 PTCG 鑑定卡磚',
+    seoH1: '35PT PSA卡殼 — 磁吸鋁合金鑑定卡殼 & PSA卡保護殼',
+    heroImageAlt: 'Appaw Store 35PT PSA卡殼及鑑定卡殼，磁吸 PSA卡保護殼展示寶可夢 PTCG 鑑定卡磚',
     heroCta: '查看顏色及價格 ↓',
     centeringCrossLink: {
       badge: '送鑑前工具',
@@ -304,18 +304,18 @@ export const zh: Translations = {
       badge: '香港收藏家指南',
       title: '如何選擇鑑定卡保護殼？',
       body: [
-        '標準 PSA 及 CGC 鑑定卡磚厚度約為 35PT。優質保護殼應以剛性鋁合金框架取代易裂壓克力，並配備防紫外線玻璃，減慢閃卡及全息卡長期陳列褪色。',
-        'Appaw Store 於香港設計這款磁吸鑑定卡保護殼，適合寶可夢 PTCG、運動卡及 MTG 收藏家於家中、卡展或門市展示。歡迎親臨鰂魚涌門市選購，亦可到合作店舖（如咭之島）選購。N52 磁吸鑑定卡夾讓您數秒內更換卡牌，無需螺絲或卡扣。',
-        '送鑑前可先使用免費卡牌置中量度工具檢查 PSA 10 邊距；購買鑑定卡磚後，再以本保護殼妥善保存及運送珍藏。',
+        '標準 PSA 及 CGC 鑑定卡磚厚度約為 35PT。優質 PSA卡殼應以剛性鋁合金框架取代易裂壓克力，並配備防紫外線玻璃，減慢閃卡及全息卡長期陳列褪色。',
+        'Appaw Store 於香港設計這款磁吸鑑定卡殼，適合寶可夢 PTCG、運動卡及 MTG 收藏家於家中、卡展或門市展示。歡迎親臨鰂魚涌門市選購，亦可到合作店舖（如咭之島）選購。N52 磁吸 PSA卡保護殼讓您數秒內更換卡牌，無需螺絲或卡扣。',
+        '送鑑前可先使用免費卡牌置中量度工具檢查 PSA 10 邊距；購買鑑定卡磚後，再以本 PSA卡殼妥善保存及運送珍藏。',
       ],
-      fullGuideLink: '閱讀完整 35PT 保護殼指南',
+      fullGuideLink: '閱讀完整鑑定卡保護殼指南',
     },
     overview: {
       badge: '產品概覽',
-      title: '優質磁吸鋁合金鑑定卡保護殼',
+      title: '優質鑑定卡殼 & PSA卡保護殼',
       body: [
-        '專為將鑑定卡牌視為長期資產的收藏家而設，Appaw Store 優質磁吸鋁合金鑑定卡保護殼帶來展館級展示與工業級保護。專為標準 35PT PSA 及 CGC 鑑定卡磚而設，配備超過 95% 抗紫外線及防褪色技術，有效阻隔陽光損害，防止閃卡、全息卡及古董卡隨時間逐漸褪色。',
-        '保護殼採用 N52 釹磁鐵——市面上最強等級的磁吸設計，讓您數秒內輕鬆更換卡片，同時於展示及運送時保持牢固密合。CNC 精密鋁合金搭配防紫外線玻璃鏡面，質感厚實、媲美藝廊展品，重量卻僅 74 克，纖薄易攜。兼容 PSA 及 CGC 鑑定的寶可夢、運動卡及魔法風雲會卡片，是認真收藏家取代易裂廉價亞克力卡殼的首選升級。',
+        '專為將鑑定卡牌視為長期資產的收藏家而設，Appaw Store 優質磁吸 PSA卡殼兼鑑定卡殼，帶來展館級展示與工業級保護。專為標準 35PT PSA 及 CGC 鑑定卡磚而設，配備超過 95% 抗紫外線及防褪色技術，有效阻隔陽光損害，防止閃卡、全息卡及古董卡隨時間逐漸褪色。',
+        '保護殼採用 N52 釹磁鐵——市面上最強等級的磁吸 PSA卡保護殼設計，讓您數秒內輕鬆更換卡片，同時於展示及運送時保持牢固密合。CNC 精密鋁合金搭配防紫外線玻璃鏡面，質感厚實、媲美藝廊展品，重量卻僅 74 克，纖薄易攜。兼容 PSA 及 CGC 鑑定的寶可夢、運動卡及魔法風雲會卡片，是認真收藏家取代易裂廉價亞克力卡殼的首選升級。',
       ],
     },
     featuresBadge: '詳情',
@@ -975,11 +975,12 @@ export const zh: Translations = {
 
   centeringPage: {
     seo: {
-      webAppName: '卡牌置中量度工具 & PSA 10 分析器',
+      // Keep in sync with CENTERING_SEO.zh in product-names.ts
+      webAppName: '卡牌置中工具 & PSA 10 分析器',
       webAppDescription:
         '免費瀏覽器工具，量度集換式卡牌置中比例。上傳卡牌、對齊導線，即時取得左右及上下邊距百分比，對照 PSA、BGS 及 SGC 標準。',
       breadcrumbHome: '首頁',
-      breadcrumbTool: '卡牌置中量度工具',
+      breadcrumbTool: '卡牌置中工具',
       howToName: '如何使用 Appaw 卡牌置中分析器',
       howToDescription: '四步量度任何集換式卡牌的置中比例，並估算 PSA 評級區間。',
       howToTool: '卡牌的正向照片或掃描檔',
@@ -1070,7 +1071,7 @@ export const zh: Translations = {
       workspaceStatusIdle: '待命',
     },
     content: {
-      h1: '免費卡牌置中量度工具 & PSA 10 分析器',
+      h1: '免費卡牌置中工具 & PSA 10 分析器',
       lead:
         '數秒內量度任何寶可夢、運動卡或 TCG 卡牌的置中比例。上傳照片，對齊卡牌邊緣及圖框導線，即時取得正反面邊距百分比，對照 PSA、BGS 及 SGC 標準——完全免費。',
       howToTitle: '如何使用 Appaw 卡牌置中分析器',

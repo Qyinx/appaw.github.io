@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-06-08 (batch 3) — Agent Readiness / AI Search pass ([isitagentready.com](https://isitagentready.com/appaw.store)): Content-Signal in `robots.txt`, RFC 8288 `Link` headers + HTML `llms.txt` discovery, Agent Skills index, guides pillar (`/guides/` + 5 articles incl. fake PSA slab guide), `llms.txt` guide table refresh.
+Last updated: 2026-06-09 (batch 4) — Keyword retargeting for slab-case cluster: product/home titles, H1s, JSON-LD `alternateName`, and EN↔ZH search-term map (`SEO_KEYWORD_MAP` in `src/lib/product-names.ts`).
+
+Prior batch (2026-06-08): Agent Readiness / AI Search pass ([isitagentready.com](https://isitagentready.com/appaw.store)): Content-Signal in `robots.txt`, RFC 8288 `Link` headers + HTML `llms.txt` discovery, Agent Skills index, guides pillar (`/guides/` + 5 articles incl. fake PSA slab guide), `llms.txt` guide table refresh.
 
 Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H1 restructure, `llms.txt` for GEO, sitemap refresh with hreflang alternates, product rename to Graded Slab Aluminum Protector / 鑑定卡保護殼, Quarry Bay showroom + partner purchase channels, and metadata centralisation (`HOME_SEO`, `PRODUCT_NAME`, `locale-metadata.ts`).
 
@@ -8,6 +10,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-06-09 | Keyword retargeting | Product + home titles/H1s retargeted to **PSA slab case / graded card case / PSA card protector** cluster (EN) and **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼** (ZH). `SEO_KEYWORD_MAP` in `product-names.ts`. JSON-LD `alternateName` expanded. Guide `choose-35pt-slab-protector` titles updated. |
 | 2026-06-08 | Agent Readiness | `Content-Signal` in `robots.txt`. RFC 8288 `Link` header (`api-catalog`, `describedby`, `sitemap`) in `_headers` + `next.config.js`. `/.well-known/api-catalog` (RFC 9727). Agent Skills index v0.2.0 + digest script. `public/index.md` markdown twin. HTML `llms.txt` link in layout. |
 | 2026-06-08 | Guides pillar | `/guides/` index + 5 evergreen articles (35PT fit, UV, PSA 10 centering, grade vs protect, fake PSA slabs). Auto sitemap via `GUIDE_SLUGS`. `Article` + `ItemList` JSON-LD. Inline product links in prose (`[label](href)`). Hero backgrounds per guide. |
 | 2026-06-08 | llms.txt | Added `identify-fake-psa-slabs` row; citation hint for fake PSA / cert verification. |
@@ -29,8 +32,8 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
 
 - **URLs:** `https://appaw.store/` (EN), `https://appaw.store/zh/` (zh-HK UI + metadata)
 - **Metadata:** `HOME_SEO` in `src/lib/product-names.ts` → `homeMetadata` / `zhHomeMetadata` in `src/lib/seo/metadata.ts`
-- **EN title:** Graded Slab Aluminum Protector & Trading Card Supplies HK – Appaw Store
-- **ZH title:** 鑑定卡鋁合金保護殼｜35PT 磁吸 Slab 防褪色 - Appaw Store 香港
+- **EN title:** PSA Slab Cases & Graded Card Protectors, Hong Kong – Appaw Store
+- **ZH title:** Appaw Store 香港｜PSA卡殼・鑑定卡殼・PSA卡保護殼
 - **H1 structure (Gemini-corrected):**
   - One `<h1>`: `home.hero.h1Keyword` (product-intent keywords)
   - Brand tagline (`headlineLines`) in `<p>` — visual only
@@ -47,12 +50,32 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
 1) PSA Protectors (/products/psa-protectors/) — IMPLEMENTED
 - URL decision: KEEP `/products/psa-protectors/`. It is already clean, indexed, and contains the primary keyword "psa". Changing an established/indexed URL (e.g. to `/products/psa-card-aluminum-protector`) risks losing accumulated ranking equity for marginal slug gains, so no slug change and no redirect were applied. The legacy `/business/psa-protector` already 301-redirects here.
 - Metadata (`psaProtectorsMetadata` in `src/lib/seo/metadata.ts`): page-owned title/description/canonical, OG + Twitter tags, keyword cluster around "PSA card protector / PSA aluminum case / magnetic PSA slab case" plus Chinese keywords in `keywords` meta.
-- Primary Keywords (EN): "PSA card protector", "PSA protectors", "PSA aluminum case"
-- Supporting long-tails (EN): "best PSA card protector", "magnetic PSA card case", "UV-protection card protector", "35PT PSA slab case", "N52 magnetic card holder"
-- Primary Keywords (ZH): "鑑定卡保護殼", "磁吸鋁合金鑑定卡保護殼", "磁吸卡磚", "鋁合金保護殼"
-- Supporting long-tails (ZH): "35PT 鑑定卡磚保護殼", "N52 磁吸鑑定卡殼", "防UV 鑑定卡保護殼", "香港鑑定卡保護殼", "寶可夢鑑定卡", "CGC 鑑定卡磚"
-- Product display name (EN): **Graded Slab Aluminum Protector** (nav short: Graded Slab Protector) — broader than PSA-only, matches CGC compatibility
-- Product display name (ZH): **鑑定卡保護殼** (full: 磁吸鋁合金鑑定卡保護殼)
+- Primary Keywords (EN): "PSA slab case", "graded card case", "PSA card protector"
+- Supporting long-tails (EN): "35PT PSA slab case", "magnetic graded card case", "graded card display case", "PSA card aluminum case", "N52 magnetic card holder"
+- Primary Keywords (ZH): "PSA卡殼", "鑑定卡殼", "PSA卡保護殼"
+- Supporting long-tails (ZH): "35PT 鑑定卡磚", "磁吸鑑定卡殼", "防UV 鑑定卡殼", "香港 PSA卡殼", "寶可夢鑑定卡", "CGC 鑑定卡磚"
+- Product display name (EN): **Graded Slab Aluminum Protector** (nav short: Graded Slab Protector) — broader than PSA-only, matches CGC compatibility; use **case/protector** terms in titles and H1
+- Product display name (ZH): **鑑定卡保護殼** (full: 磁吸鋁合金鑑定卡保護殼); search-facing titles use **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼**
+
+**Keyword mapping (EN search query ↔ ZH equivalent)**
+
+Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pairs in titles, meta descriptions, H1s, JSON-LD `alternateName`, and guide copy — do not literal-translate EN product names into ZH metadata.
+
+| EN (Google Ads / SERP query) | ZH (use in `/zh/` metadata & copy) | Notes |
+|------------------------------|-------------------------------------|-------|
+| PSA slab case | PSA卡殼 | Primary product keyword; use in ZH title/H1 |
+| graded card case | 鑑定卡殼 | Broader case intent; pair with 35PT in body |
+| PSA card protector | PSA卡保護殼 | Protector intent; secondary in ZH title |
+| slab case | 卡殼 | Short form; body copy only unless space allows |
+| graded card display case | 鑑定卡展示殼 | Future display-guide target |
+
+**Translation rules**
+
+- EN titles lead with **case** vocabulary (`PSA slab case`, `graded card case`); EN body may still say "protector" / "Graded Slab Aluminum Protector" (brand product name).
+- ZH titles/H1s use **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼** — not literal renderings like 「PSA 板案例」 or 「評級卡案例」.
+- Keep **鑑定卡** for graded cards/slabs (never 評級卡 in marketing copy).
+- Brand product name (`PRODUCT_NAME.zh.full` = 磁吸鋁合金鑑定卡保護殼) stays in nav and body; search metadata uses the mapping table above.
+- Do **not** mix Simplified Chinese variants (保护壳, 鉴定卡) in zh-HK metadata.
 
 **Terminology policy (ZH)**
 
@@ -131,28 +154,27 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 ---
 
-3) Card Centering Calculator / PSA 10 Analyzer (/tools/card-centering/)
+3) Card Centering Tool / PSA 10 Analyzer (/tools/card-centering/)
+
+> Updated 2026-06-09 — Title/H1 retargeted to lead with **"card centering tool"** (5K/mo). Canonical strings in `CENTERING_SEO` (`src/lib/product-names.ts`). `card centering calculator` kept in keywords + FAQ.
 
 > Updated 2026-06-01 — Repositioned this page from a commercial brand page to a utility-first
 > tool page after keyword research. This is the strongest organic-traffic opportunity on the site:
-> searchers looking for a "card centering calculator" have high intent and low commercial
+> searchers looking for a "card centering tool" or "card centering calculator" have high intent and low commercial
 > competition compared to the protector/store keywords the homepage targets.
 
-- Implemented Title: "Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store"
-  - Rationale: leads with "Free" + the two highest-volume head terms ("card centering calculator"
-    and "PSA 10"). The previous inherited title ("Appaw Store - PSA Card Aluminum Protector & TCG
-    Trading") was purely commercial and lost the click for tool-intent searches.
-- Implemented Meta Description: "Quickly check if your Pokémon, sports, or TCG cards meet PSA 10
-  centering standards. Upload your card, adjust the alignment lines, and get instant margin
-  percentages — free."
-- Implemented H1: "Free Card Centering Calculator & PSA 10 Analyzer" (single H1 on the page, rendered
+- Implemented Title: "Free Card Centering Tool & PSA 10 Analyzer | Appaw Store"
+  - Rationale: leads with "Free" + highest-volume head term **"card centering tool"** (5K/mo); "calculator" retained in keywords and FAQ.
+- Implemented Meta Description: see `CENTERING_SEO.en.description` — leads with "Free card centering tool…"
+- Implemented H1: "Free Card Centering Tool & PSA 10 Analyzer" (single H1 on the page, rendered
   in `CenteringContent.tsx` below the tool canvas).
+- ZH title/H1: `免費卡牌置中工具 & PSA 10 分析器` (`CENTERING_SEO.zh`)
 
 Keyword research (target cluster)
-- Primary head terms: "card centering calculator", "card centering tool", "PSA 10 centering",
-  "PSA centering calculator".
+- Primary head terms: **"card centering tool"** (5K/mo), "card centering calculator", "PSA 10 centering",
+  "PSA centering calculator", **"pokemon card centering tool"** (500/mo, +900% trend — added to `centeringMetadata` keywords 2026-06-09).
 - High-intent long-tails (now covered by on-page H2s/FAQ): "how to check card centering",
-  "what centering for a PSA 10", "Pokémon card centering tool", "sports card centering calculator",
+  "what centering for a PSA 10", "sports card centering calculator",
   "BGS centering requirements", "card centering percentage".
 - Comparison/authority terms to expand into later: "PSA vs BGS centering", "55/45 centering",
   "off-center card value", "centering before grading".
@@ -173,7 +195,7 @@ On-page content (implemented)
 
 - JSON-LD (implemented in `src/app/tools/card-centering/page.tsx` via `src/lib/seo` factories):
   - `WebApplication` (applicationCategory `UtilitiesApplication`)
-  - `BreadcrumbList` (Home → Card Centering Calculator)
+  - `BreadcrumbList` (Home → Card Centering Tool)
   - `HowTo` (the 4 measurement steps)
   - `FAQPage` (the 5 Q&As above)
 
@@ -181,7 +203,7 @@ On-page content (implemented)
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Card Centering Calculator & PSA 10 Analyzer",
+  "name": "Card Centering Tool & PSA 10 Analyzer",
   "description": "Free browser tool that measures trading card centering against PSA, BGS and SGC standards.",
   "url": "https://appaw.store/tools/card-centering/",
   "applicationCategory": "UtilitiesApplication",

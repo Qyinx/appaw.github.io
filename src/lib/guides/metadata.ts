@@ -8,10 +8,15 @@ const guidesIndexBase: Metadata = {
   description:
     'Practical guides on 35PT slab protectors, UV storage, PSA 10 centering, fake PSA slab detection, and when to grade vs protect your cards. Written for Hong Kong and worldwide TCG collectors.',
   keywords: [
-    'graded card guide',
-    '35PT slab protector',
+    'PSA slab case',
+    'graded card case',
+    'PSA card protector',
+    '35PT slab case',
     'PSA centering guide',
     'UV protection graded cards',
+    'PSA卡殼',
+    '鑑定卡殼',
+    'PSA卡保護殼',
     '鑑定卡保護',
     '鑑定卡防潮',
     'PSA 10 置中',
@@ -41,7 +46,7 @@ export const guidesIndexMetadata = withLocaleAlternates(guidesIndexBase, '/guide
 export const zhGuidesIndexMetadata = zhRouteMetadata(guidesIndexBase, '/guides/', {
   title: { absolute: '收藏指南 – 鑑定卡保護與置中技巧 | Appaw Store' },
   description:
-    '35PT 鑑定卡保護殼選購、防 UV 收納、PSA 10 置中標準、假 PSA 鑑定殼辨識、鑑定 vs 先保護的實用指南。適用香港及全球 TCG 收藏家。',
+    '35PT PSA卡殼、鑑定卡殼及 PSA卡保護殼選購指南，另含防 UV 收納、PSA 10 置中標準、假 PSA 鑑定殼辨識、鑑定 vs 先保護。適用香港及全球 TCG 收藏家。',
 });
 
 export function guideMetadata(slug: GuideSlug, locale: GuideLocale): Metadata {

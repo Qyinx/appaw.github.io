@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
+import { CENTERING_SEO, HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
 import type { PublicPortfolio } from '@/lib/collection/publicPortfolio';
 import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata';
 
@@ -10,12 +10,18 @@ const psaProtectorsMetadataBase: Metadata = {
   description: PRODUCT_NAME.en.metaDescription,
   // NOTE: keep description ≤160 chars.
   keywords: [
+    'PSA slab case',
+    'graded card case',
     'PSA card protector',
+    'graded card display case',
     'PSA slab protector',
     'PSA card aluminum case',
     'PSA graded card case',
     'aluminum card protector',
     'aluminum slab case',
+    'PSA卡殼',
+    '鑑定卡殼',
+    'PSA卡保護殼',
     'PSA card enclosure',
     'PSA precision encapsulation',
     'investment-grade card protection',
@@ -79,7 +85,7 @@ export const homeMetadata: Metadata = {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Appaw Store – Graded Slab Aluminum Protector & Trading Card Supplies',
+        alt: 'Appaw Store – PSA Slab Cases & Graded Card Protectors',
       },
     ],
   },
@@ -107,7 +113,7 @@ export const zhHomeMetadata: Metadata = {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Appaw Store – 鑑定卡保護殼・磁吸 Slab・PTCG 卡牌用品',
+        alt: 'Appaw Store – PSA卡殼・鑑定卡殼・PSA卡保護殼',
       },
     ],
   },
@@ -126,9 +132,15 @@ export const rootMetadata: Metadata = {
   },
   description: HOME_SEO.en.description,
   keywords: [
+    'PSA slab case',
+    'graded card case',
+    'PSA card protector',
     'graded slab protector',
     'PSA slab protector',
     'aluminum card case',
+    'PSA卡殼',
+    '鑑定卡殼',
+    'PSA卡保護殼',
     'UV protection card case',
     'N52 magnetic card case',
     '鑑定卡保護殼',
@@ -162,22 +174,22 @@ export const rootMetadata: Metadata = {
 };
 
 const centeringMetadataBase: Metadata = {
-  title: { absolute: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store' },
-  description:
-    'Quickly check if your Pokémon, sports, or TCG cards meet PSA 10 centering standards. Upload your card, adjust the alignment lines, and get instant margin percentages — free.',
+  title: { absolute: CENTERING_SEO.en.title },
+  description: CENTERING_SEO.en.description,
   // NOTE: keep description ≤160 chars where possible for SERP display.
   keywords: [
-    'card centering calculator',
     'card centering tool',
+    'card centering calculator',
     'PSA 10 centering',
     'PSA centering calculator',
-    '寶可夢置中量度',
+    '寶可夢卡牌置中工具',
     '卡牌置中工具',
     'PTCG 置中',
     '免費置中計算器',
     'centering analyzer',
     'how to check card centering',
     'Pokemon card centering',
+    'pokemon card centering tool',
     'sports card centering tool',
     'TCG centering grader',
     'BGS centering',
@@ -186,26 +198,24 @@ const centeringMetadataBase: Metadata = {
   ],
   alternates: { canonical: '/tools/card-centering/' },
   openGraph: {
-    title: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store',
-    description:
-      'Check if your Pokémon, sports, or TCG cards meet PSA 10 centering standards. Upload a card, align the guides, and get instant front & back margin percentages. Free.',
+    title: CENTERING_SEO.en.title,
+    description: CENTERING_SEO.en.description,
     url: 'https://appaw.store/tools/card-centering/',
     type: 'website',
-    images: [{ url: '/images/og-centering.png', width: 1200, height: 630, alt: 'Free Card Centering Calculator & PSA 10 Analyzer — Appaw Store' }],
+    images: [{ url: '/images/og-centering.png', width: 1200, height: 630, alt: `${CENTERING_SEO.en.h1} — Appaw Store` }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store',
-    description: 'Check if your cards meet PSA 10 centering standards. Upload, align the guides, and get instant margin percentages. Free tool from Appaw Store.',
+    title: CENTERING_SEO.en.title,
+    description: CENTERING_SEO.en.description,
     images: ['/images/og-centering.png'],
   },
 };
 
 export const centeringMetadata = withLocaleAlternates(centeringMetadataBase, '/tools/card-centering/');
 export const zhCenteringMetadata = zhRouteMetadata(centeringMetadataBase, '/tools/card-centering/', {
-  title: { absolute: '免費卡牌置中量度工具 & PSA 10 分析器 | Appaw Store' },
-  description:
-    '上傳卡牌即可量度前後邊距，對照 PSA 10 置中標準。適用寶可夢 PTCG、運動卡及 TCG — 完全免費。',
+  title: { absolute: CENTERING_SEO.zh.title },
+  description: CENTERING_SEO.zh.description,
 });
 
 const privacyMetadataBase: Metadata = {

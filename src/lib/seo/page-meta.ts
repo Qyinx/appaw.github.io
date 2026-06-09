@@ -1,4 +1,4 @@
-import { HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
+import { CENTERING_SEO, HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
 import type { ClientPageMeta } from '@/lib/seo/client-metadata';
 
 type LocaleMeta = { en: ClientPageMeta; zh: ClientPageMeta };
@@ -45,15 +45,8 @@ export const PAGE_META: Record<string, LocaleMeta> = {
     },
   },
   '/tools/card-centering': {
-    en: {
-      title: 'Free Card Centering Calculator & PSA 10 Analyzer | Appaw Store',
-      description:
-        'Check if your Pokémon, sports, or TCG cards meet PSA 10 centering standards. Upload your card and get instant margin percentages — free.',
-    },
-    zh: {
-      title: '免費卡牌置中量度工具 & PSA 10 分析器 | Appaw Store',
-      description: '上傳卡牌即可量度前後邊距，對照 PSA 10 置中標準 — 完全免費。',
-    },
+    en: { title: CENTERING_SEO.en.title, description: CENTERING_SEO.en.description },
+    zh: { title: CENTERING_SEO.zh.title, description: CENTERING_SEO.zh.description },
   },
   '/privacy': {
     en: {

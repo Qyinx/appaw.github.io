@@ -1,3 +1,5 @@
+import { CENTERING_SEO } from '@/lib/product-names';
+
 export const en = {
   // Navigation
   nav: {
@@ -25,8 +27,8 @@ export const en = {
         { text: 'Protect Your', accent: false },
         { text: 'Investment.', accent: false },
       ],
-      h1Keyword: 'Premium Graded Slab Aluminum Protectors & Trading Card Supplies in Hong Kong',
-      subtitle: 'Magnetic graded slab aluminum protectors for standard 35PT PSA & CGC slabs, plus trusted graded card trading — all from Hong Kong.',
+      h1Keyword: 'PSA Slab Cases, Graded Card Protectors & Trading Card Supplies in Hong Kong',
+      subtitle: 'Magnetic PSA slab cases and graded card protectors for standard 35PT PSA & CGC slabs, plus trusted graded card trading — all from Hong Kong.',
       description: 'From our signature aluminum protectors to our professional card brokerage, we help collectors protect and grow their collections.',
       cta: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
@@ -289,8 +291,8 @@ export const en = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: 'Premium Protection',
-    seoH1: 'Graded Slab Aluminum Protector — 35PT Magnetic PSA & CGC Case',
-    heroImageAlt: 'Appaw Store graded slab aluminum protector with UV-blocking glass and N52 magnetic closure',
+    seoH1: '35PT PSA Slab Case & Graded Card Protector — Magnetic Aluminum',
+    heroImageAlt: 'Appaw Store 35PT PSA slab case and graded card protector with UV-blocking glass and N52 magnetic closure',
     heroCta: 'See colors & pricing ↓',
     centeringCrossLink: {
       badge: 'Pre-Grade Tool',
@@ -300,20 +302,20 @@ export const en = {
     },
     hkGuide: {
       badge: 'Collector Guide',
-      title: 'How to choose a 35PT graded slab protector',
+      title: 'How to choose a 35PT graded card case',
       body: [
-        'Standard PSA and CGC slabs measure roughly 35PT thick. A proper slab protector should add rigid aluminum framing—not just another acrylic shell—plus UV-blocking glass to slow holo and chrome fade over years on display.',
-        'Appaw Store designed this magnetic graded slab case in Hong Kong for Pokémon PTCG, sports cards, and MTG collectors who display slabs at home, at card shows, or in our Quarry Bay showroom and partner stores. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
-        'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a case built for long-term display and transport.',
+        'Standard PSA and CGC slabs measure roughly 35PT thick. A proper PSA slab case should add rigid aluminum framing—not just another acrylic shell—plus UV-blocking glass to slow holo and chrome fade over years on display.',
+        'Appaw Store designed this magnetic graded card case in Hong Kong for Pokémon PTCG, sports cards, and MTG collectors who display slabs at home, at card shows, or in our Quarry Bay showroom and partner stores. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
+        'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a PSA card protector built for long-term display and transport.',
       ],
-      fullGuideLink: 'Read the full 35PT protector guide',
+      fullGuideLink: 'Read the full 35PT slab case guide',
     },
     overview: {
       badge: 'Product Overview',
-      title: 'Premium Graded Slab Aluminum Protector',
+      title: 'Premium Graded Card Case & PSA Slab Protector',
       body: [
-        'Built for collectors who treat graded cards as long-term assets, the Appaw Store Premium Graded Slab Aluminum Protector delivers exhibition-level presentation with industrial-grade protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
-        'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the case firmly shut for display and transport. CNC-precision aluminum alloy and a UV-blocking glass lens give it a heavy-duty, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
+        'Built for collectors who treat graded cards as long-term assets, the Appaw Store Premium Graded Slab Aluminum Protector is a magnetic PSA slab case and graded card protector in one — exhibition-level presentation with industrial-grade protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
+        'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the graded card case firmly shut for display and transport. CNC-precision aluminum alloy and a UV-blocking glass lens give it a heavy-duty, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
       ],
     },
     featuresBadge: 'Details',
@@ -974,11 +976,11 @@ export const en = {
 
   centeringPage: {
     seo: {
-      webAppName: 'Card Centering Calculator & PSA 10 Analyzer',
+      webAppName: CENTERING_SEO.en.webAppName as string,
       webAppDescription:
         'Free browser tool that measures trading card centering. Upload a card, align the guides, and get instant left/right and top/bottom margin percentages against PSA, BGS and SGC standards.',
       breadcrumbHome: 'Home',
-      breadcrumbTool: 'Card Centering Calculator',
+      breadcrumbTool: CENTERING_SEO.en.breadcrumb as string,
       howToName: 'How to check card centering with the Appaw Centering Analyzer',
       howToDescription:
         'Measure the centering of any trading card and estimate its PSA grade in four steps.',
@@ -1070,7 +1072,7 @@ export const en = {
       workspaceStatusIdle: 'Standby',
     },
     content: {
-      h1: 'Free Card Centering Calculator & PSA 10 Analyzer',
+      h1: CENTERING_SEO.en.h1 as string,
       lead:
         'Measure the centering of any Pokémon, sports, or TCG card in seconds. Upload a photo, align the alignment lines to the card edge and art border, and get instant front and back margin percentages benchmarked against PSA, BGS, and SGC standards — completely free.',
       howToTitle: 'How to use the Appaw Centering Analyzer',
