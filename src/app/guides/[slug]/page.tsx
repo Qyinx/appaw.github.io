@@ -36,7 +36,9 @@ export default async function GuideSlugPage({ params }: PageProps) {
     datePublished: guide.published,
     dateModified: guide.updated,
     inLanguage: 'en',
-    image: 'https://appaw.store/images/og-image.png',
+    image: guide.heroImage
+      ? `https://appaw.store${guide.heroImage.replace('/images/', '/images-optimized/')}`
+      : 'https://appaw.store/images/og-image.png',
   });
 
   const breadcrumb = breadcrumbJsonLd([

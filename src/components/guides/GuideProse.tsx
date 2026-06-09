@@ -19,7 +19,10 @@ export default function GuideProse({ sections }: GuideProseProps) {
           </h2>
           <div className="space-y-4">
             {section.paragraphs.map((para, i) => (
-              <p key={i} className="text-text-secondary text-base leading-relaxed">
+              <p
+                key={i}
+                className={`text-text-secondary text-base leading-relaxed${i === 0 ? ' guide-aeo-answer' : ''}`}
+              >
                 {renderGuideParagraph(para)}
               </p>
             ))}

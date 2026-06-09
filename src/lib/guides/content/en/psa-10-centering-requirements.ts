@@ -9,7 +9,7 @@ const guide: GuideContent = {
   lead:
     'Centering is the fastest check you can run from a desk. Use it when a PSA 10 listing looks too cheap, or when you screen a raw copy before fees. PSA tightened the front rule in early 2025. If you still aim for old 60/40 front margins, expect more PSA 9 labels coming back.',
   published: '2026-06-07',
-  updated: '2026-06-07',
+  updated: '2026-06-09',
   readTime: '6 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -19,6 +19,14 @@ const guide: GuideContent = {
     { label: 'PSA 9 back', value: '90/10 or better' },
   ],
   sections: [
+    {
+      id: 'psa-10-centering-requirements',
+      title: 'What Centering Is Required for a PSA 10?',
+      paragraphs: [
+        'PSA Gem Mint 10 requires 55/45 or better centering on the front and 75/25 or better on the back. PSA tightened the front rule from 60/40 to 55/45 in early 2025. Both left/right and top/bottom axes must pass on each side.',
+        'Centering alone does not guarantee a PSA 10 — corners, edges, and surface still count — but it is the fastest check you can run from a photo before you pay grading fees or PSA 10 slab prices.',
+      ],
+    },
     {
       id: 'read-the-ratio',
       title: 'How to Read a Centering Ratio',

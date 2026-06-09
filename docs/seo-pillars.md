@@ -10,6 +10,8 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-06-09 | AEO pass | Guide `Article` + `speakable` (`.guide-lead`, `.guide-aeo-answer`). PAA question H2s on `psa-10-centering-requirements`, `display-graded-cards`. `storeJsonLd.sameAs` + Google Maps. See `FULL-AUDIT-REPORT.md` AEO section. |
+| 2026-06-09 | Guides batch 2 | `display-graded-cards` (EN + ZH) — desk/shelf/wall display, graded card display case intent. |
 | 2026-06-09 | Keyword retargeting | Product + home titles/H1s retargeted to **PSA slab case / graded card case / PSA card protector** cluster (EN) and **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼** (ZH). `SEO_KEYWORD_MAP` in `product-names.ts`. JSON-LD `alternateName` expanded. Guide `choose-35pt-slab-protector` titles updated. |
 | 2026-06-08 | Agent Readiness | `Content-Signal` in `robots.txt`. RFC 8288 `Link` header (`api-catalog`, `describedby`, `sitemap`) in `_headers` + `next.config.js`. `/.well-known/api-catalog` (RFC 9727). Agent Skills index v0.2.0 + digest script. `public/index.md` markdown twin. HTML `llms.txt` link in layout. |
 | 2026-06-08 | Guides pillar | `/guides/` index + 5 evergreen articles (35PT fit, UV, PSA 10 centering, grade vs protect, fake PSA slabs). Auto sitemap via `GUIDE_SLUGS`. `Article` + `ItemList` JSON-LD. Inline product links in prose (`[label](href)`). Hero backgrounds per guide. |

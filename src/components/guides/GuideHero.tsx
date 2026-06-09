@@ -24,7 +24,7 @@ export default function GuideHero({ badge, title, lead, readTime, updated, heroI
           {title}
         </h1>
         <div className="w-12 h-px bg-accent-brand mb-7" aria-hidden="true" />
-        <p className="text-text-secondary text-lg md:text-xl leading-relaxed max-w-2xl mb-6">{lead}</p>
+        <p className="guide-lead text-text-secondary text-lg md:text-xl leading-relaxed max-w-2xl mb-6">{lead}</p>
         <p className="font-mono text-xs text-text-muted uppercase tracking-wider">
           {readTime} · Updated {updated}
         </p>

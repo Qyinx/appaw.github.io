@@ -20,6 +20,14 @@ const guide: GuideContent = {
   ],
   sections: [
     {
+      id: 'how-to-display-graded-cards',
+      title: 'How Do You Display Graded Cards?',
+      paragraphs: [
+        'Display graded cards upright on a padded shelf or desk stand inside a rigid outer display case — never stack bare slabs flat or leave them in direct window sun. Use UV-filtering glass (>95% below 400 nm), indirect LED or side light, and at least 5 mm spacing between cases.',
+        'The goal is to keep the PSA or CGC label and card face visible while protecting the inner slab from scratches, bag pressure, and cumulative UV fade.',
+      ],
+    },
+    {
       id: 'why-display-case',
       title: 'Why a Graded Card Display Case Beats Bare Slabs',
       paragraphs: [

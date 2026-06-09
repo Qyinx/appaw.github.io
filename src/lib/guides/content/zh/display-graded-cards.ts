@@ -20,6 +20,14 @@ const guide: GuideContent = {
   ],
   sections: [
     {
+      id: 'how-to-display-graded-cards',
+      title: '如何展示鑑定卡？',
+      paragraphs: [
+        '展示鑑定卡時，應將磚直立放於有襯墊層架或書桌支架，並套入剛性外層鑑定卡展示殼——切勿裸磚平放堆疊或置於窗邊直射陽光下。使用防 UV 玻璃（400 nm 以下 >95%）、間接 LED 或側光，殼與殼之間至少留 5 mm 間距。',
+        '目標是讓 PSA 或 CGC 標籤與卡面清晰可見，同時保護內層鑑定殼免受刮痕、背包擠壓及紫外線累積褪色。',
+      ],
+    },
+    {
       id: 'why-display-case',
       title: '為什麼需要鑑定卡展示殼',
       paragraphs: [

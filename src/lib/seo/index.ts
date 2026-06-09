@@ -7,6 +7,7 @@ export function webSiteJsonLd() {
     url: 'https://appaw.store',
     description: 'Premium Graded Slab Aluminum Protector and TCG trading & brokerage. Based in Hong Kong, shipping worldwide.',
     inLanguage: ['en', 'zh-HK'],
+    publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
   };
 }
 
@@ -60,6 +61,7 @@ export function storeJsonLd() {
       'https://www.threads.net/@appaw.store',
       'https://appawstore.etsy.com/',
       'https://www.carousell.com.hk/u/appaw.store/',
+      'https://www.google.com/maps/search/?api=1&query=Shop+9+Basement+Manly+Plaza+995-997+King%27s+Road+Quarry+Bay+Hong+Kong',
     ],
     makesOffer: [
       { '@type': 'Offer', url: 'https://appaw.store/products/psa-protectors/', name: 'Graded Slab Aluminum Protector' },
@@ -176,6 +178,10 @@ export function articleJsonLd(opts: {
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': opts.url },
     ...(opts.image ? { image: opts.image } : {}),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.guide-lead', '.guide-aeo-answer'],
+    },
   };
 }
 

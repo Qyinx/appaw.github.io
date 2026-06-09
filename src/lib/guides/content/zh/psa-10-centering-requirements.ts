@@ -9,7 +9,7 @@ const guide: GuideContent = {
   lead:
     '居中檢查是您可以在辦公桌上進行的最快捷的檢查。當已評級的鑑定卡看起來過低，或在遞交裸卡作評級前，可以使用此方法。 PSA 於 2025 年初收緊了正面邊距規則。如果您仍然堅持使用舊的 60/40 正面邊距，絕大多數情況下PSA 9標籤將會返回你手上。',
   published: '2026-06-07',
-  updated: '2026-06-07',
+  updated: '2026-06-09',
   readTime: '6 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -19,6 +19,14 @@ const guide: GuideContent = {
     { label: 'PSA 9 背面', value: '90/10 或更佳' },
   ],
   sections: [
+    {
+      id: 'psa-10-centering-requirements',
+      title: 'PSA 10 需要什麼置中標準？',
+      paragraphs: [
+        'PSA Gem Mint 10 要求正面置中 55/45 或更佳、背面 75/25 或更佳。PSA 於 2025 年初將正面標準由 60/40 收緊至 55/45。正面及背面均須在左右與上下兩軸同時達標。',
+        '置中並不保證 PSA 10——角位、邊緣及表面仍會計分——但它是送評或購買 PSA 10 磚前，最快可從照片完成的檢查。',
+      ],
+    },
     {
       id: 'read-the-ratio',
       title: '如何查看置中比率',
