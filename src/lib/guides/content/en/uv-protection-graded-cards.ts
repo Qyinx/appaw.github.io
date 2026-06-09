@@ -71,7 +71,7 @@ const guide: GuideContent = {
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'When to grade vs protect', href: '/guides/grade-or-protect-first/' },
   },
-  relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first'],
+  relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],
   sources: [
     {
       label: 'Tru Vue FAQ — PPFA 97% UV standard (300–380 nm)',

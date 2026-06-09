@@ -8,7 +8,9 @@ const guidesIndexBase: Metadata = {
   description:
     'Practical guides on 35PT slab protectors, UV storage, PSA 10 centering, fake PSA slab detection, and when to grade vs protect your cards. Written for Hong Kong and worldwide TCG collectors.',
   keywords: [
-    'PSA slab case',
+    'graded card display case',
+    'display graded cards',
+    'PSA slab display',
     'graded card case',
     'PSA card protector',
     '35PT slab case',

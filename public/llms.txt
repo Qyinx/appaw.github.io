@@ -35,6 +35,12 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | grade-or-protect-first | https://appaw.store/guides/grade-or-protect-first/ | https://appaw.store/zh/guides/grade-or-protect-first/ | When to grade raw cards vs protect slabs first |
 | identify-fake-psa-slabs | https://appaw.store/guides/identify-fake-psa-slabs/ | https://appaw.store/zh/guides/identify-fake-psa-slabs/ | Spot fake PSA slabs — holder, label, cert checks before you buy |
 
+## Collector guides (batch 2)
+
+| Slug | EN URL | ZH URL | Topic |
+|------|--------|--------|-------|
+| display-graded-cards | https://appaw.store/guides/display-graded-cards/ | https://appaw.store/zh/guides/display-graded-cards/ | Display graded cards — desk/shelf/wall, graded card display case, PSA slab display |
+
 ## Purchase channels
 
 1. **Showroom (primary):** Shop No. 9, Basement, Manly Plaza, 995-997 King's Road, Quarry Bay, Hong Kong (鰂魚涌英皇道995-997號萬利廣場地庫9號舖)

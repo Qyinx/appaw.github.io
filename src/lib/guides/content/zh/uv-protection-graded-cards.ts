@@ -71,7 +71,7 @@ const guide: GuideContent = {
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定 vs 先保護', href: '/guides/grade-or-protect-first/' },
   },
-  relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first'],
+  relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],
   sources: [
     {
       label: 'Tru Vue 常見問題 — PPFA 97% UV 標準（300–380 nm）',

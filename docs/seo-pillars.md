@@ -372,7 +372,7 @@ Agents can use `https://appaw.store/index.md` today without negotiation.
 
 - **URLs:** `https://appaw.store/guides/` (index) + `/guides/{slug}/` (EN); `/zh/guides/...` mirrors
 - **Registry:** `src/lib/guides/registry.ts` — `GUIDE_SLUGS` drives sitemap, static params, `ItemList` on index
-- **Current slugs:** `choose-35pt-slab-protector`, `uv-protection-graded-cards`, `psa-10-centering-requirements`, `grade-or-protect-first`, `identify-fake-psa-slabs`
+- **Current slugs:** `choose-35pt-slab-protector`, `uv-protection-graded-cards`, `psa-10-centering-requirements`, `grade-or-protect-first`, `identify-fake-psa-slabs`, `display-graded-cards`
 - **Metadata:** `guideMetadata()` / `guideMetadataForSlug()` — per-article title, description, canonical, OG `article`, hreflang
 - **JSON-LD:** `Article` + `BreadcrumbList` on each slug page; `ItemList` on `/guides/`
 - **GEO:** All guides listed in `llms.txt` with EN + ZH URLs and one-line topic
