@@ -5,6 +5,7 @@ import { CookieConsent } from '@/components/CookieConsent';
 import DocumentMeta from '@/components/DocumentMeta';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import { Auth0ProviderWrapper } from '@/providers/Auth0Provider';
+import AgentDiscoveryLinks from '@/components/AgentDiscoveryLinks';
 import StructuredData from '@/components/StructuredData';
 import { webSiteJsonLd, storeJsonLd } from '@/lib/seo';
 import { rootMetadata } from '@/lib/seo/metadata';
@@ -60,7 +61,7 @@ export default function RootLayout({
         
         {/* Structured Data for Search Engines & AI */}
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
-        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM site summary" />
+        <AgentDiscoveryLinks />
         {/* Language declared via <html lang> and hreflang <link> tags (generated from alternates.languages above) */}
       </head>
       <body className="page-noise bg-surface-bg text-text-primary antialiased">

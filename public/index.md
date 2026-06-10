@@ -8,11 +8,11 @@
 
 ## Primary product
 
-[Graded Slab Aluminum Protector](https://appaw.store/products/psa-protectors/) — 35PT magnetic aluminum slab case, >95% UV-blocking glass, N52 neodymium closure. Fits standard PSA and CGC slabs. 74 g · 8.7 × 14.2 × 0.98 cm.
+[PSA Slab Case & Graded Card Protector](https://appaw.store/products/psa-protectors/) — magnetic aluminum graded card case, >95% UV-blocking glass, N52 neodymium closure. Fits standard PSA and CGC slabs. 74 g · 8.7 × 14.2 × 0.98 cm.
 
 ## Free tool
 
-[Card Centering Calculator](https://appaw.store/tools/card-centering/) — measure front/back margins against PSA, BGS, and SGC standards. No login.
+[Card Centering Tool](https://appaw.store/tools/card-centering/) — Pokémon card centering calculator; measure front/back margins against PSA, BGS, and SGC standards. No login.
 
 ## Collector guides
 
@@ -23,6 +23,7 @@
 | PSA 10 centering | https://appaw.store/guides/psa-10-centering-requirements/ |
 | Grade vs protect | https://appaw.store/guides/grade-or-protect-first/ |
 | Spot fake PSA slabs | https://appaw.store/guides/identify-fake-psa-slabs/ |
+| Display graded cards | https://appaw.store/guides/display-graded-cards/ |
 
 ## Purchase (Hong Kong)
 

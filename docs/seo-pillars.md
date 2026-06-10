@@ -326,7 +326,7 @@ Agent Readiness / AI Search ([isitagentready.com](https://isitagentready.com))
 |---|--------|---------|--------|
 | 1 | **Link response header** (RFC 8288) | ✅ Fixed (deploy) | `rel="api-catalog"` + `rel="describedby"` on `/` — `public/_headers`, `next.config.js` |
 | 2 | **DNS-AID** (SVCB/HTTPS + DNSSEC) | ⏭ Skip | DNS panel only; marketing site — document if enterprise agents need it |
-| 3 | **Markdown negotiation** (`Accept: text/markdown`) | ⚠️ Partial | Static `public/index.md` shipped; **full pass** needs Cloudflare Transform (see below) |
+| 3 | **Markdown negotiation** (`Accept: text/markdown`) | ⚠️ Partial | Static `public/index.md` + `_headers`; **full pass** needs Cloudflare **Markdown for Agents** ([docs/cloudflare-markdown-negotiation.md](cloudflare-markdown-negotiation.md)) |
 | 4 | **API catalog** (RFC 9727) | ✅ Fixed (deploy) | `public/.well-known/api-catalog` — linkset for centering tool + `llms.txt` service-desc |
 | 5 | **OAuth/OIDC discovery** | ⏭ Skip | No agent-facing API; Auth0 is user login for `/collection/app` only |
 | 6 | **OAuth protected resource** (RFC 9728) | ⏭ Skip | Same — do not publish fake OAuth metadata |
@@ -348,15 +348,11 @@ Agent Readiness / AI Search ([isitagentready.com](https://isitagentready.com))
 | `public/index.md` | Homepage markdown twin (linked from `llms.txt`) |
 | `scripts/update-agent-skills-digest.mjs` | Re-hash SKILL.md → `index.json` |
 
-**Markdown negotiation — Cloudflare Transform (required for scan #3 pass):**
+**Markdown negotiation — Cloudflare Markdown for Agents (required for scan #3 pass):**
 
-Static export cannot vary `Content-Type` on `GET /` by `Accept` header. Configure in Cloudflare dashboard:
+Static export cannot vary `Content-Type` on `GET /` by `Accept` header. Enable in Cloudflare **AI Crawl Control** → **Markdown for Agents** (Pro+). Cloudflare converts origin HTML to Markdown when `Accept: text/markdown` is present; response includes `Content-Type: text/markdown` and `x-markdown-tokens`. See [docs/cloudflare-markdown-negotiation.md](cloudflare-markdown-negotiation.md). Verify: `npm run verify:markdown-negotiation`.
 
-1. **Rewrite:** `https://appaw.store/*/index.md` → strip `/index.md` (or serve `.md` files directly at `/index.md`, `/guides/*/index.md`)
-2. **Request header transform (optional):** when path ends in `/index.md`, set `Accept: text/markdown`
-3. **Response header:** `Content-Type: text/markdown` for `*.md` paths (`_headers` already sets this for `/index.md`)
-
-Agents can use `https://appaw.store/index.md` today without negotiation.
+Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: text/markdown` via `_headers`).
 
 **Post-deploy checklist:**
 

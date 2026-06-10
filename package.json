@@ -10,6 +10,8 @@
     "export": "next build",
     "optimize-images": "node scripts/optimize-images.mjs",
     "update-agent-skills-digest": "node scripts/update-agent-skills-digest.mjs",
+    "verify:link-header": "node scripts/verify-link-header.mjs",
+    "verify:markdown-negotiation": "node scripts/verify-markdown-negotiation.mjs",
     "optimize-images-linux": "node scripts/optimize-images-linux.mjs",
     "optimize-and-build": "npm run optimize-images && npm run build"
   },

@@ -74,6 +74,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 - Agent Skills index: https://appaw.store/.well-known/agent-skills/index.json
 - Site overview skill: https://appaw.store/.well-known/agent-skills/appaw-site-overview/SKILL.md
 - Homepage markdown twin: https://appaw.store/index.md
+- **Content negotiation:** send `Accept: text/markdown` on any HTML URL when Cloudflare **Markdown for Agents** is enabled on the zone (returns `Content-Type: text/markdown` + `x-markdown-tokens`). Without it, fetch `/index.md` directly.
 
 ## Crawling notes
 
