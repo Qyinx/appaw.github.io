@@ -64,7 +64,7 @@ export default function RootLayout({
         <AgentDiscoveryLinks />
         {/* Language declared via <html lang> and hreflang <link> tags (generated from alternates.languages above) */}
       </head>
-      <body className="page-noise bg-surface-bg text-text-primary antialiased">
+      <body className="bg-surface-bg text-text-primary antialiased">
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
@@ -78,7 +78,7 @@ export default function RootLayout({
           <LanguageProvider>
             <DocumentMeta />
             <Header />
-            <main id="main-content" className="pt-16" tabIndex={-1}>
+            <main id="main-content" className="page-noise pt-16 bg-surface-bg" tabIndex={-1}>
               {children}
             </main>
             <Footer />

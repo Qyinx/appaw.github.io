@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import LocalLink from '@/components/LocalLink';
 import { ChevronRight, ChevronDown, Palette, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -14,6 +14,8 @@ import ProductFeaturesShowcase from '@/components/products/ProductFeaturesShowca
 import CompatibilityFitGuide from '@/components/products/CompatibilityFitGuide';
 import Reveal, { MotionStagger } from '@/components/ui/Reveal';
 import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
+import { useProtectorColorState } from '@/hooks/useProtectorColorState';
+import { buildProtectorColors } from '@/lib/products/protector-colors';
 
 /* ─── FAQ Accordion ─── */
 const featureImages = [
@@ -79,40 +81,16 @@ export default function PSAProtectorPage() {
   const hkGuide = t.psaProtectorPage.hkGuide ?? en.psaProtectorPage.hkGuide;
   const seoH1 = t.psaProtectorPage.seoH1 ?? en.psaProtectorPage.seoH1;
   const heroMounted = useHeroMount();
-  const [selectedColor, setSelectedColor] = useState(0);
-  const [priceAnimating, setPriceAnimating] = useState(false);
-  const [colorSlideAnimated, setColorSlideAnimated] = useState(false);
-  const [slideDir, setSlideDir] = useState<'left' | 'right'>('right');
-  const [isScanning, setIsScanning] = useState(false);
-  const colorDir = useRef<'left' | 'right'>('right');
-  const prevColor = useRef<number>(0);
-  const selectColor = useCallback((i: number) => {
-    if (i === selectedColor) return;
-    const dir = i > selectedColor ? 'right' : 'left';
-    colorDir.current = dir;
-    setSlideDir(dir);
-    prevColor.current = selectedColor;
-    setColorSlideAnimated(true);
-    setIsScanning(true);
-    setSelectedColor(i);
-  }, [selectedColor]);
-
-  useEffect(() => {
-    if (!colorSlideAnimated) return;
-    const id = setTimeout(() => setIsScanning(false), 360);
-    return () => clearTimeout(id);
-  }, [selectedColor, colorSlideAnimated]);
-
-  const prevSelectedRef = useRef<number>(selectedColor);
-  useEffect(() => {
-    if (prevSelectedRef.current !== selectedColor) {
-      setPriceAnimating(true);
-      const id = setTimeout(() => setPriceAnimating(false), 240);
-      prevSelectedRef.current = selectedColor;
-      return () => clearTimeout(id);
-    }
-    return;
-  }, [selectedColor]);
+  const colors = buildProtectorColors(t);
+  const {
+    selectedColor,
+    previousColorIndex,
+    slideDir,
+    colorSlideAnimated,
+    isScanning,
+    priceAnimating,
+    selectColor,
+  } = useProtectorColorState({ trackPrice: true });
 
   const featuresReveal = useRevealOnScroll<HTMLElement>();
   const colorsReveal   = useRevealOnScroll<HTMLElement>();
@@ -252,21 +230,7 @@ export default function PSAProtectorPage() {
       {/* ══════════════════════════════════════════
            COLORS — Color Variants Showcase
       ══════════════════════════════════════════ */}
-      {(() => {
-        // Ordered: warm solids → warm gradients → cool gradients → cool solids
-        const colors = [
-          { name: t.psaProtectorPage.colorVariants.colors.gold,           hex: '#f0c96a', hex2: undefined,  accent: '#f8de98', glow: 'rgba(240,200,106,0.16)', ring: 'rgba(240,200,106,0.6)',  image: '/images/describe/color/color-gold.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.silver,         hex: '#d4b800', hex2: undefined,  accent: '#ffe033', glow: 'rgba(210,180,0,0.22)',   ring: 'rgba(255,220,0,0.7)',    image: '/images/describe/color/color-yellow.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.goldenEmberRed, hex: '#d4a030', hex2: '#b82020', accent: '#e07040', glow: 'rgba(192,80,32,0.16)',   ring: 'rgba(220,120,60,0.6)',   image: '/images/describe/color/color-golden-ember-red.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.blueDarkGrey,   hex: '#4a76a8', hex2: '#404858', accent: '#5080b0', glow: 'rgba(46,64,96,0.18)',    ring: 'rgba(100,140,180,0.5)',  image: '/images/describe/color/color-blue-dark-grey.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.roseTintedBlue, hex: '#c86888', hex2: '#4868b8', accent: '#b090c8', glow: 'rgba(128,96,152,0.14)',  ring: 'rgba(180,140,200,0.5)',  image: '/images/describe/color/color-rose-tinted-bule.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.navy,           hex: '#6b3fa0', hex2: undefined,  accent: '#9b6fd4', glow: 'rgba(107,63,160,0.18)',  ring: 'rgba(155,111,212,0.55)', image: '/images/describe/color/color-purple.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.forestGreen,    hex: '#2d5a3d', hex2: undefined,  accent: '#3b9c5d', glow: 'rgba(45,90,61,0.14)',    ring: 'rgba(61,122,82,0.6)',    image: '/images/describe/color/color-green.png' },
-          { name: t.psaProtectorPage.colorVariants.colors.dark,           hex: '#1a1a2e', hex2: undefined,  accent: '#565677', glow: 'rgba(26,26,46,.28)',    ring: 'rgba(80,80,110,0.55)',   image: '/images/describe/color/color-dark.png' },
-        ];
-
-        return (
-          <section id="color-options" ref={colorsReveal.ref} className="section-padding border-t border-border-default bg-surface-bg overflow-hidden scroll-mt-20">
+      <section id="color-options" ref={colorsReveal.ref} className="section-padding border-t border-border-default bg-surface-bg overflow-hidden scroll-mt-20">
             <div className="container-custom">
 
               <Reveal visible={colorsReveal.visible} dir="up" className="mb-14 max-w-xl">
@@ -286,7 +250,7 @@ export default function PSAProtectorPage() {
                 <ColorVariantShowcase
                   colors={colors}
                   selectedColor={selectedColor}
-                  previousColorIndex={prevColor.current}
+                  previousColorIndex={previousColorIndex}
                   slideDir={slideDir}
                   colorSlideAnimated={colorSlideAnimated}
                   isScanning={isScanning}
@@ -305,9 +269,7 @@ export default function PSAProtectorPage() {
                 />
               </Reveal>
             </div>
-          </section>
-        );
-      })()}
+      </section>
 
       {/* COMPATIBILITY — slab profile + verdict matrix */}
       <section ref={compatReveal.ref} className="section-padding border-t border-border-default bg-surface-panel page-blueprint overflow-hidden">
