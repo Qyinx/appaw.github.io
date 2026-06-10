@@ -81,7 +81,7 @@ const guide: GuideContent = {
   cta: {
     title: 'Display-ready slab protection',
     body: 'Our magnetic PSA slab case uses >95% UV-blocking glass, fits standard 35PT PSA and CGC slabs, and is sized for desk or shelf display.',
-    primary: { label: 'PSA Slab Case & Graded Card Display', href: '/products/psa-protectors/' },
+    primary: { label: 'Graded Card Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'UV protection for slabs', href: '/guides/uv-protection-graded-cards/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'choose-35pt-slab-protector', 'grade-or-protect-first'],

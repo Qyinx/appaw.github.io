@@ -27,8 +27,8 @@ export const en = {
         { text: 'Protect Your', accent: false },
         { text: 'Investment.', accent: true },
       ],
-      h1Keyword: 'PSA Slab Cases, Graded Card Protectors & Trading Card Supplies in Hong Kong',
-      subtitle: 'Hong Kong-designed Graded Slab Aluminum Protectors for standard 35PT PSA & CGC slabs, plus trusted graded card trading.',
+      h1Keyword: 'Graded Card Protectors & Trading Card Supplies in Hong Kong',
+      subtitle: 'Magnetic aluminum alloy Graded Card case, suitable for standard 35PT PSA/CGC Graded Card.',
       description: 'From our signature aluminum protectors to our professional card brokerage, we help collectors protect and grow their collections.',
       cta: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
@@ -74,16 +74,17 @@ export const en = {
     },
     specs: {
       badge: 'Product Specifications',
-      title: 'Graded Slab Aluminum Protector — Full Specifications',
-      intro: 'A magnetic graded slab case engineered in Hong Kong for standard 35PT PSA and CGC slabs. Aircraft-grade aluminum alloy, UV-blocking glass, and N52 neodymium closure protect Pokémon, sports, and MTG graded cards.',
-      cta: 'Buy the Graded Slab Protector',
+      title: 'Graded Card Protector — Key Specs',
+      intro: '',
+      fullSpecsCta: 'Full specifications & pricing',
+      cta: 'Buy Graded Card Protector',
       rows: {
         product: 'Product',
         productValue: 'Graded Slab Aluminum Protector (Magnetic Slab Case)',
         compatibility: 'Compatibility',
         compatibilityValue: 'Fits standard 35PT PSA graded slabs',
         material: 'Material',
-        materialValue: 'Aircraft-grade aluminum alloy & UV-blocking glass',
+        materialValue: 'Aluminum alloy & UV-blocking glass',
         closure: 'Closure',
         closureValue: 'N52 neodymium magnetic closure',
         uvProtection: 'UV Protection',
@@ -97,19 +98,20 @@ export const en = {
       },
     },
     features: {
-      title: 'Why Collectors Switch to Aluminum',
-      subtitle: 'We designed this for the serious collector who wants to enjoy their cards without risking damage.',
+      badge: 'Why Aluminum',
+      title: 'Why Collectors Switch to Aluminum Cases',
+      subtitle: 'Built for collectors who display graded slabs without risking damage.',
       quality: {
         title: 'True Drop Protection',
-        description: 'Unlike acrylic cases that can crack upon impact, our aluminum frame acts as a rigid bumper, absorbing shock and keeping your slab safe.',
+        description: 'Unlike acrylic slab cases that crack on impact, our aluminum graded card case frame absorbs shock and keeps your PSA slab safe.',
       },
       trust: {
         title: 'UV Defense',
-        description: 'Preserves the vibrant colors of your chrome, holo, and vintage cards by blocking harmful light.',
+        description: 'Blocks harmful light to preserve holo, chrome, and vintage graded card color.',
       },
       support: {
-        title: 'The "Click" of Quality',
-        description: 'Experience the satisfying snap of the magnetic closure. It creates a secure, dust-proof seal while allowing for easy access.',
+        title: 'Magnetic Closure',
+        description: 'N52 neodymium closure — secure dust-proof seal with a satisfying snap on your slab case.',
       },
     },
     cta: {
@@ -143,14 +145,15 @@ export const en = {
       guidesLink: 'Collector guides on slab fit, UV storage, and centering',
       guidesCta: 'Read Guides',
       trading: {
-        subtitle: 'A trusted marketplace for buying, selling, and brokering premium graded trading cards.',
-        cta: 'Start Trading',
+        badge: 'Graded Card Trading',
+        subtitle: 'Buy, sell, and consign PSA & CGC graded cards in Hong Kong.',
+        cta: 'Browse Marketplace',
       },
     },
     tradingPreview: {
       badge: 'Trading Desk',
-      title: 'Browse Our Card Inventory',
-      description: 'Explore our curated selection of professionally graded trading cards, from Pokémon to sports cards and MTG.',
+      title: 'Browse Our Graded Card Inventory',
+      description: 'Curated PSA & CGC graded cards — Pokémon, sports cards, and MTG.',
       features: [
         'PSA & CGC graded cards available',
         'Competitive pricing with full transparency',
@@ -317,8 +320,8 @@ export const en = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: 'Premium Protection',
-    seoH1: '35PT PSA Slab Case & Graded Card Protector — Magnetic Aluminum',
-    heroImageAlt: 'Appaw Store 35PT PSA slab case and graded card protector with UV-blocking glass and N52 magnetic closure',
+    seoH1: '35PT Graded Card Protector — Magnetic Aluminum',
+    heroImageAlt: 'Appaw Store 35PT graded card protector with UV-blocking glass and N52 magnetic closure',
     heroCta: 'See colors & pricing ↓',
     centeringCrossLink: {
       badge: 'Pre-Grade Tool',
@@ -338,9 +341,9 @@ export const en = {
     },
     overview: {
       badge: 'Product Overview',
-      title: 'Premium Graded Card Case & PSA Slab Protector',
+      title: 'Premium Graded Card Protector',
       body: [
-        'Built for collectors who treat graded cards as long-term assets, the Appaw Store Premium Graded Slab Aluminum Protector is a magnetic PSA slab case and graded card protector in one — exhibition-level presentation with industrial-grade protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
+        'Built for collectors who treat graded cards as long-term assets, the Appaw Store Premium Graded Slab Aluminum Protector is a magnetic graded card protector — exhibition-level presentation with industrial-grade protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
         'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the graded card case firmly shut for display and transport. CNC-precision aluminum alloy and a UV-blocking glass lens give it a heavy-duty, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
       ],
     },

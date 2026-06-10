@@ -2,7 +2,7 @@
 
 import React from 'react';
 import LocalLink from '@/components/LocalLink';
-import { ArrowRight, Star } from 'lucide-react';
+import { ArrowRight, Check, Eye, Lock, Shield, Star, TrendingUp } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import RetailPartners from '@/components/RetailPartners';
 import ShopNowButton from '@/components/ui/ShopNowButton';
@@ -14,6 +14,8 @@ import trackEvent from '@/lib/analytics';
 export default function HomeClient() {
   const { t } = useLanguage();
   const servicesReveal = useRevealOnScroll<HTMLElement>();
+  const featuresReveal = useRevealOnScroll<HTMLElement>();
+  const tradingReveal = useRevealOnScroll<HTMLElement>();
   const specsReveal = useRevealOnScroll<HTMLElement>();
   const ctaReveal = useRevealOnScroll<HTMLElement>();
 
@@ -27,6 +29,10 @@ export default function HomeClient() {
 
   const handleCenteringClick = () => {
     trackEvent('cta_click', { category: 'homepage', action: 'analyze_centering', label: 'hero_analyze_centering' });
+  };
+
+  const handleTradingClick = () => {
+    trackEvent('cta_click', { category: 'homepage', action: 'browse_trading', label: 'homepage_trading_preview' });
   };
 
   const services = [
@@ -58,6 +64,21 @@ export default function HomeClient() {
       accent: 'text-accent-link border-accent-link/40',
     },
   ];
+
+  const featureCards = [
+    { icon: Shield, ...t.home.features.quality },
+    { icon: Eye, ...t.home.features.trust },
+    { icon: Lock, ...t.home.features.support },
+  ];
+
+  const tradingBullets = t.home.tradingPreview.features.slice(0, 2);
+
+  const homeSpecRows = [
+    [t.home.specs.rows.compatibility, t.home.specs.rows.compatibilityValue],
+    [t.home.specs.rows.material, t.home.specs.rows.materialValue],
+    [t.home.specs.rows.uvProtection, t.home.specs.rows.uvProtectionValue],
+    [t.home.specs.rows.origin, t.home.specs.rows.originValue],
+  ] as const;
 
   return (
     <div className="flex flex-col bg-surface-bg page-blueprint">
@@ -108,6 +129,23 @@ export default function HomeClient() {
             ))}
           </div>
 
+          <Reveal visible={servicesReveal.visible} dir="up" delay={80} className="mt-8">
+            <div className="panel p-5 md:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="max-w-xl">
+                <p className="section-label mb-2">{t.home.services.trading.badge}</p>
+                <p className="text-sm text-text-secondary leading-relaxed">{t.home.services.trading.subtitle}</p>
+              </div>
+              <LocalLink
+                href="/business/card-trading"
+                onClick={handleTradingClick}
+                className="btn btn-secondary shrink-0 self-start sm:self-center"
+              >
+                <TrendingUp className="w-4 h-4" aria-hidden="true" />
+                {t.home.services.trading.cta}
+              </LocalLink>
+            </div>
+          </Reveal>
+
           <Reveal visible={servicesReveal.visible} dir="up" delay={120} className="mt-8">
             <LocalLink
               href="/guides"
@@ -121,27 +159,79 @@ export default function HomeClient() {
         </div>
       </section>
 
+      <section ref={featuresReveal.ref} className="section-padding border-b border-border-default">
+        <div className="container-custom">
+          <Reveal visible={featuresReveal.visible} dir="up" className="mb-10 max-w-2xl">
+            <p className="section-label mb-4">{t.home.features.badge}</p>
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-3 text-balance">
+              {t.home.features.title}
+            </h2>
+            <p className="text-text-secondary">{t.home.features.subtitle}</p>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border-default border border-border-default">
+            {featureCards.map(({ icon: Icon, title, description }, i) => (
+              <Reveal
+                key={title}
+                visible={featuresReveal.visible}
+                dir="up"
+                delay={i * 40}
+                className="p-6 md:p-8 bg-surface-panel"
+              >
+                <div className="w-10 h-10 border border-accent-brand/30 bg-accent-brand/10 flex items-center justify-center mb-5">
+                  <Icon className="w-4 h-4 text-accent-brand" aria-hidden="true" />
+                </div>
+                <h3 className="font-display text-text-primary font-semibold text-lg mb-3">{title}</h3>
+                <p className="text-sm text-text-secondary leading-relaxed">{description}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section ref={tradingReveal.ref} className="section-padding border-b border-border-default bg-surface-panel">
+        <div className="container-custom max-w-3xl">
+          <Reveal visible={tradingReveal.visible} dir="up" className="panel p-6 md:p-8">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+              <div className="max-w-lg">
+                <p className="section-label mb-3">{t.home.tradingPreview.badge}</p>
+                <h2 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-3 text-balance">
+                  {t.home.tradingPreview.title}
+                </h2>
+                <p className="text-text-secondary mb-4">{t.home.tradingPreview.description}</p>
+                <ul className="space-y-2">
+                  {tradingBullets.map((bullet) => (
+                    <li key={bullet} className="flex items-start gap-2 text-sm text-text-secondary">
+                      <Check className="w-4 h-4 text-accent-link shrink-0 mt-0.5" aria-hidden="true" />
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <LocalLink
+                href="/business/card-trading"
+                onClick={handleTradingClick}
+                className="btn btn-primary shrink-0 self-start"
+              >
+                <TrendingUp className="w-4 h-4" aria-hidden="true" />
+                {t.home.tradingPreview.cta}
+              </LocalLink>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       <section ref={specsReveal.ref} className="section-padding border-b border-border-default">
         <div className="container-custom max-w-3xl">
           <Reveal visible={specsReveal.visible} dir="up">
             <p className="section-label mb-4">{t.home.specs.badge}</p>
-            <h2 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-4 text-balance">
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-8 text-balance">
               {t.home.specs.title}
             </h2>
-            <p className="text-text-secondary mb-8">{t.home.specs.intro}</p>
           </Reveal>
 
           <Reveal visible={specsReveal.visible} dir="up" delay={80} className="panel p-6">
-            {[
-              [t.home.specs.rows.product, t.home.specs.rows.productValue],
-              [t.home.specs.rows.compatibility, t.home.specs.rows.compatibilityValue],
-              [t.home.specs.rows.material, t.home.specs.rows.materialValue],
-              [t.home.specs.rows.closure, t.home.specs.rows.closureValue],
-              [t.home.specs.rows.uvProtection, t.home.specs.rows.uvProtectionValue],
-              [t.home.specs.rows.weight, t.home.specs.rows.weightValue],
-              [t.home.specs.rows.dimensions, t.home.specs.rows.dimensionsValue],
-              [t.home.specs.rows.origin, t.home.specs.rows.originValue],
-            ].map(([label, value]) => (
+            {homeSpecRows.map(([label, value]) => (
               <div key={label} className="spec-row">
                 <span className="spec-row__label">{label}</span>
                 <span className="spec-row__value">{value}</span>
@@ -149,9 +239,13 @@ export default function HomeClient() {
             ))}
           </Reveal>
 
-          <Reveal visible={specsReveal.visible} dir="up" delay={120} className="mt-8">
+          <Reveal visible={specsReveal.visible} dir="up" delay={120} className="mt-8 flex flex-wrap gap-3">
             <LocalLink href="/products/psa-protectors" onClick={handleShopClick} className="btn btn-primary">
               {t.home.specs.cta}
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </LocalLink>
+            <LocalLink href="/products/psa-protectors" onClick={handleShopClick} className="btn btn-secondary">
+              {t.home.specs.fullSpecsCta}
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </LocalLink>
           </Reveal>
@@ -175,7 +269,7 @@ export default function HomeClient() {
               buttonClassName="btn btn-primary"
               chevronSize="w-4 h-4"
             />
-            <LocalLink href="/business/card-trading" className="btn btn-secondary">
+            <LocalLink href="/business/card-trading" onClick={handleTradingClick} className="btn btn-secondary">
               {t.home.tradingPreview.cta}
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </LocalLink>

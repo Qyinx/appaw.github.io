@@ -81,7 +81,7 @@ const guide: GuideContent = {
   cta: {
     title: '展示級鑑定卡保護',
     body: '磁吸 PSA卡殼採 >95% 抗 UV 玻璃，適用標準 35PT PSA/CGC 鑑定卡磚，適合書桌或層架展示。',
-    primary: { label: 'PSA卡殼及鑑定卡展示殼', href: '/products/psa-protectors/' },
+    primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定卡防 UV 指南', href: '/guides/uv-protection-graded-cards/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'choose-35pt-slab-protector', 'grade-or-protect-first'],

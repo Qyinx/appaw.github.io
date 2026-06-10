@@ -58,7 +58,7 @@ const guide: GuideContent = {
   cta: {
     title: 'Built for standard 35PT slabs',
     body: 'Appaw Store\'s magnetic aluminum case is sized for PSA and CGC 35PT profiles, with >95% UV-blocking glass and N52 closure.',
-    primary: { label: 'See PSA Slab Case & Graded Card Protector', href: '/products/psa-protectors/' },
+    primary: { label: 'See Graded Card Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'UV protection for slabs', href: '/guides/uv-protection-graded-cards/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'grade-or-protect-first'],

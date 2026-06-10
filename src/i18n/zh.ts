@@ -28,7 +28,7 @@ export const zh: Translations = {
         { text: '價值。', accent: true },
       ],
       h1Keyword: '香港 PSA卡殼・鑑定卡殼・35PT PSA卡保護殼專門店',
-      subtitle: '香港設計磁吸鋁合金鑑定卡保護殼，適用標準 35PT PSA/CGC 鑑定卡磚，兼營寶可夢 PTCG 及運動卡交易服務。',
+      subtitle: '磁吸鋁合金鑑定卡殼，適用於標準35PT PSA/CGC鑑定卡磚。',
       description: '從我們的鋁合金保護殼到專業的卡牌交易服務，全方位助您保護與擴展收藏。',
       cta: '立即購買',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
@@ -74,16 +74,17 @@ export const zh: Translations = {
     },
     specs: {
       badge: '產品規格',
-      title: '磁吸鋁合金鑑定卡保護殼 — 完整規格',
-      intro: '香港設計的磁吸鑑定卡保護殼（Slab 保護殼），專為標準 35PT PSA 及 CGC 鑑定卡磚而製。航空級鋁合金、防紫外線玻璃及 N52 磁吸鑑定卡夾，全面保護寶可夢 PTCG、運動卡及 MTG 鑑定卡磚。',
-      cta: '購買鑑定卡保護殼',
+      title: '鑑定卡保護殼重點規格',
+      intro: '',
+      fullSpecsCta: '完整規格與價格',
+      cta: '購買 PSA卡保護殼',
       rows: {
         product: '產品',
         productValue: '磁吸鋁合金鑑定卡保護殼（磁吸卡夾）',
         compatibility: '兼容性',
         compatibilityValue: '適合標準 35PT PSA 鑑定卡磚',
         material: '材質',
-        materialValue: '航空級鋁合金 & 防紫外線玻璃',
+        materialValue: '鋁合金 & 防紫外線玻璃',
         closure: '閉合方式',
         closureValue: 'N52 釹磁吸卡夾閉合',
         uvProtection: 'UV 防護',
@@ -97,19 +98,20 @@ export const zh: Translations = {
       },
     },
     features: {
-      title: '為什麼收藏家選擇鋁合金',
-      subtitle: '我們專為認真的收藏家設計，讓您在欣賞卡片的同時不必擔心損傷。',
+      badge: '為何選鋁合金',
+      title: '為什麼收藏家轉用鋁合金鑑定卡殼',
+      subtitle: '專為想安心展示鑑定卡磚、又不想冒損傷風險的收藏家而設。',
       quality: {
         title: '真正的防摔保護',
-        description: '不同於撞擊時可能破裂的壓克力殼，我們的鋁合金框架作為剛性緩衝器，吸收衝擊，保護您的卡磚安全。',
+        description: '不同於撞擊時可能破裂的壓克力卡殼，鋁合金鑑定卡殼框架吸收衝擊，保護卡磚安全。',
       },
       trust: {
         title: 'UV 防護',
-        description: '通過阻擋有害光線，保護您的閉光、全息和復古卡片的鮮豔色彩。',
+        description: '阻隔有害光線，保護閃卡、全息及復古鑑定卡面色彩。',
       },
       support: {
-        title: '品質的「喀噗」聲',
-        description: '體驗磁性閉合令人滿足的卡噗聲。它創造了安全、防塵的密封，同時方便取出卡磚。',
+        title: '磁吸閉合',
+        description: 'N52 釹磁鐵磁吸閉合 — 防塵密封，開合手感清脆。',
       },
     },
     cta: {
@@ -143,14 +145,15 @@ export const zh: Translations = {
       guidesLink: '鑑定卡保護、防 UV 與置中標準的收藏指南',
       guidesCta: '閱讀指南',
       trading: {
-        subtitle: '值得信賴的鑑定交易卡牌買賣平台。',
-        cta: '開始交易',
+        badge: '鑑定卡交易',
+        subtitle: '在香港買賣及委託出售 PSA 與 CGC 鑑定卡磚。',
+        cta: '瀏覽交易平台',
       },
     },
     tradingPreview: {
       badge: '交易服務',
-      title: '瀏覽我們的卡牌庫存',
-      description: '探索我們精心挑選的專業鑑定交易卡牌，涵蓋寶可夢、運動卡和 MTG。',
+      title: '瀏覽鑑定卡庫存',
+      description: '精選 PSA 及 CGC 鑑定卡 — 寶可夢、運動卡及 MTG。',
       features: [
         'PSA 及 CGC 鑑定卡牌供應',
         '透明定價，價格具競爭力',
@@ -317,8 +320,8 @@ export const zh: Translations = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: '優質保護',
-    seoH1: '35PT PSA卡殼 — 磁吸鋁合金鑑定卡殼 & PSA卡保護殼',
-    heroImageAlt: 'Appaw Store 35PT PSA卡殼及鑑定卡殼，磁吸 PSA卡保護殼展示寶可夢 PTCG 鑑定卡磚',
+    seoH1: '35PT 鑑定卡保護殼 — 磁吸鋁合金',
+    heroImageAlt: 'Appaw Store 35PT 鑑定卡保護殼，磁吸展示寶可夢 PTCG 鑑定卡磚',
     heroCta: '查看顏色及價格 ↓',
     centeringCrossLink: {
       badge: '送鑑前工具',
@@ -338,9 +341,9 @@ export const zh: Translations = {
     },
     overview: {
       badge: '產品概覽',
-      title: '優質鑑定卡殼 & PSA卡保護殼',
+      title: '優質鑑定卡保護殼',
       body: [
-        '專為將鑑定卡牌視為長期資產的收藏家而設，Appaw Store 優質磁吸 PSA卡殼兼鑑定卡殼，帶來展館級展示與工業級保護。專為標準 35PT PSA 及 CGC 鑑定卡磚而設，配備超過 95% 抗紫外線及防褪色技術，有效阻隔陽光損害，防止閃卡、全息卡及古董卡隨時間逐漸褪色。',
+        '專為將鑑定卡牌視為長期資產的收藏家而設，Appaw Store 優質磁吸鑑定卡保護殼，帶來展館級展示與工業級保護。專為標準 35PT PSA 及 CGC 鑑定卡磚而設，配備超過 95% 抗紫外線及防褪色技術，有效阻隔陽光損害，防止閃卡、全息卡及古董卡隨時間逐漸褪色。',
         '保護殼採用 N52 釹磁鐵——市面上最強等級的磁吸 PSA卡保護殼設計，讓您數秒內輕鬆更換卡片，同時於展示及運送時保持牢固密合。CNC 精密鋁合金搭配防紫外線玻璃鏡面，質感厚實、媲美藝廊展品，重量卻僅 74 克，纖薄易攜。兼容 PSA 及 CGC 鑑定的寶可夢、運動卡及魔法風雲會卡片，是認真收藏家取代易裂廉價亞克力卡殼的首選升級。',
       ],
     },

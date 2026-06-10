@@ -32,7 +32,7 @@ export default function PSAProtectorLayout({ children }: { children: React.React
       'Aluminum Graded Slab Protector',
     ],
     description:
-      '35PT magnetic PSA slab case and graded card protector with >95% UV-blocking glass and N52 closure for PSA and CGC graded cards. Fits standard 35PT slabs including Pokemon, sports cards, and MTG.',
+      '35PT magnetic graded card protector with >95% UV-blocking glass and N52 closure for PSA and CGC graded cards. Fits standard 35PT slabs including Pokemon, sports cards, and MTG.',
     image: [
       'https://appaw.store/images-optimized/describe/sell%205.png',
       'https://appaw.store/images-optimized/describe/sell%201.png',
@@ -89,9 +89,9 @@ export default function PSAProtectorLayout({ children }: { children: React.React
       {/* Server-rendered static copy for search engine crawlers */}
       <div className="sr-only">
         <h2>{PRODUCT_NAME.zh.seoH1}</h2>
-        <p>35PT PSA Slab Case &amp; Graded Card Protector — &gt;95% UV Glass, N52 Magnetic Closure for PSA 10 &amp; Investment‑Grade Cards</p>
+        <p>35PT Graded Card Protector — &gt;95% UV Glass, N52 Magnetic Closure for PSA 10 &amp; Investment‑Grade Cards</p>
         <p>
-          Appaw Store 35PT PSA卡殼及鑑定卡殼：精密 CNC 鋁合金 + &gt;95% 防UV 玻璃與 N52 磁吸 PSA卡保護殼，專為標準 35PT PSA 及 CGC 鑑定卡磚提供防刮耐曬保護。香港設計，全球付運。
+          Appaw Store 35PT 鑑定卡保護殼：精密 CNC 鋁合金 + &gt;95% 防UV 玻璃與 N52 磁吸閉合，專為標準 35PT PSA 及 CGC 鑑定卡磚提供防刮耐曬保護。香港設計，全球付運。
         </p>
         {zh.psaProtectorPage.overview.body.map((para, i) => (
           <p key={i}>{para}</p>
@@ -102,7 +102,7 @@ export default function PSAProtectorLayout({ children }: { children: React.React
         <p>{PRODUCT_NAME.zh.metaDescription}</p>
         <p>門市地址：{PRODUCT_NAME.shop.zh}（{PRODUCT_NAME.shop.en}）</p>
         <p>
-          技術規格：尺寸 8.7 × 14.2 × 0.98 cm，重量 74 g，材質航空級鋁合金及防紫外線玻璃，N52 釹磁鐵磁吸閉合，兼容寶可夢、運動卡及 MTG 鑑定卡磚。
+          技術規格：尺寸 8.7 × 14.2 × 0.98 cm，重量 74 g，材質鋁合金及防紫外線玻璃，N52 釹磁鐵磁吸閉合，兼容寶可夢、運動卡及 MTG 鑑定卡磚。
         </p>
       </div>
       {children}

@@ -85,7 +85,7 @@ export const homeMetadata: Metadata = {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Appaw Store – PSA Slab Cases & Graded Card Protectors',
+        alt: 'Appaw Store – Graded Card Protectors',
       },
     ],
   },

@@ -17,19 +17,19 @@ export const PRODUCT_NAME = {
     short: 'Graded Slab Protector',
     plural: 'Graded Slab Protectors',
     whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab Aluminum Protector.',
-    seoH1: '35PT PSA Slab Case & Graded Card Protector — Magnetic Aluminum',
-    metaTitle: '35PT PSA Slab Case & Graded Card Protector | HK – Appaw Store',
+    seoH1: '35PT Graded Card Protector — Magnetic Aluminum',
+    metaTitle: '35PT Graded Card Protector | HK – Appaw Store',
     metaDescription:
-      '35PT magnetic PSA slab case & graded card protector. Aluminum case with >95% UV glass, N52 closure for PSA & CGC slabs. HK designed. Ships worldwide.',
+      '35PT magnetic graded card protector. Aluminum case with >95% UV glass, N52 closure for PSA & CGC slabs. HK designed. Ships worldwide.',
   },
   zh: {
     full: '磁吸鋁合金鑑定卡保護殼',
     short: '鑑定卡保護殼',
     whatsappOrder: '你好！我想訂購磁吸鋁合金鑑定卡保護殼。',
-    seoH1: '35PT PSA卡殼 — 磁吸鋁合金鑑定卡殼 & PSA卡保護殼',
-    metaTitle: '35PT PSA卡殼｜鑑定卡殼・磁吸 PSA卡保護殼 - Appaw Store 香港',
+    seoH1: '35PT 鑑定卡保護殼 — 磁吸鋁合金',
+    metaTitle: '35PT 鑑定卡保護殼 | Appaw Store 香港',
     metaDescription:
-      '35PT PSA卡殼及鑑定卡殼，磁吸鋁合金 PSA卡保護殼。>95% 抗UV、N52 磁吸，適用 PSA/CGC 鑑定卡磚。香港設計，全球付運。',
+      '35PT 磁吸鋁合金鑑定卡保護殼。>95% 抗UV、N52 磁吸，適用 PSA/CGC 鑑定卡磚。香港設計，全球付運。',
   },
   shop: {
     en: 'Shop No. 9, Basement, Manly Plaza, 995-997 King\'s Road, Quarry Bay, Hong Kong',
@@ -59,9 +59,9 @@ export const HK_SEO_KEYWORDS = [
 /** Homepage meta — keep in sync with i18n home.hero.h1Keyword */
 export const HOME_SEO = {
   en: {
-    title: 'PSA Slab Cases & Graded Card Protectors, Hong Kong – Appaw Store',
+    title: 'Graded Card Protectors, Hong Kong – Appaw Store',
     description:
-      'Premium PSA slab cases and graded card protectors for 35PT PSA & CGC slabs, plus trusted graded card trading in Hong Kong. UV-blocking glass, N52 magnetic closure.',
+      'Premium graded card protectors for 35PT PSA & CGC slabs, plus trusted graded card trading in Hong Kong. UV-blocking glass, N52 magnetic closure.',
   },
   zh: {
     title: 'Appaw Store 香港｜PSA卡殼・鑑定卡殼・PSA卡保護殼',

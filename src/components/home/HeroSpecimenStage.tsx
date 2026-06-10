@@ -13,11 +13,6 @@ interface HeroSpecimenStageProps {
   colorSlideAnimated: boolean;
   isScanning: boolean;
   productTitle: string;
-  pins: {
-    uv: string;
-    magnets: string;
-    fit: string;
-  };
 }
 
 export default function HeroSpecimenStage({
@@ -28,7 +23,6 @@ export default function HeroSpecimenStage({
   colorSlideAnimated,
   isScanning,
   productTitle,
-  pins,
 }: HeroSpecimenStageProps) {
   const active = colors[selectedColor];
 
@@ -45,18 +39,6 @@ export default function HeroSpecimenStage({
       <div className="home-hero-stage__crosshair" aria-hidden="true" />
 
       <div className="home-hero-stage__pins">
-        <div className="home-hero-pin home-hero-pin--uv" data-active={isScanning ? 'true' : 'false'}>
-          <span className="home-hero-pin__tick" aria-hidden="true" />
-          <span className="home-hero-pin__label font-mono">{pins.uv}</span>
-        </div>
-        <div className="home-hero-pin home-hero-pin--mag" data-pulse={isScanning ? 'true' : 'false'}>
-          <span className="home-hero-pin__tick" aria-hidden="true" />
-          <span className="home-hero-pin__label font-mono">{pins.magnets}</span>
-        </div>
-        <div className="home-hero-pin home-hero-pin--fit" data-pulse={isScanning ? 'true' : 'false'}>
-          <span className="home-hero-pin__tick" aria-hidden="true" />
-          <span className="home-hero-pin__label font-mono">{pins.fit}</span>
-        </div>
         <div
           key={selectedColor}
           className="home-hero-pin home-hero-pin--id font-mono font-tabular"

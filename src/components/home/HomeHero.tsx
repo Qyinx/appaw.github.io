@@ -51,7 +51,7 @@ export default function HomeHero({ onShopClick, onCollectionClick, onCenteringCl
   const h = t.home.hero;
 
   return (
-    <section className="home-hero-exhibit relative flex flex-col border-b border-border-default page-blueprint min-h-[min(92dvh,940px)]">
+    <section className="home-hero-exhibit relative flex flex-col border-b border-border-default page-blueprint min-h-[min(85dvh,940px)] lg:min-h-[min(92dvh,940px)]">
       <div className="home-hero-exhibit__atmosphere" aria-hidden="true" />
 
       <div className="container-custom relative z-[1] flex-1 flex flex-col pt-8 sm:pt-10 pb-0">
@@ -106,7 +106,6 @@ export default function HomeHero({ onShopClick, onCollectionClick, onCenteringCl
               colorSlideAnimated={colorSlideAnimated}
               isScanning={isScanning}
               productTitle={t.business.cardProtector.title}
-              pins={h.featureChips}
             />
           </Reveal>
         </div>

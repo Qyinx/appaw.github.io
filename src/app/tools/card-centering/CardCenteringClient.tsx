@@ -968,31 +968,6 @@ export default function CardCenteringClient() {
       lctx.restore();
     }
 
-    function loupeChip(lctx: CanvasRenderingContext2D, text: string, cx: number, cy: number, color: string) {
-      lctx.save();
-      lctx.font = '700 9px Inter, ui-sans-serif, system-ui, sans-serif';
-      const tw = lctx.measureText(text).width;
-      const w = tw + 10;
-      const h = 15;
-      const x = cx - w / 2;
-      const y = cy - h / 2;
-      const rr = 5;
-      lctx.beginPath();
-      lctx.moveTo(x + rr, y);
-      lctx.arcTo(x + w, y, x + w, y + h, rr);
-      lctx.arcTo(x + w, y + h, x, y + h, rr);
-      lctx.arcTo(x, y + h, x, y, rr);
-      lctx.arcTo(x, y, x + w, y, rr);
-      lctx.closePath();
-      lctx.fillStyle = 'rgba(0,0,0,0.62)';
-      lctx.fill();
-      lctx.fillStyle = color;
-      lctx.textAlign = 'center';
-      lctx.textBaseline = 'middle';
-      lctx.fillText(text, cx, cy + 0.5);
-      lctx.restore();
-    }
-
     function drawLoupes() {
       if (!loupesOnRef.current) return;
 
@@ -1115,15 +1090,6 @@ export default function CardCenteringClient() {
         lctx.arc(R, R, R - 1, 0, Math.PI * 2);
         lctx.stroke();
         lctx.restore();
-
-        // Labels
-        loupeChip(lctx, key.toUpperCase(), 16, 12, '#bfdbfe');
-        if (refRadius > 0) {
-          loupeChip(lctx, `R ${Math.round(refRadius)}px`, R, size - 11, '#fde047');
-        } else {
-          loupeChip(lctx, `\u2312 ${ringStep}px`, R, size - 11, '#9ca3af');
-        }
-        if (key === 'tl') loupeChip(lctx, `${loupeMag.toFixed(1)}\u00d7`, size - 18, 12, '#e5e7eb');
       });
     }
 
