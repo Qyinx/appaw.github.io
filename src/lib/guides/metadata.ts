@@ -6,7 +6,7 @@ import type { GuideLocale } from './types';
 const guidesIndexBase: Metadata = {
   title: { absolute: 'Collector Guides – Slab Protection & Grading Tips | Appaw Store' },
   description:
-    'Practical guides on 35PT slab protectors, UV storage, PSA 10 centering, fake PSA slab detection, and when to grade vs protect your cards. Written for Hong Kong and worldwide TCG collectors.',
+    'Practical guides on 35PT slab protectors, UV storage, PSA 10 centering, PSA regrade vs reholder, fake PSA slab detection, and when to grade vs protect your cards. Written for Hong Kong and worldwide TCG collectors.',
   keywords: [
     'graded card display case',
     'display graded cards',
@@ -25,6 +25,11 @@ const guidesIndexBase: Metadata = {
     'fake PSA slab',
     'PSA cert verification',
     '假 PSA 鑑定殼',
+    'PSA regrade',
+    'PSA reholder',
+    'regrade downgrade',
+    'PSA重評',
+    'PSA換殼',
   ],
   alternates: { canonical: '/guides/' },
   openGraph: {

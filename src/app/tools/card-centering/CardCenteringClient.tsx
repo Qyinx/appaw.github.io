@@ -4,6 +4,15 @@ import { useLanguage } from '@/context/LanguageContext';
 import styles from './card-centering.module.css';
 
 type GradeZone = 'PSA10' | 'PSA9' | 'PSA8' | 'Below';
+type PhotoMode = 'raw' | 'slab';
+type VerdictKey = 'regradeCandidate' | 'borderlineRegrade' | 'holdGrade' | 'downgradeRisk';
+
+function verdictForZone(zone: GradeZone): VerdictKey {
+  if (zone === 'PSA10') return 'regradeCandidate';
+  if (zone === 'PSA9') return 'borderlineRegrade';
+  if (zone === 'PSA8') return 'holdGrade';
+  return 'downgradeRisk';
+}
 
 interface GradeResult {
   overall: GradeZone;
@@ -71,6 +80,7 @@ export default function CardCenteringClient() {
   const [loupesOn, setLoupesOn] = React.useState(true);
   const loupesOnRef = React.useRef(true);
   const [guideMode, setGuideMode] = React.useState<'edge' | 'border' | 'both'>('both');
+  const [photoMode, setPhotoMode] = React.useState<PhotoMode>('raw');
   const guideModeRef = React.useRef(guideMode);
 
   useEffect(() => {
@@ -1481,6 +1491,8 @@ export default function CardCenteringClient() {
 
   const zone = grade?.overall ?? null;
   const zoneCopy = zone ? tool.zones[zone] : null;
+  const verdictKey = zone && photoMode === 'slab' ? verdictForZone(zone) : null;
+  const verdictCopy = verdictKey ? tool.verdicts[verdictKey] : null;
   const fmt = (n?: number) => (typeof n === 'number' ? n.toFixed(1) : '—');
 
   return (
@@ -1488,21 +1500,32 @@ export default function CardCenteringClient() {
       <section className={styles.toolInstrument} aria-label={tool.workspaceTitle}>
         <header className={styles.toolInstrumentHeader}>
           <span className={styles.toolInstrumentLabel}>{tool.workspaceTitle}</span>
-          <div
-            className={`${styles.gradePill} ${styles.gradePillHeader}`}
-            data-zone={zone ?? undefined}
-            aria-live="polite"
-            aria-atomic="true"
-            role="status"
-          >
-            <div className={styles.gradePillMain}>
-              <span className={styles.gradePillLabel}>{zoneCopy?.label ?? '—'}</span>
-              <span className={styles.gradePillSub}>{zoneCopy?.short ?? tool.alignGuides}</span>
+          <div className={styles.gradePillStack}>
+            <div
+              className={`${styles.gradePill} ${styles.gradePillHeader}`}
+              data-zone={zone ?? undefined}
+              aria-live="polite"
+              aria-atomic="true"
+              role="status"
+            >
+              <div className={styles.gradePillMain}>
+                <span className={styles.gradePillLabel}>{zoneCopy?.label ?? '—'}</span>
+                <span className={styles.gradePillSub}>{zoneCopy?.short ?? tool.alignGuides}</span>
+              </div>
+              <div className={styles.gradePillRatios}>
+                <span data-status={grade?.lrZone}>{tool.lrLabel} {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
+                <span data-status={grade?.tbZone}>{tool.tbLabel} {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
+              </div>
             </div>
-            <div className={styles.gradePillRatios}>
-              <span data-status={grade?.lrZone}>{tool.lrLabel} {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
-              <span data-status={grade?.tbZone}>{tool.tbLabel} {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
-            </div>
+            {verdictCopy ? (
+              <div className={styles.verdictStrip} data-verdict={verdictKey ?? undefined}>
+                <span className={styles.verdictLabel}>{verdictCopy.label}</span>
+                <span className={styles.verdictHint}>{verdictCopy.hint}</span>
+              </div>
+            ) : null}
+            {photoMode === 'slab' && !grade ? (
+              <p className={styles.reholderNote}>{tool.reholderNote}</p>
+            ) : null}
           </div>
         </header>
 
@@ -1542,6 +1565,21 @@ export default function CardCenteringClient() {
             <button className={styles.iconBtn} title={tool.fitToView} aria-label={tool.fitToView} onClick={() => fitRef.current?.()}><FitIcon /></button>
             <button className={styles.iconBtn} title={tool.reset} aria-label={tool.reset} onClick={() => resetRef.current?.()}><ResetIcon /></button>
           </div>
+        </div>
+
+        <div className={styles.photoModeBar} role="toolbar" aria-label={tool.photoModeLabel}>
+          {(['raw', 'slab'] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              className={styles.photoModeBtn}
+              data-active={photoMode === mode}
+              aria-pressed={photoMode === mode}
+              onClick={() => setPhotoMode(mode)}
+            >
+              {mode === 'raw' ? tool.photoModeRaw : tool.photoModeSlab}
+            </button>
+          ))}
         </div>
 
         {/* Guide layer switcher — focus on edge or border one at a time */}

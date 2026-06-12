@@ -1,4 +1,5 @@
 import { Translations } from './en';
+import { CENTERING_SEO } from '@/lib/product-names';
 
 export const zh: Translations = {
   // Navigation
@@ -139,10 +140,10 @@ export const zh: Translations = {
       centering: {
         badge: '送鑑前檢查',
         title: '卡牌置中量度工具',
-        description: '上傳卡牌照片，即時量度置中比例，對照 PSA 10 標準。',
+        description: '量度裸卡或鑑定卡照片，重評或送鑑前先篩選 PSA 10 邊距與降級風險。',
         cta: '免費量度置中',
       },
-      guidesLink: '鑑定卡保護、防 UV 與置中標準的收藏指南',
+      guidesLink: '鑑定卡保護、防 UV、置中與重評／換殼指南',
       guidesCta: '閱讀指南',
       trading: {
         badge: '鑑定卡交易',
@@ -582,6 +583,7 @@ export const zh: Translations = {
       statsHk: '面交核實',
       explore: '探索',
       linkProtectors: '鑑定卡保護殼',
+      linkCentering: '置中工具',
       linkBuyingGuide: '購買指南',
       linkConsign: '委託出售',
     },
@@ -1007,7 +1009,8 @@ export const zh: Translations = {
       // Keep in sync with CENTERING_SEO.zh in product-names.ts
       webAppName: '卡牌置中工具 & PSA 10 分析器',
       webAppDescription:
-        '免費瀏覽器工具，量度集換式卡牌置中比例。上傳卡牌、對齊導線，即時取得左右及上下邊距百分比，對照 PSA、BGS 及 SGC 標準。',
+        '免費瀏覽器工具，量度裸卡或鑑定卡照片的置中比例。對齊導線、校正透視傾斜，取得 PSA、BGS、SGC 邊距百分比及重評篩選。',
+      featureList: [...CENTERING_SEO.zh.featureList],
       breadcrumbHome: '首頁',
       breadcrumbTool: '卡牌置中工具',
       howToName: '如何使用 Appaw 卡牌置中分析器',
@@ -1052,6 +1055,18 @@ export const zh: Translations = {
       {
         q: '卡牌置中計算器是否免費？',
         a: '完全免費，在瀏覽器中使用，無需註冊，亦無需上傳至伺服器——量度在您的裝置上進行。',
+      },
+      {
+        q: '應該重評還是換殼？',
+        a: '換殼（Reholder）在 PSA 批准後更換外殼並保留原數字評級，適用於破裂殼、標籤模糊等外觀問題。重評會重新檢查四角、邊緣、表面及置中，可能升級或降級。先在平整的鑑定卡照片上量度置中：若邊距達 Gem Mint 但標籤為 PSA 9，可考慮重評；若殼體完好，換殼比不必要的重評更安全。',
+      },
+      {
+        q: '重新評級會令卡牌降級嗎？',
+        a: '是的。您的卡片的邊角、邊緣、表面和居中情況將根據如今更嚴格的標準進行全面重新檢查。目前評級為 PSA 10 的卡片有被評為 PSA 9 或更低的風險。正面居中情況低於 55/45 是可能導致評級下調的重要警示訊號。',
+      },
+      {
+        q: '能否使用鑑定卡去檢查置中情況？',
+        a: '可以。切換至「鑑定卡」模式，從正上方拍攝卡面，使用「調整圖片」（傾斜、縮放、旋轉）及角落放大鏡，將導線對齊殼內卡面——而非塑膠外緣。殼體反光與拍攝角度會扭曲比例；穿透殼體的平整掃描效果最佳。',
       },
     ],
     tool: {
@@ -1098,11 +1113,34 @@ export const zh: Translations = {
       dragHandlesHint: '拖曳各邊的手柄以對齊導線',
       workspaceTitle: '置中分析器',
       workspaceStatusIdle: '待命',
+      photoModeLabel: '照片類型',
+      photoModeRaw: '裸卡',
+      photoModeSlab: '鑑定卡',
+      verdicts: {
+        regradeCandidate: {
+          label: '重評候選',
+          hint: '置中達 Gem Mint 區間——請再檢查四角與表面，並比較費用與升值空間。',
+        },
+        borderlineRegrade: {
+          label: '邊界案例',
+          hint: '置中在 Mint 區間——僅當其他子項明顯優於現有標籤時才考慮重評。',
+        },
+        holdGrade: {
+          label: '維持評級',
+          hint: '置中在 NM–MT 區間——重評難以升級；若殼體有問題可考慮換殼。',
+        },
+        downgradeRisk: {
+          label: '降級風險',
+          hint: '置中超過 PSA 8 容差——除非接受較低標籤，否則避免重評。',
+        },
+      },
+      reholderNote:
+        '換殼保留數字評級，處理殼體或標籤問題。置中無法偵測殼體損壞——切換鑑定卡模式僅用於篩選重評升值空間。',
     },
     content: {
-      h1: '免費卡牌置中工具 & PSA 10 分析器',
+      h1: CENTERING_SEO.zh.h1 as string,
       lead:
-        '數秒內量度任何寶可夢、運動卡或 TCG 卡牌的置中比例。上傳照片，對齊卡牌邊緣及圖框導線，即時取得正反面邊距百分比，對照 PSA、BGS 及 SGC 標準——完全免費。',
+        '數秒內量度裸卡或鑑定卡照片。對齊導線、以傾斜控制校正透視，取得 PSA、BGS、SGC 邊距百分比——鑑定卡模式亦可篩選重評 vs 換殼。完全免費。',
       howToTitle: '如何使用 Appaw 卡牌置中分析器',
       howToBadge: '四步流程',
       stepLabel: '第 {n} 步',
@@ -1153,6 +1191,39 @@ export const zh: Translations = {
       whyMattersBeforeTrading: ' 妥善保護，或了解我們的 ',
       tradingLink: '鑑定卡交易及經紀服務',
       whyMattersAfterTrading: '。',
+      slabWorkflowTitle: '如何在鑑定卡照片上量度置中',
+      slabWorkflowIntro:
+        '殼體塑膠會產生反光與透視畸變。使用內建圖片調整及角落放大鏡，讓導線對齊殼內卡面——而非外殼邊緣。',
+      slabSteps: [
+        {
+          title: '正上方拍攝',
+          body: '將鑑定卡平放於深色表面，從正上方均勻光線拍攝完整卡面，避免標籤反光。',
+        },
+        {
+          title: '開啟「調整圖片」',
+          body: '使用縮放、旋轉及水平／垂直傾斜校正手機斜角造成的透視。迷你圖顯示邊緣（藍）與圖框（粉）對齊。',
+        },
+        {
+          title: '對齊圓角弧線',
+          body: '開啟角落放大鏡，拖曳圓角弧線使四分之一導線貼合殼內卡牌圓角——復古卡尤其有用。',
+        },
+        {
+          title: '導線對齊卡面',
+          body: '藍色導線貼卡牌切邊；粉色導線貼圖框內緣。可切換邊緣／圖框／全部以專注單一圖層。',
+        },
+        {
+          title: '查看磚體篩選結果',
+          body: '將照片類型設為「鑑定卡」。篩選列依置中估算重評升值 vs 降級風險——不含四角、表面或殼體狀況。',
+        },
+      ],
+      regradeTitle: '應該重評還是換殼？',
+      regradeAeoAnswer:
+        '換殼保留數字評級並更換損壞或過時的 PSA 外殼。重評重新檢查所有子項，可能升級或降級。先在平整的鑑定卡照片上量度置中：Gem Mint 邊距配 PSA 9 標籤或可考慮重評；殼體完好且置中合格則換殼較安全。',
+      regradeP1:
+        '收藏家常在網購鑑定卡或發現殼角破裂後同時考慮這兩項。兩者不可互換：PSA 換殼處理塑膠外殼與標籤，卡面不變；重評則依現行標準重新評估置中、四角、邊緣及表面。',
+      regradeP2:
+        '置中是唯一能從照片預先篩選的子項。分析器提供鑑定卡模式及透視校正，因 eBay、Carousell 及卡展上的鑑定卡照片很少是完美掃描。若置中已低於 PSA 8 容差，即使殼體完美，重評的期望值通常為負。',
+      regradeGuideLink: 'PSA 重評 vs 換殼 — 完整決策指南',
       faqTitle: '卡牌置中 — 常見問題',
       faqBadge: '常見疑問',
       faqCountLabel: '共 {n} 個主題',

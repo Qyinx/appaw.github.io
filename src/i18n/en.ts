@@ -139,10 +139,10 @@ export const en = {
       centering: {
         badge: 'Analyze',
         title: 'Centering Analyzer',
-        description: 'Upload a photo or use your camera for an instant centering grade and exportable report.',
+        description: 'Measure raw or graded slab photos. Screen PSA 10 margins and regrade vs reholder risk before you pay fees.',
         cta: 'Analyze Now',
       },
-      guidesLink: 'Collector guides on slab fit, UV storage, and centering',
+      guidesLink: 'Guides on slab fit, UV storage, centering, and regrade vs reholder',
       guidesCta: 'Read Guides',
       trading: {
         badge: 'Graded Card Trading',
@@ -582,6 +582,7 @@ export const en = {
       statsHk: 'Face-to-face verified',
       explore: 'Explore',
       linkProtectors: 'Graded Slab Protectors',
+      linkCentering: 'Centering Tool',
       linkBuyingGuide: 'Buying Guide',
       linkConsign: 'Consign a Card',
     },
@@ -1007,7 +1008,8 @@ export const en = {
     seo: {
       webAppName: CENTERING_SEO.en.webAppName as string,
       webAppDescription:
-        'Free browser tool that measures trading card centering. Upload a card, align the guides, and get instant left/right and top/bottom margin percentages against PSA, BGS and SGC standards.',
+        'Free browser tool that measures trading card centering on raw cards or graded slab photos. Align guides, correct perspective with tilt controls, and get PSA, BGS, and SGC margin percentages plus regrade screening.',
+      featureList: [...CENTERING_SEO.en.featureList] as string[],
       breadcrumbHome: 'Home',
       breadcrumbTool: CENTERING_SEO.en.breadcrumb as string,
       howToName: 'How to check card centering with the Appaw Centering Analyzer',
@@ -1054,6 +1056,18 @@ export const en = {
         q: 'Is the card centering calculator free?',
         a: 'Yes, the Appaw Store card centering calculator is completely free to use in your browser. No sign-up or upload to a server is required \u2014 measurement happens on your device.',
       },
+      {
+        q: 'Should I regrade or reholder my PSA slab?',
+        a: 'Reholder swaps the outer case and keeps the same grade when PSA approves the request — use it for cracked holders, foggy labels, or cosmetic case issues. Regrade opens every subgrade again and can upgrade or downgrade. Run centering on a straight slab photo first: if margins sit in Gem Mint range but your label is PSA 9, regrade may be worth the fee; if the case is fine, reholder is safer than unnecessary regrade risk.',
+      },
+      {
+        q: 'Can regrading downgrade my card?',
+        a: 'Yes. Your card\'s corners, edges, surface, and centering will be completely re-examined under today\'s stricter standards. A current PSA 10 runs the risk of coming back as a PSA 9 or lower. Front centering worse than 55/45 is a major red flag for a potential downgrade.',
+      },
+      {
+        q: 'Can I check centering on a graded slab photo?',
+        a: 'Yes. Switch to Graded slab mode, photograph the card inside the holder straight-on, then use Adjust image (tilt, zoom, rotate) and corner magnifiers to align guides on the card face — not the plastic outer edge. Slab glare and angle distort ratios; flat scans through the case work best.',
+      },
     ],
     tool: {
       zones: {
@@ -1099,11 +1113,34 @@ export const en = {
       dragHandlesHint: 'Drag the handles on each side to align guides',
       workspaceTitle: 'Centering Analyzer',
       workspaceStatusIdle: 'Standby',
+      photoModeLabel: 'Photo type',
+      photoModeRaw: 'Raw card',
+      photoModeSlab: 'Graded slab',
+      verdicts: {
+        regradeCandidate: {
+          label: 'Regrade candidate',
+          hint: 'Centering sits in Gem Mint range — review corners and surface, then compare fees vs upside.',
+        },
+        borderlineRegrade: {
+          label: 'Borderline',
+          hint: 'Centering in Mint range — regrade only if other subgrades clearly exceed your current label.',
+        },
+        holdGrade: {
+          label: 'Hold grade',
+          hint: 'Centering in NM–MT range — regrade unlikely to upgrade; reholder if the case is the issue.',
+        },
+        downgradeRisk: {
+          label: 'Downgrade risk',
+          hint: 'Centering exceeds PSA 8 tolerance — avoid regrade unless you accept a lower label.',
+        },
+      },
+      reholderNote:
+        'Reholder preserves your grade for case or label issues. Centering cannot detect holder damage — switch to slab mode only to screen regrade upside.',
     },
     content: {
       h1: CENTERING_SEO.en.h1 as string,
       lead:
-        'Measure the centering of any Pokémon, sports, or TCG card in seconds. Upload a photo, align the alignment lines to the card edge and art border, and get instant front and back margin percentages benchmarked against PSA, BGS, and SGC standards — completely free.',
+        'Measure raw cards or graded slab photos in seconds. Align guides, correct perspective with tilt controls, and get PSA, BGS, and SGC margin percentages — plus regrade vs reholder screening in Graded slab mode. Completely free.',
       howToTitle: 'How to use the Appaw Centering Analyzer',
       howToBadge: '4-Step Workflow',
       stepLabel: 'Step {n}',
@@ -1155,6 +1192,39 @@ export const en = {
       whyMattersBeforeTrading: ', or explore our ',
       tradingLink: 'graded card trading & brokerage',
       whyMattersAfterTrading: ' service.',
+      slabWorkflowTitle: 'How to measure centering on a graded slab photo',
+      slabWorkflowIntro:
+        'Slab plastic adds glare and perspective skew. Use the built-in image adjustments and corner loupes so guides sit on the card inside the holder — not on the outer case edge.',
+      slabSteps: [
+        {
+          title: 'Photograph straight-on',
+          body: 'Place the slab flat on a dark surface. Shoot from directly above with even light. Include the full card face inside the case; avoid flash hotspots on the label.',
+        },
+        {
+          title: 'Open Adjust image',
+          body: 'Use zoom, rotate, and H/V tilt to correct keystone from phone angles. The mini plot map shows edge (blue) and border (pink) alignment.',
+        },
+        {
+          title: 'Match corner curves',
+          body: 'Enable corner magnifiers and drag the fillet arc so quarter guides follow the card corners inside the slab — helpful on rounded vintage stock.',
+        },
+        {
+          title: 'Align guides on the card face',
+          body: 'Blue guides on the card cut edge; pink guides on the inner art border. Toggle Edge / Border / Both to focus one layer at a time.',
+        },
+        {
+          title: 'Read the slab verdict',
+          body: 'Switch photo type to Graded slab. The screening line estimates regrade upside vs downgrade risk from centering alone — not corners, surface, or holder condition.',
+        },
+      ],
+      regradeTitle: 'Should you regrade or reholder your PSA slab?',
+      regradeAeoAnswer:
+        'Reholder keeps your numeric grade and replaces a damaged or outdated PSA case. Regrade re-opens every subgrade and can raise or lower the label. Measure centering on a flat slab photo first: strong Gem Mint margins with a PSA 9 label may justify regrade fees; a sound case with acceptable centering is safer as reholder only.',
+      regradeP1:
+        'Collectors often bundle these decisions after buying a slab online or noticing a cracked corner on the holder. They are not interchangeable. PSA reholder requests address the plastic shell and label when the card inside is unchanged. Regrade sends the card back through full grading — centering, corners, edges, and surface are all scored again under current standards.',
+      regradeP2:
+        'Centering is the one subgrade you can pre-screen from photos. Our analyzer adds a Graded slab mode with perspective correction because slab listings on eBay, Carousell, and show tables are rarely perfect scans. If centering already fails PSA 8 tolerance, paying for regrade is usually negative expected value even when the case looks fine.',
+      regradeGuideLink: 'PSA regrade vs reholder — full decision guide',
       faqTitle: 'Card centering — frequently asked questions',
       faqBadge: 'Common Questions',
       faqCountLabel: '{n} topics covered',

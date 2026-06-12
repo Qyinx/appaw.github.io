@@ -74,7 +74,7 @@ const guide: GuideContent = {
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
     secondary: { label: 'Protect the returned slab', href: '/products/psa-protectors/' },
   },
-  relatedSlugs: ['grade-or-protect-first', 'choose-35pt-slab-protector'],
+  relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'choose-35pt-slab-protector'],
   sources: [
     {
       label: 'PSA Grading Standards — Gem Mint 10 centering',

@@ -107,7 +107,7 @@ const guide: GuideContent = {
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定 vs 保護流程', href: '/guides/grade-or-protect-first/' },
   },
-  relatedSlugs: ['grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
+  relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
   sources: [
     {
       label: 'PSA — 證書查詢',

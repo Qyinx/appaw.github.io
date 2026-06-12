@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-06-09 (batch 4) — Keyword retargeting for slab-case cluster: product/home titles, H1s, JSON-LD `alternateName`, and EN↔ZH search-term map (`SEO_KEYWORD_MAP` in `src/lib/product-names.ts`).
+Last updated: 2026-06-13 (batch 5) — Regrade/reholder cluster: centering tool slab mode + verdict UI, `regrade-or-reholder` guide (EN+ZH), expanded `SEO_KEYWORD_MAP`, `WebApplication.featureList`, AEO blocks on centering pillar, Explore internal links, `llms.txt` / `index.md` GEO refresh.
+
+Prior batch (2026-06-09): Keyword retargeting for slab-case cluster: product/home titles, H1s, JSON-LD `alternateName`, and EN↔ZH search-term map (`SEO_KEYWORD_MAP` in `src/lib/product-names.ts`).
 
 Prior batch (2026-06-08): Agent Readiness / AI Search pass ([isitagentready.com](https://isitagentready.com/appaw.store)): Content-Signal in `robots.txt`, RFC 8288 `Link` headers + HTML `llms.txt` discovery, Agent Skills index, guides pillar (`/guides/` + 5 articles incl. fake PSA slab guide), `llms.txt` guide table refresh.
 
@@ -10,6 +12,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-06-13 | Regrade cluster | Centering tool: Graded slab photo mode, regrade/reholder verdict strip, slab workflow H2, PAA H2 + `.centering-aeo-answer`, +3 FAQs (8 total). Guide `regrade-or-reholder` (EN+ZH). `SEO_KEYWORD_MAP` + `CENTERING_SEO` + `centeringMetadata` keywords. `WebApplication.featureList`. Card trading Explore → centering link. `storeJsonLd.knowsAbout` expanded. |
 | 2026-06-09 | AEO pass | Guide `Article` + `speakable` (`.guide-lead`, `.guide-aeo-answer`). PAA question H2s on `psa-10-centering-requirements`, `display-graded-cards`. `storeJsonLd.sameAs` + Google Maps. See `FULL-AUDIT-REPORT.md` AEO section. |
 | 2026-06-09 | Guides batch 2 | `display-graded-cards` (EN + ZH) — desk/shelf/wall display, graded card display case intent. |
 | 2026-06-09 | Keyword retargeting | Product + home titles/H1s retargeted to **PSA slab case / graded card case / PSA card protector** cluster (EN) and **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼** (ZH). `SEO_KEYWORD_MAP` in `product-names.ts`. JSON-LD `alternateName` expanded. Guide `choose-35pt-slab-protector` titles updated. |
@@ -69,7 +72,12 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | graded card case | 鑑定卡殼 | Broader case intent; pair with 35PT in body |
 | PSA card protector | PSA卡保護殼 | Protector intent; secondary in ZH title |
 | slab case | 卡殼 | Short form; body copy only unless space allows |
-| graded card display case | 鑑定卡展示殼 | Future display-guide target |
+| graded card display case | 鑑定卡展示殼 | Display guide (`display-graded-cards`) |
+| PSA regrade | PSA重評 | Guide `regrade-or-reholder` + centering slab mode |
+| PSA reholder | PSA換殼 | Guide `regrade-or-reholder` |
+| regrade downgrade risk | 重評降級風險 | Centering FAQ + guide H2 |
+| graded slab centering | 鑑定卡置中 | Centering slab workflow H2 |
+| check centering before regrading | 重評前置中檢查 | Tool + guide CTA |
 
 **Translation rules**
 
@@ -158,73 +166,67 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 3) Card Centering Tool / PSA 10 Analyzer (/tools/card-centering/)
 
-> Updated 2026-06-09 — Title/H1 retargeted to lead with **"card centering tool"** (5K/mo). Canonical strings in `CENTERING_SEO` (`src/lib/product-names.ts`). `card centering calculator` kept in keywords + FAQ.
+> Updated 2026-06-13 — **Post-grade cluster:** Graded slab photo mode, regrade/reholder verdict strip, slab workflow H2, PAA block "Should you regrade or reholder?", guide `/guides/regrade-or-reholder/`. Head term **"card centering tool"** unchanged in title/H1.
 
-> Updated 2026-06-01 — Repositioned this page from a commercial brand page to a utility-first
-> tool page after keyword research. This is the strongest organic-traffic opportunity on the site:
-> searchers looking for a "card centering tool" or "card centering calculator" have high intent and low commercial
-> competition compared to the protector/store keywords the homepage targets.
+> Updated 2026-06-09 — Title/H1 retargeted to lead with **"card centering tool"** (5K/mo). Canonical strings in `CENTERING_SEO` (`src/lib/product-names.ts`).
 
-- Implemented Title: "Free Card Centering Tool & PSA 10 Analyzer | Appaw Store"
-  - Rationale: leads with "Free" + highest-volume head term **"card centering tool"** (5K/mo); "calculator" retained in keywords and FAQ.
-- Implemented Meta Description: see `CENTERING_SEO.en.description` — leads with "Free card centering tool…"
-- Implemented H1: "Free Card Centering Tool & PSA 10 Analyzer" (single H1 on the page, rendered
-  in `CenteringContent.tsx` below the tool canvas).
-- ZH title/H1: `免費卡牌置中工具 & PSA 10 分析器` (`CENTERING_SEO.zh`)
+> Updated 2026-06-01 — Repositioned from commercial brand page to utility-first tool page (strongest organic-traffic pillar).
 
-Keyword research (target cluster)
-- Primary head terms: **"card centering tool"** (5K/mo), "card centering calculator", "PSA 10 centering",
-  "PSA centering calculator", **"pokemon card centering tool"** (500/mo, +900% trend — added to `centeringMetadata` keywords 2026-06-09).
-- High-intent long-tails (now covered by on-page H2s/FAQ): "how to check card centering",
-  "what centering for a PSA 10", "sports card centering calculator",
-  "BGS centering requirements", "card centering percentage".
-- Comparison/authority terms to expand into later: "PSA vs BGS centering", "55/45 centering",
-  "off-center card value", "centering before grading".
+- **Title / H1:** `Free Card Centering Tool & PSA 10 Analyzer` (EN); `免費卡牌置中工具 & PSA 10 分析器` (ZH) — do not retitle away from head term; regrade intent lives in description, H2s, FAQ, and guide.
+- **Meta description:** `CENTERING_SEO.*.description` — mentions raw + slab photos and regrade screening (≤160 chars EN).
+- **Keywords:** `centeringMetadata` — adds `PSA regrade`, `PSA reholder`, `regrade downgrade risk`, `graded slab centering`, ZH equivalents.
 
-On-page content (implemented)
-- "How to use the Appaw Centering Analyzer" — numbered step-by-step instructions (upload on a dark
-  background → align outer/blue guides to the card edge → align inner/pink guides to the art border →
-  read percentages). Mirrors `HowTo` JSON-LD.
-- "What are the centering requirements for a PSA 10?" — a markdown/HTML table of front & back
-  tolerances for PSA, BGS and SGC (incl. PSA's tightened 55/45 front standard for a 10).
-- "Why card centering matters" — explains how off-centre borders cap a card's grade and tank value,
-  with internal links to `/products/psa-protectors/` and `/business/card-trading/`.
-- FAQ block (accordion) wired to `FAQPage` JSON-LD: PSA 10 requirement, accuracy, best-photo tips,
-  card-type support, and "is it free".
+**Keyword clusters**
 
-- Open Graph / Twitter: `og:image` = `/images/og-centering.png` (TODO: replace placeholder with a real
-  analyzer result-overlay screenshot, 1200×630).
+| Cluster | Terms | On-page surface |
+|---------|-------|-----------------|
+| Pre-grade (primary) | card centering tool, PSA 10 centering, pokemon card centering tool | H1, HowTo, PSA table |
+| Post-grade (2026-06-13) | PSA regrade, PSA reholder, regrade downgrade, graded slab centering | Slab mode UI, verdict strip, H2, FAQ, guide |
+| Technical | tilt correction, slab photo, corner loupe | Slab workflow H2, tool controls |
 
-- JSON-LD (implemented in `src/app/tools/card-centering/page.tsx` via `src/lib/seo` factories):
-  - `WebApplication` (applicationCategory `UtilitiesApplication`)
-  - `BreadcrumbList` (Home → Card Centering Tool)
-  - `HowTo` (the 4 measurement steps)
-  - `FAQPage` (the 5 Q&As above)
+**On-page content (implemented)**
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Card Centering Tool & PSA 10 Analyzer",
-  "description": "Free browser tool that measures trading card centering against PSA, BGS and SGC standards.",
-  "url": "https://appaw.store/tools/card-centering/",
-  "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "All",
-  "author": { "@type": "Organization", "name": "Appaw Store" }
-}
-```
+- 4-step HowTo (raw card) — mirrors `HowTo` JSON-LD.
+- **Slab photo workflow** (5 steps) — H2 `How to measure centering on a graded slab photo`; covers tilt, corner loupe, guide layers, verdict.
+- **PAA block** — H2 `Should you regrade or reholder your PSA slab?` + `.centering-aeo-answer` speakable paragraph; link to `/guides/regrade-or-reholder/`.
+- PSA / BGS / SGC tolerance table (55/45 front for PSA 10).
+- Why centering matters + product/trading internal links.
+- **FAQ (8)** — includes regrade vs reholder, downgrade risk, slab photo measurement; `FAQPage` JSON-LD.
 
-Internal linking / IA (implemented)
-- Added a highlighted "Centering Tool" link to the primary header navigation (`Header.tsx`,
-  i18n key `nav.centeringTool`, en/zh) so crawlers and users see it as a top-level, important page.
-- Page metadata is now page-owned (`centeringMetadata` exported from `src/app/tools/card-centering/page.tsx`)
-  and the canonical was corrected from the broken `/tools/centering/` to `/tools/card-centering/`.
+**Tool UX (SEO-relevant)**
 
-Notes / next steps
-- Replace the placeholder `og:image` with a real screenshot of the analyzer result overlay.
-- Consider a short "measurement method" explainer and a couple of worked examples (well-centred vs
-  off-centre card) to deepen topical authority versus competitors (e.g. Edge Grading's centering tool).
-- ~~Add internal links to this tool from the homepage and the `/products/psa-protectors/` page body.~~ Done (2026-06-05): homepage secondary CTA + PSA page centering cross-link section before FAQ.
+- **Photo type:** Raw card | Graded slab — ZH UI label **鑑定卡** (`photoMode` toggle).
+- **Verdict strip** (slab mode only): Regrade candidate / Borderline / Hold grade / Downgrade risk — derived from centering zone; disclaimer in copy (not corners/surface/holder).
+- **Adjust image:** zoom, rotate, H/V tilt — supports slab glare / perspective correction (marketed in slab workflow).
+
+**JSON-LD** (`CenteringPageContent.tsx`):
+
+- `WebApplication` + `featureList` from `CENTERING_SEO.*.featureList`
+- `BreadcrumbList`, `HowTo` (4 steps), `FAQPage` (8 Q&As)
+
+**Internal linking**
+
+- Header nav `nav.centeringTool`
+- Homepage services bento → centering card
+- `/products/psa-protectors/` cross-link before FAQ
+- Card trading hero **Explore** → `linkCentering` (2026-06-13)
+- Guide hub: `regrade-or-reholder` ↔ `psa-10-centering-requirements`, `identify-fake-psa-slabs`
+
+**Terminology (regrade cluster)**
+
+| Context | EN | ZH (zh-HK) | Avoid |
+|---------|----|----|-------|
+| Same grade, new case | reholder | 換殼 | 重新鑑定 (for reholder) |
+| Full re-score | regrade | 重評 | 換殼 (for regrade) |
+| Grade label on slab | PSA 10, numeric grade | PSA 10、數字評級 | 評級卡 (use 鑑定卡) |
+| Graded slab (tool / guide UI) | Graded slab | 鑑定卡 | 鑑定卡磚 |
+| Tool disclaimer | screening aid, not a grader | 篩選參考，非評級機構 | guaranteed upgrade |
+
+**Open improvements**
+
+- Replace placeholder `og:centering.png` with screenshot showing slab mode + verdict strip.
+- Worked examples (well-centred vs off-centre) on pillar page.
+- GSC: request indexing for `/guides/regrade-or-reholder/` + `/zh/...` after deploy.
 
 ---
 

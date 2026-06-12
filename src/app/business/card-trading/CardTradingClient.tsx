@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import LocalLink from '@/components/LocalLink';
-import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, X, MessageCircle, Package, Eye, ExternalLink, Hash, Globe, Tag, ZoomIn, Layers, Loader2, Share2, Check, ShoppingBag, Tag as TagIcon, Shield } from 'lucide-react';
+import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, X, MessageCircle, Package, Eye, ExternalLink, Hash, Globe, Tag, ZoomIn, Layers, Loader2, Share2, Check, ShoppingBag, Tag as TagIcon, Shield, Gauge } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
@@ -981,6 +981,13 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
               >
                 <Shield className="w-3.5 h-3.5" />
                 {mp.hero.linkProtectors}
+              </LocalLink>
+              <LocalLink
+                href="/tools/card-centering"
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-border-default hover:border-accent-brand/35 hover:bg-accent-brand/[0.06] text-text-secondary hover:text-accent-brand text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
+              >
+                <Gauge className="w-3.5 h-3.5" />
+                {mp.hero.linkCentering}
               </LocalLink>
               <a
                 href="#consign"

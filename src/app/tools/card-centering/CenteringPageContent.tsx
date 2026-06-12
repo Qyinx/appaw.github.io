@@ -23,6 +23,7 @@ export default function CenteringPageContent({ t, pageUrl, homeUrl }: CenteringP
     description: seo.webAppDescription,
     url: pageUrl,
     applicationCategory: 'UtilitiesApplication',
+    featureList: seo.featureList,
   });
 
   const breadcrumb = breadcrumbJsonLd([

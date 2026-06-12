@@ -34,6 +34,9 @@ export function storeJsonLd() {
       'UV protection for trading cards',
       'PSA slab authentication',
       'Counterfeit graded card detection',
+      'PSA regrade and reholder decisions',
+      'Card centering measurement for graded slabs',
+      'PSA 10 centering requirements',
     ],
     address: {
       '@type': 'PostalAddress',
@@ -70,7 +73,14 @@ export function storeJsonLd() {
   };
 }
 
-export function webApplicationJsonLd(opts: { name: string; description: string; url: string; applicationCategory?: string; operatingSystem?: string }) {
+export function webApplicationJsonLd(opts: {
+  name: string;
+  description: string;
+  url: string;
+  applicationCategory?: string;
+  operatingSystem?: string;
+  featureList?: readonly string[];
+}) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
@@ -80,6 +90,7 @@ export function webApplicationJsonLd(opts: { name: string; description: string; 
     applicationCategory: opts.applicationCategory || 'BusinessApplication',
     operatingSystem: opts.operatingSystem || 'All',
     author: { '@type': 'Organization', name: 'Appaw Store' },
+    ...(opts.featureList?.length ? { featureList: [...opts.featureList] } : {}),
   };
 }
 

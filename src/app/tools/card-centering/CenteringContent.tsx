@@ -258,6 +258,40 @@ export default function CenteringContent() {
         </div>
       </section>
 
+      <section className={`panel p-0 overflow-hidden border-l-[3px] border-l-accent-warn ${styles.contentSpecSection}`} aria-labelledby="slab-workflow">
+        <div className={styles.contentSectionHeader}>
+          <span className="font-mono text-xs text-text-muted uppercase tracking-wider">Slab Photo</span>
+          <span className="font-mono text-xs text-accent-warn uppercase tracking-wider">Workflow</span>
+        </div>
+        <div className={styles.contentSectionBody}>
+          <h2 id="slab-workflow" className={styles.contentH2}>{c.slabWorkflowTitle}</h2>
+          <p className={styles.contentP}>{c.slabWorkflowIntro}</p>
+          <ol className={styles.slabStepList}>
+            {c.slabSteps.map((step, i) => (
+              <li key={step.title} className={styles.slabStepItem}>
+                <span className={styles.slabStepIndex}>{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3 className={styles.slabStepTitle}>{step.title}</h3>
+                  <p className={styles.contentP}>{step.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className={`panel ${styles.contentSection}`} aria-labelledby="regrade-reholder">
+        <h2 id="regrade-reholder" className={styles.contentH2}>{c.regradeTitle}</h2>
+        <p className={`${styles.contentP} centering-aeo-answer`}>{c.regradeAeoAnswer}</p>
+        <p className={styles.contentP}>{c.regradeP1}</p>
+        <p className={styles.contentP}>{c.regradeP2}</p>
+        <p className={styles.contentP}>
+          <LocalLink href="/guides/regrade-or-reholder/" className={styles.contentLink}>
+            {c.regradeGuideLink}
+          </LocalLink>
+        </p>
+      </section>
+
       <section className={`panel ${styles.contentSection}`} aria-labelledby="why-it-matters">
         <h2 id="why-it-matters" className={styles.contentH2}>{c.whyMattersTitle}</h2>
         <p className={styles.contentP}>{c.whyMattersP1}</p>

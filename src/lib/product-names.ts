@@ -8,6 +8,11 @@ export const SEO_KEYWORD_MAP = {
   'PSA card protector': 'PSA卡保護殼',
   'slab case': '卡殼',
   'graded card display case': '鑑定卡展示殼',
+  'PSA regrade': 'PSA重評',
+  'PSA reholder': 'PSA換殼',
+  'regrade downgrade risk': '重評降級風險',
+  'graded slab centering': '鑑定卡置中',
+  'check centering before regrading': '重評前置中檢查',
 } as const;
 
 /** Canonical product names — keep in sync with i18n business.cardProtector.title / nav.psaProtector */
@@ -54,6 +59,10 @@ export const HK_SEO_KEYWORDS = [
   '鰂魚涌',
   '萬利廣場',
   'Quarry Bay card shop',
+  'PSA重評',
+  'PSA換殼',
+  '重評降級',
+  '鑑定卡置中檢查',
 ] as const;
 
 /** Homepage meta — keep in sync with i18n home.hero.h1Keyword */
@@ -76,16 +85,26 @@ export const CENTERING_SEO = {
     title: 'Free Card Centering Tool & PSA 10 Analyzer | Appaw Store',
     h1: 'Free Card Centering Tool & PSA 10 Analyzer',
     description:
-      'Free card centering tool for Pokémon, sports, and TCG. Upload your card, align the guides, and get instant PSA 10 margin percentages — in your browser.',
+      'Free card centering tool for Pokémon, sports & TCG. Measure raw or slab photos, check PSA 10 margins & regrade risk — in your browser.',
     webAppName: 'Card Centering Tool & PSA 10 Analyzer',
+    featureList: [
+      'PSA 10 centering calculator',
+      'Slab photo perspective correction (tilt, zoom, corner loupe)',
+      'Regrade vs reholder centering screen for graded slabs',
+    ],
     breadcrumb: 'Card Centering Tool',
   },
   zh: {
     title: '免費卡牌置中工具 & PSA 10 分析器 | Appaw Store',
     h1: '免費卡牌置中工具 & PSA 10 分析器',
     description:
-      '免費卡牌置中工具，適用寶可夢 PTCG、運動卡及 TCG。上傳卡牌、對齊導線，即時取得 PSA 10 邊距百分比 — 瀏覽器即用。',
+      '免費卡牌置中工具，適用 PTCG、運動卡及 TCG。量度裸卡或鑑定卡照片，檢查 PSA 10 邊距及重評風險 — 瀏覽器即用。',
     webAppName: '卡牌置中工具 & PSA 10 分析器',
+    featureList: [
+      'PSA 10 置中計算器',
+      '鑑定卡照片透視校正（傾斜、縮放、角落放大鏡）',
+      '重評 vs 換殼置中篩選',
+    ],
     breadcrumb: '卡牌置中工具',
   },
 } as const;

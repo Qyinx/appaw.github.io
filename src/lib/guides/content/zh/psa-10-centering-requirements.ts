@@ -74,7 +74,7 @@ const guide: GuideContent = {
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
     secondary: { label: '保護鑑定卡', href: '/products/psa-protectors/' },
   },
-  relatedSlugs: ['grade-or-protect-first', 'choose-35pt-slab-protector'],
+  relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'choose-35pt-slab-protector'],
   sources: [
     {
       label: 'PSA 鑑定標準 — Gem Mint 10 置中',

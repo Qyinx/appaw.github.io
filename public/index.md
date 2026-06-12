@@ -12,7 +12,7 @@
 
 ## Free tool
 
-[Card Centering Tool](https://appaw.store/tools/card-centering/) — Pokémon card centering calculator; measure front/back margins against PSA, BGS, and SGC standards. No login.
+[Card Centering Tool](https://appaw.store/tools/card-centering/) — raw + graded slab centering; PSA/BGS/SGC margins; regrade vs reholder screening in Graded slab mode. No login.
 
 ## Collector guides
 
@@ -24,6 +24,7 @@
 | Grade vs protect | https://appaw.store/guides/grade-or-protect-first/ |
 | Spot fake PSA slabs | https://appaw.store/guides/identify-fake-psa-slabs/ |
 | Display graded cards | https://appaw.store/guides/display-graded-cards/ |
+| PSA regrade vs reholder | https://appaw.store/guides/regrade-or-reholder/ |
 
 ## Purchase (Hong Kong)
 
