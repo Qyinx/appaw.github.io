@@ -30,6 +30,9 @@ function getMaxDimensions(relativePath) {
   if (normalized.includes('/background/') || normalized.startsWith('background/')) {
     return { maxWidth: BACKGROUND_MAX_WIDTH, maxHeight: BACKGROUND_MAX_HEIGHT };
   }
+  if (normalized.includes('/og/') || normalized.startsWith('og/')) {
+    return { maxWidth: 1200, maxHeight: 630 };
+  }
   return { maxWidth: MAX_WIDTH, maxHeight: MAX_HEIGHT };
 }
 

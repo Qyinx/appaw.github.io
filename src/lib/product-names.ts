@@ -79,6 +79,9 @@ export const HOME_SEO = {
   },
 } as const;
 
+/** OG social preview — source: `public/images/og/og-centering.png` → `npm run optimize-images` */
+export const CENTERING_OG_IMAGE = '/images-optimized/og/og-centering.png';
+
 /** Card centering tool meta — keep in sync with `centeringPage.seo` / `content.h1` in i18n */
 export const CENTERING_SEO = {
   en: {

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CENTERING_SEO, HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
+import { CENTERING_OG_IMAGE, CENTERING_SEO, HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
 import type { PublicPortfolio } from '@/lib/collection/publicPortfolio';
 import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata';
 
@@ -212,13 +212,13 @@ const centeringMetadataBase: Metadata = {
     description: CENTERING_SEO.en.description,
     url: 'https://appaw.store/tools/card-centering/',
     type: 'website',
-    images: [{ url: '/images/og-centering.png', width: 1200, height: 630, alt: `${CENTERING_SEO.en.h1} — Appaw Store` }],
+    images: [{ url: CENTERING_OG_IMAGE, width: 1200, height: 630, alt: `${CENTERING_SEO.en.h1} — Appaw Store` }],
   },
   twitter: {
     card: 'summary_large_image',
     title: CENTERING_SEO.en.title,
     description: CENTERING_SEO.en.description,
-    images: ['/images/og-centering.png'],
+    images: [CENTERING_OG_IMAGE],
   },
 };
 

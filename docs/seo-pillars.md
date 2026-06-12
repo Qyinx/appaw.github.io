@@ -224,7 +224,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 **Open improvements**
 
-- Replace placeholder `og:centering.png` with screenshot showing slab mode + verdict strip.
+- ~~Replace placeholder `og-centering.png`~~ **Done (2026-06-13):** `public/images/og/og-centering.png` → `images-optimized/og/og-centering.png` via `npm run optimize-images`; wired in `CENTERING_OG_IMAGE` + `centeringMetadata`.
 - Worked examples (well-centred vs off-centre) on pillar page.
 - GSC: request indexing for `/guides/regrade-or-reholder/` + `/zh/...` after deploy.
 
