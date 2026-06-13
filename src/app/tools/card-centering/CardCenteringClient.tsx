@@ -1501,24 +1501,32 @@ export default function CardCenteringClient() {
         <header className={styles.toolInstrumentHeader}>
           <span className={styles.toolInstrumentLabel}>{tool.workspaceTitle}</span>
           <div className={styles.gradePillStack}>
-            <div
-              className={`${styles.gradePill} ${styles.gradePillHeader}`}
-              data-zone={zone ?? undefined}
-              aria-live="polite"
-              aria-atomic="true"
-              role="status"
-            >
-              <div className={styles.gradePillMain}>
-                <span className={styles.gradePillLabel}>{zoneCopy?.label ?? '—'}</span>
-                <span className={styles.gradePillSub}>{zoneCopy?.short ?? tool.alignGuides}</span>
+            {photoMode === 'raw' ? (
+              <div
+                className={`${styles.gradePill} ${styles.gradePillHeader}`}
+                data-zone={zone ?? undefined}
+                aria-live="polite"
+                aria-atomic="true"
+                role="status"
+              >
+                <div className={styles.gradePillMain}>
+                  <span className={styles.gradePillLabel}>{zoneCopy?.label ?? '—'}</span>
+                  <span className={styles.gradePillSub}>{zoneCopy?.short ?? tool.alignGuides}</span>
+                </div>
+                <div className={styles.gradePillRatios}>
+                  <span data-status={grade?.lrZone}>{tool.lrLabel} {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
+                  <span data-status={grade?.tbZone}>{tool.tbLabel} {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
+                </div>
               </div>
-              <div className={styles.gradePillRatios}>
-                <span data-status={grade?.lrZone}>{tool.lrLabel} {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
-                <span data-status={grade?.tbZone}>{tool.tbLabel} {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
-              </div>
-            </div>
-            {verdictCopy ? (
-              <div className={styles.verdictStrip} data-verdict={verdictKey ?? undefined}>
+            ) : null}
+            {photoMode === 'slab' && verdictCopy ? (
+              <div
+                className={`${styles.verdictStrip} ${styles.verdictStripStandalone}`}
+                data-verdict={verdictKey ?? undefined}
+                aria-live="polite"
+                aria-atomic="true"
+                role="status"
+              >
                 <span className={styles.verdictLabel}>{verdictCopy.label}</span>
                 <span className={styles.verdictHint}>{verdictCopy.hint}</span>
               </div>

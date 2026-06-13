@@ -199,6 +199,8 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 - **Verdict strip** (slab mode only): Regrade candidate / Borderline / Hold grade / Downgrade risk — derived from centering zone; disclaimer in copy (not corners/surface/holder).
 - **Adjust image:** zoom, rotate, H/V tilt — supports slab glare / perspective correction (marketed in slab workflow).
 
+**Open Graph / Twitter:** `og:image` = `/images-optimized/og/og-centering.png` (`CENTERING_OG_IMAGE` in `product-names.ts` → `centeringMetadata`). Source PNG: `public/images/og/og-centering.png` (gitignored) → run `npm run optimize-images` → commit `public/images-optimized/og/og-centering.png`.
+
 **JSON-LD** (`CenteringPageContent.tsx`):
 
 - `WebApplication` + `featureList` from `CENTERING_SEO.*.featureList`

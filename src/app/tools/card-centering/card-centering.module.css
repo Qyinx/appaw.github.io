@@ -303,6 +303,11 @@
 .verdictStrip[data-verdict='borderlineRegrade'] { border-left: 3px solid var(--accent-warn); }
 .verdictStrip[data-verdict='holdGrade'] { border-left: 3px solid var(--zone-psa8); }
 .verdictStrip[data-verdict='downgradeRisk'] { border-left: 3px solid var(--accent-danger); }
+.verdictStripStandalone {
+  border-top: none;
+  padding: 8px 12px;
+  min-width: min(100%, 420px);
+}
 .verdictLabel {
   font-weight: 700;
   text-transform: uppercase;
@@ -1134,6 +1139,68 @@
 .contentLink:focus-visible {
   outline: 2px solid var(--accent-secondary);
   outline-offset: 2px;
+}
+
+.referenceSubheading {
+  margin: 24px 0 10px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.referenceSubheading:first-of-type {
+  margin-top: 8px;
+}
+
+.referenceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: var(--border-width, 1px) solid var(--border-default);
+  background: var(--surface-raised);
+}
+
+.referenceList li + li {
+  border-top: var(--border-width, 1px) solid var(--border-default);
+}
+
+.referenceLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.referenceLink:hover {
+  color: var(--accent-secondary);
+  background: color-mix(in srgb, var(--accent-secondary) 6%, transparent);
+}
+
+.referenceLink:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: -2px;
+}
+
+.referenceExternalIcon,
+.referenceInternalIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.referenceLink:hover .referenceExternalIcon,
+.referenceLink:hover .referenceInternalIcon {
+  color: var(--accent-secondary);
 }
 
 /* ---------- How-to workflow (light spec panels) ---------- */

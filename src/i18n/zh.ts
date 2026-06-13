@@ -1118,7 +1118,7 @@ export const zh: Translations = {
       photoModeSlab: '鑑定卡',
       verdicts: {
         regradeCandidate: {
-          label: '重評候選',
+          label: '建議重新評級',
           hint: '置中達 Gem Mint 區間——請再檢查四角與表面，並比較費用與升值空間。',
         },
         borderlineRegrade: {
@@ -1130,12 +1130,12 @@ export const zh: Translations = {
           hint: '置中在 NM–MT 區間——重評難以升級；若殼體有問題可考慮換殼。',
         },
         downgradeRisk: {
-          label: '降級風險',
+          label: '高降級風險警告',
           hint: '置中超過 PSA 8 容差——除非接受較低標籤，否則避免重評。',
         },
       },
       reholderNote:
-        '換殼保留數字評級，處理殼體或標籤問題。置中無法偵測殼體損壞——切換鑑定卡模式僅用於篩選重評升值空間。',
+        '換殼保留數字評級，處理殼體或標籤問題。置中無法偵測殼體損壞——切換鑑定卡模式僅用於篩選重新評級風險。',
     },
     content: {
       h1: CENTERING_SEO.zh.h1 as string,
@@ -1224,6 +1224,42 @@ export const zh: Translations = {
       regradeP2:
         '置中是唯一能從照片預先篩選的子項。分析器提供鑑定卡模式及透視校正，因 eBay、Carousell 及卡展上的鑑定卡照片很少是完美掃描。若置中已低於 PSA 8 容差，即使殼體完美，重評的期望值通常為負。',
       regradeGuideLink: 'PSA 重評 vs 換殼 — 完整決策指南',
+      referencesTitle: '參考資料與延伸閱讀',
+      referencesExternalLabel: '官方評級標準',
+      referencesGuidesLabel: '相關收藏指南',
+      referencesGuidesIndex: '全部收藏指南',
+      externalSources: [
+        {
+          label: 'PSA 鑑定標準 — Gem Mint 10 置中',
+          href: 'https://www.psacard.com/gradingstandards',
+        },
+        {
+          label: 'Beckett (BGS) — 卡牌評級標準',
+          href: 'https://www.beckett.com/grading/card-grading-standards',
+        },
+        {
+          label: 'SGC 鑑定等級 — Pristine 10 置中',
+          href: 'https://www.gosgc.com/card-grading/scale',
+        },
+        {
+          label: 'CGC Cards — 評級量表（各等級置中）',
+          href: 'https://www.cgccards.com/card-grading/grading-scale/',
+        },
+      ],
+      guideLinks: [
+        {
+          label: 'PSA 10 置中標準詳解',
+          href: '/guides/psa-10-centering-requirements/',
+        },
+        {
+          label: 'PSA 重評 vs 換殼 — 如何選擇',
+          href: '/guides/regrade-or-reholder/',
+        },
+        {
+          label: '何時送鑑裸卡 vs 先保護鑑定卡',
+          href: '/guides/grade-or-protect-first/',
+        },
+      ],
       faqTitle: '卡牌置中 — 常見問題',
       faqBadge: '常見疑問',
       faqCountLabel: '共 {n} 個主題',

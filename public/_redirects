@@ -1,3 +1,6 @@
 # Public portfolio share links — static view shell, client reads id from URL path.
 /collection/p/*  /collection/p/view/  200!
 /zh/collection/p/*  /zh/collection/p/view/  200!
+
+# Legacy centering OG asset (pre-2026-06-13)
+/images/og-centering.png  /images-optimized/og/og-centering.png  301

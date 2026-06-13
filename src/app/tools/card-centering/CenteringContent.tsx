@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ImageUp, ScanLine, Frame, Gauge, ChevronDown } from 'lucide-react';
+import { ImageUp, ScanLine, Frame, Gauge, ChevronDown, ExternalLink, ArrowRight } from 'lucide-react';
 import LocalLink from '@/components/LocalLink';
 import HeroStamp from '@/components/ui/HeroStamp';
 import { useLanguage } from '@/context/LanguageContext';
@@ -189,6 +189,72 @@ function CenteringFaq({
   );
 }
 
+function CenteringReferences({
+  title,
+  externalLabel,
+  guidesLabel,
+  guidesIndex,
+  externalSources,
+  guideLinks,
+}: {
+  title: string;
+  externalLabel: string;
+  guidesLabel: string;
+  guidesIndex: string;
+  externalSources: { label: string; href: string }[];
+  guideLinks: { label: string; href: string }[];
+}) {
+  return (
+    <section
+      className={`panel p-0 overflow-hidden border-l-[3px] border-l-accent-link ${styles.contentSpecSection}`}
+      aria-labelledby="centering-references"
+    >
+      <div className={styles.contentSectionHeader}>
+        <span className="font-mono text-xs text-text-muted uppercase tracking-wider">Sources</span>
+        <span className="font-mono text-xs text-accent-link uppercase tracking-wider">Links</span>
+      </div>
+      <div className={styles.contentSectionBody}>
+        <h2 id="centering-references" className={styles.contentH2}>{title}</h2>
+
+        <h3 className={styles.referenceSubheading}>{externalLabel}</h3>
+        <ul className={styles.referenceList}>
+          {externalSources.map((source) => (
+            <li key={source.href}>
+              <a
+                href={source.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.referenceLink}
+              >
+                <span>{source.label}</span>
+                <ExternalLink className={styles.referenceExternalIcon} strokeWidth={2} aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <h3 className={styles.referenceSubheading}>{guidesLabel}</h3>
+        <ul className={styles.referenceList}>
+          {guideLinks.map((link) => (
+            <li key={link.href}>
+              <LocalLink href={link.href} className={styles.referenceLink}>
+                <span>{link.label}</span>
+                <ArrowRight className={styles.referenceInternalIcon} strokeWidth={2} aria-hidden="true" />
+              </LocalLink>
+            </li>
+          ))}
+          <li>
+            <LocalLink href="/guides/" className={styles.referenceLink}>
+              <span>{guidesIndex}</span>
+              <ArrowRight className={styles.referenceInternalIcon} strokeWidth={2} aria-hidden="true" />
+            </LocalLink>
+          </li>
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 export default function CenteringContent() {
   const { t } = useLanguage();
   const c = t.centeringPage.content;
@@ -309,6 +375,15 @@ export default function CenteringContent() {
         title={c.faqTitle}
         badge={c.faqBadge}
         countLabel={c.faqCountLabel}
+      />
+
+      <CenteringReferences
+        title={c.referencesTitle}
+        externalLabel={c.referencesExternalLabel}
+        guidesLabel={c.referencesGuidesLabel}
+        guidesIndex={c.referencesGuidesIndex}
+        externalSources={c.externalSources}
+        guideLinks={c.guideLinks}
       />
       </div>
     </article>

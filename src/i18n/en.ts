@@ -1118,7 +1118,7 @@ export const en = {
       photoModeSlab: 'Graded slab',
       verdicts: {
         regradeCandidate: {
-          label: 'Regrade candidate',
+          label: 'Regrade Recommended',
           hint: 'Centering sits in Gem Mint range — review corners and surface, then compare fees vs upside.',
         },
         borderlineRegrade: {
@@ -1225,6 +1225,42 @@ export const en = {
       regradeP2:
         'Centering is the one subgrade you can pre-screen from photos. Our analyzer adds a Graded slab mode with perspective correction because slab listings on eBay, Carousell, and show tables are rarely perfect scans. If centering already fails PSA 8 tolerance, paying for regrade is usually negative expected value even when the case looks fine.',
       regradeGuideLink: 'PSA regrade vs reholder — full decision guide',
+      referencesTitle: 'References & further reading',
+      referencesExternalLabel: 'Official grading standards',
+      referencesGuidesLabel: 'Related collector guides',
+      referencesGuidesIndex: 'All collector guides',
+      externalSources: [
+        {
+          label: 'PSA Grading Standards — Gem Mint 10 centering',
+          href: 'https://www.psacard.com/gradingstandards',
+        },
+        {
+          label: 'Beckett (BGS) — card grading standards',
+          href: 'https://www.beckett.com/grading/card-grading-standards',
+        },
+        {
+          label: 'SGC Grading Scale — Pristine 10 centering',
+          href: 'https://www.gosgc.com/card-grading/scale',
+        },
+        {
+          label: 'CGC Cards — grading scale (centering by grade)',
+          href: 'https://www.cgccards.com/card-grading/grading-scale/',
+        },
+      ],
+      guideLinks: [
+        {
+          label: 'PSA 10 centering requirements explained',
+          href: '/guides/psa-10-centering-requirements/',
+        },
+        {
+          label: 'PSA regrade vs reholder — when to choose each',
+          href: '/guides/regrade-or-reholder/',
+        },
+        {
+          label: 'When to submit raw cards vs protect graded slabs',
+          href: '/guides/grade-or-protect-first/',
+        },
+      ],
       faqTitle: 'Card centering — frequently asked questions',
       faqBadge: 'Common Questions',
       faqCountLabel: '{n} topics covered',
