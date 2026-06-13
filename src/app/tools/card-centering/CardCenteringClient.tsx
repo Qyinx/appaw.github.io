@@ -36,6 +36,44 @@ const ICON_PROPS = {
 const UploadIcon = () => (
   <svg {...ICON_PROPS}><path d="M12 16V4" /><path d="m6 10 6-6 6 6" /><path d="M4 20h16" /></svg>
 );
+
+const EmptyCardSchematic = () => (
+  <svg
+    className={styles.emptySchematic}
+    viewBox="0 0 96 132"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <rect x="1" y="1" width="94" height="130" stroke="var(--tool-border)" strokeWidth="1" fill="var(--tool-bg)" />
+    <path d="M8 8h10v1H8zm70 0h10v1H78zM8 123h10v1H8zm70 0h10v1H78z" fill="var(--tool-text-muted)" opacity="0.45" />
+    <rect x="14" y="18" width="68" height="96" stroke="var(--tool-guide-edge)" strokeWidth="1.5" />
+    <rect x="22" y="28" width="52" height="76" stroke="var(--tool-guide-border)" strokeWidth="1.5" />
+    <path
+      d="M14 18h68M14 114h68M14 18v96M82 18v96"
+      stroke="var(--tool-guide-edge)"
+      strokeWidth="1.5"
+      strokeDasharray="3 4"
+      opacity="0.35"
+    />
+    <path
+      d="M22 28h52M22 104h52M22 28v76M74 28v76"
+      stroke="var(--tool-guide-border)"
+      strokeWidth="1.5"
+      strokeDasharray="3 4"
+      opacity="0.35"
+    />
+    <line x1="48" y1="24" x2="48" y2="108" stroke="var(--tool-text-muted)" strokeWidth="0.75" opacity="0.2" />
+    <line x1="28" y1="66" x2="68" y2="66" stroke="var(--tool-text-muted)" strokeWidth="0.75" opacity="0.2" />
+    <circle cx="14" cy="18" r="2.25" fill="var(--accent-warn)" />
+    <circle cx="82" cy="18" r="2.25" fill="var(--accent-warn)" />
+    <circle cx="14" cy="114" r="2.25" fill="var(--accent-warn)" />
+    <circle cx="82" cy="114" r="2.25" fill="var(--accent-warn)" />
+    <rect x="36" y="52" width="24" height="28" rx="1" fill="var(--tool-raised)" stroke="var(--tool-border-subtle)" />
+    <path d="M42 74h12" stroke="var(--tool-text-muted)" strokeWidth="1" strokeLinecap="round" opacity="0.5" />
+    <path d="M42 68h8" stroke="var(--tool-text-muted)" strokeWidth="1" strokeLinecap="round" opacity="0.35" />
+  </svg>
+);
 const FitIcon = () => (
   <svg {...ICON_PROPS}><path d="M8 3H5a2 2 0 0 0-2 2v3" /><path d="M21 8V5a2 2 0 0 0-2-2h-3" /><path d="M3 16v3a2 2 0 0 0 2 2h3" /><path d="M16 21h3a2 2 0 0 0 2-2v-3" /></svg>
 );
@@ -172,7 +210,17 @@ export default function CardCenteringClient() {
     let dragOffsetY = 0;
 
     let initialPinchDistance: number | null = null;
+    let initialPinchAngle = 0;
     let initialZoom = 1;
+    let initialRotate = 0;
+    let pendingPinchZoom: number | null = null;
+    let pendingPinchRotate: number | null = null;
+    let pinchRaf = 0;
+    let pinchSample: { x1: number; y1: number; x2: number; y2: number } | null = null;
+    let pendingTouch: { id: number; startX: number; startY: number } | null = null;
+    const TOUCH_PAN_SLOP = 10;
+    let lastWorkspaceW = 0;
+    let lastWorkspaceH = 0;
 
     let overlayRaf = 0;
     let gradeRaf = 0;
@@ -201,6 +249,23 @@ export default function CardCenteringClient() {
     let plotDpr = 0;
     let lastGradeSnapshot: GradeResult | null = null;
     let resizeRaf = 0;
+    let transformRaf = 0;
+    let transformSliderActive = false;
+    let activeTransformId: string | null = null;
+    const loupeSizeCache: Partial<Record<'tl' | 'tr' | 'bl' | 'br', number>> = {};
+    let lastGradeCalcMs = 0;
+    const MOBILE_GRADE_INTERVAL_MS = 90;
+    const plotDprCap = isCoarsePointer ? Math.min(window.devicePixelRatio || 1, 2) : window.devicePixelRatio || 1;
+    let panRaf = 0;
+    let panPointer: { x: number; y: number } | null = null;
+    let panSession: { z: number; r: number; tx: number; ty: number } | null = null;
+    let pendingPanX = 0;
+    let pendingPanY = 0;
+
+    const zoomValEl = document.getElementById('zoom-val');
+    const rotValEl = document.getElementById('rot-val');
+    const tiltXValEl = document.getElementById('tiltX-val');
+    const tiltYValEl = document.getElementById('tiltY-val');
 
     function gradesEqual(a: GradeResult, b: GradeResult) {
       return (
@@ -296,8 +361,13 @@ export default function CardCenteringClient() {
     }
 
     function resizeCanvas() {
-      overlayEl.width = workspaceEl.clientWidth;
-      overlayEl.height = workspaceEl.clientHeight;
+      const w = workspaceEl.clientWidth;
+      const h = workspaceEl.clientHeight;
+      if (Math.abs(w - lastWorkspaceW) < 1 && Math.abs(h - lastWorkspaceH) < 1) return;
+      lastWorkspaceW = w;
+      lastWorkspaceH = h;
+      overlayEl.width = w;
+      overlayEl.height = h;
       centerX = overlayEl.width / 2;
       centerY = overlayEl.height / 2;
       plotW = 0;
@@ -325,42 +395,123 @@ export default function CardCenteringClient() {
         imgEl.style.display = 'block';
         Object.values(controls).forEach((ctrl: any) => {
           ctrl.value = ctrl.defaultValue;
-          const ev = new Event('input', { bubbles: false });
-          ctrl.dispatchEvent(ev);
         });
+        updateTransform();
       };
       reader.readAsDataURL(file);
     };
     uploadEl.addEventListener('change', uploadHandler);
 
+    function isOverlayFastMode() {
+      return dragging === 'image' || dragging === 'pinch' || transformSliderActive;
+    }
+
+    function shouldRedrawOverlayForTransform() {
+      return loupesOnRef.current;
+    }
+
+    function shouldCalculateGradeNow() {
+      if (!isCoarsePointer || !isGuideDrag()) return true;
+      const now = performance.now();
+      if (now - lastGradeCalcMs < MOBILE_GRADE_INTERVAL_MS) return false;
+      lastGradeCalcMs = now;
+      return true;
+    }
+
+    function beginImagePan(clientX: number, clientY: number) {
+      const { z, r, tx, ty, px, py } = readTransformState();
+      panSession = { z, r, tx, ty };
+      pendingPanX = px;
+      pendingPanY = py;
+      lastPointerX = clientX;
+      lastPointerY = clientY;
+    }
+
+    function applyPanFrame(clientX: number, clientY: number) {
+      if (!panSession) return;
+      pendingPanX += clientX - lastPointerX;
+      pendingPanY += clientY - lastPointerY;
+      lastPointerX = clientX;
+      lastPointerY = clientY;
+      const { z, r, tx, ty } = panSession;
+      imgEl.style.transform = buildImageTransform(z, r, tx, ty, pendingPanX, pendingPanY);
+    }
+
+    function schedulePanFrame(clientX: number, clientY: number) {
+      panPointer = { x: clientX, y: clientY };
+      if (panRaf) return;
+      panRaf = requestAnimationFrame(() => {
+        panRaf = 0;
+        if (!panPointer) return;
+        applyPanFrame(panPointer.x, panPointer.y);
+      });
+    }
+
+    function commitPan() {
+      if (panRaf) {
+        cancelAnimationFrame(panRaf);
+        panRaf = 0;
+      }
+      if (panPointer && panSession) {
+        applyPanFrame(panPointer.x, panPointer.y);
+      }
+      panPointer = null;
+      if (panSession) {
+        controls.panX.value = String(Math.round(pendingPanX));
+        controls.panY.value = String(Math.round(pendingPanY));
+      }
+      panSession = null;
+    }
+
+    function syncTransformReadout(id: string, z: number, r: number, tx: number, ty: number) {
+      if (id === 'zoom' && zoomValEl) zoomValEl.textContent = z.toFixed(2);
+      if (id === 'rotate' && rotValEl) rotValEl.textContent = r.toFixed(2) + '°';
+      if (id === 'tiltX' && tiltXValEl) tiltXValEl.textContent = tx.toFixed(2) + '°';
+      if (id === 'tiltY' && tiltYValEl) tiltYValEl.textContent = ty.toFixed(2) + '°';
+      if (controls[id]) fillTrack(controls[id]);
+    }
+
+    function updateTransformFast(activeId?: string | null) {
+      const { z, r, tx, ty, px, py } = readTransformState();
+      imgEl.style.transform = buildImageTransform(z, r, tx, ty, px, py);
+      if (activeId) syncTransformReadout(activeId, z, r, tx, ty);
+    }
+
+    function scheduleTransformUpdate(id: string) {
+      transformSliderActive = true;
+      activeTransformId = id;
+      if (transformRaf) return;
+      transformRaf = requestAnimationFrame(() => {
+        transformRaf = 0;
+        updateTransformFast(activeTransformId);
+      });
+    }
+
+    function commitTransformSlider() {
+      if (!transformSliderActive && !transformRaf) return;
+      if (transformRaf) {
+        cancelAnimationFrame(transformRaf);
+        transformRaf = 0;
+      }
+      transformSliderActive = false;
+      activeTransformId = null;
+      updateTransform();
+    }
+
     function updateTransform() {
-      const z = parseFloat(controls.zoom.value);
-      const r = parseFloat(controls.rotate.value);
-      const tx = parseFloat(controls.tiltX.value);
-      const ty = parseFloat(controls.tiltY.value);
-      // Invert horizontal yaw so slider direction matches visual expectation
-      const tiltXdeg = tx;
-      const tiltYdeg = -ty;
-      const px = parseInt(controls.panX.value || '0');
-      const py = parseInt(controls.panY.value || '0');
+      const { z, r, tx, ty, px, py } = readTransformState();
 
-      const zoomValEl = document.getElementById('zoom-val');
-      const rotValEl = document.getElementById('rot-val');
-      const tiltXValEl = document.getElementById('tiltX-val');
-      const tiltYValEl = document.getElementById('tiltY-val');
+      if (zoomValEl) zoomValEl.textContent = z.toFixed(2);
+      if (rotValEl) rotValEl.textContent = r.toFixed(2) + '°';
+      if (tiltXValEl) tiltXValEl.textContent = tx.toFixed(2) + '°';
+      if (tiltYValEl) tiltYValEl.textContent = ty.toFixed(2) + '°';
 
-      if (zoomValEl) zoomValEl.innerText = z.toFixed(2);
-      if (rotValEl) rotValEl.innerText = r.toFixed(2) + '°';
-      if (tiltXValEl) tiltXValEl.innerText = tx.toFixed(2) + '°';
-      if (tiltYValEl) tiltYValEl.innerText = ty.toFixed(2) + '°';
-
-      // Inline perspective() — parent perspective + overflow:hidden breaks 3D on iOS Safari
-      imgEl.style.transform = `perspective(${PERSPECTIVE}px) translate3d(${px}px, ${py}px, 0) scale(${z}) rotateZ(${r}deg) rotateX(${tiltXdeg}deg) rotateY(${tiltYdeg}deg)`;
+      imgEl.style.transform = buildImageTransform(z, r, tx, ty, px, py);
       fillTrack(controls.zoom);
       fillTrack(controls.rotate);
       fillTrack(controls.tiltX);
       fillTrack(controls.tiltY);
-      scheduleDrawOverlay();
+      if (shouldRedrawOverlayForTransform()) scheduleDrawOverlay();
     }
 
     function fillTrack(el: HTMLInputElement) {
@@ -418,7 +569,27 @@ export default function CardCenteringClient() {
     fitRef.current = fitToImage;
     redrawRef.current = () => scheduleDrawOverlay();
 
-    Object.values(controls).forEach((ctrl: any) => ctrl.addEventListener('input', updateTransform));
+    const sliderBindings: Array<{ el: HTMLInputElement; type: string; fn: EventListener }> = [];
+    (['zoom', 'rotate', 'tiltX', 'tiltY'] as const).forEach((id) => {
+      const el = controls[id];
+      if (!el) return;
+      const onInput = () => scheduleTransformUpdate(id);
+      const onBegin = () => {
+        transformSliderActive = true;
+        activeTransformId = id;
+      };
+      const onCommit = () => commitTransformSlider();
+      el.addEventListener('input', onInput);
+      el.addEventListener('pointerdown', onBegin);
+      el.addEventListener('pointerup', onCommit);
+      el.addEventListener('pointercancel', onCommit);
+      el.addEventListener('change', onCommit);
+      sliderBindings.push({ el, type: 'input', fn: onInput });
+      sliderBindings.push({ el, type: 'pointerdown', fn: onBegin });
+      sliderBindings.push({ el, type: 'pointerup', fn: onCommit });
+      sliderBindings.push({ el, type: 'pointercancel', fn: onCommit });
+      sliderBindings.push({ el, type: 'change', fn: onCommit });
+    });
 
     function smoothstep(t: number) {
       const x = Math.max(0, Math.min(1, t));
@@ -512,18 +683,21 @@ export default function CardCenteringClient() {
       ctx.restore();
 
       // Card edge (outer) — rounded glow frame
-      drawModernFrame(oxL, oyT, oxW, oxH, colorOuter, outerAlpha, mode === 'edge' || mode === 'both');
+      const fastDraw = isOverlayFastMode();
+      const liteDraw = fastDraw || isCoarsePointer;
+      drawModernFrame(oxL, oyT, oxW, oxH, colorOuter, outerAlpha, mode === 'edge' || mode === 'both', liteDraw);
 
       // Art border (inner) — rounded glow frame
-      drawModernFrame(ixL, iyT, ixR - ixL, iyB - iyT, colorInner, innerAlpha, mode === 'border' || mode === 'both');
+      drawModernFrame(ixL, iyT, ixR - ixL, iyB - iyT, colorInner, innerAlpha, mode === 'border' || mode === 'both', liteDraw);
 
-      // Identification labels (only for active layers)
-      if (mode === 'edge' || mode === 'both') drawLabel(oxL, oyT, toolLabelsRef.current.canvasEdge, colorOuter);
-      if (mode === 'border' || mode === 'both') drawLabel(ixL, iyT, toolLabelsRef.current.canvasBorder, colorInner);
+      // Identification labels (desktop only — low value on small touch screens)
+      if (!liteDraw) {
+        if (mode === 'edge' || mode === 'both') drawLabel(oxL, oyT, toolLabelsRef.current.canvasEdge, colorOuter);
+        if (mode === 'border' || mode === 'both') drawLabel(ixL, iyT, toolLabelsRef.current.canvasBorder, colorInner);
+      }
 
       // Draggable handles — slide smoothly when stagger position changes
       const handles = resolveHandles();
-      const fastDraw = dragging === 'image' || dragging === 'pinch';
       handles.forEach((h) => {
         const isOuter = h.name.startsWith('outer');
         const color = isOuter ? colorOuter : colorInner;
@@ -534,7 +708,7 @@ export default function CardCenteringClient() {
 
       if (!fastDraw) {
         drawLoupes();
-        calculateCentering();
+        if (shouldCalculateGradeNow()) calculateCentering();
       }
     }
 
@@ -549,28 +723,30 @@ export default function CardCenteringClient() {
       ctx.closePath();
     }
 
-    function drawModernFrame(x: number, y: number, w: number, h: number, color: string, alpha: number, emphasized: boolean) {
+    function drawModernFrame(x: number, y: number, w: number, h: number, color: string, alpha: number, emphasized: boolean, lite = false) {
       if (w < 4 || h < 4) return;
       const radius = Math.min(10, w * 0.022, h * 0.016);
 
       ctx.save();
       ctx.globalAlpha = alpha;
 
-      // Soft color glow
-      ctx.shadowColor = color;
-      ctx.shadowBlur = emphasized ? 20 : 12;
+      if (!lite) {
+        ctx.shadowColor = color;
+        ctx.shadowBlur = emphasized ? 20 : 12;
+      }
       ctx.strokeStyle = color;
-      ctx.lineWidth = emphasized ? 1.75 : 1.25;
+      ctx.lineWidth = lite ? 1.25 : emphasized ? 1.75 : 1.25;
       roundRectPath(x, y, w, h, radius);
       ctx.stroke();
 
-      // Hairline highlight for depth
-      ctx.shadowBlur = 0;
-      ctx.globalAlpha = alpha * 0.3;
-      ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 0.5;
-      roundRectPath(x + 0.5, y + 0.5, Math.max(0, w - 1), Math.max(0, h - 1), Math.max(0, radius - 0.5));
-      ctx.stroke();
+      if (!lite) {
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = alpha * 0.3;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 0.5;
+        roundRectPath(x + 0.5, y + 0.5, Math.max(0, w - 1), Math.max(0, h - 1), Math.max(0, radius - 0.5));
+        ctx.stroke();
+      }
 
       ctx.restore();
     }
@@ -821,15 +997,15 @@ export default function CardCenteringClient() {
 
         const dx = t.x - prev.x;
         const dy = t.y - prev.y;
-        if (Math.hypot(dx, dy) > HANDLE_SNAP_PX) {
-          handleDisplay[t.name] = {
-            x: prev.x + dx * HANDLE_SLIDE,
-            y: prev.y + dy * HANDLE_SLIDE,
-          };
-          animating = true;
-        } else {
+        if (isCoarsePointer || Math.hypot(dx, dy) <= HANDLE_SNAP_PX) {
           handleDisplay[t.name] = { x: t.x, y: t.y };
+          continue;
         }
+        handleDisplay[t.name] = {
+          x: prev.x + dx * HANDLE_SLIDE,
+          y: prev.y + dy * HANDLE_SLIDE,
+        };
+        animating = true;
       }
 
       for (const key of Object.keys(handleDisplay)) {
@@ -989,29 +1165,24 @@ export default function CardCenteringClient() {
       const ay = ((-(parseFloat(controls.tiltY.value) || 0)) * Math.PI) / 180;
       const px = parseInt(controls.panX.value || '0');
       const py = parseInt(controls.panY.value || '0');
-      const persp = PERSPECTIVE; // matches perspective() in updateTransform
+      const persp = PERSPECTIVE;
+      const imgReady = !!(imgEl.src && imgEl.complete && imgEl.naturalWidth > 0);
+      const imgBw = imgReady ? (imgEl.offsetWidth || imgEl.naturalWidth) : 0;
+      const imgBh = imgReady ? (imgEl.offsetHeight || imgEl.naturalHeight) : 0;
 
-      // Project a base-image point (relative to the image centre, in CSS px)
-      // to overlay/screen coords, replicating the CSS perspective transform.
       const project = (bx: number, by: number) => {
         let x = bx, y = by, zc = 0;
-        // rotateY(ay)
         let nx = x * Math.cos(ay) + zc * Math.sin(ay);
         let nz = -x * Math.sin(ay) + zc * Math.cos(ay);
         x = nx; zc = nz;
-        // rotateX(ax)
         let ny = y * Math.cos(ax) - zc * Math.sin(ax);
         nz = y * Math.sin(ax) + zc * Math.cos(ax);
         y = ny; zc = nz;
-        // rotateZ(rz)
         nx = x * Math.cos(rz) - y * Math.sin(rz);
         ny = x * Math.sin(rz) + y * Math.cos(rz);
         x = nx; y = ny;
-        // scale(z)
         x *= z; y *= z;
-        // translate(px,py)
         x += px; y += py;
-        // perspective divide
         const s = persp / (persp - zc);
         return { x: centerX + x * s, y: centerY + y * s };
       };
@@ -1022,8 +1193,12 @@ export default function CardCenteringClient() {
         const size = el.clientWidth;
         if (size < 8) return;
         const dpr = window.devicePixelRatio || 1;
-        const target = Math.round(size * dpr);
-        if (el.width !== target) { el.width = target; el.height = target; }
+        if (loupeSizeCache[key] !== size) {
+          loupeSizeCache[key] = size;
+          const target = Math.round(size * dpr);
+          el.width = target;
+          el.height = target;
+        }
         const lctx = el.getContext('2d');
         if (!lctx) return;
         lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1040,11 +1215,7 @@ export default function CardCenteringClient() {
 
         const S = loupeCorner(key);
 
-        if (imgEl.src && imgEl.complete && imgEl.naturalWidth > 0) {
-          const bw = imgEl.offsetWidth || imgEl.naturalWidth;
-          const bh = imgEl.offsetHeight || imgEl.naturalHeight;
-
-          // Linearise the (perspective) projection about the image centre…
+        if (imgReady) {
           const O = project(0, 0);
           const Ux = project(1, 0);
           const Uy = project(0, 1);
@@ -1074,7 +1245,7 @@ export default function CardCenteringClient() {
           // loupePixel = R + (screen - S) * m, with screen = (t0) + J * base
           lctx.setTransform(dpr, 0, 0, dpr, dpr * (R + (t0x - S.x) * m), dpr * (R + (t0y - S.y) * m));
           lctx.transform(aa * m, ab * m, ac * m, ad * m, 0, 0);
-          lctx.drawImage(imgEl, -bw / 2, -bh / 2, bw, bh);
+          lctx.drawImage(imgEl, -imgBw / 2, -imgBh / 2, imgBw, imgBh);
           lctx.restore();
         } else {
           lctx.fillStyle = 'rgba(255,255,255,0.25)';
@@ -1176,7 +1347,7 @@ export default function CardCenteringClient() {
     }
 
     function drawPlot(lr: number, tb: number, overallZone: string) {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = plotDprCap;
       const cw = plotCanvasEl.clientWidth;
       const ch = plotCanvasEl.clientHeight;
       if (cw < 8 || ch < 8) return;
@@ -1298,6 +1469,83 @@ export default function CardCenteringClient() {
       return Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
     }
 
+    function getAngle(t1: Touch, t2: Touch) {
+      return Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX);
+    }
+
+    function normalizeAngleDelta(deltaRad: number) {
+      let d = deltaRad;
+      while (d > Math.PI) d -= Math.PI * 2;
+      while (d < -Math.PI) d += Math.PI * 2;
+      return d;
+    }
+
+    function readTransformState() {
+      const z = parseFloat(controls.zoom.value);
+      const r = parseFloat(controls.rotate.value);
+      const tx = parseFloat(controls.tiltX.value);
+      const ty = parseFloat(controls.tiltY.value);
+      const px = parseInt(controls.panX.value || '0', 10);
+      const py = parseInt(controls.panY.value || '0', 10);
+      return { z, r, tx, ty, px, py };
+    }
+
+    function buildImageTransform(z: number, r: number, tx: number, ty: number, px: number, py: number) {
+      const tiltXdeg = tx;
+      const tiltYdeg = -ty;
+      return `perspective(${PERSPECTIVE}px) translate3d(${px}px, ${py}px, 0) scale(${z}) rotateZ(${r}deg) rotateX(${tiltXdeg}deg) rotateY(${tiltYdeg}deg)`;
+    }
+
+    function applyImageTransformFast(z: number, r: number) {
+      const { tx, ty, px, py } = readTransformState();
+      imgEl.style.transform = buildImageTransform(z, r, tx, ty, px, py);
+      pendingPinchZoom = z;
+      pendingPinchRotate = r;
+    }
+
+    function beginPinch(touches: TouchList) {
+      dragging = 'pinch';
+      initialPinchDistance = getDistance(touches[0], touches[1]);
+      initialPinchAngle = getAngle(touches[0], touches[1]);
+      initialZoom = parseFloat(controls.zoom.value);
+      initialRotate = parseFloat(controls.rotate.value);
+      pendingPinchZoom = initialZoom;
+      pendingPinchRotate = initialRotate;
+      try { document.body.style.overflow = 'hidden'; } catch {}
+    }
+
+    function applyPinchFrame(x1: number, y1: number, x2: number, y2: number) {
+      const scaleChange = Math.hypot(x2 - x1, y2 - y1) / (initialPinchDistance || 1);
+      const z = Math.max(0.1, Math.min(3, initialZoom * scaleChange));
+      const deltaRad = normalizeAngleDelta(Math.atan2(y2 - y1, x2 - x1) - initialPinchAngle);
+      const r = Math.max(-20, Math.min(20, initialRotate + deltaRad * (180 / Math.PI)));
+      applyImageTransformFast(z, r);
+    }
+
+    function schedulePinchFrame(t1: Touch, t2: Touch) {
+      pinchSample = { x1: t1.clientX, y1: t1.clientY, x2: t2.clientX, y2: t2.clientY };
+      if (pinchRaf) return;
+      pinchRaf = requestAnimationFrame(() => {
+        pinchRaf = 0;
+        if (!pinchSample) return;
+        const { x1, y1, x2, y2 } = pinchSample;
+        applyPinchFrame(x1, y1, x2, y2);
+      });
+    }
+
+    function commitPinch() {
+      if (pinchRaf) {
+        cancelAnimationFrame(pinchRaf);
+        pinchRaf = 0;
+      }
+      pinchSample = null;
+      if (pendingPinchZoom != null) controls.zoom.value = String(pendingPinchZoom);
+      if (pendingPinchRotate != null) controls.rotate.value = String(pendingPinchRotate);
+      pendingPinchZoom = null;
+      pendingPinchRotate = null;
+      updateTransform();
+    }
+
     function getPointerPos(e: any) {
       if (e.touches && e.touches.length > 0) {
         return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
@@ -1305,13 +1553,15 @@ export default function CardCenteringClient() {
       return { clientX: e.clientX, clientY: e.clientY };
     }
 
+    function findTouch(touches: TouchList, id: number) {
+      return Array.from(touches).find((t) => t.identifier === id);
+    }
+
     function pointerDown(e: any) {
       if (e.touches && e.touches.length === 2) {
-        dragging = 'pinch';
-        initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
-        initialZoom = parseFloat(controls.zoom.value);
-        // prevent the page from scrolling while pinch-zooming
-        try { document.body.style.overflow = 'hidden'; } catch {}
+        e.preventDefault();
+        pendingTouch = null;
+        beginPinch(e.touches);
         return;
       }
 
@@ -1322,47 +1572,64 @@ export default function CardCenteringClient() {
 
       const handleHit = pickHandleAt(mouseX, mouseY);
       if (handleHit) {
+        if (e.touches) e.preventDefault();
+        pendingTouch = null;
         dragging = handleHit;
         captureDragOffset(handleHit, mouseX, mouseY);
+        try { document.body.style.overflow = 'hidden'; } catch {}
+        scheduleDrawOverlay();
+        return;
       }
 
-      if (!dragging) {
-        dragging = 'image';
-        lastPointerX = pos.clientX;
-        lastPointerY = pos.clientY;
-        overlayEl.style.cursor = 'grabbing';
+      if (e.touches && e.touches.length === 1) {
+        const t = e.touches[0];
+        pendingTouch = { id: t.identifier, startX: t.clientX, startY: t.clientY };
+        lastPointerX = t.clientX;
+        lastPointerY = t.clientY;
+        return;
       }
-      // prevent the page from scrolling while interacting with the canvas
+
+      dragging = 'image';
+      beginImagePan(pos.clientX, pos.clientY);
+      overlayEl.style.cursor = 'grabbing';
       try { document.body.style.overflow = 'hidden'; } catch {}
-      scheduleDrawOverlay();
     }
 
     function pointerMove(e: any) {
-      if (!dragging) return;
-      e.preventDefault();
-
-      if (dragging === 'pinch' && e.touches && e.touches.length === 2) {
-        const currentDistance = getDistance(e.touches[0], e.touches[1]);
-        const scaleChange = currentDistance / (initialPinchDistance || 1);
-        let newZoom = initialZoom * scaleChange;
-        newZoom = Math.max(0.1, Math.min(newZoom, 3));
-        controls.zoom.value = String(newZoom);
-        updateTransform();
+      if (e.touches && e.touches.length === 2) {
+        e.preventDefault();
+        pendingTouch = null;
+        if (dragging !== 'pinch') beginPinch(e.touches);
+        schedulePinchFrame(e.touches[0], e.touches[1]);
         return;
       }
+
+      if (pendingTouch && e.touches) {
+        const t = findTouch(e.touches, pendingTouch.id);
+        if (t) {
+          const dx = t.clientX - pendingTouch.startX;
+          const dy = t.clientY - pendingTouch.startY;
+          if (Math.hypot(dx, dy) < TOUCH_PAN_SLOP) return;
+          if (Math.abs(dy) > Math.abs(dx)) {
+            pendingTouch = null;
+            return;
+          }
+          e.preventDefault();
+          pendingTouch = null;
+          dragging = 'image';
+          overlayEl.style.cursor = 'grabbing';
+          try { document.body.style.overflow = 'hidden'; } catch {}
+          beginImagePan(t.clientX, t.clientY);
+        }
+      }
+
+      if (!dragging) return;
+      e.preventDefault();
 
       const pos = getPointerPos(e);
 
       if (dragging === 'image') {
-        const dx = pos.clientX - lastPointerX;
-        const dy = pos.clientY - lastPointerY;
-
-        controls.panX.value = String(parseInt(controls.panX.value || '0') + dx);
-        controls.panY.value = String(parseInt(controls.panY.value || '0') + dy);
-
-        lastPointerX = pos.clientX;
-        lastPointerY = pos.clientY;
-        updateTransform();
+        schedulePanFrame(pos.clientX, pos.clientY);
       } else if (dragging !== 'pinch') {
         const rect = overlayEl.getBoundingClientRect();
         const mouseX = pos.clientX - rect.left;
@@ -1387,26 +1654,77 @@ export default function CardCenteringClient() {
     }
 
     function pointerUp(e: any) {
-      if (e && e.touches && e.touches.length === 1 && dragging === 'pinch') {
-        dragging = null;
-        try { document.body.style.overflow = ''; } catch {}
-        return;
+      pendingTouch = null;
+
+      if (dragging === 'pinch') {
+        if (e?.touches && e.touches.length === 1) {
+          commitPinch();
+          dragging = null;
+          try { document.body.style.overflow = ''; } catch {}
+          return;
+        }
+        if (!e?.touches || e.touches.length === 0) {
+          commitPinch();
+        }
       }
 
       if (!e || !e.touches || e.touches.length === 0) {
+        const wasImageDrag = dragging === 'image';
+        const wasGuideDrag = isGuideDrag();
         dragOffsetX = 0;
         dragOffsetY = 0;
         dragging = null;
         overlayEl.style.cursor = 'grab';
-        flushGrade();
-        scheduleDrawOverlay();
+        if (wasImageDrag) {
+          commitPan();
+          updateTransform();
+        } else if (wasGuideDrag && isCoarsePointer) {
+          lastGradeCalcMs = 0;
+          scheduleDrawOverlay();
+        } else {
+          flushGrade();
+          scheduleDrawOverlay();
+        }
         try { document.body.style.overflow = ''; } catch {}
       }
     }
 
+    const toolRoot = document.getElementById('centering-analyzer');
+
+    const blockSelection = (e: Event) => e.preventDefault();
+
+    const isInteractiveTarget = (target: EventTarget | null) => {
+      if (!(target instanceof Element)) return false;
+      return !!target.closest('button, a, label, [role="button"], input, textarea, select');
+    };
+
+    const workspaceTouchCapture = (e: TouchEvent) => {
+      if (isInteractiveTarget(e.target)) return;
+      if (e.touches.length >= 2) e.preventDefault();
+    };
+
+    const clearToolSelection = () => {
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return;
+      const node = sel.anchorNode;
+      if (!node) return;
+      const el = node.nodeType === Node.TEXT_NODE ? node.parentElement : (node as Element);
+      if (el && toolRoot?.contains(el)) {
+        sel.removeAllRanges();
+      }
+    };
+
     overlayEl.addEventListener('mousedown', pointerDown as any);
     window.addEventListener('mousemove', pointerMove as any, { passive: false });
     window.addEventListener('mouseup', pointerUp as any);
+
+    workspaceEl.addEventListener('touchstart', workspaceTouchCapture, { passive: false, capture: true });
+    workspaceEl.addEventListener('selectstart', blockSelection, true);
+    workspaceEl.addEventListener('contextmenu', blockSelection, true);
+    workspaceEl.addEventListener('dragstart', blockSelection, true);
+    toolRoot?.addEventListener('selectstart', blockSelection, true);
+    toolRoot?.addEventListener('contextmenu', blockSelection, true);
+    document.addEventListener('selectionchange', clearToolSelection);
 
     overlayEl.addEventListener('touchstart', pointerDown as any, { passive: false });
     window.addEventListener('touchmove', pointerMove as any, { passive: false });
@@ -1467,15 +1785,25 @@ export default function CardCenteringClient() {
       if (overlayRaf) cancelAnimationFrame(overlayRaf);
       if (gradeRaf) cancelAnimationFrame(gradeRaf);
       if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      if (pinchRaf) cancelAnimationFrame(pinchRaf);
+      if (transformRaf) cancelAnimationFrame(transformRaf);
+      if (panRaf) cancelAnimationFrame(panRaf);
       resetRef.current = null;
       fitRef.current = null;
       redrawRef.current = null;
       window.removeEventListener('resize', onResize);
       uploadEl.removeEventListener('change', uploadHandler);
-      Object.values(controls).forEach((ctrl: any) => ctrl.removeEventListener('input', updateTransform));
+      sliderBindings.forEach(({ el, type, fn }) => el.removeEventListener(type, fn));
       overlayEl.removeEventListener('mousedown', pointerDown as any);
       window.removeEventListener('mousemove', pointerMove as any);
       window.removeEventListener('mouseup', pointerUp as any);
+      workspaceEl.removeEventListener('touchstart', workspaceTouchCapture, true);
+      workspaceEl.removeEventListener('selectstart', blockSelection, true);
+      workspaceEl.removeEventListener('contextmenu', blockSelection, true);
+      workspaceEl.removeEventListener('dragstart', blockSelection, true);
+      toolRoot?.removeEventListener('selectstart', blockSelection, true);
+      toolRoot?.removeEventListener('contextmenu', blockSelection, true);
+      document.removeEventListener('selectionchange', clearToolSelection);
       overlayEl.removeEventListener('touchstart', pointerDown as any);
       window.removeEventListener('touchmove', pointerMove as any);
       window.removeEventListener('touchend', pointerUp as any);
@@ -1497,7 +1825,7 @@ export default function CardCenteringClient() {
 
   return (
     <div className={styles.wrapper}>
-      <section className={styles.toolInstrument} aria-label={tool.workspaceTitle}>
+      <section id="centering-analyzer" className={styles.toolInstrument} aria-label={tool.workspaceTitle}>
         <header className={styles.toolInstrumentHeader}>
           <span className={styles.toolInstrumentLabel}>{tool.workspaceTitle}</span>
           <div className={styles.gradePillStack}>
@@ -1557,37 +1885,42 @@ export default function CardCenteringClient() {
 
         {!fileName && (
           <div className={styles.emptyState}>
-            <div className={styles.emptyIcon} aria-hidden="true">
-              <UploadIcon />
+            <div className={styles.emptyPlate}>
+              <div className={styles.emptyPlateMarks} aria-hidden="true" />
+              <p className={styles.emptyBadge}>{tool.emptyBadge}</p>
+              <EmptyCardSchematic />
+              <p className={styles.emptyTitle}>{tool.emptyTitle}</p>
+              <p className={styles.emptyHint}>{tool.emptyHint}</p>
+              <button type="button" className={styles.emptyBtn} onClick={() => fileInputRef.current?.click()}>
+                <span className={styles.emptyBtnLabel}>{tool.chooseImage}</span>
+                <span className={styles.emptyBtnMeta}>JPG · PNG · WEBP</span>
+              </button>
             </div>
-            <p className={styles.emptyTitle}>{tool.emptyTitle}</p>
-            <button type="button" className={styles.emptyBtn} onClick={() => fileInputRef.current?.click()}>{tool.chooseImage}</button>
           </div>
         )}
 
-        {/* Floating top bar — workspace actions */}
+        {/* Floating top bar — photo mode + workspace actions */}
         <div className={styles.topBar}>
+          <div className={styles.photoModeBar} role="toolbar" aria-label={tool.photoModeLabel}>
+            {(['raw', 'slab'] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                className={styles.photoModeBtn}
+                data-active={photoMode === mode}
+                aria-pressed={photoMode === mode}
+                onClick={() => setPhotoMode(mode)}
+              >
+                {mode === 'raw' ? tool.photoModeRaw : tool.photoModeSlab}
+              </button>
+            ))}
+          </div>
           <div className={styles.topActions}>
             <button className={`${styles.iconBtn} ${loupesOn ? styles.iconBtnOn : ''}`} title={tool.cornerMagnifiers} aria-label={tool.cornerMagnifiersToggle} aria-pressed={loupesOn} onClick={() => setLoupesOn((v) => !v)}><MagnifierIcon /></button>
             <button className={styles.iconBtn} title={tool.uploadImage} aria-label={tool.uploadImage} onClick={() => fileInputRef.current?.click()}><UploadIcon /></button>
             <button className={styles.iconBtn} title={tool.fitToView} aria-label={tool.fitToView} onClick={() => fitRef.current?.()}><FitIcon /></button>
             <button className={styles.iconBtn} title={tool.reset} aria-label={tool.reset} onClick={() => resetRef.current?.()}><ResetIcon /></button>
           </div>
-        </div>
-
-        <div className={styles.photoModeBar} role="toolbar" aria-label={tool.photoModeLabel}>
-          {(['raw', 'slab'] as const).map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              className={styles.photoModeBtn}
-              data-active={photoMode === mode}
-              aria-pressed={photoMode === mode}
-              onClick={() => setPhotoMode(mode)}
-            >
-              {mode === 'raw' ? tool.photoModeRaw : tool.photoModeSlab}
-            </button>
-          ))}
         </div>
 
         {/* Guide layer switcher — focus on edge or border one at a time */}
@@ -1611,7 +1944,10 @@ export default function CardCenteringClient() {
         </div>
 
         {/* Compact side dock for image adjustments — collapsed by default */}
-        <aside className={styles.adjustDock} data-open={adjustOpen}>
+        <aside
+          className={`${styles.adjustDock} ${adjustOpen ? styles.adjustDockOpen : styles.adjustDockCollapsed}`}
+          data-open={adjustOpen ? 'true' : 'false'}
+        >
           <button
             type="button"
             className={styles.adjustDockToggle}
@@ -1633,7 +1969,7 @@ export default function CardCenteringClient() {
               </div>
               <div className={styles.controlRow}>
                 <div className={styles.controlHeader}><label htmlFor="rotate" className={styles.controlLabel}><RotateIcon /> {tool.rotate}</label><span id="rot-val" className={styles.sliderValue}>0°</span></div>
-                <input className={styles.rangeSlider} aria-label={tool.rotation} type="range" id="rotate" min="-20" max="20" step="0.05" defaultValue="0" />
+                <input className={styles.rangeSlider} aria-label={tool.rotation} type="range" id="rotate" min="-20" max="20" step="0.15" defaultValue="0" />
               </div>
               <div className={styles.controlRow}>
                 <div className={styles.controlHeader}><label htmlFor="tiltY" className={styles.controlLabel}><TiltHIcon /> {tool.hTilt}</label><span id="tiltY-val" className={styles.sliderValue}>0°</span></div>

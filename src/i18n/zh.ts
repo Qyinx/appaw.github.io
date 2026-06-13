@@ -1077,6 +1077,8 @@ export const zh: Translations = {
         Below: { label: '< PSA 8', short: '偏置中', hint: '置中超過 65/35 — 可能低於 PSA 8。' },
       },
       emptyTitle: '上傳卡牌以開始',
+      emptyBadge: '來源 · 無',
+      emptyHint: '深色平面背景上的正面照片或掃描',
       chooseImage: '選擇圖片',
       alignGuides: '對齊導線',
       cornerMagnifiers: '角落放大鏡',

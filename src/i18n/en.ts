@@ -1077,6 +1077,8 @@ export const en = {
         Below: { label: '< PSA 8', short: 'Off-center', hint: 'Centering exceeds 65/35 — likely below PSA 8.' },
       },
       emptyTitle: 'Upload a card to start',
+      emptyBadge: 'Source · none',
+      emptyHint: 'Straight-on photo or scan on a dark, flat surface',
       chooseImage: 'Choose image',
       alignGuides: 'Align guides',
       cornerMagnifiers: 'Corner magnifiers',
