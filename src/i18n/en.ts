@@ -728,8 +728,8 @@ export const en = {
 
   // Cookie Consent
   cookieConsent: {
-    title: 'Cookie Notice',
-    message: 'We use cookies and analytics to improve your experience and understand how you use our site. By clicking "Accept", you agree to our use of cookies and analytics services.',
+    message: 'We use analytics cookies to improve this site.',
+    privacyLink: 'Privacy Policy',
     accept: 'Accept',
     decline: 'Decline',
   },
@@ -899,7 +899,7 @@ export const en = {
       total: 'Total',
       active: 'Active',
       sold: 'Sold',
-      buyHKD: 'Buy (HKD)',
+      buyTotal: 'Buy ({currency})',
     },
     portfolio: {
       title: 'Portfolios',

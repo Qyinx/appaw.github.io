@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import type { GradingCompany } from '../types';
+import type { GradingCompany, Currency } from '../types';
+import { normalizePreferredCurrency } from '@/lib/collection/currency';
 
 /* ─── Member level ────────────────────────────────────────────────────────── */
 
@@ -18,6 +19,16 @@ export function getMemberLevel(): MemberLevel | undefined {
       ?? (Array.isArray(parsed.roles) ? parsed.roles.find((r: string) => MEMBER_LEVELS.includes(r as MemberLevel)) : undefined);
     return MEMBER_LEVELS.includes(candidate as MemberLevel) ? (candidate as MemberLevel) : undefined;
   } catch { return undefined; }
+}
+
+export function getPreferredCurrency(): Currency {
+  if (typeof window === 'undefined') return 'USD';
+  try {
+    const raw = localStorage.getItem('auth0_user');
+    if (!raw) return 'USD';
+    const parsed = JSON.parse(raw);
+    return normalizePreferredCurrency(parsed.preferredCurrency);
+  } catch { return 'USD'; }
 }
 
 const LEVEL_STYLES: Record<MemberLevel, { background: string; shadow: string; border: string; icon: string }> = {

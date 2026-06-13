@@ -12,8 +12,9 @@ import {
 import HeroStamp from '@/components/ui/HeroStamp';
 import { localizedHref } from '@/lib/i18n-routing';
 import { WorkspaceNotice } from './WorkspaceNotice';
-import type { CollectorCard, Portfolio } from '../types';
+import type { CollectorCard, Portfolio, Currency } from '../types';
 import { GradePill, MemberBadge, type MemberLevel } from './shared';
+import { sumBuyPriceInPreferred } from '@/lib/collection/currency';
 import {
   CardMetaBlock,
   CardPriceBlock,
@@ -30,6 +31,7 @@ interface CollectionListViewProps {
   user: User | undefined;
   userName: string;
   memberLevel?: MemberLevel;
+  preferredCurrency: Currency;
   portfolios: Portfolio[];
   onOpenNew: () => void;
   onOpenEdit: (card: CollectorCard) => void;
@@ -53,6 +55,7 @@ const navIdle =
 export function CollectionListView({
   cards, loading, apiError, saveMsg,
   user, userName, memberLevel,
+  preferredCurrency,
   portfolios,
   onOpenNew, onOpenEdit, onRefresh,
   onDeleteCard, onToggleSold, onLogout,
@@ -119,7 +122,7 @@ export function CollectionListView({
   });
   const available = baseCards.filter(c => !c.sold).length;
   const soldCount = baseCards.filter(c => c.sold).length;
-  const totalBuy = baseCards.reduce((s, c) => s + c.buyPrice, 0);
+  const { total: totalBuy, partial: buyTotalPartial } = sumBuyPriceInPreferred(baseCards);
   const pickerCards = activePortfolio ? cards.filter(c => !activePortfolio.cardIds.includes(c.id)) : [];
   const cardPortfolios = (cardId: string) => portfolios.filter(p => p.cardIds.includes(cardId));
 
@@ -139,11 +142,18 @@ export function CollectionListView({
 
   const workspaceMuted = activePortfolio?.name ?? '';
 
+  const buyTotalLabel = t.collection.stats.buyTotal.replace('{currency}', preferredCurrency);
+  const buyTotalValue = totalBuy == null
+    ? '—'
+    : buyTotalPartial
+      ? `${totalBuy.toLocaleString()}*`
+      : totalBuy.toLocaleString();
+
   const statRows = [
     { label: t.collection.stats.total, value: String(baseCards.length), tone: 'text-text-primary' },
     { label: t.collection.stats.active, value: String(available), tone: 'text-accent-success' },
     { label: t.collection.stats.sold, value: String(soldCount), tone: 'text-accent-danger' },
-    { label: t.collection.stats.buyHKD, value: totalBuy.toLocaleString(), tone: 'text-accent-secondary font-tabular' },
+    { label: buyTotalLabel, value: buyTotalValue, tone: 'text-accent-secondary font-tabular' },
   ];
 
   /* ── Card handlers ───────────────────────────────────────────────────────── */

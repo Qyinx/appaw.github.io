@@ -127,7 +127,9 @@ export function PublicPortfolioView({ portfolio }: PublicPortfolioViewProps) {
                     <div className="spec-row !py-2 !px-0">
                       <span className="spec-row__label">{t.collection.table.list}</span>
                       <span className={`spec-row__value font-tabular ${card.sold ? 'text-text-muted line-through' : 'text-accent-secondary'}`}>
-                        {card.listCurrency ?? 'HKD'} {card.listPrice.toLocaleString()}
+                        {card.inPreferredCurrency?.listPrice != null && portfolio.preferredCurrency
+                          ? `${portfolio.preferredCurrency} ${card.inPreferredCurrency.listPrice.toLocaleString()}`
+                          : `${card.listCurrency ?? 'HKD'} ${card.listPrice.toLocaleString()}`}
                       </span>
                     </div>
                   </div>

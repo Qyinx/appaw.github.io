@@ -2244,6 +2244,109 @@ main {
   color: var(--text-primary);
 }
 
+/* Cookie consent — floating bar, blueprint tint (style.md §3.1) */
+.cookie-notice {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 50;
+  padding-inline: var(--space-page-x);
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+  overscroll-behavior: contain;
+}
+
+.cookie-notice::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 5.5rem;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--surface-bg) 94%, transparent),
+    transparent
+  );
+}
+
+.cookie-notice__bar {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  max-width: 72rem;
+  margin-inline: auto;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--accent-secondary) 6%, var(--surface-panel));
+  border: var(--border-width) solid var(--border-strong);
+  border-left: 4px solid var(--accent-primary);
+  box-shadow:
+    0 4px 0 color-mix(in srgb, var(--accent-structural) 10%, transparent),
+    0 14px 36px color-mix(in srgb, var(--accent-structural) 8%, transparent);
+}
+
+.cookie-notice__bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      rgba(var(--atmosphere-grid-line), calc(var(--atmosphere-grid-minor-opacity) * 1.4)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(var(--atmosphere-grid-line), calc(var(--atmosphere-grid-minor-opacity) * 1.4)) 1px,
+      transparent 1px
+    );
+  background-size: var(--atmosphere-grid-minor-size) var(--atmosphere-grid-minor-size);
+  mask-image: linear-gradient(to right, black 0%, black 55%, transparent 100%);
+}
+
+.cookie-notice__inner {
+  position: relative;
+  z-index: 1;
+  padding: 0.75rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .cookie-notice__inner {
+    padding: 0.875rem 1.25rem;
+  }
+}
+
+.dark .cookie-notice__bar {
+  background: color-mix(in srgb, var(--accent-secondary) 10%, var(--surface-panel));
+  box-shadow:
+    0 4px 0 color-mix(in srgb, var(--accent-structural) 18%, transparent),
+    var(--shadow-panel);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cookie-notice__bar {
+    animation: cookie-notice-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
+@keyframes cookie-notice-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-notice__bar {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Switch — neo-brutalist, WCAG contrast on all states */
 .switch {
   position: relative;

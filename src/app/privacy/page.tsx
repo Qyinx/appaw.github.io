@@ -5,13 +5,13 @@ import { privacyMetadata } from '@/lib/seo/metadata';
 
 export const metadata = privacyMetadata;
 
-const LAST_UPDATED = 'April 17, 2026';
+const LAST_UPDATED = 'June 13, 2026';
 
 const webPage = webPageJsonLd({
   name: 'Privacy Policy – Appaw Store',
   url: 'https://appaw.store/privacy/',
   datePublished: '2026-04-17',
-  dateModified: '2026-04-17',
+  dateModified: '2026-06-13',
   publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
   inLanguage: 'en',
 });
@@ -74,6 +74,28 @@ export default function PrivacyPage() {
               your name, email, or contact details through the website itself.
             </p>
 
+            <h3 className="text-base font-semibold text-text-primary mb-2">Automatically collected data (Microsoft Clarity)</h3>
+            <p className="text-text-secondary text-sm leading-relaxed mb-4">
+              We partner with Microsoft Clarity to capture how you use and interact with our website through
+              behavioral metrics, heatmaps, and session replay to improve our products and website experience.
+              Clarity may collect:
+            </p>
+            <ul className="list-disc list-inside space-y-1 text-text-secondary text-sm mb-4">
+              <li>Pages visited, clicks, scrolls, and mouse movements</li>
+              <li>Session recordings and heatmap data</li>
+              <li>Device type, browser, and screen resolution</li>
+              <li>Referral source and approximate geographic location</li>
+            </ul>
+            <p className="text-text-secondary text-sm leading-relaxed mb-6">
+              Website usage data is captured using first- and third-party cookies and other tracking technologies
+              to determine page popularity and online activity. We use this information for site optimization
+              and to understand how visitors navigate our content. For more information about how Microsoft
+              collects and uses your data, see the{' '}
+              <a href="https://www.microsoft.com/privacy/privacystatement" target="_blank" rel="noopener noreferrer" className="text-accent-link hover:underline">
+                Microsoft Privacy Statement
+              </a>.
+            </p>
+
             <h3 className="text-base font-semibold text-text-primary mb-2">Data you provide voluntarily</h3>
             <p className="text-text-secondary text-sm leading-relaxed mb-6">
               If you contact us via WhatsApp (+852-9285-1189) or email (support@appaw.store), we receive
@@ -100,6 +122,7 @@ export default function PrivacyPage() {
               <li>Understand which pages and products are most useful to visitors</li>
               <li>Improve website content and user experience</li>
               <li>Monitor site performance</li>
+              <li>Review session replays and heatmaps to identify usability issues</li>
             </ul>
             <p className="text-text-secondary text-sm leading-relaxed">
               Contact information you share is used only to respond to enquiries and facilitate transactions.
@@ -122,6 +145,7 @@ export default function PrivacyPage() {
                 <tbody className="divide-y divide-border-default">
                   {[
                     { name: 'Google Analytics 4', purpose: 'Website analytics', url: 'https://policies.google.com/privacy', label: 'google.com/policies' },
+                    { name: 'Microsoft Clarity', purpose: 'Session replay, heatmaps, and behavioral analytics', url: 'https://www.microsoft.com/privacy/privacystatement', label: 'microsoft.com/privacy' },
                     { name: 'Etsy', purpose: 'E-commerce platform', url: 'https://www.etsy.com/legal/privacy', label: 'etsy.com/legal/privacy' },
                     { name: 'Carousell', purpose: 'Secondary marketplace', url: 'https://support.carousell.com/hc/en-us/articles/360000045203', label: 'carousell.com/privacy' },
                     { name: 'WhatsApp (Meta)', purpose: 'Customer contact', url: 'https://www.whatsapp.com/legal/privacy-policy', label: 'whatsapp.com/legal' },
@@ -153,10 +177,19 @@ export default function PrivacyPage() {
                 tools.google.com/dlpage/gaoptout
               </a>.
             </p>
+            <h3 className="text-base font-semibold text-text-primary mb-2">Analytics cookies (Microsoft Clarity)</h3>
+            <p className="text-text-secondary text-sm leading-relaxed mb-4">
+              Microsoft Clarity uses first- and third-party cookies and similar tracking technologies to
+              record how you interact with our website, including session replays and heatmaps. Clarity
+              loads when you visit our site. Learn more in the{' '}
+              <a href="https://www.microsoft.com/privacy/privacystatement" target="_blank" rel="noopener noreferrer" className="text-accent-link hover:underline">
+                Microsoft Privacy Statement
+              </a>.
+            </p>
             <h3 className="text-base font-semibold text-text-primary mb-2">Essential cookies</h3>
             <p className="text-text-secondary text-sm leading-relaxed">
-              We do not set any additional session, authentication, or tracking cookies beyond Google
-              Analytics 4. No cookies are used for advertising or profiling purposes.
+              We do not set any additional session or authentication cookies beyond the analytics services
+              described above. No cookies are used for advertising or profiling purposes.
             </p>
           </div>
 
@@ -165,7 +198,9 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold font-display text-text-primary mb-4">Data Retention</h2>
             <p className="text-text-secondary text-sm leading-relaxed">
               Google Analytics 4 data is retained for 14 months, after which it is automatically deleted
-              by Google. Contact data shared via WhatsApp or email is retained only as long as necessary
+              by Google. Microsoft Clarity session recordings and related analytics data are retained
+              according to Microsoft&apos;s data retention policies (typically up to 30 days for session
+              replays). Contact data shared via WhatsApp or email is retained only as long as necessary
               to fulfil your enquiry or complete a transaction.
             </p>
           </div>

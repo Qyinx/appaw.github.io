@@ -1,10 +1,12 @@
 import { notFound } from 'next/navigation';
 import {
   normalizeCard,
+  parseCardListFxMeta,
   type CollectorCard,
   type Currency,
   type GradingCompany,
   type Language,
+  type PreferredCurrencyPrices,
 } from '@/app/collection/types';
 import { getCardImagesArray, imageEntryToUrl, resolveAbsoluteBackendUrl } from '@/app/collection/lib/cardImages';
 
@@ -24,6 +26,7 @@ export interface PublicCard {
   sold: boolean;
   listPrice?: number;
   listCurrency?: Currency;
+  inPreferredCurrency?: PreferredCurrencyPrices;
   set?: string;
   number?: string;
   certNumber?: string;
@@ -38,6 +41,9 @@ export interface PublicPortfolio {
   id: string;
   name: string;
   ownerDisplayName?: string;
+  preferredCurrency?: Currency;
+  totalsInPreferredCurrency?: PreferredCurrencyPrices;
+  conversionRatesAsOf?: string;
   cards: PublicCard[];
 }
 
@@ -49,10 +55,11 @@ function normalizePublicCard(raw: any): PublicCard {
     .filter((url): url is string => !!url);
   const fallback = [base.frontImage, base.backImage].filter(Boolean) as string[];
   const images = (rawImages.length > 0 ? rawImages : fallback).map(resolveAbsoluteBackendUrl);
-  const { buyPrice: _buy, buyCurrency: _cur, createdAt: _at, ...rest } = base;
+  const { buyPrice: _buy, buyCurrency: _cur, inPreferredCurrency: _ipc, createdAt: _at, ...rest } = base;
 
   return {
     ...rest,
+    inPreferredCurrency: base.inPreferredCurrency,
     frontImage: images[0],
     backImage: images[1],
     images,
@@ -62,10 +69,14 @@ function normalizePublicCard(raw: any): PublicCard {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizePublicPortfolio(raw: any, id: string): PublicPortfolio {
   const cardsRaw: any[] = Array.isArray(raw.cards) ? raw.cards : [];
+  const fxMeta = parseCardListFxMeta(raw);
   return {
     id: String(raw.Id ?? raw.id ?? id),
     name: String(raw.Name ?? raw.name ?? ''),
     ownerDisplayName: raw.DisplayName ?? raw.displayName ?? raw.OwnerDisplayName ?? raw.ownerDisplayName ?? undefined,
+    preferredCurrency: fxMeta.preferredCurrency,
+    totalsInPreferredCurrency: fxMeta.totalsInPreferredCurrency,
+    conversionRatesAsOf: fxMeta.conversionRatesAsOf,
     cards: cardsRaw.map(normalizePublicCard),
   };
 }
@@ -128,6 +139,12 @@ export async function fetchPublicPortfolio(id: string): Promise<PublicPortfolio>
 /** Strip buy-price fields from a normalized card for public display. */
 export function toPublicCard(card: CollectorCard): PublicCard {
   const images = [card.frontImage, card.backImage].filter(Boolean) as string[];
-  const { buyPrice: _b, buyCurrency: _c, createdAt: _a, ...rest } = card;
-  return { ...rest, images };
+  const { buyPrice: _b, buyCurrency: _c, inPreferredCurrency, createdAt: _a, ...rest } = card;
+  return {
+    ...rest,
+    inPreferredCurrency: inPreferredCurrency?.listPrice != null
+      ? { listPrice: inPreferredCurrency.listPrice }
+      : undefined,
+    images,
+  };
 }

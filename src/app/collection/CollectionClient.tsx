@@ -10,8 +10,11 @@ import {
   type Portfolio,
   normalizeCard,
   normalizePortfolio,
+  parseCardListFxMeta,
+  type Currency,
 } from './types';
-import { getMemberLevel, type MemberLevel } from './components/shared';
+import { getMemberLevel, getPreferredCurrency, type MemberLevel } from './components/shared';
+import { normalizePreferredCurrency } from '@/lib/collection/currency';
 import { CollectionListView } from './components/CollectionListView';
 import { cacheGet, cacheSet, cacheInvalidate } from './lib/apiCache';
 import { useCollectionAuth } from './hooks/useCollectionAuth';
@@ -47,12 +50,23 @@ export default function CollectionClient() {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+  const [preferredCurrency, setPreferredCurrency] = useState<Currency>(() => getPreferredCurrency());
 
   const loadCards = useCallback(async () => {
-    // Show cached data immediately while fetching fresh data in background
-    const cached = cacheGet<object[]>('/cards');
+    interface CardsCache {
+      cards: object[];
+      preferredCurrency?: Currency;
+    }
+
+    const cached = cacheGet<CardsCache | object[]>('/cards');
     if (cached) {
-      setCards(cached.map(normalizeCard));
+      const rows = Array.isArray(cached) ? cached : cached.cards;
+      if (rows?.length) {
+        setCards(rows.map(normalizeCard));
+        if (!Array.isArray(cached) && cached.preferredCurrency) {
+          setPreferredCurrency(cached.preferredCurrency);
+        }
+      }
       setLoading(false);
     } else {
       setLoading(true);
@@ -61,6 +75,9 @@ export default function CollectionClient() {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const first: any = await apiFetch('/cards?limit=100&page=1');
+      const fxMeta = parseCardListFxMeta(first);
+      if (fxMeta.preferredCurrency) setPreferredCurrency(fxMeta.preferredCurrency);
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let allRaw: any[] = Array.isArray(first.cards) ? first.cards : (Array.isArray(first) ? first : []);
       const totalPages: number = first.totalPages ?? 1;
@@ -74,7 +91,10 @@ export default function CollectionClient() {
         );
         allRaw = allRaw.concat(...rest);
       }
-      cacheSet('/cards', allRaw);
+      cacheSet('/cards', {
+        cards: allRaw,
+        preferredCurrency: fxMeta.preferredCurrency,
+      });
       setCards(allRaw.map(normalizeCard));
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Failed to load cards';
@@ -182,8 +202,10 @@ export default function CollectionClient() {
         name: data.DisplayName,
         mail: data.Mail,
         memberLevel: level,
+        preferredCurrency: normalizePreferredCurrency(data.PreferredCurrency ?? data.preferredCurrency),
       }));
       setMemberLevel(level);
+      setPreferredCurrency(normalizePreferredCurrency(data.PreferredCurrency ?? data.preferredCurrency));
     } catch { /* non-critical */ }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -192,9 +214,7 @@ export default function CollectionClient() {
   useEffect(() => {
     if (!isAuthenticated || loadedRef.current) return;
     loadedRef.current = true;
-    if (!localStorage.getItem('auth0_user')) {
-      fetchAndCacheProfile();
-    }
+    fetchAndCacheProfile();
     loadCards();
     loadPortfolios();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -264,6 +284,7 @@ export default function CollectionClient() {
       user={user}
       userName={userName}
       memberLevel={memberLevel}
+      preferredCurrency={preferredCurrency}
       portfolios={portfolios}
       onOpenNew={() => router.push(localize('/collection/card/new'))}
       onOpenEdit={card => router.push(localize(`/collection/card/edit?id=${card.id}`))}

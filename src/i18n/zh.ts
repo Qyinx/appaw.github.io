@@ -728,8 +728,8 @@ export const zh: Translations = {
 
   // Cookie Consent
   cookieConsent: {
-    title: 'Cookie 通知',
-    message: '我們使用 Cookie 和分析工具來改善您的體驗並了解您如何使用我們的網站。點擊「接受」即表示您同意我們使用 Cookie 和分析服務。',
+    message: '我們使用分析 Cookie 以改善網站體驗。',
+    privacyLink: '私隱政策',
     accept: '接受',
     decline: '拒絕',
   },
@@ -899,7 +899,7 @@ export const zh: Translations = {
       total: '總數',
       active: '在庫',
       sold: '已售出',
-      buyHKD: '買入 (HKD)',
+      buyTotal: '買入 ({currency})',
     },
     portfolio: {
       title: '組合',
