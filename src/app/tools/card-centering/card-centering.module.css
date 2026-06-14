@@ -51,13 +51,36 @@
 .toolInstrumentLabel {
   flex-shrink: 0;
   align-self: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35em;
   padding: 10px 14px;
   font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--tool-text-muted);
-  white-space: nowrap;
   border-right: var(--border-width, 1px) solid var(--tool-border);
+}
+
+.toolInstrumentTitle {
+  white-space: nowrap;
+}
+
+.toolInstrumentBrand {
+  white-space: nowrap;
+  font-size: 0.92em;
+  letter-spacing: 0.12em;
+  color: var(--accent-secondary);
+  opacity: 0.92;
+}
+
+.toolInstrumentBrand::before {
+  content: '·';
+  margin-right: 0.35em;
+  color: var(--tool-text-muted);
+  opacity: 0.55;
 }
 
 /* ---------- Workspace (dark engineering surface — style.md §4) ---------- */
@@ -331,6 +354,13 @@
   min-width: min(100%, 420px);
   margin-left: auto;
 }
+.gradePill[data-quality='excellent'] { --zone-color: var(--accent-success); }
+.gradePill[data-quality='good'] { --zone-color: var(--accent-warn); }
+.gradePill[data-quality='fair'] { --zone-color: var(--zone-psa8); }
+.gradePill[data-quality='poor'] { --zone-color: var(--accent-danger); }
+.gradePill[data-tier='BGS10Black'] { --zone-color: #e8e8ec; }
+.gradePill[data-tier='BGS10Gold'] { --zone-color: #d4a227; }
+/* Legacy PSA zone selectors — kept for any stale markup */
 .gradePill[data-zone='PSA10'] { --zone-color: var(--accent-success); }
 .gradePill[data-zone='PSA9'] { --zone-color: var(--accent-warn); }
 .gradePill[data-zone='PSA8'] { --zone-color: var(--zone-psa8); }
@@ -382,6 +412,10 @@
 .gradePillRatios span:last-child {
   border-right: none;
 }
+.gradePillRatios span[data-quality='excellent'] { color: var(--accent-success); }
+.gradePillRatios span[data-quality='good'] { color: var(--accent-warn); }
+.gradePillRatios span[data-quality='fair'] { color: var(--zone-psa8); }
+.gradePillRatios span[data-quality='poor'] { color: var(--accent-danger); }
 .gradePillRatios span[data-status='PSA10'] { color: var(--accent-success); }
 .gradePillRatios span[data-status='PSA9'] { color: var(--accent-warn); }
 .gradePillRatios span[data-status='PSA8'] { color: var(--zone-psa8); }
@@ -395,6 +429,191 @@
   min-width: 0;
   margin-left: auto;
   max-width: min(100%, 520px);
+}
+
+/* ---------- Left-top workspace dock ---------- */
+.workspaceDock {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  bottom: auto;
+  z-index: 20;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: calc(100% - 80px);
+  pointer-events: none;
+}
+
+.workspaceDock > * {
+  pointer-events: auto;
+}
+
+.gradingCompanyDock {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 4.75rem;
+  min-width: 4.75rem;
+  max-width: 4.75rem;
+  box-sizing: border-box;
+  background: var(--tool-panel);
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-left: 3px solid var(--accent-secondary);
+  border-radius: var(--radius-panel, 0);
+  overflow: hidden;
+}
+
+.gradingCompanyToggle {
+  width: 100%;
+  min-width: 0;
+  min-height: 32px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 6px 8px;
+  background: transparent;
+  border: none;
+  color: var(--tool-text);
+  font-weight: 600;
+  font-size: 0.75rem;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.gradingCompanyToggle:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: -2px;
+}
+
+.gradingCompanyToggleLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.gradingCompanyToggleBadge {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tool-text);
+  flex-shrink: 0;
+}
+
+.gradingCompanyToggleBadge[data-company='BGS'] {
+  color: var(--accent-warn);
+}
+
+.gradingCompanyToggleLabel {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tool-text-muted);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gradingCompanyDockCollapsed .gradingCompanyToggleLabel {
+  display: none;
+}
+
+.gradingCompanyDockOpen .gradingCompanyToggleLabel {
+  display: none;
+}
+
+.gradingCompanyDockOpen .chevron,
+.gradingCompanyDock[data-open='true'] .chevron {
+  transform: rotate(180deg);
+}
+
+.gradingCompanyBody {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.28s ease, opacity 0.22s ease;
+}
+
+.gradingCompanyDockCollapsed .gradingCompanyBody {
+  display: none;
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  border-top: none;
+}
+
+.gradingCompanyDockOpen .gradingCompanyBody,
+.gradingCompanyDock[data-open='true'] .gradingCompanyBody {
+  display: flex;
+  max-height: 8.5rem;
+  opacity: 1;
+  border-top: var(--border-width, 1px) solid var(--tool-border);
+}
+
+.gradingCompanyBtn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  min-height: 32px;
+  padding: 6px 8px;
+  border: none;
+  border-bottom: var(--border-width, 1px) solid var(--tool-border);
+  background: transparent;
+  color: var(--tool-text-muted);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  text-align: left;
+}
+
+.gradingCompanyBtn:last-child {
+  border-bottom: none;
+}
+
+.gradingCompanyBtn:hover {
+  color: var(--tool-text);
+  background: var(--tool-overlay-hover);
+}
+
+.gradingCompanyBtn:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: -2px;
+}
+
+.gradingCompanyBtn[data-active='true'] {
+  color: var(--tool-text);
+  background:
+    linear-gradient(90deg, var(--accent-primary) 3px, transparent 3px),
+    var(--tool-overlay-active);
+}
+
+.gradingCompanyBtn[data-company='BGS'][data-active='true'] {
+  background:
+    linear-gradient(90deg, #d4a227 3px, transparent 3px),
+    var(--tool-overlay-active);
 }
 
 .verdictStrip {
@@ -528,16 +747,14 @@
   pointer-events: auto;
 }
 .loupeHidden { display: none; }
-.loupeTL { top: 12px; left: 12px; }
+.loupeTL { top: 48px; left: 12px; }
 .loupeTR { top: 88px; right: 12px; }
-.loupeBL { bottom: 58px; left: 12px; }
+.loupeBL { bottom: 12px; left: 12px; }
 .loupeBR { bottom: 58px; right: 12px; }
 
 /* ---------- Guide layer switcher ---------- */
 .guideModeBar {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
+  position: static;
   z-index: 20;
   display: flex;
   gap: 0;
@@ -547,6 +764,8 @@
   border-radius: var(--radius-panel, 0);
   box-shadow: none;
   pointer-events: auto;
+  flex-shrink: 1;
+  min-width: 0;
 }
 .guideModeBtn {
   display: inline-flex;
@@ -854,14 +1073,30 @@
 
   .toolInstrumentLabel {
     width: auto;
-    max-width: 32%;
+    max-width: 38%;
     padding: 6px 8px;
     font-size: 0.5625rem;
     letter-spacing: 0.08em;
     border-right: var(--border-width, 1px) solid var(--tool-border);
     border-bottom: none;
     line-height: 1.25;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+  }
+
+  .toolInstrumentTitle,
+  .toolInstrumentBrand {
     white-space: normal;
+  }
+
+  .toolInstrumentBrand {
+    font-size: 0.9em;
+    letter-spacing: 0.1em;
+  }
+
+  .toolInstrumentBrand::before {
+    display: none;
   }
 
   .gradePillHeader {
@@ -947,21 +1182,54 @@
     height: 52px;
   }
 
-  .loupeTL { top: 36px; left: 4px; }
+  .loupeTL { top: 72px; left: 4px; }
   .loupeTR { top: 72px; right: 4px; }
   .loupeBL,
   .loupeBR { bottom: 36px; }
   .loupeBL { left: 4px; right: auto; }
   .loupeBR { right: 4px; left: auto; }
 
-  .guideModeBar {
+  .workspaceDock {
+    top: 36px;
     left: 4px;
-    bottom: 4px;
-    max-width: calc(100% - 44px);
+    bottom: auto;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 4px;
+    max-width: calc(100% - 48px);
+  }
+
+  .gradingCompanyDock,
+  .gradingCompanyDockOpen,
+  .gradingCompanyDockCollapsed {
+    width: 76px;
+    min-width: 76px;
+    max-width: 76px;
+  }
+
+  .gradingCompanyToggle,
+  .gradingCompanyBtn {
+    min-height: 32px;
+    padding: 6px 8px;
+    font-size: 0.625rem;
+  }
+
+  .gradingCompanyToggle .chevron {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  .guideModeBar {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    align-self: stretch;
   }
 
   .guideModeBtn {
-    min-height: 28px;
+    min-height: 32px;
     padding: 4px 7px;
     font-size: 0.625rem;
     gap: 4px;
@@ -1074,7 +1342,7 @@
 
 @media (max-width: 520px) {
   .toolInstrumentLabel {
-    max-width: 28%;
+    max-width: 42%;
     padding: 5px 6px;
     font-size: 0.5rem;
   }
@@ -1121,7 +1389,7 @@
   }
 
   .guideModeBtn {
-    min-height: 26px;
+    min-height: 32px;
     padding: 4px 6px;
     gap: 0;
   }
@@ -2289,6 +2557,10 @@
   .adjustDock,
   .adjustDockBody,
   .chevron,
+  .workspaceDock,
+  .gradingCompanyDock,
+  .gradingCompanyBody,
+  .gradingCompanyBtn,
   .guideModeBar,
   .guideModeBtn {
     transition: none !important;

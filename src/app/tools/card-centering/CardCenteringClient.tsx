@@ -1,25 +1,32 @@
 "use client";
 import React, { useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import {
+  BELOW_TIER_ID,
+  getPlotZoneRects,
+  getTiers,
+  measureFromGuides,
+  scoreCentering,
+  GRADING_COMPANIES,
+  type CenteringScore,
+  type GradingCompany,
+  type QualityTier,
+} from '@/lib/centering';
 import styles from './card-centering.module.css';
 
-type GradeZone = 'PSA10' | 'PSA9' | 'PSA8' | 'Below';
 type PhotoMode = 'raw' | 'slab';
 type VerdictKey = 'regradeCandidate' | 'borderlineRegrade' | 'holdGrade' | 'downgradeRisk';
 
-function verdictForZone(zone: GradeZone): VerdictKey {
-  if (zone === 'PSA10') return 'regradeCandidate';
-  if (zone === 'PSA9') return 'borderlineRegrade';
-  if (zone === 'PSA8') return 'holdGrade';
+function verdictForQuality(quality: QualityTier): VerdictKey {
+  if (quality === 'excellent') return 'regradeCandidate';
+  if (quality === 'good') return 'borderlineRegrade';
+  if (quality === 'fair') return 'holdGrade';
   return 'downgradeRisk';
 }
 
-interface GradeResult {
-  overall: GradeZone;
-  lr: number; // left percentage
-  tb: number; // top percentage
-  lrZone: GradeZone;
-  tbZone: GradeZone;
+function axisQuality(company: GradingCompany, zoneId: string): QualityTier {
+  if (zoneId === BELOW_TIER_ID) return 'poor';
+  return getTiers(company, 'front').find((t) => t.id === zoneId)?.quality ?? 'poor';
 }
 
 const ICON_PROPS = {
@@ -113,13 +120,18 @@ export default function CardCenteringClient() {
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const redrawRef = React.useRef<(() => void) | null>(null);
   const [fileName, setFileName] = React.useState<string | null>(null);
-  const [grade, setGrade] = React.useState<GradeResult | null>(null);
+  const [grade, setGrade] = React.useState<CenteringScore | null>(null);
   const [adjustOpen, setAdjustOpen] = React.useState(false);
+  const [gradingDockOpen, setGradingDockOpen] = React.useState(false);
   const [loupesOn, setLoupesOn] = React.useState(true);
   const loupesOnRef = React.useRef(true);
   const [guideMode, setGuideMode] = React.useState<'edge' | 'border' | 'both'>('both');
   const [photoMode, setPhotoMode] = React.useState<PhotoMode>('raw');
+  const [gradingCompany, setGradingCompany] = React.useState<GradingCompany>('PSA');
   const guideModeRef = React.useRef(guideMode);
+  const gradingCompanyRef = React.useRef(gradingCompany);
+
+  const CARD_FACE = 'front' as const;
 
   useEffect(() => {
     loupesOnRef.current = loupesOn;
@@ -136,6 +148,11 @@ export default function CardCenteringClient() {
     guideModeRef.current = guideMode;
     redrawRef.current?.();
   }, [guideMode]);
+
+  useEffect(() => {
+    gradingCompanyRef.current = gradingCompany;
+    redrawRef.current?.();
+  }, [gradingCompany]);
 
   useEffect(() => {
     redrawRef.current?.();
@@ -224,7 +241,7 @@ export default function CardCenteringClient() {
 
     let overlayRaf = 0;
     let gradeRaf = 0;
-    let pendingGrade: GradeResult | null = null;
+    let pendingGrade: CenteringScore | null = null;
     const handleDisplay: Record<string, { x: number; y: number }> = {};
     const HANDLE_SLIDE = 0.18;
     const HANDLE_SNAP_PX = 0.45;
@@ -247,7 +264,7 @@ export default function CardCenteringClient() {
     let plotW = 0;
     let plotH = 0;
     let plotDpr = 0;
-    let lastGradeSnapshot: GradeResult | null = null;
+    let lastGradeSnapshot: CenteringScore | null = null;
     let resizeRaf = 0;
     let transformRaf = 0;
     let transformSliderActive = false;
@@ -267,8 +284,10 @@ export default function CardCenteringClient() {
     const tiltXValEl = document.getElementById('tiltX-val');
     const tiltYValEl = document.getElementById('tiltY-val');
 
-    function gradesEqual(a: GradeResult, b: GradeResult) {
+    function gradesEqual(a: CenteringScore, b: CenteringScore) {
       return (
+        a.company === b.company &&
+        a.face === b.face &&
         a.overall === b.overall &&
         a.lrZone === b.lrZone &&
         a.tbZone === b.tbZone &&
@@ -323,6 +342,21 @@ export default function CardCenteringClient() {
         const wmSpan = Math.max(w, h);
         for (let gx = -wmSpan; gx <= wmSpan; gx += 230) {
           for (let gy = -wmSpan; gy <= wmSpan; gy += 130) {
+            bctx.fillText('Appaw Store', gx, gy);
+          }
+        }
+        bctx.restore();
+      } else {
+        bctx.save();
+        bctx.translate(cx, cy);
+        bctx.rotate(-Math.PI / 10);
+        bctx.fillStyle = 'rgba(255,255,255,0.05)';
+        bctx.font = '700 12px Inter, ui-sans-serif, system-ui, sans-serif';
+        bctx.textAlign = 'center';
+        bctx.textBaseline = 'middle';
+        const wmSpan = Math.max(w, h);
+        for (let gx = -wmSpan; gx <= wmSpan; gx += 140) {
+          for (let gy = -wmSpan; gy <= wmSpan; gy += 78) {
             bctx.fillText('Appaw Store', gx, gy);
           }
         }
@@ -544,6 +578,7 @@ export default function CardCenteringClient() {
       refRadius = 0;
       loupeMag = 2.6;
       lastGradeSnapshot = null;
+      setGrade(null);
 
       for (const key of Object.keys(handleDisplay)) delete handleDisplay[key];
 
@@ -618,7 +653,7 @@ export default function CardCenteringClient() {
       }
     }
 
-    function scheduleGrade(result: GradeResult) {
+    function scheduleGrade(result: CenteringScore) {
       pendingGrade = result;
       if (!gradeRaf) gradeRaf = requestAnimationFrame(flushGrade);
     }
@@ -1275,78 +1310,22 @@ export default function CardCenteringClient() {
     }
 
     function calculateCentering() {
-      const distLeft = innerGuides.left - outerGuides.left;
-      const distRight = outerGuides.right - innerGuides.right;
-      const distTop = innerGuides.top - outerGuides.top;
-      const distBottom = outerGuides.bottom - innerGuides.bottom;
-
-      const totalLR = distLeft + distRight;
-      const totalTB = distTop + distBottom;
-
-      let lrPercentL = 50,
-        lrPercentR = 50;
-      let tbPercentT = 50,
-        tbPercentB = 50;
-
-      if (totalLR > 0) {
-        lrPercentL = (distLeft / totalLR) * 100;
-        lrPercentR = (distRight / totalLR) * 100;
-      }
-      if (totalTB > 0) {
-        tbPercentT = (distTop / totalTB) * 100;
-        tbPercentB = (distBottom / totalTB) * 100;
-      }
-
-      // Axis-aligned PSA thresholds (percent ranges)
-      const PSA = {
-        PSA10: { min: 45, max: 55 },
-        PSA9: { min: 40, max: 60 },
-        PSA8: { min: 35, max: 65 },
-      };
-
-      function axisZone(percent: number): GradeZone {
-        if (percent >= PSA.PSA10.min && percent <= PSA.PSA10.max) return 'PSA10';
-        if (percent >= PSA.PSA9.min && percent <= PSA.PSA9.max) return 'PSA9';
-        if (percent >= PSA.PSA8.min && percent <= PSA.PSA8.max) return 'PSA8';
-        return 'Below';
-      }
-
-      const lrZone = axisZone(lrPercentL);
-      const tbZone = axisZone(tbPercentT);
-
-      // Combined zone: the stricter (worst) axis determines the overall grade
-      let overallZone: GradeZone = 'Below';
-      if (lrZone === 'PSA10' && tbZone === 'PSA10') {
-        overallZone = 'PSA10';
-      } else if (
-        (lrZone === 'PSA10' || lrZone === 'PSA9') &&
-        (tbZone === 'PSA10' || tbZone === 'PSA9')
-      ) {
-        overallZone = 'PSA9';
-      } else if (
-        (lrZone === 'PSA10' || lrZone === 'PSA9' || lrZone === 'PSA8') &&
-        (tbZone === 'PSA10' || tbZone === 'PSA9' || tbZone === 'PSA8')
-      ) {
-        overallZone = 'PSA8';
-      }
-
-      const result: GradeResult = {
-        overall: overallZone,
-        lr: lrPercentL,
-        tb: tbPercentT,
-        lrZone,
-        tbZone,
-      };
+      const measurement = measureFromGuides(outerGuides, innerGuides);
+      const result = scoreCentering(
+        measurement,
+        gradingCompanyRef.current,
+        CARD_FACE,
+      );
 
       if (!lastGradeSnapshot || !gradesEqual(lastGradeSnapshot, result)) {
         lastGradeSnapshot = result;
         if (isGuideDrag()) scheduleGrade(result);
         else setGrade(result);
-        drawPlot(lrPercentL, tbPercentT, overallZone);
+        drawPlot(result.lr, result.tb, result);
       }
     }
 
-    function drawPlot(lr: number, tb: number, overallZone: string) {
+    function drawPlot(lr: number, tb: number, score: CenteringScore) {
       const dpr = plotDprCap;
       const cw = plotCanvasEl.clientWidth;
       const ch = plotCanvasEl.clientHeight;
@@ -1401,12 +1380,8 @@ export default function CardCenteringClient() {
       plotCtx.restore();
 
 
-      // Draw axis-aligned rectangular PSA zones (PSA8 outer -> PSA10 inner)
-      const zones = [
-        { name: 'PSA8', min: 35, max: 65, color: 'rgba(255,194,204,0.45)' },
-        { name: 'PSA9', min: 40, max: 60, color: 'rgba(255,154,166,0.6)' },
-        { name: 'PSA10', min: 45, max: 55, color: 'rgba(240,122,134,0.9)' },
-      ];
+      // Draw axis-aligned grade zones for selected company
+      const zones = getPlotZoneRects(score.company, score.face);
 
       zones.forEach((z) => {
         const x = z.min * pxPerPercent;
@@ -1436,8 +1411,9 @@ export default function CardCenteringClient() {
       const py = tb * pxPerPercent;
 
       // Determine which PSA zone the point falls into using axis thresholds
-      const plotLabels = toolLabelsRef.current.plotLabels;
-      let zoneLabel = overallZone === 'PSA10' ? plotLabels.PSA10 : overallZone === 'PSA9' ? plotLabels.PSA9 : overallZone === 'PSA8' ? plotLabels.PSA8 : plotLabels.below;
+      const companyZones = toolLabelsRef.current.zones[score.company];
+      const zoneCopy = companyZones[score.overall as keyof typeof companyZones];
+      const zoneLabel = zoneCopy?.label ?? score.overall;
 
       // Draw the measured point with subtle glow
       plotCtx.beginPath();
@@ -1817,33 +1793,55 @@ export default function CardCenteringClient() {
     };
   }, []);
 
-  const zone = grade?.overall ?? null;
-  const zoneCopy = zone ? tool.zones[zone] : null;
-  const verdictKey = zone && photoMode === 'slab' ? verdictForZone(zone) : null;
+  const displayScore = grade
+    ? scoreCentering({ lr: grade.lr, tb: grade.tb }, gradingCompany, CARD_FACE)
+    : null;
+  const zone = displayScore?.overall ?? null;
+  const zoneCopy =
+    displayScore && zone
+      ? tool.zones[gradingCompany][zone as keyof (typeof tool.zones)[typeof gradingCompany]]
+      : null;
+  const verdictKey = displayScore && photoMode === 'slab' ? verdictForQuality(displayScore.quality) : null;
   const verdictCopy = verdictKey ? tool.verdicts[verdictKey] : null;
   const fmt = (n?: number) => (typeof n === 'number' ? n.toFixed(1) : '—');
 
   return (
     <div className={styles.wrapper}>
-      <section id="centering-analyzer" className={styles.toolInstrument} aria-label={tool.workspaceTitle}>
+      <section
+        id="centering-analyzer"
+        className={styles.toolInstrument}
+        aria-label={`${tool.workspaceTitle} — ${tool.workspaceBrand}`}
+      >
         <header className={styles.toolInstrumentHeader}>
-          <span className={styles.toolInstrumentLabel}>{tool.workspaceTitle}</span>
+          <span className={styles.toolInstrumentLabel}>
+            <span className={styles.toolInstrumentTitle}>{tool.workspaceTitle}</span>
+            <span className={styles.toolInstrumentBrand} translate="no">
+              {tool.workspaceBrand}
+            </span>
+          </span>
           <div className={styles.gradePillStack}>
             {photoMode === 'raw' ? (
               <div
                 className={`${styles.gradePill} ${styles.gradePillHeader}`}
-                data-zone={zone ?? undefined}
+                data-quality={displayScore?.quality ?? undefined}
+                data-tier={displayScore?.overall ?? undefined}
                 aria-live="polite"
                 aria-atomic="true"
                 role="status"
               >
                 <div className={styles.gradePillMain}>
                   <span className={styles.gradePillLabel}>{zoneCopy?.label ?? '—'}</span>
-                  <span className={styles.gradePillSub}>{zoneCopy?.short ?? tool.alignGuides}</span>
+                  <span className={styles.gradePillSub}>
+                    {zoneCopy?.short ?? (displayScore ? displayScore.overall : tool.alignGuides)}
+                  </span>
                 </div>
                 <div className={styles.gradePillRatios}>
-                  <span data-status={grade?.lrZone}>{tool.lrLabel} {fmt(grade?.lr)}/{fmt(grade ? 100 - grade.lr : undefined)}</span>
-                  <span data-status={grade?.tbZone}>{tool.tbLabel} {fmt(grade?.tb)}/{fmt(grade ? 100 - grade.tb : undefined)}</span>
+                  <span data-quality={displayScore ? axisQuality(gradingCompany, displayScore.lrZone) : undefined}>
+                    {tool.lrLabel} {fmt(displayScore?.lr)}/{fmt(displayScore ? 100 - displayScore.lr : undefined)}
+                  </span>
+                  <span data-quality={displayScore ? axisQuality(gradingCompany, displayScore.tbZone) : undefined}>
+                    {tool.tbLabel} {fmt(displayScore?.tb)}/{fmt(displayScore ? 100 - displayScore.tb : undefined)}
+                  </span>
                 </div>
               </div>
             ) : null}
@@ -1923,24 +1921,71 @@ export default function CardCenteringClient() {
           </div>
         </div>
 
-        {/* Guide layer switcher — focus on edge or border one at a time */}
-        <div className={styles.guideModeBar} role="toolbar" aria-label={tool.guideModeLabel}>
-          {(['edge', 'border', 'both'] as const).map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              className={styles.guideModeBtn}
-              data-active={guideMode === mode}
-              data-mode={mode}
-              aria-pressed={guideMode === mode}
-              onClick={() => setGuideMode(mode)}
+        {/* Left-top dock — grading standard + guide layer */}
+        <div className={styles.workspaceDock}>
+          {photoMode === 'raw' ? (
+            <div
+              className={`${styles.gradingCompanyDock} ${gradingDockOpen ? styles.gradingCompanyDockOpen : styles.gradingCompanyDockCollapsed}`}
+              data-open={gradingDockOpen ? 'true' : 'false'}
             >
-              <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
-              <span className={styles.guideModeBtnLabel}>
-                {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
-              </span>
-            </button>
-          ))}
+              <button
+                type="button"
+                className={styles.gradingCompanyToggle}
+                onClick={() => setGradingDockOpen((v) => !v)}
+                aria-expanded={gradingDockOpen}
+                aria-controls="grading-company-list"
+              >
+                <span className={styles.gradingCompanyToggleLeft}>
+                  <span className={styles.gradingCompanyToggleBadge} data-company={gradingCompany}>
+                    {gradingCompany}
+                  </span>
+                  <span className={styles.gradingCompanyToggleLabel}>{tool.gradingCompanyLabel}</span>
+                </span>
+                <ChevronIcon className={styles.chevron} />
+              </button>
+              <div
+                id="grading-company-list"
+                className={styles.gradingCompanyBody}
+                role="toolbar"
+                aria-label={tool.gradingCompanyLabel}
+              >
+                {GRADING_COMPANIES.map((company) => (
+                  <button
+                    key={company}
+                    type="button"
+                    className={styles.gradingCompanyBtn}
+                    data-active={gradingCompany === company}
+                    data-company={company}
+                    aria-pressed={gradingCompany === company}
+                    onClick={() => {
+                      setGradingCompany(company);
+                      setGradingDockOpen(false);
+                    }}
+                  >
+                    {company}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+          <div className={styles.guideModeBar} role="toolbar" aria-label={tool.guideModeLabel}>
+            {(['edge', 'border', 'both'] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                className={styles.guideModeBtn}
+                data-active={guideMode === mode}
+                data-mode={mode}
+                aria-pressed={guideMode === mode}
+                onClick={() => setGuideMode(mode)}
+              >
+                <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
+                <span className={styles.guideModeBtnLabel}>
+                  {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Compact side dock for image adjustments — collapsed by default */}
