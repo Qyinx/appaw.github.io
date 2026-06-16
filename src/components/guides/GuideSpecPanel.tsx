@@ -1,4 +1,5 @@
 import React from 'react';
+import { renderGuideParagraph } from '@/lib/guides/parseParagraphLinks';
 import type { GuideSpecRow } from '@/lib/guides/types';
 
 type GuideSpecPanelProps = {
@@ -14,7 +15,9 @@ export default function GuideSpecPanel({ rows, title }: GuideSpecPanelProps) {
         {rows.map((row) => (
           <div key={row.label} className="flex items-baseline justify-between gap-4 px-5 py-3">
             <dt className="text-xs font-mono uppercase tracking-wide text-text-muted">{row.label}</dt>
-            <dd className="font-mono text-sm tabular-nums text-text-primary text-right">{row.value}</dd>
+            <dd className="font-mono text-sm tabular-nums text-text-primary text-right">
+              {renderGuideParagraph(row.value)}
+            </dd>
           </div>
         ))}
       </dl>

@@ -2,7 +2,14 @@ export type GuideLocale = 'en' | 'zh';
 
 export type GuideSpecRow = {
   label: string;
+  /** Plain text; use `[label](href)` for inline links (same as section paragraphs). */
   value: string;
+};
+
+export type GuideTable = {
+  headers: string[];
+  /** Each row: [row label, ...cell values matching data columns]. */
+  rows: string[][];
 };
 
 export type GuideSection = {
@@ -11,6 +18,7 @@ export type GuideSection = {
   /** Plain text; use `[label](href)` for inline links (rendered in GuideProse). */
   paragraphs: string[];
   specs?: GuideSpecRow[];
+  table?: GuideTable;
 };
 
 export type GuideCtaLink = {

@@ -3,6 +3,7 @@
 import React from 'react';
 import { renderGuideParagraph } from '@/lib/guides/parseParagraphLinks';
 import GuideSpecPanel from './GuideSpecPanel';
+import GuideTable from './GuideTable';
 import type { GuideSection } from '@/lib/guides/types';
 
 type GuideProseProps = {
@@ -27,7 +28,9 @@ export default function GuideProse({ sections }: GuideProseProps) {
               </p>
             ))}
           </div>
-          {section.specs && section.specs.length > 0 ? (
+          {section.table ? (
+            <GuideTable table={section.table} />
+          ) : section.specs && section.specs.length > 0 ? (
             <div className="mt-6">
               <GuideSpecPanel rows={section.specs} />
             </div>
