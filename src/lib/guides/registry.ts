@@ -30,10 +30,10 @@ export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
   { slug: 'choose-35pt-slab-protector', published: '2026-06-07', updated: '2026-06-07' },
   { slug: 'uv-protection-graded-cards', published: '2026-06-07', updated: '2026-06-07' },
   { slug: 'psa-10-centering-requirements', published: '2026-06-07', updated: '2026-06-09' },
-  { slug: 'grade-or-protect-first', published: '2026-06-07', updated: '2026-06-07' },
-  { slug: 'identify-fake-psa-slabs', published: '2026-06-08', updated: '2026-06-08' },
-  { slug: 'display-graded-cards', published: '2026-06-09', updated: '2026-06-09' },
-  { slug: 'regrade-or-reholder', published: '2026-06-13', updated: '2026-06-13' },
+  { slug: 'grade-or-protect-first', published: '2026-06-07', updated: '2026-06-17' },
+  { slug: 'identify-fake-psa-slabs', published: '2026-06-08', updated: '2026-06-17' },
+  { slug: 'display-graded-cards', published: '2026-06-09', updated: '2026-06-17' },
+  { slug: 'regrade-or-reholder', published: '2026-06-13', updated: '2026-06-17' },
 ];
 
 const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
