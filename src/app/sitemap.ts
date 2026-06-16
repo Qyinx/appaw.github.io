@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { SITEMAP_PUBLIC_PATHS, enUrl, zhUrl } from '@/lib/seo/sitemap-config';
+import { SITEMAP_ICON_URLS, SITEMAP_PUBLIC_PATHS, enUrl, zhUrl } from '@/lib/seo/sitemap-config';
 import { GUIDE_SLUGS } from '@/lib/guides/registry';
 
 export const dynamic = 'force-static';
@@ -20,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const allPaths = [...SITEMAP_PUBLIC_PATHS, ...guidePaths];
 
-  return allPaths.flatMap(({ path, changeFrequency, priority }) => {
+  const pageEntries: MetadataRoute.Sitemap = allPaths.flatMap(({ path, changeFrequency, priority }) => {
     const lastModified = path === '/privacy/' ? PRIVACY_LAST_MOD : now;
 
     const en = enUrl(path);
@@ -51,4 +51,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     ];
   });
+
+  const iconEntries: MetadataRoute.Sitemap = SITEMAP_ICON_URLS.map((url) => ({
+    url,
+    lastModified: now,
+    changeFrequency: 'yearly',
+    priority: 0.1,
+  }));
+
+  return [...pageEntries, ...iconEntries];
 }

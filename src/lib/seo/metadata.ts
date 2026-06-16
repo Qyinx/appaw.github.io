@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { CENTERING_OG_IMAGE, CENTERING_SEO, HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
 import type { PublicPortfolio } from '@/lib/collection/publicPortfolio';
+import { SITE_ICONS } from '@/lib/seo/brand';
 import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata';
 
 const homeHreflang = { en: '/', 'zh-HK': '/zh/' } as const;
@@ -150,7 +151,8 @@ export const rootMetadata: Metadata = {
   authors: [{ name: 'Appaw Store' }],
   creator: 'Appaw Store',
   publisher: 'Appaw Store',
-  icons: { icon: '/favicon.ico', shortcut: '/favicon.ico', apple: '/apple-touch-icon.png' },
+  icons: SITE_ICONS,
+  manifest: '/site.webmanifest',
   metadataBase: new URL('https://appaw.store'),
   alternates: { canonical: '/', languages: homeHreflang },
   openGraph: {

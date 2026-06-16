@@ -108,10 +108,29 @@ async function processDirectory(inputDir, outputDir, relativeDir = '') {
   }
 }
 
+async function generateOgImage() {
+  const logoPath = join(INPUT_DIR, 'logo.png');
+  const ogPath = join(INPUT_DIR, 'og-image.png');
+
+  if (!existsSync(logoPath)) {
+    console.log('⚠ logo.png missing — skipping og-image.png generation');
+    return;
+  }
+
+  await sharp(logoPath)
+    .resize(480, 480, { fit: 'contain', background: { r: 250, g: 250, b: 248, alpha: 1 } })
+    .extend({ top: 75, bottom: 75, left: 360, right: 360, background: { r: 250, g: 250, b: 248, alpha: 1 } })
+    .png({ compressionLevel: 9 })
+    .toFile(ogPath);
+
+  console.log('✓ Generated og-image.png (1200×630) from logo.png');
+}
+
 console.log('🖼️  Starting image optimization...\n');
 console.log(`Input: ${INPUT_DIR}`);
 console.log(`Output: ${OUTPUT_DIR}\n`);
 
+await generateOgImage();
 await processDirectory(INPUT_DIR, OUTPUT_DIR);
 
 console.log('\n✅ Image optimization complete!');

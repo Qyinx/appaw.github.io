@@ -2,6 +2,9 @@
  * Canonical public URLs included in sitemap.xml (EN path + mirrored /zh/ route).
  * Excludes noindex, robots-disallowed, and auth/admin routes.
  */
+import { SITEMAP_ICON_URLS } from '@/lib/seo/brand';
+
+export { SITEMAP_ICON_URLS };
 export const SITEMAP_PUBLIC_PATHS = [
   { path: '/', changeFrequency: 'weekly' as const, priority: 1 },
   { path: '/about/', changeFrequency: 'monthly' as const, priority: 0.8 },

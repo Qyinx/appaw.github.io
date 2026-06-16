@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 import { organizationJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
+import { brandLogoImageObject } from '@/lib/seo/brand';
 import { aboutMetadata } from '@/lib/seo/metadata';
 
 export const metadata = aboutMetadata;
@@ -15,7 +16,7 @@ const org = organizationJsonLd({
   legalName: 'Appaw Store',
   alternateName: 'APPAW',
   url: 'https://appaw.store',
-  logo: 'https://appaw.store/images/logo.png',
+  logo: brandLogoImageObject,
   description: 'Hong Kong-based brand founded in 2024 by passionate collectors. We manufacture premium PSA Card Aluminum Protectors and operate a trusted TCG brokerage and consignment service for PSA and CGC graded Pokémon, sports, and MTG cards.',
   slogan: 'Protect What Matters. Display What You Love.',
   foundingDate: '2024',

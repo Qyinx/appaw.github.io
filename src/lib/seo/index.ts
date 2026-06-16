@@ -1,13 +1,20 @@
+import { brandLogoImageObject, SITE_ORIGIN } from '@/lib/seo/brand';
+
 // Centralized JSON-LD factories for Appaw Store
 export function webSiteJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Appaw Store',
-    url: 'https://appaw.store',
+    url: SITE_ORIGIN,
     description: 'Premium Graded Slab Aluminum Protector and TCG trading & brokerage. Based in Hong Kong, shipping worldwide.',
     inLanguage: ['en', 'zh-HK'],
-    publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Appaw Store',
+      url: SITE_ORIGIN,
+      logo: brandLogoImageObject,
+    },
   };
 }
 
@@ -21,9 +28,9 @@ export function storeJsonLd() {
     description: 'Premium Graded Slab Aluminum Protector and TCG trading & brokerage in Hong Kong',
     slogan: 'Protect What Matters. Display What You Love.',
     foundingDate: '2024',
-    url: 'https://appaw.store',
-    logo: 'https://appaw.store/images/logo.png',
-    image: 'https://appaw.store/images/og-image.png',
+    url: SITE_ORIGIN,
+    logo: brandLogoImageObject,
+    image: `${SITE_ORIGIN}/images/og-image.png`,
     priceRange: '$$',
     knowsAbout: [
       'PSA graded trading cards',
@@ -185,7 +192,7 @@ export function articleJsonLd(opts: {
       '@type': 'Organization',
       name: 'Appaw Store',
       url: 'https://appaw.store',
-      logo: { '@type': 'ImageObject', url: 'https://appaw.store/images/logo.png' },
+      logo: brandLogoImageObject,
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': opts.url },
     ...(opts.image ? { image: opts.image } : {}),
