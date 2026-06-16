@@ -4,44 +4,30 @@ const guide: GuideContent = {
   slug: 'psa-10-centering-requirements',
   title: 'PSA 10 Centering Requirements Explained',
   description:
-    'PSA Gem Mint 10 needs 55/45 front and 75/25 back centering. Use the ratios to screen seller photos before you buy graded, or measure raw copies before you submit.',
+    'PSA Gem Mint 10 front 55/45 and back 75/25 centering rules, how to measure, and grade-by-grade comparison. Screen raw submits and PSA 10 listings before you pay.',
   badge: 'Grading Spec',
   lead:
-    'Centering is the fastest check you can run from a desk. Use it when a PSA 10 listing looks too cheap, or when you screen a raw copy before fees. PSA tightened the front rule in early 2025. If you still aim for old 60/40 front margins, expect more PSA 9 labels coming back.',
+    'Centering is one of the gates to PSA 10 Gem Mint. Sharp corners and a clean surface will not save a card with borders out of spec. Many collectors pay grading fees and get PSA 9 back on centering alone. Measure first — it is the cheapest filter you have.',
   published: '2026-06-07',
-  updated: '2026-06-09',
-  readTime: '6 min',
+  updated: '2026-06-17',
+  readTime: '10 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
     { label: 'PSA 10 front', value: '55/45 or better' },
     { label: 'PSA 10 back', value: '75/25 or better' },
     { label: 'PSA 9 front', value: '60/40 or better' },
-    { label: 'PSA 9 back', value: '90/10 or better' },
+    { label: '2025+ change', value: 'Front tightened from 60/40 to 55/45' },
   ],
   sections: [
     {
-      id: 'psa-10-centering-requirements',
-      title: 'What Centering Is Required for a PSA 10?',
+      id: 'psa-10-standard',
+      title: 'What Is the PSA 10 Centering Standard?',
       paragraphs: [
-        'PSA Gem Mint 10 requires 55/45 or better centering on the front and 75/25 or better on the back. PSA tightened the front rule from 60/40 to 55/45 in early 2025. Both left/right and top/bottom axes must pass on each side.',
-        'Centering alone does not guarantee a PSA 10 — corners, edges, and surface still count — but it is the fastest check you can run from a photo before you pay grading fees or PSA 10 slab prices.',
-      ],
-    },
-    {
-      id: 'read-the-ratio',
-      title: 'How to Read a Centering Ratio',
-      paragraphs: [
-        'A 55/45 front ratio means the wider border can take up at most 55% of the total border width on that axis (left/right or top/bottom). Measure from the card edge to the printed frame, compare both sides, and express the larger share first.',
-        'Example: left border 2.2 mm, right border 1.8 mm on the same axis. Total 4.0 mm. Wider side is 2.2 ÷ 4.0 = 55%. That axis passes PSA 10. Repeat for the perpendicular axis. Both axes must pass.',
-        'Borderless full-art Pokémon and modern sports photos need the same math on inner print elements when outer borders are absent. Use a reference PSA 10 scan if the frame is ambiguous.',
-      ],
-    },
-    {
-      id: 'front-vs-back',
-      title: 'Front vs Back Tolerance',
-      paragraphs: [
-        'PSA allows more slack on the back: 75/25 or better for Gem Mint 10. Factory backs are often worse than fronts. A card that looks perfect face-up can still gem if the reverse is slightly off but inside 75/25.',
-        'The front is the grade limiter in practice. Collectors rarely see a 65/35 front card gem because the back is perfect. Always photograph and measure both sides before paying grading fees or trusting a PSA 10 ask price.',
+        'Per PSA\'s published standards ([psacard.com/gradingstandards](https://www.psacard.com/gradingstandards)), Gem Mint 10 centering breaks down as follows:',
+        'Front: 55/45 or better on both axes — left/right and top/bottom. A 55/45 ratio means the wider border takes at most 55% of total border width on that axis (the other side is 45%). Perfect is 50/50; 55/45 is already near indistinguishable to the naked eye.',
+        'Back: 75/25 or better — more slack than the front. Factory backs often run worse than faces; a card can still gem when the reverse stays inside 75/25.',
+        'PSA tightened Gem Mint front centering from 60/40 to 55/45 in early 2025. A 60/40 front usually caps at PSA 9 even when corners and surface are elite. Graders have final say — strong eye appeal can forgive tiny variance on some copies, but hot rookies and high-value cards get stricter reads.',
+        'Centering alone does not guarantee PSA 10 — corners, edges, and surface still score — but it is the fastest check you can run from a photo before grading fees or PSA 10 slab prices.',
       ],
       specs: [
         { label: 'PSA 10 front (2025+)', value: '≤ 55/45' },
@@ -50,21 +36,66 @@ const guide: GuideContent = {
       ],
     },
     {
-      id: '2025-change',
-      title: 'What Changed in Early 2025',
+      id: 'why-centering-matters',
+      title: 'Why Centering Drives Value',
       paragraphs: [
-        'PSA moved Gem Mint front centering from 60/40 to 55/45 to align closer with SGC and stricter market expectations. The back rule stayed at 75/25. Cards that would have squeaked a 10 under the old front rule now land at PSA 9 if centering was the only flaw.',
-        'Cert numbers alone do not tell you which standard applied. For high-value submits or slab purchases, measure anyway. A 58/42 front today is a 9, not a "maybe 10".',
+        'Centering shapes visual balance and market price. PSA 10 premiums are steep — a well-centered gem often trades at multiples of a PSA 9 copy of the same card.',
+        'Modern print is better, but factory cuts still drift. TCG cards (Pokémon, etc.) with narrow borders show centering issues more often than classic sports stock. Off-center raw copies landing at PSA 9 is the most common grading disappointment.',
+        'In practice, the front limits the grade. You rarely see a 65/35 front gem just because the back is perfect. Photograph and measure both sides before you submit or pay PSA 10 money.',
       ],
     },
     {
-      id: 'measure-first',
-      title: 'When to Measure',
+      id: 'how-to-measure',
+      title: 'How to Measure Centering Accurately',
       paragraphs: [
-        'Buying graded online: ask for flat, high-res front and back scans. Run them through a centering tool before you pay PSA 10 money on a borderline listing. Slab photos at an angle hide skew that drops a card to PSA 9.',
-        'Before you submit raw: use calipers or a centering tool with draggable guides on a flat scan. Phone photos at an angle distort ratios by several percentage points. That is enough to mis-grade a borderline card.',
-        'If either front axis reads worse than 55/45, decide whether the card still makes financial sense at PSA 9 before you rush a bulk submit or overpay for a slab. Surface and corners still matter, but centering is the fastest filter.',
-        'Our free Card Centering Calculator runs PSA, BGS, and SGC tables against your upload so you see pass/fail per grade tier without manual math.',
+        'Recommended tools: digital calipers for precision; jeweler\'s loupe; phone macro plus our [free Card Centering Calculator](/tools/card-centering/) — upload a scan or seller photo, align guides, and read pass/fail against PSA, BGS, and SGC tiers.',
+        'Steps: measure front and back separately. Horizontal — measure left and right borders; wider side ÷ (left + right) × 100. Vertical — top and bottom. Front both axes must hit ≤ 55/45; back ≤ 75/25.',
+        'Example: left 2.2 mm, right 1.8 mm → 2.2 ÷ 4.0 = 55% → 55/45, axis passes. Left 2.5 mm, right 1.5 mm → 62.5/37.5 — unlikely to gem.',
+        'Borderless full-art TCG and sports photos use the same math on inner print frames. When borders are ambiguous, compare to a known PSA 10 scan. Angled phone shots skew ratios by several points — enough to mis-read a borderline card. Use flat scans or straight-on shots.',
+      ],
+    },
+    {
+      id: 'grade-comparison',
+      title: 'PSA 10 Centering vs Other Grades',
+      paragraphs: [
+        'Grade thresholds and market impact at a glance. Match your target before you pay gem prices for mint-nine margins.',
+      ],
+      table: {
+        headers: ['Grade', 'Front centering', 'Back centering', 'Difficulty', 'Market impact'],
+        rows: [
+          ['PSA 10', '55/45 or better', '75/25 or better', 'Very high', 'Top premium'],
+          ['PSA 9', '60/40 or better', '90/10 or better', 'Moderate', 'Common'],
+          ['PSA 8', '65/35 or better', '90/10 or better', 'Lower', 'Visible skew'],
+          ['PSA 7', '70/30 or better', 'More slack', 'Low', 'Value drop'],
+        ],
+      },
+    },
+    {
+      id: 'common-issues',
+      title: 'Common Centering Problems',
+      paragraphs: [
+        'Factory cut drift: uneven trim at production. Screen every raw purchase with a centering tool — do not discover it at grading checkout.',
+        'Print shift: artwork sits off-center even when border math looks close. Check overall eye appeal from multiple angles.',
+        'TCG narrow borders: Pokémon and similar designs leave less margin for error — 55/45 tolerance bites harder.',
+        'Pre-submit checklist: only send copies that pass centering plus strong corners, surface, and edges; use authorised dealers for high-value pre-screens; save measurements and photos as your paper trail.',
+      ],
+    },
+    {
+      id: 'practical-tips',
+      title: 'Raise Your PSA 10 Hit Rate',
+      paragraphs: [
+        'Raw screening order: centering first → corners and surface second. If either front axis reads worse than 55/45, decide whether PSA 9 still makes financial sense before bulk submit or overpaying for a slab.',
+        'Buying graded online: demand flat, high-res front and back scans; run [graded-slab mode](/tools/card-centering/) on listing photos. Angled slab shots hide skew.',
+        'Submit timing: pick a reasonable queue window and declare accurate insured value. If centering is the only weak point and everything else is elite, [regrade](/guides/regrade-or-reholder/) is an option — downgrade risk included.',
+        'After a PSA 10 returns: fit a [magnetic graded slab protector](/products/psa-protectors/) before display or travel so holder scuffs do not eat resale. See [grade vs protect workflow](/guides/grade-or-protect-first/).',
+      ],
+    },
+    {
+      id: 'bottom-line',
+      title: 'Bottom Line: Measure Before Fees',
+      paragraphs: [
+        'PSA 10 centering (55/45 front, 75/25 back) allows some slack, but stable gems still need near-perfect raw copies. Measuring early is the best ROI move — fewer wasted submits, better buys, cleaner resale.',
+        'Pair centering with corners, surface, and edges and PSA 10 decisions get clearer. Preparation always costs less than a label you did not want.',
       ],
     },
   ],
@@ -74,7 +105,7 @@ const guide: GuideContent = {
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
     secondary: { label: 'Protect the returned slab', href: '/products/psa-protectors/' },
   },
-  relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'choose-35pt-slab-protector'],
+  relatedSlugs: ['grade-or-protect-first', 'regrade-or-reholder', 'choose-35pt-slab-protector', 'display-graded-cards'],
   sources: [
     {
       label: 'PSA Grading Standards — Gem Mint 10 centering',

@@ -31,7 +31,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 |------|--------|--------|-------|
 | choose-35pt-slab-protector | https://appaw.store/guides/choose-35pt-slab-protector/ | https://appaw.store/zh/guides/choose-35pt-slab-protector/ | How to choose a 35PT PSA/CGC slab protector |
 | uv-protection-graded-cards | https://appaw.store/guides/uv-protection-graded-cards/ | https://appaw.store/zh/guides/uv-protection-graded-cards/ | UV blocking and humidity storage for graded slabs |
-| psa-10-centering-requirements | https://appaw.store/guides/psa-10-centering-requirements/ | https://appaw.store/zh/guides/psa-10-centering-requirements/ | PSA 10 centering tolerances (55/45 front, 75/25 back) |
+| psa-10-centering-requirements | https://appaw.store/guides/psa-10-centering-requirements/ | https://appaw.store/zh/guides/psa-10-centering-requirements/ | PSA 10 centering — 55/45 front, 75/25 back, grade table, free centering tool |
 | grade-or-protect-first | https://appaw.store/guides/grade-or-protect-first/ | https://appaw.store/zh/guides/grade-or-protect-first/ | Raw submit vs slab protection — offense/defense strategy, $25+ threshold, comparison table |
 | identify-fake-psa-slabs | https://appaw.store/guides/identify-fake-psa-slabs/ | https://appaw.store/zh/guides/identify-fake-psa-slabs/ | Five-step fake PSA slab check — cert lookup, UV blacklight (cert #43+), shell feel, label magnification, seller red flags |
 
