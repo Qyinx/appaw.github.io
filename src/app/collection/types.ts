@@ -5,7 +5,10 @@ import {
 } from './lib/cardImages';
 import { normalizePreferredCurrency } from '@/lib/collection/currency';
 
-export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://localhost:8787';
+import { getBackendUrl, joinBackendUrl } from '@/lib/collection/backendUrl';
+
+export const BACKEND_URL = getBackendUrl();
+export { joinBackendUrl };
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 

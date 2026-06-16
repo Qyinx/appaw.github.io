@@ -156,7 +156,19 @@ export default function StyleGuidePage() {
 
       <section className="section-padding border-b border-border-default">
         <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-8">{t.styleGuide?.sections?.buttons ?? 'Buttons'}</h2>
+          <h2 className="text-2xl font-display font-bold mb-2">{t.styleGuide?.sections?.buttons ?? 'Buttons'}</h2>
+          <p className="text-text-secondary text-sm mb-8 max-w-2xl">
+            Neo-brutalist pill controls — monospace uppercase, 44px min height, square corners. Segmented groups use <code className="font-mono text-xs">collection-filter-pills</code>; standalone actions use <code className="font-mono text-xs">btn</code> or <code className="font-mono text-xs">collection-action-pill</code>.
+          </p>
+
+          <p className="section-label mb-3">Segmented filter group</p>
+          <div className="collection-filter-pills w-fit mb-8" role="group" aria-label="Filter demo">
+            <button type="button" className="collection-filter-pill" aria-pressed="true">All</button>
+            <button type="button" className="collection-filter-pill" aria-pressed="false">Active</button>
+            <button type="button" className="collection-filter-pill" aria-pressed="false">Sold</button>
+          </div>
+
+          <p className="section-label mb-3">Standalone variants</p>
           <div className="flex flex-wrap gap-4 mb-8">
             <Button variant="primary">Shop Protectors</Button>
             <Button variant="secondary">View Specs</Button>

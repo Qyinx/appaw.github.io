@@ -5,9 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useLocalizedPath } from '@/hooks/useLocalizedPath';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Loader2, AlertCircle } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import {
-  BACKEND_URL,
+  joinBackendUrl,
   type CollectorCard,
   type CardFormState,
   type GradingCompany,
@@ -17,6 +17,7 @@ import {
 } from './types';
 import { compressImage, getMemberLevel } from './components/shared';
 import { CardFormView } from './components/CardFormView';
+import { CollectionLoadingSkeleton } from './components/CollectionLoadingSkeleton';
 import { cacheGet, cacheSet, cacheInvalidate } from './lib/apiCache';
 import {
   cardReportsImage,
@@ -155,7 +156,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
       const fd = new FormData();
       fd.append('image', blob, `card-${seq}.jpg`);
       fd.append('seq', String(seq));
-      const res = await fetch(`${BACKEND_URL}/cards/${savedCardId}/images`, {
+      const res = await fetch(joinBackendUrl(`/cards/${savedCardId}/images`), {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: fd,
@@ -164,7 +165,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
     };
 
     const deleteImage = async (seq: number) => {
-      const res = await fetch(`${BACKEND_URL}/cards/${savedCardId}/images/${seq}`, {
+      const res = await fetch(joinBackendUrl(`/cards/${savedCardId}/images/${seq}`), {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -261,8 +262,10 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   /* ── Auth guard ── */
   if (auth0Loading || dataLoading) {
     return (
-      <div className="min-h-dvh bg-surface-bg collection-workspace flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-accent-secondary animate-spin" aria-label={t.common.loading} />
+      <div className="min-h-dvh bg-surface-bg collection-workspace page-blueprint">
+        <div className="workspace-canvas container-tool max-w-3xl py-8">
+          <CollectionLoadingSkeleton variant="form" label={t.common.loading} />
+        </div>
       </div>
     );
   }
@@ -270,8 +273,10 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
   if (!isAuthenticated) {
     if (typeof window !== 'undefined') window.location.replace(localize('/collection/auth'));
     return (
-      <div className="min-h-dvh bg-surface-bg collection-workspace flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-accent-secondary animate-spin" aria-label={t.common.loading} />
+      <div className="min-h-dvh bg-surface-bg collection-workspace page-blueprint">
+        <div className="workspace-canvas container-tool max-w-3xl py-8">
+          <CollectionLoadingSkeleton variant="form" rows={4} label={t.common.loading} />
+        </div>
       </div>
     );
   }
@@ -282,7 +287,7 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
         <div className="panel max-w-md w-full p-6 border-l-[3px] border-l-accent-danger text-center">
           <AlertCircle className="w-6 h-6 text-accent-danger mx-auto mb-3" aria-hidden="true" />
           <p className="text-accent-danger text-sm mb-4">{dataError}</p>
-          <button type="button" onClick={() => router.push(localize('/collection/list'))} className="btn btn-secondary min-h-11 w-full">
+          <button type="button" onClick={() => router.push(localize('/collection/list'))} className="collection-action-pill collection-action-pill--block min-h-11 w-full">
             {t.common.back}
           </button>
         </div>
@@ -337,8 +342,10 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
 export default function CardFormClient(props: CardFormClientProps) {
   return (
     <Suspense fallback={
-      <div className="min-h-dvh bg-surface-bg collection-workspace flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-accent-secondary animate-spin" aria-hidden="true" />
+      <div className="min-h-dvh bg-surface-bg collection-workspace page-blueprint">
+        <div className="workspace-canvas container-tool max-w-3xl py-8">
+          <CollectionLoadingSkeleton variant="form" />
+        </div>
       </div>
     }>
       <CardFormInner {...props} />

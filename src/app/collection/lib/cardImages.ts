@@ -1,17 +1,15 @@
-import { BACKEND_URL } from '../types';
+import { joinBackendUrl } from '@/lib/collection/backendUrl';
 
 /** GET /cards/:id/images/:seq is public — no Bearer token (see backend API.md). */
 const CARD_IMAGE_PATH = /\/cards\/[^/]+\/images\/\d+/;
 
 export function resolveAbsoluteBackendUrl(url: string): string {
   if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) return url;
-  const base = BACKEND_URL.replace(/\/$/, '');
-  return url.startsWith('/') ? `${base}${url}` : `${base}/${url}`;
+  return joinBackendUrl(url.startsWith('/') ? url : `/${url}`);
 }
 
 export function canonicalCardImageUrl(cardId: string, seq: number): string {
-  const base = BACKEND_URL.replace(/\/$/, '');
-  return `${base}/cards/${cardId}/images/${seq}`;
+  return joinBackendUrl(`/cards/${cardId}/images/${seq}`);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

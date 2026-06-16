@@ -4,7 +4,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocalizedPath } from '@/hooks/useLocalizedPath';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Loader2 } from 'lucide-react';
+import { CollectionLoadingSkeleton } from './components/CollectionLoadingSkeleton';
 import {
   type CollectorCard,
   type Portfolio,
@@ -126,9 +126,10 @@ export default function CollectionClient() {
       method: 'POST',
       body: JSON.stringify({ name, isPublic }),
     });
-    const updated = (prev: Portfolio[]) => [...prev, normalizePortfolio(created.data ?? created)];
-    setPortfolios(updated);
+    const normalized = normalizePortfolio(created.data ?? created);
+    setPortfolios(prev => [...prev, normalized]);
     cacheInvalidate('/portfolios');
+    return normalized.id;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -225,6 +226,12 @@ export default function CollectionClient() {
   const userName = user?.name ?? user?.nickname ?? 'Collector';
   const [memberLevel, setMemberLevel] = React.useState<MemberLevel | undefined>(getMemberLevel);
 
+  const mockTier = process.env.NEXT_PUBLIC_COLLECTION_MOCK_TIER;
+  const effectiveMemberLevel: MemberLevel | undefined =
+    mockTier === 'Foil' || mockTier === 'Prism' || mockTier === 'Aurora'
+      ? mockTier
+      : memberLevel;
+
   /* ── Handlers ────────────────────────────────────────────────────────────── */
   const handleDeleteCard = useCallback(async (id: string) => {
     try {
@@ -258,8 +265,10 @@ export default function CollectionClient() {
   /* ── Auth0 SDK still initialising ───────────────────────────────────────── */
   if (auth0Loading) {
     return (
-      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
+      <div className="min-h-dvh bg-surface-bg collection-workspace page-blueprint">
+        <div className="workspace-canvas container-tool py-8">
+          <CollectionLoadingSkeleton variant="ledger" rows={8} label="Loading collection" />
+        </div>
       </div>
     );
   }
@@ -268,8 +277,10 @@ export default function CollectionClient() {
   if (!isAuthenticated) {
     if (typeof window !== 'undefined') window.location.replace(localize('/collection/auth'));
     return (
-      <div className="min-h-screen bg-surface-bg min-h-dvh flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-accent-link animate-spin" />
+      <div className="min-h-dvh bg-surface-bg collection-workspace page-blueprint">
+        <div className="workspace-canvas container-tool py-8">
+          <CollectionLoadingSkeleton variant="ledger" rows={4} label="Redirecting" />
+        </div>
       </div>
     );
   }
@@ -283,7 +294,7 @@ export default function CollectionClient() {
       saveMsg={saveMsg}
       user={user}
       userName={userName}
-      memberLevel={memberLevel}
+      memberLevel={effectiveMemberLevel}
       preferredCurrency={preferredCurrency}
       portfolios={portfolios}
       onOpenNew={() => router.push(localize('/collection/card/new'))}

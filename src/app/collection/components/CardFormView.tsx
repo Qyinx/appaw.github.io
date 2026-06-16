@@ -20,6 +20,8 @@ import HeroStamp from '@/components/ui/HeroStamp';
 import { WorkspaceNotice } from './WorkspaceNotice';
 import { inp, lbl, Section, Toggle, compressImage, GradePill } from './shared';
 import { CardThumbnail, CardMetaBlock, gradeTierClass, resolveCardImageUrl } from './CollectionCardDisplay';
+import { CollectionAnimeEnter } from './CollectionAnimeEnter';
+import { CollectionAnimeStagger } from './CollectionAnimeStagger';
 
 export interface CardFormViewProps {
   initial: CardFormState | null;
@@ -72,7 +74,7 @@ function CardPhotoLightbox({
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt="" className="relative z-[1] max-w-full max-h-full object-contain border border-border-strong" />
-      <button type="button" onClick={onClose} aria-label={cancelLabel} className="absolute top-4 right-4 z-[1] btn btn-secondary btn-icon">
+      <button type="button" onClick={onClose} aria-label={cancelLabel} className="absolute top-4 right-4 z-[1] collection-action-pill btn-icon">
         <X className="w-5 h-5" />
       </button>
     </div>,
@@ -201,7 +203,7 @@ export function CardFormView({
       {/* Sticky workspace chrome */}
       <div className="workspace-chrome sticky top-16 md:top-20 z-30 border-b border-border-default shadow-[0_1px_0_var(--border-default)]">
         <div className="container-tool max-w-3xl flex items-center justify-between gap-2 py-2 min-h-[2.75rem]">
-          <button type="button" onClick={onBack} className="btn btn-ghost text-sm min-h-11 px-2 flex-shrink-0">
+          <button type="button" onClick={onBack} className="collection-action-pill min-h-11 px-2.5 flex-shrink-0">
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span className="hidden sm:inline">{t.common.back}</span>
           </button>
@@ -219,7 +221,7 @@ export function CardFormView({
             type="submit"
             form="card-form"
             disabled={saving}
-            className="hidden md:inline-flex btn btn-primary text-xs min-h-11 px-3 flex-shrink-0 disabled:opacity-50"
+            className="hidden md:inline-flex collection-action-pill collection-action-pill--primary min-h-11 px-3 flex-shrink-0 disabled:opacity-45"
           >
             {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Check className="w-3.5 h-3.5" aria-hidden="true" />}
             {saveLabel}
@@ -238,18 +240,20 @@ export function CardFormView({
       )}
 
       <div className="workspace-canvas container-tool max-w-3xl py-6 md:py-8 pb-28 md:pb-8">
-        <HeroStamp
-          decorative={false}
-          className="mb-6"
-          lines={{
-            brand: t.collection.landing.badge,
-            tagline: pageTitle,
-            muted: isEdit ? t.collection.form.basicInfo : t.collection.form.scan.subtitle,
-          }}
-        />
+        <CollectionAnimeEnter className="mb-6">
+          <HeroStamp
+            decorative={false}
+            lines={{
+              brand: t.collection.landing.badge,
+              tagline: pageTitle,
+              muted: isEdit ? t.collection.form.basicInfo : t.collection.form.scan.subtitle,
+            }}
+          />
+        </CollectionAnimeEnter>
 
         {isEdit && (
-          <div className={`panel collection-form-preview mb-6 overflow-hidden border-l-[3px] ${gradeTierClass(previewCard.grade)}`}>
+          <CollectionAnimeEnter delay={32} className="mb-6">
+          <div className={`panel collection-form-preview overflow-hidden border-l-[3px] ${gradeTierClass(previewCard.grade)}`}>
             <div className="flex items-stretch gap-4 p-4">
               <div className="relative flex-shrink-0">
                 <CardThumbnail card={previewCard} size="md" />
@@ -265,13 +269,15 @@ export function CardFormView({
               </div>
             </div>
           </div>
+          </CollectionAnimeEnter>
         )}
 
-        <form id="card-form" onSubmit={handleSubmit} noValidate className="space-y-6">
+        <form id="card-form" onSubmit={handleSubmit} noValidate>
+        <CollectionAnimeStagger className="space-y-6" animateKey={isEdit ? `edit-${previewCard.name}` : 'new'}>
 
           {/* Label scan — add only */}
           {!isEdit && (
-            <div className="space-y-3">
+            <div className="space-y-3" data-collection-animate>
               {scanState === 'idle' && (
                 <div className="panel flex flex-col sm:flex-row sm:items-center gap-3 px-4 py-3 border-l-[3px] border-l-accent-secondary">
                   <div className="flex items-start gap-2 flex-1 min-w-0">
@@ -284,7 +290,7 @@ export function CardFormView({
                   <button
                     type="button"
                     onClick={() => scanRef.current?.click()}
-                    className="btn btn-primary text-xs min-h-11 w-full sm:w-auto px-4 flex-shrink-0"
+                    className="collection-action-pill collection-action-pill--primary text-xs min-h-11 w-full sm:w-auto px-4 flex-shrink-0"
                   >
                     <ScanLine className="w-3.5 h-3.5" aria-hidden="true" />
                     {t.collection.form.scan.scanButton}
@@ -303,10 +309,10 @@ export function CardFormView({
                 <div className="panel flex flex-col sm:flex-row sm:items-center gap-3 px-4 py-3 border-l-[3px] border-l-accent-success">
                   <p className="text-accent-success text-sm flex-1">{t.collection.form.scan.doneMsg}</p>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <button type="button" onClick={() => { setScanState('idle'); scanRef.current?.click(); }} className="btn btn-secondary text-xs min-h-11 px-3">
+                    <button type="button" onClick={() => { setScanState('idle'); scanRef.current?.click(); }} className="collection-action-pill text-xs min-h-11 px-3">
                       {t.collection.form.scan.rescan}
                     </button>
-                    <button type="button" onClick={() => setScanState('idle')} aria-label={t.common.cancel} className="btn btn-ghost btn-icon">
+                    <button type="button" onClick={() => setScanState('idle')} aria-label={t.common.cancel} className="collection-action-pill btn-icon">
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -317,11 +323,11 @@ export function CardFormView({
                 <div className="panel flex flex-col sm:flex-row sm:items-center gap-3 px-4 py-3 border-l-[3px] border-l-accent-danger" role="alert">
                   <p className="text-accent-danger text-sm flex-1">{scanMsg}</p>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <button type="button" onClick={() => { setScanState('idle'); scanRef.current?.click(); }} className="btn btn-secondary text-xs min-h-11 px-3">
+                    <button type="button" onClick={() => { setScanState('idle'); scanRef.current?.click(); }} className="collection-action-pill text-xs min-h-11 px-3">
                       <Camera className="w-3 h-3" aria-hidden="true" />
                       {t.collection.form.scan.tryAgain}
                     </button>
-                    <button type="button" onClick={() => setScanState('idle')} aria-label={t.common.cancel} className="btn btn-ghost btn-icon">
+                    <button type="button" onClick={() => setScanState('idle')} aria-label={t.common.cancel} className="collection-action-pill btn-icon">
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -336,6 +342,7 @@ export function CardFormView({
             <div
               ref={errorSummaryRef}
               tabIndex={-1}
+              data-collection-animate
               className="panel border-l-[3px] border-l-accent-danger p-4 outline-none"
               role="alert"
               aria-live="assertive"
@@ -350,6 +357,7 @@ export function CardFormView({
             </div>
           )}
 
+          <div data-collection-animate>
           <Section title={t.collection.form.basicInfo}>
             <div className="panel p-4 space-y-3">
               <div>
@@ -386,7 +394,9 @@ export function CardFormView({
               </div>
             </div>
           </Section>
+          </div>
 
+          <div data-collection-animate>
           <Section title={t.collection.form.grading}>
             <div className="panel p-4 space-y-3">
               <fieldset>
@@ -435,7 +445,9 @@ export function CardFormView({
               </div>
             </div>
           </Section>
+          </div>
 
+          <div data-collection-animate>
           <Section title={t.collection.form.pricing}>
             <div className="panel p-4 space-y-3">
               <div>
@@ -476,7 +488,9 @@ export function CardFormView({
               <Toggle value={form.sold} onChange={v => set('sold', v)} label={t.collection.form.markAsSold} />
             </div>
           </Section>
+          </div>
 
+          <div data-collection-animate>
           <Section
             title={t.collection.form.photosTitle}
             subtitle={t.collection.form.photosSubtitle}
@@ -522,9 +536,9 @@ export function CardFormView({
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={resolveCardImageUrl(value) ?? value} alt={label} className="w-full h-full object-contain" />
                           <div className="absolute inset-0 flex items-center justify-center gap-2 bg-accent-structural/40 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                            <button type="button" onClick={() => setPhotoZoom(value)} aria-label="Zoom" className="btn btn-secondary btn-icon min-w-11 min-h-11"><ZoomIn className="w-4 h-4" aria-hidden="true" /></button>
-                            <button type="button" onClick={() => ref.current?.click()} aria-label="Replace photo" className="btn btn-secondary btn-icon min-w-11 min-h-11"><Camera className="w-4 h-4" aria-hidden="true" /></button>
-                            <button type="button" onClick={() => set(side, undefined)} aria-label="Remove photo" className="btn btn-destructive btn-icon min-w-11 min-h-11"><X className="w-4 h-4" aria-hidden="true" /></button>
+                            <button type="button" onClick={() => setPhotoZoom(value)} aria-label="Zoom" className="collection-action-pill btn-icon min-w-11 min-h-11"><ZoomIn className="w-4 h-4" aria-hidden="true" /></button>
+                            <button type="button" onClick={() => ref.current?.click()} aria-label="Replace photo" className="collection-action-pill btn-icon min-w-11 min-h-11"><Camera className="w-4 h-4" aria-hidden="true" /></button>
+                            <button type="button" onClick={() => set(side, undefined)} aria-label="Remove photo" className="collection-action-pill collection-action-pill--danger btn-icon min-w-11 min-h-11"><X className="w-4 h-4" aria-hidden="true" /></button>
                           </div>
                         </div>
                       ) : (
@@ -546,8 +560,10 @@ export function CardFormView({
               )}
             </div>
           </Section>
+          </div>
 
           {portfolios.length > 0 && (
+            <div data-collection-animate>
             <Section title={t.collection.portfolio.title}>
               <div className="panel p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                 {portfolios.map(p => {
@@ -572,28 +588,30 @@ export function CardFormView({
                 })}
               </div>
             </Section>
+            </div>
           )}
 
           {/* Desktop footer actions */}
-          <div className="hidden md:flex items-center justify-end gap-3 pt-2 border-t border-border-default">
-            <button type="button" onClick={onBack} className="btn btn-secondary min-h-11">
+          <div data-collection-animate className="hidden md:flex items-center justify-end gap-3 pt-2 border-t border-border-default">
+            <button type="button" onClick={onBack} className="collection-action-pill min-h-11">
               {t.common.cancel}
             </button>
-            <button type="submit" disabled={saving} className="btn btn-primary min-h-11 disabled:opacity-50">
+            <button type="submit" disabled={saving} className="collection-action-pill collection-action-pill--primary min-h-11 disabled:opacity-45">
               {saving ? <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> : <Check className="w-4 h-4" aria-hidden="true" />}
               {saveLabel}
             </button>
           </div>
+        </CollectionAnimeStagger>
         </form>
       </div>
 
       {/* Mobile sticky action bar */}
       <div className="workspace-chrome md:hidden fixed bottom-0 inset-x-0 z-30 border-t border-border-default pb-[env(safe-area-inset-bottom)]">
         <div className="container-tool max-w-3xl flex gap-2 p-3">
-          <button type="button" onClick={onBack} className="btn btn-secondary flex-1 min-h-11">
+          <button type="button" onClick={onBack} className="collection-action-pill flex-1 min-h-11 justify-center">
             {t.common.cancel}
           </button>
-          <button type="submit" form="card-form" disabled={saving} className="btn btn-primary flex-[1.4] min-h-11 disabled:opacity-50">
+          <button type="submit" form="card-form" disabled={saving} className="collection-action-pill collection-action-pill--primary flex-[1.4] min-h-11 justify-center disabled:opacity-45">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> : <Check className="w-4 h-4" aria-hidden="true" />}
             {saveLabel}
           </button>

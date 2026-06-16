@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { BACKEND_URL } from '../types';
+import { joinBackendUrl } from '../types';
 import {
   authAuthorizationParams,
   currentReturnTo,
@@ -53,7 +53,7 @@ export function useCollectionAuth() {
       throw error;
     }
 
-    const res = await fetch(`${BACKEND_URL}${path}`, {
+    const res = await fetch(joinBackendUrl(path), {
       ...options,
       headers: {
         'Content-Type': 'application/json',

@@ -344,6 +344,14 @@ const editCardMetadataBase: Metadata = {
 
 export const editCardMetadata = withLocaleAlternates(editCardMetadataBase, '/collection/card/edit/');
 
+const collectionSettingsMetadataBase: Metadata = {
+  title: 'Account Settings | Appaw Store',
+  description: 'Update your display name, email, preferred currency, and buyer contact methods.',
+  robots: { index: false, follow: false },
+};
+
+export const collectionSettingsMetadata = withLocaleAlternates(collectionSettingsMetadataBase, '/collection/settings/');
+
 const businessMetadataBase: Metadata = {
   title: 'Services – Graded Slab Protector & TCG Trading',
   description:
@@ -392,6 +400,11 @@ export const zhNewCardMetadata = zhRouteMetadata(newCardMetadataBase, '/collecti
 
 export const zhEditCardMetadata = zhRouteMetadata(editCardMetadataBase, '/collection/card/edit/', {
   title: '編輯卡牌 | Appaw Store',
+});
+
+export const zhCollectionSettingsMetadata = zhRouteMetadata(collectionSettingsMetadataBase, '/collection/settings/', {
+  title: '帳戶設定 | Appaw Store',
+  description: '更新顯示名稱、電郵、偏好貨幣及買家聯絡方式。',
 });
 
 export const zhAdminTradeMetadata = zhRouteMetadata(adminTradeMetadataBase, '/admin/trade-cards/', {

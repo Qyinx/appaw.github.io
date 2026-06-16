@@ -34,7 +34,7 @@ interface ShopNowButtonProps {
 }
 
 const DEFAULT_BUTTON_CLASS =
-  'btn btn-primary min-h-11 px-6 py-2.5 text-sm inline-flex items-center gap-2';
+  'btn btn-primary inline-flex items-center gap-2';
 
 export default function ShopNowButton({
   label,

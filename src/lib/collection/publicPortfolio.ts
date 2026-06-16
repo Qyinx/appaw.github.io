@@ -10,12 +10,17 @@ import {
 } from '@/app/collection/types';
 import { getCardImagesArray, imageEntryToUrl, resolveAbsoluteBackendUrl } from '@/app/collection/lib/cardImages';
 
-const BACKEND_URL =
-  process.env.BACKEND_URL ??
-  process.env.NEXT_PUBLIC_BACKEND_URL ??
-  'https://localhost:8787';
+import { getBackendUrl, joinBackendUrl } from '@/lib/collection/backendUrl';
+
+const BACKEND_URL = getBackendUrl();
 
 export { BACKEND_URL as PUBLIC_PORTFOLIO_BACKEND_URL };
+
+export interface PublicPortfolioContact {
+  whatsapp?: string;
+  facebookMessenger?: string;
+  instagram?: string;
+}
 
 export interface PublicCard {
   id: string;
@@ -44,6 +49,9 @@ export interface PublicPortfolio {
   preferredCurrency?: Currency;
   totalsInPreferredCurrency?: PreferredCurrencyPrices;
   conversionRatesAsOf?: string;
+  /** Public for-sale listing — from API `IsPublic`. */
+  isPublic?: boolean;
+  contact?: PublicPortfolioContact;
   cards: PublicCard[];
 }
 
@@ -67,9 +75,29 @@ function normalizePublicCard(raw: any): PublicCard {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizePublicContact(raw: any): PublicPortfolioContact | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const whatsapp = raw.WhatsApp ?? raw.whatsapp;
+  const facebookMessenger = raw.FacebookMessenger ?? raw.facebookMessenger;
+  const instagram = raw.Instagram ?? raw.instagram;
+  if (!whatsapp && !facebookMessenger && !instagram) return undefined;
+  return {
+    ...(whatsapp ? { whatsapp: String(whatsapp) } : {}),
+    ...(facebookMessenger ? { facebookMessenger: String(facebookMessenger) } : {}),
+    ...(instagram ? { instagram: String(instagram) } : {}),
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizePublicPortfolio(raw: any, id: string): PublicPortfolio {
   const cardsRaw: any[] = Array.isArray(raw.cards) ? raw.cards : [];
   const fxMeta = parseCardListFxMeta(raw);
+  const isPublic =
+    raw.IsPublic === 1 ||
+    raw.IsPublic === true ||
+    raw.isPublic === true ||
+    raw.IsPublic === undefined && raw.isPublic === undefined;
+
   return {
     id: String(raw.Id ?? raw.id ?? id),
     name: String(raw.Name ?? raw.name ?? ''),
@@ -77,6 +105,8 @@ function normalizePublicPortfolio(raw: any, id: string): PublicPortfolio {
     preferredCurrency: fxMeta.preferredCurrency,
     totalsInPreferredCurrency: fxMeta.totalsInPreferredCurrency,
     conversionRatesAsOf: fxMeta.conversionRatesAsOf,
+    isPublic,
+    contact: normalizePublicContact(raw.Contact ?? raw.contact),
     cards: cardsRaw.map(normalizePublicCard),
   };
 }
@@ -84,7 +114,7 @@ function normalizePublicPortfolio(raw: any, id: string): PublicPortfolio {
 /** IDs of public portfolios — used by `generateStaticParams` for static export. */
 export async function fetchPublicPortfolioIdsForBuild(): Promise<string[]> {
   try {
-    const res = await fetch(`${BACKEND_URL}/portfolios/public/ids`, {
+    const res = await fetch(joinBackendUrl('/portfolios/public/ids'), {
       cache: 'no-store',
     });
     if (!res.ok) return [];
@@ -102,7 +132,7 @@ export async function fetchPublicPortfolioForClient(id: string): Promise<PublicP
   if (!id) return null;
   try {
     const res = await fetch(
-      `${BACKEND_URL.replace(/\/$/, '')}/portfolios/public/${encodeURIComponent(id)}`,
+      joinBackendUrl(`/portfolios/public/${encodeURIComponent(id)}`),
       { cache: 'no-store' },
     );
     if (res.status === 404 || res.status === 403) return null;
@@ -116,7 +146,7 @@ export async function fetchPublicPortfolioForClient(id: string): Promise<PublicP
 }
 
 export async function fetchPublicPortfolioRaw(id: string): Promise<PublicPortfolio | null> {
-  const res = await fetch(`${BACKEND_URL}/portfolios/public/${encodeURIComponent(id)}`, {
+  const res = await fetch(joinBackendUrl(`/portfolios/public/${encodeURIComponent(id)}`), {
     next: { revalidate: 60 },
   });
 
