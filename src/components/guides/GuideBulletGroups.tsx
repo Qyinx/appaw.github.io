@@ -10,15 +10,21 @@ type GuideBulletGroupsProps = {
 
 export default function GuideBulletGroups({ groups }: GuideBulletGroupsProps) {
   return (
-    <ul className="space-y-4 my-4">
+    <div className="space-y-6 my-6">
       {groups.map((group) => (
-        <li key={group.label || group.items[0]?.label}>
-          {group.label ? <p className="text-text-primary font-medium mb-2">{group.label}</p> : null}
-          <ul className="space-y-6 pl-4 border-l border-border-default">
+        <aside
+          key={group.label || group.items[0]?.label}
+          className="panel overflow-hidden"
+          aria-label={group.label ?? undefined}
+        >
+          {group.label ? <p className="section-label px-5 pt-5 mb-0">{group.label}</p> : null}
+          <ul className="divide-y divide-border-default">
             {group.items.map((item) => (
-              <li key={item.label} className="text-text-secondary text-base leading-relaxed">
-                <span className="text-text-primary font-medium">{item.label}</span>{' '}
-                {renderGuideParagraph(item.text)}
+              <li key={item.label} className="px-5 py-4">
+                <p className="text-xs font-mono leading-snug text-text-primary mb-1.5">{item.label}</p>
+                <div className="text-sm text-text-secondary leading-relaxed">
+                  {renderGuideParagraph(item.text)}
+                </div>
                 {item.images?.map((image, i) => (
                   <GuideImage key={`${image.src}-${i}`} src={image.src} caption={image.caption} />
                 ))}
@@ -28,8 +34,8 @@ export default function GuideBulletGroups({ groups }: GuideBulletGroupsProps) {
               </li>
             ))}
           </ul>
-        </li>
+        </aside>
       ))}
-    </ul>
+    </div>
   );
 }

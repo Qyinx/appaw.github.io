@@ -4,6 +4,20 @@ import { getGuideContent, GUIDE_SLUGS, type GuideSlug } from './registry';
 import type { GuideContent, GuideLocale } from './types';
 
 const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
+  'psa-grading-standards': [
+    'PSA grading standards',
+    'PSA 10 Gem Mint',
+    'PSA qualifier',
+    'PSA OC off-center',
+    'PSA grade scale',
+    'graded card record sale',
+    'PSA 評級標準',
+    'PSA 10 Gem Mint',
+    'PSA 對中要求',
+    'PSA Qualifier',
+    '裸卡送評',
+    '寶可夢 PSA 評級',
+  ],
   'identify-fake-psa-slabs': [
     'fake PSA slab',
     'PSA cert verification',

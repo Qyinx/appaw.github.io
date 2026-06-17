@@ -1,38 +1,48 @@
 import React from 'react';
 import LocalLink from '@/components/LocalLink';
 
-const INLINE_LINK_RE = /\[([^\]]+)\]\(([^)]+)\)/g;
+const INLINE_RE = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*/g;
 
 const linkClassName =
   'text-accent-link font-medium underline-offset-2 hover:underline transition-colors duration-150';
 
-/** Renders guide paragraph text with optional `[label](href)` inline links. */
+const boldClassName = 'font-semibold text-text-primary';
+
+/** Renders guide text with optional `[label](href)` links and `**bold**` emphasis. */
 export function renderGuideParagraph(text: string): React.ReactNode {
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
-  const re = new RegExp(INLINE_LINK_RE.source, 'g');
   let match: RegExpExecArray | null;
+  const re = new RegExp(INLINE_RE.source, 'g');
 
   while ((match = re.exec(text)) !== null) {
     if (match.index > lastIndex) {
       parts.push(text.slice(lastIndex, match.index));
     }
 
-    const [, label, href] = match;
-    const key = `${match.index}-${label}`;
+    const [, linkLabel, href, boldText] = match;
+    const key = `${match.index}-${linkLabel ?? boldText}`;
 
-    if (href.startsWith('http://') || href.startsWith('https://')) {
+    if (boldText) {
       parts.push(
-        <a key={key} href={href} className={linkClassName} target="_blank" rel="noopener noreferrer">
-          {label}
-        </a>,
+        <strong key={key} className={boldClassName}>
+          {boldText}
+        </strong>,
       );
-    } else {
-      parts.push(
-        <LocalLink key={key} href={href} className={linkClassName}>
-          {label}
-        </LocalLink>,
-      );
+    } else if (linkLabel && href) {
+      if (href.startsWith('http://') || href.startsWith('https://')) {
+        parts.push(
+          <a key={key} href={href} className={linkClassName} target="_blank" rel="noopener noreferrer">
+            {linkLabel}
+          </a>,
+        );
+      } else {
+        parts.push(
+          <LocalLink key={key} href={href} className={linkClassName}>
+            {linkLabel}
+          </LocalLink>,
+        );
+      }
     }
 
     lastIndex = re.lastIndex;

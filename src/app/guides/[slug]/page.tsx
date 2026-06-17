@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import StructuredData from '@/components/StructuredData';
 import GuideArticle from '@/components/guides/GuideArticle';
-import { articleJsonLd, breadcrumbJsonLd } from '@/lib/seo';
+import { articleJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import { GUIDE_SLUGS, getGuideContent, isGuideSlug, type GuideSlug } from '@/lib/guides/registry';
 import { guideMetadataForSlug } from '@/lib/guides/metadata';
 
@@ -47,9 +47,14 @@ export default async function GuideSlugPage({ params }: PageProps) {
     { position: 3, name: guide.title, item: pageUrl },
   ]);
 
+  const structuredData: Record<string, unknown>[] = [article, breadcrumb];
+  if (guide.faq?.length) {
+    structuredData.push(faqJsonLd(guide.faq));
+  }
+
   return (
     <>
-      <StructuredData data={[article, breadcrumb]} />
+      <StructuredData data={structuredData} />
       <GuideArticle slug={slug} />
     </>
   );

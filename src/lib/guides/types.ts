@@ -2,7 +2,7 @@ export type GuideLocale = 'en' | 'zh';
 
 export type GuideSpecRow = {
   label: string;
-  /** Plain text; use `[label](href)` for inline links (same as section paragraphs). */
+  /** Plain text; use `[label](href)` for inline links and `**bold**` for emphasis. */
   value: string;
 };
 
@@ -44,7 +44,7 @@ export type GuideSubsection = {
 export type GuideSection = {
   id: string;
   title: string;
-  /** Plain text; use `[label](href)` for inline links (rendered in GuideProse). */
+  /** Plain text; use `[label](href)` for inline links and `**bold**` for emphasis (rendered in GuideProse). */
   paragraphs: string[];
   bulletGroups?: GuideBulletGroup[];
   videos?: GuideFigure[];
@@ -85,6 +85,8 @@ export type GuideContent = {
   };
   relatedSlugs: string[];
   sources?: GuideSourceLink[];
+  /** Optional FAQ pairs — rendered as subsections and emitted as FAQPage JSON-LD. */
+  faq?: { q: string; a: string }[];
 };
 
 export type GuideRegistryEntry = {

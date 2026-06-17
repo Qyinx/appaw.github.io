@@ -6,6 +6,7 @@ import gradeOrProtectEn from './content/en/grade-or-protect-first';
 import identifyFakePsaEn from './content/en/identify-fake-psa-slabs';
 import displayGradedEn from './content/en/display-graded-cards';
 import regradeOrReholderEn from './content/en/regrade-or-reholder';
+import psaGradingStandardsEn from './content/en/psa-grading-standards';
 import choose35ptZh from './content/zh/choose-35pt-slab-protector';
 import uvProtectionZh from './content/zh/uv-protection-graded-cards';
 import psa10CenteringZh from './content/zh/psa-10-centering-requirements';
@@ -13,6 +14,7 @@ import gradeOrProtectZh from './content/zh/grade-or-protect-first';
 import identifyFakePsaZh from './content/zh/identify-fake-psa-slabs';
 import displayGradedZh from './content/zh/display-graded-cards';
 import regradeOrReholderZh from './content/zh/regrade-or-reholder';
+import psaGradingStandardsZh from './content/zh/psa-grading-standards';
 
 export const GUIDE_SLUGS = [
   'choose-35pt-slab-protector',
@@ -22,6 +24,7 @@ export const GUIDE_SLUGS = [
   'identify-fake-psa-slabs',
   'display-graded-cards',
   'regrade-or-reholder',
+  'psa-grading-standards',
 ] as const;
 
 export type GuideSlug = (typeof GUIDE_SLUGS)[number];
@@ -34,6 +37,7 @@ export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
   { slug: 'identify-fake-psa-slabs', published: '2026-06-08', updated: '2026-06-17' },
   { slug: 'display-graded-cards', published: '2026-06-09', updated: '2026-06-17' },
   { slug: 'regrade-or-reholder', published: '2026-06-13', updated: '2026-06-17' },
+  { slug: 'psa-grading-standards', published: '2026-06-18', updated: '2026-06-18' },
 ];
 
 const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
@@ -45,6 +49,7 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'identify-fake-psa-slabs': identifyFakePsaEn,
     'display-graded-cards': displayGradedEn,
     'regrade-or-reholder': regradeOrReholderEn,
+    'psa-grading-standards': psaGradingStandardsEn,
   },
   zh: {
     'choose-35pt-slab-protector': choose35ptZh,
@@ -54,6 +59,7 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'identify-fake-psa-slabs': identifyFakePsaZh,
     'display-graded-cards': displayGradedZh,
     'regrade-or-reholder': regradeOrReholderZh,
+    'psa-grading-standards': psaGradingStandardsZh,
   },
 };
 
