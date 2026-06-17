@@ -154,7 +154,7 @@ const guide: GuideContent = {
         {
           title: 'Milestone 2: Cert #5xxxxxxx (hologram microtext change)',
           paragraphs: [
-            'From #27xxxxxx onward, labels share Lighthouse hologram shift under tilted light. But after PSA\'s parent company went private and delisted from NASDAQ in early 2021, microtext embedded in the hologram changed around cert #5xxxxxxx:',
+            'From #27xxxxxx onward, labels share LightHouse™ two-tone shift under tilted light. But after PSA\'s parent company went private and delisted from NASDAQ in early 2021, microtext embedded in the hologram changed around cert #5xxxxxxx:',
           ],
         },
         {
@@ -165,7 +165,7 @@ const guide: GuideContent = {
           title: 'Before cert #5xxxxxxx (#27xxxxxx – #5xxxxxxx range)',
           level: 4,
           paragraphs: [
-            'Lighthouse hologram shift under tilt. Hidden microtext inside the security pattern reads "NASDAQ : CLCT" — the parent company\'s ticker before delisting.',
+            'LightHouse™ two-tone shift under tilt. Hidden microtext inside the security pattern reads "NASDAQ : CLCT" — the parent company\'s ticker before delisting.',
           ],
           videos: [
             {
@@ -198,6 +198,7 @@ const guide: GuideContent = {
       ],
       specs: [
         { label: 'Magnification', value: '10× minimum' },
+        { label: 'Tilt test', value: 'Two-tone LightHouse™ shift under tilt' },
         { label: '#27 milestone', value: 'Hologram sticker added after' },
         { label: '#5M milestone', value: 'CLCT → PSA microtext' },
         { label: 'Fake tells', value: 'Cert number vs microtext era mismatch' },

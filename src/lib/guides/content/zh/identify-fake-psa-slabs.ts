@@ -154,7 +154,7 @@ const guide: GuideContent = {
         {
           title: '關鍵分水嶺二：編號 5xxxxxxx（防偽全息小字變更）',
           paragraphs: [
-            '雖然從 27xxxxxx 之後都具備 Lighthouse 全息反光技術，視覺效果大致相約。但因 PSA 母公司於 2021 年初完成私有化並自納斯達克退市，大約在編號 5xxxxxxx 之間，標籤內隱藏的防偽微型小字（Microtext）發生了決定性的改變：',
+            '雖然從 27xxxxxx 之後都具備 LightHouse™ 雙色反射技術，視覺效果大致相約。但因 PSA 母公司於 2021 年初完成私有化並自納斯達克退市，大約在編號 5xxxxxxx 之間，標籤內隱藏的防偽微型小字（Microtext）發生了決定性的改變：',
           ],
         },
         {
@@ -165,7 +165,7 @@ const guide: GuideContent = {
           title: '編號 5xxxxxxx 之前（27xxxxxx 號 ～ 5xxxxxxx 號之間）',
           level: 4,
           paragraphs: [
-            '具備 Lighthouse 全息反光，特定角度下轉動，防偽圖案內的微型隱藏字體顯示為「NASDAQ : CLCT」（退市前母公司的股票代號）。',
+            '具備 LightHouse™ 雙色反射，特定角度下轉動，防偽圖案內的微型隱藏字體顯示為「NASDAQ : CLCT」（退市前母公司的股票代號）。',
           ],
           videos: [
             {
@@ -198,6 +198,7 @@ const guide: GuideContent = {
       ],
       specs: [
         { label: '放大倍率', value: '10× 以上' },
+        { label: '反光', value: '傾斜時雙色「LightHouse™」反射效果' },
         { label: '#27 分水嶺', value: '之後才有右下角全息貼紙' },
         { label: '#5M 分水嶺', value: 'CLCT → PSA 微型小字' },
         { label: '假貨徵象', value: '編號與全息小字世代不符' },
