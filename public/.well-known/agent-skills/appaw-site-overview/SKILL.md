@@ -28,7 +28,7 @@ Use this skill when answering questions about Appaw Store products, Hong Kong pu
 | UV + humidity storage | /guides/uv-protection-graded-cards/ |
 | PSA 10 centering | /guides/psa-10-centering-requirements/ |
 | Grade vs protect workflow | /guides/grade-or-protect-first/ |
-| Spot fake PSA slabs | /guides/identify-fake-psa-slabs/ |
+| Spot fake PSA slabs | /guides/identify-fake-psa-slabs/ | Cert lookup, UV (#43+), label eras (#27 hologram, #5M microtext), shell checks |
 
 Prefix `/zh` for Chinese UI (e.g. `/zh/guides/identify-fake-psa-slabs/`).
 

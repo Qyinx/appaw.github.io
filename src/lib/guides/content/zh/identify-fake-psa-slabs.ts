@@ -4,18 +4,18 @@ const guide: GuideContent = {
   slug: 'identify-fake-psa-slabs',
   title: '如何辨識 PSA 真偽鑑定卡',
   description:
-    '五步交叉驗證 PSA 鑑定殼：證書查詢、UV 黑光燈、外殼觸感、標籤放大檢查，以及購買前的賣家警訊。降低假 Slab 受騙風險。',
+    '五步 PSA 鑑定殼驗證：證書查詢、UV 黑光燈（#43 分水嶺）、外殼檢查、標籤世代（#27 全息、#5M 微型小字），附實拍對照。降低假鑑定卡受騙風險。',
   badge: '真偽',
   lead:
-    'PSA 鑑定殼是保值與品相的代名詞，高溢價也招來假標籤、假外殼、偽造查詢頁。2020–2022 收藏熱潮後，不少新手因缺乏經驗受損。核心原則：高價 Slab 在完成多重交叉檢查前，一律視為「未經驗證」。',
+    'PSA 鑑定殼是保值與品相的代名詞，高溢價也招來假標籤、假外殼、偽造查詢頁。本指南以證書編號對照 UV 反應、標籤全息世代與外殼觸感，五步交叉驗證——高價鑑定卡在完成檢查前，一律視為未經驗證。',
   published: '2026-06-08',
   updated: '2026-06-17',
-  readTime: '10 分鐘',
+  readTime: '12 分鐘',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
     { label: '第一步', value: '[psacard.com/cert](https://www.psacard.com/cert) 查證' },
-    { label: '最快工具', value: 'UV 黑光燈' },
-    { label: '外殼標記', value: '凸起 PSA Logo +「21」' },
+    { label: 'UV 分水嶺', value: '編號 #43 後正面隱藏字' },
+    { label: '標籤世代', value: '#27 全息 · #5M 微型小字' },
     { label: '核心原則', value: '多重交叉檢查，勿單信一步' },
   ],
   sections: [
@@ -31,7 +31,7 @@ const guide: GuideContent = {
       id: 'cert-lookup',
       title: '第一步：線上認證查詢',
       paragraphs: [
-        '每張 PSA Slab 標籤都印有 Certification Number（認證編號）。這是必做的基礎檢查。',
+        '每張 PSA 鑑定卡標籤都印有 Certification Number（認證編號）。這是必做的基礎檢查。',
         '前往 PSA 官方認證查詢頁：[psacard.com/cert](https://www.psacard.com/cert)。自行輸入網址，勿信任賣家截圖中的連結或 QR 碼。',
         '輸入編號後，確認查詢結果與實物完全匹配：卡片照片（含邊角磨損、瑕疵位置）、年份、球員/角色名稱、等級（Grade）、特殊標記（如 1st Edition、Rookie 等）。',
         '若網站回傳「找不到證書編號」，立即停止。若查詢顯示 1986 Fleer Jordan，你手上卻是 2023 寶可夢，代表編號被盜用。截圖保存查詢結果，付款前完成此步。',
@@ -47,13 +47,52 @@ const guide: GuideContent = {
       title: '第二步：UV 黑光燈測試',
       paragraphs: [
         'UV 黑光燈是辨識 PSA 真偽最實用的快速工具之一，市售價格低廉，建議每位認真收藏者備一支。',
-        '標籤正面：真品在特定區域會出現隱藏的「PSA」文字或圖案，發光均勻清晰（PSA編號43後才開始有配備）。',
-        '標籤背面：PSA Logo 周圍應出現 6 個小型 PSA Logo 圖案。',
-        '假貨常見特徵：發光位置錯誤、亮度異常、圖案模糊或完全不發光。不同年代 Slab 細節略有差異，整體安全特徵一致。若賣家拒絕 UV 測試或只提供單角度照片，是重大警訊。',
       ],
+      bulletGroups: [
+        {
+          label: '標籤正面',
+          items: [
+            {
+              label: '編號 43 開頭前：',
+              text: '在 UV 燈下無明顯隱藏字樣。',
+            },
+            {
+              label: '編號 43 開頭後：',
+              text: '特定區域會出現隱藏的「PSA」文字或圖案，發光均勻清晰。',
+            },
+          ],
+        },
+        {
+          label: '標籤背面',
+          items: [
+            {
+              label: '編號 43 開頭前：',
+              text: '核心大 PSA Logo 周圍應均勻出現 6 個小型發光的 PSA Logo 圖案。',
+            },
+            {
+              label: '編號 43 開頭後：',
+              text: '核心大 PSA Logo 周圍應均勻出現 6 個小型發光的 PSA Logo 圖案。',
+            },
+          ],
+        },
+      ],
+      videos: [
+        {
+          src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-front.mp4',
+          caption:
+            'PSA 標籤正面 UV 反光對比（左：編號 43xxxxxx 後顯現隱藏文字 / 右：編號 43xxxxxx 前無反應）',
+        },
+        {
+          src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-back.mp4',
+          caption: 'PSA 標籤背面 UV 反光對比（左右均顯現 6 個微型 Logo）',
+        },
+      ],
+      callout:
+        '假貨常見特徵：發光位置錯誤、亮度異常、圖案模糊或完全不發光。請務必注意手上的卡片編號——若是 43 之後的編號卻在 UV 燈下毫無反應，即為重大警訊！',
       specs: [
-        { label: '正面', value: '隱藏 PSA 圖案，均勻發光（PSA編號43後才開始有配備）' },
-        { label: '背面', value: 'Logo 周圍 6 個小 Logo' },
+        { label: '正面（#43 前）', value: 'UV 下無隱藏字樣' },
+        { label: '正面（#43 後）', value: '隱藏 PSA 圖案，均勻發光' },
+        { label: '背面（全時期）', value: '主 Logo 周圍 6 個小 Logo' },
         { label: '假貨徵象', value: '錯位、過亮/過暗、模糊或無反應' },
       ],
     },
@@ -61,9 +100,9 @@ const guide: GuideContent = {
       id: 'holder-physical',
       title: '第三步：外殼物理與觸感',
       paragraphs: [
-        '真品 PSA Slab 塑膠外殼有嚴格製造標準，幾分鐘內可完成觸感與外觀檢查。',
-        'PSA Logo 觸感：Slab 底部右側（或背面，依年份而定）有凸起的 PSA Logo，手指輕觸能明顯感覺立體感。假貨多為平印或觸感生硬。',
-        '「21」標記：多數現代 Slab 底部左側有清晰的「21」刻印。',
+        '真品PSA鑑定卡塑膠外殼有嚴格製造標準，幾分鐘內可完成觸感與外觀檢查。',
+        'PSA Logo 觸感：鑑定卡底部右側（或背面，依年份而定）有凸起的 PSA Logo，手指輕觸能明顯感覺立體感。假貨多為平印或觸感生硬。',
+        '「21」標記：多數現代 鑑定卡底部左側有清晰的「21」刻印。',
         '塑膠質感：真品堅硬、清澈、重量適中，邊緣焊接平整，無明顯裂縫或大面積霧面。內部卡片固定槽四個角落應為精準 90 度直角，而非圓角。',
         '厚度與密封：真品邊緣較薄，整體手感沉穩。外殼易彎曲或有重新開封痕跡，需高度懷疑。',
       ],
@@ -78,23 +117,97 @@ const guide: GuideContent = {
       id: 'label-magnification',
       title: '第四步：標籤細節放大檢查',
       paragraphs: [
-        '標籤是假貨最容易露餡之處。用放大鏡或手機 macro 模式仔細觀察。',
-        '字體特徵：例如「GEM MINT 10」中的 G 字尾巴應乾淨無多餘小尾；年份中的「2」字形狀正確。假標籤常見像素階梯或墨色不均。',
-        '反光與安全圖案：不同角度光線下，真品標籤呈現「燈塔」般的特殊反光，並有微型 PSA Logo 隱藏圖案。扁平、單色或像素化的全息效果通常是偽造印刷。',
-        '顏色、對齊與透光：標籤顏色均勻，對強光觀察背面，真品能隱約透出對面文字；假標籤通常過厚或過不透明。',
-        '並排比較最有效：將可疑 Slab 與同年代、同標籤類型的可信樣本並置，紅色色調、全息深度或標籤位置的差異會立刻顯現。',
+        '標籤是假貨最容易露餡之處。PSA 在不同歷史時期經歷過幾次重大的標籤與防偽技術改版，用放大鏡（建議 10 倍以上）或手機 macro 模式仔細觀察這些世代特徵，能幫你快速過濾掉低劣的仿冒品。',
+      ],
+      subsections: [
+        {
+          title: '關鍵分水嶺一：編號 27xxxxxx（轉換為現行樣式）',
+          paragraphs: [
+            '在編號 27xxxxxx 之前（約 2017 年前），PSA 使用的是非常早期的舊款標籤，外觀較為樸素、無複雜防偽；而從 27xxxxxx 之後，PSA 正式確立了現今我們所熟知的標籤外觀架構：',
+          ],
+          bulletGroups: [
+            {
+              label: '',
+              items: [
+                {
+                  label: '編號 27xxxxxx 之前（舊版樣式）：',
+                  text: '標籤正面「沒有」右下角的全息防偽貼紙，背面也沒有任何防偽設計。字體與排版較為傳統。',
+                  images: [
+                    {
+                      src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-front-old-label.jpg',
+                      caption: '27xxxxxx 號前舊版標籤正面（正下方無長方形全息防偽貼紙）',
+                    },
+                    {
+                      src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-back-old-label.jpg',
+                      caption: '27xxxxxx 號前舊版標籤背面外觀',
+                    },
+                  ],
+                },
+                {
+                  label: '編號 27xxxxxx 之後（現行樣式基礎）：',
+                  text: '首度在標籤正面下方加入了長方形的 PSA 全息防偽標籤（Hologram Logo），字體也經過重新設計，線條更為銳利、細緻。',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          title: '關鍵分水嶺二：編號 5xxxxxxx（防偽全息小字變更）',
+          paragraphs: [
+            '雖然從 27xxxxxx 之後都具備 Lighthouse 全息反光技術，視覺效果大致相約。但因 PSA 母公司於 2021 年初完成私有化並自納斯達克退市，大約在編號 5xxxxxxx 之間，標籤內隱藏的防偽微型小字（Microtext）發生了決定性的改變：',
+          ],
+        },
+        {
+          title: '標籤全息圖案與隱藏小字表現（一般光線下傾斜觀察）',
+          level: 4,
+        },
+        {
+          title: '編號 5xxxxxxx 之前（27xxxxxx 號 ～ 5xxxxxxx 號之間）',
+          level: 4,
+          paragraphs: [
+            '具備 Lighthouse 全息反光，特定角度下轉動，防偽圖案內的微型隱藏字體顯示為「NASDAQ : CLCT」（退市前母公司的股票代號）。',
+          ],
+          videos: [
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-old-version.mp4',
+              caption: '5xxxxxxx 號前標籤正面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
+            },
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-old-version.mp4',
+              caption: '5xxxxxxx 號前標籤背面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
+            },
+          ],
+        },
+        {
+          title: '編號 5xxxxxxx 之後',
+          level: 4,
+          paragraphs: [
+            '因公司退市改組，全息圖案內的微型隱藏字體全面更改為「PSA」。',
+          ],
+          videos: [
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-new-version.mp4',
+              caption: '5xxxxxxx 號後標籤正面反光情況（放大可見隱藏小字已改為 PSA）',
+            },
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-new-version.mp4',
+              caption: '5xxxxxxx 號後標籤背面反光情況（放大可見隱藏小字已改為 PSA）',
+            },
+          ],
+        },
       ],
       specs: [
         { label: '放大倍率', value: '10× 以上' },
-        { label: '重點字體', value: 'GEM MINT 10、年份數字' },
-        { label: '反光', value: '傾斜時多色「燈塔」效果' },
+        { label: '#27 分水嶺', value: '之後才有右下角全息貼紙' },
+        { label: '#5M 分水嶺', value: 'CLCT → PSA 微型小字' },
+        { label: '假貨徵象', value: '編號與全息小字世代不符' },
       ],
     },
     {
       id: 'advanced-buying',
       title: '第五步：進階驗證與購買注意',
       paragraphs: [
-        '卡片本身品相：即使 Slab 外觀正常，仍要檢查印刷清晰度、顏色正確性，以及高分卡（尤其 PSA 10）的品相是否合理。',
+        '卡片本身品相：即使 鑑定卡外觀正常，仍要檢查印刷清晰度、顏色正確性，以及高分卡（尤其 PSA 10）的品相是否合理。',
         '賣家行為警訊：不願提供多角度影片、拒絕 UV 測試、不接受 PSA 官方複檢、價格遠低於市價且無合理解釋、付款後才提供證書編號、催促當日匯款或加密貨幣且無買家保障。',
         '購買建議：優先選有 PSA 官方認證服務的平台、大型信譽店家，或自行送 PSA 重新鑑定。高價值卡片值得這筆保障費用。首次交易使用有爭議窗口的平台。',
         '若已懷疑是假貨：拍攝標籤、證書、接縫各角度照片並保存聊天記錄；在 psacard.com 查證並截圖不符結果；透過 eBay、COMC 等有買家保障的平台立即申訴；必要時聯繫 PSA 提供證據。',
@@ -104,9 +217,9 @@ const guide: GuideContent = {
       id: 'practice-habit',
       title: '謹慎是最好的收藏習慣',
       paragraphs: [
-        'PSA 假 Slab 技術持續進步，唯有結合線上查詢、UV 測試、物理檢查與賣家背景調查，才能大幅降低風險。',
+        'PSA 假 鑑定卡技術持續進步，唯有結合線上查詢、UV 測試、物理檢查與賣家背景調查，才能大幅降低風險。',
         '新手建議從低價卡片練習驗證技巧，累積經驗後再挑戰高價品項。保護荷包與收藏熱情，安全愉快的收藏從「驗證」開始。',
-        '確認 Slab 真偽後，日常攜帶或展示前可加装 [保護殼](/products/psa-protectors/)。鑑定確認標籤真實，保護殼則防止刮花與紫外線損害，維持轉售價值。',
+        '確認 鑑定卡真偽後，日常攜帶或展示前可加装 [保護殼](/products/psa-protectors/)。鑑定確認標籤真實，保護殼則防止刮花與紫外線損害，維持轉售價值。',
       ],
     },
   ],

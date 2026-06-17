@@ -4,18 +4,18 @@ const guide: GuideContent = {
   slug: 'identify-fake-psa-slabs',
   title: 'How to Spot Fake PSA Slabs',
   description:
-    'Five-step cross-check for PSA holders: cert lookup, UV blacklight, shell feel, label magnification, and seller red flags before you buy.',
+    'Five-step PSA slab authentication: cert lookup, UV blacklight (cert #43+), shell checks, label eras (#27 hologram, #5M microtext), and seller red flags. Photo and video refs included.',
   badge: 'Authentication',
   lead:
-    'PSA slabs signal grade and resale value — and that premium draws fake labels, fake cases, and stolen cert numbers. After the 2020–2022 boom, many first-time buyers got burned. Rule one: treat every high-value slab as unverified until you finish a multi-step cross-check.',
+    'PSA slabs signal grade and resale value — and that premium draws fake labels, stolen cert numbers, and spoof lookup pages. This guide cross-checks UV reactions, label hologram eras, and shell feel against cert numbers. Treat every high-value slab as unverified until you finish all five steps.',
   published: '2026-06-08',
   updated: '2026-06-17',
-  readTime: '10 min',
+  readTime: '12 min',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
     { label: 'Step 1', value: '[psacard.com/cert](https://www.psacard.com/cert) lookup' },
-    { label: 'Fastest tool', value: 'UV blacklight' },
-    { label: 'Shell marks', value: 'Raised PSA logo + "21"' },
+    { label: 'UV milestone', value: 'Hidden front text after cert #43' },
+    { label: 'Label eras', value: '#27 hologram · #5M microtext' },
     { label: 'Core rule', value: 'Cross-check — never one test alone' },
   ],
   sections: [
@@ -46,14 +46,53 @@ const guide: GuideContent = {
       id: 'uv-blacklight',
       title: 'Step 2: UV Blacklight Test',
       paragraphs: [
-        'A UV blacklight is the fastest practical tool most collectors can buy cheap and keep on a desk. If you handle graded cards regularly, own one.',
-        'Label front: genuine slabs show hidden "PSA" text or patterns in specific zones — even, sharp glow under UV. This feature was added starting at cert #43.',
-        'Label back: six small PSA logos should appear around the main PSA logo.',
-        'Fake tells: glow in the wrong place, uneven brightness, blurry patterns, or no reaction at all. Holder designs shifted over the years, but the security layout stays consistent within an era. A seller who refuses UV footage or multi-angle video is a major flag.',
+        'A UV blacklight is one of the most practical quick tools for spotting fake PSA slabs — cheap to buy, easy to keep on a desk. If you handle graded cards regularly, own one.',
       ],
+      bulletGroups: [
+        {
+          label: 'Label front',
+          items: [
+            {
+              label: 'Before cert #43:',
+              text: 'No visible hidden text under UV.',
+            },
+            {
+              label: 'After cert #43:',
+              text: 'Hidden "PSA" text or patterns appear in specific zones — even, sharp glow.',
+            },
+          ],
+        },
+        {
+          label: 'Label back',
+          items: [
+            {
+              label: 'Before cert #43:',
+              text: 'Six small glowing PSA logos should appear evenly around the main PSA logo.',
+            },
+            {
+              label: 'After cert #43:',
+              text: 'Six small glowing PSA logos should appear evenly around the main PSA logo.',
+            },
+          ],
+        },
+      ],
+      videos: [
+        {
+          src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-front.mp4',
+          caption:
+            'Front label UV comparison (left: post-#43xxxxxx — hidden text visible / right: pre-#43xxxxxx — no reaction)',
+        },
+        {
+          src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-back.mp4',
+          caption: 'Back label UV comparison (both sides show 6 micro logos)',
+        },
+      ],
+      callout:
+        'Fake tells: glow in the wrong place, uneven brightness, blurry patterns, or no reaction at all. Always check the cert number in your hand — a post-#43 slab that shows zero UV reaction is a major red flag.',
       specs: [
-        { label: 'Front', value: 'Hidden PSA mark, even glow (added after cert #43)' },
-        { label: 'Back', value: '6 small logos around main logo' },
+        { label: 'Front (pre-#43)', value: 'No hidden text under UV' },
+        { label: 'Front (post-#43)', value: 'Hidden PSA mark, even glow' },
+        { label: 'Back (all eras)', value: '6 small logos around main logo' },
         { label: 'Fake tells', value: 'Wrong zone, too bright/dim, blur, none' },
       ],
     },
@@ -78,16 +117,90 @@ const guide: GuideContent = {
       id: 'label-magnification',
       title: 'Step 4: Label Under Magnification',
       paragraphs: [
-        'Labels expose fakes fastest. Use a loupe or phone macro mode.',
-        'Type details: on "GEM MINT 10," the G tail should end clean — no extra spur. Year digits like "2" should match genuine stroke shape. Fakes often show pixel steps or uneven ink density.',
-        'Tilt and security print: under angled light, authentic labels show a lighthouse-like shift plus micro PSA logo patterns. Flat, single-tone, or pixelated holograms point to counterfeit print.',
-        'Colour, alignment, and translucency: ink should sit even. Backlit, a real label faintly shows reverse text; thick, opaque fakes block it.',
-        'Side-by-side beats solo inspection: place the suspect slab next to a trusted holder from the same label generation. Red shade, hologram depth, and label position differences jump out when viewed together.',
+        'Labels expose fakes fastest. PSA has revised label design and security features several times across its history. Use a loupe (10× minimum) or phone macro mode to study these era-specific traits — you can filter out low-grade counterfeits quickly.',
+      ],
+      subsections: [
+        {
+          title: 'Milestone 1: Cert #27xxxxxx (current label style)',
+          paragraphs: [
+            'Before cert #27xxxxxx (roughly pre-2017), PSA used an early plain label with minimal security. From #27xxxxxx onward, PSA locked in the label architecture collectors recognize today:',
+          ],
+          bulletGroups: [
+            {
+              label: '',
+              items: [
+                {
+                  label: 'Pre-#27xxxxxx (legacy style):',
+                  text: 'No rectangular hologram sticker on the lower-right front; the back carries no security features. Traditional type and layout.',
+                  images: [
+                    {
+                      src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-front-old-label.jpg',
+                      caption: 'Pre-#27xxxxxx front label (no rectangular hologram sticker along the bottom)',
+                    },
+                    {
+                      src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-back-old-label.jpg',
+                      caption: 'Pre-#27xxxxxx back label appearance',
+                    },
+                  ],
+                },
+                {
+                  label: 'Post-#27xxxxxx (modern base):',
+                  text: 'First appearance of the rectangular PSA hologram logo (Hologram Logo) along the lower front. Redesigned type with sharper, finer strokes.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          title: 'Milestone 2: Cert #5xxxxxxx (hologram microtext change)',
+          paragraphs: [
+            'From #27xxxxxx onward, labels share Lighthouse hologram shift under tilted light. But after PSA\'s parent company went private and delisted from NASDAQ in early 2021, microtext embedded in the hologram changed around cert #5xxxxxxx:',
+          ],
+        },
+        {
+          title: 'Hologram pattern and hidden microtext (tilt under normal light)',
+          level: 4,
+        },
+        {
+          title: 'Before cert #5xxxxxxx (#27xxxxxx – #5xxxxxxx range)',
+          level: 4,
+          paragraphs: [
+            'Lighthouse hologram shift under tilt. Hidden microtext inside the security pattern reads "NASDAQ : CLCT" — the parent company\'s ticker before delisting.',
+          ],
+          videos: [
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-old-version.mp4',
+              caption: 'Pre-#5xxxxxxx front label tilt (microtext reads NASDAQ : CLCT)',
+            },
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-old-version.mp4',
+              caption: 'Pre-#5xxxxxxx back label tilt (microtext reads NASDAQ : CLCT)',
+            },
+          ],
+        },
+        {
+          title: 'After cert #5xxxxxxx',
+          level: 4,
+          paragraphs: [
+            'After the delisting reorg, hologram microtext switched to "PSA" across the board.',
+          ],
+          videos: [
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-new-version.mp4',
+              caption: 'Post-#5xxxxxxx front label tilt (microtext now reads PSA)',
+            },
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-new-version.mp4',
+              caption: 'Post-#5xxxxxxx back label tilt (microtext now reads PSA)',
+            },
+          ],
+        },
       ],
       specs: [
         { label: 'Magnification', value: '10× minimum' },
-        { label: 'Key type', value: 'GEM MINT 10, year digits' },
-        { label: 'Tilt test', value: 'Multi-tone "lighthouse" shift' },
+        { label: '#27 milestone', value: 'Hologram sticker added after' },
+        { label: '#5M milestone', value: 'CLCT → PSA microtext' },
+        { label: 'Fake tells', value: 'Cert number vs microtext era mismatch' },
       ],
     },
     {

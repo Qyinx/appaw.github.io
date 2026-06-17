@@ -12,11 +12,45 @@ export type GuideTable = {
   rows: string[][];
 };
 
+export type GuideFigure = {
+  /** Public path, e.g. `/images-optimized/guides/slug/file.jpg`. */
+  src: string;
+  caption?: string;
+};
+
+export type GuideVideo = GuideFigure;
+
+export type GuideBulletItem = {
+  label: string;
+  text: string;
+  images?: GuideFigure[];
+  videos?: GuideFigure[];
+};
+
+export type GuideBulletGroup = {
+  label: string;
+  items: GuideBulletItem[];
+};
+
+export type GuideSubsection = {
+  title: string;
+  level?: 3 | 4;
+  paragraphs?: string[];
+  bulletGroups?: GuideBulletGroup[];
+  images?: GuideFigure[];
+  videos?: GuideFigure[];
+};
+
 export type GuideSection = {
   id: string;
   title: string;
   /** Plain text; use `[label](href)` for inline links (rendered in GuideProse). */
   paragraphs: string[];
+  bulletGroups?: GuideBulletGroup[];
+  videos?: GuideFigure[];
+  /** Highlighted warning or tip (blockquote). */
+  callout?: string;
+  subsections?: GuideSubsection[];
   specs?: GuideSpecRow[];
   table?: GuideTable;
 };

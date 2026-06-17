@@ -1,7 +1,31 @@
 import type { Metadata } from 'next';
 import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata';
 import { getGuideContent, GUIDE_SLUGS, type GuideSlug } from './registry';
-import type { GuideLocale } from './types';
+import type { GuideContent, GuideLocale } from './types';
+
+const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
+  'identify-fake-psa-slabs': [
+    'fake PSA slab',
+    'PSA cert verification',
+    'UV blacklight PSA slab',
+    'PSA label hologram',
+    'PSA microtext',
+    'counterfeit graded card',
+    'psacard cert lookup',
+    '假 PSA 鑑定殼',
+    'PSA 證書查詢',
+    'UV 黑光燈 鑑定卡',
+    '假鑑定卡辨識',
+    'PSA 全息標籤',
+  ],
+};
+
+function guideOgImage(guide: GuideContent): string {
+  if (guide.heroImage) {
+    return guide.heroImage.replace('/images/', '/images-optimized/');
+  }
+  return '/images/og-image.png';
+}
 
 const guidesIndexBase: Metadata = {
   title: { absolute: 'Collector Guides – Slab Protection & Grading Tips | Appaw Store' },
@@ -24,6 +48,9 @@ const guidesIndexBase: Metadata = {
     'PSA 10 置中',
     'fake PSA slab',
     'PSA cert verification',
+    'UV blacklight PSA authentication',
+    'PSA label hologram',
+    'PSA microtext CLCT',
     '假 PSA 鑑定殼',
     'PSA regrade',
     'PSA reholder',
@@ -35,7 +62,7 @@ const guidesIndexBase: Metadata = {
   openGraph: {
     title: 'Collector Guides – Slab Protection & Grading Tips | Appaw Store',
     description:
-      'Evergreen how-to guides on slab cases, UV storage, PSA 10 centering, fake PSA authentication, and grading decisions for Pokémon, sports, and TCG collectors.',
+      'Evergreen how-to guides on slab cases, UV storage, PSA 10 centering, fake PSA authentication (cert #43 UV, #27/#5M label eras), and grading decisions for Pokémon, sports, and TCG collectors.',
     url: 'https://appaw.store/guides/',
     type: 'website',
     images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: 'Appaw Store Collector Guides' }],
@@ -53,16 +80,19 @@ export const guidesIndexMetadata = withLocaleAlternates(guidesIndexBase, '/guide
 export const zhGuidesIndexMetadata = zhRouteMetadata(guidesIndexBase, '/guides/', {
   title: { absolute: '收藏指南 – 鑑定卡保護與置中技巧 | Appaw Store' },
   description:
-    '35PT PSA卡殼、鑑定卡殼及 PSA卡保護殼選購指南，另含防 UV 收納、PSA 10 置中標準、假 PSA 鑑定殼辨識、鑑定 vs 先保護。適用香港及全球 TCG 收藏家。',
+    '35PT PSA卡殼、鑑定卡殼及 PSA卡保護殼選購指南，另含防 UV 收納、PSA 10 置中標準、假 PSA 鑑定殼辨識（#43 UV、#27/#5M 標籤世代）、鑑定 vs 先保護。適用香港及全球 TCG 收藏家。',
 });
 
 export function guideMetadata(slug: GuideSlug, locale: GuideLocale): Metadata {
   const guide = getGuideContent(slug, locale);
   const path = `/guides/${slug}/`;
+  const ogImage = guideOgImage(guide);
+  const keywords = GUIDE_KEYWORDS[slug];
 
   const base: Metadata = {
     title: { absolute: `${guide.title} | Appaw Store` },
     description: guide.description,
+    ...(keywords ? { keywords } : {}),
     alternates: { canonical: path },
     openGraph: {
       title: guide.title,
@@ -71,13 +101,13 @@ export function guideMetadata(slug: GuideSlug, locale: GuideLocale): Metadata {
       type: 'article',
       publishedTime: guide.published,
       modifiedTime: guide.updated,
-      images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: guide.title }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: guide.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: guide.title,
       description: guide.description,
-      images: ['/images/og-image.png'],
+      images: [ogImage],
     },
   };
 

@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-06-13 (batch 5) — Regrade/reholder cluster: centering tool slab mode + verdict UI, `regrade-or-reholder` guide (EN+ZH), expanded `SEO_KEYWORD_MAP`, `WebApplication.featureList`, AEO blocks on centering pillar, Explore internal links, `llms.txt` / `index.md` GEO refresh.
+Last updated: 2026-06-17 (batch 6) — `identify-fake-psa-slabs` content + SEO refresh: cert-era meta (#43 UV, #27/#5M label), slug keywords, guide hero OG images, `llms.txt` / Agent Skills citation hints.
+
+Prior batch (2026-06-13) — Regrade/reholder cluster: centering tool slab mode + verdict UI, `regrade-or-reholder` guide (EN+ZH), expanded `SEO_KEYWORD_MAP`, `WebApplication.featureList`, AEO blocks on centering pillar, Explore internal links, `llms.txt` / `index.md` GEO refresh.
 
 Prior batch (2026-06-09): Keyword retargeting for slab-case cluster: product/home titles, H1s, JSON-LD `alternateName`, and EN↔ZH search-term map (`SEO_KEYWORD_MAP` in `src/lib/product-names.ts`).
 
@@ -12,6 +14,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-06-17 | Fake PSA guide SEO | `identify-fake-psa-slabs` meta descriptions + leads + heroSpecs (cert #43/#27/#5M). `GUIDE_KEYWORDS` + per-guide `og:image` from `heroImage` in `guides/metadata.ts`. `llms.txt` + Agent Skills topic/citation refresh. Guide media: UV/label video + old-label photo refs. |
 | 2026-06-13 | Regrade cluster | Centering tool: Graded slab photo mode, regrade/reholder verdict strip, slab workflow H2, PAA H2 + `.centering-aeo-answer`, +3 FAQs (8 total). Guide `regrade-or-reholder` (EN+ZH). `SEO_KEYWORD_MAP` + `CENTERING_SEO` + `centeringMetadata` keywords. `WebApplication.featureList`. Card trading Explore → centering link. `storeJsonLd.knowsAbout` expanded. |
 | 2026-06-09 | AEO pass | Guide `Article` + `speakable` (`.guide-lead`, `.guide-aeo-answer`). PAA question H2s on `psa-10-centering-requirements`, `display-graded-cards`. `storeJsonLd.sameAs` + Google Maps. See `FULL-AUDIT-REPORT.md` AEO section. |
 | 2026-06-09 | Guides batch 2 | `display-graded-cards` (EN + ZH) — desk/shelf/wall display, graded card display case intent. |
@@ -381,11 +384,10 @@ Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: tex
 - **Internal links:** Guide prose supports `[label](href)` → `LocalLink` (locale-aware). Product CTA + related guides footer on every article
 - **Hero art:** `heroImage: '/images/background/{slug}.png'` → `images-optimized/` via `getImagePath()`; run `npm run optimize-images` after adding source PNG
 
-**SEO keywords (new guide):** fake PSA slab, PSA cert verification, counterfeit graded card, 假 PSA 鑑定殼
+**SEO keywords (`identify-fake-psa-slabs`):** fake PSA slab, PSA cert verification, UV blacklight PSA authentication, PSA label hologram, PSA microtext CLCT, counterfeit graded card, 假 PSA 鑑定殼, PSA 證書查詢, UV 黑光燈 鑑定卡
 
 **Open improvements:**
 
-- Guide-specific `og:image` (not site default)
 - Static `/guides/{slug}/index.md` for agent markdown negotiation
 - Cross-link guides from product `hkGuide` block and centering tool FAQ
 - `BlogPosting` vs `Article` — keep `Article` unless author bylines added
