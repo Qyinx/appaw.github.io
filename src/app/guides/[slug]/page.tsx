@@ -31,7 +31,7 @@ export default async function GuideSlugPage({ params }: PageProps) {
 
   const article = articleJsonLd({
     headline: guide.title,
-    description: guide.description,
+    description: guide.lead,
     url: pageUrl,
     datePublished: guide.published,
     dateModified: guide.updated,

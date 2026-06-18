@@ -7,7 +7,7 @@ import {
   Plus, Pencil, Trash2, X, Loader2, LogOut,
   List, Package, Search, AlertCircle,
   Check, RefreshCw, LayoutGrid, Folder, FolderOpen,
-  FolderPlus, Globe, ChevronRight, Settings,
+  FolderPlus, Globe, ChevronRight, ChevronDown, Settings,
 } from 'lucide-react';
 import LocalLink from '@/components/LocalLink';
 import HeroStamp from '@/components/ui/HeroStamp';
@@ -19,6 +19,7 @@ import { PortfolioShareToolbar } from './PortfolioShareToolbar';
 import { CollectionLoadingSkeleton } from './CollectionLoadingSkeleton';
 import { CollectionAnimeEnter } from './CollectionAnimeEnter';
 import { CollectionAnimeStagger } from './CollectionAnimeStagger';
+import { CollectionWorkspaceChrome, CollectionChromeDots } from './CollectionWorkspaceChrome';
 import { getMembershipLimits } from '@/lib/collection/membership';
 import {
   CardMetaBlock,
@@ -56,6 +57,11 @@ const navActive =
   'border-l-[3px] border-accent-primary bg-surface-raised text-text-primary font-semibold';
 const navIdle =
   'border-l-[3px] border-transparent text-text-secondary hover:text-text-primary hover:bg-surface-raised font-medium';
+const portfolioIconBtn =
+  'inline-flex items-center justify-center w-7 h-7 border border-border-default transition-[background-color,color,opacity,filter] focus-visible:outline-none focus-visible:border-accent-secondary focus-visible:shadow-[0_0_0_2px_color-mix(in_srgb,var(--accent-secondary)_25%,transparent)]';
+const portfolioIconBtnConfirm = `${portfolioIconBtn} bg-accent-primary text-accent-structural hover:brightness-110 disabled:opacity-40`;
+const portfolioIconBtnNeutral = `${portfolioIconBtn} bg-surface-raised text-text-muted hover:text-text-primary`;
+const portfolioIconBtnDanger = `${portfolioIconBtn} bg-surface-raised text-text-muted hover:border-accent-danger/30 hover:bg-accent-danger/10 hover:text-accent-danger`;
 
 export function CollectionListView({
   cards, loading, apiError, saveMsg,
@@ -138,7 +144,13 @@ export function CollectionListView({
   const portfoliosPct = Math.min(100, Math.round((portfoliosCount / Math.max(1, limits.portfolios)) * 100));
   const { t } = useLanguage();
 
-  const workspaceMuted = activePortfolio?.name ?? '';
+  const heroTagline = activePortfolio?.name ?? t.collection.title;
+  const heroMuted = activePortfolio
+    ? [
+        t.collection.landing.preview.cardCount.replace('{n}', String(baseCards.length)),
+        activePortfolio.isPublic ? t.collection.portfolio.publicForSale : null,
+      ].filter(Boolean).join(' · ')
+    : `${storedCount}/${limits.cards} ${t.collection.dropdown.stored} · ${portfoliosCount}/${limits.portfolios} ${t.collection.dropdown.portfolios}`;
 
   const buyTotalLabel = t.collection.stats.buyTotal.replace('{currency}', preferredCurrency);
   const buyTotalValue = totalBuy == null
@@ -242,10 +254,10 @@ export function CollectionListView({
             <p className="text-text-muted text-xs leading-snug mb-2">{t.collection.portfolio.publicForSaleHint}</p>
           )}
           <div className="flex items-center justify-end gap-1">
-            <button type="button" onClick={handleUpdatePortfolio} disabled={portfolioActionLoading} aria-label={t.collection.actions.confirm} className="p-1 border border-border-default bg-accent-secondary text-surface-bg hover:brightness-110 transition-[background-color,opacity] disabled:opacity-40">
-              {portfolioActionLoading ? <Loader2 className="w-2.5 h-2.5 animate-spin" /> : <Check className="w-2.5 h-2.5" />}
+            <button type="button" onClick={handleUpdatePortfolio} disabled={portfolioActionLoading} aria-label={t.collection.actions.confirm} className={portfolioIconBtnConfirm}>
+              {portfolioActionLoading ? <Loader2 className="w-3 h-3 animate-spin" aria-hidden="true" /> : <Check className="w-3 h-3" aria-hidden="true" />}
             </button>
-            <button type="button" onClick={() => setEditingPortfolioId(null)} aria-label={t.common.cancel} className="p-1 border border-border-default bg-surface-raised text-text-muted hover:text-text-primary transition-colors"><X className="w-2.5 h-2.5" /></button>
+            <button type="button" onClick={() => setEditingPortfolioId(null)} aria-label={t.common.cancel} className={portfolioIconBtnNeutral}><X className="w-3 h-3" aria-hidden="true" /></button>
           </div>
         </div>
       );
@@ -263,8 +275,8 @@ export function CollectionListView({
           <span className={`text-xs font-tabular flex-shrink-0 ${isActive ? 'text-accent-primary' : 'text-text-muted'}`}>{p.count}</span>
         </button>
         <div className="hidden group-hover:flex items-center gap-0.5 pr-1 flex-shrink-0">
-          <button type="button" onClick={() => { setEditingPortfolioId(p.id); setEditingName(p.name); setEditingForSale(p.isPublic); }} className="collection-action-pill btn-icon min-w-9 min-h-9 w-9 h-9" title={t.collection.account.rename} aria-label={t.collection.account.rename}><Pencil className="w-2.5 h-2.5" /></button>
-          <button type="button" onClick={() => handleDeletePortfolio(p.id)} className="collection-action-pill btn-icon min-w-9 min-h-9 w-9 h-9 hover:border-accent-danger/30 hover:bg-accent-danger/10 hover:text-accent-danger" title={t.collection.account.delete} aria-label={t.collection.account.delete}><Trash2 className="w-2.5 h-2.5" /></button>
+          <button type="button" onClick={() => { setEditingPortfolioId(p.id); setEditingName(p.name); setEditingForSale(p.isPublic); }} className={portfolioIconBtnNeutral} title={t.collection.account.rename} aria-label={t.collection.account.rename}><Pencil className="w-3 h-3" aria-hidden="true" /></button>
+          <button type="button" onClick={() => handleDeletePortfolio(p.id)} className={portfolioIconBtnDanger} title={t.collection.account.delete} aria-label={t.collection.account.delete}><Trash2 className="w-3 h-3" aria-hidden="true" /></button>
         </div>
       </div>
     );
@@ -318,15 +330,11 @@ export function CollectionListView({
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip overflow-y-visible">
 
-      {/* ── Workspace chrome bar ─────────────────────────────────────────────── */}
-      <div className="workspace-chrome sticky top-16 md:top-20 z-30 border-b border-border-default shadow-[0_1px_0_var(--border-default)] overflow-visible">
-        <div className="container-tool flex flex-row items-center justify-between gap-2 py-2 collection-topbar-inner min-h-[2.75rem] overflow-visible">
-          <div className="flex items-center gap-2 min-w-0 flex-1">
-            <div className="hidden sm:flex items-center gap-1.5 flex-shrink-0" aria-hidden="true">
-              <div className="w-2 h-2 bg-accent-primary" />
-              <div className="w-2 h-2 bg-border-strong" />
-              <div className="w-2 h-2 bg-border-strong" />
-            </div>
+      <CollectionWorkspaceChrome
+        layout="sidebar"
+        leading={(
+          <>
+            <CollectionChromeDots />
             <h1 className="text-text-primary font-semibold text-xs sm:text-sm flex items-center gap-1 min-w-0">
               {activePortfolio ? (
                 <>
@@ -336,15 +344,12 @@ export function CollectionListView({
                 </>
               ) : t.collection.title}
             </h1>
-          </div>
-
-          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+          </>
+        )}
+        trailing={(
+          <>
             <button type="button" onClick={onRefresh} disabled={loading} className="collection-action-pill btn-icon" title={t.collection.account.refresh} aria-label={t.collection.account.refresh}>
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-            </button>
-            <button type="button" onClick={onOpenNew} className="collection-action-pill collection-action-pill--primary">
-              <Plus className="w-3.5 h-3.5" aria-hidden="true" />
-              <span className="max-w-[6.5rem] truncate sm:max-w-none">{t.collection.toolbar.addCard}</span>
             </button>
 
             <div className="relative z-40">
@@ -352,20 +357,20 @@ export function CollectionListView({
                 ref={accountBtnRef}
                 type="button"
                 onClick={() => setShowPlan(v => !v)}
-                className={`collection-action-pill min-h-11 pl-1 pr-2.5 gap-2 ${showPlan ? 'collection-action-pill--active' : ''}`}
+                className={`collection-action-pill collection-account-trigger min-h-11 ${showPlan ? 'collection-action-pill--active' : ''}`}
                 aria-expanded={showPlan}
                 aria-haspopup="true"
                 aria-label={user?.email ?? userName}
               >
-                {user?.picture ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={user.picture} alt="" className="w-6 h-6 object-cover flex-shrink-0 border border-border-default" />
-                ) : (
-                  <div className="w-6 h-6 border border-border-default bg-accent-primary/15 flex items-center justify-center flex-shrink-0">
-                    <span className="text-accent-primary text-xs font-bold">{userName[0]?.toUpperCase()}</span>
-                  </div>
-                )}
-                {memberLevel && <MemberBadge level={memberLevel} />}
+                <span className="collection-account-trigger__avatar" aria-hidden="true">
+                  {user?.picture ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={user.picture} alt="" />
+                  ) : (
+                    <span className="collection-account-trigger__initial">{userName[0]?.toUpperCase()}</span>
+                  )}
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-text-muted flex-shrink-0 transition-transform duration-150 ${showPlan ? 'rotate-180' : ''}`} aria-hidden="true" />
               </button>
 
               {showPlan && (
@@ -442,9 +447,9 @@ export function CollectionListView({
               <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
               <span>{t.collection.account.signOut}</span>
             </button>
-          </div>
-        </div>
-      </div>
+          </>
+        )}
+      />
 
       {saveMsg && (
         <WorkspaceNotice
@@ -540,10 +545,10 @@ export function CollectionListView({
                     <span className="truncate">{t.collection.portfolio.publicForSale}</span>
                   </label>
                   <div className="flex items-center gap-1 flex-shrink-0">
-                    <button type="button" onClick={handleCreatePortfolio} disabled={portfolioActionLoading || !newPortfolioName.trim()} className="p-1 border border-border-default bg-accent-secondary text-surface-bg hover:brightness-110 transition-[opacity,filter] disabled:opacity-40">
-                      {portfolioActionLoading ? <Loader2 className="w-2.5 h-2.5 animate-spin" /> : <Check className="w-2.5 h-2.5" />}
+                    <button type="button" onClick={handleCreatePortfolio} disabled={portfolioActionLoading || !newPortfolioName.trim()} aria-label={t.collection.actions.confirm} className={portfolioIconBtnConfirm}>
+                      {portfolioActionLoading ? <Loader2 className="w-3 h-3 animate-spin" aria-hidden="true" /> : <Check className="w-3 h-3" aria-hidden="true" />}
                     </button>
-                    <button type="button" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); setNewPortfolioForSale(false); }} className="p-1 border border-border-default bg-surface-raised text-text-muted hover:text-text-primary transition-colors"><X className="w-2.5 h-2.5" /></button>
+                    <button type="button" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); setNewPortfolioForSale(false); }} aria-label={t.common.cancel} className={portfolioIconBtnNeutral}><X className="w-3 h-3" aria-hidden="true" /></button>
                   </div>
                 </div>
                 {newPortfolioForSale && (
@@ -569,10 +574,12 @@ export function CollectionListView({
             <HeroStamp
               decorative={false}
               layout="dashboard"
+              className="collection-hero"
+              titleAddon={memberLevel ? <MemberBadge level={memberLevel} /> : undefined}
               lines={{
                 brand: t.collection.landing.badge,
-                tagline: t.collection.title,
-                muted: workspaceMuted,
+                tagline: heroTagline,
+                muted: heroMuted,
               }}
             >
               <div className="hero-stamp__stats" aria-label={t.collection.stats.sectionTitle}>
@@ -591,9 +598,32 @@ export function CollectionListView({
           <div className="collection-toolbar">
             <div className="collection-toolbar__head">
               <span className="collection-toolbar__label">{t.collection.stats.sectionTitle}</span>
-              <span className="collection-toolbar__count">
-                <strong>{filtered.length}</strong> / {baseCards.length}
-              </span>
+              <div className="collection-toolbar__actions">
+                <span className="collection-toolbar__count">
+                  <strong>{filtered.length}</strong> / {baseCards.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={onOpenNew}
+                  className="collection-action-pill collection-action-pill--primary"
+                  aria-label={t.collection.toolbar.addCard}
+                >
+                  <Plus className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  <span className="hidden sm:inline">{t.collection.toolbar.addCard}</span>
+                </button>
+                {activePortfolio && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAddPicker(v => !v)}
+                    className={`collection-action-pill ${showAddPicker ? 'collection-action-pill--active' : ''}`}
+                    aria-pressed={showAddPicker}
+                    aria-label={showAddPicker ? t.collection.toolbar.close : t.collection.toolbar.addCards}
+                  >
+                    <FolderPlus className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                    <span className="hidden sm:inline">{showAddPicker ? t.collection.toolbar.close : t.collection.toolbar.addCards}</span>
+                  </button>
+                )}
+              </div>
             </div>
             <div className="collection-toolbar__row">
               <div className="collection-toolbar__search">
@@ -651,27 +681,14 @@ export function CollectionListView({
               </div>
             </div>
             {activePortfolio && (
-              <>
-                <PortfolioShareToolbar
-                  portfolioId={activePortfolio.id}
-                  portfolioName={activePortfolio.name}
-                  isPublicForSale={activePortfolioForSale}
-                  cards={baseCards}
-                  memberLevel={memberLevel}
-                  ownerName={userName}
-                />
-                <div className="collection-action-pills mt-2" role="group" aria-label={t.collection.toolbar.addCards}>
-                  <button
-                    type="button"
-                    onClick={() => setShowAddPicker(v => !v)}
-                    className={`collection-action-pill ${showAddPicker ? 'collection-action-pill--active' : ''}`}
-                    aria-pressed={showAddPicker}
-                  >
-                    <FolderPlus className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                    {showAddPicker ? t.collection.toolbar.close : t.collection.toolbar.addCards}
-                  </button>
-                </div>
-              </>
+              <PortfolioShareToolbar
+                portfolioId={activePortfolio.id}
+                portfolioName={activePortfolio.name}
+                isPublicForSale={activePortfolioForSale}
+                cards={baseCards}
+                memberLevel={memberLevel}
+                ownerName={userName}
+              />
             )}
           </div>
           </CollectionAnimeEnter>
@@ -811,10 +828,30 @@ export function CollectionListView({
                     <div className="collection-ledger__cell collection-ledger__cell--actions">
                       <CardActions card={card} />
                     </div>
-                    <div className="collection-ledger__cell collection-ledger__cell--mobile-extra">
-                      <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
-                      <CardPriceBlock card={card} />
-                      <CardStatusBadge sold={card.sold} onClick={() => onToggleSold(card)} />
+                    <div className="collection-ledger__spec-strip">
+                      <div className="collection-ledger__spec-field">
+                        <span className="collection-ledger__spec-label">{t.collection.table.grade}</span>
+                        <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
+                      </div>
+                      <div className="collection-ledger__spec-field">
+                        <span className="collection-ledger__spec-label">{t.collection.table.buyPrice}</span>
+                        <CardPriceBlock card={card} showList={false} />
+                      </div>
+                      <div className="collection-ledger__spec-field">
+                        <span className="collection-ledger__spec-label">{t.collection.table.list}</span>
+                        {card.listPrice != null ? (
+                          <span className={`collection-ledger__list-value ${card.sold ? 'collection-price--sold' : ''}`}>
+                            <span className="collection-price-buy__currency">{card.listCurrency}</span>
+                            {card.listPrice.toLocaleString()}
+                          </span>
+                        ) : (
+                          <span className="collection-ledger__list-empty" aria-hidden="true">—</span>
+                        )}
+                      </div>
+                      <div className="collection-ledger__spec-field">
+                        <span className="collection-ledger__spec-label">{t.collection.table.status}</span>
+                        <CardStatusBadge sold={card.sold} onClick={() => onToggleSold(card)} />
+                      </div>
                     </div>
                     {rowConfirm && <DeleteConfirmRow />}
                   </div>

@@ -15,3 +15,9 @@ export {
   type GradingCompany,
   type QualityTier,
 } from './types';
+export {
+  IMAGE_FILTER_MODES,
+  cssImageFilter,
+  nextImageFilterMode,
+  type ImageFilterMode,
+} from './imageFilters';

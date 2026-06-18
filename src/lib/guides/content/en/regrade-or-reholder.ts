@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'regrade-or-reholder',
   title: 'PSA Regrade vs Reholder — When to Choose',
-  description:
-    'Reholder keeps your grade and refreshes the case. Regrade re-scores every subgrade — upgrade or downgrade possible. Compare fees, risk, and when each PSA service fits.',
   badge: 'Slab Workflow',
   lead:
     'Scratches, haze, worn corners, or faded labels push collectors to mail slabs back to PSA. The two most common options are reholder and regrade — different scope, fees, and risk. Pick wrong and you waste money or lose a grade you already earned.',

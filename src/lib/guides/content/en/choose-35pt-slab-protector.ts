@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'choose-35pt-slab-protector',
   title: 'How to Choose a 35PT Graded Card Case',
-  description:
-    'Match your PSA or CGC slab to a 35PT PSA slab case: external dimensions, fit checks, and what to skip before you buy a graded card protector.',
   badge: 'Slab Hardware',
   lead:
     'Most PSA and CGC slabs you see at card shows sit in the same thickness band: standard 35PT holders. A protector that fits that profile keeps the label visible, stops corner crush in a bag, and does not wobble on a shelf.',

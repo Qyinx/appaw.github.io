@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import Button from '@/components/ui/Button';
 import HeroStamp from '@/components/ui/HeroStamp';
+import { MemberBadge, MEMBER_LEVELS, type MemberLevel } from '@/app/collection/components/shared';
 import { ArrowRight, Sun, Moon } from 'lucide-react';
 
 const semanticTokens = [
@@ -188,6 +189,47 @@ export default function StyleGuidePage() {
       </section>
 
       <section className="section-padding border-b border-border-default bg-surface-panel">
+        <div className="container-custom">
+          <h2 className="text-2xl font-display font-bold mb-2">{t.styleGuide?.sections?.membership ?? 'Membership Badges'}</h2>
+          <p className="text-text-secondary text-sm mb-8 max-w-2xl">
+            {t.styleGuide?.membership?.subtitle ?? 'Tier labels for collector workspace chrome.'}
+          </p>
+
+          <div className="grid lg:grid-cols-3 gap-4 mb-8">
+            {MEMBER_LEVELS.map((level) => (
+              <div key={level} className="panel p-5 flex flex-col gap-4">
+                <MemberBadge level={level} />
+                <p className="text-sm text-text-secondary leading-relaxed">
+                  {t.styleGuide?.membership?.tiers?.[level as MemberLevel] ?? level}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="panel p-5">
+            <p className="section-label mb-4">In context</p>
+            <p className="text-xs text-text-muted mb-4 max-w-xl">
+              Hover badges on desktop for tier feedback (shimmer, brighten). Touch and reduced-motion users get static chips.
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              {MEMBER_LEVELS.map((level) => (
+                <div
+                  key={level}
+                  className="flex items-center gap-2 px-3 py-2 border border-border-default bg-surface-raised min-h-11"
+                >
+                  <span className="text-sm text-text-primary font-medium">Collector</span>
+                  <MemberBadge level={level} />
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-text-muted mt-4 font-mono">
+              {t.styleGuide?.membership?.usage ?? 'Workspace topbar, account dropdown, and collection settings.'}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-padding border-b border-border-default">
         <div className="container-custom">
           <h2 className="text-2xl font-display font-bold mb-8">Panels &amp; Spec Rows</h2>
           <div className="grid lg:grid-cols-2 gap-8">

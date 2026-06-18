@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'grade-or-protect-first',
   title: '裸卡提交與鑑定卡保護策略：完整指南',
-  description:
-    '裸卡何時送 PSA 評級、鑑定卡如何妥善保護。增值策略 vs 保值策略，含提交門檻、保護時機與決策對照表。',
   badge: '流程',
   lead:
     '裸卡提交時機與鑑定卡保護方式，是每位收藏者都必須面對的關鍵決策。送評是增值進攻；保護 Slab 是守住升值成果的防守。兩者互補，不是二選一。',

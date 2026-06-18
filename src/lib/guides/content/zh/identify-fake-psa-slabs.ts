@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'identify-fake-psa-slabs',
   title: '如何辨識 PSA 真偽鑑定卡',
-  description:
-    '五步 PSA 鑑定殼驗證：證書查詢、UV 黑光燈（#43 分水嶺）、外殼檢查、標籤世代（#27 全息、#5M 微型小字），附實拍對照。降低假鑑定卡受騙風險。',
   badge: '真偽',
   lead:
     'PSA 鑑定殼是保值與品相的代名詞，高溢價也招來假標籤、假外殼、偽造查詢頁。本指南以證書編號對照 UV 反應、標籤全息世代與外殼觸感，五步交叉驗證——高價鑑定卡在完成檢查前，一律視為未經驗證。',
@@ -15,7 +13,7 @@ const guide: GuideContent = {
   heroSpecs: [
     { label: '第一步', value: '[psacard.com/cert](https://www.psacard.com/cert) 查證' },
     { label: 'UV 分水嶺', value: '編號 #43 後正面隱藏字' },
-    { label: '標籤世代', value: '#27 全息 · #5M 微型小字' },
+    { label: '標籤世代', value: 'LightHouse™ 全息圖案自 #27xxxxxxx 後 · PSA 微型小字自 #5xxxxxxx 後' },
     { label: '核心原則', value: '多重交叉檢查，勿單信一步' },
   ],
   sections: [
@@ -88,7 +86,7 @@ const guide: GuideContent = {
         },
       ],
       callout:
-        '假貨常見特徵：發光位置錯誤、亮度異常、圖案模糊或完全不發光。請務必注意手上的卡片編號——若是 43 之後的編號卻在 UV 燈下毫無反應，即為重大警訊！',
+        '假貨常見特徵：發光位置錯誤、亮度異常、圖案模糊或完全不發光。',
       specs: [
         { label: '正面（#43 前）', value: 'UV 下無隱藏字樣' },
         { label: '正面（#43 後）', value: '隱藏 PSA 圖案，均勻發光' },

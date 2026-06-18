@@ -1,21 +1,14 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
-import { Download, Link2, Loader2, Share2 } from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import LocalLink from '@/components/LocalLink';
+import { Download, Link2, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import type { CollectorCard } from '@/app/collection/types';
 import type { MemberLevel } from '@/app/collection/components/shared';
 import { getMembershipFeatures } from '@/lib/collection/membership';
 import {
-  buildFacebookShareUrl,
-  buildPortfolioShareMessage,
   buildPublicPortfolioUrl,
-  buildWhatsAppShareUrl,
   copyTextToClipboard,
-  shareViaWebApi,
 } from '@/lib/collection/portfolioShare';
 import {
   cardsToCollageInput,
@@ -46,14 +39,7 @@ export function PortfolioShareToolbar({
   const [collageLoading, setCollageLoading] = useState(false);
   const [collageError, setCollageError] = useState<string | null>(null);
 
-  const activeCount = cards.filter(c => !c.sold).length;
   const shareUrl = buildPublicPortfolioUrl(portfolioId, language);
-  const shareMessage = buildPortfolioShareMessage({
-    portfolioName,
-    activeCount,
-    url: shareUrl,
-    ownerName,
-  });
 
   const flashCopied = useCallback(() => {
     setLinkCopied(true);
@@ -63,23 +49,6 @@ export function PortfolioShareToolbar({
   const handleCopyLink = useCallback(async () => {
     if (await copyTextToClipboard(shareUrl)) flashCopied();
   }, [shareUrl, flashCopied]);
-
-  const handleFacebook = useCallback(() => {
-    window.open(buildFacebookShareUrl(shareUrl), '_blank', 'noopener,noreferrer,width=600,height=400');
-  }, [shareUrl]);
-
-  const handleWhatsApp = useCallback(() => {
-    window.open(buildWhatsAppShareUrl(shareMessage), '_blank', 'noopener,noreferrer');
-  }, [shareMessage]);
-
-  const handleNativeShare = useCallback(async () => {
-    const ok = await shareViaWebApi({
-      title: portfolioName,
-      text: shareMessage,
-      url: shareUrl,
-    });
-    if (!ok) await handleCopyLink();
-  }, [portfolioName, shareMessage, shareUrl, handleCopyLink]);
 
   const handleDownloadCollage = useCallback(async () => {
     if (features.collageExport === 'none') return;
@@ -122,29 +91,8 @@ export function PortfolioShareToolbar({
           aria-pressed={linkCopied}
         >
           <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-          {linkCopied ? t.collection.portfolio.linkCopied : t.collection.portfolio.shareLink}
+          {linkCopied ? t.collection.portfolio.linkCopied : t.collection.portfolio.copyLink}
         </button>
-
-        {features.shareButtons ? (
-          <>
-            <button type="button" onClick={handleFacebook} className="collection-action-pill" aria-label={t.collection.wts.shareFacebook}>
-              <FontAwesomeIcon icon={faFacebook} className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-              {t.collection.wts.shareFacebook}
-            </button>
-            <button type="button" onClick={handleWhatsApp} className="collection-action-pill" aria-label={t.collection.wts.shareWhatsApp}>
-              <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-              {t.collection.wts.shareWhatsApp}
-            </button>
-            {typeof navigator !== 'undefined' && 'share' in navigator && (
-              <button type="button" onClick={handleNativeShare} className="collection-action-pill" aria-label={t.collection.wts.shareNative}>
-                <Share2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                {t.collection.wts.shareNative}
-              </button>
-            )}
-          </>
-        ) : (
-          <p className="text-text-muted text-xs self-center px-1 min-h-[2.75rem] flex items-center">{t.collection.wts.upgradeForShare}</p>
-        )}
 
         {features.collageExport !== 'none' && (
           <button
@@ -170,12 +118,6 @@ export function PortfolioShareToolbar({
 
       {collageError && (
         <p className="text-accent-danger text-xs" role="alert">{collageError}</p>
-      )}
-
-      {features.contactOnPublic && (
-        <LocalLink href="/collection/settings/" className="collection-action-pill w-fit">
-          {t.collection.settings.manageContact}
-        </LocalLink>
       )}
     </div>
   );

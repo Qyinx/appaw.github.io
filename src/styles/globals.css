@@ -577,6 +577,28 @@ select option {
   color: var(--text-muted);
 }
 
+.hero-stamp__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.625rem;
+  min-width: 0;
+}
+
+.hero-stamp__title-row .hero-stamp__line--tagline {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  line-height: 1.25;
+}
+
+.hero-stamp__title-row .collection-member-badge {
+  flex-shrink: 0;
+}
+
 /* Full-width workspace dashboard — identity + horizontal stat grid */
 .hero-stamp--dashboard {
   flex-direction: row;
@@ -657,6 +679,10 @@ select option {
     border-right: var(--border-width) solid var(--border-default);
   }
 
+  .hero-stamp--dashboard.collection-hero .hero-stamp__identity {
+    flex-basis: min(18rem, 38%);
+  }
+
   .hero-stamp--dashboard .hero-stamp__stats {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -681,6 +707,10 @@ select option {
 
   .hero-stamp__line--brand {
     font-size: 0.875rem;
+  }
+
+  .hero-stamp__title-row .hero-stamp__line--tagline {
+    font-size: 0.9375rem;
   }
 
   .hero-stamp__line--muted {
@@ -2103,6 +2133,104 @@ main {
   max-width: min(100%, 72rem);
 }
 
+.collection-workspace .workspace-canvas.collection-workspace-canvas--narrow {
+  max-width: min(100%, 48rem);
+}
+
+/* Workspace chrome — width + layout aligned with canvas below */
+.collection-workspace-chrome__inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: min(100%, 72rem);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  min-height: 2.75rem;
+  overflow: visible;
+}
+
+.collection-workspace-chrome__inner--narrow {
+  max-width: min(100%, 48rem);
+}
+
+.collection-workspace-chrome__inner--form {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.collection-workspace-chrome__grid {
+  display: flex;
+  width: 100%;
+  flex: 1 1 auto;
+  align-items: stretch;
+}
+
+.collection-workspace-chrome__grid--with-sidebar {
+  gap: 0;
+}
+
+@media (min-width: 768px) {
+  .collection-workspace-chrome__grid--with-sidebar {
+    gap: 1.5rem;
+  }
+}
+
+.collection-workspace-chrome__sidebar-spacer {
+  width: 14rem;
+  flex-shrink: 0;
+}
+
+.collection-workspace-chrome__main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.collection-workspace-chrome__leading,
+.collection-workspace-chrome__center,
+.collection-workspace-chrome__trailing {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.collection-workspace-chrome__leading {
+  flex: 1 1 auto;
+}
+
+.collection-workspace-chrome__inner--form .collection-workspace-chrome__leading {
+  flex: 0 0 auto;
+}
+
+.collection-workspace-chrome__center {
+  justify-content: center;
+  flex: 1 1 auto;
+}
+
+.collection-workspace-chrome__trailing {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.collection-workspace-chrome__inner--form .collection-workspace-chrome__trailing {
+  margin-left: 0;
+}
+
+.collection-workspace-chrome__inner h1,
+.collection-topbar-inner h1 {
+  letter-spacing: 0.02em;
+}
+
 .collection-workspace.page-blueprint > .workspace-canvas,
 .collection-workspace.page-blueprint > .workspace-mobile-tabs {
   position: relative;
@@ -2129,6 +2257,51 @@ main {
 .collection-workspace .workspace-chrome {
   background: var(--surface-panel);
   overflow: visible;
+}
+
+.collection-account-trigger {
+  padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+  gap: 0.375rem;
+  max-width: 100%;
+}
+
+.collection-account-trigger__avatar {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 1.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--accent-primary) 15%, transparent);
+}
+
+.collection-account-trigger__avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.collection-account-trigger__initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  line-height: 1;
+}
+
+.hero-stamp--dashboard.collection-hero .hero-stamp__identity {
+  gap: 0.5rem;
+  padding: 1rem 1.125rem 1rem 1.25rem;
+}
+
+.hero-stamp--dashboard.collection-hero .hero-stamp__line--muted {
+  letter-spacing: 0.06em;
+  line-height: 1.4;
 }
 
 /* Spec-sheet toast — portaled to body, always viewport-fixed */
@@ -2505,6 +2678,14 @@ main {
   font-weight: 600;
 }
 
+.collection-toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
 .collection-toolbar__row {
   display: flex;
   flex-direction: column;
@@ -2816,6 +2997,237 @@ main {
 .collection-grade-tier--good { --collection-tier: var(--accent-secondary); }
 .collection-grade-tier--base { --collection-tier: var(--border-strong); }
 
+/* Membership tier badges — naming-led color + restrained hover motion */
+.collection-member-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1875rem 0.5rem 0.1875rem 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  border: 1px solid var(--border-default);
+  border-left-width: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  transform-origin: left center;
+  transition:
+    transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 160ms ease,
+    background-color 160ms ease,
+    background-position 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 160ms ease;
+}
+
+.collection-member-badge::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: -1px;
+  width: 3px;
+  pointer-events: none;
+  transition: filter 200ms ease, opacity 200ms ease;
+}
+
+.collection-member-badge--prism::before,
+.collection-member-badge--aurora::before {
+  transition:
+    background-position 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 220ms ease,
+    opacity 220ms ease;
+}
+
+.collection-member-badge--aurora::before {
+  transition-duration: 720ms;
+  transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Foil — brushed silver stamp */
+.collection-member-badge--foil {
+  background: linear-gradient(
+    112deg,
+    color-mix(in srgb, #b8bcc4 28%, var(--surface-raised)) 0%,
+    color-mix(in srgb, #eceef2 62%, var(--surface-panel)) 42%,
+    color-mix(in srgb, #9aa0a8 24%, var(--surface-raised)) 50%,
+    color-mix(in srgb, #d8dce2 48%, var(--surface-panel)) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  border-color: color-mix(in srgb, #9aa0a8 38%, var(--border-default));
+  color: color-mix(in srgb, var(--accent-structural) 86%, #5c636a);
+}
+
+.collection-member-badge--foil::before {
+  background: linear-gradient(180deg, #c5cad1 0%, #f0f2f5 48%, #8f969f 100%);
+}
+
+/* Prism — refracted spectrum rail */
+.collection-member-badge--prism {
+  background: linear-gradient(
+    118deg,
+    color-mix(in srgb, var(--accent-primary) 9%, var(--surface-panel)) 0%,
+    color-mix(in srgb, var(--accent-secondary) 13%, var(--surface-panel)) 52%,
+    color-mix(in srgb, #5ec9e8 9%, var(--surface-panel)) 100%
+  );
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  border-color: color-mix(in srgb, var(--accent-secondary) 34%, var(--border-default));
+  color: color-mix(in srgb, var(--accent-secondary) 92%, var(--text-primary));
+}
+
+.collection-member-badge--prism::before {
+  background: linear-gradient(
+    180deg,
+    var(--accent-primary) 0%,
+    #d946ef 16%,
+    var(--accent-secondary) 36%,
+    #5ec9e8 58%,
+    #86efac 78%,
+    var(--accent-primary) 100%
+  );
+  background-size: 100% 320%;
+  background-position: 0% 4%;
+}
+
+/* Aurora — borealis teal → violet → blush */
+.collection-member-badge--aurora {
+  background: linear-gradient(
+    132deg,
+    color-mix(in srgb, #3d9b8f 14%, var(--surface-panel)) 0%,
+    color-mix(in srgb, #5b8fd4 10%, var(--surface-panel)) 34%,
+    color-mix(in srgb, var(--accent-secondary) 10%, var(--surface-panel)) 56%,
+    color-mix(in srgb, var(--accent-primary) 14%, var(--surface-panel)) 100%
+  );
+  background-size: 240% 240%;
+  background-position: 0% 42%;
+  border-color: color-mix(in srgb, #3d9b8f 28%, var(--border-default));
+  color: color-mix(in srgb, #2f7f75 55%, var(--text-primary));
+}
+
+.collection-member-badge--aurora::before {
+  background: linear-gradient(
+    180deg,
+    #3d9b8f 0%,
+    #4a8fb8 18%,
+    var(--accent-secondary) 40%,
+    #c97bd4 66%,
+    var(--accent-primary) 100%
+  );
+  background-size: 100% 300%;
+  background-position: 0% 12%;
+}
+
+.dark .collection-member-badge--foil {
+  background: linear-gradient(
+    112deg,
+    color-mix(in srgb, #6f7680 22%, var(--surface-raised)) 0%,
+    color-mix(in srgb, #9aa3ad 18%, var(--surface-panel)) 42%,
+    color-mix(in srgb, #565d66 20%, var(--surface-raised)) 50%,
+    color-mix(in srgb, #7a828c 16%, var(--surface-panel)) 100%
+  );
+  border-color: color-mix(in srgb, #8b939c 32%, var(--border-default));
+  color: color-mix(in srgb, var(--text-primary) 92%, #d8dce2);
+}
+
+.dark .collection-member-badge--foil::before {
+  background: linear-gradient(180deg, #8b939c 0%, #d0d5db 50%, #6f7680 100%);
+}
+
+.dark .collection-member-badge--aurora {
+  color: color-mix(in srgb, #7fd4c8 45%, var(--text-primary));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .collection-member-badge:hover {
+    transform: translateY(-1px);
+  }
+
+  .collection-member-badge:active {
+    transform: translateY(0) scale(0.98);
+    transition-duration: 100ms;
+  }
+
+  .collection-member-badge--foil:hover {
+    background-position: 100% 50%;
+    box-shadow: 0 1px 0 color-mix(in srgb, #9aa0a8 35%, transparent);
+  }
+
+  .collection-member-badge--prism:hover {
+    background-position: 100% 50%;
+    border-color: color-mix(in srgb, var(--accent-secondary) 50%, var(--border-default));
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--accent-secondary) 14%, transparent),
+      0 1px 0 color-mix(in srgb, var(--accent-secondary) 22%, transparent);
+  }
+
+  .collection-member-badge--prism:hover::before {
+    background-position: 0% 96%;
+    filter: brightness(1.14) saturate(1.18);
+  }
+
+  .collection-member-badge--aurora:hover {
+    background-position: 88% 58%;
+    border-color: color-mix(in srgb, var(--accent-primary) 38%, var(--border-default));
+    box-shadow: 0 2px 10px color-mix(in srgb, #3d9b8f 14%, transparent);
+  }
+
+  .collection-member-badge--aurora:hover::before {
+    background-position: 0% 92%;
+    filter: brightness(1.15) saturate(1.12);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collection-member-badge {
+    transition: border-color 0.01ms, background-color 0.01ms;
+  }
+
+  .collection-member-badge::before {
+    transition: none;
+  }
+
+  .collection-member-badge:hover,
+  .collection-member-badge:active {
+    transform: none;
+  }
+
+  .collection-member-badge--foil:hover {
+    background-position: 0% 50%;
+    box-shadow: none;
+  }
+
+  .collection-member-badge--prism:hover,
+  .collection-member-badge--aurora:hover {
+    box-shadow: none;
+  }
+
+  .collection-member-badge--prism:hover {
+    background-position: 0% 50%;
+  }
+
+  .collection-member-badge--aurora:hover {
+    background-position: 0% 42%;
+  }
+
+  .collection-member-badge--prism:hover::before {
+    background-position: 0% 4%;
+    filter: none;
+    opacity: 1;
+  }
+
+  .collection-member-badge--aurora:hover::before {
+    background-position: 0% 12%;
+    filter: none;
+    opacity: 1;
+  }
+}
+
 /* Status badge */
 .collection-status-badge {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -2936,13 +3348,14 @@ main {
   color: var(--text-muted);
 }
 
-/* Ledger list view */
+/* Ledger list view — container queries: mobile / compact strip / full table */
 .collection-ledger {
+  container-type: inline-size;
+  container-name: ledger;
   background: var(--surface-panel);
   border: 1px solid var(--border-default);
-  overflow-x: auto;
+  overflow-x: clip;
   overflow-y: clip;
-  -webkit-overflow-scrolling: touch;
 }
 
 .collection-portfolio-panel {
@@ -2952,43 +3365,31 @@ main {
 .collection-ledger__header {
   display: none;
   grid-template-columns:
-    3.25rem 2.25rem minmax(0, 1fr)
-    7rem minmax(5.5rem, 6.5rem) minmax(5.5rem, 6.5rem)
-    4.75rem minmax(5.5rem, 7rem);
-  gap: 0.625rem;
+    3rem 2rem minmax(0, 1fr)
+    minmax(4.25rem, 5.25rem)
+    minmax(4.5rem, 5.5rem)
+    minmax(4.5rem, 5.5rem)
+    minmax(4rem, 4.75rem)
+    minmax(9.5rem, auto);
+  gap: 0.5rem;
   align-items: center;
-  padding: 0.75rem 1rem;
-  min-height: 2.75rem;
+  padding: 0.625rem 0.875rem;
+  min-height: 2.5rem;
   background: var(--accent-structural);
   border-bottom: 1px solid var(--border-default);
 }
 
-.collection-ledger__header--portfolio {
-  grid-template-columns:
-    3.25rem 2.25rem minmax(0, 1fr)
-    7rem minmax(5.5rem, 6.5rem) minmax(5.5rem, 6.5rem)
-    4.75rem minmax(6.5rem, 7.5rem);
-}
-
-@media (min-width: 640px) {
-  .collection-ledger__header {
-    display: grid;
-    min-width: 42rem;
-  }
-
-  .collection-ledger__row {
-    min-width: 42rem;
-  }
-}
-
 .collection-ledger__header-cell {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   line-height: 1.25;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--surface-bg);
   white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .collection-ledger__row {
@@ -2996,7 +3397,7 @@ main {
   grid-template-columns: 3.25rem minmax(0, 1fr) auto;
   grid-template-areas:
     "thumb meta actions"
-    "extra extra extra";
+    "strip strip strip";
   gap: 0.5rem 0.625rem;
   align-items: start;
   padding: 0.875rem 1rem;
@@ -3034,15 +3435,35 @@ main {
 .collection-ledger__cell--actions {
   grid-area: actions;
   align-self: center;
+  flex-shrink: 0;
 }
 
-.collection-ledger__cell--mobile-extra {
-  grid-area: extra;
-  display: flex;
-  align-items: center;
+.collection-ledger__spec-strip {
+  grid-area: strip;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
-  flex-wrap: wrap;
-  padding-top: 0.125rem;
+  padding: 0.5rem 0.625rem;
+  background: color-mix(in srgb, var(--surface-raised) 70%, var(--surface-panel));
+  border: 1px solid var(--border-default);
+}
+
+.collection-ledger__spec-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.collection-ledger__spec-label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.5625rem;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .collection-ledger__cell--grade,
@@ -3057,10 +3478,11 @@ main {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: var(--accent-secondary);
+  white-space: nowrap;
 }
 
 .collection-ledger__list-empty {
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-size: 0.875rem;
 }
 
@@ -3074,26 +3496,18 @@ main {
   margin-top: 0.25rem;
 }
 
-@media (min-width: 640px) {
+/* Compact ledger — sidebar + main ~640–919px */
+@container ledger (min-width: 640px) {
   .collection-ledger__row {
-    grid-template-columns:
-      3.25rem 2.25rem minmax(0, 1fr)
-      7rem minmax(5.5rem, 6.5rem) minmax(5.5rem, 6.5rem)
-      4.75rem minmax(5.5rem, 7rem);
-    grid-template-areas: "thumb index meta grade buy list status actions";
+    grid-template-columns: 3.25rem 2.25rem minmax(0, 1fr) auto;
+    grid-template-areas:
+      "thumb index meta actions"
+      "strip strip strip strip";
     align-items: center;
-    gap: 0.625rem;
-    padding: 0.75rem 1rem;
+    gap: 0.5rem 0.625rem;
+    padding: 0.75rem 0.875rem;
   }
 
-  .collection-ledger__row--portfolio {
-    grid-template-columns:
-      3.25rem 2.25rem minmax(0, 1fr)
-      7rem minmax(5.5rem, 6.5rem) minmax(5.5rem, 6.5rem)
-      4.75rem minmax(6.5rem, 7.5rem);
-  }
-
-  .collection-ledger__thumb { grid-area: thumb; }
   .collection-ledger__index {
     display: block;
     grid-area: index;
@@ -3104,35 +3518,110 @@ main {
     text-align: right;
   }
 
-  .collection-ledger__cell--meta { grid-area: meta; }
+  .collection-ledger__spec-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.625rem 0.75rem;
+  }
+}
+
+/* Full table — only when ledger panel is wide enough */
+@container ledger (min-width: 920px) {
+  .collection-ledger__header {
+    display: grid;
+  }
+
+  .collection-ledger__row {
+    grid-template-columns:
+      3rem 2rem minmax(0, 1fr)
+      minmax(4.25rem, 5.25rem)
+      minmax(4.5rem, 5.5rem)
+      minmax(4.5rem, 5.5rem)
+      minmax(4rem, 4.75rem)
+      minmax(9.5rem, auto);
+    grid-template-areas: "thumb index meta grade buy list status actions";
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 0.875rem;
+  }
+
+  .collection-ledger__thumb { grid-area: thumb; }
+
+  .collection-ledger__index {
+    display: block;
+    grid-area: index;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  .collection-ledger__cell--meta {
+    grid-area: meta;
+    min-width: 0;
+  }
+
   .collection-ledger__cell--grade {
     display: block;
     grid-area: grade;
+    min-width: 0;
   }
+
   .collection-ledger__cell--buy {
     display: block;
     grid-area: buy;
+    min-width: 0;
+    white-space: nowrap;
   }
+
   .collection-ledger__cell--list {
     display: block;
     grid-area: list;
+    min-width: 0;
+    white-space: nowrap;
   }
+
   .collection-ledger__cell--status {
     display: block;
     grid-area: status;
+    min-width: 0;
   }
+
   .collection-ledger__cell--actions {
     display: flex;
     justify-content: flex-end;
     grid-area: actions;
+    min-width: 0;
   }
-  .collection-ledger__cell--mobile-extra {
+
+  .collection-ledger__spec-strip {
     display: none;
   }
 
   .collection-ledger__confirm {
     grid-column: 2 / -1;
   }
+}
+
+.collection-ledger .collection-card-detail,
+.collection-ledger .collection-card-cert {
+  color: var(--text-secondary);
+}
+
+.collection-ledger .collection-card-cert__label {
+  color: color-mix(in srgb, var(--accent-secondary) 55%, var(--text-primary));
+}
+
+.collection-ledger .collection-ledger__index {
+  color: var(--text-secondary);
+}
+
+.collection-ledger .collection-price-buy {
+  color: color-mix(in srgb, var(--accent-secondary) 65%, var(--text-primary));
+}
+
+.collection-ledger .collection-ledger__list-value {
+  color: color-mix(in srgb, var(--accent-secondary) 65%, var(--text-primary));
 }
 
 /* Vault grid view */
@@ -3380,17 +3869,35 @@ main {
 }
 
 .collection-skeleton__ledger-head {
-  height: 2.75rem;
+  display: none;
+  height: 2.5rem;
   background: var(--accent-structural);
   border-bottom: 1px solid var(--border-default);
 }
 
+@container ledger (min-width: 920px) {
+  .collection-skeleton__ledger-head {
+    display: block;
+  }
+}
+
 .collection-skeleton__ledger-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
   padding: 0.875rem 1rem;
   border-bottom: 1px solid var(--border-default);
+}
+
+.collection-skeleton__ledger-spec {
+  display: block;
+  padding-top: 0.25rem;
+}
+
+@container ledger (min-width: 920px) {
+  .collection-skeleton__ledger-spec {
+    display: none;
+  }
 }
 
 .collection-skeleton__ledger-row:last-child {

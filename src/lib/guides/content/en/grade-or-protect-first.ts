@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'grade-or-protect-first',
   title: 'Raw Card Grading vs Graded Slab Protection — Complete Guide',
-  description:
-    'When to submit raw cards to PSA and how to protect graded slabs. Offense vs defense strategy with submit thresholds, protection timing, and a decision comparison table.',
   badge: 'Workflow',
   lead:
     'When to submit raw cards and how to protect graded slabs are core decisions every collector faces. Grading is offense — chasing upside. Protecting the slab is defense — keeping what you earned. They complement each other; they are not either/or.',

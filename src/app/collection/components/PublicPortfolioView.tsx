@@ -10,6 +10,7 @@ import type { PublicCard, PublicPortfolio } from '@/lib/collection/publicPortfol
 import { buildWhatsAppShareUrl } from '@/lib/collection/portfolioShare';
 import { GradePill } from './shared';
 import { CollectionAnimeEnter } from './CollectionAnimeEnter';
+import { CollectionWorkspaceChrome } from './CollectionWorkspaceChrome';
 import { CollectionAnimeStagger } from './CollectionAnimeStagger';
 
 interface PublicPortfolioViewProps {
@@ -126,19 +127,19 @@ export function PublicPortfolioView({ portfolio }: PublicPortfolioViewProps) {
 
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip">
-      <div className="workspace-chrome sticky top-16 md:top-20 z-30 border-b border-border-default shadow-[0_1px_0_var(--border-default)]">
-        <div className="container-tool flex flex-row items-center justify-between gap-2 py-2 collection-topbar-inner min-h-[2.75rem]">
-          <div className="flex items-center gap-2 min-w-0 flex-1">
+      <CollectionWorkspaceChrome
+        leading={(
+          <>
             <Globe className="w-3.5 h-3.5 text-accent-secondary flex-shrink-0" aria-hidden="true" />
             <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{portfolio.name}</h1>
-          </div>
-          {portfolio.ownerDisplayName && (
-            <p className="text-text-muted text-xs font-mono truncate max-w-[40%]">
-              {t.collection.publicPage.byOwner.replace('{name}', portfolio.ownerDisplayName)}
-            </p>
-          )}
-        </div>
-      </div>
+          </>
+        )}
+        trailing={portfolio.ownerDisplayName ? (
+          <p className="text-text-muted text-xs font-mono truncate max-w-[40%]">
+            {t.collection.publicPage.byOwner.replace('{name}', portfolio.ownerDisplayName)}
+          </p>
+        ) : undefined}
+      />
 
       <div className="workspace-canvas container-tool py-6 pb-24 md:pb-6">
         <CollectionAnimeEnter className="mb-5">

@@ -7,7 +7,21 @@ import { normalizePreferredCurrency } from '@/lib/collection/currency';
 /* ─── Member level ────────────────────────────────────────────────────────── */
 
 export type MemberLevel = 'Foil' | 'Prism' | 'Aurora';
-const MEMBER_LEVELS: MemberLevel[] = ['Foil', 'Prism', 'Aurora'];
+export const MEMBER_LEVELS: MemberLevel[] = ['Foil', 'Prism', 'Aurora'];
+
+const MEMBER_BADGE_CLASS: Record<MemberLevel, string> = {
+  Foil: 'collection-member-badge collection-member-badge--foil',
+  Prism: 'collection-member-badge collection-member-badge--prism',
+  Aurora: 'collection-member-badge collection-member-badge--aurora',
+};
+
+export function MemberBadge({ level, className = '' }: { level: MemberLevel; className?: string }) {
+  return (
+    <span className={[MEMBER_BADGE_CLASS[level], className].filter(Boolean).join(' ')}>
+      {level}
+    </span>
+  );
+}
 
 export function getMemberLevel(): MemberLevel | undefined {
   if (typeof window === 'undefined') return undefined;
@@ -29,24 +43,6 @@ export function getPreferredCurrency(): Currency {
     const parsed = JSON.parse(raw);
     return normalizePreferredCurrency(parsed.preferredCurrency);
   } catch { return 'USD'; }
-}
-
-const LEVEL_STYLES: Record<MemberLevel, { background: string; shadow: string; border: string; icon: string }> = {
-  Foil:   { background: 'linear-gradient(135deg,#B8B8B8 0%,#E4E4E4 45%,#A0A0A0 55%,#CACACA 100%)', shadow: '0 0 10px rgba(200,200,200,0.3)',  border: 'rgba(220,220,220,0.45)', icon: '✦' },
-  Prism:  { background: 'linear-gradient(135deg,var(--accent-primary) 0%,var(--accent-secondary) 40%,#7BAFD4 70%,var(--accent-primary) 100%)', shadow: '0 0 12px rgba(139,152,251,0.35)', border: 'rgba(139,152,251,0.55)', icon: '◈' },
-  Aurora: { background: 'linear-gradient(135deg,#5EC9A0 0%,var(--accent-secondary) 45%,var(--accent-primary) 85%,#5EC9A0 100%)', shadow: '0 0 14px rgba(94,201,160,0.35)',  border: 'rgba(94,201,160,0.5)',   icon: '✧' },
-};
-
-export function MemberBadge({ level }: { level: MemberLevel }) {
-  const s = LEVEL_STYLES[level];
-  return (
-    <span
-      className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-bold uppercase tracking-[0.1em] text-surface-bg flex-shrink-0"
-      style={{ background: s.background, boxShadow: s.shadow, border: `1px solid ${s.border}` }}
-    >
-      <span className="text-[9px]">{s.icon}</span>{level}
-    </span>
-  );
 }
 
 /* ─── Style constants ─────────────────────────────────────────────────────── */

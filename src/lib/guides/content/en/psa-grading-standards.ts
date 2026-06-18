@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'psa-grading-standards',
   title: 'PSA Grading Standards, Qualifiers & Record Sales Explained',
-  description:
-    'Official PSA 1–10 grade definitions, OC/ST/PD qualifier codes, and record PSA 10 sales including Pikachu Illustrator and Alpha Black Lotus. Reference before submitting, bidding, or buying graded cards.',
   badge: 'Grading Spec',
   lead:
     'Condition drives card market value — PSA 1–10 grades and Qualifier codes are the shared language buyers and sellers use. This guide breaks down official grade definitions, hidden deduction tags, and why PSA 10 record sales command extreme premiums.',

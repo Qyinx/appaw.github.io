@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'psa-10-centering-requirements',
   title: 'PSA 10 置中標準詳解',
-  description:
-    'PSA Gem Mint 10 正面 55/45、背面 75/25 置中標準、測量方法與各等級對照。送評裸卡或購買 PSA 10 前篩選置中，提升成功率。',
   badge: '鑑定規格',
   lead:
     '置中（Centering）是 PSA 10 Gem Mint 的關鍵門檻之一。邊角尖銳、表面無瑕，置中偏差過大仍難拿最高等級。許多收藏者送評後因置中未達標拿到 PSA 9，白白浪費評級費。提前量度，是最划算的篩選。',

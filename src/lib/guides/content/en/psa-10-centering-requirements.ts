@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'psa-10-centering-requirements',
   title: 'PSA 10 Centering Requirements Explained',
-  description:
-    'PSA Gem Mint 10 front 55/45 and back 75/25 centering rules, how to measure, and grade-by-grade comparison. Screen raw submits and PSA 10 listings before you pay.',
   badge: 'Grading Spec',
   lead:
     'Centering is one of the gates to PSA 10 Gem Mint. Sharp corners and a clean surface will not save a card with borders out of spec. Many collectors pay grading fees and get PSA 9 back on centering alone. Measure first — it is the cheapest filter you have.',

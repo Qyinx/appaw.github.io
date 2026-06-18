@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'psa-grading-standards',
   title: 'PSA Grading 標準、扣分標籤與天價成交紀錄解析',
-  description:
-    'PSA 1–10 官方等級定義、OC/ST/PD 等 Qualifier 扣分標籤，以及 Pikachu Illustrator、黑蓮花等 PSA 10 天價成交紀錄。送評、競標或購買鑑定卡前的完整對照表。',
   badge: '鑑定規格',
   lead:
     '品相直接決定卡牌市場價值，PSA 1–10 分與 Qualifier 標籤是最常用的客觀標尺。本篇拆解官方等級定義、隱形扣分標籤，以及 PSA 10 天價成交如何拉開溢價——送評、競標或買鑑定卡前先對照這張表。',

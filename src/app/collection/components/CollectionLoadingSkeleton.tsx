@@ -53,13 +53,16 @@ export function CollectionLoadingSkeleton({
 
   return (
     <div className="collection-skeleton collection-ledger" aria-live="polite" aria-busy="true" aria-label={label}>
-      <div className="collection-skeleton__ledger-head hidden sm:block" aria-hidden="true" />
+      <div className="collection-skeleton__ledger-head" aria-hidden="true" />
       {Array.from({ length: rows }).map((_, i) => (
         <div key={i} className="collection-skeleton__ledger-row">
           <div className="collection-skeleton__block w-12 aspect-[3/4] flex-shrink-0" />
           <div className="flex-1 space-y-2 min-w-0">
             <div className="collection-skeleton__block h-3 w-3/4" />
             <div className="collection-skeleton__block h-2.5 w-1/2" />
+            <div className="collection-skeleton__ledger-spec" aria-hidden="true">
+              <div className="collection-skeleton__block h-6 w-full" />
+            </div>
           </div>
         </div>
       ))}

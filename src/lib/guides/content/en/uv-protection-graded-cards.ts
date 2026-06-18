@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'uv-protection-graded-cards',
   title: 'UV Protection for Graded Cards',
-  description:
-    'How UV fades holo and chrome on graded slabs, what >95% blocking means, and humidity targets for Hong Kong TCG storage.',
   badge: 'Preservation',
   lead:
     'A graded slab already sealed the card. Your job is to control light and moisture around it. Sun through a window or a humid HK summer can still dull a chase holo over a few seasons.',

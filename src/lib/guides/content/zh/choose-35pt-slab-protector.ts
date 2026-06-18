@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'choose-35pt-slab-protector',
   title: '如何選擇鑑定卡保護殼',
-  description:
-    '對照鑑定卡外徑選購 35PT PSA卡殼：量度方法、合 fit 檢查表，以及選購 PSA卡保護殼時應避開的產品類型。',
   badge: 'Slab 硬件',
   lead:
     '卡展和店舖裡大多數 鑑定卡都落在35PT。合尺寸的保護殼能固定標籤位置、減少背包擠壓，展示時也不會左右晃動。',

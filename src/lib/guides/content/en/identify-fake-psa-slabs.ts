@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'identify-fake-psa-slabs',
   title: 'How to Spot Fake PSA Slabs',
-  description:
-    'Five-step PSA slab authentication: cert lookup, UV blacklight (cert #43+), shell checks, label eras (#27 hologram, #5M microtext), and seller red flags. Photo and video refs included.',
   badge: 'Authentication',
   lead:
     'PSA slabs signal grade and resale value — and that premium draws fake labels, stolen cert numbers, and spoof lookup pages. This guide cross-checks UV reactions, label hologram eras, and shell feel against cert numbers. Treat every high-value slab as unverified until you finish all five steps.',
@@ -15,7 +13,7 @@ const guide: GuideContent = {
   heroSpecs: [
     { label: 'Step 1', value: '[psacard.com/cert](https://www.psacard.com/cert) lookup' },
     { label: 'UV milestone', value: 'Hidden front text after cert #43' },
-    { label: 'Label eras', value: '#27 hologram · #5M microtext' },
+    { label: 'Label eras', value: 'LightHouse™ hologram after #27xxxxxxx · PSA microtext after #5xxxxxxx' },
     { label: 'Core rule', value: 'Cross-check — never one test alone' },
   ],
   sections: [
@@ -88,7 +86,7 @@ const guide: GuideContent = {
         },
       ],
       callout:
-        'Fake tells: glow in the wrong place, uneven brightness, blurry patterns, or no reaction at all. Always check the cert number in your hand — a post-#43 slab that shows zero UV reaction is a major red flag.',
+        'Fake tells: glow in the wrong place, uneven brightness, blurry patterns, or no reaction at all.',
       specs: [
         { label: 'Front (pre-#43)', value: 'No hidden text under UV' },
         { label: 'Front (post-#43)', value: 'Hidden PSA mark, even glow' },

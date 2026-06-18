@@ -3,11 +3,9 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'display-graded-cards',
   title: '鑑定卡展示指南：如何安全又美觀地陳列你的鑑定卡',
-  description:
-    '從 Slab 活頁夾、展示架到磁吸硬殼與牆面陳列。兼顧美觀、UV 防護與轉售價值，新手到進階的鑑定卡展示方法。',
   badge: '展示',
   lead:
-    '裸卡送評成鑑定卡後，如何展示成為收藏者的重要課題。好的陳列提升視覺享受，錯誤方式卻會刮花外殼、褪色標籤、拉低轉售價。展示與保護必須並重。',
+    '卡片評級完成後，下一步就是如何展示。好的展示能提升藏品的價值；糟糕的展示則會刮傷卡片套、使標籤褪色，並降低轉售價值。展示和保護是同一回事。',
   published: '2026-06-09',
   updated: '2026-06-17',
   readTime: '9 分鐘',

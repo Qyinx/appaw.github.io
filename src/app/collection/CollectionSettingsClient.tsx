@@ -16,6 +16,7 @@ import { normalizeUserProfile } from '@/lib/collection/userProfile';
 import { useCollectionAuth } from './hooks/useCollectionAuth';
 import { CollectionLoadingSkeleton } from './components/CollectionLoadingSkeleton';
 import { CollectionAnimeEnter } from './components/CollectionAnimeEnter';
+import { CollectionWorkspaceChrome, CollectionChromeDots } from './components/CollectionWorkspaceChrome';
 
 interface ContactForm {
   whatsapp: string;
@@ -155,8 +156,10 @@ export default function CollectionSettingsClient() {
 
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip">
-      <div className="workspace-chrome sticky top-16 md:top-20 z-30 border-b border-border-default shadow-[0_1px_0_var(--border-default)]">
-        <div className="container-tool max-w-3xl flex items-center justify-between gap-2 py-2 min-h-[2.75rem]">
+      <CollectionWorkspaceChrome
+        width="narrow"
+        layout="form"
+        leading={(
           <button
             type="button"
             onClick={() => router.push(localize('/collection/list'))}
@@ -165,12 +168,15 @@ export default function CollectionSettingsClient() {
             <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span className="hidden sm:inline">{t.common.back}</span>
           </button>
-
-          <div className="flex items-center gap-2 min-w-0 flex-1 justify-center">
-            <h1 className="text-text-primary font-semibold text-sm truncate">{t.collection.settings.title}</h1>
+        )}
+        center={(
+          <>
+            <CollectionChromeDots />
+            <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{t.collection.settings.title}</h1>
             {memberLevel && <MemberBadge level={memberLevel} />}
-          </div>
-
+          </>
+        )}
+        trailing={(
           <button
             type="submit"
             form="collection-settings-form"
@@ -184,8 +190,8 @@ export default function CollectionSettingsClient() {
             )}
             <span className="hidden sm:inline">{t.collection.settings.save}</span>
           </button>
-        </div>
-      </div>
+        )}
+      />
 
       {saveMsg && (
         <WorkspaceNotice
@@ -197,7 +203,7 @@ export default function CollectionSettingsClient() {
         />
       )}
 
-      <div className="workspace-canvas container-tool max-w-3xl py-6 md:py-8 pb-28 md:pb-8">
+      <div className="workspace-canvas container-tool collection-workspace-canvas--narrow py-6 md:py-8 pb-28 md:pb-8">
         <CollectionAnimeEnter className="mb-6">
           <HeroStamp
             decorative={false}

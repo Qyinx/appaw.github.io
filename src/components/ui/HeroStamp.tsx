@@ -19,6 +19,8 @@ interface HeroStampProps {
   decorative?: boolean;
   /** dashboard = full-width row with optional stats slot beside identity lines */
   layout?: 'default' | 'dashboard';
+  /** Rendered beside tagline in dashboard layout (e.g. membership badge). */
+  titleAddon?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -27,14 +29,23 @@ export default function HeroStamp({
   lines,
   decorative = true,
   layout = 'default',
+  titleAddon,
   children,
 }: HeroStampProps) {
   const merged = { ...DEFAULT_LINES, ...lines };
   const layoutClass = layout === 'dashboard' ? ' hero-stamp--dashboard' : '';
+  const taglineLine = titleAddon && layout === 'dashboard' ? (
+    <div className="hero-stamp__title-row">
+      <span className="hero-stamp__line hero-stamp__line--tagline">{merged.tagline}</span>
+      {titleAddon}
+    </div>
+  ) : (
+    <span className="hero-stamp__line">{merged.tagline}</span>
+  );
   const identity = (
     <>
       <span className="hero-stamp__line hero-stamp__line--brand">{merged.brand}</span>
-      <span className="hero-stamp__line">{merged.tagline}</span>
+      {taglineLine}
       {merged.muted ? (
         <span className="hero-stamp__line hero-stamp__line--muted">{merged.muted}</span>
       ) : null}

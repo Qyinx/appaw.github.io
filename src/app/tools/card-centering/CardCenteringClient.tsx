@@ -8,8 +8,12 @@ import {
   measureFromGuides,
   scoreCentering,
   GRADING_COMPANIES,
+  cssImageFilter,
+  IMAGE_FILTER_MODES,
+  nextImageFilterMode,
   type CenteringScore,
   type GradingCompany,
+  type ImageFilterMode,
   type QualityTier,
 } from '@/lib/centering';
 import styles from './card-centering.module.css';
@@ -108,6 +112,56 @@ const TiltVIcon = () => (
 const MagnifierIcon = () => (
   <svg {...ICON_PROPS}><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></svg>
 );
+const InspectFilterIcon = () => (
+  <svg {...ICON_PROPS} width={16} height={16}>
+    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+    <circle cx="12" cy="12" r="2.5" />
+  </svg>
+);
+
+const FILTER_DOT_CLASS: Record<ImageFilterMode, keyof typeof styles> = {
+  off: 'filterDotNormal',
+  grayscale: 'filterDotGrayscale',
+  contrast: 'filterDotContrast',
+  invert: 'filterDotInvert',
+};
+
+function BlemishFilterBar({
+  active,
+  onSelect,
+  ariaLabel,
+  labels,
+  barClassName,
+  iconsOnly = false,
+}: {
+  active: ImageFilterMode;
+  onSelect: (mode: ImageFilterMode) => void;
+  ariaLabel: string;
+  labels: Record<ImageFilterMode, string>;
+  barClassName: string;
+  iconsOnly?: boolean;
+}) {
+  return (
+    <div className={barClassName} role="toolbar" aria-label={ariaLabel}>
+      {IMAGE_FILTER_MODES.map((mode) => (
+        <button
+          key={mode}
+          type="button"
+          className={`${styles.guideModeBtn} ${styles.filterModeBtn}${iconsOnly ? ` ${styles.filterModeBtnIconOnly}` : ''}`}
+          data-active={active === mode}
+          data-filter-mode={mode}
+          aria-pressed={active === mode}
+          aria-label={labels[mode]}
+          title={labels[mode]}
+          onClick={() => onSelect(mode)}
+        >
+          <span className={styles[FILTER_DOT_CLASS[mode]]} aria-hidden="true" />
+          {!iconsOnly ? <span className={styles.guideModeBtnLabel}>{labels[mode]}</span> : null}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function CardCenteringClient() {
   const { t } = useLanguage();
@@ -127,8 +181,10 @@ export default function CardCenteringClient() {
   const loupesOnRef = React.useRef(true);
   const [guideMode, setGuideMode] = React.useState<'edge' | 'border' | 'both'>('both');
   const [photoMode, setPhotoMode] = React.useState<PhotoMode>('raw');
+  const [imageFilterMode, setImageFilterMode] = React.useState<ImageFilterMode>('off');
   const [gradingCompany, setGradingCompany] = React.useState<GradingCompany>('PSA');
   const guideModeRef = React.useRef(guideMode);
+  const imageFilterRef = React.useRef(imageFilterMode);
   const gradingCompanyRef = React.useRef(gradingCompany);
 
   const CARD_FACE = 'front' as const;
@@ -148,6 +204,11 @@ export default function CardCenteringClient() {
     guideModeRef.current = guideMode;
     redrawRef.current?.();
   }, [guideMode]);
+
+  useEffect(() => {
+    imageFilterRef.current = imageFilterMode;
+    redrawRef.current?.();
+  }, [imageFilterMode]);
 
   useEffect(() => {
     gradingCompanyRef.current = gradingCompany;
@@ -452,7 +513,28 @@ export default function CardCenteringClient() {
       return true;
     }
 
+    function setImageDragVisual(active: boolean) {
+      if (active) imgWrapperEl.dataset.dragging = 'true';
+      else delete imgWrapperEl.dataset.dragging;
+    }
+
+    function applyPanTransform(px: number, py: number) {
+      imgWrapperEl.style.transform = `translate3d(${px}px, ${py}px, 0)`;
+    }
+
+    function applyImageTransform(z: number, r: number, tx: number, ty: number) {
+      imgEl.style.transform =
+        `perspective(${PERSPECTIVE}px) scale(${z}) rotateZ(${r}deg) rotateX(${tx}deg) rotateY(${-ty}deg)`;
+    }
+
+    function applyFullTransform(px?: number, py?: number) {
+      const { z, r, tx, ty, px: controlPx, py: controlPy } = readTransformState();
+      applyPanTransform(px ?? controlPx, py ?? controlPy);
+      applyImageTransform(z, r, tx, ty);
+    }
+
     function beginImagePan(clientX: number, clientY: number) {
+      setImageDragVisual(true);
       const { z, r, tx, ty, px, py } = readTransformState();
       panSession = { z, r, tx, ty };
       pendingPanX = px;
@@ -467,8 +549,7 @@ export default function CardCenteringClient() {
       pendingPanY += clientY - lastPointerY;
       lastPointerX = clientX;
       lastPointerY = clientY;
-      const { z, r, tx, ty } = panSession;
-      imgEl.style.transform = buildImageTransform(z, r, tx, ty, pendingPanX, pendingPanY);
+      applyPanTransform(pendingPanX, pendingPanY);
     }
 
     function schedulePanFrame(clientX: number, clientY: number) {
@@ -506,8 +587,8 @@ export default function CardCenteringClient() {
     }
 
     function updateTransformFast(activeId?: string | null) {
-      const { z, r, tx, ty, px, py } = readTransformState();
-      imgEl.style.transform = buildImageTransform(z, r, tx, ty, px, py);
+      const { z, r, tx, ty } = readTransformState();
+      applyImageTransform(z, r, tx, ty);
       if (activeId) syncTransformReadout(activeId, z, r, tx, ty);
     }
 
@@ -529,18 +610,19 @@ export default function CardCenteringClient() {
       }
       transformSliderActive = false;
       activeTransformId = null;
+      setImageDragVisual(false);
       updateTransform();
     }
 
     function updateTransform() {
-      const { z, r, tx, ty, px, py } = readTransformState();
+      const { z, r, tx, ty } = readTransformState();
 
       if (zoomValEl) zoomValEl.textContent = z.toFixed(2);
       if (rotValEl) rotValEl.textContent = r.toFixed(2) + '°';
       if (tiltXValEl) tiltXValEl.textContent = tx.toFixed(2) + '°';
       if (tiltYValEl) tiltYValEl.textContent = ty.toFixed(2) + '°';
 
-      imgEl.style.transform = buildImageTransform(z, r, tx, ty, px, py);
+      applyFullTransform();
       fillTrack(controls.zoom);
       fillTrack(controls.rotate);
       fillTrack(controls.tiltX);
@@ -579,6 +661,8 @@ export default function CardCenteringClient() {
       loupeMag = 2.6;
       lastGradeSnapshot = null;
       setGrade(null);
+      setImageDragVisual(false);
+      applyPanTransform(0, 0);
 
       for (const key of Object.keys(handleDisplay)) delete handleDisplay[key];
 
@@ -612,6 +696,7 @@ export default function CardCenteringClient() {
       const onBegin = () => {
         transformSliderActive = true;
         activeTransformId = id;
+        setImageDragVisual(true);
       };
       const onCommit = () => commitTransformSlider();
       el.addEventListener('input', onInput);
@@ -1280,6 +1365,8 @@ export default function CardCenteringClient() {
           // loupePixel = R + (screen - S) * m, with screen = (t0) + J * base
           lctx.setTransform(dpr, 0, 0, dpr, dpr * (R + (t0x - S.x) * m), dpr * (R + (t0y - S.y) * m));
           lctx.transform(aa * m, ab * m, ac * m, ad * m, 0, 0);
+          const loupeFilter = cssImageFilter(imageFilterRef.current);
+          if (loupeFilter !== 'none') lctx.filter = loupeFilter;
           lctx.drawImage(imgEl, -imgBw / 2, -imgBh / 2, imgBw, imgBh);
           lctx.restore();
         } else {
@@ -1466,20 +1553,15 @@ export default function CardCenteringClient() {
       return { z, r, tx, ty, px, py };
     }
 
-    function buildImageTransform(z: number, r: number, tx: number, ty: number, px: number, py: number) {
-      const tiltXdeg = tx;
-      const tiltYdeg = -ty;
-      return `perspective(${PERSPECTIVE}px) translate3d(${px}px, ${py}px, 0) scale(${z}) rotateZ(${r}deg) rotateX(${tiltXdeg}deg) rotateY(${tiltYdeg}deg)`;
-    }
-
     function applyImageTransformFast(z: number, r: number) {
-      const { tx, ty, px, py } = readTransformState();
-      imgEl.style.transform = buildImageTransform(z, r, tx, ty, px, py);
+      const { tx, ty } = readTransformState();
+      applyImageTransform(z, r, tx, ty);
       pendingPinchZoom = z;
       pendingPinchRotate = r;
     }
 
     function beginPinch(touches: TouchList) {
+      setImageDragVisual(true);
       dragging = 'pinch';
       initialPinchDistance = getDistance(touches[0], touches[1]);
       initialPinchAngle = getAngle(touches[0], touches[1]);
@@ -1519,6 +1601,7 @@ export default function CardCenteringClient() {
       if (pendingPinchRotate != null) controls.rotate.value = String(pendingPinchRotate);
       pendingPinchZoom = null;
       pendingPinchRotate = null;
+      setImageDragVisual(false);
       updateTransform();
     }
 
@@ -1653,6 +1736,7 @@ export default function CardCenteringClient() {
         overlayEl.style.cursor = 'grab';
         if (wasImageDrag) {
           commitPan();
+          setImageDragVisual(false);
           updateTransform();
         } else if (wasGuideDrag && isCoarsePointer) {
           lastGradeCalcMs = 0;
@@ -1804,6 +1888,19 @@ export default function CardCenteringClient() {
   const verdictKey = displayScore && photoMode === 'slab' ? verdictForQuality(displayScore.quality) : null;
   const verdictCopy = verdictKey ? tool.verdicts[verdictKey] : null;
   const fmt = (n?: number) => (typeof n === 'number' ? n.toFixed(1) : '—');
+  const imageFilterLabels: Record<ImageFilterMode, string> = {
+    off: tool.imageFilterOff,
+    grayscale: tool.imageFilterGrayscale,
+    contrast: tool.imageFilterContrast,
+    invert: tool.imageFilterInvert,
+  };
+  const imageFilterHints: Record<ImageFilterMode, string> = {
+    off: tool.imageFilterOffHint,
+    grayscale: tool.imageFilterGrayscaleHint,
+    contrast: tool.imageFilterContrastHint,
+    invert: tool.imageFilterInvertHint,
+  };
+  const imageFilterLabel = imageFilterLabels[imageFilterMode];
 
   return (
     <div className={styles.wrapper}>
@@ -1871,6 +1968,7 @@ export default function CardCenteringClient() {
             className={styles.cardImage}
             alt={fileName ? `${tool.uploadCardImage}: ${fileName}` : ''}
             style={{ display: 'none' }}
+            data-filter={imageFilterMode === 'off' ? undefined : imageFilterMode}
           />
         </div>
         <canvas id="overlay-canvas" className={styles.overlayCanvas}></canvas>
@@ -1915,6 +2013,15 @@ export default function CardCenteringClient() {
           </div>
           <div className={styles.topActions}>
             <button className={`${styles.iconBtn} ${loupesOn ? styles.iconBtnOn : ''}`} title={tool.cornerMagnifiers} aria-label={tool.cornerMagnifiersToggle} aria-pressed={loupesOn} onClick={() => setLoupesOn((v) => !v)}><MagnifierIcon /></button>
+            <button
+              className={`${styles.iconBtn} ${imageFilterMode !== 'off' ? styles.iconBtnOn : ''}`}
+              title={`${tool.imageFilterLabel}: ${imageFilterLabel}`}
+              aria-label={`${tool.imageFilterCycle}: ${imageFilterLabel}`}
+              aria-pressed={imageFilterMode !== 'off'}
+              onClick={() => setImageFilterMode((m) => nextImageFilterMode(m))}
+            >
+              <InspectFilterIcon />
+            </button>
             <button className={styles.iconBtn} title={tool.uploadImage} aria-label={tool.uploadImage} onClick={() => fileInputRef.current?.click()}><UploadIcon /></button>
             <button className={styles.iconBtn} title={tool.fitToView} aria-label={tool.fitToView} onClick={() => fitRef.current?.()}><FitIcon /></button>
             <button className={styles.iconBtn} title={tool.reset} aria-label={tool.reset} onClick={() => resetRef.current?.()}><ResetIcon /></button>
@@ -1986,6 +2093,16 @@ export default function CardCenteringClient() {
               </button>
             ))}
           </div>
+          {fileName ? (
+            <BlemishFilterBar
+              active={imageFilterMode}
+              onSelect={setImageFilterMode}
+              ariaLabel={tool.imageFilterLabel}
+              labels={imageFilterLabels}
+              barClassName={`${styles.guideModeBar} ${styles.filterDockBar} ${styles.filterModeBarIconsOnly}`}
+              iconsOnly
+            />
+          ) : null}
         </div>
 
         {/* Compact side dock for image adjustments — collapsed by default */}
@@ -2007,6 +2124,22 @@ export default function CardCenteringClient() {
           </button>
 
           <div className={styles.adjustDockBody}>
+            {fileName ? (
+              <div className={styles.filterModeDock}>
+                <p className={styles.filterModeDockLabel}>{tool.imageFilterLabel}</p>
+                <BlemishFilterBar
+                  active={imageFilterMode}
+                  onSelect={setImageFilterMode}
+                  ariaLabel={tool.imageFilterLabel}
+                  labels={imageFilterLabels}
+                  barClassName={`${styles.guideModeBar} ${styles.filterModeBarIconsOnly}`}
+                  iconsOnly
+                />
+                <p className={styles.filterModeDockHint}>
+                  {imageFilterHints[imageFilterMode]}
+                </p>
+              </div>
+            ) : null}
             <div className={styles.sliderStack}>
               <div className={styles.controlRow}>
                 <div className={styles.controlHeader}><label htmlFor="zoom" className={styles.controlLabel}><ZoomIcon /> {tool.zoom}</label><span id="zoom-val" className={styles.sliderValue}>1.0</span></div>

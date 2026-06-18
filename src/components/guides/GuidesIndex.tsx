@@ -93,7 +93,7 @@ export default function GuidesIndex() {
                       <div className="guides-index__body">
                         <span className="guides-index__badge">{guide.badge}</span>
                         <h3 className="guides-index__title">{guide.title}</h3>
-                        <p className="guides-index__desc">{guide.description}</p>
+                        <p className="guides-index__desc">{guide.lead}</p>
                         {keySpec ? (
                           <div className="guides-index__spec" aria-hidden="true">
                             <span className="guides-index__spec-label">{keySpec.label}</span>

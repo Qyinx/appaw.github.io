@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'display-graded-cards',
   title: 'Display Graded Cards — Safe, Clean Setup for Your Slabs',
-  description:
-    'From slab binders and stands to magnetic cases and wall display. Display methods that look good and protect label, UV fade, and resale value.',
   badge: 'Display',
   lead:
     'After raw cards come back graded, display becomes the next decision. Good setup elevates the collection; bad setup scratches holders, fades labels, and cuts resale. Display and protection are the same job.',

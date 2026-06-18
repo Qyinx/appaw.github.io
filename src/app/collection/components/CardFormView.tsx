@@ -22,6 +22,7 @@ import { inp, lbl, Section, Toggle, compressImage, GradePill } from './shared';
 import { CardThumbnail, CardMetaBlock, gradeTierClass, resolveCardImageUrl } from './CollectionCardDisplay';
 import { CollectionAnimeEnter } from './CollectionAnimeEnter';
 import { CollectionAnimeStagger } from './CollectionAnimeStagger';
+import { CollectionWorkspaceChrome, CollectionChromeDots } from './CollectionWorkspaceChrome';
 
 export interface CardFormViewProps {
   initial: CardFormState | null;
@@ -200,23 +201,22 @@ export function CardFormView({
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip overflow-y-visible">
 
-      {/* Sticky workspace chrome */}
-      <div className="workspace-chrome sticky top-16 md:top-20 z-30 border-b border-border-default shadow-[0_1px_0_var(--border-default)]">
-        <div className="container-tool max-w-3xl flex items-center justify-between gap-2 py-2 min-h-[2.75rem]">
+      <CollectionWorkspaceChrome
+        width="narrow"
+        layout="form"
+        leading={(
           <button type="button" onClick={onBack} className="collection-action-pill min-h-11 px-2.5 flex-shrink-0">
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span className="hidden sm:inline">{t.common.back}</span>
           </button>
-
-          <div className="flex items-center gap-2 min-w-0 flex-1 justify-center">
-            <div className="hidden sm:flex items-center gap-1.5 flex-shrink-0" aria-hidden="true">
-              <div className="w-2 h-2 bg-accent-primary" />
-              <div className="w-2 h-2 bg-border-strong" />
-              <div className="w-2 h-2 bg-border-strong" />
-            </div>
-            <h1 className="text-text-primary font-semibold text-sm truncate">{pageTitle}</h1>
-          </div>
-
+        )}
+        center={(
+          <>
+            <CollectionChromeDots />
+            <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{pageTitle}</h1>
+          </>
+        )}
+        trailing={(
           <button
             type="submit"
             form="card-form"
@@ -226,8 +226,8 @@ export function CardFormView({
             {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Check className="w-3.5 h-3.5" aria-hidden="true" />}
             {saveLabel}
           </button>
-        </div>
-      </div>
+        )}
+      />
 
       {saveMsg && (
         <WorkspaceNotice
@@ -239,7 +239,7 @@ export function CardFormView({
         />
       )}
 
-      <div className="workspace-canvas container-tool max-w-3xl py-6 md:py-8 pb-28 md:pb-8">
+      <div className="workspace-canvas container-tool collection-workspace-canvas--narrow py-6 md:py-8 pb-28 md:pb-8">
         <CollectionAnimeEnter className="mb-6">
           <HeroStamp
             decorative={false}

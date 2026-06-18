@@ -105,12 +105,12 @@ export function guideMetadata(slug: GuideSlug, locale: GuideLocale): Metadata {
 
   const base: Metadata = {
     title: { absolute: `${guide.title} | Appaw Store` },
-    description: guide.description,
+    description: guide.lead,
     ...(keywords ? { keywords } : {}),
     alternates: { canonical: path },
     openGraph: {
       title: guide.title,
-      description: guide.description,
+      description: guide.lead,
       url: `https://appaw.store${path}`,
       type: 'article',
       publishedTime: guide.published,
@@ -120,7 +120,7 @@ export function guideMetadata(slug: GuideSlug, locale: GuideLocale): Metadata {
     twitter: {
       card: 'summary_large_image',
       title: guide.title,
-      description: guide.description,
+      description: guide.lead,
       images: [ogImage],
     },
   };
@@ -128,7 +128,7 @@ export function guideMetadata(slug: GuideSlug, locale: GuideLocale): Metadata {
   if (locale === 'zh') {
     return zhRouteMetadata(base, path, {
       title: { absolute: `${guide.title} | Appaw Store` },
-      description: guide.description,
+      description: guide.lead,
     });
   }
 

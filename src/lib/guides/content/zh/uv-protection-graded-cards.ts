@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'uv-protection-graded-cards',
   title: '鑑定卡防 UV 與防潮指南',
-  description:
-    '紫外線如何令鑑定卡褪色、>95% 阻隔代表什麼，以及香港 TCG 收納的濕度目標。',
   badge: '保存',
   lead:
     '鑑定卡已封裝在鑑定殼內。你的任務是控制周圍的光照和濕度。透窗陽光或香港潮濕夏季，幾個季節後仍會令閃卡失去光澤。',

@@ -68,7 +68,6 @@ export type GuideSourceLink = {
 export type GuideContent = {
   slug: string;
   title: string;
-  description: string;
   badge: string;
   lead: string;
   published: string;

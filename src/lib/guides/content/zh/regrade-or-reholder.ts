@@ -3,8 +3,6 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'regrade-or-reholder',
   title: 'PSA Regrade vs Reholder — 如何選擇',
-  description:
-    '換殼保留原評級、更新外殼；重評全面重審品相，可能升級或降級。比較費用、風險與適用情境，選對 PSA 服務避免不必要損失。',
   badge: '鑑定卡流程',
   lead:
     'Slab 刮痕、霧化、邊角磨損或標籤褪色時，收藏者常寄回 PSA 處理。最常見兩個選項是 Reholder（重新裝殼）與 Regrade（重新評級）——服務內容、費用、風險差異很大。選錯要麼白費錢，要麼丟掉已有評級。',
