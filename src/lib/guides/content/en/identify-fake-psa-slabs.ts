@@ -13,7 +13,7 @@ const guide: GuideContent = {
   heroSpecs: [
     { label: 'Step 1', value: '[psacard.com/cert](https://www.psacard.com/cert) lookup' },
     { label: 'UV milestone', value: 'Hidden front text after cert #43' },
-    { label: 'Label eras', value: 'LightHouse™ hologram after #27xxxxxxx · #4M–5M CLCT → PSA microtext transition' },
+    { label: 'Label eras', value: 'LightHouse™ hologram after #27xxxxxxx · #4xxxxxxx–5xxxxxxx CLCT → PSA microtext transition' },
     { label: 'Core rule', value: 'Cross-check — never one test alone' },
   ],
   sections: [
@@ -150,9 +150,9 @@ const guide: GuideContent = {
           ],
         },
         {
-          title: 'Milestone 2: Cert #4M–5M (NASDAQ : CLCT → PSA microtext transition)',
+          title: 'Milestone 2: Cert #4xxxxxxx–5xxxxxxx (NASDAQ : CLCT → PSA microtext transition)',
           paragraphs: [
-            'From #27xxxxxx onward, labels share LightHouse™ two-tone shift under tilted light. After PSA\'s parent company went private and delisted from NASDAQ in early 2021, hologram microtext gradually switched from "NASDAQ : CLCT" to "PSA" across cert #4xxxxxxx through #5xxxxxxx — the #4M–5M transition window. Both microtext variants have been confirmed in each band. Magnify and tilt the label; do not infer microtext from the cert number alone.',
+            'From #27xxxxxx onward, labels share LightHouse™ two-tone shift under tilted light. After PSA\'s parent company went private and delisted from NASDAQ in early 2021, hologram microtext gradually switched from "NASDAQ : CLCT" to "PSA" across cert #4xxxxxxx through #5xxxxxxx — the #4xxxxxxx–5xxxxxxx transition window. Both microtext variants have been confirmed in each band. Magnify and tilt the label; do not infer microtext from the cert number alone.',
           ],
         },
         {
@@ -177,14 +177,14 @@ const guide: GuideContent = {
           ],
         },
         {
-          title: 'Cert #4M–5M (transition window)',
+          title: 'Cert #4xxxxxxx–5xxxxxxx (transition window)',
           level: 4,
           paragraphs: [
             'During the delisting reorg, PSA phased in new label stock. Both CLCT and PSA microtext have been confirmed in the #4xxxxxxx and #5xxxxxxx bands — earlier numbers are more likely CLCT, later ones more likely PSA, but there is no fixed cutoff. Always tilt and magnify before buying slabs in this range.',
           ],
         },
         {
-          title: 'After cert #5M (from #6xxxxxxx)',
+          title: 'After cert #5xxxxxxx (from #6xxxxxxx)',
           level: 4,
           paragraphs: [
             'Once the transition ended, hologram microtext reads "PSA" across the board.',
@@ -192,11 +192,11 @@ const guide: GuideContent = {
           videos: [
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-new-version.mp4',
-              caption: 'Post-#5M front label tilt (microtext reads PSA)',
+              caption: 'Post-#5xxxxxxx front label tilt (microtext reads PSA)',
             },
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-new-version.mp4',
-              caption: 'Post-#5M back label tilt (microtext reads PSA)',
+              caption: 'Post-#5xxxxxxx back label tilt (microtext reads PSA)',
             },
           ],
         },
@@ -205,7 +205,7 @@ const guide: GuideContent = {
         { label: 'Magnification', value: '10× minimum' },
         { label: 'Tilt test', value: 'Two-tone LightHouse™ shift under tilt' },
         { label: '#27 milestone', value: 'Hologram sticker added after' },
-        { label: '#4M–5M transition', value: 'CLCT and PSA in both bands — verify' },
+        { label: '#4xxxxxxx–5xxxxxxx transition', value: 'CLCT and PSA in both bands — verify' },
         { label: 'Fake tells', value: 'Cert band vs measured microtext mismatch' },
       ],
     },

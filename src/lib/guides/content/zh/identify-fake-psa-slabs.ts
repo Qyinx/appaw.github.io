@@ -13,7 +13,7 @@ const guide: GuideContent = {
   heroSpecs: [
     { label: '第一步', value: '[psacard.com/cert](https://www.psacard.com/cert) 查證' },
     { label: 'UV 分水嶺', value: '編號 #43 後正面隱藏字' },
-    { label: '標籤世代', value: 'LightHouse™ 全息圖案自 #27xxxxxxx 後 · #4M～5M 為 CLCT → PSA 微型小字過渡期' },
+    { label: '標籤世代', value: 'LightHouse™ 全息圖案自 #27xxxxxxx 後 · #4xxxxxxx～5xxxxxxx 為 CLCT → PSA 微型小字過渡期' },
     { label: '核心原則', value: '多重交叉檢查，勿單信一步' },
   ],
   sections: [
@@ -150,9 +150,9 @@ const guide: GuideContent = {
           ],
         },
         {
-          title: '關鍵分水嶺二：編號 4M～5M（NASDAQ : CLCT → PSA 微型小字過渡期）',
+          title: '關鍵分水嶺二：編號 4xxxxxxx～5xxxxxxx（NASDAQ : CLCT → PSA 微型小字過渡期）',
           paragraphs: [
-            '雖然從 27xxxxxx 之後都具備 LightHouse™ 雙色反射技術，視覺效果大致相約。但因 PSA 母公司於 2021 年初完成私有化並自納斯達克退市，標籤內隱藏的防偽微型小字（Microtext）在編號 4xxxxxxx 至 5xxxxxxx 區間逐步由「NASDAQ : CLCT」改為「PSA」——此 4M～5M 區間為過渡期，兩個編號段內皆曾發現 CLCT 與 PSA 兩種小字並存，無固定切點，須以放大鏡實測，勿單靠證書編號推斷。',
+            '雖然從 27xxxxxx 之後都具備 LightHouse™ 雙色反射技術，視覺效果大致相約。但因 PSA 母公司於 2021 年初完成私有化並自納斯達克退市，標籤內隱藏的防偽微型小字（Microtext）在編號 4xxxxxxx 至 5xxxxxxx 區間逐步由「NASDAQ : CLCT」改為「PSA」——此 4xxxxxxx～5xxxxxxx 區間為過渡期，兩個編號段內皆曾發現 CLCT 與 PSA 兩種小字並存，無固定切點，須以放大鏡實測，勿單靠證書編號推斷。',
           ],
         },
         {
@@ -177,14 +177,14 @@ const guide: GuideContent = {
           ],
         },
         {
-          title: '編號 4M～5M（過渡期）',
+          title: '編號 4xxxxxxx～5xxxxxxx（過渡期）',
           level: 4,
           paragraphs: [
             '退市改組期間，PSA 逐步汰換標籤耗材。4xxxxxxx 與 5xxxxxxx 兩個編號段內皆曾實測到 CLCT 與 PSA 微型小字並存——編號較前段者較可能仍為 CLCT，較後段者較可能已改為 PSA，但無固定切點。購買此區間鑑定卡時，務必傾斜標籤、放大確認實際小字內容。',
           ],
         },
         {
-          title: '編號 5M 之後（6xxxxxxx 起）',
+          title: '編號 5xxxxxxx 之後（6xxxxxxx 起）',
           level: 4,
           paragraphs: [
             '過渡期結束後，全息圖案內的微型隱藏字體已全面改為「PSA」。',
@@ -192,11 +192,11 @@ const guide: GuideContent = {
           videos: [
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-new-version.mp4',
-              caption: '5M 後標籤正面反光情況（放大可見隱藏小字為 PSA）',
+              caption: '5xxxxxxx 後標籤正面反光情況（放大可見隱藏小字為 PSA）',
             },
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-new-version.mp4',
-              caption: '5M 後標籤背面反光情況（放大可見隱藏小字為 PSA）',
+              caption: '5xxxxxxx 後標籤背面反光情況（放大可見隱藏小字為 PSA）',
             },
           ],
         },
@@ -205,7 +205,7 @@ const guide: GuideContent = {
         { label: '放大倍率', value: '10× 以上' },
         { label: '反光', value: '傾斜時雙色「LightHouse™」反射效果' },
         { label: '#27 分水嶺', value: '之後才有右下角全息貼紙' },
-        { label: '#4M–5M 過渡期', value: '兩段皆見 CLCT 與 PSA 小字，須實測' },
+        { label: '#4xxxxxxx–5xxxxxxx 過渡期', value: '兩段皆見 CLCT 與 PSA 小字，須實測' },
         { label: '假貨徵象', value: '編號段與實測小字明顯不符' },
       ],
     },

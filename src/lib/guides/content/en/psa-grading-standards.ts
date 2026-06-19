@@ -14,7 +14,7 @@ const guide: GuideContent = {
     { label: 'PSA 10 front', value: '55/45 or better' },
     { label: 'PSA 10 back', value: '75/25 or better' },
     { label: 'Qualifiers', value: 'OC · ST · PD · OF · MK · MC' },
-    { label: 'Items graded', value: '65M+ certified' },
+    { label: 'Items graded', value: '65xxxxxxx+ certified' },
   ],
   sections: [
     {
@@ -167,7 +167,7 @@ const guide: GuideContent = {
           items: [
             {
               label: '1998 Pokémon Illustrator Pikachu — PSA 10',
-              text: 'Sold for **$5.275 million** (~£3.85M). YouTuber Logan Paul acquired it in a private 2023 transaction — widely cited as the most expensive trading card ever sold.',
+              text: 'Sold for **$5.275 million** (~£3.85xxxxxxx). YouTuber Logan Paul acquired it in a private 2023 transaction — widely cited as the most expensive trading card ever sold.',
             },
             {
               label: '1993 Magic Alpha Black Lotus — PSA 10',
