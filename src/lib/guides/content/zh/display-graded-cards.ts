@@ -32,7 +32,7 @@ const guide: GuideContent = {
         '適合新手與中小型收藏，成本低、易上手。',
         'Slab 護套 + 活頁夾（Binder）：為每張 Slab 套上透明 Slab Sleeve，再放入 3 孔或 4 孔活頁夾。方便翻閱、攜帶、防刮防塵。選擇帶軟質內襯的優質 Binder，避免 Slab 互相摩擦。',
         '單張展示架（Stand）：亞克力或塑料 Slab 展示架，適合書桌或展示櫃上直立、平放重點卡（如 PSA 10 Rookie）。',
-        '磁吸硬殼：將 Slab 放入 [磁吸鋁合金鑑定卡保護殼](/products/psa-protectors/)——35PT 貼合 PSA/CGC，N52 磁吸、>95% UV 防護前板，邊角保護優於軟套，具藝廊級展示效果。適合高價值鑑定卡書桌或層架陳列，無需在內層鑑定殼上鑽孔固定。',
+        '磁吸硬殼：將 Slab 放入 [磁吸防UV鑑定卡保護殼](/products/psa-protectors/)——35PT 貼合 PSA/CGC，N52 磁吸、>95% UV 防護前板，邊角保護優於軟套，具藝廊級展示效果。適合高價值鑑定卡書桌或層架陳列，無需在內層鑑定殼上鑽孔固定。',
       ],
       specs: [
         { label: '日常收納', value: 'Slab Sleeve + Binder' },

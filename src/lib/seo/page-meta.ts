@@ -10,12 +10,12 @@ export const PAGE_META: Record<string, LocaleMeta> = {
     en: {
       title: 'About Appaw Store – Hong Kong PSA Card Protectors & Trading',
       description:
-        'Appaw Store is a Hong Kong-based brand specialising in PSA Card Aluminum Protectors and TCG graded card trading. Our UV-blocking, N52 magnetic cases ship to 100+ countries.',
+        'Appaw Store is a Hong Kong-based brand specialising in PSA UV glass protectors and TCG graded card trading. Tempered UV-blocking glass, N52 magnetic cases ship to 100+ countries.',
     },
     zh: {
       title: '關於 Appaw Store – 香港鑑定卡保護殼及卡牌交易',
       description:
-        'Appaw Store 是香港鑑定卡保護殼品牌，提供磁吸鋁合金 Slab 保護殼及 TCG 鑑定卡交易服務。>95% 抗 UV、N52 磁吸，全球付運。',
+        'Appaw Store 是香港鑑定卡保護殼品牌，提供磁吸防UV Slab 保護殼及 TCG 鑑定卡交易服務。>95% 抗 UV 強化玻璃、N52 磁吸，全球付運。',
     },
   },
   '/products/psa-protectors': {
@@ -26,11 +26,11 @@ export const PAGE_META: Record<string, LocaleMeta> = {
     en: {
       title: 'Services – Graded Slab Protector & TCG Trading',
       description:
-        'Explore Appaw Store services: premium graded slab aluminum protectors and trusted TCG trading for graded Pokémon, sports, and MTG cards.',
+        'Explore Appaw Store services: premium graded slab UV glass protectors and trusted TCG trading for graded Pokémon, sports, and MTG cards.',
     },
     zh: {
       title: '服務 – 鑑定卡保護殼及卡牌交易 | Appaw Store',
-      description: 'Appaw Store 服務：磁吸鋁合金鑑定卡保護殼及 TCG 鑑定卡交易、寄售服務。',
+      description: 'Appaw Store 服務：磁吸防UV鑑定卡保護殼及 TCG 鑑定卡交易、寄售服務。',
     },
   },
   '/business/card-trading': {

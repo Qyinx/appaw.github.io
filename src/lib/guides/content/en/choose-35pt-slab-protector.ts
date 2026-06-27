@@ -35,7 +35,7 @@ const guide: GuideContent = {
       title: 'Measure Before You Buy',
       paragraphs: [
         'Lay the slab on a flat surface. Measure outer width and height with a ruler or calipers. Compare depth by stacking two slabs: a 35PT-class holder feels noticeably slimmer than vintage thick-case Pokémon holos or relic cards.',
-        'CGC and PSA standard slabs are close enough that one 35PT-rated aluminum case usually fits both. If you collect thick subgrades, autograph cards, or oddball sizes, check the grader\'s holder chart before assuming one protector covers the whole run.',
+        'CGC and PSA standard slabs are close enough that one 35PT-rated case with a rigid metal frame usually fits both. If you collect thick subgrades, autograph cards, or oddball sizes, check the grader\'s holder chart before assuming one protector covers the whole run.',
       ],
     },
     {
@@ -43,7 +43,7 @@ const guide: GuideContent = {
       title: 'Fit Checklist That Saves Returns',
       paragraphs: [
         'The slab should seat flat with no corner lift. You should not need foam shims for a standard PSA 10 Pokémon slab. The label must stay fully readable through the front panel.',
-        'Look for rigid sidewalls. Thin acrylic shells flex and transfer shock to the inner case. Aluminum framing plus a flat back plate spreads impact better when you travel to locals or ship domestically.',
+        'Look for rigid sidewalls. Thin acrylic shells flex and transfer shock to the inner case. A metal frame plus a flat back plate spreads impact better when you travel to locals or ship domestically.',
         'Closure type matters for daily swaps. Magnetic latches (N52 grade is common on premium cases) let you rotate display pieces without screwdriver wear on the slab screw posts.',
       ],
       specs: [
@@ -55,7 +55,7 @@ const guide: GuideContent = {
   ],
   cta: {
     title: 'Built for standard 35PT slabs',
-    body: 'Appaw Store\'s magnetic aluminum case is sized for PSA and CGC 35PT profiles, with >95% UV-blocking glass and N52 closure.',
+    body: 'Appaw Store\'s magnetic UV glass case is sized for PSA and CGC 35PT profiles, with >95% UV-blocking glass and N52 closure.',
     primary: { label: 'See Graded Card Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'UV protection for slabs', href: '/guides/uv-protection-graded-cards/' },
   },

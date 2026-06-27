@@ -13,28 +13,30 @@ export const SEO_KEYWORD_MAP = {
   'regrade downgrade risk': '重評降級風險',
   'graded slab centering': '鑑定卡置中',
   'check centering before regrading': '重評前置中檢查',
+  'UV glass slab case': '防UV玻璃鑑定卡殼',
+  'tempered glass card protector': '強化玻璃卡殼',
 } as const;
 
 /** Canonical product names — keep in sync with i18n business.cardProtector.title / nav.psaProtector */
 export const PRODUCT_NAME = {
   en: {
-    full: 'Graded Slab Aluminum Protector',
+    full: 'Graded Slab UV Glass Protector',
     short: 'Graded Slab Protector',
     plural: 'Graded Slab Protectors',
-    whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab Aluminum Protector.',
-    seoH1: '35PT Graded Card Protector — Magnetic Aluminum',
-    metaTitle: '35PT Graded Card Protector | HK – Appaw Store',
+    whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab UV Glass Protector.',
+    seoH1: '35PT Graded Card Protector — UV Tempered Glass',
+    metaTitle: '35PT UV Glass Graded Card Protector | HK – Appaw Store',
     metaDescription:
-      '35PT magnetic graded card protector. Aluminum case with >95% UV glass, N52 closure for PSA & CGC slabs. HK designed. Ships worldwide.',
+      '35PT magnetic graded card protector. Tempered UV-blocking glass, metal frame, N52 closure for PSA & CGC slabs. HK designed. Ships worldwide.',
   },
   zh: {
-    full: '磁吸鋁合金鑑定卡保護殼',
+    full: '磁吸防UV鑑定卡保護殼',
     short: '鑑定卡保護殼',
-    whatsappOrder: '你好！我想訂購磁吸鋁合金鑑定卡保護殼。',
-    seoH1: '35PT 鑑定卡保護殼 — 磁吸鋁合金',
-    metaTitle: '35PT 鑑定卡保護殼 | Appaw Store 香港',
+    whatsappOrder: '你好！我想訂購磁吸防UV鑑定卡保護殼。',
+    seoH1: '35PT 鑑定卡保護殼 — 防UV強化玻璃',
+    metaTitle: '35PT 防UV鑑定卡保護殼 | Appaw Store 香港',
     metaDescription:
-      '35PT 磁吸鋁合金鑑定卡保護殼。>95% 抗UV、N52 磁吸，適用 PSA/CGC 鑑定卡磚。香港設計，全球付運。',
+      '35PT 磁吸防UV鑑定卡保護殼。>95% 抗UV強化玻璃、金屬邊框、N52 磁吸，適用 PSA/CGC 鑑定卡磚。香港設計，全球付運。',
   },
   shop: {
     en: 'Shop No. 9, Basement, Manly Plaza, 995-997 King\'s Road, Quarry Bay, Hong Kong',
@@ -70,12 +72,12 @@ export const HOME_SEO = {
   en: {
     title: 'Graded Card Protectors, Hong Kong – Appaw Store',
     description:
-      'Premium graded card protectors for 35PT PSA & CGC slabs, plus trusted graded card trading in Hong Kong. UV-blocking glass, N52 magnetic closure.',
+      'Premium UV glass graded card protectors for 35PT PSA & CGC slabs, plus trusted graded card trading in Hong Kong. Tempered UV-blocking glass, N52 magnetic closure.',
   },
   zh: {
     title: 'Appaw Store 香港｜PSA卡殼・鑑定卡殼・PSA卡保護殼',
     description:
-      '香港設計 PSA卡殼、鑑定卡殼及磁吸 PSA卡保護殼，適用 35PT PSA/CGC 鑑定卡磚。>95% 抗UV、N52 磁吸。兼營 PTCG 交易，全球付運。',
+      '香港設計 PSA卡殼、鑑定卡殼及磁吸防UV PSA卡保護殼，適用 35PT PSA/CGC 鑑定卡磚。>95% 抗UV強化玻璃、N52 磁吸。兼營 PTCG 交易，全球付運。',
   },
 } as const;
 

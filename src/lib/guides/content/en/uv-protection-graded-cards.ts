@@ -65,7 +65,7 @@ const guide: GuideContent = {
   ],
   cta: {
     title: 'Display without sun damage',
-    body: 'Our graded slab aluminum case uses >95% UV-blocking glass and seals standard 35PT PSA / CGC slabs for home or showroom display.',
+    body: 'Our graded slab UV glass protector uses >95% UV-blocking glass and seals standard 35PT PSA / CGC slabs for home or showroom display.',
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'When to grade vs protect', href: '/guides/grade-or-protect-first/' },
   },

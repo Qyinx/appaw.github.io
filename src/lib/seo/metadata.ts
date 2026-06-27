@@ -16,10 +16,11 @@ const psaProtectorsMetadataBase: Metadata = {
     'PSA card protector',
     'graded card display case',
     'PSA slab protector',
-    'PSA card aluminum case',
+    'PSA UV glass case',
     'PSA graded card case',
-    'aluminum card protector',
-    'aluminum slab case',
+    'tempered glass card protector',
+    'UV glass slab case',
+    'magnetic UV glass slab',
     'PSA卡殼',
     '鑑定卡殼',
     'PSA卡保護殼',
@@ -29,10 +30,11 @@ const psaProtectorsMetadataBase: Metadata = {
     'high-value card protection',
     'museum-grade UV filtration',
     'graded slab protector',
-    'graded slab aluminum case',
+    'graded slab UV glass case',
     '鑑定卡保護殼',
     '磁吸卡磚',
-    '鋁合金保護殼',
+    '防UV玻璃',
+    '強化玻璃卡殼',
     '35PT 鑑定卡磚',
     ...HK_SEO_KEYWORDS,
     PRODUCT_NAME.zh.metaTitle,
@@ -138,7 +140,8 @@ export const rootMetadata: Metadata = {
     'PSA card protector',
     'graded slab protector',
     'PSA slab protector',
-    'aluminum card case',
+    'UV glass slab case',
+    'tempered glass card protector',
     'PSA卡殼',
     '鑑定卡殼',
     'PSA卡保護殼',
@@ -163,7 +166,7 @@ export const rootMetadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     alternateLocale: ['zh_HK'],
-    images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: 'Appaw Store – Graded Slab Aluminum Protector' }],
+    images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: 'Appaw Store – Graded Slab UV Glass Protector' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -246,24 +249,24 @@ export const zhPrivacyMetadata = zhRouteMetadata(privacyMetadataBase, '/privacy/
 const aboutMetadataBase: Metadata = {
   title: 'About Appaw Store – Hong Kong PSA Card Protectors & Trading',
   description:
-    'Appaw Store is a Hong Kong-based brand specialising in PSA Card Aluminum Protectors and TCG graded card trading. Our UV-blocking, N52 magnetic cases ship to 100+ countries. Learn our story.',
+    'Appaw Store is a Hong Kong-based brand specialising in PSA UV glass protectors and TCG graded card trading. Tempered UV-blocking glass, N52 magnetic cases ship to 100+ countries. Learn our story.',
   keywords: ['Appaw Store', 'about Appaw Store', 'Appaw Store Hong Kong'],
   alternates: { canonical: '/about/' },
   openGraph: {
     title: 'About Appaw Store – Hong Kong PSA Card Protectors & Trading',
-    description: 'Hong Kong-based brand crafting premium PSA card aluminum protectors & offering trusted TCG trading services. UV-blocking glass, N52 magnets, ships to 100+ countries.',
+    description: 'Hong Kong-based brand crafting premium PSA UV glass protectors & offering trusted TCG trading services. Tempered UV-blocking glass, N52 magnets, ships to 100+ countries.',
     url: 'https://appaw.store/about/',
     type: 'website',
     images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: 'About Appaw Store – Premium Card Protection & TCG Trading' }],
   },
-  twitter: { card: 'summary_large_image', title: 'About Appaw Store – Hong Kong PSA Card Protectors & Trading', description: 'Hong Kong-based brand crafting premium PSA card aluminum protectors & offering trusted TCG graded card trading services.', images: ['/images/og-image.png'] },
+  twitter: { card: 'summary_large_image', title: 'About Appaw Store – Hong Kong PSA Card Protectors & Trading', description: 'Hong Kong-based brand crafting premium PSA UV glass protectors & offering trusted TCG graded card trading services.', images: ['/images/og-image.png'] },
 };
 
 export const aboutMetadata = withLocaleAlternates(aboutMetadataBase, '/about/');
 export const zhAboutMetadata = zhRouteMetadata(aboutMetadataBase, '/about/', {
   title: '關於 Appaw Store – 香港鑑定卡保護殼及卡牌交易',
   description:
-    'Appaw Store 是香港鑑定卡保護殼品牌，提供磁吸鋁合金 Slab 保護殼及 TCG 鑑定卡交易服務。>95% 抗 UV、N52 磁吸，全球付運。',
+    'Appaw Store 是香港鑑定卡保護殼品牌，提供磁吸防UV Slab 保護殼及 TCG 鑑定卡交易服務。>95% 抗 UV 強化玻璃、N52 磁吸，全球付運。',
 });
 
 const collectionMetadataBase: Metadata = {
@@ -357,14 +360,14 @@ export const collectionSettingsMetadata = withLocaleAlternates(collectionSetting
 const businessMetadataBase: Metadata = {
   title: 'Services – Graded Slab Protector & TCG Trading',
   description:
-    'Explore Appaw Store services: premium graded slab aluminum protectors with UV-blocking glass & N52 magnetic closure, and trusted TCG trading for graded Pokémon, sports, and MTG cards.',
+    'Explore Appaw Store services: premium graded slab UV glass protectors with tempered UV-blocking glass & N52 magnetic closure, and trusted TCG trading for graded Pokémon, sports, and MTG cards.',
 };
 
 export const businessMetadata = withLocaleAlternates(businessMetadataBase, '/business/');
 export const zhBusinessMetadata = zhRouteMetadata(businessMetadataBase, '/business/', {
   title: { absolute: '服務 – 鑑定卡保護殼及卡牌交易 | Appaw Store' },
   description:
-    'Appaw Store 服務：磁吸鋁合金鑑定卡保護殼（>95% 抗 UV、N52 磁吸）及 TCG 鑑定卡交易、寄售服務。',
+    'Appaw Store 服務：磁吸防UV鑑定卡保護殼（>95% 抗 UV 強化玻璃、N52 磁吸）及 TCG 鑑定卡交易、寄售服務。',
 });
 
 const cardTradingMetadataBase: Metadata = {

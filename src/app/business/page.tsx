@@ -13,8 +13,8 @@ const services = itemListJsonLd('Appaw Store Services', [
     position: 1,
     item: {
       '@type': 'Service',
-      name: 'Graded Slab Aluminum Protector',
-      description: 'Premium aluminum protective case for PSA and CGC graded card slabs. Features >95% UV-blocking glass, N52 magnetic closure, and a precision aluminum frame. Fits standard 35PT PSA and CGC slabs including Pokémon, sports cards, and MTG.',
+      name: 'Graded Slab UV Glass Protector',
+      description: 'Premium UV glass protective case for PSA and CGC graded card slabs. Features tempered UV-blocking glass, N52 magnetic closure, and a rigid metal frame. Fits standard 35PT PSA and CGC slabs including Pokémon, sports cards, and MTG.',
       provider: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
       serviceType: 'Card Protection Product',
       areaServed: [

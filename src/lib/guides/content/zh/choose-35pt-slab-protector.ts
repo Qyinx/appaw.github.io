@@ -35,7 +35,7 @@ const guide: GuideContent = {
       title: '購買前先量',
       paragraphs: [
         '將鑑定卡平放，用直尺或游標卡尺量外寬、外高。比較厚度時，可將兩塊磚疊放：35PT 級 holder 明顯薄過厚卡或簽名卡的舊款深殼。',
-        'CGC 與 PSA 標準磚尺寸接近，一款標明 35PT 的鋁合金殼通常兩者通用。若你收藏厚卡、簽名 subgrade 或非標尺寸，請先查該鑑定公司的 holder 規格，勿假設同一款殼可包全部。',
+        'CGC 與 PSA 標準磚尺寸接近，一款標明 35PT、具剛性金屬邊框的殼通常兩者通用。若你收藏厚卡、簽名 subgrade 或非標尺寸，請先查該鑑定公司的 holder 規格，勿假設同一款殼可包全部。',
       ],
     },
     {
@@ -43,7 +43,7 @@ const guide: GuideContent = {
       title: '避免退貨的適配檢查清單',
       paragraphs: [
         '磚應平貼底面，四角不翹起。標準 PSA 10 寶可夢鑑定卡不應需要泡棉墊片。正面必須完整看到 PSA / CGC 標籤。',
-        '側壁要夠硬。薄膠殼會變形，衝擊直接傳到內層鑑定殼。鋁合金框架加平背板在本地卡展或寄送時較能分散受力。',
+        '側壁要夠硬。薄膠殼會變形，衝擊直接傳到內層鑑定殼。金屬邊框加平背板在本地卡展或寄送時較能分散受力。',
         '開合方式影響日常換卡。磁吸（N52 等級常見於高階殼）可快速更換展示卡，無需在螺絲位反覆磨損。',
       ],
       specs: [
@@ -55,7 +55,7 @@ const guide: GuideContent = {
   ],
   cta: {
     title: '為標準 35PT 鑑定卡而設',
-    body: 'Appaw Store 磁吸鋁合金殼適用 PSA、CGC 35PT profile，>95% 抗 UV 玻璃及 N52 磁吸。',
+    body: 'Appaw Store 磁吸防UV殼適用 PSA、CGC 35PT profile，>95% 抗 UV 玻璃及 N52 磁吸。',
     primary: { label: '查看鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定卡防 UV', href: '/guides/uv-protection-graded-cards/' },
   },

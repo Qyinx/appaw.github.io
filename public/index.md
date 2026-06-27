@@ -1,6 +1,6 @@
 # Appaw Store
 
-> Hong Kong brand — premium magnetic aluminum protectors for standard 35PT PSA & CGC graded card slabs (Pokémon PTCG, sports cards, MTG). Ships worldwide.
+> Hong Kong brand — premium magnetic UV glass protectors for standard 35PT PSA & CGC graded card slabs (Pokémon PTCG, sports cards, MTG). Ships worldwide.
 
 **Canonical HTML:** https://appaw.store/  
 **Chinese (zh-HK):** https://appaw.store/zh/  
@@ -8,7 +8,7 @@
 
 ## Primary product
 
-[Graded Card Protector](https://appaw.store/products/psa-protectors/) — magnetic aluminum graded card case, >95% UV-blocking glass, N52 neodymium closure. Fits standard PSA and CGC slabs. 74 g · 8.7 × 14.2 × 0.98 cm.
+[Graded Slab UV Glass Protector](https://appaw.store/products/psa-protectors/) — magnetic UV glass graded card case, tempered >95% UV-blocking glass, N52 neodymium closure. Fits standard PSA and CGC slabs. 74 g · 8.7 × 14.2 × 0.98 cm.
 
 ## Free tool
 

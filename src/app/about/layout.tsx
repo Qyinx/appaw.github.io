@@ -17,7 +17,7 @@ const org = organizationJsonLd({
   alternateName: 'APPAW',
   url: 'https://appaw.store',
   logo: brandLogoImageObject,
-  description: 'Hong Kong-based brand founded in 2024 by passionate collectors. We manufacture premium PSA Card Aluminum Protectors and operate a trusted TCG brokerage and consignment service for PSA and CGC graded Pokémon, sports, and MTG cards.',
+  description: 'Hong Kong-based brand founded in 2024 by passionate collectors. We manufacture premium PSA UV glass protectors and operate a trusted TCG brokerage and consignment service for PSA and CGC graded Pokémon, sports, and MTG cards.',
   slogan: 'Protect What Matters. Display What You Love.',
   foundingDate: '2024',
   foundingLocation: { '@type': 'Place', name: 'Hong Kong' },
@@ -27,7 +27,7 @@ const org = organizationJsonLd({
     'CGC graded trading cards',
     'Pokémon TCG card preservation',
     'TCG card valuation and brokerage',
-    'Aluminum card case manufacturing',
+    'UV glass slab protector manufacturing',
     'UV protection for trading cards',
   ],
   contactPoint: {
@@ -48,15 +48,15 @@ const org = organizationJsonLd({
 const aboutFaqJsonLd = faqJsonLd([
   {
     q: 'What is Appaw Store?',
-    a: 'Appaw Store is a Hong Kong-based brand founded in 2024 by passionate card collectors. We design and sell premium PSA Card Aluminum Protectors — industrial-grade aluminum cases with UV-blocking glass and N52 magnetic closure for PSA graded cards. We also operate a trusted TCG brokerage and consignment service for buying and selling PSA and CGC graded trading cards.',
+    a: 'Appaw Store is a Hong Kong-based brand founded in 2024 by passionate card collectors. We design and sell premium PSA UV glass protectors — tempered UV-blocking glass, metal frame, and N52 magnetic closure for PSA graded cards. We also operate a trusted TCG brokerage and consignment service for buying and selling PSA and CGC graded trading cards.',
   },
   {
     q: 'When was Appaw Store founded and where is it based?',
-    a: 'Appaw Store was founded in 2024 and is based in Hong Kong. Our PSA Card Aluminum Protectors ship worldwide to the US, UK, Hong Kong, Singapore, and Taiwan. Our card trading and brokerage service operates exclusively face-to-face within Hong Kong.',
+    a: 'Appaw Store was founded in 2024 and is based in Hong Kong. Our PSA UV glass protectors ship worldwide to the US, UK, Hong Kong, Singapore, and Taiwan. Our card trading and brokerage service operates exclusively face-to-face within Hong Kong.',
   },
   {
     q: 'Where can I verify Appaw Store reviews and ratings?',
-    a: 'You can verify independent customer reviews and ratings on our Etsy shop at appawstore.etsy.com and on Carousell Hong Kong at carousell.com.hk/u/appaw.store. Both platforms host verified buyer reviews for our PSA Card Aluminum Protectors and trading transactions.',
+    a: 'You can verify independent customer reviews and ratings on our Etsy shop at appawstore.etsy.com and on Carousell Hong Kong at carousell.com.hk/u/appaw.store. Both platforms host verified buyer reviews for our PSA UV glass protectors and trading transactions.',
   },
   {
     q: 'What languages does Appaw Store support?',

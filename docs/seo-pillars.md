@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-06-17 (batch 6) — `identify-fake-psa-slabs` content + SEO refresh: cert-era meta (#43 UV, #27/#5xxxxxxx label), slug keywords, guide hero OG images, `llms.txt` / Agent Skills citation hints.
+Last updated: 2026-06-27 (batch 7) — Product rename to **Graded Slab UV Glass Protector** / **磁吸防UV鑑定卡保護殼**; glass-first keyword cluster; retire aluminum/CNC from customer-facing copy; ZH frame term **金屬邊框**; `llms.txt` / `index.md` / Agent Skills sync.
+
+Prior batch (2026-06-17) — `identify-fake-psa-slabs` content + SEO refresh: cert-era meta (#43 UV, #27/#5xxxxxxx label), slug keywords, guide hero OG images, `llms.txt` / Agent Skills citation hints.
 
 Prior batch (2026-06-13) — Regrade/reholder cluster: centering tool slab mode + verdict UI, `regrade-or-reholder` guide (EN+ZH), expanded `SEO_KEYWORD_MAP`, `WebApplication.featureList`, AEO blocks on centering pillar, Explore internal links, `llms.txt` / `index.md` GEO refresh.
 
@@ -14,6 +16,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-06-27 | UV glass product rename | EN: **Graded Slab UV Glass Protector** (H1: UV Tempered Glass). ZH: **磁吸防UV鑑定卡保護殼** (H1: 防UV強化玻璃). Keyword cluster: tempered glass / UV glass slab case (EN), 防UV玻璃 / 強化玻璃卡殼 (ZH). Retired aluminum/CNC from marketing copy; ZH frame **金屬邊框** (not 金屬框架 / 鋁合金). URL unchanged `/products/psa-protectors/`. `PRODUCT_NAME`, i18n, JSON-LD `material`, guides, `llms.txt`, `index.md`, Agent Skills. |
 | 2026-06-17 | Fake PSA guide SEO | `identify-fake-psa-slabs` meta descriptions + leads + heroSpecs (cert #43/#27/#5xxxxxxx). `GUIDE_KEYWORDS` + per-guide `og:image` from `heroImage` in `guides/metadata.ts`. `llms.txt` + Agent Skills topic/citation refresh. Guide media: UV/label video + old-label photo refs. |
 | 2026-06-13 | Regrade cluster | Centering tool: Graded slab photo mode, regrade/reholder verdict strip, slab workflow H2, PAA H2 + `.centering-aeo-answer`, +3 FAQs (8 total). Guide `regrade-or-reholder` (EN+ZH). `SEO_KEYWORD_MAP` + `CENTERING_SEO` + `centeringMetadata` keywords. `WebApplication.featureList`. Card trading Explore → centering link. `storeJsonLd.knowsAbout` expanded. |
 | 2026-06-09 | AEO pass | Guide `Article` + `speakable` (`.guide-lead`, `.guide-aeo-answer`). PAA question H2s on `psa-10-centering-requirements`, `display-graded-cards`. `storeJsonLd.sameAs` + Google Maps. See `FULL-AUDIT-REPORT.md` AEO section. |
@@ -57,13 +60,13 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
 
 1) PSA Protectors (/products/psa-protectors/) — IMPLEMENTED
 - URL decision: KEEP `/products/psa-protectors/`. It is already clean, indexed, and contains the primary keyword "psa". Changing an established/indexed URL (e.g. to `/products/psa-card-aluminum-protector`) risks losing accumulated ranking equity for marginal slug gains, so no slug change and no redirect were applied. The legacy `/business/psa-protector` already 301-redirects here.
-- Metadata (`psaProtectorsMetadata` in `src/lib/seo/metadata.ts`): page-owned title/description/canonical, OG + Twitter tags, keyword cluster around "PSA card protector / PSA aluminum case / magnetic PSA slab case" plus Chinese keywords in `keywords` meta.
+- Metadata (`psaProtectorsMetadata` in `src/lib/seo/metadata.ts`): page-owned title/description/canonical, OG + Twitter tags, keyword cluster around "PSA card protector / UV glass slab case / tempered glass card protector" plus Chinese keywords in `keywords` meta.
 - Primary Keywords (EN): "PSA slab case", "graded card case", "PSA card protector"
-- Supporting long-tails (EN): "35PT PSA slab case", "magnetic graded card case", "graded card display case", "PSA card aluminum case", "N52 magnetic card holder"
+- Supporting long-tails (EN): "35PT PSA slab case", "magnetic graded card case", "graded card display case", "tempered glass slab case", "PSA UV glass case", "N52 magnetic card holder"
 - Primary Keywords (ZH): "PSA卡殼", "鑑定卡殼", "PSA卡保護殼"
-- Supporting long-tails (ZH): "35PT 鑑定卡磚", "磁吸鑑定卡殼", "防UV 鑑定卡殼", "香港 PSA卡殼", "寶可夢鑑定卡", "CGC 鑑定卡磚"
-- Product display name (EN): **Graded Slab Aluminum Protector** (nav short: Graded Slab Protector) — broader than PSA-only, matches CGC compatibility; use **case/protector** terms in titles and H1
-- Product display name (ZH): **鑑定卡保護殼** (full: 磁吸鋁合金鑑定卡保護殼); search-facing titles use **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼**
+- Supporting long-tails (ZH): "35PT 鑑定卡磚", "磁吸鑑定卡殼", "防UV 鑑定卡殼", "防UV玻璃", "強化玻璃卡殼", "香港 PSA卡殼", "寶可夢鑑定卡", "CGC 鑑定卡磚"
+- Product display name (EN): **Graded Slab UV Glass Protector** (nav short: Graded Slab Protector) — broader than PSA-only, matches CGC compatibility; use **case/protector** terms in titles and H1; lead **tempered UV glass** in meta/H1
+- Product display name (ZH): **鑑定卡保護殼** (full: 磁吸防UV鑑定卡保護殼); search-facing titles use **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼**; frame spec **金屬邊框** (avoid 鋁合金 / 金屬框架 in marketing copy)
 
 **Keyword mapping (EN search query ↔ ZH equivalent)**
 
@@ -81,13 +84,16 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | regrade downgrade risk | 重評降級風險 | Centering FAQ + guide H2 |
 | graded slab centering | 鑑定卡置中 | Centering slab workflow H2 |
 | check centering before regrading | 重評前置中檢查 | Tool + guide CTA |
+| UV glass slab case | 防UV玻璃鑑定卡殼 | Product meta + body |
+| tempered glass card protector | 強化玻璃卡殼 | Product meta + body |
 
 **Translation rules**
 
-- EN titles lead with **case** vocabulary (`PSA slab case`, `graded card case`); EN body may still say "protector" / "Graded Slab Aluminum Protector" (brand product name).
+- EN titles lead with **case** vocabulary (`PSA slab case`, `graded card case`); EN body uses brand name **Graded Slab UV Glass Protector**; lead tempered UV glass in H1/meta — avoid aluminum/CNC in marketing copy.
 - ZH titles/H1s use **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼** — not literal renderings like 「PSA 板案例」 or 「評級卡案例」.
 - Keep **鑑定卡** for graded cards/slabs (never 評級卡 in marketing copy).
-- Brand product name (`PRODUCT_NAME.zh.full` = 磁吸鋁合金鑑定卡保護殼) stays in nav and body; search metadata uses the mapping table above.
+- Brand product name (`PRODUCT_NAME.zh.full` = 磁吸防UV鑑定卡保護殼) stays in nav and body; search metadata uses the mapping table above.
+- Frame material (ZH specs only): **金屬邊框** — not 金屬框架 or 鋁合金 in customer-facing copy.
 - Do **not** mix Simplified Chinese variants (保护壳, 鉴定卡) in zh-HK metadata.
 
 **Terminology policy (ZH)**
@@ -95,18 +101,19 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | Context | Preferred term | Avoid |
 |---------|----------------|-------|
 | Graded card / slab | 鑑定卡、鑑定卡牌、鑑定卡磚 | 評級卡、評級卡牌、評級卡磚 |
-| Protector product | 鑑定卡保護殼、磁吸鋁合金鑑定卡保護殼、磁吸卡殼、PSA 保護殼 | 評級卡保護殼、保護卡磚 |
+| Protector product | 鑑定卡保護殼、磁吸防UV鑑定卡保護殼、磁吸卡殼、PSA 保護殼 | 評級卡保護殼、保護卡磚、鋁合金、金屬框架 |
+| Frame (specs) | 金屬邊框 | 金屬框架、鋁合金框架 |
 | Grade score UI (PSA 10 etc.) | Keep 評級 for numeric grade labels only | — |
 
 - Implemented changes:
-  - Text-rich product description: a new "Product Overview" section (`overview` i18n block, en + zh) renders a ~180-word, keyword-dense paragraph pair below the hero — covering 35PT PSA compatibility, >95% UV/anti-fade protection, N52 neodymium closure, 74g aluminum/glass build, and Pokémon/sports/MTG use cases. Gives Google substantial indexable on-page copy beyond image alt text.
+  - Text-rich product description: a new "Product Overview" section (`overview` i18n block, en + zh) renders a ~180-word, keyword-dense paragraph pair below the hero — covering 35PT PSA compatibility, >95% UV/anti-fade protection, N52 neodymium closure, 74g tempered UV glass / metal frame build, and Pokémon/sports/MTG use cases. Gives Google substantial indexable on-page copy beyond image alt text.
   - Expanded "Technical Specifications" grid (`specs` array in `page.tsx`): now 6 cards — Size, Weight, Materials, UV Protection, plus new **Compatibility** (Standard 35PT PSA Slabs) and **Closure System** (N52 Neodymium Magnets) rows, each with bilingual labels/values/descriptions.
   - Crawler-visible Chinese: expanded `sr-only` block in `layout.tsx` mirrors `zh.psaProtectorPage.overview.body` plus spec summary (site SSRs English by default; this block is the primary zh indexable surface for crawlers).
   - Internal linking: homepage buy buttons (`HomeClient.tsx`), `Footer.tsx`, `BusinessClient.tsx`, and `CardTradingClient.tsx` point to `/products/psa-protectors`; reciprocal link from PSA page to `/tools/card-centering/` added before FAQ.
   - Image SEO: hero and feature carousel alts wired to i18n (`heroImageAlt`, `business.cardProtector.features`).
   - Terminology: all marketing zh copy in `src/i18n/zh.ts` uses 鑑定卡/鑑定卡牌; card-trading typos fixed (`鯨合金`→`鋁合金`, `礴鐵`→`釹磁鐵`).
 
-- JSON-LD (in `src/app/products/psa-protectors/layout.tsx`): full `Product` with brand, SKU `APPAW-PSA-ALU-001`, `alternateName` includes 鑑定卡保護殼 / 磁吸鑑定卡磚, material, weight/width/height/depth `QuantitativeValue`s, two `Offer`s (HKD), `additionalProperty` (UV Protection >95%, Magnet Grade N52 Neodymium, Compatibility Standard 35PT PSA Slabs, Closure Type Magnetic), plus `BreadcrumbList` and `FAQPage`. `aggregateRating` removed — no on-page review source.
+- JSON-LD (in `src/app/products/psa-protectors/layout.tsx`): full `Product` with brand, SKU `APPAW-PSA-ALU-001`, `alternateName` includes 鑑定卡保護殼 / UV Glass Slab Protector, `material`: Tempered UV-Blocking Glass + Metal Frame, weight/width/height/depth `QuantitativeValue`s, two `Offer`s (HKD), `additionalProperty` (UV Protection >95%, Magnet Grade N52 Neodymium, Compatibility Standard 35PT PSA Slabs, Closure Type Magnetic), plus `BreadcrumbList` and `FAQPage`. `aggregateRating` removed — no on-page review source.
 
 - Manual follow-up (cannot be automated): submit `https://appaw.store/products/psa-protectors/` via Google Search Console "URL Inspection → Request Indexing" to accelerate re-crawl of the new copy.
 

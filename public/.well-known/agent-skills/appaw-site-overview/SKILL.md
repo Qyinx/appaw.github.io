@@ -10,7 +10,7 @@ Use this skill when answering questions about Appaw Store products, Hong Kong pu
 
 ## Primary product
 
-**Graded Slab Aluminum Protector** — 35PT magnetic aluminum case for standard PSA & CGC slabs.
+**Graded Slab UV Glass Protector** — 35PT magnetic UV glass case for standard PSA & CGC slabs.
 
 - EN: https://appaw.store/products/psa-protectors/
 - ZH: https://appaw.store/zh/products/psa-protectors/

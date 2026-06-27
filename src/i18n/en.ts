@@ -28,8 +28,8 @@ export const en = {
         { text: 'Investment.', accent: true },
       ],
       h1Keyword: 'Graded Card Protectors & Trading Card Supplies in Hong Kong',
-      subtitle: 'Magnetic aluminum alloy Graded Card case, suitable for standard 35PT PSA/CGC Graded Card.',
-      description: 'From our signature aluminum protectors to our professional card brokerage, we help collectors protect and grow their collections.',
+      subtitle: 'Magnetic UV glass graded card case, suitable for standard 35PT PSA/CGC graded slabs.',
+      description: 'From our signature UV glass protectors to our professional card brokerage, we help collectors protect and grow their collections.',
       cta: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
       learnMore: 'Browse Cards',
@@ -80,11 +80,11 @@ export const en = {
       cta: 'Buy Graded Card Protector',
       rows: {
         product: 'Product',
-        productValue: 'Graded Slab Aluminum Protector (Magnetic Slab Case)',
+        productValue: 'Graded Slab UV Glass Protector (Magnetic Slab Case)',
         compatibility: 'Compatibility',
         compatibilityValue: 'Fits standard 35PT PSA graded slabs',
         material: 'Material',
-        materialValue: 'Aluminum alloy & UV-blocking glass',
+        materialValue: 'Tempered UV-blocking glass & metal frame',
         closure: 'Closure',
         closureValue: 'N52 neodymium magnetic closure',
         uvProtection: 'UV Protection',
@@ -98,16 +98,16 @@ export const en = {
       },
     },
     features: {
-      badge: 'Why Aluminum',
-      title: 'Why Collectors Switch to Aluminum Cases',
-      subtitle: 'Built for collectors who display graded slabs without risking damage.',
+      badge: 'Why UV Glass',
+      title: 'Why Collectors Switch to UV Glass Cases',
+      subtitle: 'Built for collectors who display graded slabs without risking fade or impact damage.',
       quality: {
-        title: 'True Drop Protection',
-        description: 'Unlike acrylic slab cases that crack on impact, our aluminum graded card case frame absorbs shock and keeps your PSA slab safe.',
+        title: 'UV Defense',
+        description: 'Tempered UV-blocking glass blocks harmful light to preserve holo, chrome, and vintage graded card color.',
       },
       trust: {
-        title: 'UV Defense',
-        description: 'Blocks harmful light to preserve holo, chrome, and vintage graded card color.',
+        title: 'True Drop Protection',
+        description: 'Unlike acrylic slab cases that crack on impact, our metal frame absorbs shock and keeps your PSA slab safe.',
       },
       support: {
         title: 'Magnetic Closure',
@@ -126,7 +126,7 @@ export const en = {
       subtitle: 'From premium protection to trusted trading, we\'ve got your collection covered.',
       protector: {
         badge: 'Premium Protection',
-        subtitle: 'Industrial-grade aluminum protection meets gallery-worthy display for your prized PSA graded cards.',
+        subtitle: 'Tempered UV glass protection meets gallery-worthy display for your prized PSA graded cards.',
         cta: 'View Product',
         chips: ['>95% UV', 'N52 Magnet', 'Anti-Fade', '74g'],
       },
@@ -170,13 +170,13 @@ export const en = {
     subtitle: 'Your Trusted Partner in Card Collection',
     story: {
       title: 'Our Story',
-      content: 'Founded in 2024 by a team of passionate collectors in Hong Kong, Appaw Store grew out of a simple frustration: the acrylic cases on the market for graded slabs just weren\'t good enough. They cracked on impact, offered no UV protection, and looked cheap on the shelf. So we built our own. Our Graded Slab Aluminum Protector combines CNC-precision aluminum alloy, UV-blocking glass, and N52 magnetic closure — giving serious collectors industrial-grade protection with gallery-worthy display. Alongside the protector, we operate a trusted face-to-face TCG brokerage and consignment service in Hong Kong, connecting buyers and sellers of PSA and CGC graded Pokémon, sports, and MTG cards with full transparency and no upfront fees.',
+      content: 'Founded in 2024 by a team of passionate collectors in Hong Kong, Appaw Store grew out of a simple frustration: the acrylic cases on the market for graded slabs just weren\'t good enough. They cracked on impact, offered no UV protection, and looked cheap on the shelf. So we built our own. Our Graded Slab UV Glass Protector combines tempered UV-blocking glass, a rigid metal frame, and N52 magnetic closure — giving serious collectors durable protection with gallery-worthy display. Alongside the protector, we operate a trusted face-to-face TCG brokerage and consignment service in Hong Kong, connecting buyers and sellers of PSA and CGC graded Pokémon, sports, and MTG cards with full transparency and no upfront fees.',
       founderName: 'Appaw Store',
       founderRole: 'Founded 2024 · Hong Kong',
     },
     mission: {
       title: 'Our Mission',
-      content: 'To provide collectors with the best aluminum protection for their graded cards, and a trusted marketplace for buying and selling premium trading cards.',
+      content: 'To provide collectors with the best UV glass protection for their graded cards, and a trusted marketplace for buying and selling premium trading cards.',
     },
     values: {
       title: 'Our Values',
@@ -226,13 +226,13 @@ export const en = {
     },
     service01Label: 'Service 01 — Protection',
     cardProtector: {
-      title: 'Graded Slab Aluminum Protector',
-      description: 'Industrial-grade aluminum protection meets gallery-worthy display — engineered for standard 35PT PSA and CGC graded slabs.',
-      whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab Aluminum Protector.',
+      title: 'Graded Slab UV Glass Protector',
+      description: 'Tempered UV glass protection meets gallery-worthy display — engineered for standard 35PT PSA and CGC graded slabs.',
+      whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab UV Glass Protector.',
       teaserLine: 'See full specs, colors, and pricing on our product page.',
       startingPrice: 'Recommended Price',
       shippingInfo: 'Worldwide shipping',
-      chips: ['Aluminum Alloy', '>95% UV Glass', 'N52 Magnets', '35PT PSA Fit'],
+      chips: ['Tempered UV Glass', '>95% UV Block', 'N52 Magnets', '35PT PSA Fit'],
       compatibilityHeading: 'Compatibility',
       fitsLabel: 'Fits',
       notFitsLabel: 'Does Not Fit',
@@ -244,12 +244,12 @@ export const en = {
       },
       pillars: [
         {
-          title: 'True Drop Protection',
-          description: 'Unlike acrylic cases that can crack upon impact, our aluminum frame acts as a rigid bumper, absorbing shock and keeping your slab safe.',
+          title: 'UV Defense',
+          description: 'Tempered UV-blocking glass preserves the vibrant colors of your chrome, holo, and vintage cards by blocking harmful light.',
         },
         {
-          title: 'UV Defense',
-          description: 'Preserves the vibrant colors of your chrome, holo, and vintage cards by blocking harmful light.',
+          title: 'True Drop Protection',
+          description: 'Unlike acrylic cases that can crack upon impact, our metal frame acts as a rigid bumper, absorbing shock and keeping your slab safe.',
         },
         {
           title: 'The "Click" of Quality',
@@ -257,11 +257,11 @@ export const en = {
         },
       ],
       features: [
-        'Frame Material: Precision-cut Aluminum Alloy (Rigid & Impact Resistant)',
-        'Lens Material: UV-Blocking Glass (High Clarity & Anti-Fade)',
+        'Lens Material: Tempered UV-Blocking Glass (High Clarity & Anti-Fade)',
+        'Frame: Metal frame (Rigid & Impact Resistant)',
         'Closure: Strong Magnetic Seal (N52 Magnets – No screws needed)',
         'Interior: Precision fit with soft buffer zone to prevent scratching',
-        'Build: Heavy-duty, premium feel in the hand',
+        'Build: Solid, premium feel in the hand',
       ],
       compatibility: {
         fits: 'Standard 35PT PSA Graded Slabs (Pokemon, Sports, MTG), CGC Slabs Compatible',
@@ -311,7 +311,7 @@ export const en = {
     },
     cta: {
       title: 'Ready to Get Started?',
-      description: "Whether you want to protect your collection with our premium aluminum cases or trade graded cards through our brokerage service, we're here to help.",
+      description: "Whether you want to protect your collection with our premium UV glass cases or trade graded cards through our brokerage service, we're here to help.",
       whatsapp: 'WhatsApp Us',
       email: 'Email Us',
     },
@@ -320,20 +320,20 @@ export const en = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: 'Premium Protection',
-    seoH1: '35PT Graded Card Protector — Magnetic Aluminum',
-    heroImageAlt: 'Appaw Store 35PT graded card protector with UV-blocking glass and N52 magnetic closure',
+    seoH1: '35PT Graded Card Protector — UV Tempered Glass',
+    heroImageAlt: 'Appaw Store 35PT graded card protector with tempered UV-blocking glass and N52 magnetic closure',
     heroCta: 'See colors & pricing ↓',
     centeringCrossLink: {
       badge: 'Pre-Grade Tool',
       title: 'Check centering before you grade',
-      body: 'Use our free Card Centering Calculator to measure front and back margins against PSA 10 standards — then protect your slab with our aluminum case.',
+      body: 'Use our free Card Centering Calculator to measure front and back margins against PSA 10 standards — then protect your slab with our UV glass case.',
       cta: 'Free Centering Calculator',
     },
     hkGuide: {
       badge: 'Collector Guide',
       title: 'How to choose a 35PT graded card case',
       body: [
-        'Standard PSA and CGC slabs measure roughly 35PT thick. A proper PSA slab case should add rigid aluminum framing—not just another acrylic shell—plus UV-blocking glass to slow holo and chrome fade over years on display.',
+        'Standard PSA and CGC slabs measure roughly 35PT thick. A proper PSA slab case should add a rigid metal frame—not just another acrylic shell—plus tempered UV-blocking glass to slow holo and chrome fade over years on display.',
         'Appaw Store designed this magnetic graded card case in Hong Kong for Pokémon PTCG, sports cards, and MTG collectors who display slabs at home, at card shows, or in our Quarry Bay showroom and partner stores. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
         'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a PSA card protector built for long-term display and transport.',
       ],
@@ -343,8 +343,8 @@ export const en = {
       badge: 'Product Overview',
       title: 'Premium Graded Card Protector',
       body: [
-        'Built for collectors who treat graded cards as long-term assets, the Appaw Store Premium Graded Slab Aluminum Protector is a magnetic graded card protector — exhibition-level presentation with industrial-grade protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
-        'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the graded card case firmly shut for display and transport. CNC-precision aluminum alloy and a UV-blocking glass lens give it a heavy-duty, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
+        'Built for collectors who treat graded cards as long-term assets, the Appaw Store Graded Slab UV Glass Protector is a magnetic graded card protector — exhibition-level presentation with durable protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
+        'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the graded card case firmly shut for display and transport. Tempered UV-blocking glass and a rigid metal frame give it a solid, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
       ],
     },
     featuresBadge: 'Details',
@@ -392,7 +392,7 @@ export const en = {
       weightValue: '74 g',
       weightDesc: 'Lightweight & portable',
       materials: 'Materials',
-      materialsValue: 'Aluminum & Glass',
+      materialsValue: 'Tempered UV Glass & Metal Frame',
       materialsDesc: 'Premium quality build',
       uvProtection: 'UV Protection',
       uvProtectionValue: '> 95%',
@@ -459,11 +459,11 @@ export const en = {
         },
         {
           q: 'Will the magnets damage my card?',
-          a: 'No. The N52 magnets are embedded in the aluminum frame and do not make contact with the PSA slab or the card inside. The magnetic field at slab distance is safe for all trading cards.',
+          a: 'No. The N52 magnets are embedded in the metal frame and do not make contact with the PSA slab or the card inside. The magnetic field at slab distance is safe for all trading cards.',
         },
         {
           q: 'What are the exact dimensions and weight?',
-          a: '8.7 cm wide × 14.2 cm tall × 0.98 cm deep, weight 74 g. Made from precision-machined aluminum with a UV-blocking glass lens.',
+          a: '8.7 cm wide × 14.2 cm tall × 0.98 cm deep, weight 74 g. Tempered UV-blocking glass lens with a rigid metal frame.',
         },
         {
           q: 'Where can I buy it and does it ship internationally?',
@@ -663,7 +663,7 @@ export const en = {
       pillars: [
         {
           title: 'Museum-Grade Protection',
-          body: 'Every acquisition from Appaw Store is compatible with our precision-milled aluminum protectors — industrial-grade enclosures with >95% UV-blocking glass and N52 neodymium closure.',
+          body: 'Every acquisition from Appaw Store is compatible with our UV glass protectors — tempered enclosures with >95% UV-blocking glass and N52 neodymium closure.',
           linkText: 'View Protectors',
         },
         {
@@ -1303,7 +1303,7 @@ export const en = {
         'Centering is one of the four pillars graders assess, and it is the one you can check before you spend money on submission. A card with razor-sharp corners and a flawless surface can still be capped at a PSA 8 or 9 purely because the border is off-centre. Because grade jumps — for example from a PSA 9 to a PSA 10 — can multiply a card\u2019s market value, screening centering first helps you decide which cards are worth submitting and which are better left raw.',
       whyMattersBeforeProtector:
         'Once you\u2019ve confirmed a card is well centred and worth grading, protect it on its way to and from the grader with a premium ',
-      protectorLink: 'PSA card aluminum protector',
+      protectorLink: 'PSA UV glass protector',
       whyMattersBeforeTrading: ', or explore our ',
       tradingLink: 'graded card trading & brokerage',
       whyMattersAfterTrading: ' service.',

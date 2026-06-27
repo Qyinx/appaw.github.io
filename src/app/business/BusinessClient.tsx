@@ -103,7 +103,7 @@ export default function BusinessClient() {
       </section>
 
       {/* ══════════════════════════════════════════════════════
-           ① PSA CARD ALUMINUM PROTECTOR
+           ① GRADED SLAB UV GLASS PROTECTOR
       ══════════════════════════════════════════════════════ */}
       <section
         id="psa-protector"

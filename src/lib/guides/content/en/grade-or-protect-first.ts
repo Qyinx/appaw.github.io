@@ -46,7 +46,7 @@ const guide: GuideContent = {
       title: 'When to Step Up Graded Slab Protection',
       paragraphs: [
         'A slab seals the card — it does not make the plastic invincible. Scratches, haze, and cracks on the holder still hurt display value and buyer confidence. Protection is how you defend the grade you paid for.',
-        'Protect immediately when: a graded slab arrives — verify the cert, then install a [magnetic graded slab protector](/products/psa-protectors/). The 35PT rigid aluminum case fits PSA/CGC holders, beats soft slab sleeves for scratch and crush resistance, and the UV-rated front panel slows label and surface fade; high-value PSA 10s or keys also need cool, dry, stable storage; shipping, card shows, or long-term holds need layered packing and insurance.',
+        'Protect immediately when: a graded slab arrives — verify the cert, then install a [magnetic graded slab protector](/products/psa-protectors/). The 35PT rigid case with a metal frame fits PSA/CGC holders, beats soft slab sleeves for scratch and crush resistance, and the UV-rated front panel slows label and surface fade; high-value PSA 10s or keys also need cool, dry, stable storage; shipping, card shows, or long-term holds need layered packing and insurance.',
         'Light holder wear → consider [PSA reholder](/guides/regrade-or-reholder/). Severe damage or a deliberate grade chase → regrade instead.',
         'Daily rules: minimize bare-hand contact; keep slabs out of direct sun, heat spikes, and humidity swings; inspect holders regularly. Grader plastic is for seal and display, not backpack or meet hand-offs — see [UV storage guide](/guides/uv-protection-graded-cards/) and [35PT case fit guide](/guides/choose-35pt-slab-protector/).',
       ],

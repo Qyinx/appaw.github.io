@@ -7,7 +7,7 @@ export function webSiteJsonLd() {
     '@type': 'WebSite',
     name: 'Appaw Store',
     url: SITE_ORIGIN,
-    description: 'Premium Graded Slab Aluminum Protector and TCG trading & brokerage. Based in Hong Kong, shipping worldwide.',
+    description: 'Premium Graded Slab UV Glass Protector and TCG trading & brokerage. Based in Hong Kong, shipping worldwide.',
     inLanguage: ['en', 'zh-HK'],
     publisher: {
       '@type': 'Organization',
@@ -25,7 +25,7 @@ export function storeJsonLd() {
     name: 'Appaw Store',
     legalName: 'Appaw Store',
     alternateName: ['Appaw', 'APPAW Store'],
-    description: 'Premium Graded Slab Aluminum Protector and TCG trading & brokerage in Hong Kong',
+    description: 'Premium Graded Slab UV Glass Protector and TCG trading & brokerage in Hong Kong',
     slogan: 'Protect What Matters. Display What You Love.',
     foundingDate: '2024',
     url: SITE_ORIGIN,
@@ -37,7 +37,7 @@ export function storeJsonLd() {
       'CGC graded trading cards',
       'Pokémon TCG card preservation',
       'TCG card valuation and brokerage',
-      'Aluminum card case manufacturing',
+      'UV glass slab protector manufacturing',
       'UV protection for trading cards',
       'PSA slab authentication',
       'Counterfeit graded card detection',
@@ -74,7 +74,7 @@ export function storeJsonLd() {
       'https://www.google.com/maps/search/?api=1&query=Shop+9+Basement+Manly+Plaza+995-997+King%27s+Road+Quarry+Bay+Hong+Kong',
     ],
     makesOffer: [
-      { '@type': 'Offer', url: 'https://appaw.store/products/psa-protectors/', name: 'Graded Slab Aluminum Protector' },
+      { '@type': 'Offer', url: 'https://appaw.store/products/psa-protectors/', name: 'Graded Slab UV Glass Protector' },
       { '@type': 'Offer', url: 'https://appaw.store/business/card-trading/', name: 'TCG Trading & Brokerage' },
     ],
   };

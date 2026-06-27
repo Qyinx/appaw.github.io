@@ -46,7 +46,7 @@ const guide: GuideContent = {
       title: '何時需要加強保護 PSA 鑑定卡',
       paragraphs: [
         '鑑定卡雖然提供密封保護，但外殼仍容易出現刮痕、霧化或破裂，影響美觀與二手市場價值。保護鑑定卡是守住價值的必要防守策略。',
-        '需要加強保護：鑑定卡到手、核對證書後，儘快加装 [磁吸鋁合金鑑定卡保護殼](/products/psa-protectors/)——35PT 貼合 PSA/CGC 鑑定殼，N52 磁吸硬殼比 Slab Sleeve 軟套更能防刮、防擠壓，UV 防護前板減慢標籤與卡面褪色；高價值 PSA 10 或稀有卡另需陰涼乾燥、恆溫恆濕存放；運送、參加卡展或長期存放時，務必多層包裝並投保。',
+        '需要加強保護：鑑定卡到手、核對證書後，儘快加装 [磁吸防UV鑑定卡保護殼](/products/psa-protectors/)——35PT 貼合 PSA/CGC 鑑定殼，剛性金屬邊框比 Slab Sleeve 軟套更能防刮、防擠壓，UV 防護前板減慢標籤與卡面褪色；高價值 PSA 10 或稀有卡另需陰涼乾燥、恆溫恆濕存放；運送、參加卡展或長期存放時，務必多層包裝並投保。',
         '外殼出現輕微磨損時，考慮 [PSA Reholder（重新裝殼）](/guides/regrade-or-reholder/)；若嚴重損壞或想挑戰更高分數，再選擇 Regrade（重新評級）。',
         '日常原則：減少裸手直接觸摸；避免陽光直射、高溫與濕度變化；定期檢查 Slab 狀況，及早處理問題。鑑定殼用於封裝與展示，不是背包或卡展反覆易手的旅行殼——詳見 [UV 保存指南](/guides/uv-protection-graded-cards/) 與 [35PT 保護殼選購](/guides/choose-35pt-slab-protector/)。',
       ],
