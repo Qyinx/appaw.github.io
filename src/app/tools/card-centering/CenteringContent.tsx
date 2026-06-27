@@ -1,18 +1,20 @@
 'use client';
 
-import React from 'react';
-import { ImageUp, ScanLine, Frame, Gauge, ChevronDown, ExternalLink, ArrowRight } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import { ImageUp, SlidersHorizontal, Frame, Gauge, ChevronDown, ExternalLink, ArrowRight } from 'lucide-react';
 import LocalLink from '@/components/LocalLink';
 import HeroStamp from '@/components/ui/HeroStamp';
 import { useLanguage } from '@/context/LanguageContext';
+import { useCenteringGuide } from './CenteringGuideContext';
+import { STEP_COUNT } from './centering-guide';
 import styles from './card-centering.module.css';
 
-const STEP_ICONS = [ImageUp, ScanLine, Frame, Gauge] as const;
+const STEP_ICONS = [ImageUp, SlidersHorizontal, Frame, Gauge] as const;
 
 const STEP_THEMES = [
   { accent: 'var(--accent-warn)', glow: 'color-mix(in srgb, var(--accent-warn) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-warn) 28%, transparent)', variant: 'upload' as const },
-  { accent: 'var(--accent-secondary)', glow: 'color-mix(in srgb, var(--accent-secondary) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-secondary) 32%, transparent)', variant: 'edge' as const },
-  { accent: 'var(--accent-primary)', glow: 'color-mix(in srgb, var(--accent-primary) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-primary) 32%, transparent)', variant: 'border' as const },
+  { accent: 'var(--accent-link)', glow: 'color-mix(in srgb, var(--accent-link) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-link) 32%, transparent)', variant: 'adjust' as const },
+  { accent: 'var(--accent-primary)', glow: 'color-mix(in srgb, var(--accent-primary) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-primary) 32%, transparent)', variant: 'align' as const },
   { accent: 'var(--accent-success)', glow: 'color-mix(in srgb, var(--accent-success) 14%, transparent)', border: 'color-mix(in srgb, var(--accent-success) 28%, transparent)', variant: 'result' as const },
 ];
 
@@ -21,15 +23,14 @@ function StepVisual({ variant }: { variant: (typeof STEP_THEMES)[number]['varian
     <div className={styles.stepVisual} data-variant={variant} aria-hidden="true">
       <div className={styles.stepVisualCard}>
         {variant === 'upload' && <span className={styles.stepVisualUpload}>↑</span>}
-        {variant === 'edge' && (
+        {variant === 'adjust' && (
           <>
-            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualTop}`} />
-            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualBottom}`} />
-            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualLeft}`} />
-            <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualRight}`} />
+            <span className={`${styles.stepVisualSlider} ${styles.stepVisualSliderTop}`} />
+            <span className={`${styles.stepVisualSlider} ${styles.stepVisualSliderMid}`} />
+            <span className={`${styles.stepVisualSlider} ${styles.stepVisualSliderBot}`} />
           </>
         )}
-        {variant === 'border' && (
+        {variant === 'align' && (
           <>
             <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualTop}`} />
             <span className={`${styles.stepVisualLine} ${styles.stepVisualEdge} ${styles.stepVisualBottom}`} />
@@ -64,8 +65,41 @@ function HowToSteps({
   title: string;
   stepLabel: string;
 }) {
+  const { t } = useLanguage();
+  const tool = t.centeringPage.tool;
+  const howToSteps = t.centeringPage.howToSteps;
+  const { activeStep, getStepState } = useCenteringGuide();
+  const sectionRef = useRef<HTMLElement>(null);
+  const prevStepRef = useRef(activeStep);
+
+  useEffect(() => {
+    if (prevStepRef.current === activeStep) return;
+    prevStepRef.current = activeStep;
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const rect = section.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+
+    const currentEl = section.querySelector(`#centering-step-${activeStep + 1}`);
+    currentEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [activeStep]);
+
+  const liveStatus = howToSteps[activeStep]
+    ? tool.guideLiveStatus
+        .replace('{current}', String(activeStep + 1))
+        .replace('{total}', String(STEP_COUNT))
+        .replace('{title}', howToSteps[activeStep].name)
+    : null;
+
   return (
-    <section className={`panel p-0 overflow-hidden border-l-[3px] border-l-accent-primary ${styles.howToSection}`} aria-labelledby="how-to-use">
+    <section
+      ref={sectionRef}
+      className={`panel p-0 overflow-hidden border-l-[3px] border-l-accent-primary ${styles.howToSection}`}
+      aria-labelledby="how-to-use"
+    >
       <div className={styles.howToInstrumentHeader}>
         <span className="font-mono text-xs text-text-muted uppercase tracking-wider">{badge}</span>
         <span className="font-mono text-xs text-text-secondary font-tabular tracking-widest">
@@ -74,23 +108,38 @@ function HowToSteps({
       </div>
       <div className={styles.howToHeader}>
         <h2 id="how-to-use" className={styles.howToTitle}>{title}</h2>
+        {liveStatus ? (
+          <p className={styles.howToLiveStatus} aria-live="polite">
+            {liveStatus}
+          </p>
+        ) : null}
       </div>
 
       <div className={styles.stepRail} aria-hidden="true">
-        {steps.map((_, i) => (
-          <React.Fragment key={i}>
-            <span
-              className={styles.stepRailDot}
-              style={{
-                ['--step-accent' as string]: STEP_THEMES[i]?.accent ?? 'var(--accent-warn)',
-                ['--step-delay' as string]: `${i * 90}ms`,
-              }}
-            >
-              {i + 1}
-            </span>
-            {i < steps.length - 1 && <span className={styles.stepRailLine} style={{ ['--step-delay' as string]: `${i * 90 + 60}ms` }} />}
-          </React.Fragment>
-        ))}
+        {steps.map((_, i) => {
+          const stepState = getStepState(i);
+          return (
+            <React.Fragment key={i}>
+              <span
+                className={styles.stepRailDot}
+                data-step-state={stepState}
+                style={{
+                  ['--step-accent' as string]: STEP_THEMES[i]?.accent ?? 'var(--accent-warn)',
+                  ['--step-delay' as string]: `${i * 90}ms`,
+                }}
+              >
+                {stepState === 'completed' ? '✓' : i + 1}
+              </span>
+              {i < steps.length - 1 && (
+                <span
+                  className={styles.stepRailLine}
+                  data-step-state={stepState === 'completed' ? 'completed' : 'upcoming'}
+                  style={{ ['--step-delay' as string]: `${i * 90 + 60}ms` }}
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
       </div>
 
       <ol className={styles.stepGrid}>
@@ -98,11 +147,14 @@ function HowToSteps({
           const theme = STEP_THEMES[i] ?? STEP_THEMES[0];
           const Icon = STEP_ICONS[i] ?? ImageUp;
           const n = String(i + 1).padStart(2, '0');
+          const stepState = getStepState(i);
 
           return (
             <li
               key={step.title}
+              id={`centering-step-${i + 1}`}
               className={styles.stepCard}
+              data-step-state={stepState}
               style={{
                 ['--step-accent' as string]: theme.accent,
                 ['--step-glow' as string]: theme.glow,

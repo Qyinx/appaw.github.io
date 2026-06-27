@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { compressImage } from '@/lib/compress-image';
 import {
   BELOW_TIER_ID,
   getPlotZoneRects,
@@ -10,16 +11,19 @@ import {
   GRADING_COMPANIES,
   cssImageFilter,
   IMAGE_FILTER_MODES,
-  nextImageFilterMode,
   type CenteringScore,
   type GradingCompany,
   type ImageFilterMode,
   type QualityTier,
 } from '@/lib/centering';
 import styles from './card-centering.module.css';
+import GuideStepBanner from './GuideStepBanner';
+import { useCenteringGuide, useCenteringGuideRef } from './CenteringGuideContext';
+import { isInnerHandle, isOuterHandle } from './centering-guide';
 
 type PhotoMode = 'raw' | 'slab';
 type VerdictKey = 'regradeCandidate' | 'borderlineRegrade' | 'holdGrade' | 'downgradeRisk';
+type UploadState = 'idle' | 'loading' | 'error';
 
 function verdictForQuality(quality: QualityTier): VerdictKey {
   if (quality === 'excellent') return 'regradeCandidate';
@@ -44,8 +48,12 @@ const ICON_PROPS = {
   strokeLinejoin: 'round' as const,
 };
 
-const UploadIcon = () => (
-  <svg {...ICON_PROPS}><path d="M12 16V4" /><path d="m6 10 6-6 6 6" /><path d="M4 20h16" /></svg>
+const UploadImageIcon = () => (
+  <svg {...ICON_PROPS} width={18} height={18}>
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline points="17 8 12 3 7 8" />
+    <line x1="12" y1="3" x2="12" y2="15" />
+  </svg>
 );
 
 const EmptyCardSchematic = () => (
@@ -85,12 +93,6 @@ const EmptyCardSchematic = () => (
     <path d="M42 68h8" stroke="var(--tool-text-muted)" strokeWidth="1" strokeLinecap="round" opacity="0.35" />
   </svg>
 );
-const FitIcon = () => (
-  <svg {...ICON_PROPS}><path d="M8 3H5a2 2 0 0 0-2 2v3" /><path d="M21 8V5a2 2 0 0 0-2-2h-3" /><path d="M3 16v3a2 2 0 0 0 2 2h3" /><path d="M16 21h3a2 2 0 0 0 2-2v-3" /></svg>
-);
-const ResetIcon = () => (
-  <svg {...ICON_PROPS}><path d="M3 2v6h6" /><path d="M3.51 15a9 9 0 1 0 .49-9.51L3 8" /></svg>
-);
 const SlidersIcon = () => (
   <svg {...ICON_PROPS} width={16} height={16}><line x1="4" y1="21" x2="4" y2="14" /><line x1="4" y1="10" x2="4" y2="3" /><line x1="12" y1="21" x2="12" y2="12" /><line x1="12" y1="8" x2="12" y2="3" /><line x1="20" y1="21" x2="20" y2="16" /><line x1="20" y1="12" x2="20" y2="3" /><line x1="1" y1="14" x2="7" y2="14" /><line x1="9" y1="8" x2="15" y2="8" /><line x1="17" y1="16" x2="23" y2="16" /></svg>
 );
@@ -109,13 +111,34 @@ const TiltHIcon = () => (
 const TiltVIcon = () => (
   <svg {...ICON_PROPS} width={14} height={14}><line x1="12" y1="2" x2="12" y2="22" /><polyline points="8 6 12 2 16 6" /><polyline points="8 18 12 22 16 18" /></svg>
 );
-const MagnifierIcon = () => (
-  <svg {...ICON_PROPS}><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></svg>
-);
-const InspectFilterIcon = () => (
+const CornerLoupeIcon = () => (
   <svg {...ICON_PROPS} width={16} height={16}>
-    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-    <circle cx="12" cy="12" r="2.5" />
+    <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+    <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+    <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+    <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+  </svg>
+);
+const FitViewIcon = () => (
+  <svg {...ICON_PROPS} width={16} height={16}>
+    <polyline points="15 3 21 3 21 9" />
+    <polyline points="9 21 3 21 3 15" />
+    <line x1="21" y1="3" x2="14" y2="10" />
+    <line x1="3" y1="21" x2="10" y2="14" />
+  </svg>
+);
+const ResetViewIcon = () => (
+  <svg {...ICON_PROPS} width={16} height={16}>
+    <polyline points="1 4 1 10 7 10" />
+    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+  </svg>
+);
+const WorkspaceToolsIcon = () => (
+  <svg {...ICON_PROPS} width={16} height={16}>
+    <rect x="3" y="3" width="7" height="7" rx="1" />
+    <rect x="14" y="3" width="7" height="7" rx="1" />
+    <rect x="3" y="14" width="7" height="7" rx="1" />
+    <rect x="14" y="14" width="7" height="7" rx="1" />
   </svg>
 );
 
@@ -166,18 +189,45 @@ function BlemishFilterBar({
 export default function CardCenteringClient() {
   const { t } = useLanguage();
   const tool = t.centeringPage.tool;
+  const howToSteps = t.centeringPage.howToSteps;
+  const guide = useCenteringGuide();
+  const guideRef = useCenteringGuideRef();
   const toolLabelsRef = React.useRef(tool);
   toolLabelsRef.current = tool;
 
   const resetRef = React.useRef<(() => void) | null>(null);
   const fitRef = React.useRef<(() => void) | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+  const imageReadyRef = React.useRef(false);
   const redrawRef = React.useRef<(() => void) | null>(null);
   const [fileName, setFileName] = React.useState<string | null>(null);
+  const [imageReady, setImageReady] = React.useState(false);
+  const [uploadState, setUploadState] = React.useState<UploadState>('idle');
   const [grade, setGrade] = React.useState<CenteringScore | null>(null);
   const [adjustOpen, setAdjustOpen] = React.useState(false);
   const [gradingDockOpen, setGradingDockOpen] = React.useState(false);
+  const [leftToolbarOpen, setLeftToolbarOpen] = React.useState(true);
   const [loupesOn, setLoupesOn] = React.useState(true);
+  const [showHandlePulse, setShowHandlePulse] = React.useState(false);
+  const [outerAligned, setOuterAligned] = React.useState(false);
+  const [innerAligned, setInnerAligned] = React.useState(false);
+  const uploadCallbacksRef = React.useRef({
+    setUploadState,
+    setImageReady,
+    setFileName,
+    setShowHandlePulse,
+    setOuterAligned,
+    setInnerAligned,
+  });
+  uploadCallbacksRef.current = {
+    setUploadState,
+    setImageReady,
+    setFileName,
+    setShowHandlePulse,
+    setOuterAligned,
+    setInnerAligned,
+  };
+  imageReadyRef.current = imageReady;
   const loupesOnRef = React.useRef(true);
   const [guideMode, setGuideMode] = React.useState<'edge' | 'border' | 'both'>('both');
   const [photoMode, setPhotoMode] = React.useState<PhotoMode>('raw');
@@ -199,6 +249,42 @@ export default function CardCenteringClient() {
       setLoupesOn(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (grade) guideRef.current.onGradeCalculated();
+  }, [grade, guideRef]);
+
+  useEffect(() => {
+    if (guide.guideDismissed) return;
+    if (guide.activeStep === 2) setGuideMode('both');
+  }, [guide.activeStep, guide.guideDismissed]);
+
+  useEffect(() => {
+    if (guide.guideDismissed) return;
+    if (guide.activeStep === 2) {
+      setShowHandlePulse(true);
+      const timer = window.setTimeout(() => setShowHandlePulse(false), 3000);
+      return () => window.clearTimeout(timer);
+    }
+    return undefined;
+  }, [guide.activeStep, guide.guideDismissed]);
+
+  useEffect(() => {
+    if (guide.guideDismissed || guide.activeStep !== 1 || !imageReady) return;
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      setAdjustOpen(true);
+    }
+  }, [guide.activeStep, guide.guideDismissed, imageReady]);
+
+  useEffect(() => {
+    if (guide.guideDismissed || guide.activeStep !== 2 || !imageReady) return;
+    setAdjustOpen(false);
+  }, [guide.activeStep, guide.guideDismissed, imageReady]);
+
+  useEffect(() => {
+    if (leftToolbarOpen) return;
+    setGradingDockOpen(false);
+  }, [leftToolbarOpen]);
 
   useEffect(() => {
     guideModeRef.current = guideMode;
@@ -308,7 +394,9 @@ export default function CardCenteringClient() {
     const HANDLE_SNAP_PX = 0.45;
 
     const isCoarsePointer = typeof window !== 'undefined' && (window.matchMedia ? window.matchMedia('(pointer: coarse)').matches : ('ontouchstart' in window));
-    const handleRadius = isCoarsePointer ? 54 : 46;
+    const handleRadius = isCoarsePointer ? 80 : 46;
+    const lineHitRadius = isCoarsePointer ? 64 : 28;
+    const outerLineHitRadius = isCoarsePointer ? 72 : 32;
 
     // Pull colors from semantic site tokens (style.md §2)
     const rootStyles = typeof window !== 'undefined' ? getComputedStyle(document.documentElement) : null;
@@ -339,6 +427,9 @@ export default function CardCenteringClient() {
     let panSession: { z: number; r: number; tx: number; ty: number } | null = null;
     let pendingPanX = 0;
     let pendingPanY = 0;
+    let lastTransformReadoutMs = 0;
+    const TRANSFORM_READOUT_MS = isCoarsePointer ? 120 : 0;
+    const workspaceShellEl = workspaceEl.parentElement;
 
     const zoomValEl = document.getElementById('zoom-val');
     const rotValEl = document.getElementById('rot-val');
@@ -468,6 +559,9 @@ export default function CardCenteringClient() {
       plotW = 0;
       plotH = 0;
       rebuildBgCache();
+      if (imgEl.naturalWidth && imgEl.style.display !== 'none') {
+        fitGuidesToImage();
+      }
       scheduleDrawOverlay();
     }
 
@@ -480,20 +574,46 @@ export default function CardCenteringClient() {
     }
     window.addEventListener('resize', onResize);
 
-    const uploadHandler = (e: Event) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
+    const uploadHandler = async (e: Event) => {
+      const input = e.target as HTMLInputElement;
+      const file = input.files?.[0];
       if (!file) return;
-      setFileName(file.name);
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        imgEl.src = event.target?.result as string;
-        imgEl.style.display = 'block';
-        Object.values(controls).forEach((ctrl: any) => {
+
+      const cb = uploadCallbacksRef.current;
+      cb.setUploadState('loading');
+
+      try {
+        const { base64, mimeType } = await compressImage(file, 2048, 0.85);
+        await new Promise<void>((resolve, reject) => {
+          imgEl.onload = () => resolve();
+          imgEl.onerror = () => reject(new Error('decode'));
+          imgEl.src = `data:${mimeType};base64,${base64}`;
+          imgEl.style.display = 'block';
+        });
+
+        Object.values(controls).forEach((ctrl: HTMLInputElement) => {
           ctrl.value = ctrl.defaultValue;
         });
-        updateTransform();
-      };
-      reader.readAsDataURL(file);
+        fitToImage();
+        cb.setFileName(file.name);
+        cb.setImageReady(true);
+        cb.setOuterAligned(false);
+        cb.setInnerAligned(false);
+        cb.setUploadState('idle');
+
+        guideRef.current.onImageReady();
+
+        cb.setShowHandlePulse(true);
+        window.setTimeout(() => cb.setShowHandlePulse(false), 3000);
+      } catch {
+        if (imageReadyRef.current) {
+          cb.setUploadState('idle');
+        } else {
+          cb.setUploadState('error');
+        }
+      } finally {
+        input.value = '';
+      }
     };
     uploadEl.addEventListener('change', uploadHandler);
 
@@ -514,8 +634,13 @@ export default function CardCenteringClient() {
     }
 
     function setImageDragVisual(active: boolean) {
-      if (active) imgWrapperEl.dataset.dragging = 'true';
-      else delete imgWrapperEl.dataset.dragging;
+      if (active) {
+        imgWrapperEl.dataset.dragging = 'true';
+        workspaceShellEl?.setAttribute('data-transforming', 'true');
+      } else {
+        delete imgWrapperEl.dataset.dragging;
+        workspaceShellEl?.removeAttribute('data-transforming');
+      }
     }
 
     function applyPanTransform(px: number, py: number) {
@@ -524,7 +649,7 @@ export default function CardCenteringClient() {
 
     function applyImageTransform(z: number, r: number, tx: number, ty: number) {
       imgEl.style.transform =
-        `perspective(${PERSPECTIVE}px) scale(${z}) rotateZ(${r}deg) rotateX(${tx}deg) rotateY(${-ty}deg)`;
+        `translateZ(0) scale(${z}) rotateZ(${r}deg) rotateX(${tx}deg) rotateY(${-ty}deg)`;
     }
 
     function applyFullTransform(px?: number, py?: number) {
@@ -578,18 +703,31 @@ export default function CardCenteringClient() {
       panSession = null;
     }
 
-    function syncTransformReadout(id: string, z: number, r: number, tx: number, ty: number) {
+    function syncTransformReadout(
+      id: string,
+      z: number,
+      r: number,
+      tx: number,
+      ty: number,
+      live = false,
+    ) {
+      if (live && TRANSFORM_READOUT_MS > 0) {
+        const now = performance.now();
+        if (now - lastTransformReadoutMs < TRANSFORM_READOUT_MS) return;
+        lastTransformReadoutMs = now;
+      }
+
       if (id === 'zoom' && zoomValEl) zoomValEl.textContent = z.toFixed(2);
       if (id === 'rotate' && rotValEl) rotValEl.textContent = r.toFixed(2) + '°';
       if (id === 'tiltX' && tiltXValEl) tiltXValEl.textContent = tx.toFixed(2) + '°';
       if (id === 'tiltY' && tiltYValEl) tiltYValEl.textContent = ty.toFixed(2) + '°';
-      if (controls[id]) fillTrack(controls[id]);
+      if (!live && controls[id]) fillTrack(controls[id]);
     }
 
     function updateTransformFast(activeId?: string | null) {
       const { z, r, tx, ty } = readTransformState();
       applyImageTransform(z, r, tx, ty);
-      if (activeId) syncTransformReadout(activeId, z, r, tx, ty);
+      if (activeId) syncTransformReadout(activeId, z, r, tx, ty, true);
     }
 
     function scheduleTransformUpdate(id: string) {
@@ -602,6 +740,13 @@ export default function CardCenteringClient() {
       });
     }
 
+    function maybeCompleteAdjustGuideStep() {
+      const g = guideRef.current;
+      if (g.activeStep === 1 && !g.guideDismissed) {
+        g.onImageAdjusted();
+      }
+    }
+
     function commitTransformSlider() {
       if (!transformSliderActive && !transformRaf) return;
       if (transformRaf) {
@@ -610,8 +755,10 @@ export default function CardCenteringClient() {
       }
       transformSliderActive = false;
       activeTransformId = null;
+      lastTransformReadoutMs = 0;
       setImageDragVisual(false);
       updateTransform();
+      maybeCompleteAdjustGuideStep();
     }
 
     function updateTransform() {
@@ -657,6 +804,10 @@ export default function CardCenteringClient() {
       innerGuides.left = DEFAULTS.inner.left;
       innerGuides.right = DEFAULTS.inner.right;
 
+      if (imgEl.naturalWidth && imgEl.style.display !== 'none') {
+        fitGuidesToImage();
+      }
+
       refRadius = 0;
       loupeMag = 2.6;
       lastGradeSnapshot = null;
@@ -669,23 +820,89 @@ export default function CardCenteringClient() {
       updateTransform();
     }
 
-    function fitToImage() {
-      // Fit the image to the workspace area while preserving aspect ratio
-      if (!imgEl || !overlayEl) return;
+    function getImageDisplaySize() {
+      const rect = imgEl.getBoundingClientRect();
+      if (rect.width > 1 && rect.height > 1) {
+        return { w: rect.width, h: rect.height };
+      }
       const iw = imgEl.naturalWidth || imgEl.width || 1;
       const ih = imgEl.naturalHeight || imgEl.height || 1;
-      const scaleX = (overlayEl.clientWidth * 0.8) / iw;
-      const scaleY = (overlayEl.clientHeight * 0.8) / ih;
-      const scale = Math.max(0.1, Math.min(Math.min(scaleX, scaleY), 3));
+      const maxW = workspaceEl.clientWidth * 0.94;
+      const maxH = workspaceEl.clientHeight * 0.9;
+      const layoutScale = Math.min(maxW / iw, maxH / ih, 1);
+      return { w: iw * layoutScale, h: ih * layoutScale };
+    }
+
+    const guideInsetY =
+      Math.abs(DEFAULTS.inner.top - DEFAULTS.outer.top) / (DEFAULTS.outer.bottom - DEFAULTS.outer.top);
+    const guideInsetX =
+      Math.abs(DEFAULTS.inner.left - DEFAULTS.outer.left) / (DEFAULTS.outer.right - DEFAULTS.outer.left);
+
+    function fitGuidesToImage() {
+      if (!imgEl.naturalWidth || imgEl.style.display === 'none') return;
+
+      const overlayRect = overlayEl.getBoundingClientRect();
+      if (overlayRect.width < 1 || overlayRect.height < 1) return;
+
+      const rect = imgEl.getBoundingClientRect();
+      const scaleX = overlayEl.width / overlayRect.width;
+      const scaleY = overlayEl.height / overlayRect.height;
+
+      const left = (rect.left - overlayRect.left) * scaleX;
+      const top = (rect.top - overlayRect.top) * scaleY;
+      const right = (rect.right - overlayRect.left) * scaleX;
+      const bottom = (rect.bottom - overlayRect.top) * scaleY;
+
+      if (right - left < 48 || bottom - top < 48) return;
+
+      outerGuides.left = left - centerX;
+      outerGuides.right = right - centerX;
+      outerGuides.top = top - centerY;
+      outerGuides.bottom = bottom - centerY;
+
+      const oxH = outerGuides.bottom - outerGuides.top;
+      const oxW = outerGuides.right - outerGuides.left;
+
+      innerGuides.top = outerGuides.top + oxH * guideInsetY;
+      innerGuides.bottom = outerGuides.bottom - oxH * guideInsetY;
+      innerGuides.left = outerGuides.left + oxW * guideInsetX;
+      innerGuides.right = outerGuides.right - oxW * guideInsetX;
+
+      for (const key of Object.keys(handleDisplay)) delete handleDisplay[key];
+    }
+
+    function scheduleFitGuidesToImage() {
+      requestAnimationFrame(() => {
+        fitGuidesToImage();
+        scheduleDrawOverlay();
+      });
+    }
+
+    function fitToImage() {
+      // Fit using CSS layout size at zoom=1 — naturalWidth ignores max-width/max-height on .cardImage
+      if (!imgEl || !overlayEl || !imgEl.naturalWidth) return;
+
+      const { r, tx, ty } = readTransformState();
+      applyImageTransform(1, r, tx, ty);
+      applyPanTransform(0, 0);
+
+      const { w: dw, h: dh } = getImageDisplaySize();
+      const targetW = overlayEl.clientWidth * 0.92;
+      const targetH = overlayEl.clientHeight * 0.9;
+      const scale = Math.max(0.1, Math.min(Math.min(targetW / dw, targetH / dh), 3));
       controls.zoom.value = String(scale);
       controls.panX.value = '0';
       controls.panY.value = '0';
       updateTransform();
+      scheduleFitGuidesToImage();
     }
 
     // expose controls to the component-level buttons via refs
     resetRef.current = resetAll;
-    fitRef.current = fitToImage;
+    fitRef.current = () => {
+      fitToImage();
+      maybeCompleteAdjustGuideStep();
+    };
     redrawRef.current = () => scheduleDrawOverlay();
 
     const sliderBindings: Array<{ el: HTMLInputElement; type: string; fn: EventListener }> = [];
@@ -723,6 +940,7 @@ export default function CardCenteringClient() {
     }
 
     function scheduleDrawOverlay() {
+      if (transformSliderActive || dragging === 'pinch' || dragging === 'image') return;
       if (overlayRaf) return;
       overlayRaf = requestAnimationFrame(() => {
         overlayRaf = 0;
@@ -1033,7 +1251,7 @@ export default function CardCenteringClient() {
       const ixH = iyB - iyT;
 
       const list: HandleDef[] = [];
-      const perpOff = isCoarsePointer ? 24 : 20;
+      const perpOff = isCoarsePointer ? 32 : 20;
       const closeGap = isCoarsePointer ? 58 : 46;
 
       const place = (
@@ -1044,10 +1262,28 @@ export default function CardCenteringClient() {
         normal: { x: number; y: number },
         mix: number,
       ) => {
+        if (!both) {
+          list.push({ name, x: anchorX, y: anchorY, anchorX, anchorY, vertical });
+          return;
+        }
+
+        let nx = normal.x;
+        let ny = normal.y;
+        // On touch screens keep outer knobs inside the workspace (not under chrome / off-screen).
+        if (isCoarsePointer && name.startsWith('outer')) {
+          nx = -nx;
+          ny = -ny;
+        }
+
         const p = perpOff * mix;
-        const x = both ? anchorX + normal.x * p : anchorX;
-        const y = both ? anchorY + normal.y * p : anchorY;
-        list.push({ name, x, y, anchorX, anchorY, vertical });
+        list.push({
+          name,
+          x: anchorX + nx * p,
+          y: anchorY + ny * p,
+          anchorX,
+          anchorY,
+          vertical,
+        });
       };
 
       const topMix = both ? staggerMix(Math.abs(iyT - oyT), closeGap) : 0;
@@ -1140,17 +1376,166 @@ export default function CardCenteringClient() {
       });
     }
 
+    function distanceToSegment(
+      px: number,
+      py: number,
+      x1: number,
+      y1: number,
+      x2: number,
+      y2: number,
+    ) {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const lenSq = dx * dx + dy * dy;
+      if (lenSq === 0) return Math.hypot(px - x1, py - y1);
+      let t = ((px - x1) * dx + (py - y1) * dy) / lenSq;
+      t = Math.max(0, Math.min(1, t));
+      return Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy));
+    }
+
+    function guideSegmentForHandle(name: string) {
+      const oxL = centerX + outerGuides.left;
+      const oxR = centerX + outerGuides.right;
+      const oyT = centerY + outerGuides.top;
+      const oyB = centerY + outerGuides.bottom;
+      const ixL = centerX + innerGuides.left;
+      const ixR = centerX + innerGuides.right;
+      const iyT = centerY + innerGuides.top;
+      const iyB = centerY + innerGuides.bottom;
+
+      switch (name) {
+        case 'outerTop':
+          return { x1: oxL, y1: oyT, x2: oxR, y2: oyT };
+        case 'outerBottom':
+          return { x1: oxL, y1: oyB, x2: oxR, y2: oyB };
+        case 'outerLeft':
+          return { x1: oxL, y1: oyT, x2: oxL, y2: oyB };
+        case 'outerRight':
+          return { x1: oxR, y1: oyT, x2: oxR, y2: oyB };
+        case 'innerTop':
+          return { x1: ixL, y1: iyT, x2: ixR, y2: iyT };
+        case 'innerBottom':
+          return { x1: ixL, y1: iyB, x2: ixR, y2: iyB };
+        case 'innerLeft':
+          return { x1: ixL, y1: iyT, x2: ixL, y2: iyB };
+        case 'innerRight':
+          return { x1: ixR, y1: iyT, x2: ixR, y2: iyB };
+        default:
+          return null;
+      }
+    }
+
+    function guideMarginBand(px: number, py: number): 'outside' | 'margin' | 'inside' {
+      const oxL = centerX + outerGuides.left;
+      const oxR = centerX + outerGuides.right;
+      const oyT = centerY + outerGuides.top;
+      const oyB = centerY + outerGuides.bottom;
+      const ixL = centerX + innerGuides.left;
+      const ixR = centerX + innerGuides.right;
+      const iyT = centerY + innerGuides.top;
+      const iyB = centerY + innerGuides.bottom;
+
+      if (px < oxL || px > oxR || py < oyT || py > oyB) return 'outside';
+      if (px >= ixL && px <= ixR && py >= iyT && py <= iyB) return 'inside';
+      return 'margin';
+    }
+
+    function handlePickScore(
+      name: string,
+      mouseX: number,
+      mouseY: number,
+      dist: number,
+      anchorDist = 0,
+    ) {
+      let score = dist + anchorDist * 0.12;
+      if (!isCoarsePointer) return score;
+
+      const band = guideMarginBand(mouseX, mouseY);
+      const isOuter = name.startsWith('outer');
+      if (band === 'margin') {
+        if (isOuter) score *= 0.45;
+        else score *= 1.35;
+      } else if (band === 'inside' && !isOuter) {
+        score *= 0.82;
+      } else if (band === 'outside' && isOuter) {
+        score *= 0.75;
+      }
+      return score;
+    }
+
+    function beginHandleDrag(handleHit: string, e: any, mouseX: number, mouseY: number) {
+      if (e.touches) e.preventDefault();
+      pendingTouch = null;
+      dragging = handleHit;
+      if (isOuterHandle(handleHit)) {
+        uploadCallbacksRef.current.setOuterAligned(true);
+      } else if (isInnerHandle(handleHit)) {
+        uploadCallbacksRef.current.setInnerAligned(true);
+      }
+      guideRef.current.onHandleDrag(handleHit);
+      captureDragOffset(handleHit, mouseX, mouseY);
+      try { document.body.style.overflow = 'hidden'; } catch {}
+      scheduleDrawOverlay();
+    }
+
     function pickHandleAt(mouseX: number, mouseY: number): string | null {
+      const handles = resolveHandles();
       let best: { name: string; dist: number } | null = null;
-      for (const h of resolveHandles()) {
+      for (const h of handles) {
         const dist = Math.hypot(mouseX - h.x, mouseY - h.y);
         if (dist > handleRadius) continue;
-        // Prefer the handle whose anchor is closer when two overlap
         const anchorDist = Math.hypot(mouseX - h.anchorX, mouseY - h.anchorY);
-        const score = dist + anchorDist * 0.15;
+        const score = handlePickScore(h.name, mouseX, mouseY, dist, anchorDist);
         if (!best || score < best.dist) best = { name: h.name, dist: score };
       }
-      return best?.name ?? null;
+      if (best) return best.name;
+
+      let lineBest: { name: string; dist: number } | null = null;
+      for (const h of handles) {
+        const seg = guideSegmentForHandle(h.name);
+        if (!seg) continue;
+        const dist = distanceToSegment(mouseX, mouseY, seg.x1, seg.y1, seg.x2, seg.y2);
+        const hitLimit = h.name.startsWith('outer') ? outerLineHitRadius : lineHitRadius;
+        if (dist > hitLimit) continue;
+        const score = handlePickScore(h.name, mouseX, mouseY, dist);
+        if (!lineBest || score < lineBest.dist) lineBest = { name: h.name, dist: score };
+      }
+      return lineBest?.name ?? null;
+    }
+
+    function pickOuterHandleNearEdge(mouseX: number, mouseY: number): string | null {
+      if (!isCoarsePointer) return null;
+
+      const mode = guideModeRef.current;
+      if (mode === 'border') return null;
+
+      const oxL = centerX + outerGuides.left;
+      const oxR = centerX + outerGuides.right;
+      const oyT = centerY + outerGuides.top;
+      const oyB = centerY + outerGuides.bottom;
+      const edgeHit = outerLineHitRadius + 8;
+
+      const candidates: Array<{ name: string; dist: number }> = [];
+      const distTop = Math.abs(mouseY - oyT);
+      if (distTop <= edgeHit && mouseX >= oxL - 16 && mouseX <= oxR + 16) {
+        candidates.push({ name: 'outerTop', dist: distTop });
+      }
+      const distBottom = Math.abs(mouseY - oyB);
+      if (distBottom <= edgeHit && mouseX >= oxL - 16 && mouseX <= oxR + 16) {
+        candidates.push({ name: 'outerBottom', dist: distBottom });
+      }
+      const distLeft = Math.abs(mouseX - oxL);
+      if (distLeft <= edgeHit && mouseY >= oyT - 16 && mouseY <= oyB + 16) {
+        candidates.push({ name: 'outerLeft', dist: distLeft });
+      }
+      const distRight = Math.abs(mouseX - oxR);
+      if (distRight <= edgeHit && mouseY >= oyT - 16 && mouseY <= oyB + 16) {
+        candidates.push({ name: 'outerRight', dist: distRight });
+      }
+
+      if (candidates.length === 0) return null;
+      candidates.sort((a, b) => a.dist - b.dist);
+      return candidates[0]?.name ?? null;
     }
 
     // ---------- Corner magnifiers (loupes) ----------
@@ -1629,14 +2014,10 @@ export default function CardCenteringClient() {
       const mouseX = pos.clientX - rect.left;
       const mouseY = pos.clientY - rect.top;
 
-      const handleHit = pickHandleAt(mouseX, mouseY);
+      const handleHit =
+        pickHandleAt(mouseX, mouseY) ?? pickOuterHandleNearEdge(mouseX, mouseY);
       if (handleHit) {
-        if (e.touches) e.preventDefault();
-        pendingTouch = null;
-        dragging = handleHit;
-        captureDragOffset(handleHit, mouseX, mouseY);
-        try { document.body.style.overflow = 'hidden'; } catch {}
-        scheduleDrawOverlay();
+        beginHandleDrag(handleHit, e, mouseX, mouseY);
         return;
       }
 
@@ -1669,7 +2050,18 @@ export default function CardCenteringClient() {
           const dx = t.clientX - pendingTouch.startX;
           const dy = t.clientY - pendingTouch.startY;
           if (Math.hypot(dx, dy) < TOUCH_PAN_SLOP) return;
-          if (Math.abs(dy) > Math.abs(dx)) {
+
+          const rect = overlayEl.getBoundingClientRect();
+          const touchX = t.clientX - rect.left;
+          const touchY = t.clientY - rect.top;
+          const deferredHandle =
+            pickHandleAt(touchX, touchY) ?? pickOuterHandleNearEdge(touchX, touchY);
+          if (deferredHandle) {
+            beginHandleDrag(deferredHandle, e, touchX, touchY);
+            return;
+          }
+
+          if (Math.abs(dy) > Math.abs(dx) * 1.25) {
             pendingTouch = null;
             return;
           }
@@ -1901,6 +2293,30 @@ export default function CardCenteringClient() {
     invert: tool.imageFilterInvertHint,
   };
   const imageFilterLabel = imageFilterLabels[imageFilterMode];
+  const isUploading = uploadState === 'loading';
+  const guideActive = !guide.guideDismissed;
+  const gradePillSub =
+    zoneCopy?.short ??
+    (displayScore
+      ? displayScore.overall
+      : guideActive && imageReady && guide.activeStep < 3
+        ? (howToSteps[guide.activeStep]?.name ?? tool.alignGuides)
+        : imageReady && !outerAligned && !innerAligned
+          ? tool.dragHandlesHint
+          : tool.alignGuides);
+
+  const triggerUpload = () => {
+    if (isUploading) return;
+    fileInputRef.current?.click();
+  };
+
+  const openAdjustDock = () => {
+    setAdjustOpen(true);
+  };
+
+  const toggleAdjustDock = () => {
+    setAdjustOpen((open) => !open);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -1928,9 +2344,7 @@ export default function CardCenteringClient() {
               >
                 <div className={styles.gradePillMain}>
                   <span className={styles.gradePillLabel}>{zoneCopy?.label ?? '—'}</span>
-                  <span className={styles.gradePillSub}>
-                    {zoneCopy?.short ?? (displayScore ? displayScore.overall : tool.alignGuides)}
-                  </span>
+                  <span className={styles.gradePillSub}>{gradePillSub}</span>
                 </div>
                 <div className={styles.gradePillRatios}>
                   <span data-quality={displayScore ? axisQuality(gradingCompany, displayScore.lrZone) : undefined}>
@@ -1960,7 +2374,8 @@ export default function CardCenteringClient() {
           </div>
         </header>
 
-        <div className={styles.workspaceContainer} id="workspace">
+        <div className={`${styles.workspaceShell}${imageReady ? ` ${styles.workspaceShellReady}` : ''}`}>
+        <div className={`${styles.workspaceContainer}${imageReady ? ` ${styles.workspaceContainerReady}` : ''}`} id="workspace">
           <div className={styles.workspaceAtmosphere} aria-hidden="true" />
         <div id="image-wrapper" className={styles.imageWrapper}>
           <img
@@ -1971,7 +2386,10 @@ export default function CardCenteringClient() {
             data-filter={imageFilterMode === 'off' ? undefined : imageFilterMode}
           />
         </div>
-        <canvas id="overlay-canvas" className={styles.overlayCanvas}></canvas>
+        <canvas
+          id="overlay-canvas"
+          className={`${styles.overlayCanvas}${imageReady ? ` ${styles.overlayCanvasReady}` : ''}${showHandlePulse ? ` ${styles.overlayCanvasPulse}` : ''}`}
+        ></canvas>
 
         {/* Corner magnifiers */}
         <canvas id="loupe-tl" width={116} height={116} className={`${styles.loupe} ${styles.loupeTL} ${loupesOn ? '' : styles.loupeHidden}`} />
@@ -1979,200 +2397,310 @@ export default function CardCenteringClient() {
         <canvas id="loupe-bl" width={116} height={116} className={`${styles.loupe} ${styles.loupeBL} ${loupesOn ? '' : styles.loupeHidden}`} />
         <canvas id="loupe-br" width={116} height={116} className={`${styles.loupe} ${styles.loupeBR} ${loupesOn ? '' : styles.loupeHidden}`} />
 
-        {!fileName && (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyPlate}>
-              <div className={styles.emptyPlateMarks} aria-hidden="true" />
-              <p className={styles.emptyBadge}>{tool.emptyBadge}</p>
-              <EmptyCardSchematic />
-              <p className={styles.emptyTitle}>{tool.emptyTitle}</p>
-              <p className={styles.emptyHint}>{tool.emptyHint}</p>
-              <button type="button" className={styles.emptyBtn} onClick={() => fileInputRef.current?.click()}>
-                <span className={styles.emptyBtnLabel}>{tool.chooseImage}</span>
-                <span className={styles.emptyBtnMeta}>JPG · PNG · WEBP</span>
+        {!imageReady && uploadState === 'loading' && (
+          <div className={styles.uploadOverlay} role="status" aria-live="polite" aria-busy="true">
+            <div className={styles.uploadOverlayPlate}>
+              <span className={styles.uploadSpinner} aria-hidden="true" />
+              <p className={styles.uploadOverlayText}>{tool.processingPhoto}</p>
+            </div>
+          </div>
+        )}
+
+        {!imageReady && uploadState === 'error' && (
+          <div className={styles.uploadOverlay} role="alert">
+            <div className={styles.uploadOverlayPlate}>
+              <p className={styles.uploadOverlayText}>{tool.uploadFailed}</p>
+              <button type="button" className={styles.uploadRetryBtn} onClick={triggerUpload}>
+                {tool.tryAgain}
               </button>
             </div>
           </div>
         )}
 
-        {/* Floating top bar — photo mode + workspace actions */}
-        <div className={styles.topBar}>
-          <div className={styles.photoModeBar} role="toolbar" aria-label={tool.photoModeLabel}>
-            {(['raw', 'slab'] as const).map((mode) => (
-              <button
-                key={mode}
-                type="button"
-                className={styles.photoModeBtn}
-                data-active={photoMode === mode}
-                aria-pressed={photoMode === mode}
-                onClick={() => setPhotoMode(mode)}
-              >
-                {mode === 'raw' ? tool.photoModeRaw : tool.photoModeSlab}
-              </button>
-            ))}
-          </div>
-          <div className={styles.topActions}>
-            <button className={`${styles.iconBtn} ${loupesOn ? styles.iconBtnOn : ''}`} title={tool.cornerMagnifiers} aria-label={tool.cornerMagnifiersToggle} aria-pressed={loupesOn} onClick={() => setLoupesOn((v) => !v)}><MagnifierIcon /></button>
-            <button
-              className={`${styles.iconBtn} ${imageFilterMode !== 'off' ? styles.iconBtnOn : ''}`}
-              title={`${tool.imageFilterLabel}: ${imageFilterLabel}`}
-              aria-label={`${tool.imageFilterCycle}: ${imageFilterLabel}`}
-              aria-pressed={imageFilterMode !== 'off'}
-              onClick={() => setImageFilterMode((m) => nextImageFilterMode(m))}
-            >
-              <InspectFilterIcon />
-            </button>
-            <button className={styles.iconBtn} title={tool.uploadImage} aria-label={tool.uploadImage} onClick={() => fileInputRef.current?.click()}><UploadIcon /></button>
-            <button className={styles.iconBtn} title={tool.fitToView} aria-label={tool.fitToView} onClick={() => fitRef.current?.()}><FitIcon /></button>
-            <button className={styles.iconBtn} title={tool.reset} aria-label={tool.reset} onClick={() => resetRef.current?.()}><ResetIcon /></button>
-          </div>
-        </div>
-
-        {/* Left-top dock — grading standard + guide layer */}
-        <div className={styles.workspaceDock}>
-          {photoMode === 'raw' ? (
-            <div
-              className={`${styles.gradingCompanyDock} ${gradingDockOpen ? styles.gradingCompanyDockOpen : styles.gradingCompanyDockCollapsed}`}
-              data-open={gradingDockOpen ? 'true' : 'false'}
-            >
-              <button
-                type="button"
-                className={styles.gradingCompanyToggle}
-                onClick={() => setGradingDockOpen((v) => !v)}
-                aria-expanded={gradingDockOpen}
-                aria-controls="grading-company-list"
-              >
-                <span className={styles.gradingCompanyToggleLeft}>
-                  <span className={styles.gradingCompanyToggleBadge} data-company={gradingCompany}>
-                    {gradingCompany}
+        {!imageReady && uploadState !== 'loading' && (
+          guideActive && guide.activeStep === 0 ? (
+            <div className={styles.emptyUploadCenter}>
+              <div className={styles.emptyUploadPlate}>
+                <div className={styles.emptyPlateMarks} aria-hidden="true" />
+                <EmptyCardSchematic />
+                <p className={styles.emptyUploadStep}>
+                  <span className={styles.emptyUploadStepIndex}>01</span>
+                  <span>{howToSteps[0]?.name}</span>
+                </p>
+                <button
+                  type="button"
+                  className={`${styles.emptyUploadCta} ${styles.emptyUploadCtaGuide}`}
+                  disabled={isUploading}
+                  onClick={triggerUpload}
+                >
+                  <span className={styles.emptyUploadCtaIcon} aria-hidden="true">
+                    <UploadImageIcon />
                   </span>
-                  <span className={styles.gradingCompanyToggleLabel}>{tool.gradingCompanyLabel}</span>
-                </span>
-                <ChevronIcon className={styles.chevron} />
-              </button>
-              <div
-                id="grading-company-list"
-                className={styles.gradingCompanyBody}
-                role="toolbar"
-                aria-label={tool.gradingCompanyLabel}
-              >
-                {GRADING_COMPANIES.map((company) => (
-                  <button
-                    key={company}
-                    type="button"
-                    className={styles.gradingCompanyBtn}
-                    data-active={gradingCompany === company}
-                    data-company={company}
-                    aria-pressed={gradingCompany === company}
-                    onClick={() => {
-                      setGradingCompany(company);
-                      setGradingDockOpen(false);
-                    }}
-                  >
-                    {company}
-                  </button>
-                ))}
+                  <span className={styles.emptyUploadCtaCopy}>
+                    <span className={styles.emptyUploadCtaLabel}>{tool.chooseImage}</span>
+                    <span className={styles.emptyUploadCtaMeta}>JPG · PNG · WEBP</span>
+                  </span>
+                </button>
               </div>
             </div>
-          ) : null}
-          <div className={styles.guideModeBar} role="toolbar" aria-label={tool.guideModeLabel}>
-            {(['edge', 'border', 'both'] as const).map((mode) => (
+          ) : (
+          <div className={styles.emptyState}>
+            <div className={`${styles.emptyPlate} ${styles.emptyPlateEnter}`}>
+              <div className={styles.emptyPlateMarks} aria-hidden="true" />
+              <p className={styles.emptyBadge}>{tool.emptyBadge}</p>
+              <EmptyCardSchematic />
+              <p className={styles.emptyTitle}>{tool.emptyTitle}</p>
+              <p className={styles.emptyHint}>{tool.emptyHint}</p>
               <button
-                key={mode}
                 type="button"
-                className={styles.guideModeBtn}
-                data-active={guideMode === mode}
-                data-mode={mode}
-                aria-pressed={guideMode === mode}
-                onClick={() => setGuideMode(mode)}
+                className={styles.emptyUploadCta}
+                disabled={isUploading}
+                onClick={triggerUpload}
               >
-                <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
-                <span className={styles.guideModeBtnLabel}>
-                  {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
+                <span className={styles.emptyUploadCtaIcon} aria-hidden="true">
+                  <UploadImageIcon />
+                </span>
+                <span className={styles.emptyUploadCtaCopy}>
+                  <span className={styles.emptyUploadCtaLabel}>{tool.chooseImage}</span>
+                  <span className={styles.emptyUploadCtaMeta}>JPG · PNG · WEBP</span>
                 </span>
               </button>
-            ))}
+            </div>
           </div>
-          {fileName ? (
-            <BlemishFilterBar
-              active={imageFilterMode}
-              onSelect={setImageFilterMode}
-              ariaLabel={tool.imageFilterLabel}
-              labels={imageFilterLabels}
-              barClassName={`${styles.guideModeBar} ${styles.filterDockBar} ${styles.filterModeBarIconsOnly}`}
-              iconsOnly
-            />
-          ) : null}
-        </div>
+          )
+        )}
 
-        {/* Compact side dock for image adjustments — collapsed by default */}
-        <aside
-          className={`${styles.adjustDock} ${adjustOpen ? styles.adjustDockOpen : styles.adjustDockCollapsed}`}
-          data-open={adjustOpen ? 'true' : 'false'}
-        >
+        {/* Left toolbar — photo mode + grading + guides (collapsible strip) */}
+        <div className={styles.workspaceLeftStack}>
           <button
             type="button"
-            className={styles.adjustDockToggle}
-            onClick={() => setAdjustOpen((v) => !v)}
-            aria-expanded={adjustOpen}
+            className={styles.workspaceToolStripToggle}
+            data-active={leftToolbarOpen ? 'true' : 'false'}
+            aria-expanded={leftToolbarOpen}
+            aria-controls="workspace-tool-strip"
+            aria-label={leftToolbarOpen ? tool.workspaceToolsCollapse : tool.workspaceToolsExpand}
+            title={leftToolbarOpen ? tool.workspaceToolsCollapse : tool.workspaceToolsExpand}
+            onClick={() => setLeftToolbarOpen((v) => !v)}
           >
-            <span className={styles.adjustDockToggleLeft}>
-              <SlidersIcon />
-              <span className={styles.adjustDockLabel}>{tool.adjustImage}</span>
+            <span className={styles.workspaceToolStripToggleIconPair}>
+              <WorkspaceToolsIcon />
+              <ChevronIcon className={styles.chevron} />
             </span>
-            <ChevronIcon className={styles.chevron} />
           </button>
 
-          <div className={styles.adjustDockBody}>
-            {fileName ? (
-              <div className={styles.filterModeDock}>
-                <p className={styles.filterModeDockLabel}>{tool.imageFilterLabel}</p>
-                <BlemishFilterBar
-                  active={imageFilterMode}
-                  onSelect={setImageFilterMode}
-                  ariaLabel={tool.imageFilterLabel}
-                  labels={imageFilterLabels}
-                  barClassName={`${styles.guideModeBar} ${styles.filterModeBarIconsOnly}`}
-                  iconsOnly
-                />
-                <p className={styles.filterModeDockHint}>
-                  {imageFilterHints[imageFilterMode]}
-                </p>
-              </div>
-            ) : null}
-            <div className={styles.sliderStack}>
-              <div className={styles.controlRow}>
-                <div className={styles.controlHeader}><label htmlFor="zoom" className={styles.controlLabel}><ZoomIcon /> {tool.zoom}</label><span id="zoom-val" className={styles.sliderValue}>1.0</span></div>
-                <input className={styles.rangeSlider} aria-label={tool.zoom} type="range" id="zoom" min="0.1" max="3" step="0.01" defaultValue="1" />
-              </div>
-              <div className={styles.controlRow}>
-                <div className={styles.controlHeader}><label htmlFor="rotate" className={styles.controlLabel}><RotateIcon /> {tool.rotate}</label><span id="rot-val" className={styles.sliderValue}>0°</span></div>
-                <input className={styles.rangeSlider} aria-label={tool.rotation} type="range" id="rotate" min="-20" max="20" step="0.15" defaultValue="0" />
-              </div>
-              <div className={styles.controlRow}>
-                <div className={styles.controlHeader}><label htmlFor="tiltY" className={styles.controlLabel}><TiltHIcon /> {tool.hTilt}</label><span id="tiltY-val" className={styles.sliderValue}>0°</span></div>
-                <input className={styles.rangeSlider} aria-label={tool.horizontalTilt} type="range" id="tiltY" min="-45" max="45" step="0.05" defaultValue="0" />
-              </div>
-              <div className={styles.controlRow}>
-                <div className={styles.controlHeader}><label htmlFor="tiltX" className={styles.controlLabel}><TiltVIcon /> {tool.vTilt}</label><span id="tiltX-val" className={styles.sliderValue}>0°</span></div>
-                <input className={styles.rangeSlider} aria-label={tool.verticalTilt} type="range" id="tiltX" min="-45" max="45" step="0.05" defaultValue="0" />
-              </div>
+          {leftToolbarOpen ? (
+          <div id="workspace-tool-strip" className={styles.workspaceToolStrip} role="toolbar" aria-label={tool.workspaceTitle}>
+            <div className={styles.photoModeBar} role="group" aria-label={tool.photoModeLabel}>
+              {(['raw', 'slab'] as const).map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  className={styles.photoModeBtn}
+                  data-active={photoMode === mode}
+                  aria-pressed={photoMode === mode}
+                  onClick={() => setPhotoMode(mode)}
+                >
+                  <span className={styles.photoModeBtnLong}>
+                    {mode === 'raw' ? tool.photoModeRaw : tool.photoModeSlab}
+                  </span>
+                  <span className={styles.photoModeBtnShort}>
+                    {mode === 'raw' ? tool.toolbarPhotoRaw : tool.toolbarPhotoSlab}
+                  </span>
+                </button>
+              ))}
             </div>
 
-            <div className={styles.mapRow}>
-              <canvas id="plot-canvas" className={styles.plotCanvas} width={160} height={160}></canvas>
-              <div className={styles.mapLegend}>
-                <span><i className={styles.dotEdge} /> {tool.mapLegendEdge}</span>
-                <span><i className={styles.dotBorder} /> {tool.mapLegendBorder}</span>
+            {photoMode === 'raw' ? (
+              <div
+                className={`${styles.gradingCompanyDock} ${gradingDockOpen ? styles.gradingCompanyDockOpen : styles.gradingCompanyDockCollapsed}`}
+                data-open={gradingDockOpen ? 'true' : 'false'}
+              >
+                <button
+                  type="button"
+                  className={styles.gradingCompanyToggle}
+                  onClick={() => setGradingDockOpen((v) => !v)}
+                  aria-expanded={gradingDockOpen}
+                  aria-controls="grading-company-list"
+                >
+                  <span className={styles.gradingCompanyToggleLeft}>
+                    <span className={styles.gradingCompanyToggleBadge} data-company={gradingCompany}>
+                      {gradingCompany}
+                    </span>
+                    <span className={styles.gradingCompanyToggleLabel}>{tool.gradingCompanyLabel}</span>
+                  </span>
+                  <ChevronIcon className={styles.chevron} />
+                </button>
+                <div
+                  id="grading-company-list"
+                  className={styles.gradingCompanyBody}
+                  role="toolbar"
+                  aria-label={tool.gradingCompanyLabel}
+                >
+                  {GRADING_COMPANIES.map((company) => (
+                    <button
+                      key={company}
+                      type="button"
+                      className={styles.gradingCompanyBtn}
+                      data-active={gradingCompany === company}
+                      data-company={company}
+                      aria-pressed={gradingCompany === company}
+                      onClick={() => {
+                        setGradingCompany(company);
+                        setGradingDockOpen(false);
+                      }}
+                    >
+                      {company}
+                    </button>
+                  ))}
+                </div>
               </div>
+            ) : null}
+
+            <div className={styles.guideModeBar} role="group" aria-label={tool.guideModeLabel}>
+              {(['edge', 'border', 'both'] as const).map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  className={styles.guideModeBtn}
+                  data-active={guideMode === mode}
+                  data-mode={mode}
+                  aria-pressed={guideMode === mode}
+                  onClick={() => setGuideMode(mode)}
+                >
+                  <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
+                  <span className={styles.guideModeBtnLabel}>
+                    {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
+                  </span>
+                </button>
+              ))}
             </div>
+
+            {imageReady ? (
+              <BlemishFilterBar
+                active={imageFilterMode}
+                onSelect={setImageFilterMode}
+                ariaLabel={tool.imageFilterLabel}
+                labels={imageFilterLabels}
+                barClassName={`${styles.guideModeBar} ${styles.filterDockBar} ${styles.filterModeBarIconsOnly}`}
+                iconsOnly
+              />
+            ) : null}
           </div>
-        </aside>
+          ) : null}
+        </div>
 
         {/* Off-screen inputs driven programmatically */}
         <input type="file" id="upload" ref={fileInputRef} className={styles.srOnly} accept="image/*" aria-label={tool.uploadCardImage} />
         <input aria-hidden="true" type="range" id="panX" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
+        </div>
+
+        <div className={styles.guideStepLayer}>
+          <GuideStepBanner imageReady={imageReady} />
+        </div>
+
+        {/* Top-right — quick actions */}
+        {imageReady ? (
+          <div className={styles.topRightStack} role="presentation">
+            <div className={styles.topActionStrip} role="toolbar" aria-label={tool.workspaceTitle}>
+              <button
+                type="button"
+                className={styles.topActionBtn}
+                data-active={loupesOn ? 'true' : 'false'}
+                aria-pressed={loupesOn}
+                aria-label={tool.cornerMagnifiersToggle}
+                title={tool.cornerMagnifiersToggle}
+                onClick={() => setLoupesOn((v) => !v)}
+              >
+                <CornerLoupeIcon />
+              </button>
+              <button
+                type="button"
+                className={styles.topActionBtn}
+                aria-label={tool.fitToView}
+                title={tool.fitToView}
+                onClick={() => fitRef.current?.()}
+              >
+                <FitViewIcon />
+              </button>
+              <button
+                type="button"
+                className={styles.topActionBtn}
+                aria-label={tool.reset}
+                title={tool.reset}
+                onClick={() => resetRef.current?.()}
+              >
+                <ResetViewIcon />
+              </button>
+            </div>
+          </div>
+        ) : null}
+
+        {/* Right rail — adjust dock (always mounted for canvas init) */}
+        <div className={`${styles.adjustDockRail}${!imageReady ? ` ${styles.adjustDockRailDormant}` : ''}`}>
+          <aside
+            className={`${styles.adjustDock} ${adjustOpen ? styles.adjustDockOpen : styles.adjustDockCollapsed}${guideActive && guide.activeStep === 1 ? ` ${styles.adjustDockGuideActive}` : ''}`}
+            data-open={adjustOpen ? 'true' : 'false'}
+          >
+            <button
+              type="button"
+              className={styles.adjustDockToggle}
+              onClick={toggleAdjustDock}
+              aria-expanded={adjustOpen}
+            >
+              <span className={styles.adjustDockToggleLeft}>
+                <SlidersIcon />
+                <span className={styles.adjustDockLabel}>{tool.adjustImage}</span>
+              </span>
+              <ChevronIcon className={styles.chevron} />
+            </button>
+
+            <div className={styles.adjustDockBody}>
+              {imageReady ? (
+                <div className={styles.filterModeDock}>
+                  <p className={styles.filterModeDockLabel}>{tool.imageFilterLabel}</p>
+                  <BlemishFilterBar
+                    active={imageFilterMode}
+                    onSelect={setImageFilterMode}
+                    ariaLabel={tool.imageFilterLabel}
+                    labels={imageFilterLabels}
+                    barClassName={`${styles.guideModeBar} ${styles.filterModeBarIconsOnly}`}
+                    iconsOnly
+                  />
+                  <p className={styles.filterModeDockHint}>
+                    {imageFilterHints[imageFilterMode]}
+                  </p>
+                </div>
+              ) : null}
+              <div className={styles.sliderStack}>
+                <div className={styles.controlRow}>
+                  <div className={styles.controlHeader}><label htmlFor="zoom" className={styles.controlLabel}><ZoomIcon /> {tool.zoom}</label><span id="zoom-val" className={styles.sliderValue}>1.0</span></div>
+                  <input className={styles.rangeSlider} aria-label={tool.zoom} type="range" id="zoom" min="0.1" max="3" step="0.01" defaultValue="1" />
+                </div>
+                <div className={styles.controlRow}>
+                  <div className={styles.controlHeader}><label htmlFor="rotate" className={styles.controlLabel}><RotateIcon /> {tool.rotate}</label><span id="rot-val" className={styles.sliderValue}>0°</span></div>
+                  <input className={styles.rangeSlider} aria-label={tool.rotation} type="range" id="rotate" min="-20" max="20" step="0.15" defaultValue="0" />
+                </div>
+                <div className={styles.controlRow}>
+                  <div className={styles.controlHeader}><label htmlFor="tiltY" className={styles.controlLabel}><TiltHIcon /> {tool.hTilt}</label><span id="tiltY-val" className={styles.sliderValue}>0°</span></div>
+                  <input className={styles.rangeSlider} aria-label={tool.horizontalTilt} type="range" id="tiltY" min="-45" max="45" step="0.05" defaultValue="0" />
+                </div>
+                <div className={styles.controlRow}>
+                  <div className={styles.controlHeader}><label htmlFor="tiltX" className={styles.controlLabel}><TiltVIcon /> {tool.vTilt}</label><span id="tiltX-val" className={styles.sliderValue}>0°</span></div>
+                  <input className={styles.rangeSlider} aria-label={tool.verticalTilt} type="range" id="tiltX" min="-45" max="45" step="0.05" defaultValue="0" />
+                </div>
+              </div>
+
+              <div className={styles.mapRow}>
+                <canvas id="plot-canvas" className={styles.plotCanvas} width={160} height={160}></canvas>
+                <div className={styles.mapLegend}>
+                  <span><i className={styles.dotEdge} /> {tool.mapLegendEdge}</span>
+                  <span><i className={styles.dotBorder} /> {tool.mapLegendBorder}</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
         </div>
       </section>
     </div>

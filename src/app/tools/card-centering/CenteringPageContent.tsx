@@ -1,5 +1,4 @@
-import CardCenteringClient from './CardCenteringClient';
-import CenteringContent from './CenteringContent';
+import CenteringPageShell from './CenteringPageShell';
 import StructuredData from '@/components/StructuredData';
 import {
   webApplicationJsonLd,
@@ -50,8 +49,7 @@ export default function CenteringPageContent({ t, pageUrl, homeUrl }: CenteringP
     <>
       <StructuredData data={[webApp, breadcrumb, howTo, faqSchema]} />
       <div className="flex flex-col w-full min-w-0 bg-surface-bg page-blueprint">
-        <CardCenteringClient />
-        <CenteringContent />
+        <CenteringPageShell />
       </div>
     </>
   );

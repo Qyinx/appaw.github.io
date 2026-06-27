@@ -38,22 +38,24 @@
 
 .toolInstrumentHeader {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: stretch;
   justify-content: space-between;
-  gap: 10px 16px;
+  gap: 0;
   padding: 0;
   border-bottom: var(--border-width, 1px) solid var(--tool-border);
   background: var(--tool-panel);
   font-family: var(--font-mono, ui-monospace, monospace);
+  min-width: 0;
 }
 
 .toolInstrumentLabel {
-  flex-shrink: 0;
+  flex: 0 1 auto;
+  min-width: 0;
   align-self: center;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: baseline;
   gap: 0.35em;
   padding: 10px 14px;
@@ -66,10 +68,14 @@
 
 .toolInstrumentTitle {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .toolInstrumentBrand {
   white-space: nowrap;
+  flex-shrink: 0;
   font-size: 0.92em;
   letter-spacing: 0.12em;
   color: var(--accent-secondary);
@@ -84,12 +90,19 @@
 }
 
 /* ---------- Workspace (dark engineering surface — style.md §4) ---------- */
-.workspaceContainer {
+.workspaceShell {
   position: relative;
   width: 100%;
   height: 88vh;
   min-height: 600px;
   max-height: 1024px;
+}
+
+.workspaceContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   background: var(--tool-bg);
   border: none;
   border-radius: 0;
@@ -102,6 +115,13 @@
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   isolation: isolate;
+  --loupe-edge-x: 12px;
+  --loupe-edge-top: 56px;
+  --loupe-edge-bottom: 12px;
+}
+
+.workspaceContainerReady {
+  touch-action: none;
 }
 
 .workspaceAtmosphere {
@@ -109,11 +129,6 @@
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  background-image:
-    linear-gradient(rgba(140, 150, 180, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(140, 150, 180, 0.045) 1px, transparent 1px);
-  background-size: 24px 24px;
-  opacity: 0.85;
 }
 
 .workspaceAtmosphere::before,
@@ -148,6 +163,8 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  perspective: var(--centering-perspective, 1000px);
+  perspective-origin: center center;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   transform: translate3d(0, 0, 0);
@@ -158,8 +175,9 @@
 }
 
 .imageWrapper[data-dragging='true'] .cardImage {
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.28)) !important;
+  filter: none !important;
   transition: none;
+  will-change: transform;
 }
 
 .cardImage {
@@ -173,7 +191,6 @@
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   transform-origin: center center;
-  will-change: transform;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -webkit-transform-style: preserve-3d;
@@ -202,7 +219,7 @@
   box-sizing: border-box;
   z-index: 10;
   cursor: grab;
-  touch-action: pan-y;
+  touch-action: none;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
@@ -230,6 +247,168 @@
   pointer-events: none;
 }
 
+.emptyUploadCenter {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 28px);
+  padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+
+.emptyUploadPlate,
+.emptyPlateEnter {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@starting-style {
+  .emptyUploadPlate,
+  .emptyPlateEnter {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+}
+
+.emptyUploadPlate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(100%, 280px);
+  padding: 20px 20px 18px;
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-left: 3px solid var(--accent-warn);
+  background: color-mix(in srgb, var(--tool-panel) 94%, var(--tool-bg));
+  text-align: center;
+  pointer-events: auto;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.28);
+}
+
+.emptyUploadPlate .emptySchematic {
+  width: 88px;
+}
+
+.emptyUploadStep {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-warn);
+  line-height: 1.35;
+}
+
+.emptyUploadStepIndex {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--tool-text-muted);
+}
+
+.emptyUploadCta {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px 10px 10px;
+  border-radius: var(--radius-control, 6px);
+  background: var(--accent-primary);
+  color: var(--accent-structural);
+  border: var(--border-width, 1px) solid color-mix(in srgb, var(--accent-primary) 70%, var(--accent-structural));
+  cursor: pointer;
+  touch-action: manipulation;
+  text-align: left;
+  transition:
+    transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.emptyUploadCtaIcon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: var(--border-width, 1px) solid color-mix(in srgb, var(--accent-structural) 18%, transparent);
+  background: color-mix(in srgb, var(--accent-structural) 8%, transparent);
+  border-radius: calc(var(--radius-control, 6px) - 2px);
+}
+
+.emptyUploadCtaCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.emptyUploadCtaLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.emptyUploadCtaMeta {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .emptyUploadCta:hover {
+    filter: brightness(1.06);
+  }
+}
+
+.emptyUploadCta:active {
+  transform: scale(0.98);
+}
+
+.emptyUploadCta:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 2px;
+}
+
+.emptyUploadCta:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: none;
+  transform: none;
+}
+
+.emptyUploadCtaGuide {
+  animation: emptyUploadCtaGuide 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes emptyUploadCtaGuide {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-primary) 32%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent-primary) 0%, transparent);
+  }
+}
+
 .emptyPlate {
   position: relative;
   display: flex;
@@ -242,6 +421,11 @@
   border-left: 3px solid var(--accent-warn);
   background: color-mix(in srgb, var(--tool-panel) 92%, var(--tool-bg));
   text-align: center;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.24);
+}
+
+.emptyPlate .emptyUploadCta {
+  margin-top: 2px;
 }
 
 .emptyPlateMarks::before,
@@ -300,61 +484,510 @@
   color: var(--tool-text-muted);
 }
 
-.emptyBtn {
-  pointer-events: auto;
+/* ---------- Upload loading / error overlay ---------- */
+.uploadOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 28px);
+  pointer-events: none;
+  background: color-mix(in srgb, var(--tool-bg) 72%, transparent);
+}
+
+.uploadOverlayPlate {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 12px;
+  width: min(100%, 280px);
+  padding: 16px 18px;
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-left: 3px solid var(--accent-primary);
+  background: color-mix(in srgb, var(--tool-panel) 94%, var(--tool-bg));
+  text-align: center;
+  pointer-events: auto;
+}
+
+.uploadOverlayText {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--tool-text);
+}
+
+.uploadSpinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--tool-border);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: uploadSpin 0.75s linear infinite;
+}
+
+@keyframes uploadSpin {
+  to { transform: rotate(360deg); }
+}
+
+.uploadRetryBtn {
+  pointer-events: auto;
   margin-top: 4px;
-  padding: 10px 20px;
-  min-height: 44px;
-  width: 100%;
+  padding: 8px 16px;
+  min-height: 40px;
   border-radius: var(--radius-control, 6px);
   background: var(--accent-primary);
   color: var(--accent-structural);
+  font-size: 0.8125rem;
   font-weight: 600;
   border: var(--border-width, 1px) solid color-mix(in srgb, var(--accent-primary) 70%, var(--accent-structural));
   cursor: pointer;
   touch-action: manipulation;
-  transition: filter 0.15s ease, transform 0.1s ease;
 }
 
-.emptyBtnLabel {
-  font-size: 0.8125rem;
-  letter-spacing: 0.02em;
+.uploadRetryBtn:hover { filter: brightness(1.08); }
+
+/* ---------- In-tool step guide banner (sibling overlay, above 3D canvas stack) ---------- */
+.guideStepLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: visible;
+  isolation: isolate;
 }
 
-.emptyBtnMeta {
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.5625rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+.guideStepBanner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-left: 3px solid var(--accent-warn);
+  border-bottom: none;
+  background: color-mix(in srgb, var(--tool-panel) 98%, var(--tool-bg));
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.38);
+  pointer-events: none;
+}
+
+.guideStepBanner > * {
+  pointer-events: auto;
+}
+
+.guideStepHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.guideStepCollapseToggle {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.guideStepCollapseToggle:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 2px;
+  border-radius: var(--radius-control, 4px);
+}
+
+.guideStepChevron {
+  flex-shrink: 0;
+  opacity: 0.75;
+  transition: transform 0.22s ease;
+}
+
+.guideStepBanner[data-expanded='true'] .guideStepChevron {
+  transform: rotate(180deg);
+}
+
+.guideStepBannerCollapsed {
+  gap: 0;
+  padding: 8px 10px;
+}
+
+.guideStepBannerCollapsed .guideStepMeta {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.guideStepPills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.guideStepPill {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--tool-border);
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.guideStepPill[data-state='completed'] {
+  background: var(--accent-success);
+  border-color: var(--accent-success);
+}
+
+.guideStepPill[data-state='current'] {
+  width: 10px;
+  height: 10px;
+  background: var(--accent-warn);
+  border-color: var(--accent-warn);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-warn) 28%, transparent);
+}
+
+.guideStepPill[data-state='upcoming'] {
+  opacity: 0.45;
+}
+
+.guideStepCopy {
+  min-width: 0;
+}
+
+.guideStepHeader .guideStepMeta {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.guideStepMeta {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  opacity: 0.72;
+  color: var(--accent-warn);
 }
 
-.emptyBtn:hover { filter: brightness(1.08); }
-.emptyBtn:active { transform: translateY(1px); }
-.emptyBtn:focus-visible {
+.guideStepHint {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--tool-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.guideStepProgress {
+  margin: 4px 0 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-warn);
+}
+
+.guideStepDismiss {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  margin-left: auto;
+  padding: 0;
+  border-radius: var(--radius-control, 6px);
+  background: transparent;
+  color: var(--tool-text-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  border: var(--border-width, 1px) solid var(--tool-border-subtle);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.guideTargetPulse {
+  animation: guideTargetPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes guideTargetPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-primary) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-primary) 0%, transparent);
+  }
+}
+
+/* ---------- Overlay touch + handle pulse ---------- */
+.overlayCanvasReady {
+  touch-action: none;
+}
+
+.overlayCanvasPulse {
+  animation: overlayPulseHint 1.2s ease-in-out 2;
+}
+
+@keyframes overlayPulseHint {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.88; }
+}
+
+.iconBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ---------- Left toolbar — unified strip (photo mode + grading + guides) ---------- */
+.workspaceLeftStack {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 48;
+  max-width: min(540px, calc(100% - 292px));
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.workspaceToolStripToggle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 6px;
+  background: var(--tool-panel);
+  border: var(--border-width, 1px) solid var(--tool-border);
+  color: var(--tool-text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+  pointer-events: auto;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.workspaceToolStripToggle:hover {
+  background: var(--tool-overlay-hover);
+  color: var(--tool-text);
+}
+
+.workspaceToolStripToggle:focus-visible {
   outline: 2px solid var(--accent-secondary);
   outline-offset: 2px;
 }
 
-/* ---------- Floating top bar — workspace actions ---------- */
-.topBar {
+.workspaceToolStripToggle[data-active='true'] {
+  color: var(--tool-text);
+  background: color-mix(in srgb, var(--accent-primary) 14%, var(--tool-panel));
+  box-shadow: inset 0 -2px 0 var(--accent-primary);
+}
+
+.workspaceToolStripToggle svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.workspaceToolStripToggle .chevron {
+  width: 12px;
+  height: 12px;
+  margin-left: 2px;
+  transition: transform 0.22s ease;
+}
+
+.workspaceToolStripToggle[data-active='true'] .chevron {
+  transform: rotate(180deg);
+}
+
+.workspaceToolStripToggleIconPair {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.workspaceToolStrip {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-content: center;
+  min-height: 32px;
+  width: 100%;
+  background: var(--tool-panel);
+  border: var(--border-width, 1px) solid var(--tool-border);
+  pointer-events: auto;
+}
+
+.workspaceToolStrip > .photoModeBar,
+.workspaceToolStrip > .gradingCompanyDock,
+.workspaceToolStrip > .guideModeBar,
+.workspaceToolStrip > .filterDockBar {
+  flex: 0 1 auto;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.workspaceToolStrip > .photoModeBar {
+  border-right: var(--border-width, 1px) solid var(--tool-border);
+}
+
+.workspaceToolStrip > .gradingCompanyDock {
+  border-right: var(--border-width, 1px) solid var(--tool-border);
+  width: auto;
+  min-width: 3.5rem;
+  max-width: none;
+}
+
+.workspaceToolStrip > .guideModeBar {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.workspaceToolStrip > .filterDockBar {
+  border-left: var(--border-width, 1px) solid var(--tool-border);
+}
+
+@media (max-width: 959px) {
+  .workspaceToolStrip {
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: flex-start;
+    min-height: 0;
+  }
+}
+
+.photoModeBtnLong {
+  display: inline;
+}
+
+.photoModeBtnShort {
+  display: none;
+}
+
+/* ---------- Top-right stack — quick actions only ---------- */
+.topRightStack {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  left: auto;
-  z-index: 20;
+  top: 6px;
+  right: 6px;
+  z-index: 46;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: auto;
+  max-width: none;
+  pointer-events: none;
+}
+
+.topRightStack > * {
+  pointer-events: auto;
+}
+
+/* ---------- Right rail — adjust dock sticks to workspace edge ---------- */
+.adjustDockRail {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 5px;
+  justify-content: flex-start;
+  width: min(380px, calc(100% - 12px));
+  max-width: min(380px, calc(100% - 12px));
+  padding-top: 6px;
+  pointer-events: none;
+  --adjust-dock-max-height: min(42svh, 400px);
+}
+
+.workspaceShellReady .adjustDockRail {
+  padding-top: calc(6px + 30px + 6px);
+}
+
+.adjustDockRailDormant {
+  visibility: hidden;
   pointer-events: none;
 }
-.topActions { pointer-events: auto; display: flex; gap: 4px; }
+
+.adjustDockRail > .adjustDock {
+  pointer-events: auto;
+}
+
+.topActionStrip {
+  display: flex;
+  align-items: stretch;
+  width: auto;
+  background: var(--tool-panel);
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-radius: var(--radius-panel, 0);
+  overflow: hidden;
+}
+
+.topActionBtn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 6px;
+  border: none;
+  border-right: var(--border-width, 1px) solid var(--tool-border);
+  background: transparent;
+  color: var(--tool-text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.topActionBtn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.topActionBtn:last-child {
+  border-right: none;
+}
+
+.topActionBtn:hover {
+  background: var(--tool-overlay-hover);
+  color: var(--tool-text);
+}
+
+.topActionBtn:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: -2px;
+}
+
+.topActionBtn:active {
+  transform: translateY(1px);
+}
+
+.topActionBtn[data-active='true'] {
+  color: var(--tool-text);
+  background: color-mix(in srgb, var(--accent-primary) 16%, var(--tool-panel));
+  box-shadow: inset 0 -2px 0 var(--accent-primary);
+}
 
 .gradePill {
   --zone-color: var(--tool-text-muted);
@@ -374,7 +1007,7 @@
 
 .gradePillHeader {
   flex: 1 1 auto;
-  min-width: min(100%, 420px);
+  min-width: 0;
   margin-left: auto;
 }
 .gradePill[data-quality='excellent'] { --zone-color: var(--accent-success); }
@@ -410,6 +1043,10 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--tool-text-muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .gradePillRatios {
   display: grid;
@@ -431,6 +1068,7 @@
   color: var(--tool-text);
   border-right: var(--border-width, 1px) solid var(--tool-border);
   white-space: nowrap;
+  min-width: 0;
 }
 .gradePillRatios span:last-child {
   border-right: none;
@@ -454,46 +1092,26 @@
   max-width: min(100%, 640px);
 }
 
-/* ---------- Left-top workspace dock ---------- */
-.workspaceDock {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  bottom: auto;
-  z-index: 20;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: flex-start;
-  gap: 6px 8px;
-  max-width: min(760px, calc(100% - 48px));
-  pointer-events: none;
-}
-
-.workspaceDock > * {
-  pointer-events: auto;
-}
-
+/* ---------- Grading company segment (inside left strip) ---------- */
 .gradingCompanyDock {
   position: relative;
-  flex-shrink: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  width: 4.75rem;
-  min-width: 4.75rem;
-  max-width: 4.75rem;
+  flex: 0 0 auto;
+  align-self: center;
+  display: block;
+  width: auto;
+  min-width: 3.25rem;
+  max-width: none;
   box-sizing: border-box;
-  background: var(--tool-panel);
-  border: var(--border-width, 1px) solid var(--tool-border);
-  border-left: 3px solid var(--accent-secondary);
-  border-radius: var(--radius-panel, 0);
-  overflow: hidden;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
 }
 
 .gradingCompanyToggle {
-  width: 100%;
-  min-width: 0;
+  width: auto;
+  min-width: 3.25rem;
   min-height: 32px;
   box-sizing: border-box;
   display: flex;
@@ -503,6 +1121,7 @@
   padding: 6px 8px;
   background: transparent;
   border: none;
+  border-left: 3px solid var(--accent-secondary);
   color: var(--tool-text);
   font-weight: 600;
   font-size: 0.75rem;
@@ -563,15 +1182,24 @@
 }
 
 .gradingCompanyBody {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 55;
   display: none;
   flex-direction: column;
-  width: 100%;
-  min-width: 0;
+  width: max-content;
+  min-width: 5.75rem;
   box-sizing: border-box;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.28s ease, opacity 0.22s ease;
+  background: var(--tool-panel);
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-left: 3px solid var(--accent-secondary);
+  border-radius: var(--radius-panel, 0);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
+  transition: max-height 0.22s ease, opacity 0.18s ease;
 }
 
 .gradingCompanyDockCollapsed .gradingCompanyBody {
@@ -585,9 +1213,13 @@
 .gradingCompanyDockOpen .gradingCompanyBody,
 .gradingCompanyDock[data-open='true'] .gradingCompanyBody {
   display: flex;
-  max-height: 8.5rem;
+  max-height: min(36svh, 11rem);
   opacity: 1;
-  border-top: var(--border-width, 1px) solid var(--tool-border);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  border-top: none;
 }
 
 .gradingCompanyBtn {
@@ -685,13 +1317,11 @@
 .photoModeBar {
   position: static;
   transform: none;
-  z-index: 20;
   display: flex;
   gap: 0;
   padding: 0;
-  background: var(--tool-panel);
-  border: var(--border-width, 1px) solid var(--tool-border);
-  border-radius: var(--radius-panel, 0);
+  background: transparent;
+  border-radius: 0;
   pointer-events: auto;
 }
 .photoModeBtn {
@@ -772,10 +1402,10 @@
   pointer-events: auto;
 }
 .loupeHidden { display: none; }
-.loupeTL { top: 88px; left: 12px; }
-.loupeTR { top: 88px; right: 12px; }
-.loupeBL { bottom: 12px; left: 12px; }
-.loupeBR { bottom: 58px; right: 12px; }
+.loupeTL { top: var(--loupe-edge-top); left: var(--loupe-edge-x); }
+.loupeTR { top: var(--loupe-edge-top); right: var(--loupe-edge-x); }
+.loupeBL { bottom: var(--loupe-edge-bottom); left: var(--loupe-edge-x); }
+.loupeBR { bottom: var(--loupe-edge-bottom); right: var(--loupe-edge-x); }
 
 /* ---------- Guide layer switcher ---------- */
 .guideModeBar {
@@ -972,36 +1602,161 @@
   box-shadow: inset 3px 0 0 #f59e0b;
 }
 
-/* ---------- Side adjust dock (replaces bottom sheet) ---------- */
+/* ---------- Adjust dock — right-edge rail panel ---------- */
 .adjustDock {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  z-index: 20;
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  z-index: auto;
+  align-self: flex-end;
   width: auto;
-  max-width: calc(100% - 24px);
+  max-width: 100%;
+  max-height: 100%;
   background: var(--tool-panel);
   border: var(--border-width, 1px) solid var(--tool-border);
+  border-right: none;
   border-left: 3px solid var(--accent-warn);
-  border-radius: var(--radius-panel, 0);
-  box-shadow: none;
+  border-radius: var(--radius-panel, 0) 0 0 var(--radius-panel, 0);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.22);
   overflow: hidden;
   transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: auto;
 }
+
+.adjustDockCollapsed {
+  width: auto;
+  min-width: 9.75rem;
+  max-width: min(240px, calc(100% - 8px));
+  max-height: none;
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.18);
+}
+
+.adjustDockCollapsed .adjustDockToggle {
+  width: auto;
+  min-width: 0;
+  justify-content: space-between;
+}
+
+.adjustDockGuideActive {
+  border-left-color: var(--accent-warn);
+  overflow: visible;
+  animation: adjustDockGuideGlow 1.6s ease-in-out infinite;
+}
+
+.adjustDockGuideActive::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 2px solid color-mix(in srgb, var(--accent-warn) 65%, transparent);
+  border-radius: inherit;
+  pointer-events: none;
+  animation: adjustDockGuideRing 1.6s ease-out infinite;
+}
+
+.adjustDockGuideActive .adjustDockToggle {
+  animation: adjustDockToggleNudge 1.6s ease-in-out infinite;
+}
+
+.workspaceShell[data-transforming='true'] .adjustDockGuideActive,
+.workspaceShell[data-transforming='true'] .adjustDockGuideActive::before,
+.workspaceShell[data-transforming='true'] .adjustDockGuideActive .adjustDockToggle {
+  animation: none !important;
+}
+
+.adjustDockGuideActive .adjustDockLabel {
+  color: var(--accent-warn);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@keyframes adjustDockGuideGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 color-mix(in srgb, var(--accent-warn) 42%, transparent),
+      0 10px 28px rgba(0, 0, 0, 0.38);
+  }
+  50% {
+    box-shadow:
+      0 0 0 10px color-mix(in srgb, var(--accent-warn) 0%, transparent),
+      0 12px 32px rgba(0, 0, 0, 0.42);
+  }
+}
+
+@keyframes adjustDockGuideRing {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  70%, 100% {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes adjustDockToggleNudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
 .adjustDockOpen,
 .adjustDock[data-open='true'] {
-  width: min(340px, calc(100% - 24px));
-  overflow: visible;
+  width: min(380px, 100%);
+  height: auto;
+  max-height: var(--adjust-dock-max-height);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.adjustDockOpen .filterModeDock {
+  gap: 6px;
+  padding-bottom: 8px;
+  margin-bottom: 2px;
+}
+
+.adjustDockOpen .filterModeDockHint {
+  font-size: 0.625rem;
+  line-height: 1.35;
+}
+
+.adjustDockOpen .sliderStack {
+  gap: 6px;
+}
+
+.adjustDockOpen .controlRow {
+  gap: 4px;
+  padding: 6px 8px;
+}
+
+.adjustDockOpen .controlHeader {
+  font-size: 0.75rem;
+}
+
+.adjustDockOpen .mapRow {
+  margin-top: 6px;
+  padding-top: 6px;
+  gap: 8px;
+}
+
+.adjustDockOpen .plotCanvas {
+  width: 72px;
+}
+
+.adjustDockOpen .mapLegend {
+  gap: 4px;
+  font-size: 0.6875rem;
 }
 .adjustDockToggle {
   width: 100%;
-  min-height: 32px;
+  min-height: 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 6px 10px;
+  gap: 8px;
+  padding: 5px 10px;
   background: transparent;
   border: none;
   color: var(--tool-text);
@@ -1025,7 +1780,7 @@
   flex-shrink: 0;
 }
 .adjustDockLabel {
-  max-width: 140px;
+  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1035,6 +1790,20 @@
 .chevron { transition: transform 0.25s ease; opacity: 0.8; flex-shrink: 0; }
 .adjustDockOpen .chevron,
 .adjustDock[data-open='true'] .chevron { transform: rotate(180deg); }
+
+.adjustDockRail .chevron {
+  transform: rotate(-90deg);
+}
+
+.adjustDockRail .adjustDockOpen .chevron,
+.adjustDockRail .adjustDock[data-open='true'] .chevron {
+  transform: rotate(90deg);
+}
+
+.adjustDockOpen .adjustDockToggle,
+.adjustDock[data-open='true'] .adjustDockToggle {
+  flex-shrink: 0;
+}
 
 .adjustDockBody {
   max-height: 0;
@@ -1062,13 +1831,15 @@
   height: auto;
   visibility: visible;
   pointer-events: auto;
-  max-height: min(75svh, 680px);
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   opacity: 1;
-  padding: 0 12px 12px;
+  padding: 0 10px 10px;
   scrollbar-gutter: stable;
 }
 
@@ -1205,6 +1976,36 @@
 }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 989px) and (min-width: 769px) {
+  .toolInstrumentLabel {
+    padding: 8px 10px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    max-width: 34%;
+  }
+
+  .gradePillMain {
+    padding: 6px 8px;
+  }
+
+  .gradePillLabel {
+    font-size: 0.8125rem;
+  }
+
+  .gradePillSub {
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
+  }
+
+  .gradePillRatios {
+    font-size: 0.6875rem;
+  }
+
+  .gradePillRatios span {
+    padding: 6px 7px;
+  }
+}
+
 @media (max-width: 768px) {
   .wrapper {
     padding: 10px var(--space-page-x, clamp(10px, 3vw, 18px));
@@ -1278,52 +2079,72 @@
     padding: 5px 6px;
   }
 
-  .workspaceContainer {
+  .workspaceShell {
     height: min(74svh, calc(100svh - 64px));
     min-height: 300px;
     max-height: none;
   }
 
-  .topBar {
+  .workspaceContainer {
+    --loupe-edge-x: 4px;
+    --loupe-edge-top: 78px;
+    --loupe-edge-bottom: 12px;
+  }
+
+  .workspaceLeftStack {
     top: 4px;
     left: 4px;
-    right: 4px;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-end;
-    gap: 4px;
+    max-width: calc(100% - 112px);
   }
 
-  .photoModeBar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: auto;
-    max-width: calc(100% - 136px);
+  .workspaceToolStrip {
+    flex-wrap: wrap;
+    align-items: stretch;
+    align-content: flex-start;
+    min-height: 0;
   }
 
-  .topActions {
-    gap: 3px;
-    flex-shrink: 0;
-    margin-left: auto;
+  .photoModeBtnLong {
+    display: none;
   }
 
-  .iconBtn {
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    min-height: 30px;
-  }
-
-  .iconBtn svg {
-    width: 13px;
-    height: 13px;
+  .photoModeBtnShort {
+    display: inline;
   }
 
   .photoModeBtn {
     min-height: 28px;
-    padding: 4px 8px;
+    padding: 4px 7px;
     font-size: 0.5625rem;
+  }
+
+  .topRightStack {
+    top: 4px;
+    right: 4px;
+    width: auto;
+    max-width: none;
+  }
+
+  .adjustDockRail {
+    width: min(320px, calc(100% - 8px));
+    max-width: min(320px, calc(100% - 8px));
+    padding-top: 4px;
+    --adjust-dock-max-height: min(38svh, 340px);
+  }
+
+  .workspaceShellReady .adjustDockRail {
+    padding-top: calc(4px + 28px + 4px);
+  }
+
+  .topActionBtn {
+    min-width: 30px;
+    min-height: 30px;
+    padding: 5px;
+  }
+
+  .topActionBtn svg {
+    width: 15px;
+    height: 15px;
   }
 
   .loupe {
@@ -1331,29 +2152,20 @@
     height: 52px;
   }
 
-  .loupeTL { top: 72px; left: 4px; }
-  .loupeTR { top: 72px; right: 4px; }
-  .loupeBL,
-  .loupeBR { bottom: 36px; }
-  .loupeBL { left: 4px; right: auto; }
-  .loupeBR { right: 4px; left: auto; }
-
-  .workspaceDock {
-    top: 36px;
-    left: 4px;
-    bottom: auto;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 4px;
-    max-width: calc(100% - 48px);
-  }
+  .loupeBL { right: auto; }
+  .loupeBR { left: auto; }
 
   .gradingCompanyDock,
   .gradingCompanyDockOpen,
   .gradingCompanyDockCollapsed {
-    width: 76px;
-    min-width: 76px;
-    max-width: 76px;
+    width: auto;
+    min-width: 3rem;
+    max-width: none;
+    align-self: center;
+  }
+
+  .gradingCompanyBody {
+    min-width: 5.25rem;
   }
 
   .gradingCompanyToggle,
@@ -1374,7 +2186,7 @@
     width: auto;
     min-width: 0;
     max-width: none;
-    align-self: stretch;
+    align-self: center;
   }
 
   .filterDockBar {
@@ -1404,39 +2216,70 @@
   }
 
   .adjustDock {
-    right: 4px;
-    bottom: 4px;
+    border-right: none;
+  }
+
+  .adjustDockGuideActive.adjustDockOpen,
+  .adjustDockGuideActive[data-open='true'] {
+    width: min(320px, 100%);
+  }
+
+  .adjustDockGuideActive.adjustDockOpen .adjustDockBody,
+  .adjustDockGuideActive[data-open='true'] .adjustDockBody {
+    max-height: none;
+  }
+
+  .guideStepBanner {
+    max-height: min(32svh, 180px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .guideStepBannerCollapsed {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .workspaceToolStripToggle {
+    min-width: 30px;
+    min-height: 30px;
+    padding: 5px;
+  }
+
+  .workspaceToolStripToggle svg {
+    width: 15px;
+    height: 15px;
   }
 
   .adjustDockOpen,
   .adjustDock[data-open='true'] {
-    width: min(280px, calc(100% - 48px));
+    width: min(320px, 100%);
   }
 
   .adjustDockCollapsed {
-    width: 30px;
-    min-width: 30px;
-    max-width: 30px;
+    width: auto;
+    min-width: 9.5rem;
+    max-width: min(240px, calc(100% - 8px));
     overflow: hidden;
     border-left-width: 2px;
   }
 
   .adjustDockCollapsed .adjustDockToggle {
-    width: 30px;
-    min-width: 30px;
-    height: 30px;
-    min-height: 30px;
-    padding: 0;
-    justify-content: center;
-    gap: 0;
+    width: auto;
+    min-width: 0;
+    height: auto;
+    min-height: 32px;
+    padding: 6px 10px;
+    justify-content: space-between;
+    gap: 6px;
   }
 
   .adjustDockCollapsed .adjustDockToggleLeft {
-    gap: 0;
+    gap: 6px;
   }
 
   .adjustDockCollapsed .chevron {
-    display: none;
+    display: block;
   }
 
   .adjustDockToggle {
@@ -1447,7 +2290,8 @@
   }
 
   .adjustDockLabel {
-    display: none;
+    display: inline;
+    font-size: 0.625rem;
   }
 
   .adjustDockToggleLeft {
@@ -1495,13 +2339,17 @@
     font-size: 0.6875rem;
   }
 
-  .emptyBtn {
-    padding: 8px 16px;
-    min-height: 40px;
+  .emptyUploadCta {
+    min-height: 48px;
+    padding: 10px 12px 10px 10px;
   }
 }
 
 @media (max-width: 520px) {
+  .adjustDockRail {
+    --adjust-dock-max-height: min(36svh, 300px);
+  }
+
   .toolInstrumentLabel {
     max-width: 42%;
     padding: 5px 6px;
@@ -1529,7 +2377,7 @@
     font-size: 0.5625rem;
   }
 
-  .workspaceContainer {
+  .workspaceShell {
     height: min(80svh, calc(100svh - 56px));
     min-height: 280px;
     max-height: none;
@@ -1540,13 +2388,9 @@
     height: 48px;
   }
 
-  .loupeBL,
-  .loupeBR {
-    bottom: 34px;
-  }
-
-  .loupeTR {
-    top: 68px;
+  .workspaceContainer {
+    --loupe-edge-top: 76px;
+    --loupe-edge-bottom: 12px;
   }
 
   .guideModeBtn {
@@ -1561,20 +2405,21 @@
 
   .adjustDockOpen .adjustDockBody,
   .adjustDock[data-open='true'] .adjustDockBody {
-    max-height: min(68svh, 620px);
+    max-height: none;
   }
 
   .adjustDockCollapsed {
-    width: 26px;
-    min-width: 26px;
-    max-width: 26px;
+    width: auto;
+    min-width: 8.5rem;
+    max-width: min(190px, calc(100% - 8px));
   }
 
   .adjustDockCollapsed .adjustDockToggle {
-    width: 26px;
-    min-width: 26px;
-    height: 26px;
-    min-height: 26px;
+    width: auto;
+    min-width: 0;
+    height: auto;
+    min-height: 30px;
+    padding: 5px 8px;
   }
 
   .adjustDockToggle {
@@ -1585,7 +2430,8 @@
   }
 
   .adjustDockLabel {
-    display: none;
+    display: inline;
+    font-size: 0.5625rem;
   }
 
   .adjustDockToggleLeft svg {
@@ -1600,34 +2446,31 @@
 
   .adjustDockOpen,
   .adjustDock[data-open='true'] {
-    width: min(260px, calc(100% - 10px));
+    width: min(320px, 100%);
   }
 
   .adjustDockOpen .adjustDockBody,
   .adjustDock[data-open='true'] .adjustDockBody {
-    max-height: min(62svh, 560px);
+    max-height: none;
   }
 }
 
 @media (max-width: 375px) {
   .adjustDockCollapsed {
-    width: 24px;
-    min-width: 24px;
-    max-width: 24px;
+    min-width: 7.75rem;
+    max-width: min(176px, calc(100% - 8px));
   }
 
   .adjustDockCollapsed .adjustDockToggle {
-    width: 24px;
-    min-width: 24px;
-    height: 24px;
-    min-height: 24px;
+    min-height: 28px;
+    padding: 4px 6px;
   }
 
   .adjustDockToggle {
     min-height: 22px;
     padding: 2px 4px;
   }
-  .workspaceContainer {
+  .workspaceShell {
     height: min(84svh, calc(100svh - 48px));
     min-height: 260px;
   }
@@ -1949,7 +2792,16 @@
   display: none;
 }
 
-/* Progress rail — desktop only */
+.howToLiveStatus {
+  margin: 8px 0 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent-warn);
+}
+
+/* Progress rail — tablet+ */
 .stepRail {
   display: none;
   align-items: center;
@@ -1975,6 +2827,26 @@
   font-weight: 700;
   animation: stepFadeUp 0.55s ease both;
   animation-delay: var(--step-delay);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.stepRailDot[data-step-state='current'] {
+  transform: scale(1.08);
+  border-color: var(--step-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--step-accent) 22%, transparent);
+}
+
+.stepRailDot[data-step-state='completed'] {
+  background: color-mix(in srgb, var(--step-accent) 18%, var(--surface-panel));
+  border-color: var(--step-accent);
+}
+
+.stepRailDot[data-step-state='upcoming'] {
+  opacity: 0.55;
+}
+
+.stepRailLine[data-step-state='completed'] {
+  background: color-mix(in srgb, var(--accent-success) 55%, var(--border-default));
 }
 
 .stepRailLine {
@@ -2008,9 +2880,23 @@
   border-left: 3px solid var(--step-accent);
   background: var(--surface-panel);
   overflow: hidden;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   animation: stepFadeUp 0.6s ease both;
   animation-delay: var(--step-delay);
+  scroll-margin-top: 80px;
+}
+
+.stepCard[data-step-state='current'] {
+  background: color-mix(in srgb, var(--step-accent) 8%, var(--surface-panel));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--step-accent) 22%, transparent);
+}
+
+.stepCard[data-step-state='upcoming'] {
+  opacity: 0.72;
+}
+
+.stepCard[data-step-state='completed'] {
+  border-left-color: color-mix(in srgb, var(--step-accent) 55%, var(--border-default));
 }
 
 .stepCard:last-child {
@@ -2111,6 +2997,50 @@
   font-size: 1.4rem;
   font-weight: 700;
   color: color-mix(in srgb, var(--accent-warn) 75%, transparent);
+}
+
+.stepVisualSlider {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  height: 3px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--accent-link) 55%, var(--tool-border));
+}
+
+.stepVisualSlider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: var(--accent-link);
+}
+
+.stepVisualSliderTop {
+  top: 28%;
+}
+
+.stepVisualSliderTop::after {
+  left: 62%;
+}
+
+.stepVisualSliderMid {
+  top: 46%;
+}
+
+.stepVisualSliderMid::after {
+  left: 38%;
+}
+
+.stepVisualSliderBot {
+  top: 64%;
+}
+
+.stepVisualSliderBot::after {
+  left: 72%;
 }
 
 .stepVisualLine {
@@ -2245,6 +3175,11 @@
 }
 
 @media (min-width: 640px) {
+  .stepRail {
+    display: flex;
+    padding: 16px 24px 0;
+  }
+
   .stepGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0;
@@ -2264,11 +3199,6 @@
 }
 
 @media (min-width: 960px) {
-  .stepRail {
-    display: flex;
-    padding: 16px 24px 0;
-  }
-
   .stepGrid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0;
@@ -2295,6 +3225,20 @@
 
   .stepChip {
     display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .stepGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .stepCard:nth-child(2n) {
+    border-right: var(--border-width, 1px) solid var(--border-default);
+  }
+
+  .stepCard:nth-child(4n) {
+    border-right: none;
   }
 }
 
@@ -2716,7 +3660,16 @@
   .stepCard,
   .stepRailDot,
   .stepRailLine,
-  .faqItem {
+  .faqItem,
+  .uploadSpinner,
+  .overlayCanvasPulse,
+  .guideTargetPulse,
+  .emptyUploadCtaGuide,
+  .emptyUploadPlate,
+  .emptyPlateEnter,
+  .adjustDockGuideActive,
+  .adjustDockGuideActive::before,
+  .adjustDockGuideActive .adjustDockToggle {
     animation: none;
   }
 
@@ -2727,8 +3680,16 @@
 
   .adjustDock,
   .adjustDockBody,
+  .adjustDockRail,
   .chevron,
   .workspaceDock,
+  .workspaceLeftStack,
+  .workspaceToolStrip,
+  .workspaceToolStripToggle,
+  .guideStepChevron,
+  .emptyUploadPlate,
+  .emptyPlateEnter,
+  .emptyUploadCta,
   .gradingCompanyDock,
   .gradingCompanyBody,
   .gradingCompanyBtn,
