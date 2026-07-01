@@ -29,6 +29,8 @@ export default function PSAProtectorLayout({ children }: { children: React.React
       'PSA卡保護殼',
       '磁吸鑑定卡磚',
       'PSA Card Case',
+      'PSA Magnetic Case',
+      'Magnetic PSA Slab Case',
       'UV Glass Slab Protector',
       'Graded Slab UV Glass Protector',
     ],

@@ -343,6 +343,7 @@ export const en = {
       badge: 'Product Overview',
       title: 'Premium Graded Card Protector',
       body: [
+        'If you searched for a PSA magnetic graded card protector, this protector is a magnetic graded card protector sized for standard 35PT PSA and CGC holders — tempered UV-blocking glass and N52 closure, not an official PSA product.',
         'Built for collectors who treat graded cards as long-term assets, the Appaw Store Graded Slab UV Glass Protector is a magnetic graded card protector — exhibition-level presentation with durable protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
         'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the graded card case firmly shut for display and transport. Tempered UV-blocking glass and a rigid metal frame give it a solid, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
       ],
@@ -445,6 +446,10 @@ export const en = {
       title: 'Frequently Asked Questions',
       subtitle: 'Everything you need to know before you order',
       items: [
+        {
+          q: 'Is this a PSA magnetic case?',
+          a: 'It is a third-party magnetic graded slab case designed to fit standard 35PT PSA and CGC holders — the type of product collectors mean when they search "PSA magnetic case." It is not manufactured or sold by PSA. Appaw Store\'s Graded Slab UV Glass Protector uses N52 magnetic closure and tempered UV-blocking glass.',
+        },
         {
           q: 'Does it fit all PSA and CGC graded slabs?',
           a: 'The protector is engineered for standard 35PT PSA and CGC graded slabs — Pokémon, sports cards, and MTG. It does not fit thick PSA memorabilia/jersey cards, half-pound slabs, or BGS/TAG slabs.',

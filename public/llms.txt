@@ -7,7 +7,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 
 ## Primary product
 
-- [Graded Slab UV Glass Protector (EN)](https://appaw.store/products/psa-protectors/): 35PT magnetic UV glass slab case with tempered >95% UV-blocking glass and N52 neodymium closure. Fits standard PSA and CGC graded slabs. Weight 74g, dimensions 8.7 × 14.2 × 0.98 cm. Designed in Hong Kong.
+- [Graded Slab UV Glass Protector (EN)](https://appaw.store/products/psa-protectors/): 35PT magnetic UV glass slab case (PSA magnetic case compatibility) with tempered >95% UV-blocking glass and N52 neodymium closure. Fits standard PSA and CGC graded slabs — third-party, not official PSA. Weight 74g, dimensions 8.7 × 14.2 × 0.98 cm. Designed in Hong Kong.
 - [磁吸防UV鑑定卡保護殼 (ZH)](https://appaw.store/zh/products/psa-protectors/): 磁吸防UV鑑定卡保護殼，適用標準 35PT PSA 及 CGC 鑑定卡磚。>95% 抗UV強化玻璃、金屬邊框、N52 磁吸。香港設計，全球付運。
 
 **Terminology (ZH marketing):** use 鑑定卡 / 鑑定卡磚 / 鑑定卡保護殼 — not 評級卡.

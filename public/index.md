@@ -8,7 +8,7 @@
 
 ## Primary product
 
-[Graded Slab UV Glass Protector](https://appaw.store/products/psa-protectors/) — magnetic UV glass graded card case, tempered >95% UV-blocking glass, N52 neodymium closure. Fits standard PSA and CGC slabs. 74 g · 8.7 × 14.2 × 0.98 cm.
+[Graded Slab UV Glass Protector](https://appaw.store/products/psa-protectors/) — magnetic UV glass graded card case (PSA magnetic case compatibility), tempered >95% UV-blocking glass, N52 neodymium closure. Fits standard PSA and CGC slabs — third-party, not official PSA. 74 g · 8.7 × 14.2 × 0.98 cm.
 
 ## Free tool
 

@@ -15,6 +15,8 @@ export const SEO_KEYWORD_MAP = {
   'check centering before regrading': '重評前置中檢查',
   'UV glass slab case': '防UV玻璃鑑定卡殼',
   'tempered glass card protector': '強化玻璃卡殼',
+  'PSA magnetic case': '磁吸PSA卡殼',
+  'magnetic PSA slab case': '磁吸PSA卡殼',
 } as const;
 
 /** Canonical product names — keep in sync with i18n business.cardProtector.title / nav.psaProtector */
@@ -27,7 +29,7 @@ export const PRODUCT_NAME = {
     seoH1: '35PT Graded Card Protector — UV Tempered Glass',
     metaTitle: '35PT UV Glass Graded Card Protector | HK – Appaw Store',
     metaDescription:
-      '35PT magnetic graded card protector. Tempered UV-blocking glass, metal frame, N52 closure for PSA & CGC slabs. HK designed. Ships worldwide.',
+      'Magnetic graded card case for 35PT PSA & CGC slabs. Tempered UV-blocking glass, N52 closure. HK designed. Ships worldwide.',
   },
   zh: {
     full: '磁吸防UV鑑定卡保護殼',
@@ -65,6 +67,7 @@ export const HK_SEO_KEYWORDS = [
   'PSA換殼',
   '重評降級',
   '鑑定卡置中檢查',
+  '磁吸PSA卡殼',
 ] as const;
 
 /** Homepage meta — keep in sync with i18n home.hero.h1Keyword */

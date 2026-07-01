@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-06-27 (batch 7) — Product rename to **Graded Slab UV Glass Protector** / **磁吸防UV鑑定卡保護殼**; glass-first keyword cluster; retire aluminum/CNC from customer-facing copy; ZH frame term **金屬邊框**; `llms.txt` / `index.md` / Agent Skills sync.
+Last updated: 2026-07-02 (batch 8) — **PSA magnetic case** keyword cluster: `SEO_KEYWORD_MAP`, metadata keywords, JSON-LD `alternateName`, product overview + FAQ (EN+ZH), `llms.txt` / `index.md`. Aluminum remains retired from marketing/customs-facing copy.
+
+Prior batch (2026-06-27) — Product rename to **Graded Slab UV Glass Protector** / **磁吸防UV鑑定卡保護殼**; glass-first keyword cluster; retire aluminum/CNC from customer-facing copy; ZH frame term **金屬邊框**; `llms.txt` / `index.md` / Agent Skills sync.
 
 Prior batch (2026-06-17) — `identify-fake-psa-slabs` content + SEO refresh: cert-era meta (#43 UV, #27/#5xxxxxxx label), slug keywords, guide hero OG images, `llms.txt` / Agent Skills citation hints.
 
@@ -16,6 +18,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-07-02 | PSA magnetic case SEO | Added **PSA magnetic case** / **magnetic PSA slab case** (EN) ↔ **磁吸PSA卡殼** (ZH) to `SEO_KEYWORD_MAP`, product metadata keywords, JSON-LD `alternateName`, overview copy + FAQ (EN+ZH), `llms.txt` / `index.md`. Meta description retargeted for magnetic+PSA+case proximity. Official product name unchanged; aluminum still retired. |
 | 2026-06-27 | UV glass product rename | EN: **Graded Slab UV Glass Protector** (H1: UV Tempered Glass). ZH: **磁吸防UV鑑定卡保護殼** (H1: 防UV強化玻璃). Keyword cluster: tempered glass / UV glass slab case (EN), 防UV玻璃 / 強化玻璃卡殼 (ZH). Retired aluminum/CNC from marketing copy; ZH frame **金屬邊框** (not 金屬框架 / 鋁合金). URL unchanged `/products/psa-protectors/`. `PRODUCT_NAME`, i18n, JSON-LD `material`, guides, `llms.txt`, `index.md`, Agent Skills. |
 | 2026-06-17 | Fake PSA guide SEO | `identify-fake-psa-slabs` meta descriptions + leads + heroSpecs (cert #43/#27/#5xxxxxxx). `GUIDE_KEYWORDS` + per-guide `og:image` from `heroImage` in `guides/metadata.ts`. `llms.txt` + Agent Skills topic/citation refresh. Guide media: UV/label video + old-label photo refs. |
 | 2026-06-13 | Regrade cluster | Centering tool: Graded slab photo mode, regrade/reholder verdict strip, slab workflow H2, PAA H2 + `.centering-aeo-answer`, +3 FAQs (8 total). Guide `regrade-or-reholder` (EN+ZH). `SEO_KEYWORD_MAP` + `CENTERING_SEO` + `centeringMetadata` keywords. `WebApplication.featureList`. Card trading Explore → centering link. `storeJsonLd.knowsAbout` expanded. |
@@ -62,7 +65,7 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
 - URL decision: KEEP `/products/psa-protectors/`. It is already clean, indexed, and contains the primary keyword "psa". Changing an established/indexed URL (e.g. to `/products/psa-card-aluminum-protector`) risks losing accumulated ranking equity for marginal slug gains, so no slug change and no redirect were applied. The legacy `/business/psa-protector` already 301-redirects here.
 - Metadata (`psaProtectorsMetadata` in `src/lib/seo/metadata.ts`): page-owned title/description/canonical, OG + Twitter tags, keyword cluster around "PSA card protector / UV glass slab case / tempered glass card protector" plus Chinese keywords in `keywords` meta.
 - Primary Keywords (EN): "PSA slab case", "graded card case", "PSA card protector"
-- Supporting long-tails (EN): "35PT PSA slab case", "magnetic graded card case", "graded card display case", "tempered glass slab case", "PSA UV glass case", "N52 magnetic card holder"
+- Supporting long-tails (EN): "35PT PSA slab case", "magnetic graded card case", "PSA magnetic case", "magnetic PSA slab case", "graded card display case", "tempered glass slab case", "PSA UV glass case", "N52 magnetic card holder"
 - Primary Keywords (ZH): "PSA卡殼", "鑑定卡殼", "PSA卡保護殼"
 - Supporting long-tails (ZH): "35PT 鑑定卡磚", "磁吸鑑定卡殼", "防UV 鑑定卡殼", "防UV玻璃", "強化玻璃卡殼", "香港 PSA卡殼", "寶可夢鑑定卡", "CGC 鑑定卡磚"
 - Product display name (EN): **Graded Slab UV Glass Protector** (nav short: Graded Slab Protector) — broader than PSA-only, matches CGC compatibility; use **case/protector** terms in titles and H1; lead **tempered UV glass** in meta/H1
@@ -86,6 +89,8 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | check centering before regrading | 重評前置中檢查 | Tool + guide CTA |
 | UV glass slab case | 防UV玻璃鑑定卡殼 | Product meta + body |
 | tempered glass card protector | 強化玻璃卡殼 | Product meta + body |
+| PSA magnetic case | 磁吸PSA卡殼 | Product meta, FAQ, JSON-LD `alternateName`; compatibility copy only — not official product name |
+| magnetic PSA slab case | 磁吸PSA卡殼 | Long-tail variant of above |
 
 **Translation rules**
 
