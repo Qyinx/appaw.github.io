@@ -1,8 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-07-02 (batch 8) — **PSA magnetic case** keyword cluster: `SEO_KEYWORD_MAP`, metadata keywords, JSON-LD `alternateName`, product overview + FAQ (EN+ZH), `llms.txt` / `index.md`. Aluminum remains retired from marketing/customs-facing copy.
+Last updated: 2026-07-02 (batch 8b) — Protector recommended prices centralized in `src/lib/products/protector-pricing.ts` (HKD 82 single / 92 gradient).
 
-Prior batch (2026-06-27) — Product rename to **Graded Slab UV Glass Protector** / **磁吸防UV鑑定卡保護殼**; glass-first keyword cluster; retire aluminum/CNC from customer-facing copy; ZH frame term **金屬邊框**; `llms.txt` / `index.md` / Agent Skills sync.
+Prior batch (2026-07-02) — **PSA magnetic case** keyword cluster: `SEO_KEYWORD_MAP`, metadata keywords, JSON-LD `alternateName`, product overview + FAQ (EN+ZH), `llms.txt` / `index.md`. Meta description retargeted for magnetic+PSA+case proximity. Official product name unchanged; aluminum still retired.
 
 Prior batch (2026-06-17) — `identify-fake-psa-slabs` content + SEO refresh: cert-era meta (#43 UV, #27/#5xxxxxxx label), slug keywords, guide hero OG images, `llms.txt` / Agent Skills citation hints.
 
@@ -18,6 +18,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-07-02 | Protector pricing | Recommended retail prices centralized in `src/lib/products/protector-pricing.ts`: HKD 82 (single color), HKD 92 (gradient). UI + Product/Service JSON-LD read from single module; price strings removed from i18n. |
 | 2026-07-02 | PSA magnetic case SEO | Added **PSA magnetic case** / **magnetic PSA slab case** (EN) ↔ **磁吸PSA卡殼** (ZH) to `SEO_KEYWORD_MAP`, product metadata keywords, JSON-LD `alternateName`, overview copy + FAQ (EN+ZH), `llms.txt` / `index.md`. Meta description retargeted for magnetic+PSA+case proximity. Official product name unchanged; aluminum still retired. |
 | 2026-06-27 | UV glass product rename | EN: **Graded Slab UV Glass Protector** (H1: UV Tempered Glass). ZH: **磁吸防UV鑑定卡保護殼** (H1: 防UV強化玻璃). Keyword cluster: tempered glass / UV glass slab case (EN), 防UV玻璃 / 強化玻璃卡殼 (ZH). Retired aluminum/CNC from marketing copy; ZH frame **金屬邊框** (not 金屬框架 / 鋁合金). URL unchanged `/products/psa-protectors/`. `PRODUCT_NAME`, i18n, JSON-LD `material`, guides, `llms.txt`, `index.md`, Agent Skills. |
 | 2026-06-17 | Fake PSA guide SEO | `identify-fake-psa-slabs` meta descriptions + leads + heroSpecs (cert #43/#27/#5xxxxxxx). `GUIDE_KEYWORDS` + per-guide `og:image` from `heroImage` in `guides/metadata.ts`. `llms.txt` + Agent Skills topic/citation refresh. Guide media: UV/label video + old-label photo refs. |

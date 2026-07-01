@@ -6,6 +6,7 @@
 import BusinessClient from './BusinessClient';
 import StructuredData from '@/components/StructuredData';
 import { itemListJsonLd, breadcrumbJsonLd } from '@/lib/seo';
+import { PROTECTOR_PRICING } from '@/lib/products/protector-pricing';
 
 const services = itemListJsonLd('Appaw Store Services', [
   {
@@ -27,8 +28,8 @@ const services = itemListJsonLd('Appaw Store Services', [
       url: 'https://appaw.store/products/psa-protectors/',
       offers: {
         '@type': 'Offer',
-        price: '72',
-        priceCurrency: 'HKD',
+        price: String(PROTECTOR_PRICING.single),
+        priceCurrency: PROTECTOR_PRICING.currency,
         availability: 'https://schema.org/InStock',
         url: 'https://appaw.store/products/psa-protectors/',
       },

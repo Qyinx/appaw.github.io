@@ -16,6 +16,7 @@ import Reveal, { MotionStagger } from '@/components/ui/Reveal';
 import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import { useProtectorColorState } from '@/hooks/useProtectorColorState';
 import { buildProtectorColors } from '@/lib/products/protector-colors';
+import { protectorPriceLabels } from '@/lib/products/protector-pricing';
 
 /* ─── FAQ Accordion ─── */
 const featureImages = [
@@ -82,6 +83,7 @@ export default function PSAProtectorPage() {
   const seoH1 = t.psaProtectorPage.seoH1 ?? en.psaProtectorPage.seoH1;
   const heroMounted = useHeroMount();
   const colors = buildProtectorColors(t);
+  const prices = protectorPriceLabels();
   const {
     selectedColor,
     previousColorIndex,
@@ -259,8 +261,8 @@ export default function PSAProtectorPage() {
                   pickColorLabel={t.psaProtectorPage.colorVariants.pickColor}
                   gradientBadge={t.psaProtectorPage.colorVariants.pricing.gradient}
                   startingPriceLabel={t.business.cardProtector.startingPrice}
-                  singlePrice={t.psaProtectorPage.colorVariants.pricing.singlePrice}
-                  gradientPrice={t.psaProtectorPage.colorVariants.pricing.gradientPrice}
+                  singlePrice={prices.single}
+                  gradientPrice={prices.gradient}
                   shippingInfo={t.business.cardProtector.shippingInfo}
                   ctaLabel={t.business.cardProtector.cta}
                   shopOptions={t.shopOptions}

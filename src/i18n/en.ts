@@ -237,8 +237,6 @@ export const en = {
       fitsLabel: 'Fits',
       notFitsLabel: 'Does Not Fit',
       pricing: {
-        single: 'HK$72',
-        gradient: 'HK$80',
         singleNote: 'Single color',
         gradientNote: 'Gradient color',
       },
@@ -426,8 +424,6 @@ export const en = {
         suggestedBadge: 'Suggested',
         gradient: 'Gradient color',
         single: 'Single color',
-        singlePrice: 'HK$72',
-        gradientPrice: 'HK$80',
         note: 'Prices are recommended retail prices in HKD. Taxes and shipping may apply.'
       },
     },

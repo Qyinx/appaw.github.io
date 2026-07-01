@@ -238,8 +238,6 @@ export const zh: Translations = {
       fitsLabel: '適用',
       notFitsLabel: '不適用',
       pricing: {
-        single: 'HK$72',
-        gradient: 'HK$80',
         singleNote: '單色',
         gradientNote: '漸變色',
       },
@@ -427,8 +425,6 @@ export const zh: Translations = {
         suggestedBadge: '建議價',
         gradient: '漸變色',
         single: '單色',
-        singlePrice: 'HK$72',
-        gradientPrice: 'HK$80',
         note: '以上價格為建議零售價（港幣），運費及稅項另計。'
       },
     },

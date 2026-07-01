@@ -3,8 +3,7 @@ import { PRODUCT_NAME } from '@/lib/product-names';
 import StructuredData from '@/components/StructuredData';
 import { productJsonLd as productJsonLdFactory, breadcrumbJsonLd as breadcrumbFactory, faqJsonLd as faqFactory } from '@/lib/seo';
 import { psaProtectorsMetadata } from '@/lib/seo/metadata';
-
-const PRICE_VALID_UNTIL = `${new Date().getFullYear()}-12-31`;
+import { PROTECTOR_PRICING, protectorPriceValidUntil } from '@/lib/products/protector-pricing';
 
 export const metadata = psaProtectorsMetadata;
 
@@ -53,9 +52,9 @@ export default function PSAProtectorLayout({ children }: { children: React.React
       {
         '@type': 'Offer',
         name: 'Graded Slab Protector — Gradient finish',
-        price: '80',
-        priceCurrency: 'HKD',
-        priceValidUntil: PRICE_VALID_UNTIL,
+        price: String(PROTECTOR_PRICING.gradient),
+        priceCurrency: PROTECTOR_PRICING.currency,
+        priceValidUntil: protectorPriceValidUntil(),
         availability: 'https://schema.org/InStock',
         url: 'https://appaw.store/products/psa-protectors/',
         seller: { '@type': 'Organization', name: 'Appaw Store' },
@@ -63,9 +62,9 @@ export default function PSAProtectorLayout({ children }: { children: React.React
       {
         '@type': 'Offer',
         name: 'Graded Slab Protector — Single colour finish',
-        price: '72',
-        priceCurrency: 'HKD',
-        priceValidUntil: PRICE_VALID_UNTIL,
+        price: String(PROTECTOR_PRICING.single),
+        priceCurrency: PROTECTOR_PRICING.currency,
+        priceValidUntil: protectorPriceValidUntil(),
         availability: 'https://schema.org/InStock',
         url: 'https://appaw.store/products/psa-protectors/',
         seller: { '@type': 'Organization', name: 'Appaw Store' },

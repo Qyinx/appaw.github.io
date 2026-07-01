@@ -17,6 +17,7 @@ import ProtectorTechnicalSpecs from '@/components/products/ProtectorTechnicalSpe
 import Reveal from '@/components/ui/Reveal';
 import { MotionStagger } from '@/components/ui/Reveal';
 import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
+import { protectorPriceLabels } from '@/lib/products/protector-pricing';
 
 /* ─── Section label — use globals .section-label ─── */
 function SectionLabel({ text, variant = 'brand' }: { text: string; variant?: 'brand' | 'link' }) {
@@ -44,6 +45,7 @@ function Chip({ label, variant = 'brand' }: { label: string; variant?: 'brand' |
 ═══════════════════════════════════════════════════════════ */
 export default function BusinessClient() {
   const { t } = useLanguage();
+  const prices = protectorPriceLabels();
   const heroMounted = useHeroMount();
   const heroRef    = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
   const psaRef     = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
@@ -189,9 +191,9 @@ export default function BusinessClient() {
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted mb-1">{t.business.cardProtector.startingPrice}</p>
                     <p className="text-text-primary font-display text-2xl font-bold leading-none">
-                      {t.business.cardProtector.pricing.single}
+                      {prices.single}
                       <span className="text-text-muted text-lg font-normal mx-2">/</span>
-                      {t.business.cardProtector.pricing.gradient}
+                      {prices.gradient}
                     </p>
                     <p className="text-text-muted text-[10px] mt-1">
                       {t.business.cardProtector.pricing.singleNote} · {t.business.cardProtector.pricing.gradientNote}
