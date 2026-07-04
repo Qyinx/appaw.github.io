@@ -21,7 +21,7 @@ permissions:
 
 concurrency:
   group: 'pages'
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -49,6 +49,9 @@ jobs:
 
       - name: Build with Next.js
         run: npm run build
+
+      - name: Verify static export
+        run: test -f ./out/index.html && test -f ./out/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
