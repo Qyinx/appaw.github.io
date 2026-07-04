@@ -5,23 +5,23 @@ const guide: GuideContent = {
   title: 'PSA Grading Standards, Qualifiers & Record Sales Explained',
   badge: 'Grading Spec',
   lead:
-    'Condition drives card market value — PSA 1–10 grades and Qualifier codes are the shared language buyers and sellers use. This guide breaks down official grade definitions, hidden deduction tags, and why PSA 10 record sales command extreme premiums.',
+    'A PSA 10 can sell for six figures. A PSA 9 on the same card might not clear four. The gap is not luck. It is the 1–10 scale, Qualifier codes, and centering rules buyers already use at checkout.',
   published: '2026-06-18',
   updated: '2026-06-18',
   readTime: '14 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
+    { label: 'Items graded', value: '65 million+ certified' },
     { label: 'PSA 10 front', value: '55/45 or better' },
     { label: 'PSA 10 back', value: '75/25 or better' },
     { label: 'Qualifiers', value: 'OC · ST · PD · OF · MK · MC' },
-    { label: 'Items graded', value: '65xxxxxxx+ certified' },
   ],
   sections: [
     {
       id: 'what-is-psa',
-      title: 'What Is PSA Grading?',
+      title: 'PSA grades are the checkout language',
       paragraphs: [
-        'PSA (Professional Sports Authenticator), founded by David Hall in 1991, is one of the world\'s largest third-party card grading companies — over 65 million items certified to date. For collectors and investors, a PSA grade is the shared condition language: higher numbers mean sharper corners, cleaner surfaces, and better centering closer to factory state.',
+        'PSA (Professional Sports Authenticator), founded by David Hall in 1991, is one of the world\'s largest third-party card grading companies, over 65 million items certified to date. For collectors and investors, a PSA grade is the shared condition language: higher numbers mean sharper corners, cleaner surfaces, and better centering closer to factory state.',
       ],
       bulletGroups: [
         {
@@ -117,7 +117,7 @@ const guide: GuideContent = {
       id: 'qualifiers',
       title: 'PSA Qualifier Codes',
       paragraphs: [
-        'A card may meet a numeric grade overall but carry a Qualifier when one major flaw is present — shown as "PSA 8 OC" on the label. Many collectors prefer NQ (No Qualifier) grades for cleaner interpretation.',
+        'A card may meet a numeric grade overall but carry a Qualifier when one major flaw is present, shown as "PSA 8 OC" on the label. Many collectors prefer NQ (No Qualifier) grades for cleaner interpretation.',
       ],
       bulletGroups: [
         {
@@ -133,7 +133,7 @@ const guide: GuideContent = {
             },
             {
               label: 'PD (Print Defect)',
-              text: 'Factory print flaw — heavy ink spots, print lines, or bleeding.',
+              text: 'Factory print flaw, heavy ink spots, print lines, or bleeding.',
             },
             {
               label: 'OF (Out of Focus)',
@@ -145,7 +145,7 @@ const guide: GuideContent = {
             },
             {
               label: 'MC (Miscut)',
-              text: 'Severe factory miscut — uneven edges or adjacent-card image bleed.',
+              text: 'Severe factory miscut, uneven edges or adjacent-card image bleed.',
             },
             {
               label: 'NQ (No Qualifier)',
@@ -159,69 +159,35 @@ const guide: GuideContent = {
       id: 'record-sales',
       title: 'Record PSA 10 Sales',
       paragraphs: [
-        'PSA 10 Gem Mint signals extreme scarcity plus authentication — top grades at auction often command order-of-magnitude premiums. Three public sales illustrate how the market prices perfection.',
+        'PSA 10 Gem Mint signals extreme scarcity plus authentication, top grades at auction often command order-of-magnitude premiums. Three public sales illustrate how the market prices perfection.',
       ],
       bulletGroups: [
         {
           label: 'Public sales',
           items: [
             {
-              label: '1998 Pokémon Illustrator Pikachu — PSA 10',
-              text: 'Sold for **$5.275 million** (~£3.85xxxxxxx). YouTuber Logan Paul acquired it in a private 2023 transaction — widely cited as the most expensive trading card ever sold.',
+              label: '1998 Pokémon Illustrator Pikachu, PSA 10',
+              text: 'Sold for **$5.275 million** (~£3.85 million). YouTuber Logan Paul acquired it in a private 2023 transaction, widely cited as the most expensive trading card ever sold.',
             },
             {
-              label: '1993 Magic Alpha Black Lotus — PSA 10',
+              label: '1993 Magic Alpha Black Lotus, PSA 10',
               text: 'Sold for **$540,000** (~£428K) at auction in 2023. Banned in tournament play, but as a TCG history icon, PSA 10 condition makes it a trophy collectible.',
             },
             {
-              label: '1998 Japanese Silver Pikachu Trophy (2nd Tournament) — PSA 10',
-              text: 'Sold for **$444,000** (~£347K) in 2023 — proof of Pokémon tournament prize cards\' auction dominance.',
+              label: '1998 Japanese Silver Pikachu Trophy (2nd Tournament), PSA 10',
+              text: 'Sold for **$444,000** (~£347K) in 2023, proof of Pokémon tournament prize cards\' auction dominance.',
             },
           ],
         },
       ],
       callout:
-        'Record sales involve globally tiny PSA 10 populations. On mainstream hot cards, PSA 10 vs PSA 9 spreads can still be multiples — screen raw copies before submitting. See [grade vs protect workflow](/guides/grade-or-protect-first/).',
-    },
-    {
-      id: 'faq',
-      title: 'Frequently Asked Questions',
-      paragraphs: [
-        'Five questions collectors ask most before submitting, bidding, or buying graded cards.',
-      ],
-      bulletGroups: [
-        {
-          label: '',
-          items: [
-            {
-              label: 'Should I grade before auction?',
-              text: 'Usually yes. A PSA label backs authenticity and condition, reduces buyer doubt, and often draws more bidders at higher final prices. Skip if condition likely caps below PSA 8 or raw value cannot cover grading fees.',
-            },
-            {
-              label: 'Do low-grade rare cards still hold value?',
-              text: 'Yes — rarity often beats condition. In early 2025, a heavily worn Unlimited Black Lotus with suspected ink touch-up on whitening still sold for about **£5,200** at auction. Scarce cards stay valuable even at low grades.',
-            },
-            {
-              label: 'How are PSA grading fees calculated?',
-              text: 'Fees depend on service tier (Value, Regular, Express, etc.) and declared value; bulk tiers exist for large submissions. Check current pricing and turnaround at [psacard.com/services](https://www.psacard.com/services).',
-            },
-            {
-              label: 'How do I verify my PSA slab after grading?',
-              text: 'Every PSA label has a certification number. Enter it at [psacard.com/cert](https://www.psacard.com/cert) and confirm photos, grade, and card details match the slab in hand. Full five-step authentication: [identify fake PSA slabs](/guides/identify-fake-psa-slabs/).',
-            },
-            {
-              label: 'Can I regrade if I think the score is too low?',
-              text: 'Yes — submit for Regrade and the card re-enters the grading pipeline. Outcomes can be higher, unchanged, or lower. See [PSA regrade vs reholder](/guides/regrade-or-reholder/).',
-            },
-          ],
-        },
-      ],
+        'Record sales involve globally tiny PSA 10 populations. On mainstream hot cards, PSA 10 vs PSA 9 spreads can still be multiples, screen raw copies before submitting. See [grade vs protect workflow](/guides/grade-or-protect-first/).',
     },
     {
       id: 'bottom-line',
-      title: 'Bottom Line: Read the Grade Before You Pay',
+      title: 'Read the grade before you pay',
       paragraphs: [
-        'PSA 1–10 and Qualifiers are the market\'s shared vocabulary. Cross-check the scale and centering thresholds before submitting; verify cert numbers and slab authenticity before buying — cheaper than chasing mistakes later.',
+        'PSA 1–10 and Qualifiers are the market\'s shared vocabulary. Cross-check the scale and centering thresholds before submitting; verify cert numbers and slab authenticity before buying.',
       ],
       bulletGroups: [
         {
@@ -247,7 +213,7 @@ const guide: GuideContent = {
     },
     {
       q: 'Do low-grade rare cards still hold value?',
-      a: 'Yes — rarity often beats condition. In early 2025, a heavily worn Unlimited Black Lotus with suspected ink touch-up on whitening still sold for about £5,200 at auction.',
+      a: 'Yes, rarity often beats condition. In early 2025, a heavily worn Unlimited Black Lotus with suspected ink touch-up on whitening still sold for about £5,200 at auction.',
     },
     {
       q: 'How are PSA grading fees calculated?',
@@ -259,7 +225,7 @@ const guide: GuideContent = {
     },
     {
       q: 'Can I regrade if I think the score is too low?',
-      a: 'Yes — submit for Regrade. Outcomes can be higher, unchanged, or lower.',
+      a: 'Yes, submit for Regrade. Outcomes can be higher, unchanged, or lower.',
     },
   ],
   cta: {
@@ -276,23 +242,23 @@ const guide: GuideContent = {
   ],
   sources: [
     {
-      label: 'PSA — Grading Standards',
+      label: 'PSA, Grading Standards',
       href: 'https://www.psacard.com/gradingstandards',
     },
     {
-      label: 'Cullen of Surrey — PSA Grading Standards (reference)',
+      label: 'Cullen of Surrey, PSA Grading Standards (reference)',
       href: 'https://cullensofsurrey.co.uk/blog/psa-grading-standards',
     },
     {
-      label: 'Guinness World Records — Logan Paul Pikachu Illustrator trade',
+      label: 'Guinness World Records, Logan Paul Pikachu Illustrator trade',
       href: 'https://www.guinnessworldrecords.com/news/2022/4/logan-paul-owns-5-275-million-pokemon-card-after-record-breaking-trade-697189',
     },
     {
-      label: 'Polygon — Alpha Black Lotus PSA 10 auction',
+      label: 'Polygon, Alpha Black Lotus PSA 10 auction',
       href: 'https://www.polygon.com/23644519/magic-the-gathering-black-lotus-auction-price-2023/',
     },
     {
-      label: 'The Gamer — Silver Pikachu $444K sale',
+      label: 'The Gamer, Silver Pikachu $444K sale',
       href: 'https://www.thegamer.com/pikachu-silver-trophy-card-444000-dollars-trading-card-game-second-highest-sale/',
     },
   ],

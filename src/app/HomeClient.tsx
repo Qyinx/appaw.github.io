@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import LocalLink from '@/components/LocalLink';
-import { ArrowRight, Check, Eye, Lock, Shield, Star, TrendingUp } from 'lucide-react';
+import { ArrowRight, Check, Eye, Lock, Shield, TrendingUp } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import RetailPartners from '@/components/RetailPartners';
 import ShopNowButton from '@/components/ui/ShopNowButton';
@@ -10,12 +11,12 @@ import HomeHero from '@/components/home/HomeHero';
 import Reveal from '@/components/ui/Reveal';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import trackEvent from '@/lib/analytics';
+import { getImagePath } from '@/lib/utils';
 
 export default function HomeClient() {
   const { t } = useLanguage();
   const servicesReveal = useRevealOnScroll<HTMLElement>();
   const featuresReveal = useRevealOnScroll<HTMLElement>();
-  const tradingReveal = useRevealOnScroll<HTMLElement>();
   const specsReveal = useRevealOnScroll<HTMLElement>();
   const ctaReveal = useRevealOnScroll<HTMLElement>();
 
@@ -65,19 +66,38 @@ export default function HomeClient() {
     },
   ];
 
-  const featureCards = [
-    { icon: Shield, ...t.home.features.quality },
+  const featureSideCards = [
     { icon: Eye, ...t.home.features.trust },
     { icon: Lock, ...t.home.features.support },
   ];
 
   const tradingBullets = t.home.tradingPreview.features.slice(0, 2);
 
-  const homeSpecRows = [
-    [t.home.specs.rows.compatibility, t.home.specs.rows.compatibilityValue],
-    [t.home.specs.rows.material, t.home.specs.rows.materialValue],
-    [t.home.specs.rows.uvProtection, t.home.specs.rows.uvProtectionValue],
-    [t.home.specs.rows.origin, t.home.specs.rows.originValue],
+  const specTiles = [
+    {
+      key: 'compatibility',
+      label: t.home.specs.rows.compatibility,
+      value: t.home.specs.rows.compatibilityValue,
+      hint: t.home.specs.tiles.compatibility.hint,
+    },
+    {
+      key: 'material',
+      label: t.home.specs.rows.material,
+      value: t.home.specs.rows.materialValue,
+      hint: t.home.specs.tiles.material.hint,
+    },
+    {
+      key: 'uvProtection',
+      label: t.home.specs.rows.uvProtection,
+      value: t.home.specs.rows.uvProtectionValue,
+      hint: t.home.specs.tiles.uvProtection.hint,
+    },
+    {
+      key: 'origin',
+      label: t.home.specs.rows.origin,
+      value: t.home.specs.rows.originValue,
+      hint: t.home.specs.tiles.origin.hint,
+    },
   ] as const;
 
   return (
@@ -90,7 +110,7 @@ export default function HomeClient() {
 
       <section ref={servicesReveal.ref} className="section-padding border-b border-border-default bg-surface-panel scroll-mt-20">
         <div className="container-custom">
-          <Reveal visible={servicesReveal.visible} dir="up" className="mb-12 max-w-2xl">
+          <Reveal visible={servicesReveal.visible} dir="up" className="mb-10 max-w-2xl">
             <p className="section-label mb-4">{t.home.services.badge}</p>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary text-balance">
               {t.home.services.title}
@@ -130,15 +150,27 @@ export default function HomeClient() {
           </div>
 
           <Reveal visible={servicesReveal.visible} dir="up" delay={80} className="mt-8">
-            <div className="panel p-5 md:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="panel p-6 md:p-8 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
               <div className="max-w-xl">
-                <p className="section-label mb-2">{t.home.services.trading.badge}</p>
-                <p className="text-sm text-text-secondary leading-relaxed">{t.home.services.trading.subtitle}</p>
+                <h3 className="text-xl md:text-2xl font-display font-bold text-text-primary mb-2 text-balance">
+                  {t.home.services.trading.title}
+                </h3>
+                <p className="text-sm text-text-secondary leading-relaxed mb-4">
+                  {t.home.services.trading.description}
+                </p>
+                <ul className="space-y-2">
+                  {tradingBullets.map((bullet) => (
+                    <li key={bullet} className="flex items-start gap-2 text-sm text-text-secondary">
+                      <Check className="w-4 h-4 text-accent-link shrink-0 mt-0.5" aria-hidden="true" />
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
               </div>
               <LocalLink
                 href="/business/card-trading"
                 onClick={handleTradingClick}
-                className="btn btn-secondary shrink-0 self-start sm:self-center"
+                className="btn btn-secondary shrink-0 self-start"
               >
                 <TrendingUp className="w-4 h-4" aria-hidden="true" />
                 {t.home.services.trading.cta}
@@ -161,90 +193,100 @@ export default function HomeClient() {
 
       <section ref={featuresReveal.ref} className="section-padding border-b border-border-default">
         <div className="container-custom">
-          <Reveal visible={featuresReveal.visible} dir="up" className="mb-10 max-w-2xl">
-            <p className="section-label mb-4">{t.home.features.badge}</p>
-            <h2 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-3 text-balance">
+          <Reveal visible={featuresReveal.visible} dir="up" className="mb-10 max-w-[65ch]">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary mb-3 text-balance">
               {t.home.features.title}
             </h2>
-            <p className="text-text-secondary">{t.home.features.subtitle}</p>
+            <p className="text-text-secondary leading-relaxed">{t.home.features.subtitle}</p>
           </Reveal>
 
-          <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border-default border border-border-default">
-            {featureCards.map(({ icon: Icon, title, description }, i) => (
-              <Reveal
-                key={title}
-                visible={featuresReveal.visible}
-                dir="up"
-                delay={i * 40}
-                className="p-6 md:p-8 bg-surface-panel"
-              >
+          <div className="home-features-bento grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-px bg-border-default border border-border-default">
+            <Reveal
+              visible={featuresReveal.visible}
+              dir="up"
+              className="home-features-bento__lead bg-surface-panel relative min-h-[280px] md:min-h-[360px] overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-accent-brand/8 via-transparent to-accent-secondary/6" aria-hidden="true" />
+              <div className="relative z-[1] p-6 md:p-8 flex flex-col h-full">
                 <div className="w-10 h-10 border border-accent-brand/30 bg-accent-brand/10 flex items-center justify-center mb-5">
-                  <Icon className="w-4 h-4 text-accent-brand" aria-hidden="true" />
+                  <Shield className="w-4 h-4 text-accent-brand" aria-hidden="true" />
                 </div>
-                <h3 className="font-display text-text-primary font-semibold text-lg mb-3">{title}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{description}</p>
-              </Reveal>
-            ))}
+                <h3 className="font-display text-text-primary font-semibold text-xl mb-3 max-w-[24ch]">
+                  {t.home.features.quality.title}
+                </h3>
+                <p className="text-sm text-text-secondary leading-relaxed max-w-[42ch] flex-1">
+                  {t.home.features.quality.description}
+                </p>
+              </div>
+              <div className="home-features-bento__image pointer-events-none absolute inset-y-0 right-0 w-[45%] max-w-[220px] opacity-90">
+                <Image
+                  src={getImagePath('/images/describe/color/color-gold.png')}
+                  alt={t.business.cardProtector.title}
+                  fill
+                  className="object-contain object-right p-4"
+                  sizes="220px"
+                />
+              </div>
+            </Reveal>
+
+            <div className="grid grid-rows-2 gap-px bg-border-default">
+              {featureSideCards.map(({ icon: Icon, title, description }, i) => (
+                <Reveal
+                  key={title}
+                  visible={featuresReveal.visible}
+                  dir="up"
+                  delay={(i + 1) * 40}
+                  className="p-6 md:p-8 bg-surface-panel flex flex-col"
+                >
+                  <div className="w-10 h-10 border border-accent-brand/30 bg-accent-brand/10 flex items-center justify-center mb-5">
+                    <Icon className="w-4 h-4 text-accent-brand" aria-hidden="true" />
+                  </div>
+                  <h3 className="font-display text-text-primary font-semibold text-lg mb-3">{title}</h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">{description}</p>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section ref={tradingReveal.ref} className="section-padding border-b border-border-default bg-surface-panel">
-        <div className="container-custom max-w-3xl">
-          <Reveal visible={tradingReveal.visible} dir="up" className="panel p-6 md:p-8">
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-              <div className="max-w-lg">
-                <p className="section-label mb-3">{t.home.tradingPreview.badge}</p>
-                <h2 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-3 text-balance">
-                  {t.home.tradingPreview.title}
-                </h2>
-                <p className="text-text-secondary mb-4">{t.home.tradingPreview.description}</p>
-                <ul className="space-y-2">
-                  {tradingBullets.map((bullet) => (
-                    <li key={bullet} className="flex items-start gap-2 text-sm text-text-secondary">
-                      <Check className="w-4 h-4 text-accent-link shrink-0 mt-0.5" aria-hidden="true" />
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <LocalLink
-                href="/business/card-trading"
-                onClick={handleTradingClick}
-                className="btn btn-primary shrink-0 self-start"
-              >
-                <TrendingUp className="w-4 h-4" aria-hidden="true" />
-                {t.home.tradingPreview.cta}
-              </LocalLink>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       <section ref={specsReveal.ref} className="section-padding border-b border-border-default">
-        <div className="container-custom max-w-3xl">
-          <Reveal visible={specsReveal.visible} dir="up">
-            <p className="section-label mb-4">{t.home.specs.badge}</p>
-            <h2 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-8 text-balance">
+        <div className="container-custom max-w-4xl">
+          <Reveal visible={specsReveal.visible} dir="up" className="mb-10 max-w-[65ch]">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary text-balance">
               {t.home.specs.title}
             </h2>
           </Reveal>
 
-          <Reveal visible={specsReveal.visible} dir="up" delay={80} className="panel p-6">
-            {homeSpecRows.map(([label, value]) => (
-              <div key={label} className="spec-row">
-                <span className="spec-row__label">{label}</span>
-                <span className="spec-row__value">{value}</span>
-              </div>
+          <div className="grid sm:grid-cols-2 gap-px bg-border-default border border-border-default">
+            {specTiles.map(({ key, label, value, hint }, i) => (
+              <Reveal
+                key={key}
+                visible={specsReveal.visible}
+                dir="up"
+                delay={i * 40}
+                className="home-spec-tile bg-surface-panel p-6 md:p-8"
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-3">{label}</p>
+                <p className="font-display text-lg md:text-xl font-semibold text-text-primary mb-2 text-balance">{value}</p>
+                <p className="text-sm text-text-secondary leading-relaxed">{hint}</p>
+              </Reveal>
             ))}
-          </Reveal>
+          </div>
 
-          <Reveal visible={specsReveal.visible} dir="up" delay={120} className="mt-8 flex flex-wrap gap-3">
-            <LocalLink href="/products/psa-protectors" onClick={handleShopClick} className="btn btn-primary">
-              {t.home.specs.cta}
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </LocalLink>
-            <LocalLink href="/products/psa-protectors" onClick={handleShopClick} className="btn btn-secondary">
+          <Reveal visible={specsReveal.visible} dir="up" delay={120} className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
+            <ShopNowButton
+              label={t.home.specs.cta}
+              shopOptions={t.shopOptions}
+              whatsappMessage={t.business.cardProtector.whatsappOrder}
+              buttonClassName="btn btn-primary"
+              onClick={handleShopClick}
+            />
+            <LocalLink
+              href="/products/psa-protectors"
+              onClick={handleShopClick}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-accent-link hover:text-accent-brand transition-colors duration-150"
+            >
               {t.home.specs.fullSpecsCta}
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </LocalLink>
@@ -256,11 +298,10 @@ export default function HomeClient() {
 
       <section ref={ctaReveal.ref} className="section-padding bg-surface-panel border-t border-border-default">
         <Reveal visible={ctaReveal.visible} dir="up" className="container-custom text-center max-w-2xl mx-auto">
-          <Star className="w-5 h-5 text-accent-brand mx-auto mb-6" aria-hidden="true" />
           <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary mb-4 text-balance">
             {t.home.cta.title}
           </h2>
-          <p className="text-text-secondary text-lg mb-10">{t.home.cta.description}</p>
+          <p className="text-text-secondary text-lg mb-10 max-w-[65ch] mx-auto leading-relaxed">{t.home.cta.description}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <ShopNowButton
               label={t.home.cta.button}
@@ -270,7 +311,7 @@ export default function HomeClient() {
               chevronSize="w-4 h-4"
             />
             <LocalLink href="/business/card-trading" onClick={handleTradingClick} className="btn btn-secondary">
-              {t.home.tradingPreview.cta}
+              {t.home.services.trading.cta}
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </LocalLink>
           </div>

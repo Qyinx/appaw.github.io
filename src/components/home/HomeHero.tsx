@@ -51,23 +51,12 @@ export default function HomeHero({ onShopClick, onCollectionClick, onCenteringCl
   const h = t.home.hero;
 
   return (
-    <section className="home-hero-exhibit relative flex flex-col border-b border-border-default page-blueprint min-h-[min(85dvh,940px)] lg:min-h-[min(92dvh,940px)]">
+    <section className="home-hero-exhibit relative flex flex-col border-b border-border-default page-blueprint">
       <div className="home-hero-exhibit__atmosphere" aria-hidden="true" />
 
       <div className="container-custom relative z-[1] flex-1 flex flex-col pt-8 sm:pt-10 pb-0">
-        <MotionStagger visible={heroMounted} className="home-hero-exhibit__top flex flex-wrap items-center justify-between gap-x-6 gap-y-3 mb-6 sm:mb-8">
+        <MotionStagger visible={heroMounted} className="home-hero-exhibit__top mb-5 sm:mb-6">
           <p className="section-label motion-stagger-item !mb-0">{h.badge}</p>
-          <ul className="home-hero-exhibit__metrics motion-stagger-item flex flex-wrap justify-end gap-x-4 gap-y-1 list-none p-0 m-0">
-            {h.trustRibbon.map(({ value, label }) => (
-              <li key={label} className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted whitespace-nowrap">
-                <span className="text-text-primary font-tabular">{value}</span>
-                <span className="mx-1.5 text-border-strong" aria-hidden="true">
-                  /
-                </span>
-                {label}
-              </li>
-            ))}
-          </ul>
         </MotionStagger>
 
         <div
@@ -92,7 +81,7 @@ export default function HomeHero({ onShopClick, onCollectionClick, onCenteringCl
               ))}
             </h1>
 
-            <p className="home-hero-exhibit__subtitle motion-stagger-item text-text-secondary text-base md:text-lg leading-relaxed text-pretty">
+            <p className="home-hero-exhibit__subtitle motion-stagger-item text-text-secondary text-base md:text-lg leading-relaxed text-pretty max-w-[65ch]">
               {h.subtitle}
             </p>
           </MotionStagger>
@@ -159,6 +148,15 @@ export default function HomeHero({ onShopClick, onCollectionClick, onCenteringCl
         onSelectColor={selectColor}
         onUserInteract={handleUserColorInteract}
       />
+
+      <ul className="home-hero-trust-strip" aria-label={h.badge}>
+        {h.trustRibbon.map(({ value, label }) => (
+          <li key={label} className="home-hero-trust-strip__item">
+            <span className="home-hero-trust-strip__value font-tabular">{value}</span>
+            <span className="home-hero-trust-strip__label">{label}</span>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

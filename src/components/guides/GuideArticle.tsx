@@ -10,6 +10,7 @@ import GuideProse from './GuideProse';
 import GuideSources from './GuideSources';
 import GuideCta from './GuideCta';
 import GuideRelated from './GuideRelated';
+import GuideFaq from './GuideFaq';
 
 const UI = {
   en: {
@@ -18,6 +19,10 @@ const UI = {
     sources: 'Sources',
     related: 'Related Guides',
     read: 'Read',
+    faq: 'Frequently Asked Questions',
+    faqBadge: 'Common Questions',
+    faqCount: '{n} questions answered',
+    midCtaLabel: 'Next step',
   },
   zh: {
     specTitle: '規格摘要',
@@ -25,6 +30,10 @@ const UI = {
     sources: '參考來源',
     related: '相關指南',
     read: '閱讀',
+    faq: '常見問答',
+    faqBadge: '常見疑問',
+    faqCount: '共 {n} 個問題',
+    midCtaLabel: '下一步',
   },
 } as const;
 
@@ -55,7 +64,10 @@ export default function GuideArticle({ slug }: GuideArticleProps) {
           <div className="grid lg:grid-cols-[minmax(0,1fr)_280px] gap-12 lg:gap-16">
             <div className="min-w-0 space-y-12">
               <GuideSpecPanel rows={guide.heroSpecs} title={ui.specTitle} />
-              <GuideProse sections={guide.sections} />
+              <GuideProse sections={guide.sections} midCta={guide.midCta} midCtaLabel={ui.midCtaLabel} />
+              {guide.faq?.length ? (
+                <GuideFaq items={guide.faq} title={ui.faq} badge={ui.faqBadge} countLabel={ui.faqCount} />
+              ) : null}
               {guide.sources ? <GuideSources sources={guide.sources} label={ui.sources} /> : null}
               <GuideCta cta={guide.cta} />
               <GuideRelated guides={related} title={ui.related} readLabel={ui.read} />
@@ -63,7 +75,7 @@ export default function GuideArticle({ slug }: GuideArticleProps) {
 
             <div className="hidden lg:block">
               <div className="sticky top-24">
-                <GuideToc sections={guide.sections} label={ui.toc} />
+                <GuideToc sections={guide.sections} label={ui.toc} faqTitle={guide.faq?.length ? ui.faq : undefined} />
               </div>
             </div>
           </div>

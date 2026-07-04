@@ -2,27 +2,27 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'regrade-or-reholder',
-  title: 'PSA Regrade vs Reholder — 如何選擇',
+  title: 'PSA Regrade vs Reholder：如何選擇',
   badge: '鑑定卡流程',
   lead:
-    'Slab 刮痕、霧化、邊角磨損或標籤褪色時，收藏者常寄回 PSA 處理。最常見兩個選項是 Reholder（重新裝殼）與 Regrade（重新評級）——服務內容、費用、風險差異很大。選錯要麼白費錢，要麼丟掉已有評級。',
+    'Slab 出現刮痕，未必代表評分問題。Reholder 更換外殼；Regrade 重新評分。選錯服務，不是白費金錢，就是失去已有的 PSA 10。',
   published: '2026-06-13',
   updated: '2026-06-17',
   readTime: '9 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
-    { label: 'Reholder', value: '同評級，新外殼' },
-    { label: 'Regrade', value: '全面重評 — 可升可降' },
+    { label: 'Regrade 風險', value: 'PSA 10 易降分' },
+    { label: 'Reholder', value: '同分數，新外殼' },
+    { label: 'Regrade', value: '全面重評，可升可降' },
     { label: 'Reholder 風險', value: '低（非零）' },
-    { label: 'Regrade 風險', value: '降分可能性大' },
   ],
   sections: [
     {
       id: 'why-it-matters',
       title: '為什麼選對服務很重要',
       paragraphs: [
-        '在 PSA 評級卡的收藏與交易過程中，Slab 外殼難免出現刮痕、霧化、邊角磨損或標籤褪色。此時 Reholder 與 Regrade 是最常見的兩個選項，但兩者目的完全不同。',
-        'Reholder 像「換一件新外衣」——改善外觀，原則上保留等級。Regrade 像「全身體檢」——重新審核所有品相面向，分數可能上升、維持或下降。清楚差異，才能避免不必要損失。',
+        '在 PSA 鑑定卡的收藏與交易過程中，Slab 外殼難免出現刮痕、霧化、邊角磨損或標籤褪色。此時 Reholder 與 Regrade 是最常見的兩個選項，但兩者目的完全不同。',
+        'Reholder 像「換一件新外衣」，改善外觀，原則上保留等級。Regrade 像「全身體檢」，重新審核所有品相面向，分數可能上升、維持或下降。清楚差異，才能避免不必要損失。',
       ],
     },
     {
@@ -32,7 +32,7 @@ const guide: GuideContent = {
         'Reholder 是 PSA 提供的基礎更新服務，主要目的是讓舊 Slab 煥然一新。',
         'PSA 會將卡片從原有外殼取出，重新放入最新塑膠外殼與標籤。原則上，原有等級（Grade）、認證編號（Certification Number）與鑑定結果均維持不變。',
         '適合時機：Slab 僅有輕微刮痕、表面霧化、邊角輕微磨損或標籤略微褪色，整體狀況良好；希望統一收藏系列外觀（例如舊標籤全部換成新款）；純粹提升美觀或轉售吸引力，不想改變目前等級。',
-        'PSA 仍會進行基本真偽與完整性檢查。若發現卡片有明顯新損壞、褪色或其他疑慮，可能轉為重新評級，甚至導致等級調整——風險低，但非零。',
+        'PSA 仍會進行基本真偽與完整性檢查。若發現卡片有明顯新損壞、褪色或其他疑慮，可能轉為重新評級，甚至導致等級調整，風險低，但非零。',
         '官方建議：適用於外觀有輕微問題、卡片本身無重大疑慮的 Slab。殼體是唯一問題時，Reholder 是最安全且經濟的選擇。',
       ],
       specs: [
@@ -55,7 +55,7 @@ const guide: GuideContent = {
         { label: '等級', value: '可能上升、維持或下降' },
         { label: '認證編號', value: '通常產生新編號' },
         { label: '費用 / 時間', value: '較高、較長' },
-        { label: '風險', value: '高 — 降分可能性大' },
+        { label: '風險', value: '高, 降分可能性大' },
       ],
     },
     {
@@ -106,16 +106,21 @@ const guide: GuideContent = {
       ],
     },
   ],
+  faq: [
+    { q: 'PSA Reholder 是什麼？', a: '更換外殼與標籤耗材，等級與證書編號通常不變，適合外殼外觀問題。' },
+    { q: 'PSA Regrade 是什麼？', a: '完整重新審核，分數可能升、維持或降。PSA 10 重評降分風險最高。' },
+    { q: '外殼刮花應 Reholder 還是 Regrade？', a: '僅塑料受損且滿意現有分數 → Reholder。願承擔降分風險追更高分 → Regrade。' },
+  ],
   cta: {
     title: '寄出前先篩選置中',
-    body: '上傳鑑定卡照片、切換鑑定卡模式，依置中閱讀 Regrade 升值與降級風險——瀏覽器免費使用。',
+    body: '上傳鑑定卡照片、切換鑑定卡模式，依置中閱讀 Regrade 升值與降級風險，瀏覽器免費使用。',
     primary: { label: '免費置中工具', href: '/tools/card-centering/' },
     secondary: { label: '換殼後加裝保護', href: '/products/psa-protectors/' },
   },
   relatedSlugs: ['psa-10-centering-requirements', 'identify-fake-psa-slabs', 'grade-or-protect-first'],
   sources: [
     {
-      label: 'PSA — 評級標準及殼體服務',
+      label: 'PSA, 評級標準及殼體服務',
       href: 'https://www.psacard.com/services',
     },
   ],

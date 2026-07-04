@@ -190,6 +190,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 - **Title / H1:** `Free Card Centering Tool & PSA 10 Analyzer` (EN); `免費卡牌置中工具 & PSA 10 分析器` (ZH) — do not retitle away from head term; regrade intent lives in description, H2s, FAQ, and guide.
 - **Meta description:** `CENTERING_SEO.*.description` — mentions raw + slab photos and regrade screening (≤160 chars EN).
+- **Voice (2026-07):** PG-style contrarian hooks aligned with `/guides/` (short sentences, numbers as proof, honest limits; no em dash in EN). ZH mirror uses 書面語 + glossary (置中、鑑定卡、送鑑). **AEO speakable:** `.centering-aeo-answer` on page lead, PSA requirements intro, and regrade block; FAQ accordion via shared `GuideFaq` (first item gets `.guide-aeo-answer`).
 - **Keywords:** `centeringMetadata` — adds `PSA regrade`, `PSA reholder`, `regrade downgrade risk`, `graded slab centering`, ZH equivalents.
 
 **Keyword clusters**
@@ -205,7 +206,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 - 4-step HowTo (raw card) — mirrors `HowTo` JSON-LD.
 - **Slab photo workflow** (5 steps) — H2 `How to measure centering on a graded slab photo`; covers tilt, corner loupe, guide layers, verdict.
 - **PAA block** — H2 `Should you regrade or reholder your PSA slab?` + `.centering-aeo-answer` speakable paragraph; link to `/guides/regrade-or-reholder/`.
-- PSA / BGS / SGC tolerance table (55/45 front for PSA 10).
+- PSA / BGS / SGC / CGC tolerance table (55/45 front for PSA 10).
 - Why centering matters + product/trading internal links.
 - **FAQ (8)** — includes regrade vs reholder, downgrade risk, slab photo measurement; `FAQPage` JSON-LD.
 
@@ -390,10 +391,10 @@ Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: tex
 
 - **URLs:** `https://appaw.store/guides/` (index) + `/guides/{slug}/` (EN); `/zh/guides/...` mirrors
 - **Registry:** `src/lib/guides/registry.ts` — `GUIDE_SLUGS` drives sitemap, static params, `ItemList` on index
-- **Current slugs:** `choose-35pt-slab-protector`, `uv-protection-graded-cards`, `psa-10-centering-requirements`, `grade-or-protect-first`, `identify-fake-psa-slabs`, `display-graded-cards`
+- **Current slugs:** see `GUIDE_SLUGS` in registry (auto-synced to sitemap). Authoring playbook: [`docs/guides-content.md`](guides-content.md)
 - **Metadata:** `guideMetadata()` / `guideMetadataForSlug()` — per-article title, description, canonical, OG `article`, hreflang
-- **JSON-LD:** `Article` + `BreadcrumbList` on each slug page; `ItemList` on `/guides/`
-- **GEO:** All guides listed in `llms.txt` with EN + ZH URLs and one-line topic
+- **JSON-LD:** `Article` + `BreadcrumbList` on each slug page; `FAQPage` when `faq[]` set; `HowTo` on identify-fake + psa-10-centering; `ItemList` on `/guides/`
+- **GEO:** Run `node scripts/sync-llms-guides.mjs` after adding slugs — updates `llms.txt` guide table from registry
 - **Internal links:** Guide prose supports `[label](href)` → `LocalLink` (locale-aware). Product CTA + related guides footer on every article
 - **Hero art:** `heroImage: '/images/background/{slug}.png'` → `images-optimized/` via `getImagePath()`; run `npm run optimize-images` after adding source PNG
 
@@ -424,7 +425,7 @@ Sitemap Strategy (implemented)
 | `/about/` | 0.8 | monthly |
 | `/tools/card-centering/` | 0.8 | weekly |
 | `/guides/` | 0.7 | monthly |
-| `/guides/{slug}/` (×5) | 0.7 | monthly |
+| `/guides/{slug}/` (registry-driven) | 0.7 | monthly |
 | `/privacy/` | 0.2 | yearly |
 
 **Excluded (by design):**

@@ -106,7 +106,7 @@ export default function RetailPartners() {
           <p className="section-label mb-4 justify-center">
             {t.retailPartners?.badge ?? 'Where to Buy'}
           </p>
-          <h2 className="text-3xl md:text-[2.75rem] font-bold font-display text-text-primary leading-tight mb-3">
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-tight mb-3">
             {t.retailPartners?.title ?? 'Purchase Channels'}
           </h2>
           <p className="text-text-muted text-sm md:text-base leading-relaxed max-w-lg mx-auto">

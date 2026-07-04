@@ -7,10 +7,13 @@ import GuideSpecPanel from './GuideSpecPanel';
 import GuideTable from './GuideTable';
 import GuideImage from './GuideImage';
 import GuideVideo from './GuideVideo';
-import type { GuideSection, GuideSubsection } from '@/lib/guides/types';
+import GuideMidCta from './GuideMidCta';
+import type { GuideSection, GuideSubsection, GuideMidCta as GuideMidCtaType } from '@/lib/guides/types';
 
 type GuideProseProps = {
   sections: GuideSection[];
+  midCta?: GuideMidCtaType;
+  midCtaLabel?: string;
 };
 
 function renderSubsection(sub: GuideSubsection, key: string) {
@@ -39,11 +42,12 @@ function renderSubsection(sub: GuideSubsection, key: string) {
   );
 }
 
-export default function GuideProse({ sections }: GuideProseProps) {
+export default function GuideProse({ sections, midCta, midCtaLabel }: GuideProseProps) {
   return (
     <div className="space-y-12 min-w-0">
       {sections.map((section) => (
-        <section key={section.id} id={section.id} className="scroll-mt-24">
+        <React.Fragment key={section.id}>
+          <section id={section.id} className="scroll-mt-24">
           <h2 className="text-2xl md:text-3xl font-bold font-display text-text-primary mb-5 text-balance">
             {section.title}
           </h2>
@@ -74,7 +78,16 @@ export default function GuideProse({ sections }: GuideProseProps) {
               <GuideSpecPanel rows={section.specs} />
             </div>
           ) : null}
-        </section>
+          {section.bridge ? (
+            <p className="mt-6 text-sm text-text-muted italic leading-relaxed border-l-2 border-border-default pl-4">
+              {renderGuideParagraph(section.bridge)}
+            </p>
+          ) : null}
+          </section>
+          {midCta?.afterSectionId === section.id ? (
+            <GuideMidCta cta={midCta} label={midCtaLabel} />
+          ) : null}
+        </React.Fragment>
       ))}
     </div>
   );

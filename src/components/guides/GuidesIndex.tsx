@@ -14,7 +14,7 @@ const UI = {
     badge: 'Collector Guides',
     title: 'Slab Protection & Grading Guides',
     subtitle:
-      'Evergreen how-to articles on 35PT cases, UV storage, PSA 10 centering, and when to grade vs protect. Written for Hong Kong and worldwide TCG collectors.',
+      'Real cert numbers, UV tests, and centering math. Skip the wrong step and you pay for it twice.',
     indexLabel: 'Guide Index',
     articleCount: (n: number) => `${n} articles`,
     read: 'Read guide',
@@ -23,7 +23,7 @@ const UI = {
     badge: '收藏指南',
     title: '鑑定卡保護與置中指南',
     subtitle:
-      '關於35PT卡盒、UV保存、PSA 10卡牌居中以及何時評級何時保護等實用技巧文章，常青推薦。專為香港及全球集換式卡牌遊戲收藏家撰寫。',
+      '真實證書編號、UV 實測、置中公式。做錯一步，送鑑費與溢價可能一併損失。',
     indexLabel: '指南索引',
     articleCount: (n: number) => `${n} 篇`,
     read: '閱讀指南',

@@ -5,21 +5,21 @@ const guide: GuideContent = {
   title: 'UV Protection for Graded Cards',
   badge: 'Preservation',
   lead:
-    'A graded slab already sealed the card. Your job is to control light and moisture around it. Sun through a window or a humid HK summer can still dull a chase holo over a few seasons.',
+    'Your slab is sealed. Your holo is not safe. Window sun through a humid HK summer can dull a chase card in two seasons.',
   published: '2026-06-07',
   updated: '2026-06-07',
   readTime: '7 min',
   heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
-    { label: 'UV-filter Slab Protector', value: '>95% below 400 nm' },
+    { label: 'HK indoor RH (avg.)', value: '70–80%' },
+    { label: 'UV-filter protector', value: '>95% below 400 nm' },
+    { label: 'Ideal storage RH', value: '45–55%' },
     { label: 'Grader inner case', value: 'Little above ~345 nm' },
-    { label: 'Optimal Storage Humidity', value: '45–55%' },
-    { label: 'HK Indoor Relative Humidity (avg.)', value: '70–80%' },
   ],
   sections: [
     {
       id: 'why-uv-matters',
-      title: 'Why UV Still Reaches Your Slab',
+      title: 'Your slab is sealed. UV still gets in.',
       paragraphs: [
         'PSA and CGC cases use clear plastic that passes most visible light. That is good for display but it does not stop ultraviolet. UV in the 300–400 nm band breaks down inks and foil layers on Pokémon holos, sports chrome, and vintage borders inside the slab.',
         'Damage is cumulative. A slab on a shelf near a south-facing window can show colour shift before you notice edge wear on the outer case. Display-grade acrylic or glass rated above 95% below 400 nm cuts exposure sharply compared with off-the-shelf clear acrylic.',
@@ -30,10 +30,11 @@ const guide: GuideContent = {
         { label: 'Museum-grade target', value: '>95% below 400 nm' },
         { label: 'Plain acrylic UVA', value: 'Blocks little above ~345 nm' },
       ],
+      bridge: 'Blocking UV helps. Hong Kong humidity is the other silent killer.',
     },
     {
       id: 'case-vs-room',
-      title: 'Case Glass vs Room Lighting',
+      title: 'Case glass vs room lighting',
       paragraphs: [
         'Putting a slab inside a UV-rated outer case adds a second filter. The outer panel takes the hit so the inner grader label and card face see less radiation. That matters when you rotate slabs on a desk or at a show table under mixed LED and daylight.',
         'LED room lights emit less UV than direct sun, but they still push heat. Keep slabs out of continuous direct sun even inside a rated case. No plastic blocks 100% forever if you bake the same spot daily.',
@@ -63,6 +64,20 @@ const guide: GuideContent = {
       ],
     },
   ],
+  faq: [
+    {
+      q: 'Does a PSA slab block UV from fading the card inside?',
+      a: 'No. Grader cases pass most visible light and little UV protection above ~345 nm. Cumulative sun exposure still dulls holos and chrome.',
+    },
+    {
+      q: 'What UV rating should a display case target?',
+      a: 'Above 95% blockage below 400 nm. Museum framing often cites 97% between 300–380 nm as a reference benchmark.',
+    },
+    {
+      q: 'What humidity should HK collectors target for slabs?',
+      a: '45–55% RH in a dry cabinet is common. Hong Kong indoor RH often runs 70–80%, which risks label fog over time.',
+    },
+  ],
   cta: {
     title: 'Display without sun damage',
     body: 'Our graded slab UV glass protector uses >95% UV-blocking glass and seals standard 35PT PSA / CGC slabs for home or showroom display.',
@@ -72,7 +87,7 @@ const guide: GuideContent = {
   relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],
   sources: [
     {
-      label: 'Tru Vue FAQ — PPFA 97% UV standard (300–380 nm)',
+      label: 'Tru Vue FAQ, PPFA 97% UV standard (300–380 nm)',
       href: 'https://tru-vue.com/frequently-asked-questions/',
     },
     {
@@ -80,7 +95,7 @@ const guide: GuideContent = {
       href: 'https://www.acrylite.co/products/brands/acrylite-gallery/uv-filtering',
     },
     {
-      label: 'ACRYLITE extruded light transmission — plain vs OP3',
+      label: 'ACRYLITE extruded light transmission, plain vs OP3',
       href: 'https://www.acrylite.co/files/content/acrylite.co/00-global/documents/technical-product-briefs/ACRYLITE-Extruded-Light-Transmission-Reflectance-Information.pdf',
     },
   ],

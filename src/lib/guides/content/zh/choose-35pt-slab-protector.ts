@@ -5,7 +5,7 @@ const guide: GuideContent = {
   title: '如何選擇鑑定卡保護殼',
   badge: 'Slab 硬件',
   lead:
-    '卡展和店舖裡大多數 鑑定卡都落在35PT。合尺寸的保護殼能固定標籤位置、減少背包擠壓，展示時也不會左右晃動。',
+    '背包中若有一塊未固定穩妥的鑑定磚，可能磕碰價值 200 美元的標籤角。卡展上大部分 PSA/CGC 磚皆落在 35PT 厚度帶。對準規格 profile，保護殼方能發揮作用。',
   published: '2026-06-07',
   updated: '2026-06-07',
   readTime: '6 分鐘',
@@ -53,6 +53,11 @@ const guide: GuideContent = {
       ],
     },
   ],
+  faq: [
+    { q: '商品頁的 35PT 是什麼意思？', a: '指外殼依標準 PSA/CGC 25–40 PT 厚度帶的鑑定磚外型設計，不是外殼本身厚 0.035 英寸。' },
+    { q: '一個 35PT 殼能同時裝 PSA 和 CGC 嗎？', a: '標準 PSA 與 CGC 35PT 級鑑定磚尺寸接近，一個 35PT 規格硬殼通常可共用。' },
+    { q: '鑑定磚在保護殼內應如何貼合？', a: '平放、四角不翹、標籤完整可見，標準 PSA 10 寶可夢磚每側間隙宜小於 0.5 mm。' },
+  ],
   cta: {
     title: '為標準 35PT 鑑定卡而設',
     body: 'Appaw Store 磁吸防UV殼適用 PSA、CGC 35PT profile，>95% 抗 UV 玻璃及 N52 磁吸。',
@@ -62,15 +67,15 @@ const guide: GuideContent = {
   relatedSlugs: ['uv-protection-graded-cards', 'grade-or-protect-first'],
   sources: [
     {
-      label: 'PSA — 25–40 PT 薄款鑑定殼（2023）',
+      label: 'PSA, 25–40 PT 薄款鑑定殼（2023）',
       href: 'https://www.psacard.com/articles/articleview/10838/psa-unveils-thinner-card-holder-for-thicker-cards',
     },
     {
-      label: 'PSA — 現行 holder 尺寸',
+      label: 'PSA, 現行 holder 尺寸',
       href: 'https://www.psacard.com/info/cardspsagrades',
     },
     {
-      label: 'CGC Cards — 鑑定等級與 holder 概覽',
+      label: 'CGC Cards, 鑑定等級與 holder 概覽',
       href: 'https://www.cgccards.com/card-grading/grading-scale/',
     },
   ],

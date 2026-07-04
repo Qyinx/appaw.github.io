@@ -5,24 +5,24 @@ const guide: GuideContent = {
   title: '如何辨識 PSA 真偽鑑定卡',
   badge: '真偽',
   lead:
-    'PSA 鑑定殼是保值與品相的代名詞，高溢價也招來假標籤、假外殼、偽造查詢頁。本指南以證書編號對照 UV 反應、標籤全息世代與外殼觸感，五步交叉驗證——高價鑑定卡在完成檢查前，一律視為未經驗證。',
+    '證書查詢通過不代表真品。高仿常盜用真實認證編號。以下四項實物檢查，才是 registry 顯示「有效」之後該做的。',
   published: '2026-06-08',
   updated: '2026-06-19',
   readTime: '12 分鐘',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
-    { label: '第一步', value: '[psacard.com/cert](https://www.psacard.com/cert) 查證' },
-    { label: 'UV 分水嶺', value: '編號 #43 後正面隱藏字' },
-    { label: '標籤世代', value: 'LightHouse™ 全息圖案自 #27xxxxxxx 後 · #4xxxxxxx～5xxxxxxx 為 CLCT → PSA 微型小字過渡期' },
     { label: '核心原則', value: '多重交叉檢查，勿單信一步' },
+    { label: '盜用編號', value: '查詢通過，實物仍可能假' },
+    { label: 'UV 分水嶺', value: '編號 #43 後正面隱藏字' },
+    { label: '第一步', value: '[psacard.com/cert](https://www.psacard.com/cert) 查證' },
   ],
   sections: [
     {
       id: 'why-cross-check',
       title: '為什麼不能只靠一種方法',
       paragraphs: [
-        '在卡牌收藏市場，PSA 評級卡（Slab）長期代表保值與品相保證。假貨從假標籤、假外殼，到盜用真實證書編號、仿冒查詢頁面，手法持續升級。2025–2026 年仍有高仿案例流入市場。',
-        '沒有任何單一檢查能達到 100% 準確。線上查詢通過只是「過第一關」——高仿常盜用真實認證編號。下文整理由淺入深的五步驗證流程，疊加使用才能大幅降低風險。',
+        '在卡牌收藏市場，PSA 鑑定卡（Slab）長期代表保值與品相保證。假貨從假標籤、假外殼，到盜用真實證書編號、仿冒查詢頁面，手法持續升級。2025–2026 年仍有高仿案例流入市場。',
+        '沒有任何單一檢查能達到 100% 準確。線上查詢通過只是「過第一關」，高仿常盜用真實認證編號。下文整理由淺入深的五步驗證流程，疊加使用才能大幅降低風險。',
       ],
     },
     {
@@ -152,7 +152,7 @@ const guide: GuideContent = {
         {
           title: '關鍵分水嶺二：編號 4xxxxxxx～5xxxxxxx（NASDAQ : CLCT → PSA 微型小字過渡期）',
           paragraphs: [
-            '雖然從 27xxxxxx 之後都具備 LightHouse™ 雙色反射技術，視覺效果大致相約。但因 PSA 母公司於 2021 年初完成私有化並自納斯達克退市，標籤內隱藏的防偽微型小字（Microtext）在編號 4xxxxxxx 至 5xxxxxxx 區間逐步由「NASDAQ : CLCT」改為「PSA」——此 4xxxxxxx～5xxxxxxx 區間為過渡期，兩個編號段內皆曾發現 CLCT 與 PSA 兩種小字並存，無固定切點，須以放大鏡實測，勿單靠證書編號推斷。',
+            '雖然從 27xxxxxx 之後都具備 LightHouse™ 雙色反射技術，視覺效果大致相約。但因 PSA 母公司於 2021 年初完成私有化並自納斯達克退市，標籤內隱藏的防偽微型小字（Microtext）在編號 4xxxxxxx 至 5xxxxxxx 區間逐步由「NASDAQ : CLCT」改為「PSA」，此 4xxxxxxx～5xxxxxxx 區間為過渡期，兩個編號段內皆曾發現 CLCT 與 PSA 兩種小字並存，無固定切點，須以放大鏡實測，勿單靠證書編號推斷。',
           ],
         },
         {
@@ -180,7 +180,7 @@ const guide: GuideContent = {
           title: '編號 4xxxxxxx～5xxxxxxx（過渡期）',
           level: 4,
           paragraphs: [
-            '退市改組期間，PSA 逐步汰換標籤耗材。4xxxxxxx 與 5xxxxxxx 兩個編號段內皆曾實測到 CLCT 與 PSA 微型小字並存——編號較前段者較可能仍為 CLCT，較後段者較可能已改為 PSA，但無固定切點。購買此區間鑑定卡時，務必傾斜標籤、放大確認實際小字內容。',
+            '退市改組期間，PSA 逐步汰換標籤耗材。4xxxxxxx 與 5xxxxxxx 兩個編號段內皆曾實測到 CLCT 與 PSA 微型小字並存，編號較前段者較可能仍為 CLCT，較後段者較可能已改為 PSA，但無固定切點。購買此區間鑑定卡時，務必傾斜標籤、放大確認實際小字內容。',
           ],
         },
         {
@@ -229,6 +229,27 @@ const guide: GuideContent = {
       ],
     },
   ],
+  faq: [
+    {
+      q: '證書查詢通過就代表真品嗎？',
+      a: '不是。高仿常盜用被盜的認證編號，psacard.com/cert 仍可能顯示有效。還需 UV、標籤世代與外殼檢查。',
+    },
+    {
+      q: '編號 #43 之後的 PSA 鑑定卡，UV 應有什麼反應？',
+      a: '正面標籤黑光下應見隱藏 PSA 字樣或圖案；背面應見六個均勻微型標誌。',
+    },
+    {
+      q: '可以相信賣家截圖裡的 QR code 嗎？',
+      a: '不要。請自行輸入 psacard.com/cert。QR 與連結可能導向仿冒查詢頁。',
+    },
+  ],
+  midCta: {
+    afterSectionId: 'uv-blacklight',
+    title: '黑光燈通過？展示前先加保護',
+    body: '已核對的鑑定磚仍會在窗邊或卡展反覆易手時累積刮痕與 UV 褪色。上架或攜帶前，應加裝剛性外層保護殼。',
+    primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
+    secondary: { label: '防 UV 收納指南', href: '/guides/uv-protection-graded-cards/' },
+  },
   cta: {
     title: '先查證，再加殼',
     body: '五步交叉驗證通過後，硬質外殼在展示或運輸中保護鑑定標籤免受刮花與紫外線。',
@@ -238,15 +259,15 @@ const guide: GuideContent = {
   relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
   sources: [
     {
-      label: 'PSA — 證書查詢',
+      label: 'PSA, 證書查詢',
       href: 'https://www.psacard.com/cert',
     },
     {
-      label: 'PSA — 評級標準',
+      label: 'PSA, 評級標準',
       href: 'https://www.psacard.com/gradingstandards',
     },
     {
-      label: 'Card Codex — How to Identify Fake PSA Slabs（參考）',
+      label: 'Card Codex, How to Identify Fake PSA Slabs（參考）',
       href: 'https://cardcodex.com/blog/how-to-identify-fake-psa-slabs/',
     },
   ],

@@ -74,7 +74,9 @@ export default function HeroColorFilmstrip({
     <div className="home-hero-filmstrip" aria-live="polite">
       <div className="home-hero-filmstrip__header">
         <div className="home-hero-filmstrip__identity">
-          <p className="section-label !mb-0">{pickColorLabel}</p>
+          <p className="home-hero-filmstrip__header-label font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1">
+            {pickColorLabel}
+          </p>
           <p className="home-hero-filmstrip__header-label font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted">
             {headerLabel}
           </p>

@@ -5,23 +5,23 @@ const guide: GuideContent = {
   title: 'PSA Grading 標準、扣分標籤與天價成交紀錄解析',
   badge: '鑑定規格',
   lead:
-    '品相直接決定卡牌市場價值，PSA 1–10 分與 Qualifier 標籤是最常用的客觀標尺。本篇拆解官方等級定義、隱形扣分標籤，以及 PSA 10 天價成交如何拉開溢價——送評、競標或買鑑定卡前先對照這張表。',
+    '同一張卡 PSA 10 可售六位數，PSA 9 可能連四位數也不及。差距並非運氣，而是 1–10 量表、Qualifier 與置中規則，買家在結帳時早已沿用。',
   published: '2026-06-18',
   updated: '2026-06-18',
   readTime: '14 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
+    { label: '累計認證', value: '6500 萬件以上' },
     { label: 'PSA 10 正面', value: '55/45 或更佳' },
     { label: 'PSA 10 背面', value: '75/25 或更佳' },
     { label: 'Qualifier', value: 'OC · ST · PD · OF · MK · MC' },
-    { label: '累計認證', value: '6500 萬件以上' },
   ],
   sections: [
     {
       id: 'what-is-psa',
       title: 'PSA 評級是什麼？',
       paragraphs: [
-        'PSA（Professional Sports Authenticator）由 David Hall 於 1991 年創立，是全球最大的第三方卡牌評級機構之一，累計認證逾 6500 萬件藏品。對收藏家與投資者而言，PSA 分數是買賣雙方共用的品相語言：數字越高，代表四角、邊緣、表面與置中越接近工廠出廠狀態。',
+        'PSA（Professional Sports Authenticator）由 David Hall 於 1991 年創立，是全球最大的第三方卡牌鑑定機構之一，累計認證逾 6500 萬件藏品。對收藏家與投資者而言，PSA 分數是買賣雙方共用的品相語言：數字越高，代表四角、邊緣、表面與置中越接近工廠出廠狀態。',
       ],
       bulletGroups: [
         {
@@ -166,60 +166,26 @@ const guide: GuideContent = {
           label: '公開成交紀錄',
           items: [
             {
-              label: '1998 寶可夢插畫家皮卡超 — PSA 10',
+              label: '1998 寶可夢插畫家皮卡超, PSA 10',
               text: '成交價 **527.5 萬美元**（約 385 萬英鎊）。YouTuber Logan Paul 於 2023 年私人交易購得，被廣泛視為史上最貴集換式卡牌之一。',
             },
             {
-              label: '1993 萬智牌 Alpha 黑蓮花 — PSA 10',
+              label: '1993 萬智牌 Alpha 黑蓮花, PSA 10',
               text: '成交價 **54 萬美元**（約 42.8 萬英鎊），2023 年拍賣創下紀錄。競技已禁用，但作為 TCG 歷史象徵，PSA 10 完美狀態使其成為頂級收藏標的。',
             },
             {
-              label: '1998 日版銀卡皮卡超（第二屆錦標賽）— PSA 10',
+              label: '1998 日版銀卡皮卡超（第二屆錦標賽）PSA 10',
               text: '成交價 **44.4 萬美元**（約 34.73 萬英鎊），同樣於 2023 年售出，展現寶可夢賽事獎勵卡在拍賣市場的統治力。',
             },
           ],
         },
       ],
       callout:
-        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍——送評前先用量度工具篩選，見 [裸卡送評 vs 鑑定卡保護](/guides/grade-or-protect-first/)。',
-    },
-    {
-      id: 'faq',
-      title: '常見問答',
-      paragraphs: [
-        '送評、競標與購買鑑定卡時最常遇到的五個問題。',
-      ],
-      bulletGroups: [
-        {
-          label: '',
-          items: [
-            {
-              label: '拍賣前應該先送 PSA 評級嗎？',
-              text: '多數情況建議先評級。PSA 標籤提供權威真偽與品相背書，消除買家疑慮，常能吸引更多競標者並抬高成交價。若裸卡品相明顯不足 PSA 8，或市值低於評級費，則可先評估經濟性再決定。',
-            },
-            {
-              label: '低分稀有卡還有市場價值嗎？',
-              text: '有。稀有度常凌駕品相。2025 年初，一張品相極差、邊緣疑似以黑筆掩蓋泛白的萬智牌「黑蓮花（無限版）」仍在拍賣拍出約 **5,200 英鎊**。夠稀有的卡，低分也不容小覷。',
-            },
-            {
-              label: 'PSA 評級費用如何計算？',
-              text: '依服務等級（Value、Regular、Express 等）與申報價值（Declared Value）而定；大量送評另有批量方案。送評前請至 [psacard.com/services](https://www.psacard.com/services) 查最新價目與週期。',
-            },
-            {
-              label: '收到評級後如何驗證鑑定殼真偽？',
-              text: '每張 PSA 卡標籤印有認證編號。至 [psacard.com/cert](https://www.psacard.com/cert) 輸入編號，核對照片、等級與卡片資訊是否與實物一致。完整五步驗證見本站 [如何辨識 PSA 真偽鑑定卡](/guides/identify-fake-psa-slabs/)。',
-            },
-            {
-              label: '覺得分數被評低，可以重新鑑定嗎？',
-              text: '可以提交 Regrade（重評），卡片再次進入評級流程。需注意可能升分、維持或降分；詳見 [PSA 重評 vs 換殼](/guides/regrade-or-reholder/)。',
-            },
-          ],
-        },
-      ],
+        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍，送評前先用量度工具篩選，見 [裸卡送評 vs 鑑定卡保護](/guides/grade-or-protect-first/)。',
     },
     {
       id: 'bottom-line',
-      title: '結語：先讀懂分數，再付評級費',
+      title: '結語：先讀懂分數，再付送鑑費',
       paragraphs: [
         'PSA 1–10 與 Qualifier 是收藏市場的共通語言。送評前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼，比事後追討便宜得多。',
       ],
@@ -243,14 +209,14 @@ const guide: GuideContent = {
   faq: [
     {
       q: '拍賣前應該先送 PSA 評級嗎？',
-      a: '多數情況建議先評級。PSA 標籤提供權威真偽與品相背書，消除買家疑慮，常能吸引更多競標者並抬高成交價。若裸卡品相明顯不足 PSA 8，或市值低於評級費，則可先評估經濟性再決定。',
+      a: '多數情況建議先送鑑。PSA 標籤提供權威真偽與品相背書，消除買家疑慮，常能吸引更多競標者並抬高成交價。若裸卡品相明顯不足 PSA 8，或市值低於送鑑費，則可先評估經濟性再決定。',
     },
     {
       q: '低分稀有卡還有市場價值嗎？',
       a: '有。稀有度常凌駕品相。2025 年初，一張品相極差、邊緣疑似以黑筆掩蓋泛白的萬智牌黑蓮花（無限版）仍在拍賣拍出約 5,200 英鎊。夠稀有的卡，低分也不容小覷。',
     },
     {
-      q: 'PSA 評級費用如何計算？',
+      q: 'PSA 送鑑費用如何計算？',
       a: '依服務等級（Value、Regular、Express 等）與申報價值（Declared Value）而定；大量送評另有批量方案。最新價目與週期請查 psacard.com/services。',
     },
     {
@@ -264,7 +230,7 @@ const guide: GuideContent = {
   ],
   cta: {
     title: '送評前先量邊距',
-    body: '上傳掃描或賣家照片，比對正背面置中是否達 PSA 10 門檻，再決定是否付評級費。',
+    body: '上傳掃描或賣家照片，比對正背面置中是否達 PSA 10 門檻，再決定是否付送鑑費。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
     secondary: { label: '送評 vs 保護流程', href: '/guides/grade-or-protect-first/' },
   },
@@ -276,23 +242,23 @@ const guide: GuideContent = {
   ],
   sources: [
     {
-      label: 'PSA — 評級標準',
+      label: 'PSA, 評級標準',
       href: 'https://www.psacard.com/gradingstandards',
     },
     {
-      label: 'Cullen of Surrey — PSA Grading Standards（參考）',
+      label: 'Cullen of Surrey, PSA Grading Standards（參考）',
       href: 'https://cullensofsurrey.co.uk/blog/psa-grading-standards',
     },
     {
-      label: 'Guinness World Records — Logan Paul Pikachu Illustrator 交易',
+      label: 'Guinness World Records, Logan Paul Pikachu Illustrator 交易',
       href: 'https://www.guinnessworldrecords.com/news/2022/4/logan-paul-owns-5-275-million-pokemon-card-after-record-breaking-trade-697189',
     },
     {
-      label: 'Polygon — Alpha Black Lotus PSA 10 拍賣',
+      label: 'Polygon, Alpha Black Lotus PSA 10 拍賣',
       href: 'https://www.polygon.com/23644519/magic-the-gathering-black-lotus-auction-price-2023/',
     },
     {
-      label: 'The Gamer — 銀卡皮卡超 44.4 萬美元成交',
+      label: 'The Gamer, 銀卡皮卡超 44.4 萬美元成交',
       href: 'https://www.thegamer.com/pikachu-silver-trophy-card-444000-dollars-trading-card-game-second-highest-sale/',
     },
   ],

@@ -68,7 +68,7 @@ export default function HeroSpecimenStage({
               >
                 <Image
                   src={getImagePath(color.image)}
-                  alt={`${productTitle} – ${color.name}`}
+                  alt={`${productTitle} - ${color.name}`}
                   fill
                   className="object-contain p-3 sm:p-5"
                   sizes="(max-width: 768px) 70vw, 360px"

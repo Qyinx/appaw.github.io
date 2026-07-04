@@ -200,6 +200,26 @@ export default function PSAProtectorPage() {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-150" aria-hidden="true" />
               </LocalLink>
             ) : null}
+            {'guideLinks' in hkGuide && hkGuide.guideLinks?.length ? (
+              <div className="mt-12 pt-10 border-t border-border-default">
+                <p className="section-label mb-5">
+                  {'guideLinksTitle' in hkGuide ? hkGuide.guideLinksTitle : 'Related guides'}
+                </p>
+                <ul className="grid sm:grid-cols-2 gap-3">
+                  {hkGuide.guideLinks.map((link) => (
+                    <li key={link.href}>
+                      <LocalLink
+                        href={link.href}
+                        className="flex items-center justify-between gap-3 p-4 border border-border-default bg-surface-panel hover:border-accent-brand/40 hover:bg-surface-raised transition-colors duration-150 group"
+                      >
+                        <span className="text-sm font-medium text-text-primary leading-snug">{link.label}</span>
+                        <ArrowRight className="w-4 h-4 shrink-0 text-text-muted group-hover:text-accent-brand group-hover:translate-x-0.5 transition-all duration-150" aria-hidden="true" />
+                      </LocalLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </Reveal>
         </div>
       </section>

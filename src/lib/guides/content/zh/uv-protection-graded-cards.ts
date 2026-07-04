@@ -5,21 +5,21 @@ const guide: GuideContent = {
   title: '鑑定卡防 UV 與防潮指南',
   badge: '保存',
   lead:
-    '鑑定卡已封裝在鑑定殼內。你的任務是控制周圍的光照和濕度。透窗陽光或香港潮濕夏季，幾個季節後仍會令閃卡失去光澤。',
+    '鑑定殼雖已封裝，閃卡仍有風險。香港潮濕夏季加上窗邊陽光，兩個季節即可令熱門卡失去光澤。',
   published: '2026-06-07',
   updated: '2026-06-07',
   readTime: '7 分鐘',
   heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
+    { label: '香港室內 RH（平均）', value: '70–80%' },
     { label: '鑑定卡防UV保護殼', value: '400 nm 以下 >95%' },
-    { label: '鑑定殼內層', value: '345 nm 以上阻隔極少' },
     { label: '最佳儲存濕度', value: '45–55%' },
-    { label: '香港室內相對濕度（平均）', value: '70–80%' },
+    { label: '鑑定殼內層', value: '345 nm 以上阻隔極少' },
   ],
   sections: [
     {
       id: 'why-uv-matters',
-      title: '為什麼紫外線仍然會照到鑑定卡',
+      title: '鑑定殼已密封，紫外線仍可進入',
       paragraphs: [
         'PSA、CGC 鑑定殼採用透明塑料，能透過大部分可見光，有利展示，但無法阻擋紫外線。300–400 nm 波段的紫外線會破壞磚內寶可夢全像卡、運動卡及復古邊框的油墨和箔層。',
         '損傷是累積性的。朝南窗邊架上的鑑定卡，在外殼邊緣出現磨損前，卡面可能已出現色差。標明 400 nm 以下 >95% 阻隔的展示級壓克力或玻璃，比市售透明壓克力能大幅減少照射。',
@@ -63,6 +63,11 @@ const guide: GuideContent = {
       ],
     },
   ],
+  faq: [
+    { q: '鑑定殼能擋住 UV 嗎？', a: '不能。鑑定殼主要通過可見光，340 nm 以上 UV 阻隔有限，長期日照仍會令全像與鍍鉻層褪色。' },
+    { q: '展示盒應達什麼 UV 標準？', a: '400 nm 以下阻隔 >95% 為常用目標；博物館裝裱常參考 300–380 nm 97%。' },
+    { q: '香港收藏者宜維持多少濕度？', a: '防潮箱 45–55% RH 較常見。香港室內常達 70–80%，長期恐致標籤霧化。' },
+  ],
   cta: {
     title: '展示同時防曬',
     body: '我們的鑑定卡保護殼採用紫外線阻隔率 >95% 的玻璃，並密封標準 35PT PSA / CGC 鑑定卡，適用於家庭或展覽展示。',
@@ -72,7 +77,7 @@ const guide: GuideContent = {
   relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],
   sources: [
     {
-      label: 'Tru Vue 常見問題 — PPFA 97% UV 標準（300–380 nm）',
+      label: 'Tru Vue 常見問題, PPFA 97% UV 標準（300–380 nm）',
       href: 'https://tru-vue.com/frequently-asked-questions/',
     },
     {
@@ -80,7 +85,7 @@ const guide: GuideContent = {
       href: 'https://www.acrylite.co/products/brands/acrylite-gallery/uv-filtering',
     },
     {
-      label: 'ACRYLITE 擠出板透光率 — 普通板 vs OP3',
+      label: 'ACRYLITE 擠出板透光率, 普通板 vs OP3',
       href: 'https://www.acrylite.co/files/content/acrylite.co/00-global/documents/technical-product-briefs/ACRYLITE-Extruded-Light-Transmission-Reflectance-Information.pdf',
     },
   ],

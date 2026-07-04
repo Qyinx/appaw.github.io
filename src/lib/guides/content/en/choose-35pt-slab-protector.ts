@@ -5,16 +5,16 @@ const guide: GuideContent = {
   title: 'How to Choose a 35PT Graded Card Case',
   badge: 'Slab Hardware',
   lead:
-    'Most PSA and CGC slabs you see at card shows sit in the same thickness band: standard 35PT holders. A protector that fits that profile keeps the label visible, stops corner crush in a bag, and does not wobble on a shelf.',
+    'One loose slab in a bag can chip a corner on a $200 label. Most PSA and CGC bricks at card shows share the same 35PT thickness band. Match that profile and the protector does the job.',
   published: '2026-06-07',
   updated: '2026-06-07',
   readTime: '6 min',
   heroImage: '/images/background/guide-35pt-slab-protector.png',
   heroSpecs: [
+    { label: 'Target fit', value: 'Standard 35PT PSA / CGC' },
     { label: 'PSA slab (ext.)', value: '3.16 × 5.32 × 0.27 in' },
     { label: 'Slab profile band', value: '25–40 PT class' },
     { label: 'Appaw case (ext.)', value: '8.7 × 14.2 × 0.98 cm' },
-    { label: 'Target fit', value: 'Standard 35PT PSA / CGC' },
   ],
   sections: [
     {
@@ -29,10 +29,11 @@ const guide: GuideContent = {
         { label: 'PSA ext. (2023+ slim)', value: '3.16 × 5.32 × 0.27 in' },
         { label: 'Thick cards (>40 PT)', value: 'Older deep PSA holder' },
       ],
+      bridge: 'Know the band. Measure your slab before you click buy.',
     },
     {
       id: 'measure-before-buy',
-      title: 'Measure Before You Buy',
+      title: 'Measure outer width, height, and depth',
       paragraphs: [
         'Lay the slab on a flat surface. Measure outer width and height with a ruler or calipers. Compare depth by stacking two slabs: a 35PT-class holder feels noticeably slimmer than vintage thick-case Pokémon holos or relic cards.',
         'CGC and PSA standard slabs are close enough that one 35PT-rated case with a rigid metal frame usually fits both. If you collect thick subgrades, autograph cards, or oddball sizes, check the grader\'s holder chart before assuming one protector covers the whole run.',
@@ -53,6 +54,20 @@ const guide: GuideContent = {
       ],
     },
   ],
+  faq: [
+    {
+      q: 'What does 35PT mean on a slab protector listing?',
+      a: 'It means the outer case is sized for standard PSA/CGC slabs in the 25–40 PT thickness band, not that the case itself is 0.035 in thick.',
+    },
+    {
+      q: 'Will one 35PT case fit both PSA and CGC slabs?',
+      a: 'Standard PSA and CGC slabs in the 35PT class are close enough that one rigid 35PT-rated case usually fits both.',
+    },
+    {
+      q: 'How should a slab sit inside the protector?',
+      a: 'Flat with no corner lift, full label visible, and less than 0.5 mm gap per side on a standard PSA 10 Pokémon slab.',
+    },
+  ],
   cta: {
     title: 'Built for standard 35PT slabs',
     body: 'Appaw Store\'s magnetic UV glass case is sized for PSA and CGC 35PT profiles, with >95% UV-blocking glass and N52 closure.',
@@ -62,15 +77,15 @@ const guide: GuideContent = {
   relatedSlugs: ['uv-protection-graded-cards', 'grade-or-protect-first'],
   sources: [
     {
-      label: 'PSA — thinner holder for 25–40 PT cards (2023)',
+      label: 'PSA, thinner holder for 25–40 PT cards (2023)',
       href: 'https://www.psacard.com/articles/articleview/10838/psa-unveils-thinner-card-holder-for-thicker-cards',
     },
     {
-      label: 'PSA — current holder sizes',
+      label: 'PSA, current holder sizes',
       href: 'https://www.psacard.com/info/cardspsagrades',
     },
     {
-      label: 'CGC Cards — grading scale and holder overview',
+      label: 'CGC Cards, grading scale and holder overview',
       href: 'https://www.cgccards.com/card-grading/grading-scale/',
     },
   ],

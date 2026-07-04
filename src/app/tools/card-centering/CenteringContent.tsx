@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { ImageUp, SlidersHorizontal, Frame, Gauge, ChevronDown, ExternalLink, ArrowRight } from 'lucide-react';
+import { ImageUp, SlidersHorizontal, Frame, Gauge, ExternalLink, ArrowRight } from 'lucide-react';
 import LocalLink from '@/components/LocalLink';
 import HeroStamp from '@/components/ui/HeroStamp';
+import GuideFaq from '@/components/guides/GuideFaq';
 import { useLanguage } from '@/context/LanguageContext';
 import { useCenteringGuide } from './CenteringGuideContext';
 import { STEP_COUNT } from './centering-guide';
@@ -185,62 +186,6 @@ function HowToSteps({
   );
 }
 
-function CenteringFaq({
-  items,
-  title,
-  badge,
-  countLabel,
-}: {
-  items: { q: string; a: string }[];
-  title: string;
-  badge: string;
-  countLabel: string;
-}) {
-  return (
-    <section className={`panel p-0 overflow-hidden ${styles.faqSection}`} aria-labelledby="centering-faq">
-      <div className={styles.faqInstrumentHeader}>
-        <span className="font-mono text-xs text-text-muted uppercase tracking-wider">{badge}</span>
-        <span className="font-mono text-xs text-text-secondary font-tabular tracking-widest">
-          {String(items.length).padStart(2, '0')} items
-        </span>
-      </div>
-      <div className={styles.faqHeader}>
-        <div className={styles.faqHeaderCopy}>
-          <h2 id="centering-faq" className={styles.faqTitle}>{title}</h2>
-        </div>
-        <div className={styles.faqStat} aria-hidden="true">
-          <span className={styles.faqStatNum}>{items.length}</span>
-          <span className={styles.faqStatLabel}>{countLabel.replace('{n}', String(items.length))}</span>
-        </div>
-      </div>
-
-      <div className={styles.faqList}>
-        {items.map((item, i) => (
-          <details
-            key={item.q}
-            className={styles.faqItem}
-            style={{ ['--faq-delay' as string]: `${100 + i * 75}ms` }}
-          >
-            <summary className={styles.faqSummary}>
-              <span className={styles.faqIndex}>{String(i + 1).padStart(2, '0')}</span>
-              <span className={styles.faqQuestion}>{item.q}</span>
-              <span className={styles.faqChevronWrap} aria-hidden="true">
-                <ChevronDown className={styles.faqChevron} strokeWidth={2.5} />
-              </span>
-            </summary>
-            <div className={styles.faqAnswerWrap}>
-              <div className={styles.faqAnswerInner}>
-                <div className={styles.faqAnswerRail} aria-hidden="true" />
-                <p className={styles.faqAnswer}>{item.a}</p>
-              </div>
-            </div>
-          </details>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function CenteringReferences({
   title,
   externalLabel,
@@ -318,7 +263,7 @@ export default function CenteringContent() {
         <HeroStamp className="mb-8 max-w-md" lines={{ muted: c.howToBadge }} />
         <p className="section-label mb-5">{c.howToBadge}</p>
         <h1 className={styles.contentH1}>{c.h1}</h1>
-        <p className={styles.contentLead}>{c.lead}</p>
+        <p className={`${styles.contentLead} centering-aeo-answer`}>{c.lead}</p>
         <div className={`color-terminal-readout terminal-block ${styles.contentTerminal}`} aria-hidden="true">
           <p>
             <span className="prompt">&gt;</span> init_centering_analyzer
@@ -344,7 +289,7 @@ export default function CenteringContent() {
         </div>
         <div className={styles.contentSectionBody}>
         <h2 id="psa-requirements" className={styles.contentH2}>{c.psaRequirementsTitle}</h2>
-        <p className={styles.contentP}>{c.psaRequirementsIntro}</p>
+        <p className={`${styles.contentP} centering-aeo-answer`}>{c.psaRequirementsIntro}</p>
         <div className={`panel-raised ${styles.tableScroll}`}>
           <table className={styles.gradeTable}>
             <thead>
@@ -422,7 +367,8 @@ export default function CenteringContent() {
         </p>
       </section>
 
-      <CenteringFaq
+      <GuideFaq
+        id="centering-faq"
         items={t.centeringPage.faq}
         title={c.faqTitle}
         badge={c.faqBadge}

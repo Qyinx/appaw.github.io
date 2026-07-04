@@ -22,10 +22,8 @@ export const en = {
       badge: 'Premium Card Protection',
       title: 'Display Your Slabs. Keep Them Worth Grading.',
       headlineLines: [
-        { text: 'Showcase', accent: false },
-        { text: 'Your Passion.', accent: true },
-        { text: 'Protect Your', accent: false },
-        { text: 'Investment.', accent: true },
+        { text: 'Showcase Your Passion.', accent: true },
+        { text: 'Protect Your Investment.', accent: false },
       ],
       h1Keyword: 'Graded Card Protectors & Trading Card Supplies in Hong Kong',
       subtitle: 'Magnetic UV glass graded card case, suitable for standard 35PT PSA/CGC graded slabs.',
@@ -67,17 +65,23 @@ export const en = {
         fit: '35PT PSA',
       },
       featureFocus: {
-        uv: 'Blocks harmful light — preserves holo, chrome, and vintage card color.',
-        magnets: 'N52 neodymium closure — secure dust-proof seal with a satisfying snap.',
+        uv: 'Blocks harmful light. Preserves holo, chrome, and vintage card color.',
+        magnets: 'N52 neodymium closure. Secure dust-proof seal with a satisfying snap.',
         fit: 'Standard 35PT PSA and CGC slab compatibility.',
       },
     },
     specs: {
       badge: 'Product Specifications',
-      title: 'Graded Card Protector — Key Specs',
+      title: 'Graded Card Protector - Key Specs',
       intro: '',
       fullSpecsCta: 'Full specifications & pricing',
-      cta: 'Buy Graded Card Protector',
+      cta: 'Shop Now',
+      tiles: {
+        compatibility: { hint: 'Standard 35PT PSA and CGC slab compatibility.' },
+        material: { hint: 'Metal frame absorbs shock better than acrylic slab cases.' },
+        uvProtection: { hint: 'Blocks harmful light to preserve holo and chrome.' },
+        origin: { hint: 'Designed in Hong Kong. Ships worldwide.' },
+      },
       rows: {
         product: 'Product',
         productValue: 'Graded Slab UV Glass Protector (Magnetic Slab Case)',
@@ -111,7 +115,7 @@ export const en = {
       },
       support: {
         title: 'Magnetic Closure',
-        description: 'N52 neodymium closure — secure dust-proof seal with a satisfying snap on your slab case.',
+        description: 'N52 neodymium closure. Secure dust-proof seal with a satisfying snap on your slab case.',
       },
     },
     cta: {
@@ -146,14 +150,16 @@ export const en = {
       guidesCta: 'Read Guides',
       trading: {
         badge: 'Graded Card Trading',
+        title: 'Browse Our Graded Card Inventory',
         subtitle: 'Buy, sell, and consign PSA & CGC graded cards in Hong Kong.',
+        description: 'Curated PSA & CGC graded cards. Pokémon, sports cards, and MTG.',
         cta: 'Browse Marketplace',
       },
     },
     tradingPreview: {
       badge: 'Trading Desk',
       title: 'Browse Our Graded Card Inventory',
-      description: 'Curated PSA & CGC graded cards — Pokémon, sports cards, and MTG.',
+      description: 'Curated PSA & CGC graded cards. Pokémon, sports cards, and MTG.',
       features: [
         'PSA & CGC graded cards available',
         'Competitive pricing with full transparency',
@@ -336,6 +342,14 @@ export const en = {
         'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a PSA card protector built for long-term display and transport.',
       ],
       fullGuideLink: 'Read the full 35PT slab case guide',
+      guideLinks: [
+        { label: 'How to choose a 35PT graded card case', href: '/guides/choose-35pt-slab-protector/' },
+        { label: 'UV protection for graded cards', href: '/guides/uv-protection-graded-cards/' },
+        { label: 'Display graded cards safely', href: '/guides/display-graded-cards/' },
+        { label: 'When to grade vs protect your slabs', href: '/guides/grade-or-protect-first/' },
+        { label: 'How to spot fake PSA slabs', href: '/guides/identify-fake-psa-slabs/' },
+      ],
+      guideLinksTitle: 'Related collector guides',
     },
     overview: {
       badge: 'Product Overview',
@@ -756,8 +770,8 @@ export const en = {
     getDirections: 'Get Directions',
     partners: {
       appawShop: {
-        name: 'Appaw Store — Quarry Bay',
-        description: 'Our Hong Kong showroom — see graded slab protectors in person',
+        name: 'Appaw Store - Quarry Bay',
+        description: 'Our Hong Kong showroom. See graded slab protectors in person.',
         location: 'Shop No. 9, Basement, Manly Plaza, 995-997 King\'s Road, Quarry Bay, Hong Kong',
       },
       cardtheland: {
@@ -767,7 +781,7 @@ export const en = {
       },
       appawstore: {
         name: 'Appaw Store Online',
-        description: 'Direct from manufacturer — Etsy, Carousell & WhatsApp',
+        description: 'Direct from manufacturer. Etsy, Carousell & WhatsApp.',
       },
     },
     directDesc: 'Direct from manufacturer',
@@ -1078,7 +1092,7 @@ export const en = {
     seo: {
       webAppName: CENTERING_SEO.en.webAppName as string,
       webAppDescription:
-        'Free browser tool that measures trading card centering on raw cards or graded slab photos. Align guides, correct perspective with tilt controls, and get PSA, BGS, and SGC margin percentages plus regrade screening.',
+        'Measure trading card centering on raw cards or graded slab photos. Align guides, correct tilt, read PSA/BGS/SGC/CGC margins, and screen regrade upside. Runs in your browser.',
       featureList: [...CENTERING_SEO.en.featureList] as string[],
       breadcrumbHome: 'Home',
       breadcrumbTool: CENTERING_SEO.en.breadcrumb as string,
@@ -1108,71 +1122,71 @@ export const en = {
     faq: [
       {
         q: 'What centering is required for a PSA 10?',
-        a: 'PSA requires roughly 55/45 centering or better on the front and 75/25 or better on the back for a PSA 10 Gem Mint grade. A PSA 9 allows up to 60/40 on the front, and a PSA 8 up to 65/35.',
+        a: 'PSA 10 Gem Mint needs 55/45 or better on the front and 75/25 or better on the back. PSA 9 allows up to 60/40 front. PSA 8 allows up to 65/35.',
       },
       {
         q: 'How accurate is the Appaw centering analyzer?',
-        a: 'Accuracy depends on your photo. A straight-on, distortion-free scan with the guides aligned precisely to the card edge and art border gives results within a percent or two of a grader\u2019s measurement. Angled phone photos reduce accuracy.',
+        a: 'It depends on the photo. A flat scan with guides on the cut edge and art border usually lands within one or two points of a grader. Angled phone shots skew the ratios.',
       },
       {
         q: 'How do I take the best photo for measuring centering?',
-        a: 'Place the card flat on a dark background, shoot directly from above with even lighting, and keep the camera parallel to the card to avoid keystone distortion. A flatbed scan is ideal.',
+        a: 'Lay the card flat on a dark background. Shoot straight down with even light. Keep the camera parallel to the card. A flatbed scan is best.',
       },
       {
         q: 'Does this tool work for Pokémon, sports, and other TCG cards?',
-        a: 'Yes. The analyzer works for any rectangular trading card including Pokémon, Magic: The Gathering, One Piece, sports cards and more, because it measures the printed border relative to the card edge.',
+        a: 'Yes. Any rectangular trading card works. The tool compares the printed border to the outer cut edge.',
       },
       {
         q: 'Is the card centering calculator free?',
-        a: 'Yes, the Appaw Store card centering calculator is completely free to use in your browser. No sign-up or upload to a server is required \u2014 measurement happens on your device.',
+        a: 'Yes. It runs in your browser with no sign-up. Measurement stays on your device. Nothing uploads to our servers.',
       },
       {
         q: 'Should I regrade or reholder my PSA slab?',
-        a: 'Reholder swaps the outer case and keeps the same grade when PSA approves the request — use it for cracked holders, foggy labels, or cosmetic case issues. Regrade opens every subgrade again and can upgrade or downgrade. Run centering on a straight slab photo first: if margins sit in Gem Mint range but your label is PSA 9, regrade may be worth the fee; if the case is fine, reholder is safer than unnecessary regrade risk.',
+        a: 'Reholder fixes the case and keeps the grade. Regrade reopens every subgrade and can drop the label. Screen centering first: Gem Mint margins with a PSA 9 label may justify regrade fees. A sound case is reholder only.',
       },
       {
         q: 'Can regrading downgrade my card?',
-        a: 'Yes. Your card\'s corners, edges, surface, and centering will be completely re-examined under today\'s stricter standards. A current PSA 10 runs the risk of coming back as a PSA 9 or lower. Front centering worse than 55/45 is a major red flag for a potential downgrade.',
+        a: 'Yes. PSA re-scores corners, edges, surface, and centering under current rules. A PSA 10 often returns as PSA 9. Front centering worse than 55/45 is a downgrade red flag.',
       },
       {
         q: 'Can I check centering on a graded slab photo?',
-        a: 'Yes. Switch to Graded slab mode, photograph the card inside the holder straight-on, then use Adjust image (tilt, zoom, rotate) and corner magnifiers to align guides on the card face — not the plastic outer edge. Slab glare and angle distort ratios; flat scans through the case work best.',
+        a: 'Yes. Switch to Graded slab mode. Align guides on the card face inside the holder, not the plastic edge. Use Adjust image for tilt and glare. Flat scans through the case work best.',
       },
     ],
     tool: {
       zones: {
         PSA: {
-          PSA10: { label: 'PSA 10', short: 'Gem Mint', hint: 'Centering within 55/45 — Gem Mint range.' },
-          PSA9: { label: 'PSA 9', short: 'Mint', hint: 'Centering within 60/40 — Mint range.' },
-          PSA8: { label: 'PSA 8', short: 'NM-MT', hint: 'Centering within 65/35 — Near Mint–Mint range.' },
-          Below: { label: '< PSA 8', short: 'Off-center', hint: 'Centering exceeds 65/35 — likely below PSA 8.' },
+          PSA10: { label: 'PSA 10', short: 'Gem Mint', hint: 'Centering within 55/45. Gem Mint range.' },
+          PSA9: { label: 'PSA 9', short: 'Mint', hint: 'Centering within 60/40. Mint range.' },
+          PSA8: { label: 'PSA 8', short: 'NM-MT', hint: 'Centering within 65/35. Near Mint–Mint range.' },
+          Below: { label: '< PSA 8', short: 'Off-center', hint: 'Centering exceeds 65/35. Likely below PSA 8.' },
         },
         BGS: {
           BGS10Black: {
             label: 'BGS 10',
             short: 'Black Label',
-            hint: '50/50 on this side — Black Label centering range. Full Black Label also needs 50/50 on the other side plus 10s on corners, edges, and surface.',
+            hint: '50/50 on this side. Black Label centering range. Full Black Label also needs 50/50 on the other side plus 10s on corners, edges, and surface.',
           },
           BGS10Gold: {
             label: 'BGS 10',
             short: 'Gold Label',
-            hint: '55/45 on this side — Gold Label 10 centering range. One 9.5 subgrade is allowed; Black Label requires all four 10s.',
+            hint: '55/45 on this side. Gold Label 10 centering range. One 9.5 subgrade is allowed; Black Label requires all four 10s.',
           },
-          BGS95: { label: 'BGS 9.5', short: 'Gem Mint', hint: '60/40 on this side — Gem Mint range.' },
-          BGS9: { label: 'BGS 9', short: 'Mint', hint: '65/35 on this side — Mint range.' },
-          BGS85: { label: 'BGS 8.5', short: 'NM-MT+', hint: '70/30 on this side — Near Mint–Mint+ range.' },
+          BGS95: { label: 'BGS 9.5', short: 'Gem Mint', hint: '60/40 on this side. Gem Mint range.' },
+          BGS9: { label: 'BGS 9', short: 'Mint', hint: '65/35 on this side. Mint range.' },
+          BGS85: { label: 'BGS 8.5', short: 'NM-MT+', hint: '70/30 on this side. Near Mint–Mint+ range.' },
           Below: { label: '< BGS 8.5', short: 'Off-center', hint: 'Exceeds BGS 8.5 centering tolerance on this side.' },
         },
         SGC: {
-          SGC10: { label: 'SGC 10', short: 'Gem Mint', hint: 'Front 55/45 — Gem Mint range.' },
-          SGC95: { label: 'SGC 9.5', short: 'Mint+', hint: 'Front 60/40 — Mint+ range.' },
-          SGC9: { label: 'SGC 9', short: 'Mint', hint: 'Front 65/35 — Mint range.' },
+          SGC10: { label: 'SGC 10', short: 'Gem Mint', hint: 'Front 55/45. Gem Mint range.' },
+          SGC95: { label: 'SGC 9.5', short: 'Mint+', hint: 'Front 60/40. Mint+ range.' },
+          SGC9: { label: 'SGC 9', short: 'Mint', hint: 'Front 65/35. Mint range.' },
           Below: { label: '< SGC 9', short: 'Off-center', hint: 'Exceeds SGC 9 centering tolerance.' },
         },
         CGC: {
-          CGC10: { label: 'CGC 10', short: 'Pristine', hint: 'Front 55/45 — Pristine range.' },
-          CGC95: { label: 'CGC 9.5', short: 'Gem Mint', hint: 'Front 60/40 — Gem Mint range.' },
-          CGC9: { label: 'CGC 9', short: 'Mint', hint: 'Front 65/35 — Mint range.' },
+          CGC10: { label: 'CGC 10', short: 'Pristine', hint: 'Front 55/45. Pristine range.' },
+          CGC95: { label: 'CGC 9.5', short: 'Gem Mint', hint: 'Front 60/40. Gem Mint range.' },
+          CGC9: { label: 'CGC 9', short: 'Mint', hint: 'Front 65/35. Mint range.' },
           Below: { label: '< CGC 9', short: 'Off-center', hint: 'Exceeds CGC 9 centering tolerance.' },
         },
       },
@@ -1222,10 +1236,10 @@ export const en = {
       imageFilterContrast: 'High contrast',
       imageFilterInvert: 'Invert',
       imageFilterCycle: 'Cycle blemish filter',
-      imageFilterOffHint: 'Natural color — no filter applied.',
-      imageFilterGrayscaleHint: 'Grayscale — even tones make scratches and print lines easier to read.',
-      imageFilterContrastHint: 'High contrast — harsh tones pull out edge wear and subtle surface marks.',
-      imageFilterInvertHint: 'Invert — flips light and dark to reveal whitening, stains, and holo scratches.',
+      imageFilterOffHint: 'Natural color. No filter applied.',
+      imageFilterGrayscaleHint: 'Grayscale. Even tones make scratches and print lines easier to read.',
+      imageFilterContrastHint: 'High contrast. Harsh tones pull out edge wear and subtle surface marks.',
+      imageFilterInvertHint: 'Invert. Flips light and dark to reveal whitening, stains, and holo scratches.',
       dragHandlesHint: 'Drag the handles on each side to align guides',
       dismissCoach: 'Dismiss',
       guideOpenAdjust: 'Open adjust',
@@ -1234,7 +1248,7 @@ export const en = {
       toolbarReset: 'Reset',
       toolbarPhotoRaw: 'Raw',
       toolbarPhotoSlab: 'Slab',
-      guideLiveStatus: 'Step {current} of {total} — {title}',
+      guideLiveStatus: 'Step {current} of {total}: {title}',
       guideNext: 'Next',
       guideBack: 'Back',
       guideClose: 'Close',
@@ -1255,52 +1269,52 @@ export const en = {
       verdicts: {
         regradeCandidate: {
           label: 'Regrade Recommended',
-          hint: 'Centering sits in Gem Mint range — review corners and surface, then compare fees vs upside.',
+          hint: 'Centering sits in Gem Mint range. Check corners and surface before paying regrade fees.',
         },
         borderlineRegrade: {
           label: 'Borderline',
-          hint: 'Centering in Mint range — regrade only if other subgrades clearly exceed your current label.',
+          hint: 'Centering in Mint range. Regrade only if other subgrades clearly beat your current label.',
         },
         holdGrade: {
           label: 'Hold grade',
-          hint: 'Centering in NM–MT range — regrade unlikely to upgrade; reholder if the case is the issue.',
+          hint: 'Centering in NM–MT range. Regrade unlikely to upgrade. Reholder if the case is the issue.',
         },
         downgradeRisk: {
           label: 'Downgrade risk',
-          hint: 'Centering exceeds PSA 8 tolerance — avoid regrade unless you accept a lower label.',
+          hint: 'Centering exceeds PSA 8 tolerance. Avoid regrade unless you accept a lower label.',
         },
       },
       reholderNote:
-        'Reholder preserves your grade for case or label issues. Centering cannot detect holder damage — switch to slab mode only to screen regrade upside.',
+        'Reholder preserves your grade for case or label issues. Centering cannot detect holder damage. Use slab mode only to screen regrade upside.',
     },
     content: {
       h1: CENTERING_SEO.en.h1 as string,
       lead:
-        'Measure raw cards or graded slab photos in seconds. Align guides, correct perspective with tilt controls, and get PSA, BGS, and SGC margin percentages — plus regrade vs reholder screening in Graded slab mode. Completely free.',
+        'Most submit mistakes are centering, not corners. PSA 10 needs 55/45 front and 75/25 back. Upload a photo, align the guides, and read L/R and T/B percentages for PSA, BGS, SGC, and CGC. Graded slab mode screens regrade upside. Everything runs in your browser. Nothing uploads to our servers.',
       howToTitle: 'How to use the Appaw Centering Analyzer',
       howToBadge: '4-Step Workflow',
       stepLabel: 'Step {n}',
       steps: [
         {
           title: 'Upload a clear photo',
-          body: 'Place the card flat on a dark, non-reflective background and shoot straight from above with even lighting. A flatbed scan gives the most accurate result. Then upload the image, or use “Choose image”.',
+          body: 'Lay the card flat on a dark, matte background. Shoot straight down with even light. A flatbed scan is most accurate. Then upload or tap Choose image.',
         },
         {
           title: 'Straighten the photo',
-          body: 'Phone photos rarely sit perfectly flat. Open Adjust image (sliders icon, bottom-right), drag zoom and H/V tilt until the card rectangle matches the guides — not the plastic slab edge. Tap Fit to view if the upload looks too small. Pinch to pan the image on mobile.',
+          body: 'Phone angles skew margins. Open Adjust image (sliders icon, bottom-right). Set zoom and H/V tilt until the card edges match the frame, not the slab plastic. Tap Fit to view if the image looks small.',
         },
         {
           title: 'Align edge and border guides',
-          body: 'Drag the blue guide lines until they sit exactly on the outer cut edge of the card, and the pink lines onto the inner edge of the printed border or artwork frame on all four sides. Move each handle at least once — corner loupes help you place them precisely.',
+          body: 'Drag blue lines to the outer cut edge. Drag pink lines to the inner art border on all four sides. Move every handle once. Corner loupes help on tight margins.',
         },
         {
           title: 'Read your centering percentage',
-          body: 'The analyzer instantly calculates left/right and top/bottom margin ratios and shows the estimated grade zone for PSA, BGS, SGC, or CGC — switch the grading standard in the header.',
+          body: 'The analyzer prints left/right and top/bottom ratios and a grade zone for PSA, BGS, SGC, or CGC. Switch the grading standard in the header.',
         },
       ],
       psaRequirementsTitle: 'What are the centering requirements for a PSA 10?',
       psaRequirementsIntro:
-        '“Centering” describes how evenly the printed border sits inside the card\u2019s cut edges. It is measured as a left/right and top/bottom ratio. The closer to 50/50, the better. Each grading company publishes its own maximum tolerances — and PSA tightened its front standard to roughly 55/45 for a Gem Mint 10. The table below summarises the published front and back tolerances for the most common grades.',
+        'Centering is how evenly the printed border sits inside the cut edges, measured as left/right and top/bottom ratios. Closer to 50/50 is better. PSA tightened the Gem Mint 10 front standard to 55/45 in 2025. The table lists published front and back tolerances for common grades.',
       gradeTable: {
         headers: {
           grade: 'Grade',
@@ -1319,11 +1333,11 @@ export const en = {
         ],
       },
       gradeTableNote:
-        'Tolerances are guidelines published by PSA, Beckett (BGS), and SGC and may change over time. Final grades also factor in corners, edges, and surface — centering alone does not guarantee a grade.',
+        'Tolerances follow PSA, Beckett (BGS), and SGC published guidelines and may change. Corners, edges, and surface still count. Centering alone does not guarantee a grade.',
       centeringGuideLink: 'PSA 10 centering requirements explained',
       whyMattersTitle: 'Why card centering matters',
       whyMattersP1:
-        'Centering is one of the four pillars graders assess, and it is the one you can check before you spend money on submission. A card with razor-sharp corners and a flawless surface can still be capped at a PSA 8 or 9 purely because the border is off-centre. Because grade jumps — for example from a PSA 9 to a PSA 10 — can multiply a card\u2019s market value, screening centering first helps you decide which cards are worth submitting and which are better left raw.',
+        'Graders score corners, edges, surface, and centering. Only centering is measurable from a photo before you pay submission fees. Sharp corners and a clean surface still cap at PSA 8 or 9 when borders sit off. PSA 9 to PSA 10 can double or triple resale. Measure margins first. It is the cheapest filter you have.',
       whyMattersBeforeProtector:
         'Once you\u2019ve confirmed a card is well centred and worth grading, protect it on its way to and from the grader with a premium ',
       protectorLink: 'PSA UV glass protector',
@@ -1332,56 +1346,56 @@ export const en = {
       whyMattersAfterTrading: ' service.',
       slabWorkflowTitle: 'How to measure centering on a graded slab photo',
       slabWorkflowIntro:
-        'Slab plastic adds glare and perspective skew. Use the built-in image adjustments and corner loupes so guides sit on the card inside the holder — not on the outer case edge.',
+        'Slab plastic adds glare and skew. Use Adjust image and corner loupes so guides sit on the card inside the holder, not the outer case edge.',
       slabSteps: [
         {
           title: 'Photograph straight-on',
-          body: 'Place the slab flat on a dark surface. Shoot from directly above with even light. Include the full card face inside the case; avoid flash hotspots on the label.',
+          body: 'Lay the slab flat on a dark surface. Shoot from directly above with even light. Capture the full card face. Avoid flash hotspots on the label.',
         },
         {
           title: 'Open Adjust image',
-          body: 'Use zoom, rotate, and H/V tilt to correct keystone from phone angles. The mini plot map shows edge (blue) and border (pink) alignment.',
+          body: 'Correct keystone with zoom, rotate, and H/V tilt. The mini plot shows blue edge and pink border alignment.',
         },
         {
           title: 'Match corner curves',
-          body: 'Enable corner magnifiers and drag the fillet arc so quarter guides follow the card corners inside the slab — helpful on rounded vintage stock.',
+          body: 'Enable corner magnifiers. Drag the fillet arc so quarter guides follow the card corners inside the slab. Useful on rounded vintage stock.',
         },
         {
           title: 'Align guides on the card face',
-          body: 'Blue guides on the card cut edge; pink guides on the inner art border. Toggle Edge / Border / Both to focus one layer at a time.',
+          body: 'Blue guides on the cut edge. Pink guides on the inner art border. Toggle Edge, Border, or Both to focus one layer.',
         },
         {
           title: 'Read the slab verdict',
-          body: 'Switch photo type to Graded slab. The screening line estimates regrade upside vs downgrade risk from centering alone — not corners, surface, or holder condition.',
+          body: 'Set photo type to Graded slab. The screening line estimates regrade upside vs downgrade risk from centering only. It ignores corners, surface, and holder wear.',
         },
       ],
       regradeTitle: 'Should you regrade or reholder your PSA slab?',
       regradeAeoAnswer:
-        'Reholder keeps your numeric grade and replaces a damaged or outdated PSA case. Regrade re-opens every subgrade and can raise or lower the label. Measure centering on a flat slab photo first: strong Gem Mint margins with a PSA 9 label may justify regrade fees; a sound case with acceptable centering is safer as reholder only.',
+        'Reholder keeps your grade and replaces a damaged case. Regrade reopens every subgrade and can drop the label. Screen centering on a flat slab photo first. Gem Mint margins with a PSA 9 label may justify regrade fees. A sound case with acceptable centering is reholder only.',
       regradeP1:
-        'Collectors often bundle these decisions after buying a slab online or noticing a cracked corner on the holder. They are not interchangeable. PSA reholder requests address the plastic shell and label when the card inside is unchanged. Regrade sends the card back through full grading — centering, corners, edges, and surface are all scored again under current standards.',
+        'Paying regrade fees when only the plastic failed is the common mistake. Reholder swaps the shell and keeps the number. Regrade sends the card through full grading again: centering, corners, edges, and surface under current standards.',
       regradeP2:
-        'Centering is the one subgrade you can pre-screen from photos. Our analyzer adds a Graded slab mode with perspective correction because slab listings on eBay, Carousell, and show tables are rarely perfect scans. If centering already fails PSA 8 tolerance, paying for regrade is usually negative expected value even when the case looks fine.',
-      regradeGuideLink: 'PSA regrade vs reholder — full decision guide',
+        'Centering is the one subgrade you can pre-screen from photos. Slab listings on eBay, Carousell, and show tables are rarely flat scans. If centering already fails PSA 8 tolerance, regrade is usually negative expected value even when the case looks fine.',
+      regradeGuideLink: 'PSA regrade vs reholder: full decision guide',
       referencesTitle: 'References & further reading',
       referencesExternalLabel: 'Official grading standards',
       referencesGuidesLabel: 'Related collector guides',
       referencesGuidesIndex: 'All collector guides',
       externalSources: [
         {
-          label: 'PSA Grading Standards — Gem Mint 10 centering',
+          label: 'PSA Grading Standards: Gem Mint 10 centering',
           href: 'https://www.psacard.com/gradingstandards',
         },
         {
-          label: 'Beckett (BGS) — card grading standards',
+          label: 'Beckett (BGS): card grading standards',
           href: 'https://www.beckett.com/grading/card-grading-standards',
         },
         {
-          label: 'SGC Grading Scale — Pristine 10 centering',
+          label: 'SGC Grading Scale: Pristine 10 centering',
           href: 'https://www.gosgc.com/card-grading/scale',
         },
         {
-          label: 'CGC Cards — grading scale (centering by grade)',
+          label: 'CGC Cards: grading scale (centering by grade)',
           href: 'https://www.cgccards.com/card-grading/grading-scale/',
         },
       ],
@@ -1391,15 +1405,27 @@ export const en = {
           href: '/guides/psa-10-centering-requirements/',
         },
         {
-          label: 'PSA regrade vs reholder — when to choose each',
+          label: 'PSA grading standards & qualifiers',
+          href: '/guides/psa-grading-standards/',
+        },
+        {
+          label: 'How to spot fake PSA slabs',
+          href: '/guides/identify-fake-psa-slabs/',
+        },
+        {
+          label: 'PSA regrade vs reholder: when to choose each',
           href: '/guides/regrade-or-reholder/',
         },
         {
           label: 'When to submit raw cards vs protect graded slabs',
           href: '/guides/grade-or-protect-first/',
         },
+        {
+          label: 'UV protection for graded cards',
+          href: '/guides/uv-protection-graded-cards/',
+        },
       ],
-      faqTitle: 'Card centering — frequently asked questions',
+      faqTitle: 'Card centering: frequently asked questions',
       faqBadge: 'Common Questions',
       faqCountLabel: '{n} topics covered',
     },

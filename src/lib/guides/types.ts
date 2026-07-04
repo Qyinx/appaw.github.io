@@ -53,11 +53,25 @@ export type GuideSection = {
   subsections?: GuideSubsection[];
   specs?: GuideSpecRow[];
   table?: GuideTable;
+  /** One-sentence open loop teasing the next section (retention). */
+  bridge?: string;
 };
 
 export type GuideCtaLink = {
   label: string;
   href: string;
+};
+
+export type GuideCtaBlock = {
+  title: string;
+  body: string;
+  primary: GuideCtaLink;
+  secondary?: GuideCtaLink;
+};
+
+/** Inline CTA inserted after a specific section (P0 retention guides). */
+export type GuideMidCta = GuideCtaBlock & {
+  afterSectionId: string;
 };
 
 export type GuideSourceLink = {
@@ -76,15 +90,11 @@ export type GuideContent = {
   heroImage?: string;
   heroSpecs: GuideSpecRow[];
   sections: GuideSection[];
-  cta: {
-    title: string;
-    body: string;
-    primary: GuideCtaLink;
-    secondary?: GuideCtaLink;
-  };
+  cta: GuideCtaBlock;
+  midCta?: GuideMidCta;
   relatedSlugs: string[];
   sources?: GuideSourceLink[];
-  /** Optional FAQ pairs — rendered as subsections and emitted as FAQPage JSON-LD. */
+  /** Optional FAQ pairs — rendered via GuideFaq and emitted as FAQPage JSON-LD. */
   faq?: { q: string; a: string }[];
 };
 

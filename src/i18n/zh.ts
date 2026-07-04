@@ -23,10 +23,8 @@ export const zh: Translations = {
       badge: '優質鑑定卡保護',
       title: '陳列你的卡磚。守住評級價值。',
       headlineLines: [
-        { text: '展示你的', accent: false },
-        { text: '熱情。', accent: true },
-        { text: '守住你的', accent: false },
-        { text: '價值。', accent: true },
+        { text: '展示你的熱情。', accent: true },
+        { text: '守住你的價值。', accent: false },
       ],
       h1Keyword: '香港 PSA卡殼・鑑定卡殼・35PT PSA卡保護殼專門店',
       subtitle: '磁吸防UV鑑定卡殼，適用於標準35PT PSA/CGC鑑定卡磚。',
@@ -68,8 +66,8 @@ export const zh: Translations = {
         fit: '35PT PSA',
       },
       featureFocus: {
-        uv: '阻隔有害光線 — 保護閃卡、全息及復古卡面色彩。',
-        magnets: 'N52 釹磁鐵閉合 — 防塵密封，開合手感清脆。',
+        uv: '阻隔有害光線，保護閃卡、全息及復古卡面色彩。',
+        magnets: 'N52 釹磁鐵閉合，防塵密封，開合手感清脆。',
         fit: '適用標準 35PT PSA 及 CGC 鑑定卡磚。',
       },
     },
@@ -78,7 +76,13 @@ export const zh: Translations = {
       title: '鑑定卡保護殼重點規格',
       intro: '',
       fullSpecsCta: '完整規格與價格',
-      cta: '購買 PSA卡保護殼',
+      cta: '立即購買',
+      tiles: {
+        compatibility: { hint: '適用標準 35PT PSA 及 CGC 鑑定卡磚。' },
+        material: { hint: '金屬邊框比壓克力卡殼更能吸收衝擊。' },
+        uvProtection: { hint: '阻隔有害光線，保護閃卡與全息面。' },
+        origin: { hint: '香港設計，全球付運。' },
+      },
       rows: {
         product: '產品',
         productValue: '磁吸防UV鑑定卡保護殼（磁吸卡夾）',
@@ -112,7 +116,7 @@ export const zh: Translations = {
       },
       support: {
         title: '磁吸閉合',
-        description: 'N52 釹磁鐵磁吸閉合 — 防塵密封，開合手感清脆。',
+        description: 'N52 釹磁鐵磁吸閉合，防塵密封，開合手感清脆。',
       },
     },
     cta: {
@@ -147,14 +151,16 @@ export const zh: Translations = {
       guidesCta: '閱讀指南',
       trading: {
         badge: '鑑定卡交易',
+        title: '瀏覽鑑定卡庫存',
         subtitle: '在香港買賣及委託出售 PSA 與 CGC 鑑定卡磚。',
+        description: '精選 PSA 及 CGC 鑑定卡，涵蓋寶可夢、運動卡及 MTG。',
         cta: '瀏覽交易平台',
       },
     },
     tradingPreview: {
       badge: '交易服務',
       title: '瀏覽鑑定卡庫存',
-      description: '精選 PSA 及 CGC 鑑定卡 — 寶可夢、運動卡及 MTG。',
+      description: '精選 PSA 及 CGC 鑑定卡，涵蓋寶可夢、運動卡及 MTG。',
       features: [
         'PSA 及 CGC 鑑定卡牌供應',
         '透明定價，價格具競爭力',
@@ -337,6 +343,14 @@ export const zh: Translations = {
         '送鑑前可先使用免費卡牌置中量度工具檢查 PSA 10 邊距；購買鑑定卡磚後，再以本 PSA卡殼妥善保存及運送珍藏。',
       ],
       fullGuideLink: '閱讀完整鑑定卡保護殼指南',
+      guideLinks: [
+        { label: '如何選擇 35PT 鑑定卡保護殼', href: '/guides/choose-35pt-slab-protector/' },
+        { label: '鑑定卡防 UV 與防潮指南', href: '/guides/uv-protection-graded-cards/' },
+        { label: '鑑定卡展示指南', href: '/guides/display-graded-cards/' },
+        { label: '裸卡送鑑與鑑定卡保護策略', href: '/guides/grade-or-protect-first/' },
+        { label: '如何辨識假 PSA 鑑定卡', href: '/guides/identify-fake-psa-slabs/' },
+      ],
+      guideLinksTitle: '相關收藏指南',
     },
     overview: {
       badge: '產品概覽',
@@ -771,7 +785,7 @@ export const zh: Translations = {
     partners: {
       appawShop: {
         name: 'Appaw Store 鰂魚涌門市',
-        description: '香港實體展示店 — 親身體驗鑑定卡保護殼',
+        description: '香港實體展示店，親身體驗鑑定卡保護殼',
         location: '香港鰂魚涌英皇道995-997號萬利廣場地庫9號舖',
       },
       cardtheland: {
@@ -781,7 +795,7 @@ export const zh: Translations = {
       },
       appawstore: {
         name: 'Appaw Store 網店',
-        description: '原廠直銷 — Etsy、Carousell 及 WhatsApp 訂購',
+        description: '原廠直銷，Etsy、Carousell 及 WhatsApp 訂購',
       },
     },
   },
@@ -1079,12 +1093,12 @@ export const zh: Translations = {
       // Keep in sync with CENTERING_SEO.zh in product-names.ts
       webAppName: '卡牌置中工具 & PSA 10 分析器',
       webAppDescription:
-        '免費瀏覽器工具，量度裸卡或鑑定卡照片的置中比例。對齊導線、校正透視傾斜，取得 PSA、BGS、SGC 邊距百分比及重評篩選。',
+        '量度裸卡或鑑定卡照片的置中比例。對齊導線、校正傾斜，讀取 PSA/BGS/SGC/CGC 邊距，並篩選重評升值空間。在瀏覽器內運行。',
       featureList: [...CENTERING_SEO.zh.featureList],
       breadcrumbHome: '首頁',
       breadcrumbTool: '卡牌置中工具',
       howToName: '如何使用 Appaw 卡牌置中分析器',
-      howToDescription: '四步量度任何集換式卡牌的置中比例，並估算 PSA 評級區間。',
+      howToDescription: '四步量度任何集換式卡牌的置中比例，並估算 PSA 鑑定區間。',
       howToTool: '卡牌的正向照片或掃描檔',
     },
     howToSteps: [
@@ -1102,81 +1116,81 @@ export const zh: Translations = {
       },
       {
         name: '查看置中百分比',
-        text: '工具即時計算左右及上下邊距比例，並顯示 PSA、BGS、SGC 或 CGC 估算評級區間——可在標題列切換評級標準。',
+        text: '工具即時計算左右及上下邊距比例，並顯示 PSA、BGS、SGC 或 CGC 估算評級區間。可在標題列切換鑑定標準。',
       },
     ],
     faq: [
       {
         q: 'PSA 10 需要多少置中比例？',
-        a: 'PSA 10 Gem Mint 要求正面約 55/45 或更佳、背面 75/25 或更佳。PSA 9 正面容許至 60/40，PSA 8 至 65/35。',
+        a: 'PSA 10 Gem Mint 要求正面 55/45 或更佳、背面 75/25 或更佳。PSA 9 正面容許至 60/40。PSA 8 至 65/35。',
       },
       {
         q: 'Appaw 置中分析器有多準確？',
-        a: '準確度取決於照片。正視、無畸變的掃描，且導線精確對齊卡牌邊緣及圖框，結果可與評級員量度相差一兩個百分點以內。斜角手機照片會降低準確度。',
+        a: '取決於照片。平整掃描且導線對齊切邊與圖框，通常與鑑定員量度相差一兩個百分點以內。斜角手機照片會拉歪比例。',
       },
       {
         q: '如何拍攝最佳置中量度照片？',
-        a: '將卡牌平放於深色背景，從正上方拍攝並保持光線均勻，相機需與卡牌平行以避免透視畸變。平板掃描器效果最佳。',
+        a: '將卡牌平放於深色背景，從正上方均勻光線拍攝，相機需與卡牌平行。平板掃描器效果最佳。',
       },
       {
         q: '此工具適用於寶可夢、運動卡及其他 TCG 嗎？',
-        a: '適用。分析器可量度任何矩形集換式卡牌——包括寶可夢 PTCG、魔法風雲會、One Piece、運動卡等——因為它量度的是印刷邊框相對於卡牌邊緣的位置。',
+        a: '適用。任何矩形集換式卡牌均可量度，工具比較印刷邊框與外切邊緣的位置。',
       },
       {
         q: '卡牌置中計算器是否免費？',
-        a: '完全免費，在瀏覽器中使用，無需註冊，亦無需上傳至伺服器——量度在您的裝置上進行。',
+        a: '完全免費，在瀏覽器中使用，無需註冊。量度在您的裝置上進行，不會上傳至伺服器。',
       },
       {
         q: '應該重評還是換殼？',
-        a: '換殼（Reholder）在 PSA 批准後更換外殼並保留原數字評級，適用於破裂殼、標籤模糊等外觀問題。重評會重新檢查四角、邊緣、表面及置中，可能升級或降級。先在平整的鑑定卡照片上量度置中：若邊距達 Gem Mint 但標籤為 PSA 9，可考慮重評；若殼體完好，換殼比不必要的重評更安全。',
+        a: '換殼修復外殼並保留數字評級。重評重新檢查所有子項，可能降級。先量度置中：Gem Mint 邊距配 PSA 9 標籤或可考慮重評；殼體完好則僅換殼。',
       },
       {
         q: '重新評級會令卡牌降級嗎？',
-        a: '是的。您的卡片的邊角、邊緣、表面和居中情況將根據如今更嚴格的標準進行全面重新檢查。目前評級為 PSA 10 的卡片有被評為 PSA 9 或更低的風險。正面居中情況低於 55/45 是可能導致評級下調的重要警示訊號。',
+        a: '會。PSA 依現行標準重新評估四角、邊緣、表面及置中。PSA 10 常退回 PSA 9。正面置中低於 55/45 是降級警示。',
       },
       {
-        q: '能否使用鑑定卡去檢查置中情況？',
-        a: '可以。切換至「鑑定卡」模式，從正上方拍攝卡面，使用「調整圖片」（傾斜、縮放、旋轉）及角落放大鏡，將導線對齊殼內卡面——而非塑膠外緣。殼體反光與拍攝角度會扭曲比例；穿透殼體的平整掃描效果最佳。',
+        q: '能否使用鑑定卡照片檢查置中？',
+        a: '可以。切換至鑑定卡模式，將導線對齊殼內卡面而非塑膠外緣。使用「調整圖片」校正傾斜與反光。穿透殼體的平整掃描效果最佳。',
       },
     ],
     tool: {
       zones: {
         PSA: {
-          PSA10: { label: 'PSA 10', short: 'Gem Mint', hint: '置中在 55/45 以內 — Gem Mint 區間。' },
-          PSA9: { label: 'PSA 9', short: 'Mint', hint: '置中在 60/40 以內 — Mint 區間。' },
-          PSA8: { label: 'PSA 8', short: 'NM-MT', hint: '置中在 65/35 以內 — Near Mint–Mint 區間。' },
-          Below: { label: '< PSA 8', short: '偏置中', hint: '置中超過 65/35 — 可能低於 PSA 8。' },
+          PSA10: { label: 'PSA 10', short: 'Gem Mint', hint: '置中在 55/45 以內。Gem Mint 區間。' },
+          PSA9: { label: 'PSA 9', short: 'Mint', hint: '置中在 60/40 以內。Mint 區間。' },
+          PSA8: { label: 'PSA 8', short: 'NM-MT', hint: '置中在 65/35 以內。Near Mint–Mint 區間。' },
+          Below: { label: '< PSA 8', short: '偏置中', hint: '置中超過 65/35。可能低於 PSA 8。' },
         },
         BGS: {
           BGS10Black: {
             label: 'BGS 10',
             short: 'Black Label',
-            hint: '此面 50/50 — Black Label 置中區間。完整 Black Label 亦需另一面 50/50，且四角、邊緣、表面均為 10。',
+            hint: '此面 50/50。Black Label 置中區間。完整 Black Label 亦需另一面 50/50，且四角、邊緣、表面均為 10。',
           },
           BGS10Gold: {
             label: 'BGS 10',
             short: 'Gold Label',
-            hint: '此面 55/45 — Gold Label 10 置中區間。容許一項 9.5 子評分；Black Label 須四項皆 10。',
+            hint: '此面 55/45。Gold Label 10 置中區間。容許一項 9.5 子評分；Black Label 須四項皆 10。',
           },
-          BGS95: { label: 'BGS 9.5', short: 'Gem Mint', hint: '此面 60/40 — Gem Mint 區間。' },
-          BGS9: { label: 'BGS 9', short: 'Mint', hint: '此面 65/35 — Mint 區間。' },
-          BGS85: { label: 'BGS 8.5', short: 'NM-MT+', hint: '此面 70/30 — Near Mint–Mint+ 區間。' },
+          BGS95: { label: 'BGS 9.5', short: 'Gem Mint', hint: '此面 60/40。Gem Mint 區間。' },
+          BGS9: { label: 'BGS 9', short: 'Mint', hint: '此面 65/35。Mint 區間。' },
+          BGS85: { label: 'BGS 8.5', short: 'NM-MT+', hint: '此面 70/30。Near Mint–Mint+ 區間。' },
           Below: { label: '< BGS 8.5', short: '偏置中', hint: '此面超過 BGS 8.5 置中容差。' },
         },
         SGC: {
-          SGC10: { label: 'SGC 10', short: 'Gem Mint', hint: '正面 55/45 — Gem Mint 區間。' },
-          SGC95: { label: 'SGC 9.5', short: 'Mint+', hint: '正面 60/40 — Mint+ 區間。' },
-          SGC9: { label: 'SGC 9', short: 'Mint', hint: '正面 65/35 — Mint 區間。' },
+          SGC10: { label: 'SGC 10', short: 'Gem Mint', hint: '正面 55/45。Gem Mint 區間。' },
+          SGC95: { label: 'SGC 9.5', short: 'Mint+', hint: '正面 60/40。Mint+ 區間。' },
+          SGC9: { label: 'SGC 9', short: 'Mint', hint: '正面 65/35。Mint 區間。' },
           Below: { label: '< SGC 9', short: '偏置中', hint: '超過 SGC 9 置中容差。' },
         },
         CGC: {
-          CGC10: { label: 'CGC 10', short: 'Pristine', hint: '正面 55/45 — Pristine 區間。' },
-          CGC95: { label: 'CGC 9.5', short: 'Gem Mint', hint: '正面 60/40 — Gem Mint 區間。' },
-          CGC9: { label: 'CGC 9', short: 'Mint', hint: '正面 65/35 — Mint 區間。' },
+          CGC10: { label: 'CGC 10', short: 'Pristine', hint: '正面 55/45。Pristine 區間。' },
+          CGC95: { label: 'CGC 9.5', short: 'Gem Mint', hint: '正面 60/40。Gem Mint 區間。' },
+          CGC9: { label: 'CGC 9', short: 'Mint', hint: '正面 65/35。Mint 區間。' },
           Below: { label: '< CGC 9', short: '偏置中', hint: '超過 CGC 9 置中容差。' },
         },
       },
-      gradingCompanyLabel: '評級標準',
+      gradingCompanyLabel: '鑑定標準',
       emptyTitle: '上傳卡牌以開始',
       emptyBadge: '來源 · 無',
       emptyHint: '深色平面背景上的正面照片或掃描',
@@ -1223,9 +1237,9 @@ export const zh: Translations = {
       imageFilterInvert: '反轉顏色',
       imageFilterCycle: '切換瑕疵濾鏡',
       imageFilterOffHint: '自然色彩，不套用濾鏡。',
-      imageFilterGrayscaleHint: '灰階模式 — 均勻色調，方便檢查刮痕與印刷線。',
-      imageFilterContrastHint: '高對比模式 — 強烈明暗對比，突顯邊緣磨損與細微表面瑕疵。',
-      imageFilterInvertHint: '反轉顏色 — 明暗反轉，有助發現泛白、污漬與閃卡刮痕。',
+      imageFilterGrayscaleHint: '灰階模式。均勻色調，方便檢查刮痕與印刷線。',
+      imageFilterContrastHint: '高對比模式。強烈明暗對比，突顯邊緣磨損與細微表面瑕疵。',
+      imageFilterInvertHint: '反轉顏色。明暗反轉，有助發現泛白、污漬與閃卡刮痕。',
       dragHandlesHint: '拖曳各邊的手柄以對齊導線',
       dismissCoach: '關閉',
       guideOpenAdjust: '開啟調整',
@@ -1233,8 +1247,8 @@ export const zh: Translations = {
       toolbarFit: '適配',
       toolbarReset: '重置',
       toolbarPhotoRaw: '裸卡',
-      toolbarPhotoSlab: '評級',
-      guideLiveStatus: '第 {current} / {total} 步 — {title}',
+      toolbarPhotoSlab: '鑑定卡',
+      guideLiveStatus: '第 {current} / {total} 步：{title}',
       guideNext: '下一步',
       guideBack: '上一步',
       guideClose: '關閉',
@@ -1255,55 +1269,55 @@ export const zh: Translations = {
       verdicts: {
         regradeCandidate: {
           label: '建議重新評級',
-          hint: '置中達 Gem Mint 區間——請再檢查四角與表面，並比較費用與升值空間。',
+          hint: '置中達 Gem Mint 區間。付重評費前請再檢查四角與表面。',
         },
         borderlineRegrade: {
           label: '邊界案例',
-          hint: '置中在 Mint 區間——僅當其他子項明顯優於現有標籤時才考慮重評。',
+          hint: '置中在 Mint 區間。僅當其他子項明顯優於現有標籤時才考慮重評。',
         },
         holdGrade: {
           label: '維持評級',
-          hint: '置中在 NM–MT 區間——重評難以升級；若殼體有問題可考慮換殼。',
+          hint: '置中在 NM–MT 區間。重評難以升級。若殼體有問題可考慮換殼。',
         },
         downgradeRisk: {
           label: '高降級風險警告',
-          hint: '置中超過 PSA 8 容差——除非接受較低標籤，否則避免重評。',
+          hint: '置中超過 PSA 8 容差。除非接受較低標籤，否則避免重評。',
         },
       },
       reholderNote:
-        '換殼保留數字評級，處理殼體或標籤問題。置中無法偵測殼體損壞——切換鑑定卡模式僅用於篩選重新評級風險。',
+        '換殼保留數字評級，處理殼體或標籤問題。置中無法偵測殼體損壞。鑑定卡模式僅用於篩選重評升值空間。',
     },
     content: {
       h1: CENTERING_SEO.zh.h1 as string,
       lead:
-        '數秒內量度裸卡或鑑定卡照片。對齊導線、以傾斜控制校正透視，取得 PSA、BGS、SGC 邊距百分比——鑑定卡模式亦可篩選重評 vs 換殼。完全免費。',
+        '多數送鑑失敗源於置中，而非四角。PSA 10 要求正面 55/45、背面 75/25。上傳照片、對齊導線，讀取左右及上下百分比（PSA、BGS、SGC、CGC）。鑑定卡模式可篩選重評升值。全程在瀏覽器運行，不會上傳至伺服器。',
       howToTitle: '如何使用 Appaw 卡牌置中分析器',
       howToBadge: '四步流程',
       stepLabel: '第 {n} 步',
       steps: [
         {
           title: '上傳清晰照片',
-          body: '將卡牌平放於深色、不反光背景，從正上方均勻光線下拍攝。平板掃描最為準確。然後上傳圖片，或點擊「選擇圖片」。',
+          body: '將卡牌平放於深色啞面背景，從正上方均勻光線拍攝。平板掃描最為準確。然後上傳或點擊「選擇圖片」。',
         },
         {
           title: '拉直照片',
-          body: '手機照片很少完全平放。開啟「調整圖片」（右下角滑桿圖示），拖曳縮放及水平／垂直傾斜，使卡牌矩形與導線對齊——而非鑑定殼外緣。若上傳後圖片過小，請點「適合視窗」。手機上可雙指縮放平移圖片。',
+          body: '手機斜角會拉歪邊距。開啟「調整圖片」（右下角滑桿圖示），設定縮放及水平／垂直傾斜，使卡牌邊緣與框架平行，而非鑑定殼外緣。若圖片過小，請點「適應畫面」。',
         },
         {
           title: '對齊邊緣與圖框導線',
-          body: '拖曳藍色導線至卡牌四邊外切邊緣，粉色導線至印刷邊框或圖框內緣。每個控制點至少移動一次——角落放大鏡可協助精準定位。',
+          body: '拖曳藍色導線至外切邊緣，粉色導線至四邊圖框內緣。每個控制點至少移動一次。角落放大鏡有助精準定位。',
         },
         {
           title: '查看置中百分比',
-          body: '分析器即時計算左右及上下邊距比例，並顯示 PSA、BGS、SGC 或 CGC 估算評級區間——在標題列切換評級標準。',
+          body: '分析器即時計算左右及上下邊距比例，並顯示 PSA、BGS、SGC 或 CGC 估算評級區間。在標題列切換鑑定標準。',
         },
       ],
       psaRequirementsTitle: 'PSA 10 的置中要求是什麼？',
       psaRequirementsIntro:
-        '「置中」指印刷邊框在卡牌切邊內的分佈是否均勻，以左右及上下比例量度。越接近 50/50 越好。各評級機構公佈不同的最大容差——PSA 已將正面 Gem Mint 10 標準收緊至約 55/45。下表摘要最常見評級的正反面容差。',
+        '置中指印刷邊框在切邊內的分佈是否均勻，以左右及上下比例量度。越接近 50/50 越好。PSA 已於 2025 年將 Gem Mint 10 正面標準收緊至 55/45。下表列出常見等級的公佈正反面容差。',
       gradeTable: {
         headers: {
-          grade: '評級',
+          grade: '等級',
           front: '正面最大置中偏差',
           back: '背面最大置中偏差',
         },
@@ -1315,22 +1329,23 @@ export const zh: Translations = {
           { grade: 'BGS 10 Gold Label', front: '55/45', back: '55/45' },
           { grade: 'BGS 9.5（Gem Mint）', front: '60/40', back: '60/40' },
           { grade: 'SGC 10（Gem Mint）', front: '55/45', back: '70/30' },
+          { grade: 'CGC 10（Pristine）', front: '55/45', back: '75/25' },
         ],
       },
       gradeTableNote:
-        '容差為 PSA、Beckett（BGS）及 SGC 公佈的指引，可能隨時間調整。最終評級亦考量四角、邊緣及表面——僅憑置中並不保證評級。',
+        '容差依 PSA、Beckett（BGS）及 SGC 公佈指引，可能隨時間調整。四角、邊緣及表面仍計入評級。僅憑置中並不保證等級。',
       centeringGuideLink: 'PSA 10 置中標準詳解',
       whyMattersTitle: '為何卡牌置中很重要',
       whyMattersP1:
-        '置中是評級員評估的四項要素之一，也是送鑑前您可以自行檢查的一項。四角銳利、表面完美的卡牌，若邊框偏置中，仍可能被限制在 PSA 8 或 9。評級差距——例如 PSA 9 與 PSA 10——可令卡牌市值倍增，因此先篩選置中有助決定哪些卡牌值得送鑑、哪些宜保留裸卡。',
-      whyMattersBeforeProtector: '確認卡牌置中良好且值得送鑑後，來回評級機構途中可用優質 ',
+        '鑑定員評估四角、邊緣、表面及置中。置中是送鑑前唯一能從照片量度的一項。四角銳利、表面完美，邊框偏置中仍可能被限制在 PSA 8 或 9。PSA 9 與 PSA 10 的市值可相差兩至三倍。提前量度邊距，是最划算的篩選。',
+      whyMattersBeforeProtector: '確認卡牌置中良好且值得送鑑後，往返鑑定機構途中可用優質 ',
       protectorLink: 'PSA 防UV玻璃保護殼',
       whyMattersBeforeTrading: ' 妥善保護，或了解我們的 ',
       tradingLink: '鑑定卡交易及經紀服務',
       whyMattersAfterTrading: '。',
       slabWorkflowTitle: '如何在鑑定卡照片上量度置中',
       slabWorkflowIntro:
-        '殼體塑膠會產生反光與透視畸變。使用內建圖片調整及角落放大鏡，讓導線對齊殼內卡面——而非外殼邊緣。',
+        '殼體塑膠會產生反光與透視畸變。使用「調整圖片」及角落放大鏡，讓導線對齊殼內卡面，而非外殼邊緣。',
       slabSteps: [
         {
           title: '正上方拍攝',
@@ -1338,48 +1353,48 @@ export const zh: Translations = {
         },
         {
           title: '開啟「調整圖片」',
-          body: '使用縮放、旋轉及水平／垂直傾斜校正手機斜角造成的透視。迷你圖顯示邊緣（藍）與圖框（粉）對齊。',
+          body: '以縮放、旋轉及水平／垂直傾斜校正透視。迷你圖顯示邊緣（藍）與圖框（粉）對齊。',
         },
         {
           title: '對齊圓角弧線',
-          body: '開啟角落放大鏡，拖曳圓角弧線使四分之一導線貼合殼內卡牌圓角——復古卡尤其有用。',
+          body: '開啟角落放大鏡，拖曳圓角弧線使四分之一導線貼合殼內卡牌圓角。復古卡尤其有用。',
         },
         {
           title: '導線對齊卡面',
-          body: '藍色導線貼卡牌切邊；粉色導線貼圖框內緣。可切換邊緣／圖框／全部以專注單一圖層。',
+          body: '藍色導線貼切邊；粉色導線貼圖框內緣。可切換邊緣／圖框／全部以專注單一圖層。',
         },
         {
-          title: '查看磚體篩選結果',
-          body: '將照片類型設為「鑑定卡」。篩選列依置中估算重評升值 vs 降級風險——不含四角、表面或殼體狀況。',
+          title: '查看鑑定卡篩選結果',
+          body: '將照片類型設為「鑑定卡」。篩選列依置中估算重評升值與降級風險。不含四角、表面或殼體狀況。',
         },
       ],
       regradeTitle: '應該重評還是換殼？',
       regradeAeoAnswer:
-        '換殼保留數字評級並更換損壞或過時的 PSA 外殼。重評重新檢查所有子項，可能升級或降級。先在平整的鑑定卡照片上量度置中：Gem Mint 邊距配 PSA 9 標籤或可考慮重評；殼體完好且置中合格則換殼較安全。',
+        '換殼保留數字評級並更換損壞外殼。重評重新檢查所有子項，可能降級。先在平整鑑定卡照片上量度置中。Gem Mint 邊距配 PSA 9 標籤或可考慮重評；殼體完好且置中合格則僅換殼。',
       regradeP1:
-        '收藏家常在網購鑑定卡或發現殼角破裂後同時考慮這兩項。兩者不可互換：PSA 換殼處理塑膠外殼與標籤，卡面不變；重評則依現行標準重新評估置中、四角、邊緣及表面。',
+        '僅因外殼問題而付重評費是常見錯誤。換殼更換外殼並保留數字。重評依現行標準重新評估置中、四角、邊緣及表面。',
       regradeP2:
-        '置中是唯一能從照片預先篩選的子項。分析器提供鑑定卡模式及透視校正，因 eBay、Carousell 及卡展上的鑑定卡照片很少是完美掃描。若置中已低於 PSA 8 容差，即使殼體完美，重評的期望值通常為負。',
-      regradeGuideLink: 'PSA 重評 vs 換殼 — 完整決策指南',
+        '置中是唯一能從照片預先篩選的子項。eBay、Carousell 及卡展上的鑑定卡照片很少是平整掃描。若置中已低於 PSA 8 容差，即使殼體完好，重評的期望值通常為負。',
+      regradeGuideLink: 'PSA 重評 vs 換殼：完整決策指南',
       referencesTitle: '參考資料與延伸閱讀',
-      referencesExternalLabel: '官方評級標準',
+      referencesExternalLabel: '官方鑑定標準',
       referencesGuidesLabel: '相關收藏指南',
       referencesGuidesIndex: '全部收藏指南',
       externalSources: [
         {
-          label: 'PSA 鑑定標準 — Gem Mint 10 置中',
+          label: 'PSA 鑑定標準：Gem Mint 10 置中',
           href: 'https://www.psacard.com/gradingstandards',
         },
         {
-          label: 'Beckett (BGS) — 卡牌評級標準',
+          label: 'Beckett (BGS)：卡牌鑑定標準',
           href: 'https://www.beckett.com/grading/card-grading-standards',
         },
         {
-          label: 'SGC 鑑定等級 — Pristine 10 置中',
+          label: 'SGC 鑑定等級：Pristine 10 置中',
           href: 'https://www.gosgc.com/card-grading/scale',
         },
         {
-          label: 'CGC Cards — 評級量表（各等級置中）',
+          label: 'CGC Cards：鑑定量表（各等級置中）',
           href: 'https://www.cgccards.com/card-grading/grading-scale/',
         },
       ],
@@ -1389,15 +1404,27 @@ export const zh: Translations = {
           href: '/guides/psa-10-centering-requirements/',
         },
         {
-          label: 'PSA 重評 vs 換殼 — 如何選擇',
+          label: 'PSA 鑑定標準與 Qualifier 解析',
+          href: '/guides/psa-grading-standards/',
+        },
+        {
+          label: '如何辨識假 PSA 鑑定卡',
+          href: '/guides/identify-fake-psa-slabs/',
+        },
+        {
+          label: 'PSA 重評 vs 換殼：如何選擇',
           href: '/guides/regrade-or-reholder/',
         },
         {
-          label: '何時送鑑裸卡 vs 先保護鑑定卡',
+          label: '裸卡送鑑與鑑定卡保護策略',
           href: '/guides/grade-or-protect-first/',
         },
+        {
+          label: '鑑定卡防 UV 與防潮指南',
+          href: '/guides/uv-protection-graded-cards/',
+        },
       ],
-      faqTitle: '卡牌置中 — 常見問題',
+      faqTitle: '卡牌置中：常見問題',
       faqBadge: '常見疑問',
       faqCountLabel: '共 {n} 個主題',
     },

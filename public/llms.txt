@@ -25,7 +25,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | Privacy | https://appaw.store/privacy/ | https://appaw.store/zh/privacy/ | Privacy policy |
 | Guides (index) | https://appaw.store/guides/ | https://appaw.store/zh/guides/ | Evergreen slab protection & grading how-to articles |
 
-## Collector guides (batch 1)
+## Collector guides
 
 | Slug | EN URL | ZH URL | Topic |
 |------|--------|--------|-------|
@@ -33,14 +33,10 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | uv-protection-graded-cards | https://appaw.store/guides/uv-protection-graded-cards/ | https://appaw.store/zh/guides/uv-protection-graded-cards/ | UV blocking and humidity storage for graded slabs |
 | psa-10-centering-requirements | https://appaw.store/guides/psa-10-centering-requirements/ | https://appaw.store/zh/guides/psa-10-centering-requirements/ | PSA 10 centering — 55/45 front, 75/25 back, grade table, free centering tool |
 | grade-or-protect-first | https://appaw.store/guides/grade-or-protect-first/ | https://appaw.store/zh/guides/grade-or-protect-first/ | Raw submit vs slab protection — offense/defense strategy, $25+ threshold, comparison table |
-| identify-fake-psa-slabs | https://appaw.store/guides/identify-fake-psa-slabs/ | https://appaw.store/zh/guides/identify-fake-psa-slabs/ | Five-step fake PSA slab check — cert lookup, UV blacklight (#43+ front hidden text), shell feel, label eras (#27 hologram, #5xxxxxxx CLCT→PSA microtext) with photo/video refs |
-
-## Collector guides (batch 2)
-
-| Slug | EN URL | ZH URL | Topic |
-|------|--------|--------|-------|
+| identify-fake-psa-slabs | https://appaw.store/guides/identify-fake-psa-slabs/ | https://appaw.store/zh/guides/identify-fake-psa-slabs/ | Five-step fake PSA slab check — cert lookup, UV blacklight (#43+), label eras, photo/video refs |
 | display-graded-cards | https://appaw.store/guides/display-graded-cards/ | https://appaw.store/zh/guides/display-graded-cards/ | Graded slab display — binder, magnetic case, wall/cabinet setup, UV protection table |
 | regrade-or-reholder | https://appaw.store/guides/regrade-or-reholder/ | https://appaw.store/zh/guides/regrade-or-reholder/ | PSA regrade vs reholder — comparison table, fees, downgrade risk, when to choose each |
+| psa-grading-standards | https://appaw.store/guides/psa-grading-standards/ | https://appaw.store/zh/guides/psa-grading-standards/ | PSA 1–10 grade scale, Qualifier codes (OC/ST/PD), and record sale premiums |
 
 ## Purchase channels
 

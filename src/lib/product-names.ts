@@ -93,7 +93,7 @@ export const CENTERING_SEO = {
     title: 'Free Card Centering Tool & PSA 10 Analyzer | Appaw Store',
     h1: 'Free Card Centering Tool & PSA 10 Analyzer',
     description:
-      'Free card centering tool for Pokémon, sports & TCG. Measure raw or slab photos, check PSA 10 margins & regrade risk — in your browser.',
+      'Free card centering tool for Pokémon, sports, and TCG. Measure raw or slab photos against PSA 10 margins (55/45 front). Regrade screening in browser. No upload.',
     webAppName: 'Card Centering Tool & PSA 10 Analyzer',
     featureList: [
       'PSA 10 centering calculator',
@@ -106,7 +106,7 @@ export const CENTERING_SEO = {
     title: '免費卡牌置中工具 & PSA 10 分析器 | Appaw Store',
     h1: '免費卡牌置中工具 & PSA 10 分析器',
     description:
-      '免費卡牌置中工具，適用 PTCG、運動卡及 TCG。量度裸卡或鑑定卡照片，檢查 PSA 10 邊距及重評風險 — 瀏覽器即用。',
+      '免費卡牌置中工具，適用 PTCG、運動卡及 TCG。量度裸卡或鑑定卡照片，對照 PSA 10 邊距（正面 55/45）。瀏覽器即用，無需上傳。',
     webAppName: '卡牌置中工具 & PSA 10 分析器',
     featureList: [
       'PSA 10 置中計算器',
