@@ -42,6 +42,22 @@ const nextConfig = {
           source: '/zh/collection/p/:id((?!view|_)[^/]+)/',
           destination: '/zh/collection/p/view/',
         },
+        {
+          source: '/admin/psa-grading/orders/:orderId((?!view)[^/]+)/',
+          destination: '/admin/psa-grading/orders/view/',
+        },
+        {
+          source: '/zh/admin/psa-grading/orders/:orderId((?!view)[^/]+)/',
+          destination: '/zh/admin/psa-grading/orders/view/',
+        },
+        {
+          source: '/admin/psa-grading/batches/:referenceCode((?!view|new)[^/]+)/',
+          destination: '/admin/psa-grading/batches/view/',
+        },
+        {
+          source: '/zh/admin/psa-grading/batches/:referenceCode((?!view|new)[^/]+)/',
+          destination: '/zh/admin/psa-grading/batches/view/',
+        },
       ],
     };
   },

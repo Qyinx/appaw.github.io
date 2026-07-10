@@ -2,5 +2,13 @@
 /collection/p/*  /collection/p/view/  200!
 /zh/collection/p/*  /zh/collection/p/view/  200!
 
+# PSA grading admin detail pages — static view shell, client reads id from URL path.
+/admin/psa-grading/orders/*  /admin/psa-grading/orders/view/  200!
+/zh/admin/psa-grading/orders/*  /zh/admin/psa-grading/orders/view/  200!
+/admin/psa-grading/batches/new  /admin/psa-grading/batches/new  200
+/admin/psa-grading/batches/*  /admin/psa-grading/batches/view/  200!
+/zh/admin/psa-grading/batches/new  /zh/admin/psa-grading/batches/new  200
+/zh/admin/psa-grading/batches/*  /zh/admin/psa-grading/batches/view/  200!
+
 # Legacy centering OG asset (pre-2026-06-13)
 /images/og-centering.png  /images-optimized/og/og-centering.png  301
