@@ -11,6 +11,7 @@ import { getImagePath } from '@/lib/utils';
 import { useCards } from '@/hooks/useCards';
 import { getGradeColor, getCompanyStyle, formatPrice, formatGrade } from '@/lib/card-helpers';
 import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
+import { useSubHeader } from '@/hooks/useSubHeader';
 import type { TradingCard, GradingCompany, GradeTier } from '@/types/trading-card';
 
 /* ──────────────────────────────────────────
@@ -952,6 +953,133 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
     { key: 'nameAZ',    label: mp.sortOptions.nameAZ },
   ];
 
+  const filterToolbar = !MARKETPLACE_IN_PROGRESS ? (
+    <>
+      <div className="hidden md:flex items-center gap-4">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={mp.searchPlaceholder}
+            className="w-full pl-10 pr-4 py-2.5 min-h-11 bg-surface-raised border border-border-default text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-brand/50 focus:ring-1 focus:ring-accent-brand/20 transition-[color,background-color,border-color,box-shadow]" />
+          {search && (
+            <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary/60">
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
+        <div className="w-px h-8 bg-white/[0.08]" />
+
+        <div className="flex items-center gap-2">
+          <button onClick={() => setCompanyFilter(null)}
+            className={`px-3.5 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform,box-shadow] ${!companyFilter ? 'bg-accent-brand/15 text-accent-brand border border-accent-brand/30' : 'text-text-secondary border border-border-strong hover:border-border-strong hover:text-text-primary'}`}
+          >{mp.filters.allCompanies}</button>
+          {companies.map(c => {
+            const style = getCompanyStyle(c);
+            const active = companyFilter === c;
+            return (
+              <button key={c} onClick={() => setCompanyFilter(active ? null : c)}
+                className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform,box-shadow] border ${active ? 'border-transparent' : 'text-text-secondary border-border-strong hover:border-border-strong hover:text-text-primary'}`}
+                style={active ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
+              >{c}</button>
+            );
+          })}
+        </div>
+
+        <div className="w-px h-8 bg-white/[0.08]" />
+
+        <div className="flex items-center gap-2">
+          {gradeTiers.map(tier => {
+            const active = gradeFilter === tier.key;
+            return (
+              <button key={tier.key} onClick={() => setGradeFilter(active ? null : tier.key)}
+                className={`px-3 py-2 rounded-lg text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] border whitespace-nowrap ${active ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong hover:border-border-strong hover:text-text-primary'}`}
+              >{tier.label}</button>
+            );
+          })}
+        </div>
+
+        <div className="flex-1" />
+
+        <div className="relative">
+          <button onClick={e => { e.stopPropagation(); setShowSort(v => !v); }}
+            className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-xs text-text-secondary border border-border-strong hover:border-border-strong hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]">
+            <ArrowUpDown className="w-3.5 h-3.5" />
+            <span>{mp.sortBy}</span>
+            <ChevronDown className={`w-3 h-3 transition-transform ${showSort ? 'rotate-180' : ''}`} />
+          </button>
+          {showSort && (
+            <div className="absolute right-0 mt-2 w-52 bg-surface-panel border border-border-default rounded-xl shadow-2xl overflow-hidden z-50">
+              {sortOptions.map(opt => (
+                <button key={opt.key} onClick={() => { setSortBy(opt.key); setShowSort(false); }}
+                  className={`w-full text-left px-4 py-3 text-xs transition-colors ${sortBy === opt.key ? 'bg-accent-brand/10 text-accent-brand' : 'text-text-secondary hover:bg-surface-raised hover:text-text-primary'}`}
+                >{opt.label}</button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="md:hidden space-y-3">
+        <div className="flex items-center gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+            <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={mp.searchPlaceholder}
+              className="w-full pl-10 pr-4 py-2.5 bg-surface-raised border border-border-default rounded-lg text-sm text-text-primary placeholder-white/30 focus:outline-none focus:border-accent-brand/50 transition-[color,background-color,border-color,opacity,transform,box-shadow]" />
+          </div>
+          <button onClick={() => setMobileFilters(v => !v)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${mobileFilters || hasActiveFilters ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-default'}`}>
+            <SlidersHorizontal className="w-4 h-4" />
+            {hasActiveFilters && <span className="w-1.5 h-1.5 rounded-full bg-accent-brand" />}
+          </button>
+        </div>
+
+        {mobileFilters && (
+          <div className="space-y-4 pb-2 border-t border-border-default pt-4 animate-[fadeUp_0.3s_ease-out]">
+            <div>
+              <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.company}</p>
+              <div className="flex flex-wrap gap-2">
+                <button onClick={() => setCompanyFilter(null)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${!companyFilter ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
+                >{mp.filters.allCompanies}</button>
+                {companies.map(c => {
+                  const style = getCompanyStyle(c);
+                  return (
+                    <button key={c} onClick={() => setCompanyFilter(companyFilter === c ? null : c)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${companyFilter === c ? 'border-transparent' : 'text-text-secondary border-border-strong'}`}
+                      style={companyFilter === c ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
+                    >{c}</button>
+                  );
+                })}
+              </div>
+            </div>
+            <div>
+              <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.grade}</p>
+              <div className="flex flex-wrap gap-2">
+                {gradeTiers.map(tier => (
+                  <button key={tier.key} onClick={() => setGradeFilter(gradeFilter === tier.key ? null : tier.key)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${gradeFilter === tier.key ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
+                  >{tier.label}</button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.sortBy}</p>
+              <div className="flex flex-wrap gap-2">
+                {sortOptions.map(opt => (
+                  <button key={opt.key} onClick={() => setSortBy(opt.key)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${sortBy === opt.key ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
+                  >{opt.label}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  ) : null;
+
+  useSubHeader(filterToolbar ? { content: filterToolbar, contentWidth: 'page' } : null);
+
   return (
     <div className="flex flex-col bg-surface-bg min-h-dvh overflow-x-clip">
 
@@ -1007,139 +1135,6 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
           </div>
         </div>
       </section>
-
-      {/* ═══════════ STICKY FILTER BAR ═══════════ */}
-      {!MARKETPLACE_IN_PROGRESS && <div className="sticky top-16 z-30 bg-surface-bg/95 border-y border-border-default">
-        <div className="container-custom py-4">
-
-          {/* Desktop */}
-          <div className="hidden md:flex items-center gap-4">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-              <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={mp.searchPlaceholder}
-                className="w-full pl-10 pr-4 py-2.5 min-h-11 bg-surface-raised border border-border-default text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-brand/50 focus:ring-1 focus:ring-accent-brand/20 transition-[color,background-color,border-color,box-shadow]" />
-              {search && (
-                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary/60">
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-
-            <div className="w-px h-8 bg-white/[0.08]" />
-
-            {/* Company chips */}
-            <div className="flex items-center gap-2">
-              <button onClick={() => setCompanyFilter(null)}
-                className={`px-3.5 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform,box-shadow] ${!companyFilter ? 'bg-accent-brand/15 text-accent-brand border border-accent-brand/30' : 'text-text-secondary border border-border-strong hover:border-border-strong hover:text-text-primary'}`}
-              >{mp.filters.allCompanies}</button>
-              {companies.map(c => {
-                const style = getCompanyStyle(c);
-                const active = companyFilter === c;
-                return (
-                  <button key={c} onClick={() => setCompanyFilter(active ? null : c)}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform,box-shadow] border ${active ? 'border-transparent' : 'text-text-secondary border-border-strong hover:border-border-strong hover:text-text-primary'}`}
-                    style={active ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
-                  >{c}</button>
-                );
-              })}
-            </div>
-
-            <div className="w-px h-8 bg-white/[0.08]" />
-
-            {/* Grade tiers */}
-            <div className="flex items-center gap-2">
-              {gradeTiers.map(tier => {
-                const active = gradeFilter === tier.key;
-                return (
-                  <button key={tier.key} onClick={() => setGradeFilter(active ? null : tier.key)}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] border whitespace-nowrap ${active ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong hover:border-border-strong hover:text-text-primary'}`}
-                  >{tier.label}</button>
-                );
-              })}
-            </div>
-
-            <div className="flex-1" />
-
-            {/* Sort */}
-            <div className="relative">
-              <button onClick={e => { e.stopPropagation(); setShowSort(v => !v); }}
-                className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-xs text-text-secondary border border-border-strong hover:border-border-strong hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]">
-                <ArrowUpDown className="w-3.5 h-3.5" />
-                <span>{mp.sortBy}</span>
-                <ChevronDown className={`w-3 h-3 transition-transform ${showSort ? 'rotate-180' : ''}`} />
-              </button>
-              {showSort && (
-                <div className="absolute right-0 mt-2 w-52 bg-surface-panel border border-border-default rounded-xl shadow-2xl overflow-hidden">
-                  {sortOptions.map(opt => (
-                    <button key={opt.key} onClick={() => { setSortBy(opt.key); setShowSort(false); }}
-                      className={`w-full text-left px-4 py-3 text-xs transition-colors ${sortBy === opt.key ? 'bg-accent-brand/10 text-accent-brand' : 'text-text-secondary hover:bg-surface-raised hover:text-text-primary'}`}
-                    >{opt.label}</button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Mobile */}
-          <div className="md:hidden space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-                <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={mp.searchPlaceholder}
-                  className="w-full pl-10 pr-4 py-2.5 bg-surface-raised border border-border-default rounded-lg text-sm text-text-primary placeholder-white/30 focus:outline-none focus:border-accent-brand/50 transition-[color,background-color,border-color,opacity,transform,box-shadow]" />
-              </div>
-              <button onClick={() => setMobileFilters(v => !v)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${mobileFilters || hasActiveFilters ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-default'}`}>
-                <SlidersHorizontal className="w-4 h-4" />
-                {hasActiveFilters && <span className="w-1.5 h-1.5 rounded-full bg-accent-brand" />}
-              </button>
-            </div>
-
-            {mobileFilters && (
-              <div className="space-y-4 pb-2 border-t border-border-default pt-4 animate-[fadeUp_0.3s_ease-out]">
-                <div>
-                  <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.company}</p>
-                  <div className="flex flex-wrap gap-2">
-                    <button onClick={() => setCompanyFilter(null)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${!companyFilter ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
-                    >{mp.filters.allCompanies}</button>
-                    {companies.map(c => {
-                      const style = getCompanyStyle(c);
-                      return (
-                        <button key={c} onClick={() => setCompanyFilter(companyFilter === c ? null : c)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${companyFilter === c ? 'border-transparent' : 'text-text-secondary border-border-strong'}`}
-                          style={companyFilter === c ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
-                        >{c}</button>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div>
-                  <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.grade}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {gradeTiers.map(tier => (
-                      <button key={tier.key} onClick={() => setGradeFilter(gradeFilter === tier.key ? null : tier.key)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${gradeFilter === tier.key ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
-                      >{tier.label}</button>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.sortBy}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {sortOptions.map(opt => (
-                      <button key={opt.key} onClick={() => setSortBy(opt.key)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${sortBy === opt.key ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
-                      >{opt.label}</button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>}
 
       {/* ═══════════ RESULTS HEADER ═══════════ */}
       {!MARKETPLACE_IN_PROGRESS && <div className="container-custom pt-8 pb-2 flex items-center justify-between">

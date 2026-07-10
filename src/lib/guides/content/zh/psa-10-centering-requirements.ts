@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'PSA 9 是最代價高昂的等級之一。並非因為卡片品相差，而是置中僅差幾個百分點，送鑑費卻照常支付。提前量度，是最划算的篩選。',
   published: '2026-06-07',
-  updated: '2026-06-17',
+  updated: '2026-07-11',
   readTime: '10 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -25,7 +25,7 @@ const guide: GuideContent = {
         '正面（Front）：必須達 55/45 或更佳，左右、上下兩軸皆須達標。55/45 表示較寬邊框不得超過該軸總邊框寬度的 55%（另一側 45%）。完美置中為 50/50；55/45 已非常接近肉眼難辨的完美狀態。',
         '背面（Back）：容忍度較寬，需達 75/25 或更佳。工廠印刷背面常比正面差，只要仍在 75/25 內，正面達標的卡仍可能 gem。',
         'PSA 於 2025 年初將 Gem Mint 正面由 60/40 收緊至 55/45。偏差達 60/40 通常只能拿 PSA 9，即使邊角、表面極佳。Grader 有最終裁量權，眼感（Eye Appeal）出色時可能對微小偏差網開一面，但熱門 Rookie 或高價卡通常執行更嚴。',
-        '置中本身不保證 PSA 10，角位、邊緣、表面仍計分，但它是送評或購買 PSA 10 前，最快可從照片完成的檢查。',
+        '置中本身不保證 PSA 10，角位、邊緣、表面仍計分，但它是送鑑或購買 PSA 10 前，最快可從照片完成的檢查。',
       ],
       specs: [
         { label: 'PSA 10 正面（2025+）', value: '≤ 55/45' },
@@ -38,8 +38,8 @@ const guide: GuideContent = {
       title: '為什麼置中如此重要',
       paragraphs: [
         '置中直接影響視覺平衡與市場價值。PSA 10 溢價極高，置中完美的 PSA 10 往往比 PSA 9 貴出數倍。',
-        '現代印刷雖進步，裸卡切割仍易偏移，TCG 卡（如寶可夢）邊框較窄，置中問題比傳統運動卡更常見。置中不良是裸卡送評後掉到 PSA 9 的最常見原因之一。',
-        '實務上，正面是等級限制因素。收藏家很少見到 65/35 正面仍 gem 的案例，購買或送評前，務必拍攝並量度正反面。',
+        '現代印刷雖進步，裸卡切割仍易偏移，TCG 卡（如寶可夢）邊框較窄，置中問題比傳統運動卡更常見。置中不良是裸卡送鑑後掉到 PSA 9 的最常見原因之一。',
+        '實務上，正面是等級限制因素。收藏家很少見到 65/35 正面仍 gem 的案例，購買或送鑑前，務必拍攝並量度正反面。',
       ],
     },
     {
@@ -56,7 +56,7 @@ const guide: GuideContent = {
       id: 'grade-comparison',
       title: 'PSA 10 置中 vs 其他等級',
       paragraphs: [
-        '各等級置中門檻與市場影響對照如下。送評前先對照目標等級，避免為 PSA 10 價格付給 PSA 9 品相。',
+        '各等級置中門檻與市場影響對照如下。送鑑前先對照目標等級，避免為 PSA 10 價格付給 PSA 9 品相。',
       ],
       table: {
         headers: ['等級', '正面置中', '背面置中', '通過難度', '市場影響'],
@@ -72,20 +72,20 @@ const guide: GuideContent = {
       id: 'common-issues',
       title: '常見置中問題與避免方法',
       paragraphs: [
-        'Factory Cut 偏移：出廠切割不均。購買裸卡時即用置中工具嚴格檢查，勿等送評才發現。',
+        'Factory Cut 偏移：出廠切割不均。購買裸卡時即用置中工具嚴格檢查，勿等送鑑才發現。',
         '印刷偏移：圖案本身不在卡片中心。需多角度觀察整體眼感，邊框數字達標但圖案偏了仍可能降分。',
         'TCG 特殊性：寶可夢等窄邊框設計，置中要求更嚴苛，55/45 容錯更小。',
-        '提交前清單：只送置中達標且邊角、表面、邊緣皆優的裸卡；高價卡可先找授權經銷商預檢；記錄測量數據與照片作佐證。',
+        '提交前清單：只送置中達標且邊角、表面、邊緣皆優的裸卡。香港藏家可經 [138 Arena 代送鑑定](/business/psa-grading/) 交卡及取件並追蹤批次。記錄測量數據與照片作佐證。',
       ],
     },
     {
       id: 'practical-tips',
       title: '實戰建議：提高 PSA 10 成功率',
       paragraphs: [
-        '裸卡篩選流程：先看置中 → 再看邊角與表面。若正面任一軸超過 55/45，先評估 PSA 9 是否仍具經濟意義，再決定 bulk 送評或高價購買。',
+        '裸卡篩選流程：先看置中 → 再看邊角與表面。若正面任一軸超過 55/45，先評估 PSA 9 是否仍具經濟意義，再決定 bulk 送鑑或高價購買。',
         '購買鑑定卡 online：要求平整高解析正反面掃描，用 [置中計算器](/tools/card-centering/) 鑑定卡模式篩選。傾斜 slab 照會隱藏偏斜。',
-        '送評時機：選 backlog 不嚴重時段，申報合理保險價值。若置中是唯一弱點且其他條件極佳，可考慮 [Regrade](/guides/regrade-or-reholder/)，需承擔降分風險。',
-        '拿到 PSA 10 後：立即加裝 [磁吸鑑定卡保護殼](/products/psa-protectors/)，避免展示或攜帶時刮花外殼、影響轉售。詳見 [裸卡送評 vs 鑑定卡保護](/guides/grade-or-protect-first/)。',
+        '送鑑時機：選 backlog 不嚴重時段，申報合理保險價值。若置中是唯一弱點且其他條件極佳，可考慮 [Regrade](/guides/regrade-or-reholder/)，需承擔降分風險。',
+        '拿到 PSA 10 後：立即加裝 [磁吸鑑定卡保護殼](/products/psa-protectors/)，避免展示或攜帶時刮花外殼、影響轉售。詳見 [裸卡送鑑與鑑定卡保護](/guides/grade-or-protect-first/)。',
       ],
     },
     {
@@ -93,7 +93,7 @@ const guide: GuideContent = {
       title: '結語：先量邊距，再付送鑑費',
       paragraphs: [
         'PSA 10 置中（正面 55/45、背面 75/25）有一定容忍度，但要穩定 gem，仍需近乎完美的裸卡品相。提前精準測量置中，是最划算的投資，避開無謂送鑑費，提升收藏與轉售價值。',
-        '掌握置中標準後，搭配邊角、表面、邊緣等其他要素，送評與購買 PSA 10 會更有把握。細心準備，永遠比事後後悔便宜。',
+        '掌握置中標準後，搭配邊角、表面、邊緣等其他要素，送鑑與購買 PSA 10 會更有把握。細心準備，永遠比事後後悔便宜。',
       ],
     },
   ],
@@ -116,13 +116,13 @@ const guide: GuideContent = {
     title: '立即量度你的卡片置中',
     body: '上傳平面掃描或賣家照片，比對正反面邊距是否達 55/45 與 75/25 門檻，再決定是否付送鑑費。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
-    secondary: { label: 'PSA 鑑定標準', href: '/guides/psa-grading-standards/' },
+    secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
   },
   cta: {
     title: '數分鐘檢查邊距',
     body: '上傳掃描或賣家照片、對齊參考線，比較正背面百分比與 PSA 10、9、8 門檻。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
-    secondary: { label: '保護鑑定卡', href: '/products/psa-protectors/' },
+    secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['grade-or-protect-first', 'regrade-or-reholder', 'choose-35pt-slab-protector', 'display-graded-cards'],
   sources: [

@@ -9,6 +9,7 @@ export const en = {
     psaProtector: 'Graded Slab Protector',
     collection: 'My Collection',
     cardTrading: 'Card Trading',
+    psaGrading: 'PSA Submission',
     centeringTool: 'Centering Tool',
     guides: 'Guides',
     products: 'Products',
@@ -715,6 +716,178 @@ export const en = {
     },
   },
 
+  psaGradingPage: {
+    badge: 'PSA submission',
+    hero: {
+      title: 'We submit your collectibles to PSA',
+      definition:
+        'Drop off at our partner 138 Arena in Causeway Bay. We batch and ship to PSA for you. Pick up graded slabs at 138 Arena or arrange delivery. Every batch gets a reference code; track progress online anytime.',
+      ctaTrack: 'Track progress',
+      ctaContact: 'WhatsApp us',
+    },
+    howTo: {
+      badge: 'How it works',
+      title: 'From drop-off to graded slab',
+      subtitle: 'You pick the cards. We handle logistics and follow-up.',
+      steps: [
+        {
+          title: 'Drop off at 138 Arena',
+          body: 'Face-to-face only at our partner store 138 Arena (1/F, 522 Jaffe Road, Causeway Bay). We do not accept mailed submissions. We confirm your inventory list and assign a PSA batch reference per service plan (e.g. BAT-2026-07-EXP-3 for Express, BAT-2026-07-REG-3 for Regular).',
+        },
+        {
+          title: 'Batch submission to PSA',
+          body: 'We consolidate submissions and ship to PSA on your chosen service tier. Your reference code links your cards to the PSA order number.',
+        },
+        {
+          title: 'Grading & quality review',
+          body: 'PSA grades your cards. Progress updates sync to our system — check status steps from order prep through quality review.',
+        },
+        {
+          title: 'Pick up in Causeway Bay',
+          body: 'Graded slabs return to Hong Kong for pickup at 138 Arena or arranged delivery. Many collectors pair new slabs with our UV glass protector for long-term display.',
+        },
+      ],
+    },
+    faq: {
+      badge: 'FAQ',
+      title: 'Common questions',
+      items: [
+        {
+          q: 'How do I track my submission?',
+          a: 'Use the Track page with the phone number you gave at drop-off and the reference code on your receipt. Both are required — we never expose submissions by phone alone.',
+        },
+        {
+          q: 'What is the reference code?',
+          a: 'A batch code formatted BAT-{year}-{month}-{plan}-{batch no.} (e.g. BAT-2026-07-EXP-3). The plan segment shows your PSA service level. Track with this batch reference plus the phone number you gave at intake.',
+        },
+        {
+          q: 'Multiple PSA plans in one visit?',
+          a: 'Each service level (Regular, Express, Super Express, Walk-Through) is assigned to its own BAT batch — e.g. BAT-2026-07-EXP-3 and BAT-2026-07-REG-3. Track each batch with the same phone number.',
+        },
+        {
+          q: 'Where do I drop off and pick up?',
+          a: 'PSA submissions are handled at our partner store 138 Arena (1/F, 522 Jaffe Road, Causeway Bay) for face-to-face drop-off and pickup only. We do not accept mailed submissions. Check hours on Instagram @138arena.',
+        },
+        {
+          q: 'What do the timeline steps mean?',
+          a: '"Card Recorded at 138 Arena" confirms intake at our partner store. "Submitted to PSA Hong Kong" means your batch has left for PSA\'s Hong Kong hub. Middle steps sync from PSA. "Ready for Pickup at 138 Arena" means your slabs are back and waiting for collection.',
+        },
+        {
+          q: 'How often is progress updated?',
+          a: 'We sync with PSA order status several times per day once your batch is submitted. The timeline shows the latest known step — grading turnaround depends on PSA service level.',
+        },
+        {
+          q: 'What cards do you accept?',
+          a: 'Pokémon, sports cards, and MTG in raw or sleeved form. High-value items may require additional declared-value paperwork — contact us before drop-off.',
+        },
+        {
+          q: 'Can I submit by post?',
+          a: 'No. Face-to-face drop-off only at 138 Arena (1/F, 522 Jaffe Road, Causeway Bay). We do not accept mailed submissions.',
+        },
+      ],
+    },
+    cta: {
+      title: 'Already dropped off?',
+      body: 'Enter your phone number and reference code to see live progress — grading steps, card list, and tracking when shipped.',
+      track: 'Track submission',
+      guide: 'PSA grading standards',
+    },
+  },
+
+  psaGradingTrack: {
+    badge: 'Submission tracking',
+    title: 'Track your PSA submission',
+    subtitle: 'Enter the phone number and reference code from your drop-off receipt.',
+    formPanelLabel: 'Lookup',
+    backToHub: 'Back to PSA submission',
+    breadcrumb: {
+      home: 'Home',
+      business: 'Services',
+      grading: 'PSA submission',
+      track: 'Track',
+    },
+    form: {
+      phoneLabel: 'Phone number',
+      phonePlaceholder: '+852 9285 1189',
+      phoneHelper: 'HK numbers accepted as +852, 852, or local 8-digit.',
+      refLabel: 'Reference code',
+      refPlaceholder: 'BAT-2026-07-EXP-3',
+      refHelper: 'As printed on your intake receipt.',
+      submit: 'Look up submission',
+      submitting: 'Looking up…',
+      fillDemo: 'Fill demo credentials',
+      fillDemoShort: 'Use demo',
+      notFoundTitle: 'No submission found',
+      notFoundBody: 'Check your phone number and reference code match your receipt exactly. Contact us on WhatsApp if you need help.',
+    },
+    servicePlan: {
+      regular: 'Regular',
+      express: 'Express',
+      superExpress: 'Super Express',
+      walkThrough: 'Walk-Through',
+    },
+    results: {
+      refLabel: 'Reference',
+      statusLabel: 'Status',
+      servicePlanLabel: 'PSA plan',
+      copyReference: 'Copy reference code',
+      copiedReference: 'Reference copied',
+      shippingTitle: 'Return shipment',
+      carrierLabel: 'Carrier',
+      trackingLabel: 'Tracking number',
+      copyTracking: 'Copy tracking number',
+      copiedTracking: 'Tracking number copied',
+      trackPackage: 'Track on carrier site',
+      lastSynced: 'Last updated: {date}',
+      relatedSubmissions: {
+        title: 'Also from your drop-off visit',
+        switch: 'View this submission',
+      },
+      stepper: {
+        currentStep: 'In progress',
+        completed: 'Complete',
+        pending: 'Pending',
+        progress: 'Step {current} of {total}',
+        phases: {
+          intake: '138 Arena drop-off',
+          psa: 'PSA Processing',
+          pickup: '138 Arena pickup',
+        },
+        previous: 'Previous step',
+        next: 'Next step',
+        goToStep: 'Go to step {n}',
+        fields: {
+          phase: 'Phase',
+          step: 'Step',
+          status: 'Status',
+        },
+      },
+      tabs: {
+        status: 'Progress',
+        cards: 'Cards ({count})',
+      },
+      steps: {
+        appawRecorded: 'Card Recorded at 138 Arena',
+        appawSentToPsa: 'Submit to PSA Hong Kong',
+        appawPickup: 'Ready for Pickup at 138 Arena',
+      },
+      status: {
+        problemOrder: 'Problem order — contact support',
+        accountingHold: 'Accounting hold',
+        gradesReady: 'Grades ready',
+        readyForLabelReview: 'Label review',
+        shipped: 'Shipped',
+      },
+      items: {
+        title: 'Cards in this submission',
+        description: 'Card',
+        certNumber: 'Cert #',
+        grade: 'Grade',
+        pending: 'Pending',
+      },
+    },
+  },
+
   // Style Guide Page
   styleGuide: {
     title: 'Design Style Guide',
@@ -763,7 +936,7 @@ export const en = {
   retailPartners: {
     badge: 'Where to Buy',
     title: 'Purchase Channels',
-    subtitle: 'Shop online, visit our Quarry Bay showroom, or find us at partner stores',
+    subtitle: 'Shop online, visit our Quarry Bay showroom, or find us at partner stores across Hong Kong',
     buyNow: 'Shop Now',
     orVisit: 'or visit our store & partners',
     visitStore: 'Visit Store',
@@ -776,8 +949,13 @@ export const en = {
       },
       cardtheland: {
         name: 'Card The Land (咭之島)',
-        description: 'Authorised partner',
+        description: 'Authorised partner · Hung Hom',
         location: 'Unit G1B, 3/F, Kaiser Estate, Phase 2, Hung Hom',
+      },
+      arena138: {
+        name: '138 Arena',
+        description: 'Authorised partner · Causeway Bay',
+        location: '1/F, 522 Jaffe Road, Causeway Bay, Hong Kong',
       },
       appawstore: {
         name: 'Appaw Store Online',
@@ -788,6 +966,7 @@ export const en = {
     retailHint: 'Visit our Quarry Bay showroom or authorised partner stores',
     onlineTitle: 'Online Store',
     retailTitle: 'Showroom & Partners',
+    partnerStoresTitle: 'Partner Stores',
     types: {
       online: 'Online',
       retail: 'Retail',

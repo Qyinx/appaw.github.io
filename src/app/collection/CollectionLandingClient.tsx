@@ -19,9 +19,9 @@ import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 const FEATURE_ICONS = [LayoutGrid, Database, Layers, ScanLine];
 const STEP_ICONS = [LogIn, Plus, BarChart3];
 const PREVIEW_CARDS = [
-  '/images/cards/192.SV-P.refine.png',
-  '/images/cards/105.SV-9.refine.png',
-  '/images/cards/069.SM-P.refine.png',
+  '/images/describe/sell 1.png',
+  '/images/describe/sell 2.png',
+  '/images/describe/sell 3.png',
 ];
 
 function SectionLabel({ text }: { text: string }) {

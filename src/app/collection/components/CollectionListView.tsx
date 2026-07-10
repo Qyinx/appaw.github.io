@@ -19,7 +19,8 @@ import { PortfolioShareToolbar } from './PortfolioShareToolbar';
 import { CollectionLoadingSkeleton } from './CollectionLoadingSkeleton';
 import { CollectionAnimeEnter } from './CollectionAnimeEnter';
 import { CollectionAnimeStagger } from './CollectionAnimeStagger';
-import { CollectionWorkspaceChrome, CollectionChromeDots } from './CollectionWorkspaceChrome';
+import { CollectionChromeDots } from './CollectionChromeDots';
+import { useSubHeader } from '@/hooks/useSubHeader';
 import { getMembershipLimits } from '@/lib/collection/membership';
 import {
   CardMetaBlock,
@@ -327,129 +328,129 @@ export function CollectionListView({
   /* ═══════════════════════════════════════════════════════════════════════════
      RENDER
   ═══════════════════════════════════════════════════════════════════════════ */
+  useSubHeader({
+    layout: 'sidebar',
+    leading: (
+      <>
+        <CollectionChromeDots />
+        <h1 className="text-text-primary font-semibold text-xs sm:text-sm flex items-center gap-1 min-w-0">
+          {activePortfolio ? (
+            <>
+              <button type="button" onClick={() => selectPortfolio(null)} className="text-text-muted font-normal hover:text-text-primary transition-colors whitespace-nowrap">{t.collection.title}</button>
+              <ChevronRight className="w-3.5 h-3.5 text-text-muted flex-shrink-0" aria-hidden="true" />
+              <span className="truncate">{activePortfolio.name}</span>
+            </>
+          ) : t.collection.title}
+        </h1>
+      </>
+    ),
+    trailing: (
+      <>
+        <button type="button" onClick={onRefresh} disabled={loading} className="collection-action-pill btn-icon" title={t.collection.account.refresh} aria-label={t.collection.account.refresh}>
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+        </button>
+
+        <div className="relative z-40">
+          <button
+            ref={accountBtnRef}
+            type="button"
+            onClick={() => setShowPlan(v => !v)}
+            className={`collection-action-pill collection-account-trigger min-h-11 ${showPlan ? 'collection-action-pill--active' : ''}`}
+            aria-expanded={showPlan}
+            aria-haspopup="true"
+            aria-label={user?.email ?? userName}
+          >
+            <span className="collection-account-trigger__avatar" aria-hidden="true">
+              {user?.picture ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={user.picture} alt="" />
+              ) : (
+                <span className="collection-account-trigger__initial">{userName[0]?.toUpperCase()}</span>
+              )}
+            </span>
+            <ChevronDown className={`w-3.5 h-3.5 text-text-muted flex-shrink-0 transition-transform duration-150 ${showPlan ? 'rotate-180' : ''}`} aria-hidden="true" />
+          </button>
+
+          {showPlan && (
+            <div
+              ref={planMenuRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={t.collection.dropdown.planFree}
+              className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-80 max-w-[calc(100vw-1rem)] panel collection-plan-menu p-4 shadow-[0_8px_24px_rgba(15,20,25,0.12)]"
+            >
+              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border-default">
+                {user?.picture ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={user.picture} alt="" className="w-10 h-10 object-cover border border-border-default" />
+                ) : (
+                  <div className="w-10 h-10 border border-border-default bg-accent-primary/15 flex items-center justify-center">
+                    <span className="text-accent-primary font-bold">{userName[0]?.toUpperCase()}</span>
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <div className="text-text-primary text-sm font-semibold truncate">{user?.email ?? userName}</div>
+                    {memberLevel && <MemberBadge level={memberLevel} />}
+                  </div>
+                  <div className="text-text-muted text-xs mt-0.5 font-mono">{memberLevel ? memberLevel : t.collection.dropdown.planFree}</div>
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <div className="spec-row px-0 !py-2">
+                  <span className="spec-row__label">{t.collection.dropdown.stored}</span>
+                  <span className="spec-row__value font-tabular">{storedCount}/{limits.cards}</span>
+                </div>
+                <div className="w-full bg-surface-raised h-1 border border-border-default mb-3" role="progressbar" aria-valuenow={storedPct} aria-valuemin={0} aria-valuemax={100} aria-label={t.collection.dropdown.stored}>
+                  <div className={`h-full transition-[width] duration-300 ${storedPct >= 90 ? 'bg-accent-danger' : storedPct >= 70 ? 'bg-accent-warn' : 'bg-accent-secondary'}`} style={{ width: `${storedPct}%` }} />
+                </div>
+                <div className="spec-row px-0 !py-2">
+                  <span className="spec-row__label">{t.collection.dropdown.portfolios}</span>
+                  <span className="spec-row__value font-tabular">{portfoliosCount}/{limits.portfolios}</span>
+                </div>
+                <div className="w-full bg-surface-raised h-1 border border-border-default" role="progressbar" aria-valuenow={portfoliosPct} aria-valuemin={0} aria-valuemax={100} aria-label={t.collection.dropdown.portfolios}>
+                  <div className={`h-full transition-[width] duration-300 ${portfoliosPct >= 90 ? 'bg-accent-danger' : portfoliosPct >= 70 ? 'bg-accent-warn' : 'bg-accent-secondary'}`} style={{ width: `${portfoliosPct}%` }} />
+                </div>
+              </div>
+
+              <p className="text-text-secondary text-sm mb-3">{t.collection.dropdown.upgradeDesc}</p>
+              <button type="button" onClick={() => { /* TODO: upgrade flow */ }} className="collection-action-pill collection-action-pill--primary collection-action-pill--block w-full mb-3">{t.collection.dropdown.upgrade}</button>
+              <LocalLink
+                href="/collection/settings/"
+                onClick={() => setShowPlan(false)}
+                className="collection-action-pill collection-action-pill--block w-full mb-3"
+              >
+                <Settings className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                {t.collection.account.settings}
+              </LocalLink>
+              <button
+                type="button"
+                onClick={() => { setShowPlan(false); onLogout(); }}
+                className="collection-action-pill collection-action-pill--block w-full"
+              >
+                <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
+                {t.collection.account.signOut}
+              </button>
+            </div>
+          )}
+        </div>
+
+        <button
+          type="button"
+          onClick={onLogout}
+          className="hidden md:inline-flex collection-action-pill"
+          title={t.collection.account.signOut}
+        >
+          <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
+          <span>{t.collection.account.signOut}</span>
+        </button>
+      </>
+    ),
+  });
+
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip overflow-y-visible">
-
-      <CollectionWorkspaceChrome
-        layout="sidebar"
-        leading={(
-          <>
-            <CollectionChromeDots />
-            <h1 className="text-text-primary font-semibold text-xs sm:text-sm flex items-center gap-1 min-w-0">
-              {activePortfolio ? (
-                <>
-                  <button type="button" onClick={() => selectPortfolio(null)} className="text-text-muted font-normal hover:text-text-primary transition-colors whitespace-nowrap">{t.collection.title}</button>
-                  <ChevronRight className="w-3.5 h-3.5 text-text-muted flex-shrink-0" aria-hidden="true" />
-                  <span className="truncate">{activePortfolio.name}</span>
-                </>
-              ) : t.collection.title}
-            </h1>
-          </>
-        )}
-        trailing={(
-          <>
-            <button type="button" onClick={onRefresh} disabled={loading} className="collection-action-pill btn-icon" title={t.collection.account.refresh} aria-label={t.collection.account.refresh}>
-              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-            </button>
-
-            <div className="relative z-40">
-              <button
-                ref={accountBtnRef}
-                type="button"
-                onClick={() => setShowPlan(v => !v)}
-                className={`collection-action-pill collection-account-trigger min-h-11 ${showPlan ? 'collection-action-pill--active' : ''}`}
-                aria-expanded={showPlan}
-                aria-haspopup="true"
-                aria-label={user?.email ?? userName}
-              >
-                <span className="collection-account-trigger__avatar" aria-hidden="true">
-                  {user?.picture ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={user.picture} alt="" />
-                  ) : (
-                    <span className="collection-account-trigger__initial">{userName[0]?.toUpperCase()}</span>
-                  )}
-                </span>
-                <ChevronDown className={`w-3.5 h-3.5 text-text-muted flex-shrink-0 transition-transform duration-150 ${showPlan ? 'rotate-180' : ''}`} aria-hidden="true" />
-              </button>
-
-              {showPlan && (
-                <div
-                  ref={planMenuRef}
-                  role="dialog"
-                  aria-modal="true"
-                  aria-label={t.collection.dropdown.planFree}
-                  className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-80 max-w-[calc(100vw-1rem)] panel collection-plan-menu p-4 shadow-[0_8px_24px_rgba(15,20,25,0.12)]"
-                >
-                  <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border-default">
-                    {user?.picture ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={user.picture} alt="" className="w-10 h-10 object-cover border border-border-default" />
-                    ) : (
-                      <div className="w-10 h-10 border border-border-default bg-accent-primary/15 flex items-center justify-center">
-                        <span className="text-accent-primary font-bold">{userName[0]?.toUpperCase()}</span>
-                      </div>
-                    )}
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <div className="text-text-primary text-sm font-semibold truncate">{user?.email ?? userName}</div>
-                        {memberLevel && <MemberBadge level={memberLevel} />}
-                      </div>
-                      <div className="text-text-muted text-xs mt-0.5 font-mono">{memberLevel ? memberLevel : t.collection.dropdown.planFree}</div>
-                    </div>
-                  </div>
-
-                  <div className="mb-4">
-                    <div className="spec-row px-0 !py-2">
-                      <span className="spec-row__label">{t.collection.dropdown.stored}</span>
-                      <span className="spec-row__value font-tabular">{storedCount}/{limits.cards}</span>
-                    </div>
-                    <div className="w-full bg-surface-raised h-1 border border-border-default mb-3" role="progressbar" aria-valuenow={storedPct} aria-valuemin={0} aria-valuemax={100} aria-label={t.collection.dropdown.stored}>
-                      <div className={`h-full transition-[width] duration-300 ${storedPct >= 90 ? 'bg-accent-danger' : storedPct >= 70 ? 'bg-accent-warn' : 'bg-accent-secondary'}`} style={{ width: `${storedPct}%` }} />
-                    </div>
-                    <div className="spec-row px-0 !py-2">
-                      <span className="spec-row__label">{t.collection.dropdown.portfolios}</span>
-                      <span className="spec-row__value font-tabular">{portfoliosCount}/{limits.portfolios}</span>
-                    </div>
-                    <div className="w-full bg-surface-raised h-1 border border-border-default" role="progressbar" aria-valuenow={portfoliosPct} aria-valuemin={0} aria-valuemax={100} aria-label={t.collection.dropdown.portfolios}>
-                      <div className={`h-full transition-[width] duration-300 ${portfoliosPct >= 90 ? 'bg-accent-danger' : portfoliosPct >= 70 ? 'bg-accent-warn' : 'bg-accent-secondary'}`} style={{ width: `${portfoliosPct}%` }} />
-                    </div>
-                  </div>
-
-                  <p className="text-text-secondary text-sm mb-3">{t.collection.dropdown.upgradeDesc}</p>
-                  <button type="button" onClick={() => { /* TODO: upgrade flow */ }} className="collection-action-pill collection-action-pill--primary collection-action-pill--block w-full mb-3">{t.collection.dropdown.upgrade}</button>
-                  <LocalLink
-                    href="/collection/settings/"
-                    onClick={() => setShowPlan(false)}
-                    className="collection-action-pill collection-action-pill--block w-full mb-3"
-                  >
-                    <Settings className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                    {t.collection.account.settings}
-                  </LocalLink>
-                  <button
-                    type="button"
-                    onClick={() => { setShowPlan(false); onLogout(); }}
-                    className="collection-action-pill collection-action-pill--block w-full"
-                  >
-                    <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
-                    {t.collection.account.signOut}
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <button
-              type="button"
-              onClick={onLogout}
-              className="hidden md:inline-flex collection-action-pill"
-              title={t.collection.account.signOut}
-            >
-              <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>{t.collection.account.signOut}</span>
-            </button>
-          </>
-        )}
-      />
 
       {saveMsg && (
         <WorkspaceNotice

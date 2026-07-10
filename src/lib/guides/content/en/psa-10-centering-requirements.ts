@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'PSA 9 is the most expensive grade. Not because the card is bad. Because centering failed by a few percent and you still paid the full grading fee. Measure first. It is the cheapest filter you have.',
   published: '2026-06-07',
-  updated: '2026-06-17',
+  updated: '2026-07-11',
   readTime: '10 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -76,7 +76,7 @@ const guide: GuideContent = {
         'Factory cut drift: uneven trim at production. Screen every raw purchase with a centering tool, do not discover it at grading checkout.',
         'Print shift: artwork sits off-center even when border math looks close. Check overall eye appeal from multiple angles.',
         'TCG narrow borders: Pokémon and similar designs leave less margin for error, 55/45 tolerance bites harder.',
-        'Pre-submit checklist: only send copies that pass centering plus strong corners, surface, and edges; use authorised dealers for high-value pre-screens; save measurements and photos as your paper trail.',
+        'Pre-submit checklist: only send copies that pass centering plus strong corners, surface, and edges. Hong Kong collectors drop off and pick up via [138 Arena PSA submission](/business/psa-grading/) with batch tracking. Save measurements and photos as your paper trail.',
       ],
     },
     {
@@ -120,13 +120,13 @@ const guide: GuideContent = {
     title: 'Measure your copy against PSA 10 now',
     body: 'Upload a flat scan or seller photo and compare front and back margins to the 55/45 and 75/25 thresholds before you pay grading fees.',
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
-    secondary: { label: 'PSA grading standards', href: '/guides/psa-grading-standards/' },
+    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
   cta: {
     title: 'Check your margins in minutes',
     body: 'Upload a scan or seller photo, align the guides, and compare front and back percentages to PSA 10, 9, and 8 thresholds.',
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
-    secondary: { label: 'Protect the returned slab', href: '/products/psa-protectors/' },
+    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['grade-or-protect-first', 'regrade-or-reholder', 'choose-35pt-slab-protector', 'display-graded-cards'],
   sources: [

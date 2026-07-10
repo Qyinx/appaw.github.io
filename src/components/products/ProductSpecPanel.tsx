@@ -29,7 +29,7 @@ export default function ProductSpecPanel({
       <div className="p-5">
         <div className="relative w-full aspect-[4/5] max-h-64 mb-5 border border-border-default bg-surface-raised">
           <Image
-            src={getImagePath('/images/cards/069.SM-P.refine.png')}
+            src={getImagePath('/images/describe/color/color-gold.png')}
             alt={imageAlt}
             fill
             className="object-contain p-4"

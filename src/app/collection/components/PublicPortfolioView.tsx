@@ -10,7 +10,7 @@ import type { PublicCard, PublicPortfolio } from '@/lib/collection/publicPortfol
 import { buildWhatsAppShareUrl } from '@/lib/collection/portfolioShare';
 import { GradePill } from './shared';
 import { CollectionAnimeEnter } from './CollectionAnimeEnter';
-import { CollectionWorkspaceChrome } from './CollectionWorkspaceChrome';
+import { useSubHeader } from '@/hooks/useSubHeader';
 import { CollectionAnimeStagger } from './CollectionAnimeStagger';
 
 interface PublicPortfolioViewProps {
@@ -125,21 +125,22 @@ export function PublicPortfolioView({ portfolio }: PublicPortfolioViewProps) {
     .replace('{portfolio}', portfolio.name)
     .replace('{owner}', portfolio.ownerDisplayName ?? '');
 
+  useSubHeader({
+    leading: (
+      <>
+        <Globe className="w-3.5 h-3.5 text-accent-secondary flex-shrink-0" aria-hidden="true" />
+        <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{portfolio.name}</h1>
+      </>
+    ),
+    trailing: portfolio.ownerDisplayName ? (
+      <p className="text-text-muted text-xs font-mono truncate max-w-[40%]">
+        {t.collection.publicPage.byOwner.replace('{name}', portfolio.ownerDisplayName)}
+      </p>
+    ) : undefined,
+  });
+
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip">
-      <CollectionWorkspaceChrome
-        leading={(
-          <>
-            <Globe className="w-3.5 h-3.5 text-accent-secondary flex-shrink-0" aria-hidden="true" />
-            <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{portfolio.name}</h1>
-          </>
-        )}
-        trailing={portfolio.ownerDisplayName ? (
-          <p className="text-text-muted text-xs font-mono truncate max-w-[40%]">
-            {t.collection.publicPage.byOwner.replace('{name}', portfolio.ownerDisplayName)}
-          </p>
-        ) : undefined}
-      />
 
       <div className="workspace-canvas container-tool py-6 pb-24 md:pb-6">
         <CollectionAnimeEnter className="mb-5">

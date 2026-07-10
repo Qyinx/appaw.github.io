@@ -390,6 +390,32 @@ export const zhCardTradingMetadata = zhRouteMetadata(cardTradingMetadataBase, '/
     '香港投資級 PSA 10 寶可夢鑑定卡平台。零上架費寄售、面交驗證交易及高價值鑑定卡收購服務。',
 });
 
+const psaGradingMetadataBase: Metadata = {
+  title: 'PSA Collectibles Submission Service Hong Kong | Appaw Store',
+  description:
+    'Face-to-face drop-off and pickup at partner store 138 Arena, Causeway Bay. No mailed submissions. We submit to PSA on your behalf. Track every batch with your phone number and reference code.',
+  robots: { index: false, follow: true },
+};
+
+export const psaGradingMetadata = withLocaleAlternates(psaGradingMetadataBase, '/business/psa-grading/');
+export const zhPsaGradingMetadata = zhRouteMetadata(psaGradingMetadataBase, '/business/psa-grading/', {
+  title: 'PSA 收藏卡代送鑑定 | 香港 – Appaw Store',
+  description: '交卡及取件須親臨合作店舖 138 Arena（銅鑼灣），不接受郵寄。Appaw Store 代送 PSA 鑑定，憑電話及參考編號查進度。',
+});
+
+const psaGradingTrackMetadataBase: Metadata = {
+  title: 'Track PSA Submission | Appaw Store',
+  description:
+    'Check your PSA submission status with your phone number and Appaw reference code.',
+  robots: { index: false, follow: true },
+};
+
+export const psaGradingTrackMetadata = withLocaleAlternates(psaGradingTrackMetadataBase, '/business/psa-grading/track/');
+export const zhPsaGradingTrackMetadata = zhRouteMetadata(psaGradingTrackMetadataBase, '/business/psa-grading/track/', {
+  title: '查詢 PSA 代送進度 | Appaw Store',
+  description: '憑電話號碼及 Appaw 參考編號查詢 PSA 代送鑑定進度。',
+});
+
 export const zhCollectionMetadata = zhRouteMetadata(collectionMetadataBase, '/collection/', {
   title: { absolute: '我的收藏 — 鑑定卡管理工具 | Appaw Store' },
   description:

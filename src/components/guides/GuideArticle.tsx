@@ -1,7 +1,10 @@
 'use client';
 
 import React from 'react';
+import { ArrowLeft } from 'lucide-react';
+import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSubHeader } from '@/hooks/useSubHeader';
 import { getGuideContent, getRelatedGuides, type GuideSlug } from '@/lib/guides/registry';
 import GuideHero from './GuideHero';
 import GuideSpecPanel from './GuideSpecPanel';
@@ -14,6 +17,7 @@ import GuideFaq from './GuideFaq';
 
 const UI = {
   en: {
+    backToGuides: 'Back to Guides',
     specTitle: 'At a Glance',
     toc: 'On This Page',
     sources: 'Sources',
@@ -25,6 +29,7 @@ const UI = {
     midCtaLabel: 'Next step',
   },
   zh: {
+    backToGuides: '返回指南',
     specTitle: '規格摘要',
     toc: '本頁目錄',
     sources: '參考來源',
@@ -47,6 +52,21 @@ export default function GuideArticle({ slug }: GuideArticleProps) {
   const guide = getGuideContent(slug, locale);
   const related = getRelatedGuides(slug, locale);
   const ui = UI[locale];
+
+  useSubHeader({
+    leading: (
+      <LocalLink
+        href="/guides"
+        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors duration-150 min-h-[44px]"
+      >
+        <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
+        <span>{ui.backToGuides}</span>
+      </LocalLink>
+    ),
+    center: (
+      <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{guide.title}</h1>
+    ),
+  });
 
   return (
     <article className="flex flex-col bg-surface-bg">
@@ -74,7 +94,7 @@ export default function GuideArticle({ slug }: GuideArticleProps) {
             </div>
 
             <div className="hidden lg:block">
-              <div className="sticky top-24">
+              <div className="sticky-below-site-chrome">
                 <GuideToc sections={guide.sections} label={ui.toc} faqTitle={guide.faq?.length ? ui.faq : undefined} />
               </div>
             </div>

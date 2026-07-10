@@ -58,9 +58,9 @@ export default function BusinessClient() {
   const tradingFeatureIcons = [Package, TrendingUp, Users, Shield];
 
   const CARD_IMAGES = [
-    '/images/cards/192.SV-P.refine.png',
-    '/images/cards/105.SV-9.refine.png',
-    '/images/cards/069.SM-P.refine.png',
+    '/images/describe/sell 1.png',
+    '/images/describe/sell 2.png',
+    '/images/describe/sell 3.png',
   ];
 
   return (

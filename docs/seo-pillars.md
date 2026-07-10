@@ -107,6 +107,8 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | Context | Preferred term | Avoid |
 |---------|----------------|-------|
 | Graded card / slab | 鑑定卡、鑑定卡牌、鑑定卡磚 | 評級卡、評級卡牌、評級卡磚 |
+| Submit to PSA (general) | 送鑑 | 送評、評級（動詞） |
+| Appaw HK proxy service | 代送鑑定、PSA 收藏卡代送鑑定 | 送評服務、收件查詢（作標題） |
 | Protector product | 鑑定卡保護殼、磁吸防UV鑑定卡保護殼、磁吸卡殼、PSA 保護殼 | 評級卡保護殼、保護卡磚、鋁合金、金屬框架 |
 | Frame (specs) | 金屬邊框 | 金屬框架、鋁合金框架 |
 | Grade score UI (PSA 10 etc.) | Keep 評級 for numeric grade labels only | — |

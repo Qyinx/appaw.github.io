@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     '同一張卡 PSA 10 可售六位數，PSA 9 可能連四位數也不及。差距並非運氣，而是 1–10 量表、Qualifier 與置中規則，買家在結帳時早已沿用。',
   published: '2026-06-18',
-  updated: '2026-06-18',
+  updated: '2026-07-11',
   readTime: '14 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -181,13 +181,13 @@ const guide: GuideContent = {
         },
       ],
       callout:
-        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍，送評前先用量度工具篩選，見 [裸卡送評 vs 鑑定卡保護](/guides/grade-or-protect-first/)。',
+        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍，送鑑前先用量度工具篩選，見 [裸卡送鑑與鑑定卡保護](/guides/grade-or-protect-first/)。',
     },
     {
       id: 'bottom-line',
       title: '結語：先讀懂分數，再付送鑑費',
       paragraphs: [
-        'PSA 1–10 與 Qualifier 是收藏市場的共通語言。送評前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼，比事後追討便宜得多。',
+        'PSA 1–10 與 Qualifier 是收藏市場的共通語言。送鑑前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼，比事後追討便宜得多。',
       ],
       bulletGroups: [
         {
@@ -198,8 +198,12 @@ const guide: GuideContent = {
               text: '更多收藏流程見 [指南索引](/guides/)。',
             },
             {
+              label: '香港代送',
+              text: '交卡及取件於合作店舖 138 Arena（銅鑼灣），代送 PSA、網上查進度，見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
+            },
+            {
               label: '置中篩選',
-              text: '送評前用 [免費置中計算器](/tools/card-centering/) 篩選裸卡。',
+              text: '送鑑前用 [免費置中計算器](/tools/card-centering/) 篩選裸卡。',
             },
           ],
         },
@@ -217,7 +221,7 @@ const guide: GuideContent = {
     },
     {
       q: 'PSA 送鑑費用如何計算？',
-      a: '依服務等級（Value、Regular、Express 等）與申報價值（Declared Value）而定；大量送評另有批量方案。最新價目與週期請查 psacard.com/services。',
+      a: '依服務等級（Value、Regular、Express 等）與申報價值（Declared Value）而定；大量送鑑另有批量方案。最新價目與週期請查 psacard.com/services。',
     },
     {
       q: '收到評級後如何驗證鑑定殼真偽？',
@@ -229,10 +233,10 @@ const guide: GuideContent = {
     },
   ],
   cta: {
-    title: '送評前先量邊距',
+    title: '送鑑前先量邊距',
     body: '上傳掃描或賣家照片，比對正背面置中是否達 PSA 10 門檻，再決定是否付送鑑費。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
-    secondary: { label: '送評 vs 保護流程', href: '/guides/grade-or-protect-first/' },
+    secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: [
     'psa-10-centering-requirements',

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { LanguageProvider } from '@/context/LanguageContext';
-import { Header, Footer } from '@/components/layout';
+import { SiteShell, Footer } from '@/components/layout';
 import { CookieConsent } from '@/components/CookieConsent';
 import DocumentMeta from '@/components/DocumentMeta';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
@@ -90,10 +90,7 @@ export default function RootLayout({
         >
           <LanguageProvider>
             <DocumentMeta />
-            <Header />
-            <main id="main-content" className="page-noise pt-16 bg-surface-bg" tabIndex={-1}>
-              {children}
-            </main>
+            <SiteShell>{children}</SiteShell>
             <Footer />
             <CookieConsent />
           </LanguageProvider>

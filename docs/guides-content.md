@@ -19,7 +19,8 @@ Sitemap, static params, and index `ItemList` JSON-LD pick up new slugs automatic
 
 - UI/metadata language tag: `zh-HK`
 - Marketing terms: **鑑定卡 / 鑑定卡磚 / 鑑定卡保護殼** — not 評級卡
-- Action: **送鑑 / 送評** — not 評級 as generic verb
+- Action: **送鑑** for general PSA submission; **代送鑑定** for Appaw's Hong Kong proxy service (`/business/psa-grading/`) — not 評級 as generic verb
+- Avoid legacy **送評** in new copy (use 送鑑 or 代送鑑定 instead)
 - Centering: **置中** — not 居中
 - Avoid Simplified variants (保护壳, 鉴定卡, 视频, etc.)
 - **Register:** formal written Chinese (書面語) — not Cantonese colloquial (口語). Avoid 唔、嘅、喺、俾、睇、揀、點樣、搞反、chip/dull 等口語或中英夾雜

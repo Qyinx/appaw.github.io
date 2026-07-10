@@ -16,7 +16,8 @@ import { normalizeUserProfile } from '@/lib/collection/userProfile';
 import { useCollectionAuth } from './hooks/useCollectionAuth';
 import { CollectionLoadingSkeleton } from './components/CollectionLoadingSkeleton';
 import { CollectionAnimeEnter } from './components/CollectionAnimeEnter';
-import { CollectionWorkspaceChrome, CollectionChromeDots } from './components/CollectionWorkspaceChrome';
+import { CollectionChromeDots } from './components/CollectionChromeDots';
+import { useSubHeader } from '@/hooks/useSubHeader';
 
 interface ContactForm {
   whatsapp: string;
@@ -154,44 +155,45 @@ export default function CollectionSettingsClient() {
   const selectCls =
     'w-full bg-surface-panel border border-border-default px-3 py-2 min-h-11 text-text-primary text-sm focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-[border-color,box-shadow]';
 
+  useSubHeader({
+    width: 'narrow',
+    layout: 'form',
+    leading: (
+      <button
+        type="button"
+        onClick={() => router.push(localize('/collection/list'))}
+        className="collection-action-pill min-h-11 px-2.5 flex-shrink-0"
+      >
+        <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
+        <span className="hidden sm:inline">{t.common.back}</span>
+      </button>
+    ),
+    center: (
+      <>
+        <CollectionChromeDots />
+        <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{t.collection.settings.title}</h1>
+        {memberLevel && <MemberBadge level={memberLevel} />}
+      </>
+    ),
+    trailing: (
+      <button
+        type="submit"
+        form="collection-settings-form"
+        disabled={saving || loading}
+        className="collection-action-pill collection-action-pill--primary min-h-11 px-3 flex-shrink-0 disabled:opacity-45"
+      >
+        {saving ? (
+          <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" aria-hidden="true" />
+        ) : (
+          <Check className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+        )}
+        <span className="hidden sm:inline">{t.collection.settings.save}</span>
+      </button>
+    ),
+  });
+
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip">
-      <CollectionWorkspaceChrome
-        width="narrow"
-        layout="form"
-        leading={(
-          <button
-            type="button"
-            onClick={() => router.push(localize('/collection/list'))}
-            className="collection-action-pill min-h-11 px-2.5 flex-shrink-0"
-          >
-            <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span className="hidden sm:inline">{t.common.back}</span>
-          </button>
-        )}
-        center={(
-          <>
-            <CollectionChromeDots />
-            <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{t.collection.settings.title}</h1>
-            {memberLevel && <MemberBadge level={memberLevel} />}
-          </>
-        )}
-        trailing={(
-          <button
-            type="submit"
-            form="collection-settings-form"
-            disabled={saving || loading}
-            className="collection-action-pill collection-action-pill--primary min-h-11 px-3 flex-shrink-0 disabled:opacity-45"
-          >
-            {saving ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" aria-hidden="true" />
-            ) : (
-              <Check className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-            )}
-            <span className="hidden sm:inline">{t.collection.settings.save}</span>
-          </button>
-        )}
-      />
 
       {saveMsg && (
         <WorkspaceNotice
@@ -203,7 +205,7 @@ export default function CollectionSettingsClient() {
         />
       )}
 
-      <div className="workspace-canvas container-tool collection-workspace-canvas--narrow py-6 md:py-8 pb-28 md:pb-8">
+      <div className="workspace-canvas container-tool collection-workspace-canvas--narrow py-6 md:py-8">
         <CollectionAnimeEnter className="mb-6">
           <HeroStamp
             decorative={false}

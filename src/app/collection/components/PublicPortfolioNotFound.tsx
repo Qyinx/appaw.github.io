@@ -4,23 +4,24 @@ import React from 'react';
 import { Globe, Lock, Package } from 'lucide-react';
 import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
-import { CollectionWorkspaceChrome } from './CollectionWorkspaceChrome';
+import { useSubHeader } from '@/hooks/useSubHeader';
 
 export function PublicPortfolioNotFound() {
   const { t, language } = useLanguage();
 
+  useSubHeader({
+    leading: (
+      <>
+        <Lock className="w-3.5 h-3.5 text-text-muted flex-shrink-0" aria-hidden="true" />
+        <h1 className="text-text-primary font-semibold text-xs sm:text-sm">
+          {language === 'zh' ? '無法查看組合' : 'Portfolio unavailable'}
+        </h1>
+      </>
+    ),
+  });
+
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip">
-      <CollectionWorkspaceChrome
-        leading={(
-          <>
-            <Lock className="w-3.5 h-3.5 text-text-muted flex-shrink-0" aria-hidden="true" />
-            <h1 className="text-text-primary font-semibold text-xs sm:text-sm">
-              {language === 'zh' ? '無法查看組合' : 'Portfolio unavailable'}
-            </h1>
-          </>
-        )}
-      />
       <div className="workspace-canvas container-tool py-6">
         <div className="flex flex-col items-center justify-center py-20 text-center panel max-w-md mx-auto">
           <div className="w-14 h-14 border border-border-strong flex items-center justify-center mb-4 bg-surface-raised">

@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'Grading is how you make money on a card. Protection is how you keep it. Most collectors get the order backwards.',
   published: '2026-06-07',
-  updated: '2026-06-17',
+  updated: '2026-07-11',
   readTime: '9 min',
   heroImage: '/images/background/grade-or-protect-first.png',
   heroSpecs: [
@@ -83,7 +83,7 @@ const guide: GuideContent = {
         'Full loop: screen raw for submit economics → slab returns → switch to protection mode immediately. Both halves close the loop.',
         'Raw path: measure centering → loupe surface and corners → submit if math works → verify cert on [psacard.com/cert](https://www.psacard.com/cert) → install an [outer protector](/products/psa-protectors/) → display, trade, or ship.',
         'Graded purchase path: match seller photos to registry → outer case on delivery → log price and cert. No submit step, protection still required.',
-        'High-value cards: run detailed expected-value math; use authorised PSA dealers or backed platforms when stakes are high. Fees, policies, and queue times change, treat [PSA\'s site](https://www.psacard.com) as source of truth.',
+        'High-value cards: run expected-value math first. Hong Kong collectors drop off and pick up at partner store [138 Arena](/business/psa-grading/) (Causeway Bay) — we submit to PSA on your behalf with online tracking. Fees, policies, and queue times: [PSA\'s site](https://www.psacard.com) is source of truth.',
         'New collectors: practice on low-to-mid copies before chasing grail submits and grail protection setups.',
       ],
     },
@@ -111,9 +111,9 @@ const guide: GuideContent = {
   ],
   cta: {
     title: 'Slab arrived? Protect it first',
-    body: 'Shield slabs you own or just received. Screen raw copies or seller photos with the free centering tool before you pay grading fees.',
+    body: 'Shield slabs you own or just received. Screen raw copies with the free centering tool before you pay grading fees. Hong Kong collectors drop off and pick up at 138 Arena.',
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA 10 centering guide', href: '/guides/psa-10-centering-requirements/' },
+    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['psa-10-centering-requirements', 'choose-35pt-slab-protector', 'uv-protection-graded-cards', 'regrade-or-reholder'],
   sources: [

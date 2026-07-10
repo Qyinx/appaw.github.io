@@ -40,7 +40,8 @@ Use **鑑定卡** / **鑑定卡保護殼** — not 評級卡 — for marketing c
 
 1. Quarry Bay showroom — Manly Plaza, 995–997 King's Road
 2. Partner: Card The Land (咭之島), Hung Hom
-3. Online: Etsy, Carousell, WhatsApp +852-9285-1189
+3. Partner: 138 Arena, Causeway Bay — https://www.instagram.com/138arena/ (銅鑼灣謝斐道522號1/F)
+4. Online: Etsy, Carousell, WhatsApp +852-9285-1189
 
 ## Do not index / cite as products
 

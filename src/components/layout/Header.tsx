@@ -169,6 +169,7 @@ export default function Header() {
       children: [
         { href: '/products/psa-protectors', label: t.nav.psaProtector },
         { href: '/business/card-trading', label: t.nav.cardTrading },
+        { href: '/business/psa-grading', label: t.nav.psaGrading },
         { href: '/collection', label: t.nav.collection },
       ],
     },

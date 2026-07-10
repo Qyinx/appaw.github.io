@@ -349,8 +349,8 @@ Cards are managed in [`public/data/trade-card.json`](public/data/trade-card.json
 | `company` | `"PSA" \| "BGS" \| "CGC"` | ✅ | Grading company |
 | `grade` | `number` | ✅ | Numeric grade (e.g. `10`, `9.5`, `8`) |
 | `isBlackLabel` | `boolean` | — | `true` for PSA Black Label (perfect 10 sub-grades). Adds a gold **BL** indicator |
-| `image` | `string` | — | Path to front image relative to `/public` (e.g. `/images/cards/mycard.png`) |
-| `imageBack` | `string` | — | Path to back image. When present, enables the 3D flip toggle and magnifier |
+| `image` | `string` | — | Path to front image relative to `/public` (e.g. `/images/trade/{cardId}/front.jpg`) |
+| `imageBack` | `string` | — | Path to back image (e.g. `/images/trade/{cardId}/back.jpg`). When present, enables the 3D flip toggle and magnifier |
 | `set` | `string` | — | Set name (e.g. `"Obsidian Flames"`) |
 | `number` | `string` | — | Card number within the set (e.g. `"211/197"`) |
 | `certNumber` | `string` | — | Grading certificate / slab serial number |
@@ -384,8 +384,8 @@ Use `bundleCards` to list a complete set where all cards are sold together. The 
   "year": 2020,
   "company": "PSA",
   "grade": 10,
-  "image": "/images/cards/pikachu-vmax.png",
-  "imageBack": "/images/cards/pikachu-vmax-back.png",
+  "image": "/images/trade/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/front.jpg",
+  "imageBack": "/images/trade/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/back.jpg",
   "set": "Vivid Voltage",
   "number": "044/185",
   "certNumber": "78912345",
@@ -415,7 +415,8 @@ Use `bundleCards` to list a complete set where all cards are sold together. The 
   "bundleCards": [
     {
       "name": "Jolteon VMAX",
-      "image": "/images/cards/jolteon-vmax.png",
+      "image": "/images/trade/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/bundle-0-front.jpg",
+      "imageBack": "/images/trade/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/bundle-0-back.jpg",
       "company": "PSA",
       "grade": 10,
       "certNumber": "11111111"

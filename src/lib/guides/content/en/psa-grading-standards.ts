@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'A PSA 10 can sell for six figures. A PSA 9 on the same card might not clear four. The gap is not luck. It is the 1–10 scale, Qualifier codes, and centering rules buyers already use at checkout.',
   published: '2026-06-18',
-  updated: '2026-06-18',
+  updated: '2026-07-11',
   readTime: '14 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -198,6 +198,10 @@ const guide: GuideContent = {
               text: 'More workflows in our [guides index](/guides/).',
             },
             {
+              label: 'Hong Kong submission',
+              text: 'Drop off and pick up at partner store 138 Arena, Causeway Bay — we submit to PSA on your behalf with online tracking. See [PSA collectibles submission](/business/psa-grading/).',
+            },
+            {
               label: 'Centering screen',
               text: 'Screen raw cards with the [free centering tool](/tools/card-centering/) before submitting.',
             },
@@ -232,7 +236,7 @@ const guide: GuideContent = {
     title: 'Measure centering before you submit',
     body: 'Upload a scan or seller photo and compare front/back percentages against PSA 10 thresholds before paying grading fees.',
     primary: { label: 'Free centering tool', href: '/tools/card-centering/' },
-    secondary: { label: 'Grade vs protect workflow', href: '/guides/grade-or-protect-first/' },
+    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
   relatedSlugs: [
     'psa-10-centering-requirements',

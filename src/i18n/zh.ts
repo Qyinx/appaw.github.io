@@ -10,6 +10,7 @@ export const zh: Translations = {
     psaProtector: '鑑定卡保護殼',
     collection: '我的收藏',
     cardTrading: '卡牌交易',
+    psaGrading: 'PSA 代送鑑定',
     centeringTool: '卡牌置中量度工具',
     guides: '收藏指南',
     products: '商品',
@@ -715,6 +716,178 @@ export const zh: Translations = {
     },
   },
 
+  psaGradingPage: {
+    badge: 'PSA 代送鑑定',
+    hero: {
+      title: 'PSA 收藏卡代送鑑定',
+      definition:
+        '你交卡，我們代送 PSA。鑑定完成後於合作店舖 138 Arena（銅鑼灣）取件，或安排寄送。每批附參考編號，網上隨時查進度。',
+      ctaTrack: '查詢進度',
+      ctaContact: 'WhatsApp 聯絡',
+    },
+    howTo: {
+      badge: '流程',
+      title: '由交卡到鑑定卡磚',
+      subtitle: '你負責選卡，物流和跟進交給我們。',
+      steps: [
+        {
+          title: '138 Arena 交卡',
+          body: '請親臨合作店舖 138 Arena（銅鑼灣謝斐道522號1/F）面交，不接受郵寄交卡。我們核對清單並按 PSA 服務等級分配批次參考編號（如 Express 為 BAT-2026-07-EXP-3，Regular 為 BAT-2026-07-REG-3）。',
+        },
+        {
+          title: '批量提交 PSA',
+          body: '我們合併批次寄送 PSA。參考編號會對應您的卡牌及 PSA 訂單編號。',
+        },
+        {
+          title: '評級與品控',
+          body: 'PSA 完成評級。進度同步至系統 — 可查看由備貨至品控各階段。',
+        },
+        {
+          title: '返港取件',
+          body: '鑑定卡磚返港後，於 138 Arena 取件或安排寄送。不少藏家取件後會搭配我們的防 UV 玻璃保護殼長期陳列。',
+        },
+      ],
+    },
+    faq: {
+      badge: '常見問題',
+      title: '常見問題',
+      items: [
+        {
+          q: '如何查詢代送進度？',
+          a: '在「查詢進度」頁輸入交卡時提供的電話號碼及參考編號。兩者缺一不可 — 我們不會僅憑電話公開你的委託資料。',
+        },
+        {
+          q: '什麼是參考編號？',
+          a: '格式為 BAT-{年份}-{月份}-{方案}-{批次號}（如 BAT-2026-07-EXP-3）。方案段代表 PSA 服務等級。請使用此批次參考編號加收件電話查詢進度。',
+        },
+        {
+          q: '一次交卡有多個 PSA 方案？',
+          a: '每個服務等級（Regular、Express、Super Express、Walk-Through）會分配到獨立 BAT 批次 — 例如 BAT-2026-07-EXP-3 與 BAT-2026-07-REG-3。請用相同電話分別查詢。',
+        },
+        {
+          q: '在哪裡交卡及取件？',
+          a: 'PSA 代送鑑定統一於合作店舖 138 Arena（銅鑼灣謝斐道522號1/F）面交交卡及取件，不接受郵寄。營業時間及詳情可透過 Instagram @138arena 查詢。',
+        },
+        {
+          q: '時間軸各階段代表什麼？',
+          a: '「卡牌已於 138 Arena 登記」表示合作店已完成收件。「已提交至 PSA 香港」表示批次已送交 PSA 香港中心。中間階段由 PSA 同步。「可於 138 Arena 取件」表示鑑定卡磚已返港，等候您取件。',
+        },
+        {
+          q: '進度多久更新一次？',
+          a: '批次提交 PSA 後，我們每日多次同步訂單狀態。時間軸顯示最新已知階段 — 實際週期視 PSA 服務等級而定。',
+        },
+        {
+          q: '接受哪些卡牌？',
+          a: '寶可夢、運動卡及 MTG 裸卡或套袋卡。高價值卡牌或需額外申報價值文件 — 交卡前請先聯絡我們。',
+        },
+        {
+          q: '可以郵寄交卡嗎？',
+          a: '不接受。請親臨合作店舖 138 Arena（銅鑼灣謝斐道522號1/F）面交交卡及取件。',
+        },
+      ],
+    },
+    cta: {
+      title: '已交卡？',
+      body: '輸入電話號碼及參考編號查看即時進度 — 評級階段、卡牌清單及寄回追蹤。',
+      track: '查詢進度',
+      guide: 'PSA 評級標準',
+    },
+  },
+
+  psaGradingTrack: {
+    badge: '進度查詢',
+    title: '查詢代送進度',
+    subtitle: '輸入交卡收據上的電話號碼及參考編號以查看進度。',
+    formPanelLabel: '查詢',
+    backToHub: '返回 PSA 代送鑑定',
+    breadcrumb: {
+      home: '首頁',
+      business: '服務',
+      grading: 'PSA 代送鑑定',
+      track: '查詢進度',
+    },
+    form: {
+      phoneLabel: '電話號碼',
+      phonePlaceholder: '+852 9285 1189',
+      phoneHelper: '接受 +852、852 或本地 8 位數字格式。',
+      refLabel: '參考編號',
+      refPlaceholder: 'BAT-2026-07-EXP-3',
+      refHelper: '請輸入收件收據上的參考編號。',
+      submit: '查詢',
+      submitting: '查詢中…',
+      fillDemo: '填入示範資料',
+      fillDemoShort: '使用示範',
+      notFoundTitle: '找不到委託紀錄',
+      notFoundBody: '請確認電話號碼及參考編號與收據一致。如需協助請 WhatsApp 聯絡我們。',
+    },
+    servicePlan: {
+      regular: 'Regular',
+      express: 'Express',
+      superExpress: 'Super Express',
+      walkThrough: 'Walk-Through',
+    },
+    results: {
+      refLabel: '參考編號',
+      statusLabel: '狀態',
+      servicePlanLabel: 'PSA 方案',
+      copyReference: '複製參考編號',
+      copiedReference: '已複製參考編號',
+      shippingTitle: '寄回物流',
+      carrierLabel: '承運商',
+      trackingLabel: '追蹤編號',
+      copyTracking: '複製追蹤編號',
+      copiedTracking: '已複製追蹤編號',
+      trackPackage: '在承運商網站追蹤',
+      lastSynced: '最後更新：{date}',
+      relatedSubmissions: {
+        title: '同次交卡的其他批次',
+        switch: '查看此批次',
+      },
+      stepper: {
+        currentStep: '進行中',
+        completed: '已完成',
+        pending: '待處理',
+        progress: '第 {current} / {total} 步',
+        phases: {
+          intake: '138 Arena 交卡',
+          psa: 'PSA 評級',
+          pickup: '138 Arena 取件',
+        },
+        previous: '上一步',
+        next: '下一步',
+        goToStep: '第 {n} 步',
+        fields: {
+          phase: '階段',
+          step: '步驟',
+          status: '狀態',
+        },
+      },
+      tabs: {
+        status: '進度',
+        cards: '卡牌 ({count})',
+      },
+      steps: {
+        appawRecorded: '卡牌已於 138 Arena 登記',
+        appawSentToPsa: '提交至 PSA 香港',
+        appawPickup: '可於 138 Arena 取件',
+      },
+      status: {
+        problemOrder: '問題訂單 — 請聯絡客服',
+        accountingHold: '帳務保留',
+        gradesReady: '評級完成',
+        readyForLabelReview: '標籤審核',
+        shipped: '已寄出',
+      },
+      items: {
+        title: '本次代送卡牌',
+        description: '卡牌',
+        certNumber: '證書編號',
+        grade: '評級',
+        pending: '待定',
+      },
+    },
+  },
+
   // Style Guide Page
   styleGuide: {
     title: '設計風格指南',
@@ -763,7 +936,7 @@ export const zh: Translations = {
   retailPartners: {
     badge: '購買渠道',
     title: '購買渠道',
-    subtitle: '網上訂購、親臨鰂魚涌門市，或到合作店舖選購',
+    subtitle: '網上訂購、親臨鰂魚涌門市，或到香港各區合作店舖選購',
     buyNow: '立即購買',
     orVisit: '或親臨門市及合作店',
     visitStore: '訪問門市',
@@ -772,6 +945,7 @@ export const zh: Translations = {
     retailHint: '歡迎到鰂魚涌門市或合作店舖親身試玩及選購',
     onlineTitle: '網上商店',
     retailTitle: '門市及合作店',
+    partnerStoresTitle: '合作店舖',
     types: {
       online: '網店',
       retail: '門市',
@@ -790,8 +964,13 @@ export const zh: Translations = {
       },
       cardtheland: {
         name: '咭之島',
-        description: '合作店舖',
+        description: '合作店舖 · 紅磡',
         location: '紅磡凱旋工商中心2期3樓G1B室',
+      },
+      arena138: {
+        name: '138 Arena',
+        description: '合作店舖 · 銅鑼灣',
+        location: '銅鑼灣謝斐道522號1/F',
       },
       appawstore: {
         name: 'Appaw Store 網店',

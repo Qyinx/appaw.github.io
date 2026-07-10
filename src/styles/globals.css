@@ -22,6 +22,8 @@
 
   --space-page-x: clamp(16px, 4vw, 24px);
   --space-section-y: clamp(48px, 8vw, 96px);
+  --site-header-height: 4rem;
+  --site-subheader-height: 0px;
   --radius-panel: 0;
   --radius-control: 6px;
   --border-width: 1px;
@@ -185,6 +187,7 @@
   --animate-fade-in: fade-in 0.5s ease-out;
   --animate-slide-up: slide-up 0.5s ease-out;
   --animate-cursor-blink: cursor-blink 1s step-end infinite;
+  --animate-grading-ref-sweep: grading-ref-sweep 4s ease-in-out infinite;
 
   @keyframes fade-in {
     from { opacity: 0; }
@@ -194,6 +197,11 @@
   @keyframes slide-up {
     from { transform: translateY(12px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes grading-ref-sweep {
+    0% { background-position: 220% 0; }
+    100% { background-position: -220% 0; }
   }
 
   @keyframes cursor-blink {
@@ -317,6 +325,20 @@ select option {
   margin-right: auto;
   padding-left: var(--space-page-x);
   padding-right: var(--space-page-x);
+}
+
+.sticky-below-site-chrome {
+  position: sticky;
+  top: calc(var(--site-header-height) + var(--site-subheader-height, 0px) + 1rem);
+}
+
+.site-main {
+  padding-top: calc(var(--site-header-height) + var(--site-subheader-height, 0px));
+}
+
+.site-subheader.collection-workspace-chrome__inner,
+.site-subheader .collection-workspace-chrome__inner {
+  background: transparent;
 }
 
 @utility section-padding {
@@ -2268,9 +2290,9 @@ main {
   z-index: auto;
 }
 
+/* In-page workspace-chrome removed — sub-header is global (.site-subheader) */
 .collection-workspace.page-blueprint > .workspace-chrome {
-  position: sticky;
-  z-index: 30;
+  display: none;
 }
 
 .collection-workspace .workspace-canvas {
@@ -2403,9 +2425,138 @@ main {
   z-index: 200;
 }
 
-.collection-workspace .workspace-chrome {
+/* In-page workspace-chrome deprecated — chrome lives in .site-subheader */
+.site-subheader {
   background: var(--surface-panel);
   overflow: visible;
+}
+
+.site-subheader--tool {
+  background: var(--tool-panel);
+  border-color: var(--tool-border);
+  color: var(--tool-text);
+  box-shadow: none;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
+.site-subheader--tool .collection-workspace-chrome__inner {
+  max-width: min(100%, 67.5rem);
+  padding-top: 0;
+  padding-bottom: 0;
+  min-height: 0;
+}
+
+.site-subheader--tool .collection-workspace-chrome__leading {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.site-subheader--tool .collection-workspace-chrome__trailing {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: min(100%, 640px);
+}
+
+/* PSA grading track — operational workspace (shares collection chrome z-index fixes) */
+.grading-track-workspace .grading-track-canvas {
+  max-width: min(100%, 72rem);
+}
+
+.grading-track-grid {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+@media (min-width: 1024px) {
+  .grading-track-grid {
+    grid-template-columns: minmax(17.5rem, 21.25rem) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.grading-track-grid--centered {
+  max-width: 32rem;
+  margin-inline: auto;
+}
+
+.grading-track-form-panel {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .grading-track-form-panel {
+    position: sticky;
+    top: calc(var(--site-header-height) + var(--site-subheader-height, 0px) + 0.75rem);
+  }
+}
+
+.grading-track-form__header {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border-default);
+  background: var(--surface-raised);
+}
+
+.grading-track-form__label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.grading-track-form__body {
+  padding: 1.25rem 1rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .grading-track-form__body {
+    padding: 1.5rem 1.5rem 1.75rem;
+  }
+}
+
+.grading-track-results__header {
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--border-default);
+  background: var(--surface-raised);
+}
+
+@media (min-width: 768px) {
+  .grading-track-results__header {
+    padding: 1.25rem 1.5rem 1rem;
+  }
+}
+
+.grading-track-results__body {
+  padding: 1.25rem 1rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .grading-track-results__body {
+    padding: 1.5rem 1.5rem 1.75rem;
+  }
+}
+
+.grading-track-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.grading-track-skeleton__row,
+.grading-track-skeleton__panel {
+  border-radius: 0;
+  background: linear-gradient(
+    90deg,
+    var(--surface-raised) 0%,
+    color-mix(in srgb, var(--surface-raised) 70%, var(--surface-panel)) 50%,
+    var(--surface-raised) 100%
+  );
+  background-size: 200% 100%;
+}
+
+.grading-track-skeleton__panel {
+  border: 1px solid var(--border-default);
 }
 
 .collection-account-trigger {

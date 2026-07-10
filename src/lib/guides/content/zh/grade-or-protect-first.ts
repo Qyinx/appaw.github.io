@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     '送鑑是增值進攻；保護 Slab 是守住成果的防守。大部分收藏者顛倒了先後次序。',
   published: '2026-06-07',
-  updated: '2026-06-17',
+  updated: '2026-07-11',
   readTime: '9 分鐘',
   heroImage: '/images/background/grade-or-protect-first.png',
   heroSpecs: [
@@ -30,7 +30,7 @@ const guide: GuideContent = {
       id: 'when-to-submit-raw',
       title: '何時裸卡送鑑才划算',
       paragraphs: [
-        '提交裸卡是積極的增值策略，但並非所有卡片都適合送評。錯誤提交可能導致費用浪費或價值下降。',
+        '提交裸卡是積極的增值策略，但並非所有卡片都適合送鑑。錯誤提交可能導致費用浪費或價值下降。',
         '適合提交：卡片品相接近 Gem Mint（接近 PSA 10），裸卡市場價值在 25 美元以上，且預期 PSA 10 售價至少為裸卡價的 2–4 倍；熱門球星 Rookie 卡、限量 TCG 卡（寶可夢、MTG 等），高分鑑定卡市場需求強勁；希望提升轉售流通性與展示效果；遇到 eBay Authenticity Guarantee 等保障購買，或 PSA 官方優惠活動期間。',
         '不建議提交：裸卡價值低於 20–25 美元的低價卡，送鑑費容易超過升值空間；品相已有明顯邊角磨損、表面刮痕等瑕疵，容易拿到 PSA 8 以下；PSA 提交 backlog 嚴重或服務暫停期間；純粹個人長期收藏，無轉售意圖。',
         '提交前準備：使用 Penny Sleeve + Card Saver 半硬護卡保護；查詢 PSA Pop Report，了解同類卡高分數量；計算成本效益，選擇合適服務等級（Value、Express 等）；用免費 [卡牌置中工具](/tools/card-centering/) 量度置中，詳見 [PSA 10 置中標準](/guides/psa-10-centering-requirements/)。',
@@ -79,10 +79,10 @@ const guide: GuideContent = {
       id: 'practical-advice',
       title: '實務決策建議',
       paragraphs: [
-        '整體收藏流程：先評估裸卡是否值得送評，成功 Slab 化後立即轉入保護模式，兩者結合才能形成閉環。',
+        '整體收藏流程：先評估裸卡是否值得送鑑，成功 Slab 化後立即轉入保護模式，兩者結合才能形成閉環。',
         '裸卡路徑：量置中 → 放大鏡看表面與邊角 → 經濟合理才送鑑 → 取回後在 [psacard.com/cert](https://www.psacard.com/cert) 核對證書 → 加 [外層保護殼](/products/psa-protectors/) → 展示、交易或寄送。',
         '購買鑑定卡路徑：核對賣家照片與 registry → 收貨即加外殼 → 記錄購入價與證書。無需送鑑步驟，但保護同樣必要。',
-        '高價值卡特別注意：務必進行詳細成本效益分析，必要時透過 PSA 授權經銷商或合作平台提交。PSA 送鑑費用、政策與提交狀況會隨時間變化，以 [PSA 官網](https://www.psacard.com) 為準。',
+        '高價值卡：先做成本效益分析。香港藏家可到合作店舖 [138 Arena](/business/psa-grading/)（銅鑼灣謝斐道522號1/F）交卡及取件，代送 PSA 並提供進度查詢。送鑑費用、政策與週期以 [PSA 官網](https://www.psacard.com) 為準。',
         '新手建議：從低中價位卡片開始練習提交與保護，累積經驗後再處理高價值收藏品。',
       ],
     },
@@ -102,9 +102,9 @@ const guide: GuideContent = {
   ],
   cta: {
     title: 'Slab 到手，先加外殼',
-    body: '保護已有或剛收到的鑑定卡。篩選裸卡送評前，可用免費置中工具核對賣家照片。',
+    body: '保護已有或剛收到的鑑定卡。裸卡送鑑前，先用免費置中工具核對賣家照片；香港藏家可到 138 Arena 交卡及取件。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA 10 置中指南', href: '/guides/psa-10-centering-requirements/' },
+    secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['psa-10-centering-requirements', 'choose-35pt-slab-protector', 'uv-protection-graded-cards', 'regrade-or-reholder'],
   sources: [
@@ -113,7 +113,7 @@ const guide: GuideContent = {
       href: 'https://www.psacard.com/gradingstandards',
     },
     {
-      label: 'PSA, 送評包裝指引',
+      label: 'PSA, 送鑑包裝指引',
       href: 'https://www.psacard.com/info/shipguide',
     },
     {

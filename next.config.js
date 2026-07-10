@@ -3,7 +3,8 @@ const AGENT_LINK_HEADER =
   '<https://appaw.store/.well-known/api-catalog>; rel="api-catalog", <https://appaw.store/llms.txt>; rel="describedby"; type="text/plain", <https://appaw.store/.well-known/agent-skills/index.json>; rel="describedby"; type="application/json", </sitemap.xml>; rel="sitemap"';
 
 const nextConfig = {
-  output: 'export',
+  // Static export for production deploy only. Dev needs API routes (/api/admin/*).
+  ...(process.env.NODE_ENV === 'production' ? { output: 'export' } : {}),
   trailingSlash: true,
   images: {
     unoptimized: true,

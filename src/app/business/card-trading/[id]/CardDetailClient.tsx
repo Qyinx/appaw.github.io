@@ -7,6 +7,7 @@ import { ArrowLeft, Hash, Globe, Tag, ExternalLink, ZoomIn, Layers, Share2, Chec
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSubHeader } from '@/hooks/useSubHeader';
 import { getImagePath } from '@/lib/utils';
 import { getGradeColor, getCompanyStyle, formatPrice, formatGrade } from '@/lib/card-helpers';
 import type { TradingCard } from '@/types/trading-card';
@@ -133,46 +134,45 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
     ...(card.certNumber ? [{ icon: <Hash className="w-3.5 h-3.5" />, label: mp.card.cert, value: card.certNumber }] : []),
   ];
 
+  useSubHeader({
+    leading: (
+      <LocalLink
+        href="/business/card-trading/"
+        className="flex items-center gap-2 text-text-secondary hover:text-accent-warn text-sm transition-colors min-h-[44px]"
+      >
+        <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+        <span className="hidden sm:inline">{mp.detail?.backToMarketplace ?? 'Back to Marketplace'}</span>
+      </LocalLink>
+    ),
+    center: (
+      <span className="hidden md:block text-text-muted text-xs truncate max-w-[200px]">{card.name}</span>
+    ),
+    trailing: (
+      <div className="flex items-center gap-3">
+        {card.sold && (
+          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-[10px] font-bold uppercase tracking-wider">
+            <ShieldOff className="w-3 h-3" aria-hidden="true" />
+            {mp.card.sold}
+          </span>
+        )}
+        <button
+          type="button"
+          onClick={handleCopyLink}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-[color,background-color,border-color,opacity,transform] min-h-[44px] ${
+            copied
+              ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+              : 'bg-surface-raised text-text-secondary hover:text-text-primary border border-border-default hover:border-border-strong'
+          }`}
+        >
+          {copied ? <Check className="w-3.5 h-3.5" aria-hidden="true" /> : <Share2 className="w-3.5 h-3.5" aria-hidden="true" />}
+          <span className="hidden sm:inline">{copied ? (mp.detail?.linkCopied ?? 'Link Copied!') : (mp.detail?.shareLink ?? 'Share Link')}</span>
+        </button>
+      </div>
+    ),
+  });
+
   return (
     <div className="bg-surface-bg min-h-dvh overflow-x-clip page-blueprint">
-
-      {/* ═══ Top bar ═══ */}
-      <div className="sticky top-16 md:top-20 z-30 bg-surface-bg/95 border-b border-border-default">
-        <div className="container-custom flex items-center justify-between py-3">
-          <LocalLink
-            href="/business/card-trading/"
-            className="flex items-center gap-2 text-text-secondary hover:text-accent-warn text-sm transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">{mp.detail?.backToMarketplace ?? 'Back to Marketplace'}</span>
-          </LocalLink>
-
-          <div className="flex items-center gap-3">
-            {/* Card name breadcrumb — desktop only */}
-            <span className="hidden md:block text-text-muted text-xs truncate max-w-[200px]">{card.name}</span>
-
-            {/* Sold indicator in top bar */}
-            {card.sold && (
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-[10px] font-bold uppercase tracking-wider">
-                <ShieldOff className="w-3 h-3" />
-                {mp.card.sold}
-              </span>
-            )}
-
-            <button
-              onClick={handleCopyLink}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-[color,background-color,border-color,opacity,transform] ${
-                copied
-                  ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                  : 'bg-surface-raised text-text-secondary hover:text-text-primary border border-border-default hover:border-border-strong'
-              }`}
-            >
-              {copied ? <Check className="w-3.5 h-3.5" /> : <Share2 className="w-3.5 h-3.5" />}
-              <span className="hidden sm:inline">{copied ? (mp.detail?.linkCopied ?? 'Link Copied!') : (mp.detail?.shareLink ?? 'Share Link')}</span>
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* ═══ Main content ═══ */}
       <div>

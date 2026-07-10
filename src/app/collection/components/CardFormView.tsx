@@ -22,7 +22,8 @@ import { inp, lbl, Section, Toggle, compressImage, GradePill } from './shared';
 import { CardThumbnail, CardMetaBlock, gradeTierClass, resolveCardImageUrl } from './CollectionCardDisplay';
 import { CollectionAnimeEnter } from './CollectionAnimeEnter';
 import { CollectionAnimeStagger } from './CollectionAnimeStagger';
-import { CollectionWorkspaceChrome, CollectionChromeDots } from './CollectionWorkspaceChrome';
+import { CollectionChromeDots } from './CollectionChromeDots';
+import { useSubHeader } from '@/hooks/useSubHeader';
 
 export interface CardFormViewProps {
   initial: CardFormState | null;
@@ -198,36 +199,37 @@ export function CardFormView({
   const selectCls =
     'bg-surface-panel border border-border-default px-3 py-2 min-h-11 text-text-primary text-sm focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-[border-color,box-shadow]';
 
+  useSubHeader({
+    width: 'narrow',
+    layout: 'form',
+    leading: (
+      <button type="button" onClick={onBack} className="collection-action-pill min-h-11 px-2.5 flex-shrink-0">
+        <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+        <span className="hidden sm:inline">{t.common.back}</span>
+      </button>
+    ),
+    center: (
+      <>
+        <CollectionChromeDots />
+        <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{pageTitle}</h1>
+      </>
+    ),
+    trailing: (
+      <button
+        type="submit"
+        form="card-form"
+        disabled={saving}
+        aria-label={saveLabel}
+        className="inline-flex collection-action-pill collection-action-pill--primary min-h-11 px-2.5 sm:px-3 flex-shrink-0 disabled:opacity-45"
+      >
+        {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Check className="w-3.5 h-3.5" aria-hidden="true" />}
+        <span className="hidden sm:inline">{saveLabel}</span>
+      </button>
+    ),
+  });
+
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip overflow-y-visible">
-
-      <CollectionWorkspaceChrome
-        width="narrow"
-        layout="form"
-        leading={(
-          <button type="button" onClick={onBack} className="collection-action-pill min-h-11 px-2.5 flex-shrink-0">
-            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-            <span className="hidden sm:inline">{t.common.back}</span>
-          </button>
-        )}
-        center={(
-          <>
-            <CollectionChromeDots />
-            <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{pageTitle}</h1>
-          </>
-        )}
-        trailing={(
-          <button
-            type="submit"
-            form="card-form"
-            disabled={saving}
-            className="hidden md:inline-flex collection-action-pill collection-action-pill--primary min-h-11 px-3 flex-shrink-0 disabled:opacity-45"
-          >
-            {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Check className="w-3.5 h-3.5" aria-hidden="true" />}
-            {saveLabel}
-          </button>
-        )}
-      />
 
       {saveMsg && (
         <WorkspaceNotice
@@ -239,7 +241,7 @@ export function CardFormView({
         />
       )}
 
-      <div className="workspace-canvas container-tool collection-workspace-canvas--narrow py-6 md:py-8 pb-28 md:pb-8">
+      <div className="workspace-canvas container-tool collection-workspace-canvas--narrow py-6 md:py-8">
         <CollectionAnimeEnter className="mb-6">
           <HeroStamp
             decorative={false}
@@ -603,19 +605,6 @@ export function CardFormView({
           </div>
         </CollectionAnimeStagger>
         </form>
-      </div>
-
-      {/* Mobile sticky action bar */}
-      <div className="workspace-chrome md:hidden fixed bottom-0 inset-x-0 z-30 border-t border-border-default pb-[env(safe-area-inset-bottom)]">
-        <div className="container-tool max-w-3xl flex gap-2 p-3">
-          <button type="button" onClick={onBack} className="collection-action-pill flex-1 min-h-11 justify-center">
-            {t.common.cancel}
-          </button>
-          <button type="submit" form="card-form" disabled={saving} className="collection-action-pill collection-action-pill--primary flex-[1.4] min-h-11 justify-center disabled:opacity-45">
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> : <Check className="w-4 h-4" aria-hidden="true" />}
-            {saveLabel}
-          </button>
-        </div>
       </div>
 
       {photoZoom && (

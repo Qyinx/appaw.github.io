@@ -9,6 +9,7 @@ import {
   ExternalLink, RefreshCw, Save, Download, Link2, Clipboard,
 } from 'lucide-react';
 import type { TradingCard, BundleCard, GradingCompany } from '@/types/trading-card';
+import { useSubHeader } from '@/hooks/useSubHeader';
 
 /* ──────────────────────────────────────────────────────────────────────────────
    CONFIG — SHA-256 hash of the admin password (not the password itself).
@@ -498,6 +499,94 @@ export default function AdminClient() {
   /* ════════════════════════════════════════════════════════════
      PASSWORD GATE
      ════════════════════════════════════════════════════════════ */
+  useSubHeader(
+    !authed
+      ? null
+      : view === 'form'
+        ? {
+            layout: 'form',
+            width: 'narrow',
+            leading: (
+              <button
+                type="button"
+                onClick={() => setView('list')}
+                className="flex items-center gap-2 text-text-secondary hover:text-text-primary text-sm transition-colors min-h-[44px]"
+              >
+                <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+                <span>Back to list</span>
+              </button>
+            ),
+            center: (
+              <h2 className="text-text-primary font-semibold text-sm truncate">
+                {editId ? 'Edit Card' : 'Add New Card'}
+              </h2>
+            ),
+            trailing: (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setView('list')}
+                  className="px-3 py-1.5 rounded-lg text-text-muted hover:text-text-primary text-xs transition-colors min-h-[44px]"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  disabled={saving}
+                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-accent-warn hover:bg-[#e5bc5a] text-surface-bg text-xs font-bold transition-colors disabled:opacity-50 min-h-[44px]"
+                >
+                  {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Save className="w-3.5 h-3.5" aria-hidden="true" />}
+                  {saving ? 'Saving…' : 'Save Card'}
+                </button>
+              </div>
+            ),
+          }
+        : {
+            leading: (
+              <div className="flex items-center gap-4 min-w-0">
+                <h1 className="text-text-primary font-bold text-sm truncate">Card Inventory Admin</h1>
+                <a
+                  href="/business/card-trading/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden sm:flex items-center gap-1 text-text-secondary hover:text-accent-warn text-xs transition-colors shrink-0"
+                >
+                  <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                  View Store
+                </a>
+              </div>
+            ),
+            trailing: (
+              <div className="flex items-center gap-3">
+                {saveMsg && (
+                  <span className="flex items-center gap-1.5 text-emerald-400 text-xs">
+                    <Check className="w-3.5 h-3.5" aria-hidden="true" />
+                    {saveMsg}
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={load}
+                  disabled={loading}
+                  aria-label="Refresh"
+                  className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  onClick={openNew}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-warn text-surface-bg text-xs font-bold hover:bg-[#e5bc5a] transition-colors min-h-[44px]"
+                >
+                  <Plus className="w-3.5 h-3.5" aria-hidden="true" />
+                  Add Card
+                </button>
+              </div>
+            ),
+          },
+  );
+
   if (!authed) {
     return (
       <div className="min-h-screen bg-surface-bg flex items-center justify-center p-4">
@@ -543,33 +632,6 @@ export default function AdminClient() {
   if (view === 'form') {
     return (
       <div className="min-h-screen bg-surface-bg">
-        {/* Header */}
-        <div className="sticky top-16 md:top-20 z-20 bg-surface-bg/95 border-b border-border-default">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
-            <button onClick={() => setView('list')} className="flex items-center gap-2 text-text-secondary hover:text-text-primary text-sm transition-colors">
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to list</span>
-            </button>
-            <h2 className="text-text-primary font-semibold text-sm">
-              {editId ? 'Edit Card' : 'Add New Card'}
-            </h2>
-            <div className="flex items-center gap-2">
-              <button onClick={() => setView('list')} className="px-3 py-1.5 rounded-lg text-text-muted hover:text-text-primary text-xs transition-colors">
-                Cancel
-              </button>
-              <button
-                onClick={handleSave}
-                disabled={saving}
-                className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-accent-warn hover:bg-[#e5bc5a] text-surface-bg text-xs font-bold transition-colors disabled:opacity-50"
-              >
-                {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
-                {saving ? 'Saving…' : 'Save Card'}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Body */}
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
           {/* Validation errors */}
           {formErrors.length > 0 && (
@@ -967,35 +1029,6 @@ export default function AdminClient() {
 
   return (
     <div className="min-h-screen bg-surface-bg">
-      {/* Header */}
-      <div className="sticky top-16 md:top-20 z-20 bg-surface-bg/95 border-b border-border-default">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
-          <div className="flex items-center gap-4">
-            <h1 className="text-text-primary font-bold text-sm">Card Inventory Admin</h1>
-            <a href="/business/card-trading/" target="_blank" rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1 text-text-secondary hover:text-accent-warn text-xs transition-colors">
-              <ExternalLink className="w-3 h-3" />View Store
-            </a>
-          </div>
-          <div className="flex items-center gap-3">
-            {saveMsg && (
-              <span className="flex items-center gap-1.5 text-emerald-400 text-xs">
-                <Check className="w-3.5 h-3.5" />{saveMsg}
-              </span>
-            )}
-            <button onClick={load} disabled={loading} className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40">
-              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-            </button>
-            <button
-              onClick={openNew}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-warn text-surface-bg text-xs font-bold hover:bg-[#e5bc5a] transition-colors"
-            >
-              <Plus className="w-3.5 h-3.5" />Add Card
-            </button>
-          </div>
-        </div>
-      </div>
-
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 mb-6">
