@@ -32,6 +32,44 @@ export default function PsaGradingHowToSection({ badge, hero, howTo, aeo }: Prop
     return () => mq.removeEventListener('change', sync);
   }, []);
 
+  const heroBlock = (
+    <header className="how-to-scroll-section__hero">
+      <p className="section-label mb-3">{badge}</p>
+      <h1 id="how-to-title" className="how-to-scroll-section__hero-title">
+        {hero.title}
+      </h1>
+      <p className="how-to-scroll-section__hero-definition text-text-secondary leading-relaxed max-w-xl psa-grading-aeo-answer">
+        {hero.definition}
+      </p>
+      {aeo ? (
+        <div className="mt-5 max-w-xl">
+          <h2 className="text-base md:text-lg font-display font-semibold text-text-primary mb-2">
+            {aeo.title}
+          </h2>
+          <p className="text-sm md:text-base text-text-secondary leading-relaxed psa-grading-aeo-answer">
+            {aeo.answer}
+          </p>
+        </div>
+      ) : null}
+      <div className="flex flex-wrap gap-3 mt-4">
+        <LocalLink href="/business/psa-grading/track" className="btn btn-primary group min-h-[44px]">
+          <Search className="w-4 h-4" aria-hidden="true" />
+          <span>{hero.ctaTrack}</span>
+          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-150" aria-hidden="true" />
+        </LocalLink>
+        <a
+          href="https://wa.me/85292851189"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-secondary group min-h-[44px]"
+        >
+          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-accent-success" />
+          <span>{hero.ctaContact}</span>
+        </a>
+      </div>
+    </header>
+  );
+
   return (
     <section
       id="how-to"
@@ -42,6 +80,10 @@ export default function PsaGradingHowToSection({ badge, hero, howTo, aeo }: Prop
         ['--how-to-rail-progress' as string]: '0',
       }}
     >
+      <div className="how-to-scroll-section__hero-band page-blueprint bg-surface-bg border-b border-border-default">
+        <div className="container-custom">{heroBlock}</div>
+      </div>
+
       <div className="how-to-scroll-section__stage">
         <div className="how-to-scroll-section__bg" aria-hidden="true">
           <PsaGradingHowToScrollBackground />
@@ -50,42 +92,6 @@ export default function PsaGradingHowToSection({ badge, hero, howTo, aeo }: Prop
 
         <div className="how-to-scroll-section__foreground">
           <div className="container-custom how-to-scroll-section__content">
-            <header className="how-to-scroll-section__hero">
-              <p className="section-label mb-3">{badge}</p>
-              <h1 id="how-to-title" className="how-to-scroll-section__hero-title">
-                {hero.title}
-              </h1>
-              <p className="how-to-scroll-section__hero-definition text-text-secondary leading-relaxed max-w-xl psa-grading-aeo-answer">
-                {hero.definition}
-              </p>
-              {aeo ? (
-                <div className="mt-5 max-w-xl">
-                  <h2 className="text-base md:text-lg font-display font-semibold text-text-primary mb-2">
-                    {aeo.title}
-                  </h2>
-                  <p className="text-sm md:text-base text-text-secondary leading-relaxed psa-grading-aeo-answer">
-                    {aeo.answer}
-                  </p>
-                </div>
-              ) : null}
-              <div className="flex flex-wrap gap-3 mt-4">
-                <LocalLink href="/business/psa-grading/track" className="btn btn-primary group min-h-[44px]">
-                  <Search className="w-4 h-4" aria-hidden="true" />
-                  <span>{hero.ctaTrack}</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-150" aria-hidden="true" />
-                </LocalLink>
-                <a
-                  href="https://wa.me/85292851189"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary group min-h-[44px]"
-                >
-                  <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-accent-success" />
-                  <span>{hero.ctaContact}</span>
-                </a>
-              </div>
-            </header>
-
             <div className="how-to-scroll-section__workflow">
               <h2 className="chapter-title how-to-scroll-section__workflow-title">
                 {howTo.title}

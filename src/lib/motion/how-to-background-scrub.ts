@@ -154,6 +154,7 @@ function cleanupScrubState(
 }
 
 function createPinnedScrubTrigger(
+  trigger: HTMLElement,
   section: HTMLElement,
   stage: HTMLElement,
   sceneCount: number,
@@ -165,7 +166,7 @@ function createPinnedScrubTrigger(
   applyScrubUpdate(0, sceneCount, layers, imgs, stepEls, section, kenBurns);
 
   return ScrollTrigger.create({
-    trigger: section,
+    trigger,
     start: 'top top',
     end: () => `+=${scrollTravelPx(sceneCount)}`,
     pin: stage,
@@ -242,6 +243,7 @@ export function createHowToBackgroundScrub(
 
   mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
     scrollTrigger = createPinnedScrubTrigger(
+      stage,
       section,
       stage,
       sceneCount,
