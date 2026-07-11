@@ -30,7 +30,7 @@ A modern e-commerce and collector platform for Appaw Store — featuring PSA car
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 24+
 - npm
 
 ### Installation
@@ -260,7 +260,7 @@ MIT
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 24+
 - npm or yarn
 
 ### Installation
