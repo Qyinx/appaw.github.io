@@ -93,7 +93,7 @@ export default function GradingIntakeClient() {
         </p>
       </div>
 
-      <section className="border border-border-default bg-surface-panel p-5 space-y-5">
+      <section className="panel p-5 space-y-5">
         <div className="grid md:grid-cols-2 gap-3">
           <div>
             <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
@@ -134,7 +134,7 @@ export default function GradingIntakeClient() {
             <input
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder="+852..."
+              placeholder="+852…"
               className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
             />
           </div>
@@ -145,15 +145,20 @@ export default function GradingIntakeClient() {
           {items.map((card, cardIndex) => (
             <div
               key={`card-${cardIndex}`}
-              className="grid gap-2 md:grid-cols-[1fr_auto_auto_auto_auto_auto] items-center border border-border-default/60 p-3 bg-surface-bg"
+              className="grid gap-2 md:grid-cols-[1fr_auto_auto_auto_auto_auto] items-end border border-border-default/60 p-3 bg-surface-bg"
             >
-              <input
-                value={card.cardName}
-                onChange={(e) => updateCard(cardIndex, { cardName: e.target.value })}
-                placeholder="Card name"
-                className="border border-border-default bg-surface-panel px-3 py-2 text-sm min-h-[40px]"
-              />
-              <label className="flex items-center gap-2 text-xs whitespace-nowrap">
+              <div>
+                <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1 md:sr-only">
+                  Card name
+                </label>
+                <input
+                  value={card.cardName}
+                  onChange={(e) => updateCard(cardIndex, { cardName: e.target.value })}
+                  placeholder="Card name…"
+                  className="border border-border-default bg-surface-panel px-3 py-2 text-sm min-h-[40px] w-full"
+                />
+              </div>
+              <label className="flex items-center gap-2 text-xs whitespace-nowrap min-h-[40px]">
                 <input
                   type="checkbox"
                   checked={card.isPaid}
@@ -161,23 +166,33 @@ export default function GradingIntakeClient() {
                 />
                 Paid
               </label>
-              <input
-                type="number"
-                min={0}
-                value={card.totalCost ?? ''}
-                onChange={(e) => updateCard(cardIndex, { totalCost: parseCostInput(e.target.value) })}
-                placeholder="Total"
-                className="w-24 border border-border-default bg-surface-panel px-2 py-2 text-sm font-mono"
-              />
-              <input
-                type="number"
-                min={0}
-                value={card.receivedCost ?? ''}
-                onChange={(e) => updateCard(cardIndex, { receivedCost: parseCostInput(e.target.value) })}
-                placeholder="Received"
-                className="w-24 border border-border-default bg-surface-panel px-2 py-2 text-sm font-mono"
-              />
-              <label className="flex items-center gap-2 text-xs whitespace-nowrap">
+              <div>
+                <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+                  Total
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  value={card.totalCost ?? ''}
+                  onChange={(e) => updateCard(cardIndex, { totalCost: parseCostInput(e.target.value) })}
+                  placeholder="Total…"
+                  className="w-24 border border-border-strong bg-surface-raised px-2.5 py-1.5 text-sm font-mono font-tabular text-right min-h-[40px]"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+                  Received
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  value={card.receivedCost ?? ''}
+                  onChange={(e) => updateCard(cardIndex, { receivedCost: parseCostInput(e.target.value) })}
+                  placeholder="Received…"
+                  className="w-24 border border-border-strong bg-surface-raised px-2.5 py-1.5 text-sm font-mono font-tabular text-right min-h-[40px]"
+                />
+              </div>
+              <label className="flex items-center gap-2 text-xs whitespace-nowrap min-h-[40px]">
                 <input
                   type="checkbox"
                   checked={card.psaUpgraded}
@@ -203,7 +218,7 @@ export default function GradingIntakeClient() {
 
         <div className="flex flex-wrap gap-2 pt-2">
           <button type="button" className="btn btn-primary" onClick={() => void save()} disabled={loading}>
-            {loading ? 'Saving...' : 'Save intake'}
+            {loading ? 'Saving…' : 'Save intake'}
           </button>
           <Link href="/admin/psa-grading" className="btn btn-secondary">
             Cancel

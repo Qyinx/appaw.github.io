@@ -32,6 +32,10 @@ export default function HomeClient() {
     trackEvent('cta_click', { category: 'homepage', action: 'analyze_centering', label: 'hero_analyze_centering' });
   };
 
+  const handlePsaGradingClick = () => {
+    trackEvent('cta_click', { category: 'homepage', action: 'psa_grading', label: 'homepage_psa_grading' });
+  };
+
   const handleTradingClick = () => {
     trackEvent('cta_click', { category: 'homepage', action: 'browse_trading', label: 'homepage_trading_preview' });
   };
@@ -148,6 +152,30 @@ export default function HomeClient() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal visible={servicesReveal.visible} dir="up" delay={60} className="mt-8">
+            <LocalLink
+              href="/business/psa-grading"
+              onClick={handlePsaGradingClick}
+              className="panel p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 hover:bg-surface-raised transition-colors duration-150 group"
+            >
+              <div className="max-w-xl">
+                <span className="inline-block font-mono text-[10px] uppercase tracking-widest px-2 py-1 border border-accent-secondary/40 text-accent-secondary mb-3">
+                  {t.home.services.psaGrading.badge}
+                </span>
+                <h3 className="text-xl md:text-2xl font-display font-bold text-text-primary mb-2 group-hover:text-accent-brand transition-colors duration-150">
+                  {t.home.services.psaGrading.title}
+                </h3>
+                <p className="text-sm text-text-secondary leading-relaxed">
+                  {t.home.services.psaGrading.description}
+                </p>
+              </div>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-accent-brand shrink-0">
+                {t.home.services.psaGrading.cta}
+                <ArrowRight className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-0.5" aria-hidden="true" />
+              </span>
+            </LocalLink>
+          </Reveal>
 
           <Reveal visible={servicesReveal.visible} dir="up" delay={80} className="mt-8">
             <div className="panel p-6 md:p-8 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">

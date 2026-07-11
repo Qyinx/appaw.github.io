@@ -148,6 +148,12 @@ export const zh: Translations = {
         description: '量度裸卡或鑑定卡照片，重評或送鑑前先篩選 PSA 10 邊距與降級風險。',
         cta: '免費量度置中',
       },
+      psaGrading: {
+        badge: '代送',
+        title: 'PSA 代送鑑定',
+        description: '銅鑼灣 138 Arena 面交交卡及取件。服務費由 HKD 890 起，每批可網上查詢進度。',
+        cta: '了解代送服務',
+      },
       guidesLink: '鑑定卡保護、防 UV、置中與重評／換殼指南',
       guidesCta: '閱讀指南',
       trading: {
@@ -233,6 +239,15 @@ export const zh: Translations = {
       cardTradingPill: '卡牌交易',
     },
     service01Label: '服務 01 — 保護',
+    psaGrading: {
+      badge: 'PSA 代送鑑定',
+      title: 'PSA 收藏卡代送鑑定',
+      description:
+        '代您將寶可夢、運動卡及 MTG 卡牌送交 PSA 鑑定。僅限銅鑼灣 138 Arena 面交交卡及取件，每批可網上追溯進度。',
+      chips: ['138 Arena', 'HKD 890 起', '僅限面交', '批次查詢'],
+      cta: '了解代送服務',
+      trackCta: '查詢批次',
+    },
     cardProtector: {
       title: '磁吸防UV鑑定卡保護殼',
       description: '防UV強化玻璃保護與展覽級展示的完美結合——專為標準 35PT PSA 及 CGC 鑑定卡磚而設。',
@@ -332,7 +347,7 @@ export const zh: Translations = {
     centeringCrossLink: {
       badge: '送鑑前工具',
       title: '送鑑前先檢查置中',
-      body: '使用免費置中計算器量度正反面邊距，對照 PSA 10 標準——再以我們的防UV玻璃保護殼妥善保存鑑定卡磚。',
+      body: '先用免費置中計算器量度正反面邊距，對照 PSA 10 標準。之後可用防UV玻璃保護殼妥善保存鑑定卡磚。',
       cta: '免費置中計算器',
     },
     hkGuide: {
@@ -349,7 +364,7 @@ export const zh: Translations = {
         { label: '鑑定卡防 UV 與防潮指南', href: '/guides/uv-protection-graded-cards/' },
         { label: '鑑定卡展示指南', href: '/guides/display-graded-cards/' },
         { label: '裸卡送鑑與鑑定卡保護策略', href: '/guides/grade-or-protect-first/' },
-        { label: '如何辨識假 PSA 鑑定卡', href: '/guides/identify-fake-psa-slabs/' },
+        { label: '如何辨識 PSA 真偽鑑定卡', href: '/guides/identify-fake-psa-slabs/' },
       ],
       guideLinksTitle: '相關收藏指南',
     },
@@ -592,6 +607,13 @@ export const zh: Translations = {
     badge: '卡片販售',
     title: '卡牌市集',
     subtitle: '精選鑑定卡牌——經驗證、妥善保存，歡迎洽購。',
+    availability: {
+      badge: '即將推出',
+      title: '目前僅限受邀客戶',
+      body: '卡牌市集即將正式推出。現階段買賣及委託出售僅開放予受邀客戶。如需優先體驗，歡迎 WhatsApp 聯絡我們。',
+      ctaContact: 'WhatsApp 聯絡',
+      gridNote: '市集正式推出後，卡牌列表將顯示於此。',
+    },
     hero: {
       statsAvailable: '現貨卡牌',
       statsPsa: 'PSA 鑑定',
@@ -718,33 +740,96 @@ export const zh: Translations = {
 
   psaGradingPage: {
     badge: 'PSA 代送鑑定',
+    dropOffAddress: '138 Arena，銅鑼灣謝斐道522號1/F',
+    lastUpdatedLabel: '最後更新',
+    lastUpdated: '2026-07-12',
+    availability: {
+      badge: '香港服務',
+      title: '銅鑼灣 138 Arena 面交',
+      body: '交卡及取件須親臨合作店舖 138 Arena，不接受郵寄。如有疑問，歡迎交卡前 WhatsApp 聯絡我們。',
+      ctaContact: 'WhatsApp 聯絡',
+    },
+    aeo: {
+      title: '如何在香港送卡牌至 PSA 鑑定？',
+      answer:
+        '請親臨銅鑼灣 138 Arena 交收寶可夢、運動卡或 MTG 裸卡／套袋卡。Appaw 按您選擇的等級代送 PSA（服務費由 HKD 890 起）。憑收據上的電話號碼及 BAT 參考編號查詢每批進度。',
+    },
+    whoThisIsFor: {
+      title: '適合對象',
+      body:
+        '欲送鑑的香港藏家：寶可夢 TCG、運動卡或 Magic: The Gathering。接受裸卡或套袋卡。高價值卡牌或需額外申報文件。付費送鑑前可先以置中工具檢查。',
+    },
+    dropOff: {
+      title: '交卡地點',
+      hoursNote: '營業時間見 Instagram @138arena。',
+    },
+    relatedReading: {
+      title: '延伸閱讀',
+      guides: [
+        { label: 'PSA 評級標準', href: '/guides/psa-grading-standards/' },
+        { label: '先送鑑還是先保護？', href: '/guides/grade-or-protect-first/' },
+        { label: 'PSA 10 置中要求', href: '/guides/psa-10-centering-requirements/' },
+      ],
+      centering: { label: '免費置中工具', href: '/tools/card-centering/' },
+      protectors: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
+    },
     hero: {
       title: 'PSA 收藏卡代送鑑定',
       definition:
-        '你交卡，我們代送 PSA。鑑定完成後於合作店舖 138 Arena（銅鑼灣）取件，或安排寄送。每批附參考編號，網上隨時查進度。',
+        '我們提供 PSA 鑑定代送服務，每批可網上追溯進度。卡磚返港後通知取件，讓收藏獲得 PSA 官方評級，讓你交託時更安心。',
       ctaTrack: '查詢進度',
       ctaContact: 'WhatsApp 聯絡',
+    },
+    chapters: {
+      pricing: '價目',
+      howTo: '流程',
+      faq: '常見問題',
+    },
+    quotes: {
+      prev: '上一則',
+      next: '下一則',
+      items: [
+        {
+          body: '僅限 138 Arena 面交交卡及取件，不接受郵寄。',
+          attribution: '138 Arena 團隊',
+        },
+        {
+          body: '請用收據上的電話號碼及參考編號查詢每批進度。',
+          attribution: 'PSA 代送鑑定服務',
+        },
+        {
+          body: '每個 PSA 服務等級有獨立 BAT 批次參考編號。',
+          attribution: '138 Arena 團隊',
+        },
+      ],
     },
     howTo: {
       badge: '流程',
       title: '由交卡到鑑定卡磚',
-      subtitle: '你負責選卡，物流和跟進交給我們。',
+      subtitle:
+        '由 138 Arena 收件、PSA 鑑定到返港取件，全程可追蹤，讓您隨時掌握卡牌進度。',
+      trackLink: '查詢批次進度',
+      stepLabel: '步驟',
       steps: [
         {
           title: '138 Arena 交卡',
-          body: '請親臨合作店舖 138 Arena（銅鑼灣謝斐道522號1/F）面交，不接受郵寄交卡。我們核對清單並按 PSA 服務等級分配批次參考編號（如 Express 為 BAT-2026-07-EXP-3，Regular 為 BAT-2026-07-REG-3）。',
+          tagline: 'Received locally',
+          body: '僅接受面交。核對清單後按 PSA 服務等級分配批次參考編號。',
         },
         {
-          title: '批量提交 PSA',
-          body: '我們合併批次寄送 PSA。參考編號會對應您的卡牌及 PSA 訂單編號。',
+          title: '提交 PSA',
+          tagline: 'Submitted to PSA',
+          body: '合併批次寄送 PSA。參考編號對應您的卡牌及 PSA 訂單。',
         },
         {
-          title: '評級與品控',
-          body: 'PSA 完成評級。進度同步至系統 — 可查看由備貨至品控各階段。',
+          title: 'PSA 評級與品控',
+          tagline: 'PSA 鑑定進行中',
+          body: 'PSA 完成研究、評分、封裝與品控。進度同步至系統各階段 — 可隨時在查詢頁查看。',
         },
         {
           title: '返港取件',
-          body: '鑑定卡磚返港後，於 138 Arena 取件或安排寄送。不少藏家取件後會搭配我們的防 UV 玻璃保護殼長期陳列。',
+          tagline: 'Ready for pickup',
+          body: '鑑定卡磚返港後於 138 Arena 取件或安排寄送。',
         },
       ],
     },
@@ -754,50 +839,55 @@ export const zh: Translations = {
       items: [
         {
           q: '如何查詢代送進度？',
-          a: '在「查詢進度」頁輸入交卡時提供的電話號碼及參考編號。兩者缺一不可 — 我們不會僅憑電話公開你的委託資料。',
-        },
-        {
-          q: '什麼是參考編號？',
-          a: '格式為 BAT-{年份}-{月份}-{方案}-{批次號}（如 BAT-2026-07-EXP-3）。方案段代表 PSA 服務等級。請使用此批次參考編號加收件電話查詢進度。',
+          a: '在「查詢進度」頁輸入收據上的電話號碼及參考編號。兩者缺一不可，我們不會僅憑電話公開委託資料。',
         },
         {
           q: '一次交卡有多個 PSA 方案？',
-          a: '每個服務等級（Regular、Express、Super Express、Walk-Through）會分配到獨立 BAT 批次 — 例如 BAT-2026-07-EXP-3 與 BAT-2026-07-REG-3。請用相同電話分別查詢。',
+          a: '每個服務等級有獨立 BAT 批次。請用相同電話分別查詢。',
         },
         {
           q: '在哪裡交卡及取件？',
-          a: 'PSA 代送鑑定統一於合作店舖 138 Arena（銅鑼灣謝斐道522號1/F）面交交卡及取件，不接受郵寄。營業時間及詳情可透過 Instagram @138arena 查詢。',
+          a: '僅限 138 Arena 面交交卡及取件，不接受郵寄。營業時間見 Instagram @138arena。',
         },
         {
           q: '時間軸各階段代表什麼？',
-          a: '「卡牌已於 138 Arena 登記」表示合作店已完成收件。「已提交至 PSA 香港」表示批次已送交 PSA 香港中心。中間階段由 PSA 同步。「可於 138 Arena 取件」表示鑑定卡磚已返港，等候您取件。',
-        },
-        {
-          q: '進度多久更新一次？',
-          a: '批次提交 PSA 後，我們每日多次同步訂單狀態。時間軸顯示最新已知階段 — 實際週期視 PSA 服務等級而定。',
+          a: '「卡牌已於 138 Arena 登記」為收件。「已提交至 PSA 香港」為批次已送交 PSA。中間階段由 PSA 同步。「可於 138 Arena 取件」表示卡磚已返港。',
         },
         {
           q: '接受哪些卡牌？',
-          a: '寶可夢、運動卡及 MTG 裸卡或套袋卡。高價值卡牌或需額外申報價值文件 — 交卡前請先聯絡我們。',
-        },
-        {
-          q: '可以郵寄交卡嗎？',
-          a: '不接受。請親臨合作店舖 138 Arena（銅鑼灣謝斐道522號1/F）面交交卡及取件。',
+          a: '寶可夢、運動卡及 MTG 裸卡或套袋卡。高價值卡牌或需額外申報文件，交卡前請先聯絡我們。',
         },
       ],
     },
     cta: {
-      title: '已交卡？',
-      body: '輸入電話號碼及參考編號查看即時進度 — 評級階段、卡牌清單及寄回追蹤。',
+      title: '交卡前有疑問？',
+      body: '可參閱 PSA 評級標準指南，或 WhatsApp 聯絡我們。',
       track: '查詢進度',
       guide: 'PSA 評級標準',
+    },
+    pricing: {
+      badge: '價目',
+      title: 'PSA 服務等級',
+      tableLabel: 'PSA 價目表',
+      colService: '服務選項',
+      colFee: '收費 (HKD)',
+      colMaxValue: '最高申報價值',
+      colTurnaround: '鑑定期',
+      quoteLink: 'WhatsApp 查詢',
+      days: '{days} 個工作天',
+      footnote1: '價格或會因應官方調整而更改，恕不另行通知。',
+      footnote2: '若評級後價值超過所選服務的最高申報價值，PSA 有權升級服務等級並收取差價。',
+      turnaroundFootnote:
+        '預計鑑定期僅供參考，並非保證。計時由 PSA 將訂單錄入鑑定系統後方開始。實際時間受 PSA 送鑑量、處理能力及其他不可預見因素影響，可能因情況變化而迅速調整，恕不另行通知。隨著收藏品市場及 PSA 服務需求增長，PSA 或會調整價格、服務項目及處理時間以配合需求與產能。所有條款及細則均可更改。',
     },
   },
 
   psaGradingTrack: {
     badge: '進度查詢',
     title: '查詢代送進度',
-    subtitle: '輸入交卡收據上的電話號碼及參考編號以查看進度。',
+    subtitle: '收據上的電話號碼及參考編號。',
+    staticIntro:
+      '請輸入 138 Arena 收據上的手提電話號碼及 BAT 參考編號，兩者缺一不可。我們不會僅憑電話號碼顯示委託資料。',
     formPanelLabel: '查詢',
     backToHub: '返回 PSA 代送鑑定',
     breadcrumb: {
@@ -808,7 +898,7 @@ export const zh: Translations = {
     },
     form: {
       phoneLabel: '電話號碼',
-      phonePlaceholder: '+852 9285 1189',
+      phonePlaceholder: '+852 9123 4567',
       phoneHelper: '接受 +852、852 或本地 8 位數字格式。',
       refLabel: '參考編號',
       refPlaceholder: 'BAT-2026-07-EXP-3',
@@ -819,6 +909,20 @@ export const zh: Translations = {
       fillDemoShort: '使用示範',
       notFoundTitle: '找不到委託紀錄',
       notFoundBody: '請確認電話號碼及參考編號與收據一致。如需協助請 WhatsApp 聯絡我們。',
+      pricingLink: 'PSA 服務等級及收費',
+    },
+    guide: {
+      idleHint: '收據上會顯示查詢所需的電話號碼及 BAT 參考編號。',
+      pricingLink: 'PSA 服務等級及收費',
+      formatExampleLabel: '參考編號格式',
+      formatExample: 'BAT-YYYY-MM-PLAN-N（例如：BAT-2026-07-EXP-3）',
+      phoneRowLabel: '電話',
+      phoneRowValue: '收據上的手提電話（+852、852 或本地 8 位數字）',
+      refRowLabel: '參考編號',
+      refRowValue: '收件收據上的 BAT 批次編號',
+      multiPlanLabel: '多個方案',
+      multiPlanValue: '每個 PSA 等級有獨立 BAT 參考編號，可用相同電話分別查詢',
+      faqLink: '代送鑑定頁常見問題',
     },
     servicePlan: {
       regular: 'Regular',
@@ -866,6 +970,7 @@ export const zh: Translations = {
         status: '進度',
         cards: '卡牌 ({count})',
       },
+      tabsLabel: '結果檢視',
       steps: {
         appawRecorded: '卡牌已於 138 Arena 登記',
         appawSentToPsa: '提交至 PSA 香港',
@@ -1280,24 +1385,6 @@ export const zh: Translations = {
       howToDescription: '四步量度任何集換式卡牌的置中比例，並估算 PSA 鑑定區間。',
       howToTool: '卡牌的正向照片或掃描檔',
     },
-    howToSteps: [
-      {
-        name: '上傳清晰照片',
-        text: '上傳在深色平面背景、光線均勻下拍攝的正向卡牌照片或掃描檔。',
-      },
-      {
-        name: '拉直照片',
-        text: '斜角拍攝會拉歪邊距比例。開啟「調整圖片」，用縮放和傾斜讓卡牌邊緣與框架平行。',
-      },
-      {
-        name: '對齊邊緣與圖框導線',
-        text: '拖曳每條藍色導線至卡牌外切邊緣，每條粉色導線至四邊印刷圖框內緣。移動過全部八個控制點後即完成此步。',
-      },
-      {
-        name: '查看置中百分比',
-        text: '工具即時計算左右及上下邊距比例，並顯示 PSA、BGS、SGC 或 CGC 估算評級區間。可在標題列切換鑑定標準。',
-      },
-    ],
     faq: [
       {
         q: 'PSA 10 需要多少置中比例？',
@@ -1305,7 +1392,7 @@ export const zh: Translations = {
       },
       {
         q: 'Appaw 置中分析器有多準確？',
-        a: '取決於照片。平整掃描且導線對齊切邊與圖框，通常與鑑定員量度相差一兩個百分點以內。斜角手機照片會拉歪比例。',
+        a: '看照片。平整掃描、導線對準切邊和圖框，跟鑑定員量的通常差一兩個點。手機斜拍會拉歪，別太信。',
       },
       {
         q: '如何拍攝最佳置中量度照片？',
@@ -1325,7 +1412,7 @@ export const zh: Translations = {
       },
       {
         q: '重新評級會令卡牌降級嗎？',
-        a: '會。PSA 依現行標準重新評估四角、邊緣、表面及置中。PSA 10 常退回 PSA 9。正面置中低於 55/45 是降級警示。',
+        a: '會。PSA 10 重評變 9 很常見。正面置中差過 55/45，更要小心。',
       },
       {
         q: '能否使用鑑定卡照片檢查置中？',
@@ -1469,7 +1556,7 @@ export const zh: Translations = {
     content: {
       h1: CENTERING_SEO.zh.h1 as string,
       lead:
-        '多數送鑑失敗源於置中，而非四角。PSA 10 要求正面 55/45、背面 75/25。上傳照片、對齊導線，讀取左右及上下百分比（PSA、BGS、SGC、CGC）。鑑定卡模式可篩選重評升值。全程在瀏覽器運行，不會上傳至伺服器。',
+        '卡在 8、9 的卡，很多是置中問題，不是四角。PSA 10 要正面 55/45、背面 75/25。上傳、對齊導線，讀左右和上下比例，對照 PSA、BGS、SGC、CGC。鑑定卡模式可先看重評有沒有空間。在你裝置上跑，圖片不上傳。',
       howToTitle: '如何使用 Appaw 卡牌置中分析器',
       howToBadge: '四步流程',
       stepLabel: '第 {n} 步',
@@ -1516,7 +1603,7 @@ export const zh: Translations = {
       centeringGuideLink: 'PSA 10 置中標準詳解',
       whyMattersTitle: '為何卡牌置中很重要',
       whyMattersP1:
-        '鑑定員評估四角、邊緣、表面及置中。置中是送鑑前唯一能從照片量度的一項。四角銳利、表面完美，邊框偏置中仍可能被限制在 PSA 8 或 9。PSA 9 與 PSA 10 的市值可相差兩至三倍。提前量度邊距，是最划算的篩選。',
+        '鑑定看四角、邊緣、表面、置中四項。送鑑前，只有置中能靠照片先量。四角再尖、表面再乾淨，邊框偏了還是常卡在 PSA 8 或 9。9 和 10 的市價差兩三倍不稀奇。先量邊距，比盲送便宜。',
       whyMattersBeforeProtector: '確認卡牌置中良好且值得送鑑後，往返鑑定機構途中可用優質 ',
       protectorLink: 'PSA 防UV玻璃保護殼',
       whyMattersBeforeTrading: ' 妥善保護，或了解我們的 ',
@@ -1524,7 +1611,7 @@ export const zh: Translations = {
       whyMattersAfterTrading: '。',
       slabWorkflowTitle: '如何在鑑定卡照片上量度置中',
       slabWorkflowIntro:
-        '殼體塑膠會產生反光與透視畸變。使用「調整圖片」及角落放大鏡，讓導線對齊殼內卡面，而非外殼邊緣。',
+        '塑膠殼會反光，斜拍還會拉歪比例。開「調整圖片」，必要時開角落放大鏡，導線貼殼內卡面，別對外殼邊。',
       slabSteps: [
         {
           title: '正上方拍攝',
@@ -1549,11 +1636,11 @@ export const zh: Translations = {
       ],
       regradeTitle: '應該重評還是換殼？',
       regradeAeoAnswer:
-        '換殼保留數字評級並更換損壞外殼。重評重新檢查所有子項，可能降級。先在平整鑑定卡照片上量度置中。Gem Mint 邊距配 PSA 9 標籤或可考慮重評；殼體完好且置中合格則僅換殼。',
+        '換殼只換外殼，數字評級不變。重評會重新看四角、邊緣、表面、置中，分數可能掉。先在平整的鑑定卡照片上量置中：邊距達 Gem Mint、標籤卻是 PSA 9，才值得考慮重評；殼沒問題、置中也過，換殼就好。',
       regradeP1:
-        '僅因外殼問題而付重評費是常見錯誤。換殼更換外殼並保留數字。重評依現行標準重新評估置中、四角、邊緣及表面。',
+        '殼裂了卻去付重評費，是常見冤枉錢。換殼保留數字；重評依現行標準從頭再看置中、四角、邊緣及表面。',
       regradeP2:
-        '置中是唯一能從照片預先篩選的子項。eBay、Carousell 及卡展上的鑑定卡照片很少是平整掃描。若置中已低於 PSA 8 容差，即使殼體完好，重評的期望值通常為負。',
+        'eBay、Carousell、卡展上的鑑定卡照，多半不是平整掃描。置中是少數能靠照片先看的子項。邊距已低於 PSA 8 容差，殼再新，重評多半也不划算。',
       regradeGuideLink: 'PSA 重評 vs 換殼：完整決策指南',
       referencesTitle: '參考資料與延伸閱讀',
       referencesExternalLabel: '官方鑑定標準',
@@ -1587,7 +1674,7 @@ export const zh: Translations = {
           href: '/guides/psa-grading-standards/',
         },
         {
-          label: '如何辨識假 PSA 鑑定卡',
+          label: '如何辨識 PSA 真偽鑑定卡',
           href: '/guides/identify-fake-psa-slabs/',
         },
         {

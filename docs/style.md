@@ -33,6 +33,41 @@ Hermes landing patterns worth adopting ([PR #974](https://github.com/NousResearc
 
 Adapt for Appaw: keep **blush + indigo + gold** brand identity; borrow Hermes **structure and tone**, not Nous blue.
 
+### 1.1 Editorial scroll tier (AngelList-inspired, marketing-only)
+
+**When:** long marketing pages (PSA hub, future milestones/about). **Never:** admin, collection workspace, card-centering tool.
+
+**Reference:** [AngelList 2023 Year in Review](https://www.angellist.com/2023) — chapter structure and scroll rhythm only; not dark canvas or gradient soup.
+
+| AngelList pattern | Appaw adaptation | Keep from this guide |
+|---|---|---|
+| Scroll chapters (`Part [01]`) | Bracket labels on mono `chapter-label`; min-height chapters on `page-blueprint` | 1px borders, light-first tokens, spec rows |
+| Sticky chapter nav | `ChapterNav` — anchor links, blush active state | `<Link>` / `<a>` navigation, skip link, focus-visible |
+| Scroll-scrubbed progress | GSAP `ScrollTrigger` pin + scrub on **one** section (How it works) | `transform`/`opacity` only; `prefers-reduced-motion` → static |
+| Quote carousel `[01][02]` | Operational trust quotes (facts, not fake testimonials) | Curly quotes, sentence-case body |
+| Large editorial hero | Split headline + spec-sheet panel | HeroStamp / spec rows over decorative atmosphere |
+
+**Chapter anatomy:**
+
+- `chapter-label` — mono bracket syntax: `Part [01]`
+- `chapter-title` — display heading
+- Optional sticky `ChapterNav` — `#pricing`, `#how-to`, `#faq`
+- `min-h-[70vh]` section rhythm using `--space-section-y`
+
+**Two motion tiers:**
+
+- **Tier A — Reveal** (default): existing `.motion-reveal` / `useRevealOnScroll` / `<Reveal>`
+- **Tier B — Scrub** (opt-in, max **1** pinned section per page): GSAP `ScrollTrigger`; scrub step index or progress rail; static all-steps-visible when reduced motion or mobile
+
+**Quote carousel rules:**
+
+- `[01]` / `[02]` mono pagination via `.quote-carousel__index`
+- `aria-live="polite"` on quote body
+- Prev/next buttons with visible labels — no icon-only controls
+- No auto-advance
+
+**Anti-patterns:** multiple simultaneous pins, parallax on `top`/`height`, counters without real data, fake testimonials, layout reads in scroll handlers (WIG §6).
+
 ---
 
 ## 2. Brand Tokens
@@ -102,6 +137,14 @@ Grid: CSS Grid/Flex only — no JS layout measurement.
 - Never `transition: all` — list properties explicitly
 - All decorative motion gated behind `@media (prefers-reduced-motion: no-preference)`
 - Noise overlay, stagger reveals, terminal cursor blink: disable or static fallback when reduced motion
+
+**Editorial scroll tokens** (marketing chapter tier — mirror `--motion-reveal-*`):
+
+| Token | Default | Use |
+|-------|---------|-----|
+| `--motion-chapter-scrub-dur` | `1` | ScrollTrigger scrub multiplier |
+| `--motion-chapter-pin-spacing` | `0` | Pin spacing in vh units |
+| `--motion-quote-crossfade` | `320ms` | Quote carousel body swap |
 
 ---
 
@@ -173,6 +216,41 @@ Grid: CSS Grid/Flex only — no JS layout measurement.
 - URL reflects filters, tabs, pagination (query params)
 - Skip link to main content
 - Headings hierarchical `h1`–`h6`; one `h1` per page
+
+### 3.7 Scroll chapter
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  [sticky ChapterNav]  Pricing · How it works · FAQ       │
+├──────────────────────────────────────────────────────────┤
+│  Part [01]                                               │  ← .chapter-label
+│  PSA service tiers                                       │  ← .chapter-title
+│  ┌────────────────────────────────────────────────────┐  │
+│  │ spec rows / content                                │  │  ← .scroll-chapter
+│  └────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────┘
+```
+
+- Wrapper: `<ScrollChapter id="pricing" part="01" title="…">`
+- Section: `.scroll-chapter` + `scroll-mt-*` for sticky header offset
+- Min height: `min-h-[70vh]`; top border as chapter divider
+- Nav: `.chapter-nav` / `.chapter-nav__link--active` — structural ink + blush accent
+
+### 3.8 Quote carousel
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  "Face-to-face only at 138 Arena."                       │  ← aria-live="polite"
+│  — 138 Arena team                                        │
+│                                                          │
+│  [ ← ]  [ 01 ] / [ 02 ]  [ → ]                           │  ← .quote-carousel__index
+└──────────────────────────────────────────────────────────┘
+```
+
+- Controlled index — no auto-play
+- Keyboard: ArrowLeft / ArrowRight on focus container
+- Reduced motion: instant text swap (no crossfade)
+- Quotes must be factual operational statements, not fabricated testimonials
 
 ---
 
@@ -261,6 +339,15 @@ src/path/Component.tsx:67 - "..." → "…"
 - [ ] Dark tool surfaces match card-centering reference
 - [ ] Noise/animation respects `prefers-reduced-motion`
 
+### Editorial scroll pass (marketing pages only)
+- [ ] At most **one** ScrollTrigger pin per page
+- [ ] Scrub section: full step text always in DOM; highlight is decorative
+- [ ] `prefers-reduced-motion`: no pin/scrub; all steps visible
+- [ ] Mobile (`< md`): no pin; steps stack normally
+- [ ] `ChapterNav` uses `<a href="#…">`; active state via IntersectionObserver (no scroll jank)
+- [ ] Quote carousel: manual controls, `aria-live="polite"`, labeled prev/next
+- [ ] Quote copy is factual — no fake testimonials
+
 ### Engineering pass (WIG)
 - [ ] All WIG §6 rules satisfied
 - [ ] Destructive actions confirm or offer undo
@@ -285,6 +372,7 @@ Implement incrementally: **tokens → shared primitives → page templates → f
 
 ## 9. References
 
+- [AngelList 2023 Year in Review](https://www.angellist.com/2023) — editorial scroll chapters, sticky nav, quote pagination (structure only)
 - [Hermes Agent](https://hermes-agent.nousresearch.com/) — live reference UI
 - [Hermes landing redesign PR #974](https://github.com/NousResearch/hermes-agent/pull/974) — palette, spec layout, ASCII hero, noise overlay
 - [Hermes dashboard typography pass](https://github.com/NousResearch/hermes-agent/commit/487c398) — `text-display`, semantic contrast tokens

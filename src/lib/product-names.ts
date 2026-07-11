@@ -17,6 +17,9 @@ export const SEO_KEYWORD_MAP = {
   'tempered glass card protector': '強化玻璃卡殼',
   'PSA magnetic case': '磁吸PSA卡殼',
   'magnetic PSA slab case': '磁吸PSA卡殼',
+  'PSA submission Hong Kong': 'PSA代送鑑定',
+  'PSA grading service HK': '香港PSA代送',
+  'PSA card submission': '收藏卡送鑑',
 } as const;
 
 /** Canonical product names — keep in sync with i18n business.cardProtector.title / nav.psaProtector */
@@ -68,6 +71,9 @@ export const HK_SEO_KEYWORDS = [
   '重評降級',
   '鑑定卡置中檢查',
   '磁吸PSA卡殼',
+  'PSA代送鑑定',
+  '138 Arena',
+  '銅鑼灣',
 ] as const;
 
 /** Homepage meta — keep in sync with i18n home.hero.h1Keyword */
@@ -114,5 +120,44 @@ export const CENTERING_SEO = {
       '重評 vs 換殼置中篩選',
     ],
     breadcrumb: '卡牌置中工具',
+  },
+} as const;
+
+/** PSA submission hub + track — keep in sync with i18n psaGradingPage / psaGradingTrack */
+export const PSA_GRADING_SEO = {
+  en: {
+    title: 'PSA Collectibles Submission Hong Kong | Appaw Store',
+    description:
+      'Face-to-face PSA submission at 138 Arena, Causeway Bay. Service from HKD 890. Track batches with phone and reference code.',
+    h1Keyword: 'We submit your collectibles to PSA',
+    webAppName: 'PSA Submission Tracker',
+    trackTitle: 'Track PSA Submission | Appaw Store',
+    trackDescription:
+      'Check PSA submission status with your phone number and Appaw BAT reference code. Both are required for lookup.',
+    featureList: [
+      'Batch status lookup by phone and BAT reference code',
+      'Timeline sync from 138 Arena intake through PSA grading',
+      'Related submissions from the same drop-off visit',
+    ],
+    breadcrumb: 'PSA Submission',
+    trackBreadcrumb: 'Track',
+    lastUpdated: '2026-07-12',
+  },
+  zh: {
+    title: 'PSA 收藏卡代送鑑定 | 香港 – Appaw Store',
+    description:
+      '銅鑼灣 138 Arena 面交代送 PSA，服務費由 HKD 890 起。憑電話及參考編號查詢批次進度。',
+    h1Keyword: 'PSA 收藏卡代送鑑定',
+    webAppName: 'PSA 代送進度查詢',
+    trackTitle: '查詢 PSA 代送進度 | Appaw Store',
+    trackDescription: '憑電話號碼及 Appaw BAT 參考編號查詢 PSA 代送鑑定進度。兩者缺一不可。',
+    featureList: [
+      '憑電話及 BAT 參考編號查詢批次狀態',
+      '由 138 Arena 收件至 PSA 鑑定各階段時間軸',
+      '同一交卡日期的相關批次快速切換',
+    ],
+    breadcrumb: 'PSA 代送鑑定',
+    trackBreadcrumb: '查詢進度',
+    lastUpdated: '2026-07-12',
   },
 } as const;

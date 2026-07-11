@@ -13,7 +13,8 @@ import {
   itemUpdatePayload,
 } from '@/lib/grading/admin-draft-utils';
 import type { AdminCustomerOrderDetail, AdminItem } from '@/lib/grading/admin-types';
-import { parseServicePlanLabel } from '@/lib/grading/admin-types';
+import { parseServicePlanLabel, summarizePayment } from '@/lib/grading/admin-types';
+import { formatHkd } from '@/lib/grading/admin-format';
 
 type Props = {
   orderId: number;
@@ -134,7 +135,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
     }
   };
 
-  if (loading) return <p className="text-text-muted text-sm">Loading customer order...</p>;
+  if (loading) return <p className="text-text-muted text-sm">Loading customer order…</p>;
   if (!detail) {
     return (
       <div className="space-y-3">
@@ -147,6 +148,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
   }
 
   const { customerOrder } = detail;
+  const paymentSummary = summarizePayment(draftItems);
 
   return (
     <div className="space-y-6">
@@ -158,8 +160,8 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
         <p className="text-sm text-text-muted mt-1">Customer order — cards and payment details.</p>
       </div>
 
-      <section className="border border-border-default bg-surface-panel p-5 space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">Order details</h3>
+      <section className="panel p-5 space-y-4">
+        <h3 className="section-label">Order details</h3>
         <div className="grid gap-4 md:grid-cols-2">
           <div>
             <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Customer Order ID</p>
@@ -184,10 +186,10 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
         </div>
       </section>
 
-      <section className="border border-border-default bg-surface-panel p-5 space-y-4">
+      <section className="panel p-5 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
+            <h3 className="section-label">
               Cards in order ({draftItems.length})
             </h3>
             <p className="text-xs text-text-muted mt-1">Use ↑ ↓ to reorder cards. Save when finished editing.</p>
@@ -199,7 +201,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
               onClick={() => void saveAllChanges()}
               disabled={saving || !hasUnsavedChanges}
             >
-              {saving ? 'Saving...' : 'Save changes'}
+              {saving ? 'Saving…' : 'Save changes'}
             </button>
             <button
               type="button"
@@ -217,6 +219,24 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
         {hasUnsavedChanges && (
           <p className="text-xs text-accent-warn">Unsaved changes — click Save changes when ready.</p>
         )}
+
+        <div className="panel-raised p-4 max-w-md">
+          <div className="spec-row px-0">
+            <span className="spec-row__label">Total</span>
+            <span className="spec-row__value font-tabular">{formatHkd(paymentSummary.totalCostSum)}</span>
+          </div>
+          <div className="spec-row px-0">
+            <span className="spec-row__label">Received</span>
+            <span className="spec-row__value font-tabular">{formatHkd(paymentSummary.receivedCostSum)}</span>
+          </div>
+          <div className="spec-row px-0">
+            <span className="spec-row__label">Paid</span>
+            <span className="spec-row__value font-tabular">
+              {paymentSummary.paidCount}/{paymentSummary.totalCount}
+            </span>
+          </div>
+        </div>
+
         <AdminCardsTable
           items={draftItems}
           editable

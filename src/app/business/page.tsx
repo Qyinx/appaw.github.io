@@ -49,6 +49,20 @@ const services = itemListJsonLd('Appaw Store Services', [
       termsOfService: 'Face-to-face delivery in Hong Kong only. No upfront listing fee. Commission charged on successful sale. Quarterly stocktake every 3 months.',
     },
   },
+  {
+    '@type': 'ListItem',
+    position: 3,
+    item: {
+      '@type': 'Service',
+      name: 'PSA Collectibles Submission',
+      description:
+        'Face-to-face PSA grading submission proxy at partner store 138 Arena, Causeway Bay. Drop-off and pickup in person only. Online batch tracking by phone and BAT reference code. Pokémon, sports cards, and MTG accepted.',
+      provider: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
+      serviceType: 'PSA Grading Submission',
+      areaServed: { '@type': 'City', name: 'Hong Kong' },
+      url: 'https://appaw.store/business/psa-grading/',
+    },
+  },
 ]);
 
 const breadcrumb = breadcrumbJsonLd([

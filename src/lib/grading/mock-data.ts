@@ -11,7 +11,7 @@ import type {
 export const DEMO_INTAKE_GROUP_ID = 'intake-demo-2026-07-05';
 
 export const DEMO_LOOKUP = {
-  phoneNumber: '+85292851189',
+  phoneNumber: '+85290000000',
   /** Primary demo: Express plan, July 2026 batch 3 */
   referenceCode: formatBatchReferenceCode(2026, 7, 'EXP', 3),
 } as const;

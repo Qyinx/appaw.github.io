@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
-import { STEP_COUNT, ALL_GUIDE_HANDLES } from './centering-guide';
+import { STEP_COUNT, ALL_GUIDE_HANDLES, centeringHowToSteps } from './centering-guide';
 import { useCenteringGuide } from './CenteringGuideContext';
 import styles from './card-centering.module.css';
 
@@ -30,7 +30,7 @@ const GuideChevronIcon = ({ className }: { className?: string }) => (
 export default function GuideStepBanner({ imageReady }: GuideStepBannerProps) {
   const { t } = useLanguage();
   const tool = t.centeringPage.tool;
-  const howToSteps = t.centeringPage.howToSteps;
+  const howToSteps = centeringHowToSteps(t.centeringPage.content.steps);
   const {
     activeStep,
     guideDismissed,

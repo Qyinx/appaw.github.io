@@ -11,6 +11,8 @@ export const SITEMAP_PUBLIC_PATHS = [
   { path: '/privacy/', changeFrequency: 'yearly' as const, priority: 0.2 },
   { path: '/products/psa-protectors/', changeFrequency: 'weekly' as const, priority: 0.95 },
   { path: '/business/', changeFrequency: 'weekly' as const, priority: 0.9 },
+  { path: '/business/psa-grading/', changeFrequency: 'weekly' as const, priority: 0.85 },
+  { path: '/business/psa-grading/track/', changeFrequency: 'weekly' as const, priority: 0.7 },
   { path: '/collection/', changeFrequency: 'monthly' as const, priority: 0.75 },
   { path: '/tools/card-centering/', changeFrequency: 'weekly' as const, priority: 0.8 },
 ] as const;

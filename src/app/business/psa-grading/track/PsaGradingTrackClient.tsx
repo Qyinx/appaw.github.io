@@ -3,16 +3,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ArrowLeft } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { DEMO_LOOKUP } from '@/lib/grading/mock-data';
 import { mockLookup, parseDemoVariant } from '@/lib/grading/mock-lookup';
 import { lookupGradingSubmission } from '@/lib/grading/grading-api';
 import type { GradingRelatedSubmission, GradingSubmission } from '@/lib/grading/types';
 import LocalLink from '@/components/LocalLink';
-import HeroStamp from '@/components/ui/HeroStamp';
 import { useSubHeader } from '@/hooks/useSubHeader';
 import TrackLookupForm, { type TrackLookupFormHandle } from './TrackLookupForm';
-import TrackResultsPanel from './TrackResultsPanel';
+import TrackResultsPanel, { type ResultsTab } from './TrackResultsPanel';
+import TrackGuidePanel from './TrackGuidePanel';
 import { useLanguage } from '@/context/LanguageContext';
 import {
   animateFormErrorShake,
@@ -28,17 +28,22 @@ type LookupState = 'idle' | 'loading' | 'success' | 'not_found';
 export default function PsaGradingTrackClient() {
   const { t } = useLanguage();
   const copy = t.psaGradingTrack;
+  const router = useRouter();
   const searchParams = useSearchParams();
   const demoParam = searchParams.get('demo');
   const demoVariant = parseDemoVariant(demoParam);
-  const forceDemoMode = demoParam !== null;
+  const isDev = process.env.NODE_ENV !== 'production';
+  const forceDemoMode = isDev && demoParam !== null;
+  const focusParam = searchParams.get('focus');
+  const initialFocus = focusParam === 'lookup' ? 'phone' : undefined;
 
   const formHandleRef = useRef<TrackLookupFormHandle>(null);
   const skeletonRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const skeletonTweenRef = useRef<gsap.core.Timeline | void>(undefined);
+  const autoLookupDoneRef = useRef(false);
 
   useGradingTrackMotion(pageRef);
 
@@ -47,6 +52,24 @@ export default function PsaGradingTrackClient() {
   const [state, setState] = useState<LookupState>('idle');
   const [submission, setSubmission] = useState<GradingSubmission | null>(null);
   const [relatedSubmissions, setRelatedSubmissions] = useState<GradingRelatedSubmission[]>([]);
+  const [resultsTab, setResultsTab] = useState<ResultsTab>(
+    searchParams.get('view') === 'cards' ? 'cards' : 'status',
+  );
+  const [liveMessage, setLiveMessage] = useState('');
+
+  const syncUrl = useCallback(
+    (nextPhone: string, nextRef: string, nextView?: ResultsTab) => {
+      const params = new URLSearchParams();
+      if (nextPhone.trim()) params.set('phone', nextPhone.trim());
+      if (nextRef.trim()) params.set('ref', nextRef.trim());
+      if (nextView && nextView !== 'status') params.set('view', nextView);
+      if (isDev && demoParam !== null) params.set('demo', demoParam);
+      if (focusParam === 'lookup') params.set('focus', 'lookup');
+      const qs = params.toString();
+      router.replace(qs ? `?${qs}` : '?', { scroll: false });
+    },
+    [demoParam, focusParam, isDev, router],
+  );
 
   const fillDemo = useCallback(() => {
     setPhone(DEMO_LOOKUP.phoneNumber);
@@ -58,6 +81,7 @@ export default function PsaGradingTrackClient() {
       setState('loading');
       setSubmission(null);
       setRelatedSubmissions([]);
+      setLiveMessage('');
 
       let result = null;
       if (forceDemoMode) {
@@ -73,21 +97,46 @@ export default function PsaGradingTrackClient() {
       }
       if (!result) {
         setState('not_found');
+        setLiveMessage(copy.form.notFoundTitle);
+        syncUrl(lookupPhone, lookupRef);
         return;
       }
       setSubmission(result.submission);
       setRelatedSubmissions(result.relatedSubmissions ?? []);
       setState('success');
+      setLiveMessage(`${copy.results.refLabel}: ${result.submission.referenceCode}`);
+      syncUrl(lookupPhone, lookupRef, resultsTab);
     },
-    [demoVariant, forceDemoMode],
+    [copy.form.notFoundTitle, copy.results.refLabel, demoVariant, forceDemoMode, resultsTab, syncUrl],
   );
 
   useEffect(() => {
-    const tween = animateSectionEntrance(heroRef.current);
+    const tween = animateSectionEntrance(gridRef.current);
     return () => {
       tween?.kill();
     };
   }, []);
+
+  useEffect(() => {
+    const urlPhone = searchParams.get('phone') ?? '';
+    const urlRef = searchParams.get('ref') ?? '';
+    const urlView = searchParams.get('view');
+
+    if (urlPhone) setPhone(urlPhone);
+    if (urlRef) setReferenceCode(urlRef);
+    if (urlView === 'cards' || urlView === 'status') {
+      setResultsTab(urlView);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (autoLookupDoneRef.current) return;
+    const urlPhone = searchParams.get('phone') ?? '';
+    const urlRef = searchParams.get('ref') ?? '';
+    if (!urlPhone || !urlRef) return;
+    autoLookupDoneRef.current = true;
+    void runLookup(urlPhone, urlRef);
+  }, [searchParams, runLookup]);
 
   useEffect(() => {
     const formEl = formHandleRef.current?.getFormElement() ?? null;
@@ -138,7 +187,15 @@ export default function PsaGradingTrackClient() {
     [phone, runLookup],
   );
 
-  const hasSidePanel = state === 'loading' || (state === 'success' && submission != null);
+  const handleTabChange = useCallback(
+    (tab: ResultsTab) => {
+      setResultsTab(tab);
+      syncUrl(phone, referenceCode, tab);
+    },
+    [phone, referenceCode, syncUrl],
+  );
+
+  const showDemoButton = isDev && state !== 'success';
 
   useSubHeader({
     width: 'narrow',
@@ -175,26 +232,15 @@ export default function PsaGradingTrackClient() {
       ref={pageRef}
       className="min-h-dvh bg-surface-bg grading-track-workspace collection-workspace page-blueprint overflow-x-clip"
     >
-      <div className="workspace-canvas container-tool grading-track-canvas">
-        <div ref={heroRef} className="mb-6 md:mb-8">
-          <HeroStamp
-            decorative={false}
-            lines={{
-              brand: copy.badge,
-              tagline: copy.title,
-              muted: copy.subtitle,
-            }}
-          />
+      <div className="workspace-canvas container-tool grading-track-canvas pt-2 md:pt-4">
+        <h1 className="font-display text-2xl md:text-3xl font-bold text-text-primary mb-2">{copy.title}</h1>
+        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl mb-6">{copy.staticIntro}</p>
+        <div aria-live="polite" aria-atomic="true" className="sr-only">
+          {liveMessage}
         </div>
 
-        <div
-          className={
-            hasSidePanel
-              ? 'grading-track-grid'
-              : 'grading-track-grid grading-track-grid--centered'
-          }
-        >
-          <div className={hasSidePanel ? 'grading-track-form-panel' : undefined}>
+        <div ref={gridRef} className="grading-track-grid">
+          <div className="grading-track-form-panel">
             <TrackLookupForm
               ref={formHandleRef}
               copy={copy.form}
@@ -206,14 +252,16 @@ export default function PsaGradingTrackClient() {
               onSubmit={handleSubmit}
               onFillDemo={fillDemo}
               state={state}
-              compact={hasSidePanel}
+              compact={state !== 'idle'}
+              showDemoButton={showDemoButton}
+              initialFocus={initialFocus}
             />
           </div>
 
           {state === 'loading' && (
             <div
               ref={skeletonRef}
-              className="grading-track-skeleton min-w-0"
+              className="grading-track-skeleton min-w-0 min-h-[12rem]"
               aria-live="polite"
               aria-busy="true"
             >
@@ -223,6 +271,8 @@ export default function PsaGradingTrackClient() {
             </div>
           )}
 
+          {(state === 'idle' || state === 'not_found') && <TrackGuidePanel copy={copy.guide} />}
+
           {state === 'success' && submission && (
             <div ref={resultsRef} className="min-w-0">
               <TrackResultsPanel
@@ -231,6 +281,8 @@ export default function PsaGradingTrackClient() {
                 servicePlanCopy={copy.servicePlan}
                 relatedSubmissions={relatedSubmissions}
                 onSelectReference={handleSelectReference}
+                activeTab={resultsTab}
+                onTabChange={handleTabChange}
               />
             </div>
           )}

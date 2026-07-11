@@ -1,98 +1,92 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import LocalLink from '@/components/LocalLink';
 import {
-  ArrowRight, Package, Truck, Award, Shield, ChevronDown,
-  Search, MessageCircle,
+  ChevronDown,
+  MessageCircle,
 } from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
 import Reveal from '@/components/ui/Reveal';
-import PsaGradingHero from './components/PsaGradingHero';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
-
-const STEP_ICONS = [Package, Truck, Award, Shield];
+import { useHowToBackgroundScrub } from '@/hooks/useHowToBackgroundScrub';
+import ScrollChapter from '@/components/motion/ScrollChapter';
+import ChapterNav from '@/components/motion/ChapterNav';
+import PsaPricingTable from './components/PsaPricingTable';
+import PsaGradingHowToSection from './components/PsaGradingHowToSection';
+import PsaGradingAvailabilityBanner from './components/PsaGradingAvailabilityBanner';
+import { PSA_HOW_TO_SCENES } from '@/lib/grading/how-to-scenes';
 
 export default function PsaGradingHubClient() {
   const { t } = useLanguage();
   const copy = t.psaGradingPage;
-  const howToRef = useRevealOnScroll<HTMLElement>({ threshold: 0.08 });
-  const faqRef = useRevealOnScroll<HTMLElement>({ threshold: 0.08 });
-  const ctaRef = useRevealOnScroll<HTMLElement>({ threshold: 0.08 });
+  const pageRef = useRef<HTMLDivElement>(null);
+  const pricingRef = useRevealOnScroll<HTMLDivElement>({ threshold: 0.08 });
+  const contextRef = useRevealOnScroll<HTMLDivElement>({ threshold: 0.08 });
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
+  useHowToBackgroundScrub(pageRef, PSA_HOW_TO_SCENES.length);
+
+  const chapterNavItems = [
+    { id: 'how-to', label: copy.chapters.howTo },
+    { id: 'pricing', label: copy.chapters.pricing },
+    { id: 'faq', label: copy.chapters.faq },
+  ];
+
   return (
-    <div className="flex flex-col bg-surface-bg">
-      <PsaGradingHero
-        badge={copy.badge}
-        title={copy.hero.title}
-        subtitle={copy.hero.definition}
-      >
-        <LocalLink href="/business/psa-grading/track" className="btn btn-primary group min-h-[44px]">
-          <Search className="w-4 h-4" aria-hidden="true" />
-          <span>{copy.hero.ctaTrack}</span>
-          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-150" aria-hidden="true" />
-        </LocalLink>
-        <a
-          href="https://wa.me/85292851189"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-secondary group min-h-[44px]"
-        >
-          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-accent-success" />
-          <span>{copy.hero.ctaContact}</span>
-        </a>
-      </PsaGradingHero>
+    <div ref={pageRef} className="psa-grading-hub flex flex-col bg-surface-bg">
+      <PsaGradingAvailabilityBanner copy={copy.availability} />
 
-      <section ref={howToRef.ref} className="section-padding border-t border-border-default">
+      <div className="chapter-nav-shell">
         <div className="container-custom">
-          <Reveal visible={howToRef.visible} dir="up">
-            <p className="section-label mb-4">{copy.howTo.badge}</p>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary mb-4">
-              {copy.howTo.title}
-            </h2>
-            <p className="text-text-secondary max-w-2xl mb-12 leading-relaxed">{copy.howTo.subtitle}</p>
-          </Reveal>
+          <ChapterNav items={chapterNavItems} />
+        </div>
+      </div>
 
-          <ol className="grid md:grid-cols-2 gap-6 max-w-4xl">
-            {copy.howTo.steps.map((step, index) => {
-              const Icon = STEP_ICONS[index] ?? Package;
-              return (
-                <Reveal key={step.title} visible={howToRef.visible} dir="up" delay={index * 60}>
-                  <li className="list-none border border-border-default bg-surface-panel p-6 h-full">
-                    <div className="flex items-start gap-4">
-                      <span className="flex items-center justify-center w-10 h-10 shrink-0 border border-accent-brand/30 text-accent-brand font-mono text-sm">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <div>
-                        <Icon className="w-5 h-5 text-accent-brand mb-3" aria-hidden="true" />
-                        <h3 className="font-semibold text-text-primary mb-2">{step.title}</h3>
-                        <p className="text-sm text-text-secondary leading-relaxed">{step.body}</p>
-                      </div>
-                    </div>
-                  </li>
-                </Reveal>
-              );
-            })}
-          </ol>
+      <PsaGradingHowToSection badge={copy.badge} hero={copy.hero} howTo={copy.howTo} aeo={copy.aeo} />
+
+      <section id="service-context" className="border-t border-border-default bg-surface-panel">
+        <div ref={contextRef.ref} className="container-custom py-10 md:py-12">
+          <Reveal visible={contextRef.visible} dir="up">
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
+              <div>
+                <h2 className="text-lg font-display font-semibold text-text-primary mb-2">
+                  {copy.whoThisIsFor.title}
+                </h2>
+                <p className="text-sm text-text-secondary leading-relaxed">{copy.whoThisIsFor.body}</p>
+              </div>
+              <div>
+                <h2 className="text-lg font-display font-semibold text-text-primary mb-2">
+                  {copy.dropOff.title}
+                </h2>
+                <p className="text-sm text-text-secondary leading-relaxed">
+                  {copy.dropOffAddress}. {copy.dropOff.hoursNote}
+                </p>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      <section ref={faqRef.ref} className="section-padding border-t border-border-default bg-surface-raised/50">
-        <div className="container-custom max-w-3xl">
-          <Reveal visible={faqRef.visible} dir="up">
-            <p className="section-label mb-4">{copy.faq.badge}</p>
-            <h2 className="text-3xl font-display font-bold text-text-primary mb-8">{copy.faq.title}</h2>
+      <ScrollChapter
+        id="pricing"
+        title={copy.pricing.title}
+        className="relative overflow-x-clip bg-surface-panel page-blueprint !min-h-0"
+      >
+        <div ref={pricingRef.ref}>
+          <Reveal visible={pricingRef.visible} dir="up" delay={40}>
+            <PsaPricingTable copy={copy.pricing} />
           </Reveal>
+        </div>
+      </ScrollChapter>
 
-          <div className="space-y-2">
-            {copy.faq.items.map((item, index) => {
-              const isOpen = openFaq === index;
-              return (
-                <Reveal key={item.q} visible={faqRef.visible} dir="up" delay={index * 40}>
-                  <div className="border border-border-default bg-surface-panel">
+      <ScrollChapter id="faq" title={copy.faq.title} className="!min-h-0">
+        <div className="panel p-0 overflow-hidden">
+            <div className="space-y-0 divide-y divide-border-default">
+              {copy.faq.items.map((item, index) => {
+                const isOpen = openFaq === index;
+                return (
+                  <div key={item.q}>
                     <button
                       type="button"
                       id={`faq-btn-${index}`}
@@ -112,39 +106,66 @@ export default function PsaGradingHubClient() {
                       role="region"
                       aria-labelledby={`faq-btn-${index}`}
                       hidden={!isOpen}
-                      className="px-5 pb-4 text-sm text-text-secondary leading-relaxed border-t border-border-default pt-4"
+                      className={`px-5 pb-4 text-sm text-text-secondary leading-relaxed border-t border-border-default pt-4${index === 0 ? ' guide-aeo-answer' : ''}`}
                     >
                       {item.a}
                     </div>
                   </div>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+                );
+              })}
+            </div>
 
-      <section ref={ctaRef.ref} className="section-padding border-t border-border-default">
-        <div className="container-custom">
-          <Reveal visible={ctaRef.visible} dir="up">
-            <div className="border border-border-default bg-surface-panel p-8 md:p-12 max-w-3xl mx-auto text-center">
-              <MessageCircle className="w-8 h-8 text-accent-secondary mx-auto mb-4" aria-hidden="true" />
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-3">
-                {copy.cta.title}
-              </h2>
-              <p className="text-text-secondary mb-8 max-w-lg mx-auto leading-relaxed">{copy.cta.body}</p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <LocalLink href="/business/psa-grading/track" className="btn btn-primary min-h-[44px]">
-                  {copy.cta.track}
-                </LocalLink>
-                <LocalLink href="/guides/psa-grading-standards" className="btn btn-secondary min-h-[44px]">
+            <div className="px-5 py-6 border-t border-border-default bg-surface-raised/50">
+              <h3 className="font-display font-bold text-text-primary mb-3">{copy.relatedReading.title}</h3>
+              <ul className="space-y-2 text-sm">
+                {copy.relatedReading.guides.map((link) => (
+                  <li key={link.href}>
+                    <LocalLink href={link.href} className="text-accent-secondary hover:underline">
+                      {link.label}
+                    </LocalLink>
+                  </li>
+                ))}
+                <li>
+                  <LocalLink href={copy.relatedReading.centering.href} className="text-accent-secondary hover:underline">
+                    {copy.relatedReading.centering.label}
+                  </LocalLink>
+                </li>
+                <li>
+                  <LocalLink href={copy.relatedReading.protectors.href} className="text-accent-secondary hover:underline">
+                    {copy.relatedReading.protectors.label}
+                  </LocalLink>
+                </li>
+              </ul>
+            </div>
+
+            <div className="panel-raised m-4 p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex items-start gap-3 min-w-0">
+                <MessageCircle className="w-6 h-6 text-accent-secondary shrink-0 mt-0.5" aria-hidden="true" />
+                <div>
+                  <h3 className="font-display font-bold text-text-primary">{copy.cta.title}</h3>
+                  <p className="text-sm text-text-secondary mt-1 leading-relaxed">{copy.cta.body}</p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+                <LocalLink href="/guides/psa-grading-standards" className="btn btn-primary min-h-[44px]">
                   {copy.cta.guide}
                 </LocalLink>
+                <a
+                  href="https://wa.me/85292851189"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary min-h-[44px]"
+                >
+                  {copy.hero.ctaContact}
+                </a>
               </div>
             </div>
-          </Reveal>
-        </div>
-      </section>
+          </div>
+      </ScrollChapter>
+
+      <footer className="container-custom py-6 text-xs text-text-muted border-t border-border-default">
+        {copy.lastUpdatedLabel}: {copy.lastUpdated}
+      </footer>
     </div>
   );
 }

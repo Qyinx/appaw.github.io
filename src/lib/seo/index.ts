@@ -44,6 +44,8 @@ export function storeJsonLd() {
       'PSA regrade and reholder decisions',
       'Card centering measurement for graded slabs',
       'PSA 10 centering requirements',
+      'PSA submission Hong Kong',
+      'PSA card submission proxy service',
     ],
     address: {
       '@type': 'PostalAddress',
@@ -76,6 +78,7 @@ export function storeJsonLd() {
     makesOffer: [
       { '@type': 'Offer', url: 'https://appaw.store/products/psa-protectors/', name: 'Graded Slab UV Glass Protector' },
       { '@type': 'Offer', url: 'https://appaw.store/business/card-trading/', name: 'TCG Trading & Brokerage' },
+      { '@type': 'Offer', url: 'https://appaw.store/business/psa-grading/', name: 'PSA Collectibles Submission (Hong Kong)' },
     ],
   };
 }

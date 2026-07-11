@@ -10,6 +10,10 @@ import StructuredData from '@/components/StructuredData';
 import { productJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import { localizedHref } from '@/lib/i18n-routing';
 import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
+import {
+  CARD_TRADING_PLACEHOLDER_ID,
+  cardTradingGenerateStaticParams,
+} from '@/lib/marketplace-card-trading-static';
 
 /* ──────────────────────────────────────────
    Individual Card Page — Server Component
@@ -52,8 +56,7 @@ function buildSeoDescription(card: TradingCard): string {
 }
 
 export async function generateStaticParams() {
-  const cards = await getCards();
-  return cards.map(card => ({ id: card.id }));
+  return cardTradingGenerateStaticParams();
 }
 
 export async function generateMetadata(
@@ -93,9 +96,11 @@ export async function generateMetadata(
 export async function CardDetailPageContent(
   { params, language = 'en' }: { params: Promise<{ id: string }>; language?: Language }
 ) {
-  if (MARKETPLACE_IN_PROGRESS) redirect(localizedHref('/business/card-trading/', language));
-
   const { id } = await params;
+  if (MARKETPLACE_IN_PROGRESS || id === CARD_TRADING_PLACEHOLDER_ID) {
+    redirect(localizedHref('/business/card-trading/', language));
+  }
+
   const cards = await getCards();
   const card = cards.find(c => c.id === id);
 

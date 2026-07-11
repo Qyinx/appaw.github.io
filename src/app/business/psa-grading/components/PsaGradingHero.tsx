@@ -47,7 +47,7 @@ export default function PsaGradingHero({
     >
       <div
         className={`container-custom relative z-10 w-full ${
-          isCompact ? 'py-10 md:py-14' : 'py-20 md:py-28'
+          isCompact ? 'py-12 md:py-16' : 'py-20 md:py-28'
         }`}
       >
         <div className="max-w-3xl">

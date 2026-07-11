@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CENTERING_OG_IMAGE, CENTERING_SEO, HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME } from '@/lib/product-names';
+import { CENTERING_OG_IMAGE, CENTERING_SEO, HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME, PSA_GRADING_SEO } from '@/lib/product-names';
 import type { PublicPortfolio } from '@/lib/collection/publicPortfolio';
 import { SITE_ICONS } from '@/lib/seo/brand';
 import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata';
@@ -364,16 +364,16 @@ const collectionSettingsMetadataBase: Metadata = {
 export const collectionSettingsMetadata = withLocaleAlternates(collectionSettingsMetadataBase, '/collection/settings/');
 
 const businessMetadataBase: Metadata = {
-  title: 'Services – Graded Slab Protector & TCG Trading',
+  title: 'Services – Graded Slab Protector, PSA Submission & TCG Trading',
   description:
-    'Explore Appaw Store services: premium graded slab UV glass protectors with tempered UV-blocking glass & N52 magnetic closure, and trusted TCG trading for graded Pokémon, sports, and MTG cards.',
+    'Explore Appaw Store services: graded slab UV glass protectors, PSA submission at 138 Arena Causeway Bay, and trusted TCG trading for graded Pokémon, sports, and MTG cards.',
 };
 
 export const businessMetadata = withLocaleAlternates(businessMetadataBase, '/business/');
 export const zhBusinessMetadata = zhRouteMetadata(businessMetadataBase, '/business/', {
   title: { absolute: '服務 – 鑑定卡保護殼及卡牌交易 | Appaw Store' },
   description:
-    'Appaw Store 服務：磁吸防UV鑑定卡保護殼（>95% 抗 UV 強化玻璃、N52 磁吸）及 TCG 鑑定卡交易、寄售服務。',
+    'Appaw Store 服務：磁吸防UV鑑定卡保護殼、銅鑼灣 138 Arena PSA 代送鑑定，以及 TCG 鑑定卡交易、寄售服務。',
 });
 
 const cardTradingMetadataBase: Metadata = {
@@ -391,29 +391,87 @@ export const zhCardTradingMetadata = zhRouteMetadata(cardTradingMetadataBase, '/
 });
 
 const psaGradingMetadataBase: Metadata = {
-  title: 'PSA Collectibles Submission Service Hong Kong | Appaw Store',
-  description:
-    'Face-to-face drop-off and pickup at partner store 138 Arena, Causeway Bay. No mailed submissions. We submit to PSA on your behalf. Track every batch with your phone number and reference code.',
-  robots: { index: false, follow: true },
+  title: { absolute: PSA_GRADING_SEO.en.title },
+  description: PSA_GRADING_SEO.en.description,
+  keywords: [
+    'PSA submission Hong Kong',
+    'PSA grading service HK',
+    '138 Arena Causeway Bay',
+    'PSA card submission',
+    'Pokémon PSA grading HK',
+    'PSA代送鑑定',
+    '香港PSA代送',
+    '收藏卡送鑑',
+    '138 Arena',
+    '銅鑼灣',
+    ...HK_SEO_KEYWORDS,
+  ],
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: PSA_GRADING_SEO.en.title,
+    description: PSA_GRADING_SEO.en.description,
+    url: 'https://appaw.store/business/psa-grading/',
+    type: 'website',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'PSA collectibles submission at 138 Arena Causeway Bay — Appaw Store',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: PSA_GRADING_SEO.en.title,
+    description: PSA_GRADING_SEO.en.description,
+    images: ['/images/og-image.png'],
+  },
 };
 
 export const psaGradingMetadata = withLocaleAlternates(psaGradingMetadataBase, '/business/psa-grading/');
 export const zhPsaGradingMetadata = zhRouteMetadata(psaGradingMetadataBase, '/business/psa-grading/', {
-  title: 'PSA 收藏卡代送鑑定 | 香港 – Appaw Store',
-  description: '交卡及取件須親臨合作店舖 138 Arena（銅鑼灣），不接受郵寄。Appaw Store 代送 PSA 鑑定，憑電話及參考編號查進度。',
+  title: { absolute: PSA_GRADING_SEO.zh.title },
+  description: PSA_GRADING_SEO.zh.description,
 });
 
 const psaGradingTrackMetadataBase: Metadata = {
-  title: 'Track PSA Submission | Appaw Store',
-  description:
-    'Check your PSA submission status with your phone number and Appaw reference code.',
-  robots: { index: false, follow: true },
+  title: { absolute: PSA_GRADING_SEO.en.trackTitle },
+  description: PSA_GRADING_SEO.en.trackDescription,
+  keywords: [
+    'track PSA submission',
+    'PSA batch status',
+    'BAT reference code',
+    'PSA代送進度',
+    '查詢PSA批次',
+  ],
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: PSA_GRADING_SEO.en.trackTitle,
+    description: PSA_GRADING_SEO.en.trackDescription,
+    url: 'https://appaw.store/business/psa-grading/track/',
+    type: 'website',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Track PSA submission status — Appaw Store',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: PSA_GRADING_SEO.en.trackTitle,
+    description: PSA_GRADING_SEO.en.trackDescription,
+    images: ['/images/og-image.png'],
+  },
 };
 
 export const psaGradingTrackMetadata = withLocaleAlternates(psaGradingTrackMetadataBase, '/business/psa-grading/track/');
 export const zhPsaGradingTrackMetadata = zhRouteMetadata(psaGradingTrackMetadataBase, '/business/psa-grading/track/', {
-  title: '查詢 PSA 代送進度 | Appaw Store',
-  description: '憑電話號碼及 Appaw 參考編號查詢 PSA 代送鑑定進度。',
+  title: { absolute: PSA_GRADING_SEO.zh.trackTitle },
+  description: PSA_GRADING_SEO.zh.trackDescription,
 });
 
 export const zhCollectionMetadata = zhRouteMetadata(collectionMetadataBase, '/collection/', {

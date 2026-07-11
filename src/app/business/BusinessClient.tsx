@@ -6,7 +6,7 @@ import LocalLink from '@/components/LocalLink';
 import {
   Shield, ArrowRight, CheckCircle, XCircle,
   Eye, Lock,
-  Star, Package, TrendingUp, Users,
+  Star, Package, TrendingUp, Users, Search,
 } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -49,6 +49,7 @@ export default function BusinessClient() {
   const heroMounted = useHeroMount();
   const heroRef    = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
   const psaRef     = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
+  const gradingRef = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
   const featRef    = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
   const tradingRef = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
   const ctaRef     = useRevealOnScroll<HTMLElement>({ threshold: 0.06 });
@@ -296,6 +297,60 @@ export default function BusinessClient() {
           </div>
         </div>
       </section> */}
+
+      {/* ══════════════════════════════════════════════════════
+           ①b PSA COLLECTIBLES SUBMISSION
+      ══════════════════════════════════════════════════════ */}
+      <section
+        id="psa-grading"
+        ref={gradingRef.ref}
+        className="scroll-mt-20 py-24 md:py-32 relative overflow-hidden border-t border-border-default bg-surface-panel"
+      >
+        <div className="container-custom relative">
+          <Reveal visible={gradingRef.visible} dir="up">
+            <SectionLabel text={t.business.psaGrading.badge} variant="link" />
+          </Reveal>
+          <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-start">
+            <div>
+              <Reveal visible={gradingRef.visible} dir="left">
+                <h2 className="font-display text-5xl md:text-6xl font-bold text-text-primary leading-[1.06] mb-6">
+                  {t.business.psaGrading.title}
+                </h2>
+                <p className="text-text-muted text-base md:text-lg leading-relaxed mb-8 max-w-md">
+                  {t.business.psaGrading.description}
+                </p>
+              </Reveal>
+              <Reveal visible={gradingRef.visible} dir="left" delay={100}>
+                <div className="flex flex-wrap gap-2 mb-10">
+                  {t.business.psaGrading.chips.map((c) => (
+                    <Chip key={c} label={c} variant="link" />
+                  ))}
+                </div>
+              </Reveal>
+              <Reveal visible={gradingRef.visible} dir="left" delay={160}>
+                <div className="flex flex-wrap items-center gap-5">
+                  <LocalLink href="/business/psa-grading" className="btn btn-primary">
+                    <Search className="w-3.5 h-3.5" />
+                    {t.business.psaGrading.cta}
+                  </LocalLink>
+                  <LocalLink href="/business/psa-grading/track" className="btn btn-secondary">
+                    {t.business.psaGrading.trackCta}
+                  </LocalLink>
+                </div>
+              </Reveal>
+            </div>
+            <Reveal visible={gradingRef.visible} dir="right" delay={80}>
+              <div className="panel p-6 md:p-8 space-y-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted">138 Arena · Causeway Bay</p>
+                <p className="text-text-secondary text-sm leading-relaxed">
+                  {t.psaGradingPage.aeo.answer}
+                </p>
+                <p className="text-text-muted text-xs">{t.psaGradingPage.dropOff.hoursNote}</p>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
 
       {/* ══════════════════════════════════════════════════════
            ② TCG CARD TRADING & BROKERAGE

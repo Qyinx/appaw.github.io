@@ -18,7 +18,7 @@ import {
 
 type ResultsCopy = Translations['psaGradingTrack']['results'];
 type ServicePlanCopy = Translations['psaGradingTrack']['servicePlan'];
-type ResultsTab = 'status' | 'cards';
+export type ResultsTab = 'status' | 'cards';
 
 type Props = {
   submission: GradingSubmission;
@@ -26,6 +26,8 @@ type Props = {
   servicePlanCopy: ServicePlanCopy;
   relatedSubmissions?: GradingRelatedSubmission[];
   onSelectReference?: (referenceCode: string) => void;
+  activeTab?: ResultsTab;
+  onTabChange?: (tab: ResultsTab) => void;
 };
 
 function servicePlanLabel(
@@ -69,14 +71,21 @@ export default function TrackResultsPanel({
   servicePlanCopy,
   relatedSubmissions,
   onSelectReference,
+  activeTab: controlledTab,
+  onTabChange,
 }: Props) {
   const panelRef = useRef<HTMLDivElement>(null);
-  const statusRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const statusBlockRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLParagraphElement>(null);
   const badgeRefs = useRef<HTMLSpanElement[]>([]);
-  const [activeTab, setActiveTab] = useState<ResultsTab>(() => defaultTab(submission));
+  const [internalTab, setInternalTab] = useState<ResultsTab>(() => defaultTab(submission));
   const [copiedTracking, setCopiedTracking] = useState(false);
+  const [copiedReference, setCopiedReference] = useState(false);
+
+  const activeTab = controlledTab ?? internalTab;
+  const setActiveTab = onTabChange ?? setInternalTab;
 
   const planLabel = servicePlanLabel(submission.servicePlan, servicePlanCopy);
   const cardsTabLabel = copy.tabs.cards.replace('{count}', String(submission.items.length));
@@ -98,9 +107,11 @@ export default function TrackResultsPanel({
   };
 
   useEffect(() => {
-    setActiveTab(defaultTab(submission));
+    if (controlledTab === undefined) {
+      setInternalTab(defaultTab(submission));
+    }
     badgeRefs.current = [];
-  }, [submission.id]);
+  }, [submission.id, controlledTab]);
 
   useEffect(() => {
     const sections: HTMLElement[] = [];
@@ -109,7 +120,9 @@ export default function TrackResultsPanel({
 
     const tl = animateResultsTimeline(sections);
     const statusFields: HTMLElement[] = [];
-    if (statusRef.current) statusFields.push(statusRef.current);
+    if (headerRef.current) statusFields.push(headerRef.current);
+    if (statusBlockRef.current) statusFields.push(statusBlockRef.current);
+
     const summaryTween = animateSummaryFields(statusFields);
 
     return () => {
@@ -151,6 +164,17 @@ export default function TrackResultsPanel({
     }
   };
 
+  const copyReference = async (btn: HTMLElement | null) => {
+    animateButtonPress(btn);
+    try {
+      await navigator.clipboard.writeText(submission.referenceCode);
+      setCopiedReference(true);
+      setTimeout(() => setCopiedReference(false), 2000);
+    } catch {
+      /* clipboard unavailable */
+    }
+  };
+
   const trackingUrl =
     submission.shipCarrier && submission.shipTrackingNumber
       ? carrierTrackingUrl(submission.shipCarrier, submission.shipTrackingNumber)
@@ -163,12 +187,26 @@ export default function TrackResultsPanel({
         className="grading-track-results border border-border-default bg-surface-panel min-w-0"
       >
         <div className="grading-track-results__header">
-          <div ref={statusRef} className="spec-row px-0 !py-0 !border-b-0">
+          <div ref={headerRef} className="spec-row px-0 !py-0 !border-b-0">
             <div className="min-w-0">
               <span className="spec-row__label block mb-1">{copy.refLabel}</span>
-              <p className="font-mono text-sm md:text-base text-accent-brand tabular-nums tracking-[0.08em] uppercase">
-                {submission.referenceCode}
-              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="font-mono text-sm md:text-base text-accent-brand tabular-nums tracking-[0.08em] uppercase">
+                  {submission.referenceCode}
+                </p>
+                <button
+                  type="button"
+                  onClick={(e) => copyReference(e.currentTarget)}
+                  className="btn btn-secondary btn-icon shrink-0"
+                  aria-label={copiedReference ? copy.copiedReference : copy.copyReference}
+                >
+                  {copiedReference ? (
+                    <Check className="w-4 h-4 text-accent-success" aria-hidden="true" />
+                  ) : (
+                    <Copy className="w-4 h-4" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
             </div>
             {planLabel && (
               <div className="text-right shrink-0">
@@ -179,143 +217,99 @@ export default function TrackResultsPanel({
           </div>
         </div>
 
-        <div className="grading-track-results__body space-y-6">
-        <div className="spec-row px-0 !py-0 !border-b-0">
-          <div className="min-w-0">
-            <span className="spec-row__label block mb-1">{copy.statusLabel}</span>
-            <p className="text-base font-medium text-text-primary">{submission.statusSummary}</p>
-          </div>
-        </div>
+        <div className="grading-track-results__body space-y-4">
 
-        <SubmissionStatusBadges
-          submission={submission}
-          copy={copy.status}
-          badgeRefs={badgeRefs}
-        />
-
-        <div
-          role="tablist"
-          aria-label={copy.statusLabel}
-          className="grid grid-cols-2 gap-px border border-border-default bg-border-default min-w-0"
-        >
-          <button
-            type="button"
-            role="tab"
-            id="grading-tab-status"
-            aria-selected={activeTab === 'status'}
-            aria-controls="grading-panel-status"
-            onClick={() => setActiveTab('status')}
-            className={`inline-flex items-center justify-center gap-2 min-h-[44px] px-3 text-sm font-medium transition-colors duration-150 ${
-              activeTab === 'status'
-                ? 'bg-surface-panel text-text-primary'
-                : 'bg-surface-raised text-text-muted hover:text-text-secondary'
-            }`}
-          >
-            <Route className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span>{copy.tabs.status}</span>
-          </button>
-          <button
-            type="button"
-            role="tab"
-            id="grading-tab-cards"
-            aria-selected={activeTab === 'cards'}
-            aria-controls="grading-panel-cards"
-            onClick={() => setActiveTab('cards')}
-            className={`inline-flex items-center justify-center gap-2 min-h-[44px] px-3 text-sm font-medium transition-colors duration-150 ${
-              activeTab === 'cards'
-                ? 'bg-surface-panel text-text-primary'
-                : 'bg-surface-raised text-text-muted hover:text-text-secondary'
-            }`}
-          >
-            <List className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span>{cardsTabLabel}</span>
-          </button>
-        </div>
-
-        <div
-          role="tabpanel"
-          id="grading-panel-status"
-          aria-labelledby="grading-tab-status"
-          hidden={activeTab !== 'status'}
-          tabIndex={activeTab === 'status' ? 0 : undefined}
-          className={activeTab === 'status' ? 'min-w-0' : 'hidden'}
-        >
-          <GradingProgressStepper
-            submission={localizedSubmission}
-            copy={copy}
-            badgeRefs={badgeRefs}
-          />
-
-          {submission.shipped && submission.shipTrackingNumber && (
-            <div className="mt-8 pt-8 border-t border-border-default min-w-0" data-result-row>
-              <h2 className="text-lg font-display font-semibold text-text-primary mb-4">
-                {copy.shippingTitle}
-              </h2>
-              <div className="panel-raised px-4 py-1">
-                <div className="spec-row px-0">
-                  <span className="spec-row__label">{copy.carrierLabel}</span>
-                  <span className="spec-row__value">{submission.shipCarrier}</span>
-                </div>
-                <div className="spec-row px-0">
-                  <span className="spec-row__label">{copy.trackingLabel}</span>
-                  <span className="spec-row__value inline-flex flex-wrap items-center justify-end gap-2 min-w-0">
-                    <span className="font-mono tabular-nums break-all">{submission.shipTrackingNumber}</span>
-                    <button
-                      type="button"
-                      onClick={(e) => copyTracking(submission.shipTrackingNumber!, e.currentTarget)}
-                      className="btn btn-secondary btn-icon shrink-0"
-                      aria-label={copiedTracking ? copy.copiedTracking : copy.copyTracking}
-                    >
-                      {copiedTracking ? (
-                        <Check className="w-4 h-4 text-accent-success" aria-hidden="true" />
-                      ) : (
-                        <Copy className="w-4 h-4" aria-hidden="true" />
-                      )}
-                    </button>
-                  </span>
-                </div>
+          {relatedSubmissions &&
+            relatedSubmissions.length > 0 &&
+            onSelectReference && (
+              <div className="panel border border-accent-warn/30 p-0 overflow-hidden">
+                <RelatedSubmissionsStrip
+                  currentReferenceCode={submission.referenceCode}
+                  related={relatedSubmissions}
+                  copy={copy.relatedSubmissions!}
+                  servicePlanCopy={servicePlanCopy}
+                  onSelectReference={onSelectReference}
+                />
               </div>
-              {trackingUrl && (
-                <a
-                  href={trackingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 text-sm text-accent-secondary hover:underline min-h-[44px]"
-                >
-                  {copy.trackPackage}
-                  <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-                </a>
-              )}
-            </div>
-          )}
-        </div>
+            )}
 
-        <div
-          role="tabpanel"
-          id="grading-panel-cards"
-          aria-labelledby="grading-tab-cards"
-          hidden={activeTab !== 'cards'}
-          tabIndex={activeTab === 'cards' ? 0 : undefined}
-          className={activeTab === 'cards' ? 'min-w-0' : 'hidden'}
-        >
-          <div ref={tableRef} className="min-w-0 overflow-x-auto">
-            <SubmissionItemsTable items={submission.items} copy={copy.items} showTitle={false} />
+          <div className="collection-filter-pills w-full sm:w-fit" role="group" aria-label={copy.tabsLabel}>
+            <button
+              type="button"
+              className="collection-filter-pill flex-1 sm:flex-none"
+              aria-pressed={activeTab === 'status'}
+              onClick={() => setActiveTab('status')}
+            >
+              <Route className="w-4 h-4 shrink-0 inline mr-1.5" aria-hidden="true" />
+              {copy.tabs.status}
+            </button>
+            <button
+              type="button"
+              className="collection-filter-pill flex-1 sm:flex-none"
+              aria-pressed={activeTab === 'cards'}
+              onClick={() => setActiveTab('cards')}
+            >
+              <List className="w-4 h-4 shrink-0 inline mr-1.5" aria-hidden="true" />
+              {cardsTabLabel}
+            </button>
           </div>
-        </div>
 
-        {relatedSubmissions &&
-          relatedSubmissions.length > 0 &&
-          onSelectReference && (
-            <div className="pt-6 border-t border-border-default">
-              <RelatedSubmissionsStrip
-                currentReferenceCode={submission.referenceCode}
-                related={relatedSubmissions}
-                copy={copy.relatedSubmissions!}
-                servicePlanCopy={servicePlanCopy}
-                onSelectReference={onSelectReference}
-              />
+          <div hidden={activeTab !== 'status'} className={activeTab === 'status' ? 'min-w-0' : 'hidden'}>
+            <GradingProgressStepper
+              submission={localizedSubmission}
+              copy={copy}
+              badgeRefs={badgeRefs}
+            />
+
+            {submission.shipped && submission.shipTrackingNumber && (
+              <div className="mt-6 pt-6 border-t border-border-default min-w-0" data-result-row>
+                <h2 className="text-lg font-display font-semibold text-text-primary mb-4">
+                  {copy.shippingTitle}
+                </h2>
+                <div className="panel-raised px-4 py-1">
+                  <div className="spec-row px-0">
+                    <span className="spec-row__label">{copy.carrierLabel}</span>
+                    <span className="spec-row__value">{submission.shipCarrier}</span>
+                  </div>
+                  <div className="spec-row px-0">
+                    <span className="spec-row__label">{copy.trackingLabel}</span>
+                    <span className="spec-row__value inline-flex flex-wrap items-center justify-end gap-2 min-w-0">
+                      <span className="font-mono tabular-nums break-all">{submission.shipTrackingNumber}</span>
+                      <button
+                        type="button"
+                        onClick={(e) => copyTracking(submission.shipTrackingNumber!, e.currentTarget)}
+                        className="btn btn-secondary btn-icon shrink-0"
+                        aria-label={copiedTracking ? copy.copiedTracking : copy.copyTracking}
+                      >
+                        {copiedTracking ? (
+                          <Check className="w-4 h-4 text-accent-success" aria-hidden="true" />
+                        ) : (
+                          <Copy className="w-4 h-4" aria-hidden="true" />
+                        )}
+                      </button>
+                    </span>
+                  </div>
+                </div>
+                {trackingUrl && (
+                  <a
+                    href={trackingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 mt-4 text-sm text-accent-secondary hover:underline min-h-[44px]"
+                  >
+                    {copy.trackPackage}
+                    <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div hidden={activeTab !== 'cards'} className={activeTab === 'cards' ? 'min-w-0' : 'hidden'}>
+            <div ref={tableRef} className="min-w-0 overflow-x-auto">
+              <SubmissionItemsTable items={submission.items} copy={copy.items} showTitle={false} />
             </div>
-          )}
+          </div>
         </div>
       </div>
 

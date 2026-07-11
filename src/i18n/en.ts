@@ -147,6 +147,12 @@ export const en = {
         description: 'Measure raw or graded slab photos. Screen PSA 10 margins and regrade vs reholder risk before you pay fees.',
         cta: 'Analyze Now',
       },
+      psaGrading: {
+        badge: 'Submit',
+        title: 'PSA Submission (HK)',
+        description: 'Face-to-face drop-off at 138 Arena, Causeway Bay. Tiers from HKD 890. Track every batch online.',
+        cta: 'View submission service',
+      },
       guidesLink: 'Guides on slab fit, UV storage, centering, and regrade vs reholder',
       guidesCta: 'Read Guides',
       trading: {
@@ -232,6 +238,15 @@ export const en = {
       cardTradingPill: 'Card Trading',
     },
     service01Label: 'Service 01 — Protection',
+    psaGrading: {
+      badge: 'PSA Submission',
+      title: 'PSA Collectibles Submission',
+      description:
+        'We submit your Pokémon, sports, and MTG cards to PSA on your behalf. Face-to-face drop-off and pickup at 138 Arena, Causeway Bay. Every batch is trackable online.',
+      chips: ['138 Arena', 'From HKD 890', 'Face-to-face only', 'Batch tracking'],
+      cta: 'View submission hub',
+      trackCta: 'Track a batch',
+    },
     cardProtector: {
       title: 'Graded Slab UV Glass Protector',
       description: 'Tempered UV glass protection meets gallery-worthy display — engineered for standard 35PT PSA and CGC graded slabs.',
@@ -331,7 +346,7 @@ export const en = {
     centeringCrossLink: {
       badge: 'Pre-Grade Tool',
       title: 'Check centering before you grade',
-      body: 'Use our free Card Centering Calculator to measure front and back margins against PSA 10 standards — then protect your slab with our UV glass case.',
+      body: 'Use our free Card Centering Calculator to measure front and back margins against PSA 10 standards. Then protect your slab with our UV glass case.',
       cta: 'Free Centering Calculator',
     },
     hkGuide: {
@@ -591,6 +606,13 @@ export const en = {
     badge: 'Curated Gallery',
     title: 'Trading Card Marketplace',
     subtitle: 'A curated gallery of investment-grade graded cards — authenticated, preserved, and available for private acquisition.',
+    availability: {
+      badge: 'Coming soon',
+      title: 'Currently available to invited customers only',
+      body: 'Our curated trading marketplace is launching soon. Buying, selling, and consignment are open to invited customers for now. WhatsApp us if you would like early access.',
+      ctaContact: 'WhatsApp us',
+      gridNote: 'Listings will appear here when the marketplace opens.',
+    },
     hero: {
       statsAvailable: 'Cards in stock',
       statsPsa: 'PSA graded',
@@ -718,33 +740,96 @@ export const en = {
 
   psaGradingPage: {
     badge: 'PSA submission',
+    dropOffAddress: '138 Arena, 1/F, 522 Jaffe Road, Causeway Bay',
+    lastUpdatedLabel: 'Last updated',
+    lastUpdated: '2026-07-12',
+    availability: {
+      badge: 'Hong Kong service',
+      title: 'Face-to-face at 138 Arena, Causeway Bay',
+      body: 'Drop off and pick up in person at our partner store 138 Arena. No mailed submissions. WhatsApp us with questions before your visit.',
+      ctaContact: 'WhatsApp us',
+    },
+    aeo: {
+      title: 'How do I submit cards to PSA in Hong Kong?',
+      answer:
+        'Bring raw or sleeved Pokémon, sports, or MTG cards to 138 Arena in Causeway Bay. Appaw submits to PSA on your chosen tier (from HKD 890). Track each batch with the phone number and BAT reference code on your receipt.',
+    },
+    whoThisIsFor: {
+      title: 'Who this service is for',
+      body:
+        'Hong Kong collectors sending Pokémon TCG, sports cards, or Magic: The Gathering to PSA. Raw or sleeved cards welcome. High-value submissions may need extra declared-value paperwork. Check centering before you pay grading fees.',
+    },
+    dropOff: {
+      title: 'Drop-off location',
+      hoursNote: 'Store hours posted on Instagram @138arena.',
+    },
+    relatedReading: {
+      title: 'Related reading',
+      guides: [
+        { label: 'PSA grading standards', href: '/guides/psa-grading-standards/' },
+        { label: 'Grade or protect first?', href: '/guides/grade-or-protect-first/' },
+        { label: 'PSA 10 centering requirements', href: '/guides/psa-10-centering-requirements/' },
+      ],
+      centering: { label: 'Free centering tool', href: '/tools/card-centering/' },
+      protectors: { label: 'Graded slab protectors', href: '/products/psa-protectors/' },
+    },
     hero: {
       title: 'We submit your collectibles to PSA',
       definition:
-        'Drop off at our partner 138 Arena in Causeway Bay. We batch and ship to PSA for you. Pick up graded slabs at 138 Arena or arrange delivery. Every batch gets a reference code; track progress online anytime.',
+        'PSA grading submission with online progress tracking for every batch. We notify you when slabs return — official PSA grades for your collection, so you can send cards with confidence.',
       ctaTrack: 'Track progress',
       ctaContact: 'WhatsApp us',
+    },
+    chapters: {
+      pricing: 'Pricing',
+      howTo: 'How it works',
+      faq: 'FAQ',
+    },
+    quotes: {
+      prev: 'Previous quote',
+      next: 'Next quote',
+      items: [
+        {
+          body: 'Face-to-face only at 138 Arena — no mailed submissions.',
+          attribution: '138 Arena team',
+        },
+        {
+          body: 'Track each batch with your phone number and reference code from the receipt.',
+          attribution: 'PSA submission service',
+        },
+        {
+          body: 'Each PSA service tier gets its own BAT batch reference.',
+          attribution: '138 Arena team',
+        },
+      ],
     },
     howTo: {
       badge: 'How it works',
       title: 'From drop-off to graded slab',
-      subtitle: 'You pick the cards. We handle logistics and follow-up.',
+      subtitle:
+        'From intake at 138 Arena through PSA grading to pickup — every stage is tracked so you always know where your cards are.',
+      trackLink: 'Track your batch',
+      stepLabel: 'Step',
       steps: [
         {
           title: 'Drop off at 138 Arena',
-          body: 'Face-to-face only at our partner store 138 Arena (1/F, 522 Jaffe Road, Causeway Bay). We do not accept mailed submissions. We confirm your inventory list and assign a PSA batch reference per service plan (e.g. BAT-2026-07-EXP-3 for Express, BAT-2026-07-REG-3 for Regular).',
+          tagline: 'Received locally',
+          body: 'Face-to-face only. We confirm your list and assign a batch reference per service plan.',
         },
         {
-          title: 'Batch submission to PSA',
-          body: 'We consolidate submissions and ship to PSA on your chosen service tier. Your reference code links your cards to the PSA order number.',
+          title: 'Submission to PSA',
+          tagline: 'Submitted to PSA',
+          body: 'We consolidate and ship on your chosen tier. Your reference code links to the PSA order.',
         },
         {
-          title: 'Grading & quality review',
-          body: 'PSA grades your cards. Progress updates sync to our system — check status steps from order prep through quality review.',
+          title: 'PSA grading & quality review',
+          tagline: 'PSA grading in progress',
+          body: 'PSA grades your cards through research, scoring, assembly, and QA. Progress syncs to our system at each stage — check the Track page anytime.',
         },
         {
           title: 'Pick up in Causeway Bay',
-          body: 'Graded slabs return to Hong Kong for pickup at 138 Arena or arranged delivery. Many collectors pair new slabs with our UV glass protector for long-term display.',
+          tagline: 'Ready for pickup',
+          body: 'Graded slabs return to 138 Arena for pickup or arranged delivery.',
         },
       ],
     },
@@ -754,50 +839,56 @@ export const en = {
       items: [
         {
           q: 'How do I track my submission?',
-          a: 'Use the Track page with the phone number you gave at drop-off and the reference code on your receipt. Both are required — we never expose submissions by phone alone.',
-        },
-        {
-          q: 'What is the reference code?',
-          a: 'A batch code formatted BAT-{year}-{month}-{plan}-{batch no.} (e.g. BAT-2026-07-EXP-3). The plan segment shows your PSA service level. Track with this batch reference plus the phone number you gave at intake.',
+          a: 'Use the Track page with the phone number and reference code from your receipt. Both are required. We never expose submissions by phone alone.',
         },
         {
           q: 'Multiple PSA plans in one visit?',
-          a: 'Each service level (Regular, Express, Super Express, Walk-Through) is assigned to its own BAT batch — e.g. BAT-2026-07-EXP-3 and BAT-2026-07-REG-3. Track each batch with the same phone number.',
+          a: 'Each service level gets its own BAT batch. Track each batch with the same phone number.',
         },
         {
           q: 'Where do I drop off and pick up?',
-          a: 'PSA submissions are handled at our partner store 138 Arena (1/F, 522 Jaffe Road, Causeway Bay) for face-to-face drop-off and pickup only. We do not accept mailed submissions. Check hours on Instagram @138arena.',
+          a: '138 Arena only. Face-to-face drop-off and pickup. No mailed submissions. Hours on Instagram @138arena.',
         },
         {
           q: 'What do the timeline steps mean?',
-          a: '"Card Recorded at 138 Arena" confirms intake at our partner store. "Submitted to PSA Hong Kong" means your batch has left for PSA\'s Hong Kong hub. Middle steps sync from PSA. "Ready for Pickup at 138 Arena" means your slabs are back and waiting for collection.',
-        },
-        {
-          q: 'How often is progress updated?',
-          a: 'We sync with PSA order status several times per day once your batch is submitted. The timeline shows the latest known step — grading turnaround depends on PSA service level.',
+          a: '"Card Recorded at 138 Arena" is intake. "Submitted to PSA Hong Kong" means your batch left for PSA. Middle steps sync from PSA. "Ready for Pickup at 138 Arena" means slabs are back.',
         },
         {
           q: 'What cards do you accept?',
-          a: 'Pokémon, sports cards, and MTG in raw or sleeved form. High-value items may require additional declared-value paperwork — contact us before drop-off.',
-        },
-        {
-          q: 'Can I submit by post?',
-          a: 'No. Face-to-face drop-off only at 138 Arena (1/F, 522 Jaffe Road, Causeway Bay). We do not accept mailed submissions.',
+          a: 'Pokémon, sports cards, and MTG in raw or sleeved form. High-value items may need extra declared-value paperwork. Contact us before drop-off.',
         },
       ],
     },
     cta: {
-      title: 'Already dropped off?',
-      body: 'Enter your phone number and reference code to see live progress — grading steps, card list, and tracking when shipped.',
+      title: 'Questions before drop-off?',
+      body: 'Read our PSA grading standards guide or message us on WhatsApp.',
       track: 'Track submission',
       guide: 'PSA grading standards',
+    },
+    pricing: {
+      badge: 'Pricing',
+      title: 'PSA service tiers',
+      tableLabel: 'PSA pricing',
+      colService: 'Service',
+      colFee: 'Fee (HKD)',
+      colMaxValue: 'Max declared value',
+      colTurnaround: 'Turnaround',
+      quoteLink: 'WhatsApp for quote',
+      days: '{days} business days',
+      footnote1: 'Fees may change without notice.',
+      footnote2:
+        'If graded value exceeds the max declared value for your tier, PSA may upgrade the service level and charge the difference.',
+      turnaroundFootnote:
+        'Estimated turnaround times are estimates only and are not guaranteed. The clock does not start until PSA enters the order into its grading system. Times depend on PSA submission volume, capacity, and other circumstances beyond our control, and may change without notice as conditions change. As demand for PSA services grows, PSA may adjust pricing, service offerings, and processing times. All terms and conditions are subject to change.',
     },
   },
 
   psaGradingTrack: {
     badge: 'Submission tracking',
     title: 'Track your PSA submission',
-    subtitle: 'Enter the phone number and reference code from your drop-off receipt.',
+    subtitle: 'Phone number and reference code from your receipt.',
+    staticIntro:
+      'Enter the mobile number and BAT reference code printed on your 138 Arena intake receipt. Both are required. We never show submissions by phone number alone.',
     formPanelLabel: 'Lookup',
     backToHub: 'Back to PSA submission',
     breadcrumb: {
@@ -808,7 +899,7 @@ export const en = {
     },
     form: {
       phoneLabel: 'Phone number',
-      phonePlaceholder: '+852 9285 1189',
+      phonePlaceholder: '+852 9123 4567',
       phoneHelper: 'HK numbers accepted as +852, 852, or local 8-digit.',
       refLabel: 'Reference code',
       refPlaceholder: 'BAT-2026-07-EXP-3',
@@ -819,6 +910,20 @@ export const en = {
       fillDemoShort: 'Use demo',
       notFoundTitle: 'No submission found',
       notFoundBody: 'Check your phone number and reference code match your receipt exactly. Contact us on WhatsApp if you need help.',
+      pricingLink: 'PSA service tiers & fees',
+    },
+    guide: {
+      idleHint: 'Your receipt shows the phone number and BAT reference code you need.',
+      pricingLink: 'PSA service tiers & fees',
+      formatExampleLabel: 'Reference format',
+      formatExample: 'BAT-YYYY-MM-PLAN-N (example: BAT-2026-07-EXP-3)',
+      phoneRowLabel: 'Phone',
+      phoneRowValue: 'Receipt mobile number (+852, 852, or local 8-digit HK)',
+      refRowLabel: 'Reference',
+      refRowValue: 'BAT batch code on your intake receipt',
+      multiPlanLabel: 'Multiple plans',
+      multiPlanValue: 'Each PSA tier gets its own BAT reference under the same phone number',
+      faqLink: 'Common questions on the submission hub',
     },
     servicePlan: {
       regular: 'Regular',
@@ -866,6 +971,7 @@ export const en = {
         status: 'Progress',
         cards: 'Cards ({count})',
       },
+      tabsLabel: 'Results view',
       steps: {
         appawRecorded: 'Card Recorded at 138 Arena',
         appawSentToPsa: 'Submit to PSA Hong Kong',
@@ -1280,24 +1386,6 @@ export const en = {
         'Measure the centering of any trading card and estimate its PSA grade in four steps.',
       howToTool: 'A photo or scan of your trading card',
     },
-    howToSteps: [
-      {
-        name: 'Upload a clear photo',
-        text: 'Upload a straight-on photo or scan of your card taken on a dark, flat background with even lighting.',
-      },
-      {
-        name: 'Straighten the photo',
-        text: 'Angled shots skew your margins. Open Adjust image, then set zoom and tilt until the card edges look parallel to the frame.',
-      },
-      {
-        name: 'Align edge and border guides',
-        text: 'Drag every blue line onto the card cut edge and every pink line onto the art border on all four sides. The step completes once each handle has been moved.',
-      },
-      {
-        name: 'Read your centering percentage',
-        text: 'The tool instantly calculates left/right and top/bottom margin ratios and shows the estimated PSA grade zone.',
-      },
-    ],
     faq: [
       {
         q: 'What centering is required for a PSA 10?',
@@ -1305,7 +1393,7 @@ export const en = {
       },
       {
         q: 'How accurate is the Appaw centering analyzer?',
-        a: 'It depends on the photo. A flat scan with guides on the cut edge and art border usually lands within one or two points of a grader. Angled phone shots skew the ratios.',
+        a: 'It depends on the photo. A flat scan with guides on the cut edge and art border usually lands within one or two points of a grader. Angled phone shots skew the ratios. Don\u2019t trust those readings.',
       },
       {
         q: 'How do I take the best photo for measuring centering?',
@@ -1325,7 +1413,7 @@ export const en = {
       },
       {
         q: 'Can regrading downgrade my card?',
-        a: 'Yes. PSA re-scores corners, edges, surface, and centering under current rules. A PSA 10 often returns as PSA 9. Front centering worse than 55/45 is a downgrade red flag.',
+        a: 'Yes. PSA re-scores corners, edges, surface, and centering under current rules. PSA 10 often comes back as PSA 9. Front centering worse than 55/45 is a red flag.',
       },
       {
         q: 'Can I check centering on a graded slab photo?',
@@ -1469,7 +1557,7 @@ export const en = {
     content: {
       h1: CENTERING_SEO.en.h1 as string,
       lead:
-        'Most submit mistakes are centering, not corners. PSA 10 needs 55/45 front and 75/25 back. Upload a photo, align the guides, and read L/R and T/B percentages for PSA, BGS, SGC, and CGC. Graded slab mode screens regrade upside. Everything runs in your browser. Nothing uploads to our servers.',
+        'Most cards stuck at 8 or 9 fail on centering, not corners. PSA 10 needs 55/45 front, 75/25 back. Upload, align guides, read L/R and T/B for PSA, BGS, SGC, or CGC. Slab mode flags regrade upside. Runs locally. Nothing uploads.',
       howToTitle: 'How to use the Appaw Centering Analyzer',
       howToBadge: '4-Step Workflow',
       stepLabel: 'Step {n}',
@@ -1516,7 +1604,7 @@ export const en = {
       centeringGuideLink: 'PSA 10 centering requirements explained',
       whyMattersTitle: 'Why card centering matters',
       whyMattersP1:
-        'Graders score corners, edges, surface, and centering. Only centering is measurable from a photo before you pay submission fees. Sharp corners and a clean surface still cap at PSA 8 or 9 when borders sit off. PSA 9 to PSA 10 can double or triple resale. Measure margins first. It is the cheapest filter you have.',
+        'Graders score corners, edges, surface, and centering. Only centering is measurable from a photo before you pay submission fees. Sharp corners and a clean surface still cap at PSA 8 or 9 when borders sit off. PSA 9 to PSA 10 can double or triple resale. Measure margins first. Cheapest check before you submit.',
       whyMattersBeforeProtector:
         'Once you\u2019ve confirmed a card is well centred and worth grading, protect it on its way to and from the grader with a premium ',
       protectorLink: 'PSA UV glass protector',
@@ -1550,11 +1638,11 @@ export const en = {
       ],
       regradeTitle: 'Should you regrade or reholder your PSA slab?',
       regradeAeoAnswer:
-        'Reholder keeps your grade and replaces a damaged case. Regrade reopens every subgrade and can drop the label. Screen centering on a flat slab photo first. Gem Mint margins with a PSA 9 label may justify regrade fees. A sound case with acceptable centering is reholder only.',
+        'Reholder keeps your grade and swaps a damaged case. Regrade reopens every subgrade and can drop the label. On a flat slab photo, check centering first. Gem Mint margins with a PSA 9 label may justify the fee. Sound case, acceptable centering: reholder only.',
       regradeP1:
-        'Paying regrade fees when only the plastic failed is the common mistake. Reholder swaps the shell and keeps the number. Regrade sends the card through full grading again: centering, corners, edges, and surface under current standards.',
+        'Paying regrade fees when only the plastic failed is the common mistake. Reholder swaps the shell and keeps the number. Regrade sends the card through full grading again under current standards.',
       regradeP2:
-        'Centering is the one subgrade you can pre-screen from photos. Slab listings on eBay, Carousell, and show tables are rarely flat scans. If centering already fails PSA 8 tolerance, regrade is usually negative expected value even when the case looks fine.',
+        'Slab listings on eBay, Carousell, and show tables are rarely flat scans. Centering is the one subgrade you can pre-screen from photos. If margins already fail PSA 8 tolerance, regrade usually isn\u2019t worth the fee, even when the case looks fine.',
       regradeGuideLink: 'PSA regrade vs reholder: full decision guide',
       referencesTitle: 'References & further reading',
       referencesExternalLabel: 'Official grading standards',

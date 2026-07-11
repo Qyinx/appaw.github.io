@@ -6,6 +6,7 @@ import {
   howToJsonLd,
   faqJsonLd,
 } from '@/lib/seo';
+import { centeringHowToSteps } from './centering-guide';
 import type { Translations } from '@/i18n';
 
 type CenteringPageContentProps = {
@@ -15,7 +16,8 @@ type CenteringPageContentProps = {
 };
 
 export default function CenteringPageContent({ t, pageUrl, homeUrl }: CenteringPageContentProps) {
-  const { seo, howToSteps, faq } = t.centeringPage;
+  const { seo, faq, content } = t.centeringPage;
+  const howToSteps = centeringHowToSteps(content.steps);
 
   const webApp = webApplicationJsonLd({
     name: seo.webAppName,

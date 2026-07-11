@@ -33,3 +33,11 @@ export function stepStateForIndex(index: number, activeStep: number): StepState 
 export function clampStep(step: number): CenteringStepIndex {
   return Math.max(0, Math.min(STEP_COUNT - 1, step)) as CenteringStepIndex;
 }
+
+export type CenteringContentStep = { title: string; body: string };
+export type CenteringHowToStep = { name: string; text: string };
+
+/** Map page content steps to HowTo schema / in-app guide shape (single source of truth). */
+export function centeringHowToSteps(steps: readonly CenteringContentStep[]): CenteringHowToStep[] {
+  return steps.map(({ title, body }) => ({ name: title, text: body }));
+}

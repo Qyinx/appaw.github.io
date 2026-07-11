@@ -1,1 +1,5 @@
-export { default } from '../../../business/psa-grading/page';
+import PsaGradingHubPageShell from '../../../business/psa-grading/PsaGradingHubPageShell';
+
+export default function ZhPsaGradingPage() {
+  return <PsaGradingHubPageShell locale="zh" />;
+}

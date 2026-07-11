@@ -12,6 +12,7 @@ import { useCards } from '@/hooks/useCards';
 import { getGradeColor, getCompanyStyle, formatPrice, formatGrade } from '@/lib/card-helpers';
 import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
 import { useSubHeader } from '@/hooks/useSubHeader';
+import ServiceAvailabilityBanner from '@/components/business/ServiceAvailabilityBanner';
 import type { TradingCard, GradingCompany, GradeTier } from '@/types/trading-card';
 
 /* ──────────────────────────────────────────
@@ -691,99 +692,6 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
 }
 
 /* ──────────────────────────────────────────
-   Marketplace In Progress
-   ────────────────────────────────────────── */
-function InProgressPanel({ labels }: { labels: ReturnType<typeof useLanguage>['t']['cardMarketplace']['inProgress'] }) {
-  return (
-    <div className="flex flex-col items-center justify-center py-20 md:py-28 text-center">
-      <div className="relative w-full max-w-lg p-8 md:p-10 panel">
-        <div className="inline-flex items-center gap-2.5 border border-accent-brand/30 px-4 py-1.5 mb-6">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent-brand animate-pulse" />
-          <span className="text-accent-brand text-xs uppercase tracking-[0.25em] font-medium">{labels.badge}</span>
-        </div>
-        <h2 className="text-2xl md:text-3xl font-bold font-display text-text-primary leading-tight mb-4">{labels.title}</h2>
-        <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed mb-8">{labels.description}</p>
-        <a
-          href="https://wa.me/85292851189"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-primary"
-        >
-          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
-          {labels.whatsapp}
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function InProgressModal({
-  labels,
-  open,
-  onDismiss,
-}: {
-  labels: ReturnType<typeof useLanguage>['t']['cardMarketplace']['inProgress'];
-  open: boolean;
-  onDismiss: () => void;
-}) {
-  useEffect(() => {
-    if (!open) return;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onDismiss(); };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [open, onDismiss]);
-
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8" onClick={onDismiss}>
-      <div className="absolute inset-0 bg-black/80 animate-[fadeIn_0.2s_ease-out]" />
-      <div
-        className="relative w-full max-w-lg bg-surface-bg border border-border-default rounded-2xl shadow-2xl animate-[fadeUp_0.3s_ease-out] p-8 md:p-10 text-center"
-        onClick={e => e.stopPropagation()}
-      >
-        <button
-          onClick={onDismiss}
-          className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-surface-raised hover:bg-white/[0.12] text-text-secondary hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]"
-          aria-label={labels.dismiss}
-        >
-          <X className="w-4 h-4" />
-        </button>
-        <div className="inline-flex items-center gap-2.5 border border-accent-brand/30 rounded-full px-4 py-1.5 mb-6">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent-brand animate-pulse" />
-          <span className="text-accent-brand text-xs uppercase tracking-[0.25em] font-medium">{labels.badge}</span>
-        </div>
-        <h2 className="text-2xl md:text-3xl font-bold font-display text-text-primary leading-tight mb-4">{labels.title}</h2>
-        <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed mb-8">{labels.description}</p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href="https://wa.me/85292851189"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary"
-          >
-            <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
-            {labels.whatsapp}
-          </a>
-          <button
-            onClick={onDismiss}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-border-strong text-text-secondary hover:text-text-primary hover:border-border-strong text-sm font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow]"
-          >
-            {labels.dismiss}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ──────────────────────────────────────────
    Main Component
    ────────────────────────────────────────── */
 export default function CardTradingPage({ initialCards }: { initialCards?: TradingCard[] }) {
@@ -798,8 +706,6 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
   const allCards = MARKETPLACE_IN_PROGRESS ? [] : fetchedCards;
   const loading = MARKETPLACE_IN_PROGRESS ? false : cardsLoading;
   const error = MARKETPLACE_IN_PROGRESS ? null : cardsError;
-
-  const [showInProgressModal, setShowInProgressModal] = useState(MARKETPLACE_IN_PROGRESS);
 
   // Filters
   const [search, setSearch]               = useState('');
@@ -1082,6 +988,9 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
 
   return (
     <div className="flex flex-col bg-surface-bg min-h-dvh overflow-x-clip">
+      {MARKETPLACE_IN_PROGRESS ? (
+        <ServiceAvailabilityBanner copy={mp.availability} />
+      ) : null}
 
       {/* ═══════════ HERO ═══════════ */}
       <section className="relative pt-24 pb-12 overflow-hidden border-b border-border-default">
@@ -1153,7 +1062,11 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       {/* ═══════════ CARD GRID ═══════════ */}
       <section className="container-custom py-6 flex-1">
         {MARKETPLACE_IN_PROGRESS ? (
-          <InProgressPanel labels={mp.inProgress} />
+          <div className="panel px-6 py-12 md:py-16 text-center">
+            <p className="text-sm text-text-secondary leading-relaxed max-w-xl mx-auto">
+              {mp.availability.gridNote}
+            </p>
+          </div>
         ) : loading ? (
         /* Loading state */
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
@@ -1333,13 +1246,6 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
         <CardDetailModal card={selectedCard} labels={mp} onClose={() => setSelectedCard(null)} />
       )}
 
-      {MARKETPLACE_IN_PROGRESS && (
-        <InProgressModal
-          labels={mp.inProgress}
-          open={showInProgressModal}
-          onDismiss={() => setShowInProgressModal(false)}
-        />
-      )}
     </div>
   );
 }

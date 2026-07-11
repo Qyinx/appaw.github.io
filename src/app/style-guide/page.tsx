@@ -4,6 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import Button from '@/components/ui/Button';
 import HeroStamp from '@/components/ui/HeroStamp';
+import ScrollChapter from '@/components/motion/ScrollChapter';
+import ChapterNav from '@/components/motion/ChapterNav';
+import QuoteCarousel from '@/components/motion/QuoteCarousel';
+import PsaGradingWorkflowTimeline from '@/app/business/psa-grading/components/PsaGradingWorkflowTimeline';
 import { MemberBadge, MEMBER_LEVELS, type MemberLevel } from '@/app/collection/components/shared';
 import { ArrowRight, Sun, Moon } from 'lucide-react';
 
@@ -305,6 +309,55 @@ export default function StyleGuidePage() {
             </div>
             <Button type="submit">Save Settings</Button>
           </form>
+        </div>
+      </section>
+
+      <section className="section-padding border-b border-border-default bg-surface-panel page-blueprint">
+        <div className="container-custom">
+          <h2 className="text-2xl font-display font-bold mb-2">Scroll Chapters</h2>
+          <p className="text-text-secondary text-sm mb-8 max-w-2xl">
+            Editorial marketing tier — AngelList-inspired chapter labels, sticky nav, quote carousel.
+            Scrub pin is demo-only on PSA hub; patterns below are static previews.
+          </p>
+
+          <div className="chapter-nav-shell mb-8">
+            <ChapterNav
+              items={[
+                { id: 'sg-chapter-a', label: 'Pricing' },
+                { id: 'sg-chapter-b', label: 'How it works' },
+                { id: 'sg-chapter-c', label: 'FAQ' },
+              ]}
+              ariaLabel="Style guide chapter demo"
+            />
+          </div>
+
+          <div className="space-y-0 border border-border-default">
+            <ScrollChapter id="sg-chapter-a" part="01" title="PSA service tiers" compact className="!border-t-0">
+              <div className="panel p-5">
+                <div className="spec-row px-0">
+                  <span className="spec-row__label">Regular</span>
+                  <span className="spec-row__value">HKD 350</span>
+                </div>
+                <div className="spec-row px-0">
+                  <span className="spec-row__label">Express</span>
+                  <span className="spec-row__value">HKD 550</span>
+                </div>
+              </div>
+            </ScrollChapter>
+
+            <ScrollChapter id="sg-chapter-b" part="02" title="From drop-off to slab" compact>
+              <PsaGradingWorkflowTimeline copy={t.psaGradingPage.howTo} />
+            </ScrollChapter>
+
+            <ScrollChapter id="sg-chapter-c" part="03" title="Common questions" compact className="!min-h-0">
+              <QuoteCarousel
+                items={[
+                  { body: 'Face-to-face only at 138 Arena.', attribution: '138 Arena team' },
+                  { body: 'Phone + reference code required to track.', attribution: 'PSA submission service' },
+                ]}
+              />
+            </ScrollChapter>
+          </div>
         </div>
       </section>
 

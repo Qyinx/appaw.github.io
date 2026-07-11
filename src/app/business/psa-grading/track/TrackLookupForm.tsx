@@ -4,6 +4,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, use
 import { Loader2, Search, AlertCircle } from 'lucide-react';
 import gsap from 'gsap';
 import type { Translations } from '@/i18n/en';
+import LocalLink from '@/components/LocalLink';
 import ReferenceCodeHighlight from './ReferenceCodeHighlight';
 import {
   animateButtonPress,
@@ -29,8 +30,9 @@ type Props = {
   onSubmit: (e: React.FormEvent) => void;
   onFillDemo: () => void;
   state: 'idle' | 'loading' | 'success' | 'not_found';
-  /** Narrow sidebar beside results — stack actions, shorter demo label */
   compact?: boolean;
+  showDemoButton?: boolean;
+  initialFocus?: 'phone' | 'reference';
 };
 
 const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackLookupForm(
@@ -45,6 +47,8 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
     onFillDemo,
     state,
     compact = false,
+    showDemoButton = false,
+    initialFocus,
   },
   ref,
 ) {
@@ -75,6 +79,14 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
       tween?.kill();
     };
   }, []);
+
+  useEffect(() => {
+    if (initialFocus === 'phone') {
+      phoneRef.current?.focus({ preventScroll: true });
+    } else if (initialFocus === 'reference') {
+      refInputRef.current?.focus({ preventScroll: true });
+    }
+  }, [initialFocus]);
 
   useEffect(() => {
     if (state !== 'not_found') return;
@@ -160,20 +172,28 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
           )}
           {state === 'loading' ? copy.submitting : copy.submit}
         </button>
-        <button
-          type="button"
-          onClick={handleFillDemo}
-          className="btn btn-secondary w-full min-h-[44px] inline-flex items-center justify-center !whitespace-normal normal-case tracking-normal font-sans text-sm text-center"
+        {showDemoButton && state !== 'success' && (
+          <button
+            type="button"
+            onClick={handleFillDemo}
+            className="btn btn-secondary w-full min-h-[44px] inline-flex items-center justify-center !whitespace-normal normal-case tracking-normal font-sans text-sm text-center"
+          >
+            {compact ? (
+              <>
+                <span className="lg:hidden">{copy.fillDemo}</span>
+                <span className="hidden lg:inline">{copy.fillDemoShort}</span>
+              </>
+            ) : (
+              copy.fillDemo
+            )}
+          </button>
+        )}
+        <LocalLink
+          href="/business/psa-grading#pricing"
+          className="text-sm text-accent-secondary hover:underline min-h-[44px] inline-flex items-center justify-center"
         >
-          {compact ? (
-            <>
-              <span className="lg:hidden">{copy.fillDemo}</span>
-              <span className="hidden lg:inline">{copy.fillDemoShort}</span>
-            </>
-          ) : (
-            copy.fillDemo
-          )}
-        </button>
+          {copy.pricingLink}
+        </LocalLink>
       </div>
 
       {state === 'not_found' && (

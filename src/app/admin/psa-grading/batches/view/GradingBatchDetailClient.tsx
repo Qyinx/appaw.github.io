@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import AdminCardsTable from '../../components/AdminCardsTable';
+import AdminCustomerOrdersTable from '../../components/AdminCustomerOrdersTable';
 import { getBatch, updateBatch, updateItem } from '@/lib/grading/admin-api';
 import {
   anyItemFieldsDirty,
@@ -151,7 +152,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
 
   const servicePlans = detail ? [parseServicePlanLabel(detail.batch.referenceCode)] : [];
 
-  if (loading) return <p className="text-text-muted text-sm">Loading batch...</p>;
+  if (loading) return <p className="text-text-muted text-sm">Loading batch…</p>;
   if (!detail) {
     return (
       <div className="space-y-3">
@@ -173,9 +174,9 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
         <p className="text-sm text-text-muted mt-1">PSA batch — manage progress, orders, and cards.</p>
       </div>
 
-      <section className="border border-border-default bg-surface-panel p-5 space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">Batch details</h3>
-        <div className="grid gap-4 md:grid-cols-2">
+      <section className="panel p-5 space-y-4">
+        <h3 className="section-label">Batch details</h3>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
               Reference ID
@@ -227,7 +228,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
             </select>
             <p className="text-xs text-text-muted mt-1">{completedStepLabel(completedStepIndex)}</p>
           </div>
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 lg:col-span-4">
             <p className="text-xs text-text-secondary uppercase tracking-wide mb-2">Service levels</p>
             <div className="flex flex-wrap gap-2">
               {servicePlans.map((plan) => (
@@ -248,7 +249,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
             onClick={() => void saveAllChanges()}
             disabled={saving || !hasUnsavedChanges}
           >
-            {saving ? 'Saving...' : 'Save changes'}
+            {saving ? 'Saving…' : 'Save changes'}
           </button>
           <button
             type="button"
@@ -270,14 +271,35 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
         )}
       </section>
 
-      <section className="border border-border-default bg-surface-panel p-5 space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
+      <section className="panel p-5 space-y-4">
+        <h3 className="section-label">
+          Customer orders in batch ({detail.customerOrders.length})
+        </h3>
+        {detail.customerOrders.length > 0 ? (
+          <AdminCustomerOrdersTable
+            orders={detail.customerOrders}
+            showBatchColumn={false}
+            emptyMessage="No customer orders yet."
+          />
+        ) : (
+          <p className="text-sm text-text-muted">
+            No customer orders yet.{' '}
+            <Link href="/admin/psa-grading/intake" className="text-accent-link hover:underline">
+              Add via intake
+            </Link>
+          </p>
+        )}
+      </section>
+
+      <section className="panel p-5 space-y-4">
+        <h3 className="section-label">
           Cards in batch ({draftItems.length})
         </h3>
         <AdminCardsTable
           items={draftItems}
           editable
           showFooter
+          showSubmissionOrder
           onUpdateItem={handleDraftItemUpdate}
         />
       </section>

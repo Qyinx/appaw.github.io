@@ -3,6 +3,7 @@ import { LanguageProvider } from '@/context/LanguageContext';
 import { SiteShell, Footer } from '@/components/layout';
 import { CookieConsent } from '@/components/CookieConsent';
 import DocumentMeta from '@/components/DocumentMeta';
+import ScrollToTop from '@/components/ScrollToTop';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import { Auth0ProviderWrapper } from '@/providers/Auth0Provider';
 import AgentDiscoveryLinks from '@/components/AgentDiscoveryLinks';
@@ -90,6 +91,7 @@ export default function RootLayout({
         >
           <LanguageProvider>
             <DocumentMeta />
+            <ScrollToTop />
             <SiteShell>{children}</SiteShell>
             <Footer />
             <CookieConsent />

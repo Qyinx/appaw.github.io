@@ -7,7 +7,7 @@ import HeroStamp from '@/components/ui/HeroStamp';
 import GuideFaq from '@/components/guides/GuideFaq';
 import { useLanguage } from '@/context/LanguageContext';
 import { useCenteringGuide } from './CenteringGuideContext';
-import { STEP_COUNT } from './centering-guide';
+import { STEP_COUNT, centeringHowToSteps } from './centering-guide';
 import styles from './card-centering.module.css';
 
 const STEP_ICONS = [ImageUp, SlidersHorizontal, Frame, Gauge] as const;
@@ -68,7 +68,7 @@ function HowToSteps({
 }) {
   const { t } = useLanguage();
   const tool = t.centeringPage.tool;
-  const howToSteps = t.centeringPage.howToSteps;
+  const howToSteps = centeringHowToSteps(t.centeringPage.content.steps);
   const { activeStep, getStepState } = useCenteringGuide();
   const sectionRef = useRef<HTMLElement>(null);
   const prevStepRef = useRef(activeStep);

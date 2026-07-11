@@ -22,7 +22,7 @@ import {
 import styles from './card-centering.module.css';
 import GuideStepBanner from './GuideStepBanner';
 import { useCenteringGuide, useCenteringGuideRef } from './CenteringGuideContext';
-import { isInnerHandle, isOuterHandle } from './centering-guide';
+import { isInnerHandle, isOuterHandle, centeringHowToSteps } from './centering-guide';
 
 type PhotoMode = 'raw' | 'slab';
 type VerdictKey = 'regradeCandidate' | 'borderlineRegrade' | 'holdGrade' | 'downgradeRisk';
@@ -193,7 +193,7 @@ export default function CardCenteringClient() {
   const { t } = useLanguage();
   const tool = t.centeringPage.tool;
   const seo = t.centeringPage.seo;
-  const howToSteps = t.centeringPage.howToSteps;
+  const howToSteps = centeringHowToSteps(t.centeringPage.content.steps);
   const guide = useCenteringGuide();
   const guideRef = useCenteringGuideRef();
   const toolLabelsRef = React.useRef(tool);

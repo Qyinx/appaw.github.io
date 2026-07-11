@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-07-02 (batch 8b) — Protector recommended prices centralized in `src/lib/products/protector-pricing.ts` (HKD 82 single / 92 gradient).
+Last updated: 2026-07-12 (batch 9) — PSA submission hub + track SEO: indexable metadata, JSON-LD, sitemap, llms.txt, AEO blocks, homepage/business internal links.
+
+Prior batch (2026-07-02) — Protector recommended prices centralized in `src/lib/products/protector-pricing.ts` (HKD 82 single / 92 gradient).
 
 Prior batch (2026-07-02) — **PSA magnetic case** keyword cluster: `SEO_KEYWORD_MAP`, metadata keywords, JSON-LD `alternateName`, product overview + FAQ (EN+ZH), `llms.txt` / `index.md`. Meta description retargeted for magnetic+PSA+case proximity. Official product name unchanged; aluminum still retired.
 
@@ -18,6 +20,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-07-12 | PSA submission SEO | `/business/psa-grading/` + `/track/` indexable (EN+ZH). `PSA_GRADING_SEO`, JSON-LD (Service/HowTo/FAQ/WebApplication), sitemap, llms.txt/index.md, AEO classes, live-service banner, internal links from `/`, `/business/`. |
 | 2026-07-02 | Protector pricing | Recommended retail prices centralized in `src/lib/products/protector-pricing.ts`: HKD 82 (single color), HKD 92 (gradient). UI + Product/Service JSON-LD read from single module; price strings removed from i18n. |
 | 2026-07-02 | PSA magnetic case SEO | Added **PSA magnetic case** / **magnetic PSA slab case** (EN) ↔ **磁吸PSA卡殼** (ZH) to `SEO_KEYWORD_MAP`, product metadata keywords, JSON-LD `alternateName`, overview copy + FAQ (EN+ZH), `llms.txt` / `index.md`. Meta description retargeted for magnetic+PSA+case proximity. Official product name unchanged; aluminum still retired. |
 | 2026-06-27 | UV glass product rename | EN: **Graded Slab UV Glass Protector** (H1: UV Tempered Glass). ZH: **磁吸防UV鑑定卡保護殼** (H1: 防UV強化玻璃). Keyword cluster: tempered glass / UV glass slab case (EN), 防UV玻璃 / 強化玻璃卡殼 (ZH). Retired aluminum/CNC from marketing copy; ZH frame **金屬邊框** (not 金屬框架 / 鋁合金). URL unchanged `/products/psa-protectors/`. `PRODUCT_NAME`, i18n, JSON-LD `material`, guides, `llms.txt`, `index.md`, Agent Skills. |
@@ -410,6 +413,26 @@ Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: tex
 
 ---
 
+5) PSA Grading Submission (`/business/psa-grading/`) — **IMPLEMENTED (2026-07-12)**
+
+- **URLs:** `https://appaw.store/business/psa-grading/` (hub), `https://appaw.store/business/psa-grading/track/` (lookup); `/zh/...` mirrors
+- **Metadata:** `PSA_GRADING_SEO` in `src/lib/product-names.ts` → `psaGradingMetadata` / `zhPsaGradingMetadata` in `src/lib/seo/metadata.ts`
+- **EN title:** PSA Collectibles Submission Hong Kong | Appaw Store
+- **ZH title:** PSA 收藏卡代送鑑定 | 香港 – Appaw Store
+- **EN description (number-led):** Face-to-face PSA submission at 138 Arena, Causeway Bay. Service from HKD 890. Track batches with phone and reference code.
+- **Indexing:** `robots: { index: true, follow: true }` on hub + track (EN + ZH)
+- **JSON-LD:** Hub — `Service`, `Offer`×4 (from `psa-pricing.ts`), `HowTo`, `FAQPage`, `BreadcrumbList`, `WebPage` with `speakable` → `.psa-grading-aeo-answer`. Track — `WebApplication`, `BreadcrumbList`, `WebPage`
+- **AEO:** `.psa-grading-aeo-answer` on hero definition + PAA block; first FAQ answer uses `.guide-aeo-answer`
+- **sr-only zh:** EN hub shell mirrors zh copy (SSR defaults EN)
+- **Sitemap:** hub priority 0.85, track 0.70 (`sitemap-config.ts`)
+- **GEO:** `llms.txt` + `index.md` pillar rows; HKD tier snippet for agents
+- **Internal links:** Header nav, 4 guides (inbound), hub reciprocal links, `/business/` ItemList #3, BusinessClient section, homepage services panel
+- **Keyword map:** `PSA submission Hong Kong` ↔ `PSA代送鑑定`; `PSA card submission` ↔ `收藏卡送鑑` (see `SEO_KEYWORD_MAP`)
+
+**Post-deploy:** Request indexing for hub + track EN/ZH in GSC.
+
+---
+
 Sitemap Strategy (implemented)
 ==============================
 
@@ -423,6 +446,8 @@ Sitemap Strategy (implemented)
 | `/` | 1.0 | weekly |
 | `/products/psa-protectors/` | 0.95 | weekly |
 | `/business/` | 0.9 | weekly |
+| `/business/psa-grading/` | 0.85 | weekly |
+| `/business/psa-grading/track/` | 0.70 | weekly |
 | `/collection/` | 0.75 | monthly |
 | `/about/` | 0.8 | monthly |
 | `/tools/card-centering/` | 0.8 | weekly |
