@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
+import { useBrowserPathname } from '@/hooks/useBrowserPathname';
 import GradingBatchDetailClient from './GradingBatchDetailClient';
 
 const RESERVED_SEGMENTS = new Set(['view', 'new']);
@@ -16,7 +16,7 @@ export function batchReferenceFromPathname(pathname: string): string {
 }
 
 export default function GradingBatchViewClient() {
-  const pathname = usePathname();
+  const pathname = useBrowserPathname();
   const referenceCode = useMemo(() => batchReferenceFromPathname(pathname), [pathname]);
 
   if (!referenceCode) {

@@ -51,7 +51,7 @@ jobs:
         run: npm run build
 
       - name: Verify static export
-        run: test -f ./out/index.html && test -f ./out/.nojekyll
+        run: test -f ./out/index.html && test -f ./out/.nojekyll && grep -q 'gh-pages-spa-fallback' ./out/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

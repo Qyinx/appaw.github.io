@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useBrowserPathname } from '@/hooks/useBrowserPathname';
 import { Loader2 } from 'lucide-react';
 import {
   fetchPublicPortfolioForClient,
@@ -20,14 +20,14 @@ type LoadState =
 const RESERVED_SEGMENTS = new Set(['view', '_']);
 
 export function portfolioIdFromPathname(pathname: string): string {
-  const match = pathname.match(/\/collection\/p\/([^/]+)\/?$/);
+  const match = pathname.match(/\/(?:zh\/)?collection\/p\/([^/]+)\/?$/);
   const segment = match?.[1] ?? '';
   if (!segment || RESERVED_SEGMENTS.has(segment)) return '';
   return segment;
 }
 
 export function PublicPortfolioPageClient({ id: idProp = '' }: { id?: string }) {
-  const pathname = usePathname();
+  const pathname = useBrowserPathname();
   const id = useMemo(() => portfolioIdFromPathname(pathname) || idProp, [pathname, idProp]);
 
   const [state, setState] = useState<LoadState>(() =>

@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
+import { useBrowserPathname } from '@/hooks/useBrowserPathname';
 import GradingCustomerOrderDetailClient from './GradingCustomerOrderDetailClient';
 
 const RESERVED_SEGMENTS = new Set(['view']);
@@ -18,7 +18,7 @@ export function customerOrderIdFromPathname(pathname: string): number | null {
 }
 
 export default function GradingCustomerOrderViewClient() {
-  const pathname = usePathname();
+  const pathname = useBrowserPathname();
   const orderId = useMemo(() => customerOrderIdFromPathname(pathname), [pathname]);
 
   if (orderId === null) {

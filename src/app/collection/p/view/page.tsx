@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-/** Static shell — proxy/_redirects map `/collection/p/:id/` here; client reads id from URL. */
+/** Static shell — dev rewrites + GitHub Pages 404 fallback map pretty URLs here; client reads id from URL. */
 export default function PublicPortfolioViewPage() {
   return <PublicPortfolioPageClient />;
 }

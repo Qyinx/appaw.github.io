@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-/** Static shell — _redirects map `/admin/psa-grading/orders/:id/` here; client reads id from URL. */
+/** Static shell — dev rewrites + GitHub Pages 404 fallback map pretty URLs here; client reads id from URL. */
 export default function PsaGradingCustomerOrderViewPage() {
   return <GradingCustomerOrderViewClient />;
 }

@@ -169,6 +169,12 @@
       "skillPath": "skills/redesign-skill/SKILL.md",
       "computedHash": "47eced3e960a2c961d3cbee11fa1216264f589344b586a5cbd03967cd6b9c54b"
     },
+    "scroll-world": {
+      "source": "oso95/scroll-world",
+      "sourceType": "github",
+      "skillPath": "skills/scroll-world/SKILL.md",
+      "computedHash": "e6953d972ecd73341c84760bc6287bc0058a633833524cbd21e39b1de6d214c2"
+    },
     "seo": {
       "source": "Bhanunamikaze/Agentic-SEO-Skill",
       "sourceType": "github",
