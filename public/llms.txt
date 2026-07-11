@@ -20,7 +20,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | Product | https://appaw.store/products/psa-protectors/ | https://appaw.store/zh/products/psa-protectors/ | Full specs, FAQ, JSON-LD Product schema |
 | Centering tool | https://appaw.store/tools/card-centering/ | https://appaw.store/zh/tools/card-centering/ | Free PSA 10 centering calculator; raw + graded slab photos; regrade vs reholder screening |
 | Services | https://appaw.store/business/ | https://appaw.store/zh/business/ | Protector + PSA submission + graded card trading overview |
-| PSA submission | https://appaw.store/business/psa-grading/ | https://appaw.store/zh/business/psa-grading/ | HK proxy submission via 138 Arena; face-to-face only; tiers from HKD 890 |
+| PSA submission | https://appaw.store/business/psa-grading/ | https://appaw.store/zh/business/psa-grading/ | HK proxy submission via 138 Arena; invited customers only; face-to-face only; tiers from HKD 890 |
 | Track PSA submission | https://appaw.store/business/psa-grading/track/ | https://appaw.store/zh/business/psa-grading/track/ | Batch status lookup (phone + BAT reference code) |
 | Collection manager | https://appaw.store/collection/ | https://appaw.store/zh/collection/ | Free graded card inventory dashboard (landing only; sign-in required for app) |
 | About | https://appaw.store/about/ | https://appaw.store/zh/about/ | Brand story, Hong Kong origin |

@@ -45,7 +45,7 @@ export function buildPsaGradingHubStructuredData(locale: PsaGradingLocale) {
       price: String(row.feeHkd),
       priceCurrency: 'HKD',
       url: `${url}#pricing`,
-      availability: 'https://schema.org/InStock',
+      availability: 'https://schema.org/LimitedAvailability',
     })),
   });
 

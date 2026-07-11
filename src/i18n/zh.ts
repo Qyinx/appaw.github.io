@@ -744,9 +744,9 @@ export const zh: Translations = {
     lastUpdatedLabel: '最後更新',
     lastUpdated: '2026-07-12',
     availability: {
-      badge: '香港服務',
-      title: '銅鑼灣 138 Arena 面交',
-      body: '交卡及取件須親臨合作店舖 138 Arena，不接受郵寄。如有疑問，歡迎交卡前 WhatsApp 聯絡我們。',
+      badge: '優先體驗',
+      title: '目前僅限受邀客戶',
+      body: 'PSA 代送鑑定現階段僅開放予受邀客戶。交卡及取件須親臨銅鑼灣 138 Arena，不接受郵寄。如需優先體驗，歡迎 WhatsApp 聯絡我們。',
       ctaContact: 'WhatsApp 聯絡',
     },
     aeo: {

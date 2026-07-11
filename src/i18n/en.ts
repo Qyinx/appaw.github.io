@@ -744,9 +744,9 @@ export const en = {
     lastUpdatedLabel: 'Last updated',
     lastUpdated: '2026-07-12',
     availability: {
-      badge: 'Hong Kong service',
-      title: 'Face-to-face at 138 Arena, Causeway Bay',
-      body: 'Drop off and pick up in person at our partner store 138 Arena. No mailed submissions. WhatsApp us with questions before your visit.',
+      badge: 'Early access',
+      title: 'Currently available to invited customers only',
+      body: 'PSA submission is open to invited customers for now. Drop off and pick up in person at 138 Arena, Causeway Bay — no mailed submissions. WhatsApp us if you would like early access.',
       ctaContact: 'WhatsApp us',
     },
     aeo: {
