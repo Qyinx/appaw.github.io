@@ -103,7 +103,7 @@ const guide: GuideContent = {
       id: 'bottom-line',
       title: 'Match the service to the problem',
       paragraphs: [
-        'Reholder suits collectors who want clean display without touching the grade. Regrade suits collectors who accept downgrade risk for upside. Still unsure? Read [PSA 10 centering requirements](/guides/psa-10-centering-requirements/) and [spot fake PSA slabs](/guides/identify-fake-psa-slabs/) before you mail valuable cardboard.',
+        'Reholder suits collectors who want clean display without touching the grade. Regrade suits collectors who accept downgrade risk for upside. Still unsure? Read [PSA 10 centering requirements](/guides/psa-10-centering-requirements/) and the [PSA slab authentication guide](/guides/identify-fake-psa-slabs/) before you mail valuable cardboard.',
       ],
     },
   ],

@@ -2,12 +2,12 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'psa-grading-standards',
-  title: 'PSA Grading 標準、扣分標籤與天價成交紀錄解析',
+  title: 'PSA 評級標準、Qualifier 代碼與成交紀錄說明',
   badge: '鑑定規格',
   lead:
     '同一張卡 PSA 10 可售六位數，PSA 9 可能連四位數也不及。差距並非運氣，而是 1–10 量表、Qualifier 與置中規則，買家在結帳時早已沿用。',
   published: '2026-06-18',
-  updated: '2026-07-11',
+  updated: '2026-07-12',
   readTime: '14 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -18,10 +18,39 @@ const guide: GuideContent = {
   ],
   sections: [
     {
-      id: 'what-is-psa',
-      title: 'PSA 評級是什麼？',
+      id: 'record-sales',
+      title: 'PSA 10 天價成交紀錄',
       paragraphs: [
-        'PSA（Professional Sports Authenticator）由 David Hall 於 1991 年創立，是全球最大的第三方卡牌鑑定機構之一，累計認證逾 6500 萬件藏品。對收藏家與投資者而言，PSA 分數是買賣雙方共用的品相語言：數字越高，代表四角、邊緣、表面與置中越接近工廠出廠狀態。',
+        'PSA 10 Gem Mint 在拍賣市場常出現數量級溢價。以下三筆公開成交說明市場如何為完美品相定價。',
+      ],
+      bulletGroups: [
+        {
+          label: '公開成交紀錄',
+          items: [
+            {
+              label: '1998 寶可夢插畫家皮卡超, PSA 10',
+              text: '成交價 **527.5 萬美元**（約 385 萬英鎊）。YouTuber Logan Paul 於 2023 年私人交易購得，被廣泛視為史上最貴集換式卡牌之一。',
+            },
+            {
+              label: '1993 萬智牌 Alpha 黑蓮花, PSA 10',
+              text: '成交價 **54 萬美元**（約 42.8 萬英鎊），2023 年拍賣創下紀錄。競技已禁用，PSA 10 完美狀態仍為 TCG 歷史象徵卡的高分標本。',
+            },
+            {
+              label: '1998 日版銀卡皮卡超（第二屆錦標賽）PSA 10',
+              text: '成交價 **44.4 萬美元**（約 34.73 萬英鎊），同樣於 2023 年售出，顯示寶可夢賽事獎勵卡在拍賣市場的高分溢價。',
+            },
+          ],
+        },
+      ],
+      callout:
+        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍，送鑑前先用量度工具篩選，見 [裸卡到受保護鑑定卡：送鑑後加裝保護殼](/guides/grade-or-protect-first/)。',
+      bridge: '溢價來自分數規則。以下是 PSA 1–10 量表與 Qualifier 定義。',
+    },
+    {
+      id: 'what-is-psa',
+      title: 'PSA 評級是什麼',
+      paragraphs: [
+        'PSA（Professional Sports Authenticator）累計認證逾 6500 萬件藏品，為買賣雙方共用的品相語言：數字越高，代表四角、邊緣、表面與置中越接近出廠狀態。',
       ],
       bulletGroups: [
         {
@@ -62,12 +91,12 @@ const guide: GuideContent = {
         rows: [
           [
             'PSA 10 (GM-MT)',
-            'Gem Mint（完美寶石）',
+            'Gem Mint',
             '四角銳利、無污漬、印刷光澤佳；放大鏡下僅極微小瑕疵。正面置中 ≤55/45，背面 ≤75/25。',
           ],
           [
             'PSA 9 (MINT)',
-            'Mint（全新）',
+            'Mint',
             '品相極佳，僅有非常微小且不明顯的出廠瑕疵或輕微對稱偏差。',
           ],
           [
@@ -77,7 +106,7 @@ const guide: GuideContent = {
           ],
           [
             'PSA 7 (NM)',
-            'Near Mint（近乎全新）',
+            'Near Mint',
             '表面可能有輕微磨損、邊緣泛白或微弱蠟痕，主體仍完好。',
           ],
           [
@@ -87,7 +116,7 @@ const guide: GuideContent = {
           ],
           [
             'PSA 5 (EX)',
-            'Excellent（優秀）',
+            'Excellent',
             '角落略圓、光澤減退，或帶輕微印刷線。',
           ],
           [
@@ -97,12 +126,12 @@ const guide: GuideContent = {
           ],
           [
             'PSA 3 (VG)',
-            'Very Good（非常好）',
+            'Very Good',
             '明顯折痕或擦傷，四角顯著磨損與變圓。',
           ],
           [
             'PSA 2 (GOOD)',
-            'Good（好）',
+            'Good',
             '邊緣與表面嚴重磨損，光澤消失，帶較深折痕。',
           ],
           [
@@ -156,57 +185,10 @@ const guide: GuideContent = {
       ],
     },
     {
-      id: 'record-sales',
-      title: 'PSA 10 天價成交紀錄',
-      paragraphs: [
-        'PSA 10 Gem Mint 代表極致稀缺與真偽保障，高分卡在拍賣市場常出現數量級溢價。以下三筆公開成交紀錄說明市場對完美品相的定價。',
-      ],
-      bulletGroups: [
-        {
-          label: '公開成交紀錄',
-          items: [
-            {
-              label: '1998 寶可夢插畫家皮卡超, PSA 10',
-              text: '成交價 **527.5 萬美元**（約 385 萬英鎊）。YouTuber Logan Paul 於 2023 年私人交易購得，被廣泛視為史上最貴集換式卡牌之一。',
-            },
-            {
-              label: '1993 萬智牌 Alpha 黑蓮花, PSA 10',
-              text: '成交價 **54 萬美元**（約 42.8 萬英鎊），2023 年拍賣創下紀錄。競技已禁用，但作為 TCG 歷史象徵，PSA 10 完美狀態使其成為頂級收藏標的。',
-            },
-            {
-              label: '1998 日版銀卡皮卡超（第二屆錦標賽）PSA 10',
-              text: '成交價 **44.4 萬美元**（約 34.73 萬英鎊），同樣於 2023 年售出，展現寶可夢賽事獎勵卡在拍賣市場的統治力。',
-            },
-          ],
-        },
-      ],
-      callout:
-        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍，送鑑前先用量度工具篩選，見 [裸卡送鑑與鑑定卡保護](/guides/grade-or-protect-first/)。',
-    },
-    {
       id: 'bottom-line',
       title: '結語：先讀懂分數，再付送鑑費',
       paragraphs: [
-        'PSA 1–10 與 Qualifier 是收藏市場的共通語言。送鑑前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼，比事後追討便宜得多。',
-      ],
-      bulletGroups: [
-        {
-          label: '下一步',
-          items: [
-            {
-              label: '指南索引',
-              text: '更多收藏流程見 [指南索引](/guides/)。',
-            },
-            {
-              label: '香港代送',
-              text: '交卡及取件於合作店舖 138 Arena（銅鑼灣），代送 PSA、網上查進度，見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
-            },
-            {
-              label: '置中篩選',
-              text: '送鑑前用 [免費置中計算器](/tools/card-centering/) 篩選裸卡。',
-            },
-          ],
-        },
+        'PSA 1–10 與 Qualifier 是收藏市場的共通語言。送鑑前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼。送鑑前可用 [免費置中計算器](/tools/card-centering/) 篩選裸卡；香港藏家交卡及取件見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
       ],
     },
   ],
@@ -232,6 +214,13 @@ const guide: GuideContent = {
       a: '可以提交 Regrade（重評），卡片再次進入評級流程。需注意可能升分、維持或降分。',
     },
   ],
+  midCta: {
+    afterSectionId: 'qualifiers',
+    title: '付送鑑費前：先量置中、再查假殼',
+    body: '上傳裸卡或賣家照片比對 PSA 10 門檻；購入鑑定卡則交叉驗證證書與外殼。',
+    primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
+    secondary: { label: 'PSA 鑑定殼真偽驗證指南', href: '/guides/identify-fake-psa-slabs/' },
+  },
   cta: {
     title: '送鑑前先量邊距',
     body: '上傳掃描或賣家照片，比對正背面置中是否達 PSA 10 門檻，再決定是否付送鑑費。',

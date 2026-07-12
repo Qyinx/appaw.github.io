@@ -363,8 +363,8 @@ export const zh: Translations = {
         { label: '如何選擇 35PT 鑑定卡保護殼', href: '/guides/choose-35pt-slab-protector/' },
         { label: '鑑定卡防 UV 與防潮指南', href: '/guides/uv-protection-graded-cards/' },
         { label: '鑑定卡展示指南', href: '/guides/display-graded-cards/' },
-        { label: '裸卡送鑑與鑑定卡保護策略', href: '/guides/grade-or-protect-first/' },
-        { label: '如何辨識 PSA 真偽鑑定卡', href: '/guides/identify-fake-psa-slabs/' },
+        { label: '裸卡到受保護鑑定卡：送鑑後加裝保護殼', href: '/guides/grade-or-protect-first/' },
+        { label: 'PSA 鑑定殼真偽驗證指南', href: '/guides/identify-fake-psa-slabs/' },
       ],
       guideLinksTitle: '相關收藏指南',
     },
@@ -767,7 +767,7 @@ export const zh: Translations = {
       title: '延伸閱讀',
       guides: [
         { label: 'PSA 評級標準', href: '/guides/psa-grading-standards/' },
-        { label: '先送鑑還是先保護？', href: '/guides/grade-or-protect-first/' },
+        { label: '送鑑後加裝保護殼流程', href: '/guides/grade-or-protect-first/' },
         { label: 'PSA 10 置中要求', href: '/guides/psa-10-centering-requirements/' },
       ],
       centering: { label: '免費置中工具', href: '/tools/card-centering/' },
@@ -1641,7 +1641,7 @@ export const zh: Translations = {
         '殼裂了卻去付重評費，是常見冤枉錢。換殼保留數字；重評依現行標準從頭再看置中、四角、邊緣及表面。',
       regradeP2:
         'eBay、Carousell、卡展上的鑑定卡照，多半不是平整掃描。置中是少數能靠照片先看的子項。邊距已低於 PSA 8 容差，殼再新，重評多半也不划算。',
-      regradeGuideLink: 'PSA 重評 vs 換殼：完整決策指南',
+      regradeGuideLink: 'PSA 重評與換殼：何時選擇',
       referencesTitle: '參考資料與延伸閱讀',
       referencesExternalLabel: '官方鑑定標準',
       referencesGuidesLabel: '相關收藏指南',
@@ -1674,11 +1674,11 @@ export const zh: Translations = {
           href: '/guides/psa-grading-standards/',
         },
         {
-          label: '如何辨識 PSA 真偽鑑定卡',
+          label: 'PSA 鑑定殼真偽驗證指南',
           href: '/guides/identify-fake-psa-slabs/',
         },
         {
-          label: 'PSA 重評 vs 換殼：如何選擇',
+          label: 'PSA 重評與換殼：何時選擇',
           href: '/guides/regrade-or-reholder/',
         },
         {

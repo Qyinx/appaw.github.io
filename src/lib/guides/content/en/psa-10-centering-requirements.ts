@@ -86,7 +86,7 @@ const guide: GuideContent = {
         'Raw screening order: centering first → corners and surface second. If either front axis reads worse than 55/45, decide whether PSA 9 still makes financial sense before bulk submit or overpaying for a slab.',
         'Buying graded online: demand flat, high-res front and back scans; run [graded-slab mode](/tools/card-centering/) on listing photos. Angled slab shots hide skew.',
         'Submit timing: pick a reasonable queue window and declare accurate insured value. If centering is the only weak point and everything else is elite, [regrade](/guides/regrade-or-reholder/) is an option, downgrade risk included.',
-        'After a PSA 10 returns: fit a [magnetic graded slab protector](/products/psa-protectors/) before display or travel so holder scuffs do not eat resale. See [grade vs protect workflow](/guides/grade-or-protect-first/).',
+        'After a PSA 10 returns: fit a [magnetic graded slab protector](/products/psa-protectors/) before display or travel so holder scuffs do not eat resale. See [raw to protected slab workflow](/guides/grade-or-protect-first/).',
       ],
     },
     {

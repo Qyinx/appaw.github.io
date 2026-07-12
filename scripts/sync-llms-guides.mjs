@@ -18,9 +18,9 @@ const TOPICS = {
   'psa-10-centering-requirements':
     'PSA 10 centering — 55/45 front, 75/25 back, grade table, free centering tool',
   'grade-or-protect-first':
-    'Raw submit vs slab protection — offense/defense strategy, $25+ threshold, comparison table',
+    'Raw card to protected slab — sequential grading then outer case, $25+ threshold, two-path workflow',
   'identify-fake-psa-slabs':
-    'Five-step fake PSA slab check — cert lookup, UV blacklight (#43+), label eras, photo/video refs',
+    'PSA slab authentication — five-step cert lookup, UV blacklight (#43+), label eras, physical verification refs',
   'display-graded-cards':
     'Graded slab display — binder, magnetic case, wall/cabinet setup, UV protection table',
   'regrade-or-reholder':

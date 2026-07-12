@@ -362,8 +362,8 @@ export const en = {
         { label: 'How to choose a 35PT graded card case', href: '/guides/choose-35pt-slab-protector/' },
         { label: 'UV protection for graded cards', href: '/guides/uv-protection-graded-cards/' },
         { label: 'Display graded cards safely', href: '/guides/display-graded-cards/' },
-        { label: 'When to grade vs protect your slabs', href: '/guides/grade-or-protect-first/' },
-        { label: 'How to spot fake PSA slabs', href: '/guides/identify-fake-psa-slabs/' },
+        { label: 'Raw card to protected slab workflow', href: '/guides/grade-or-protect-first/' },
+        { label: 'PSA slab authentication guide', href: '/guides/identify-fake-psa-slabs/' },
       ],
       guideLinksTitle: 'Related collector guides',
     },
@@ -767,7 +767,7 @@ export const en = {
       title: 'Related reading',
       guides: [
         { label: 'PSA grading standards', href: '/guides/psa-grading-standards/' },
-        { label: 'Grade or protect first?', href: '/guides/grade-or-protect-first/' },
+        { label: 'Grading then outer case workflow', href: '/guides/grade-or-protect-first/' },
         { label: 'PSA 10 centering requirements', href: '/guides/psa-10-centering-requirements/' },
       ],
       centering: { label: 'Free centering tool', href: '/tools/card-centering/' },
@@ -1676,7 +1676,7 @@ export const en = {
           href: '/guides/psa-grading-standards/',
         },
         {
-          label: 'How to spot fake PSA slabs',
+          label: 'PSA slab authentication guide',
           href: '/guides/identify-fake-psa-slabs/',
         },
         {

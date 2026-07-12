@@ -2,12 +2,12 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'identify-fake-psa-slabs',
-  title: '如何辨識 PSA 真偽鑑定卡',
+  title: 'PSA 鑑定殼真偽驗證指南',
   badge: '真偽',
   lead:
-    '證書查詢通過不代表真品。高仿常盜用真實認證編號。以下四項實物檢查，才是 registry 顯示「有效」之後該做的。',
+    '證書查詢通過不代表真品。高仿常盜用真實認證編號。以下五步實物檢查，才是證書查詢顯示「有效」之後該做的。',
   published: '2026-06-08',
-  updated: '2026-06-19',
+  updated: '2026-07-12',
   readTime: '12 分鐘',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
@@ -22,7 +22,7 @@ const guide: GuideContent = {
       title: '為什麼不能只靠一種方法',
       paragraphs: [
         'PSA 鑑定卡有溢價，假標、假殼、盜號、仿查詢頁都會跟著來。2025–2026 仍有高仿流入。',
-        '單一檢查都不靠譜。查詢通過只是第一關；高仿常盜真號。下面五步從線上查到實物，要疊著用。',
+        '單一檢查皆不足以單獨定論。查詢通過只是第一關；高仿常盜真號。下面五步從線上查到實物，須疊加使用。',
       ],
     },
     {
@@ -39,7 +39,7 @@ const guide: GuideContent = {
         { label: '必對項目', value: '照片、年份、角色、等級、標記' },
         { label: '通過意味', value: '過第一關，仍需後續檢查' },
       ],
-      bridge: '查詢能過，不代表實物對。第二步：十幾塊的黑光燈，多數賣家不肯讓你測。',
+      bridge: '查詢能過，不代表實物對。第二步：十餘元的 UV 黑光燈，多數賣家不願讓買家測試。',
     },
     {
       id: 'uv-blacklight',
@@ -116,7 +116,7 @@ const guide: GuideContent = {
       id: 'label-magnification',
       title: '第四步：標籤細節放大檢查',
       paragraphs: [
-        '標籤是假貨最常露餡的地方。按編號段看有無全息貼、傾斜反光小字；10× 放大鏡或手機微距就夠。',
+        '標籤是假貨最易破綻之處。按編號段檢查有無全息貼、傾斜反光小字；10× 放大鏡或手機微距即可。',
       ],
       subsections: [
         {
@@ -153,7 +153,7 @@ const guide: GuideContent = {
         {
           title: '2021 退市過渡期：CLCT → PSA 小字',
           paragraphs: [
-            '27xxxxxx 之後標籤具備 LightHouse™ 雙色反射，視覺效果大致相若。PSA 母公司 2021 年初私有化、自納斯達克退市後，標籤內微型小字（Microtext）在 4xxxxxxx～5xxxxxxx 區間逐步由「NASDAQ : CLCT」改為「PSA」。兩個編號段內皆曾見 CLCT 與 PSA 並存，無固定切點——須放大實測，勿單靠證書編號推斷。',
+            '27xxxxxx 之後標籤具備 LightHouse™ 雙色反射，視覺效果大致相若。PSA 母公司 2021 年初私有化、自納斯達克退市後，標籤內微型小字（Microtext）在 4xxxxxxx～5xxxxxxx 區間逐步由「NASDAQ : CLCT」改為「PSA」。兩個編號段內皆曾見 CLCT 與 PSA 並存，無固定切點，須放大實測，勿單靠證書編號推斷。',
           ],
         },
         {
@@ -181,7 +181,7 @@ const guide: GuideContent = {
           title: '編號 4xxxxxxx～5xxxxxxx（過渡期）',
           level: 4,
           paragraphs: [
-            '退市改組期間，PSA 逐步汰換標籤耗材。4xxxxxxx 與 5xxxxxxx 兩段內皆曾實測到 CLCT 與 PSA 微型小字並存——編號較前段者較可能仍為 CLCT，較後段者較可能已改 PSA，但無固定切點。買此區間的 PSA 鑑定卡，傾斜標籤、放大確認實際小字。',
+            '退市改組期間，PSA 逐步汰換標籤耗材。4xxxxxxx 與 5xxxxxxx 兩段內皆曾實測到 CLCT 與 PSA 微型小字並存，編號較前段者較可能仍為 CLCT，較後段者較可能已改 PSA，但無固定切點。買此區間的 PSA 鑑定卡，須傾斜標籤、放大確認實際小字。',
           ],
         },
         {
@@ -222,11 +222,11 @@ const guide: GuideContent = {
     },
     {
       id: 'practice-habit',
-      title: '驗證勝過後悔',
+      title: '五步疊加，風險才降',
       paragraphs: [
-        '假貨技術在變。查詢、UV、摸殼、查賣家——疊起來用，風險才會降低。',
-        '新手先用低價卡練手，再碰高價。驗證過了再加殼，別反過來。',
-        '確認 PSA 鑑定卡真偽後，日常攜帶或展示前可加裝 [保護殼](/products/psa-protectors/)。標籤查過沒問題，外殼防刮防 UV，轉售價值才守得住。',
+        '假貨技術持續演變。證書查詢、UV、觸感與結構檢查、賣家背景須疊加使用，風險才會降低。',
+        '新手宜先以低價卡練熟流程，再處理高價卡。驗證通過後再加保護殼，順序不可顛倒。',
+        '確認 PSA 鑑定卡真偽後，日常攜帶或展示前可加裝 [保護殼](/products/psa-protectors/)。標籤查證無誤後，外層硬殼可防刮、防 UV，轉售價值才守得住。',
       ],
     },
   ],
@@ -253,13 +253,13 @@ const guide: GuideContent = {
     title: '黑光燈通過？展示前先加殼',
     body: '查過的鑑定磚放窗邊、卡展易手，仍會刮痕與 UV 褪色。上架或攜帶前加剛性外層保護殼。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: '防 UV 收納指南', href: '/guides/uv-protection-graded-cards/' },
+    secondary: { label: '鑑定卡防紫外線指南', href: '/guides/uv-protection-graded-cards/' },
   },
   cta: {
     title: '先查證，再加殼',
     body: '五步交叉驗證通過後，硬質外殼展示或運輸時防刮、防 UV。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: '鑑定 vs 保護流程', href: '/guides/grade-or-protect-first/' },
+    secondary: { label: '裸卡到受保護鑑定卡：送鑑後加裝保護殼', href: '/guides/grade-or-protect-first/' },
   },
   relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
   sources: [

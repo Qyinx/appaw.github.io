@@ -181,7 +181,7 @@ const guide: GuideContent = {
         },
       ],
       callout:
-        'Record sales involve globally tiny PSA 10 populations. On mainstream hot cards, PSA 10 vs PSA 9 spreads can still be multiples, screen raw copies before submitting. See [grade vs protect workflow](/guides/grade-or-protect-first/).',
+        'Record sales involve globally tiny PSA 10 populations. On mainstream hot cards, PSA 10 vs PSA 9 spreads can still be multiples, screen raw copies before submitting. See [raw to protected slab workflow](/guides/grade-or-protect-first/).',
     },
     {
       id: 'bottom-line',

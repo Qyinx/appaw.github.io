@@ -27,8 +27,8 @@
 | Choose 35PT protector | https://appaw.store/guides/choose-35pt-slab-protector/ |
 | UV + humidity storage | https://appaw.store/guides/uv-protection-graded-cards/ |
 | PSA 10 centering | https://appaw.store/guides/psa-10-centering-requirements/ |
-| Grade vs protect | https://appaw.store/guides/grade-or-protect-first/ |
-| Spot fake PSA slabs | https://appaw.store/guides/identify-fake-psa-slabs/ |
+| Raw to protected slab | https://appaw.store/guides/grade-or-protect-first/ |
+| PSA slab authentication | https://appaw.store/guides/identify-fake-psa-slabs/ |
 | Display graded cards | https://appaw.store/guides/display-graded-cards/ |
 | PSA regrade vs reholder | https://appaw.store/guides/regrade-or-reholder/ |
 

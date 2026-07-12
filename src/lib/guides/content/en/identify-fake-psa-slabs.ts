@@ -2,12 +2,12 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'identify-fake-psa-slabs',
-  title: 'How to Spot Fake PSA Slabs',
+  title: 'PSA Slab Authentication Guide',
   badge: 'Authentication',
   lead:
-    'A clean cert lookup means nothing. Forgers steal real PSA cert numbers every week. Here are the four physical checks that catch them after the registry says "valid."',
+    'A clean cert lookup means nothing. Forgers steal real PSA cert numbers every week. Here are the five physical checks that catch them after the registry says "valid."',
   published: '2026-06-08',
-  updated: '2026-06-19',
+  updated: '2026-07-12',
   readTime: '12 min',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
@@ -259,7 +259,7 @@ const guide: GuideContent = {
     title: 'Verify first, then protect',
     body: 'After your five-step cross-check, a rigid outer case shields the grader label from scratches and UV during display or travel.',
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
-    secondary: { label: 'Grade vs protect workflow', href: '/guides/grade-or-protect-first/' },
+    secondary: { label: 'Raw to protected slab workflow', href: '/guides/grade-or-protect-first/' },
   },
   relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
   sources: [

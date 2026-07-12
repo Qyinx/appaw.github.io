@@ -30,14 +30,14 @@ export const GUIDE_SLUGS = [
 export type GuideSlug = (typeof GUIDE_SLUGS)[number];
 
 export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
-  { slug: 'choose-35pt-slab-protector', published: '2026-06-07', updated: '2026-06-07' },
-  { slug: 'uv-protection-graded-cards', published: '2026-06-07', updated: '2026-06-07' },
-  { slug: 'psa-10-centering-requirements', published: '2026-06-07', updated: '2026-06-17' },
-  { slug: 'grade-or-protect-first', published: '2026-06-07', updated: '2026-06-17' },
-  { slug: 'identify-fake-psa-slabs', published: '2026-06-08', updated: '2026-06-19' },
-  { slug: 'display-graded-cards', published: '2026-06-09', updated: '2026-06-17' },
-  { slug: 'regrade-or-reholder', published: '2026-06-13', updated: '2026-06-17' },
-  { slug: 'psa-grading-standards', published: '2026-06-18', updated: '2026-06-18' },
+  { slug: 'choose-35pt-slab-protector', published: '2026-06-07', updated: '2026-07-12' },
+  { slug: 'uv-protection-graded-cards', published: '2026-06-07', updated: '2026-07-12' },
+  { slug: 'psa-10-centering-requirements', published: '2026-06-07', updated: '2026-07-12' },
+  { slug: 'grade-or-protect-first', published: '2026-06-07', updated: '2026-07-12' },
+  { slug: 'identify-fake-psa-slabs', published: '2026-06-08', updated: '2026-07-12' },
+  { slug: 'display-graded-cards', published: '2026-06-09', updated: '2026-07-12' },
+  { slug: 'regrade-or-reholder', published: '2026-06-13', updated: '2026-07-12' },
+  { slug: 'psa-grading-standards', published: '2026-06-18', updated: '2026-07-12' },
 ];
 
 const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
