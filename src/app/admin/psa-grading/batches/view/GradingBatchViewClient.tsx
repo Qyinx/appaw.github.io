@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useBrowserPathname } from '@/hooks/useBrowserPathname';
 import { useBrowserSearch } from '@/hooks/useBrowserSearch';
 import { batchReferenceFromLocation } from '@/lib/grading/admin-routes';
@@ -10,12 +10,22 @@ import GradingBatchDetailClient from './GradingBatchDetailClient';
 export { batchReferenceFromLocation as batchReferenceFromPathname } from '@/lib/grading/admin-routes';
 
 export default function GradingBatchViewClient() {
+  const [locationReady, setLocationReady] = useState(false);
   const pathname = useBrowserPathname();
   const search = useBrowserSearch();
+
+  useEffect(() => {
+    setLocationReady(true);
+  }, []);
+
   const referenceCode = useMemo(
-    () => batchReferenceFromLocation(pathname, search),
-    [pathname, search],
+    () => (locationReady ? batchReferenceFromLocation(pathname, search) : ''),
+    [locationReady, pathname, search],
   );
+
+  if (!locationReady) {
+    return <p className="text-text-muted text-sm p-6">Loading…</p>;
+  }
 
   if (!referenceCode) {
     return (

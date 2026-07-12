@@ -4,23 +4,20 @@
  * @see appaw.store.backend/docs/API-ADMIN.md
  */
 import { joinBackendUrl } from '@/lib/collection/backendUrl';
-import { adminMockStore } from './admin-mock-store';
 import type {
   AdminBatch,
   AdminBatchDetail,
   AdminCreateBatchPayload,
+  AdminCreateOrderItemPayload,
   AdminCustomerOrder,
   AdminCustomerOrderDetail,
+  AdminGradingCustomer,
   AdminIntakePayload,
   AdminItem,
   AdminUpdateBatchPayload,
   AdminUpdateItemPayload,
 } from './admin-types';
 
-/** Set NEXT_PUBLIC_GRADING_ADMIN_MOCK=true to use in-memory preview data. */
-export const USE_ADMIN_MOCK = process.env.NEXT_PUBLIC_GRADING_ADMIN_MOCK === 'true';
-
-const MOCK_DELAY_MS = 220;
 const OPS_TOKEN_KEY = 'aaw-grading-ops-token';
 
 /** e.g. gradingPath('/batches') → {BACKEND}/grading/batches */
@@ -47,12 +44,6 @@ export function clearOpsSession(): void {
 
 export function hasOpsSession(): boolean {
   return Boolean(getOpsToken());
-}
-
-function delay<T>(value: T): Promise<T> {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(value), MOCK_DELAY_MS);
-  });
 }
 
 function errorFromPayload(payload: unknown, fallback: string): string {
@@ -106,11 +97,6 @@ async function gradingOpsFetch(path: string, init?: RequestInit): Promise<Respon
 }
 
 export async function verifyGradingAdminAuth(password: string): Promise<void> {
-  if (USE_ADMIN_MOCK) {
-    if (!password.trim()) throw new Error('Password required');
-    return delay(undefined);
-  }
-
   try {
     setOpsToken(await gradingLogin(password));
   } catch (error) {
@@ -121,15 +107,138 @@ export async function verifyGradingAdminAuth(password: string): Promise<void> {
   }
 }
 
-export async function listBatches(): Promise<AdminBatch[]> {
-  if (USE_ADMIN_MOCK) return delay(adminMockStore.listBatches());
-  const res = await gradingOpsFetch('/grading/batches');
-  const payload = (await parseJsonResponse(res)) as { batches?: AdminBatch[] };
-  return payload.batches ?? [];
+function mapGradingCustomer(row: Record<string, unknown>): AdminGradingCustomer {
+  return {
+    id: String(row.id ?? ''),
+    phoneNumber: String(row.phone_number ?? row.phoneNumber ?? ''),
+    customerName: String(row.customer_name ?? row.customerName ?? ''),
+    createdAt:
+      typeof row.created_at === 'string'
+        ? row.created_at
+        : typeof row.createdAt === 'string'
+          ? row.createdAt
+          : undefined,
+    updatedAt:
+      typeof row.updated_at === 'string'
+        ? row.updated_at
+        : typeof row.updatedAt === 'string'
+          ? row.updatedAt
+          : undefined,
+  };
+}
+
+export const MIN_CUSTOMER_PHONE_SEARCH = 4;
+
+/** Search grading customers by phone substring (`GET /grading/customers?phone=`). */
+export async function searchCustomersByPhone(phoneQuery: string): Promise<AdminGradingCustomer[]> {
+  const q = phoneQuery.trim();
+  if (q.replace(/\D/g, '').length < MIN_CUSTOMER_PHONE_SEARCH) return [];
+
+  const params = new URLSearchParams({ phone: q });
+  const res = await gradingOpsFetch(`/grading/customers?${params}`);
+  const payload = (await parseJsonResponse(res)) as { customers?: Record<string, unknown>[] };
+  return (payload.customers ?? []).map(mapGradingCustomer);
+}
+
+export type AdminListRange = {
+  from?: string;
+  to?: string;
+};
+
+export type GradingDashboardData = {
+  batches: AdminBatch[];
+  customerOrders: AdminCustomerOrder[];
+};
+
+const LIST_CACHE_MS = 5000;
+const listGetCache = new Map<string, { at: number; promise: Promise<unknown> }>();
+let dashboardLoadCache: {
+  key: string;
+  at: number;
+  promise: Promise<GradingDashboardData>;
+} | null = null;
+
+function customerOrdersQuery(opts?: { submissionId?: string } & AdminListRange): string {
+  const params = new URLSearchParams();
+  if (opts?.submissionId) params.set('submissionId', opts.submissionId);
+  if (opts?.from) params.set('from', opts.from);
+  if (opts?.to) params.set('to', opts.to);
+  return params.toString();
+}
+
+function cachedListGet<T>(key: string, fetcher: () => Promise<T>, force = false): Promise<T> {
+  if (!force) {
+    const hit = listGetCache.get(key);
+    if (hit && Date.now() - hit.at < LIST_CACHE_MS) {
+      return hit.promise as Promise<T>;
+    }
+  }
+
+  const promise = fetcher();
+  listGetCache.set(key, { at: Date.now(), promise });
+  return promise;
+}
+
+/** Clears short-lived GET caches (lists, batch/order detail). Pass before manual Refresh. */
+export function invalidateGradingListCache(): void {
+  listGetCache.clear();
+  dashboardLoadCache = null;
+}
+
+function invalidateBatchDetailCache(referenceCode: string): void {
+  listGetCache.delete(`batch:${decodeURIComponent(referenceCode)}`);
+}
+
+function invalidateCustomerOrderDetailCache(orderId: number): void {
+  listGetCache.delete(`customer-order:${orderId}`);
+}
+
+export async function loadGradingDashboard(opts?: {
+  force?: boolean;
+  range?: AdminListRange;
+}): Promise<GradingDashboardData> {
+  const force = opts?.force ?? false;
+  const rangeKey = listRangeQuery(opts?.range);
+  const cacheKey = `dashboard:${rangeKey}`;
+
+  if (!force && dashboardLoadCache && dashboardLoadCache.key === cacheKey) {
+    if (Date.now() - dashboardLoadCache.at < LIST_CACHE_MS) {
+      return dashboardLoadCache.promise;
+    }
+  }
+
+  const promise = Promise.all([
+    listBatches(opts?.range, force),
+    listCustomerOrders(opts?.range, force),
+  ]).then(([batches, customerOrders]) => ({ batches, customerOrders }));
+
+  dashboardLoadCache = { key: cacheKey, at: Date.now(), promise };
+  return promise;
+}
+
+export async function listBatches(range?: AdminListRange, force = false): Promise<AdminBatch[]> {
+  const cacheKey = `batches:${listRangeQuery(range)}`;
+  return cachedListGet(
+    cacheKey,
+    async () => {
+      const res = await gradingOpsFetch(`/grading/batches${listRangeQuery(range)}`);
+      const payload = (await parseJsonResponse(res)) as { batches?: AdminBatch[] };
+      return payload.batches ?? [];
+    },
+    force,
+  );
+}
+
+function listRangeQuery(range?: AdminListRange): string {
+  if (!range?.from && !range?.to) return '';
+  const params = new URLSearchParams();
+  if (range.from) params.set('from', range.from);
+  if (range.to) params.set('to', range.to);
+  const qs = params.toString();
+  return qs ? `?${qs}` : '';
 }
 
 export async function createBatch(payload: AdminCreateBatchPayload): Promise<AdminBatch> {
-  if (USE_ADMIN_MOCK) return delay(adminMockStore.createBatch(payload));
   const res = await gradingOpsFetch('/grading/batches', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -139,47 +248,67 @@ export async function createBatch(payload: AdminCreateBatchPayload): Promise<Adm
   return parsed.batch;
 }
 
-export async function getBatch(referenceCode: string): Promise<AdminBatchDetail | null> {
-  if (USE_ADMIN_MOCK) {
-    return delay(adminMockStore.getBatch(decodeURIComponent(referenceCode)));
-  }
-  const res = await gradingOpsFetch(
-    `/grading/batches/${encodeURIComponent(referenceCode)}`,
+export async function getBatch(referenceCode: string, force = false): Promise<AdminBatchDetail | null> {
+  const normalized = decodeURIComponent(referenceCode);
+  const cacheKey = `batch:${normalized}`;
+  return cachedListGet(
+    cacheKey,
+    async () => {
+      const res = await gradingOpsFetch(`/grading/batches/${encodeURIComponent(normalized)}`);
+      if (res.status === 404) return null;
+      return (await parseJsonResponse(res)) as AdminBatchDetail;
+    },
+    force,
   );
-  if (res.status === 404) return null;
-  return (await parseJsonResponse(res)) as AdminBatchDetail;
 }
 
 export async function updateBatch(
   referenceCode: string,
   patch: AdminUpdateBatchPayload,
 ): Promise<AdminBatchDetail> {
-  if (USE_ADMIN_MOCK) {
-    return delay(adminMockStore.updateBatch(decodeURIComponent(referenceCode), patch));
-  }
   const res = await gradingOpsFetch(`/grading/batches/${encodeURIComponent(referenceCode)}`, {
     method: 'PATCH',
     body: JSON.stringify(patch),
   });
-  return (await parseJsonResponse(res)) as AdminBatchDetail;
+  const result = (await parseJsonResponse(res)) as AdminBatchDetail;
+  invalidateBatchDetailCache(referenceCode);
+  return result;
 }
 
-export async function listCustomerOrders(): Promise<AdminCustomerOrder[]> {
-  if (USE_ADMIN_MOCK) return delay(adminMockStore.listCustomerOrders());
-  const res = await gradingOpsFetch('/grading/customer-orders');
-  const payload = (await parseJsonResponse(res)) as { customerOrders?: AdminCustomerOrder[] };
-  return payload.customerOrders ?? [];
+export async function listCustomerOrders(
+  opts?: { submissionId?: string } & AdminListRange,
+  force = false,
+): Promise<AdminCustomerOrder[]> {
+  const qs = customerOrdersQuery(opts);
+  const cacheKey = `customer-orders:${qs}`;
+  return cachedListGet(
+    cacheKey,
+    async () => {
+      const res = await gradingOpsFetch(`/grading/customer-orders${qs ? `?${qs}` : ''}`);
+      const payload = (await parseJsonResponse(res)) as { customerOrders?: AdminCustomerOrder[] };
+      return payload.customerOrders ?? [];
+    },
+    force,
+  );
 }
 
-export async function getCustomerOrder(orderId: number): Promise<AdminCustomerOrderDetail | null> {
-  if (USE_ADMIN_MOCK) return delay(adminMockStore.getCustomerOrder(orderId));
-  const res = await gradingOpsFetch(`/grading/customer-orders/${orderId}`);
-  if (res.status === 404) return null;
-  return (await parseJsonResponse(res)) as AdminCustomerOrderDetail;
+export async function getCustomerOrder(
+  orderId: number,
+  force = false,
+): Promise<AdminCustomerOrderDetail | null> {
+  const cacheKey = `customer-order:${orderId}`;
+  return cachedListGet(
+    cacheKey,
+    async () => {
+      const res = await gradingOpsFetch(`/grading/customer-orders/${orderId}`);
+      if (res.status === 404) return null;
+      return (await parseJsonResponse(res)) as AdminCustomerOrderDetail;
+    },
+    force,
+  );
 }
 
 export async function listItemsForCustomerOrder(customerOrderId: number): Promise<AdminItem[]> {
-  if (USE_ADMIN_MOCK) return delay(adminMockStore.listItemsForCustomerOrder(customerOrderId));
   const res = await gradingOpsFetch(`/grading/items?customerOrderId=${customerOrderId}`);
   const payload = (await parseJsonResponse(res)) as { items?: AdminItem[] };
   return payload.items ?? [];
@@ -188,7 +317,6 @@ export async function listItemsForCustomerOrder(customerOrderId: number): Promis
 export async function createIntake(
   payload: AdminIntakePayload,
 ): Promise<{ customerOrder: AdminCustomerOrder }> {
-  if (USE_ADMIN_MOCK) return delay(adminMockStore.createIntake(payload));
   const res = await gradingOpsFetch('/grading/customer-orders', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -196,8 +324,29 @@ export async function createIntake(
   return (await parseJsonResponse(res)) as { customerOrder: AdminCustomerOrder };
 }
 
+export async function createCustomerOrderItem(
+  orderId: number,
+  payload: AdminCreateOrderItemPayload,
+): Promise<AdminItem> {
+  const res = await gradingOpsFetch(`/grading/customer-orders/${orderId}/items`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const parsed = (await parseJsonResponse(res)) as { item?: AdminItem };
+  if (!parsed.item) throw new Error('Item create failed');
+  invalidateCustomerOrderDetailCache(orderId);
+  return parsed.item;
+}
+
+export async function deleteCustomerOrderItem(itemId: string): Promise<void> {
+  const res = await gradingOpsFetch(`/grading/items/${encodeURIComponent(itemId)}`, {
+    method: 'DELETE',
+  });
+  await parseJsonResponse(res);
+  invalidateGradingListCache();
+}
+
 export async function updateItem(itemId: string, patch: AdminUpdateItemPayload): Promise<AdminItem> {
-  if (USE_ADMIN_MOCK) return delay(adminMockStore.updateItem(itemId, patch));
   const res = await gradingOpsFetch(`/grading/items/${itemId}`, {
     method: 'PATCH',
     body: JSON.stringify(patch),
@@ -212,7 +361,6 @@ export async function reorderCustomerOrderItems(
   orderId: number,
   itemIds: string[],
 ): Promise<AdminItem[]> {
-  if (USE_ADMIN_MOCK) return delay(adminMockStore.reorderCustomerOrderItems(orderId, itemIds));
   const res = await gradingOpsFetch(`/grading/customer-orders/${orderId}/items/reorder`, {
     method: 'PATCH',
     body: JSON.stringify({ itemIds }),

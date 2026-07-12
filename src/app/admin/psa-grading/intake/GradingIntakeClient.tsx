@@ -2,12 +2,19 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { createIntake, listBatches } from '@/lib/grading/admin-api';
-import type { AdminBatch, AdminIntakeItemDraft } from '@/lib/grading/admin-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  createIntake,
+  listBatches,
+  MIN_CUSTOMER_PHONE_SEARCH,
+  searchCustomersByPhone,
+} from '@/lib/grading/admin-api';
+import type { AdminBatch, AdminGradingCustomer, AdminIntakeItemDraft } from '@/lib/grading/admin-types';
 import { isValidBatchReferenceCode } from '@/lib/grading/batch-reference-code';
 import { parseCostInput } from '@/lib/grading/admin-utils';
-import BatchReferenceLink from '../components/BatchReferenceLink';
+import BatchReferencePicker from '../components/BatchReferencePicker';
+
+const CUSTOMER_SEARCH_DEBOUNCE_MS = 350;
 
 function emptyCard(): AdminIntakeItemDraft {
   return {
@@ -23,16 +30,69 @@ export default function GradingIntakeClient() {
   const router = useRouter();
   const [batchReferenceCode, setBatchReferenceCode] = useState('');
   const [batchOptions, setBatchOptions] = useState<AdminBatch[]>([]);
+  const [batchesLoading, setBatchesLoading] = useState(true);
   const [customerName, setCustomerName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [customerMatches, setCustomerMatches] = useState<AdminGradingCustomer[]>([]);
+  const [customerSearchLoading, setCustomerSearchLoading] = useState(false);
+  const [customerSearchError, setCustomerSearchError] = useState('');
+  const [customerSearchAttempted, setCustomerSearchAttempted] = useState(false);
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
   const [items, setItems] = useState<AdminIntakeItemDraft[]>([emptyCard()]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    void listBatches().then(setBatchOptions).catch(() => setBatchOptions([]));
+    setBatchesLoading(true);
+    void listBatches()
+      .then(setBatchOptions)
+      .catch(() => setBatchOptions([]))
+      .finally(() => setBatchesLoading(false));
   }, []);
+
+  const runCustomerSearch = useCallback(async (query: string) => {
+    const trimmed = query.trim();
+    const digitCount = trimmed.replace(/\D/g, '').length;
+    if (digitCount < MIN_CUSTOMER_PHONE_SEARCH) {
+      setCustomerMatches([]);
+      setCustomerSearchError('');
+      setCustomerSearchAttempted(false);
+      setCustomerSearchLoading(false);
+      return;
+    }
+
+    setCustomerSearchLoading(true);
+    setCustomerSearchError('');
+    try {
+      const matches = await searchCustomersByPhone(trimmed);
+      setCustomerMatches(matches);
+      setCustomerSearchAttempted(true);
+    } catch (e) {
+      setCustomerMatches([]);
+      setCustomerSearchAttempted(true);
+      setCustomerSearchError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setCustomerSearchLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    setSelectedCustomerId(null);
+    setCustomerSearchAttempted(false);
+    const handle = window.setTimeout(() => {
+      void runCustomerSearch(phoneNumber);
+    }, CUSTOMER_SEARCH_DEBOUNCE_MS);
+    return () => window.clearTimeout(handle);
+  }, [phoneNumber, runCustomerSearch]);
+
+  const applyCustomer = (customer: AdminGradingCustomer) => {
+    setCustomerName(customer.customerName);
+    setPhoneNumber(customer.phoneNumber);
+    setSelectedCustomerId(customer.id);
+    setCustomerMatches([]);
+    setCustomerSearchError('');
+  };
 
   const updateCard = (cardIndex: number, patch: Partial<AdminIntakeItemDraft>) => {
     setItems((prev) => prev.map((card, i) => (i === cardIndex ? { ...card, ...patch } : card)));
@@ -76,6 +136,8 @@ export default function GradingIntakeClient() {
       setItems([emptyCard()]);
       setCustomerName('');
       setPhoneNumber('');
+      setCustomerMatches([]);
+      setSelectedCustomerId(null);
       setTimeout(() => router.push('/admin/psa-grading'), 700);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -83,6 +145,9 @@ export default function GradingIntakeClient() {
       setLoading(false);
     }
   };
+
+  const phoneDigits = phoneNumber.replace(/\D/g, '').length;
+  const showCustomerSearchHint = phoneDigits > 0 && phoneDigits < MIN_CUSTOMER_PHONE_SEARCH;
 
   return (
     <div className="space-y-6 max-w-4xl">
@@ -95,27 +160,16 @@ export default function GradingIntakeClient() {
 
       <section className="panel p-5 space-y-5">
         <div className="grid md:grid-cols-2 gap-3">
-          <div>
+          <div className="md:col-span-2">
             <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
               Reference ID in PSA Batches
             </label>
-            <input
-              list="batch-reference-options"
+            <BatchReferencePicker
+              batches={batchOptions}
               value={batchReferenceCode}
-              onChange={(e) => setBatchReferenceCode(e.target.value)}
-              placeholder="BAT-2026-07-EXP-3"
-              className="w-full border border-border-default bg-surface-bg px-3 py-2 font-mono min-h-[44px]"
+              onChange={setBatchReferenceCode}
+              loading={batchesLoading}
             />
-            <datalist id="batch-reference-options">
-              {batchOptions.map((batch) => (
-                <option key={batch.id} value={batch.referenceCode} />
-              ))}
-            </datalist>
-            {batchReferenceCode.trim() && (
-              <p className="text-xs mt-1">
-                Links to <BatchReferenceLink referenceCode={batchReferenceCode.trim()} />
-              </p>
-            )}
           </div>
           <div>
             <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
@@ -123,20 +177,76 @@ export default function GradingIntakeClient() {
             </label>
             <input
               value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
+              onChange={(e) => {
+                setCustomerName(e.target.value);
+                setSelectedCustomerId(null);
+              }}
               className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
             />
           </div>
-          <div>
+          <div className="md:col-span-2">
             <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
               Phone number
             </label>
-            <input
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder="+852…"
-              className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
-            />
+            <div className="flex flex-wrap gap-2">
+              <input
+                value={phoneNumber}
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value);
+                  setSelectedCustomerId(null);
+                }}
+                placeholder="+852… or 92851189"
+                className="flex-1 min-w-[200px] border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
+              />
+              <button
+                type="button"
+                className="btn btn-secondary min-h-[44px]"
+                onClick={() => void runCustomerSearch(phoneNumber)}
+                disabled={customerSearchLoading || phoneDigits < MIN_CUSTOMER_PHONE_SEARCH}
+              >
+                {customerSearchLoading ? 'Searching…' : 'Search customer'}
+              </button>
+            </div>
+            {showCustomerSearchHint && (
+              <p className="text-xs text-text-muted mt-1">
+                Enter at least {MIN_CUSTOMER_PHONE_SEARCH} digits to search existing customers.
+              </p>
+            )}
+            {selectedCustomerId && (
+              <p className="text-xs text-accent-success mt-1">Existing customer selected — name and phone filled.</p>
+            )}
+            {customerSearchError && (
+              <p className="text-xs text-accent-danger mt-1">{customerSearchError}</p>
+            )}
+            {!customerSearchLoading && customerMatches.length > 0 && (
+              <div className="mt-3 border border-border-default bg-surface-bg">
+                <p className="text-xs text-text-secondary uppercase tracking-wide px-3 py-2 border-b border-border-default">
+                  Matching customers ({customerMatches.length})
+                </p>
+                <ul className="divide-y divide-border-default/70">
+                  {customerMatches.map((customer) => (
+                    <li key={customer.id}>
+                      <button
+                        type="button"
+                        className="w-full text-left px-3 py-2.5 hover:bg-surface-raised transition-colors flex flex-wrap items-center justify-between gap-2 min-h-[44px]"
+                        onClick={() => applyCustomer(customer)}
+                      >
+                        <span className="font-medium text-text-primary">{customer.customerName}</span>
+                        <span className="font-mono text-xs text-text-secondary">{customer.phoneNumber}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {!customerSearchLoading &&
+              customerSearchAttempted &&
+              phoneDigits >= MIN_CUSTOMER_PHONE_SEARCH &&
+              customerMatches.length === 0 &&
+              !customerSearchError &&
+              !selectedCustomerId && (
+                <p className="text-xs text-text-muted mt-1">No existing customer for this phone — new intake.</p>
+              )}
           </div>
         </div>
 

@@ -10,6 +10,11 @@ export interface AdminBatch {
   completedStepIndex: number;
   orderCount: number;
   cardCount: number;
+  /** Ops-only rich text notes (TipTap HTML). */
+  notes?: string | null;
+  /** ISO date YYYY-MM-DD. */
+  estShippingDate?: string | null;
+  createdAt?: string;
   updatedAt: string;
 }
 
@@ -21,7 +26,18 @@ export interface AdminCustomerOrder {
   customerName: string;
   phoneNumber: string;
   itemCount: number;
+  createdAt?: string;
   updatedAt: string;
+  paymentSummary?: AdminPaymentSummary;
+}
+
+/** Grading customer identity (phone-keyed). */
+export interface AdminGradingCustomer {
+  id: string;
+  phoneNumber: string;
+  customerName: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface AdminItem {
@@ -48,6 +64,8 @@ export interface AdminBatchDetail {
 export interface AdminCustomerOrderDetail {
   customerOrder: AdminCustomerOrder;
   items: AdminItem[];
+  /** Batch submission progress — card add/remove allowed only at step 0. */
+  batchCompletedStepIndex: number;
 }
 
 export interface AdminIntakeItemDraft {
@@ -73,16 +91,30 @@ export interface AdminCreateBatchPayload {
 }
 
 export interface AdminUpdateItemPayload {
+  cardName?: string;
   isPaid?: boolean;
   totalCost?: number | null;
   receivedCost?: number | null;
   psaUpgraded?: boolean;
 }
 
+export interface AdminCreateOrderItemPayload {
+  cardName: string;
+  isPaid?: boolean;
+  totalCost?: number | null;
+  receivedCost?: number | null;
+  psaUpgraded?: boolean;
+}
+
+/** Batch step index while cards may still be added/removed on an order. */
+export const BATCH_CARD_EDIT_STEP = 0;
+
 export interface AdminUpdateBatchPayload {
   psaSubmissionNumber?: number | null;
   psaOrderNumber?: number | null;
   completedStepIndex?: number;
+  notes?: string | null;
+  estShippingDate?: string | null;
 }
 
 export interface AdminReorderItemsPayload {
@@ -117,3 +149,10 @@ export function formatPaymentSummary(summary: AdminPaymentSummary): string {
   const costs = `HKD ${summary.receivedCostSum} / ${summary.totalCostSum}`;
   return `${paid} · ${costs}`;
 }
+
+export const EMPTY_PAYMENT_SUMMARY: AdminPaymentSummary = {
+  paidCount: 0,
+  totalCount: 0,
+  totalCostSum: 0,
+  receivedCostSum: 0,
+};

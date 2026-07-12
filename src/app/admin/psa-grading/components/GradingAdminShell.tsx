@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import { USE_ADMIN_MOCK } from '@/lib/grading/admin-api';
 import { useSubHeader } from '@/hooks/useSubHeader';
 
 type Props = {
@@ -63,15 +62,9 @@ export default function GradingAdminShell({ children }: Props) {
 
   return (
     <div className="min-h-dvh bg-surface-bg text-text-primary">
-      {USE_ADMIN_MOCK ? (
-        <div className="bg-accent-warn/15 border-b border-accent-warn/30 text-center text-xs py-2 text-text-secondary">
-          Preview mode — mock data only. Changes reset on refresh.
-        </div>
-      ) : (
-        <div className="bg-accent-success/10 border-b border-accent-success/25 text-center text-xs py-2 text-text-secondary">
-          Live backend — changes persist to local D1.
-        </div>
-      )}
+      <div className="bg-accent-success/10 border-b border-accent-success/25 text-center text-xs py-2 text-text-secondary">
+        Live backend — changes persist to D1.
+      </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</div>
     </div>
   );

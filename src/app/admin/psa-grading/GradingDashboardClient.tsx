@@ -4,12 +4,11 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  listBatches,
-  listCustomerOrders,
-  listItemsForCustomerOrder,
+  invalidateGradingListCache,
+  loadGradingDashboard,
 } from '@/lib/grading/admin-api';
 import type { AdminBatch, AdminCustomerOrder, AdminPaymentSummary } from '@/lib/grading/admin-types';
-import { summarizePayment } from '@/lib/grading/admin-types';
+import { EMPTY_PAYMENT_SUMMARY } from '@/lib/grading/admin-types';
 import { completedStepLabel, stepSelectOptions } from '@/lib/grading/admin-utils';
 import AdminCustomerOrdersTable from './components/AdminCustomerOrdersTable';
 import BatchReferenceLink from './components/BatchReferenceLink';
@@ -58,21 +57,19 @@ export default function GradingDashboardClient() {
     [router, searchParams],
   );
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (force = false) => {
     setError('');
     setLoading(true);
     try {
-      const [batchRows, orderRows] = await Promise.all([listBatches(), listCustomerOrders()]);
+      if (force) invalidateGradingListCache();
+      const { batches: batchRows, customerOrders: orderRows } = await loadGradingDashboard({ force });
       setBatches(batchRows);
       setCustomerOrders(orderRows);
 
       const payments: Record<string, AdminPaymentSummary> = {};
-      await Promise.all(
-        orderRows.map(async (order) => {
-          const items = await listItemsForCustomerOrder(order.id);
-          payments[order.id] = summarizePayment(items);
-        }),
-      );
+      for (const order of orderRows) {
+        payments[order.id] = order.paymentSummary ?? EMPTY_PAYMENT_SUMMARY;
+      }
       setPaymentMap(payments);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -146,7 +143,7 @@ export default function GradingDashboardClient() {
               Customer Orders
             </button>
           </div>
-          <button type="button" className="btn btn-secondary min-h-[44px]" onClick={() => void load()}>
+          <button type="button" className="btn btn-secondary min-h-[44px]" onClick={() => void load(true)}>
             Refresh
           </button>
         </div>

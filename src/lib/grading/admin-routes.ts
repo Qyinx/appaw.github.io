@@ -11,6 +11,16 @@ export function customerOrderDetailHref(orderId: number): string {
   return `/admin/psa-grading/orders/view/?id=${encodeURIComponent(String(orderId))}`;
 }
 
+export const BATCH_DETAIL_TABS = ['details', 'orders', 'cards'] as const;
+export type BatchDetailTab = (typeof BATCH_DETAIL_TABS)[number];
+
+/** Parse batch detail tab from `?tab=` (defaults to details). */
+export function batchDetailTabFromSearch(search: string): BatchDetailTab {
+  const tab = new URLSearchParams(search).get('tab');
+  if (tab === 'orders' || tab === 'cards') return tab;
+  return 'details';
+}
+
 /** Parse batch ref from query (`?ref=`) or pretty path (`/batches/:code/`). */
 export function batchReferenceFromLocation(pathname: string, search: string): string {
   const fromQuery = new URLSearchParams(search).get('ref')?.trim();
