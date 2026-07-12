@@ -3,23 +3,19 @@
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useBrowserPathname } from '@/hooks/useBrowserPathname';
+import { useBrowserSearch } from '@/hooks/useBrowserSearch';
+import { customerOrderIdFromLocation } from '@/lib/grading/admin-routes';
 import GradingCustomerOrderDetailClient from './GradingCustomerOrderDetailClient';
 
-const RESERVED_SEGMENTS = new Set(['view']);
-
-/** Parse order id from `/admin/psa-grading/orders/:id/` or `/zh/admin/...`. */
-export function customerOrderIdFromPathname(pathname: string): number | null {
-  const match = pathname.match(/\/(?:zh\/)?admin\/psa-grading\/orders\/([^/]+)\/?$/);
-  const segment = match?.[1] ?? '';
-  if (!segment || RESERVED_SEGMENTS.has(segment)) return null;
-  const parsed = Number(segment);
-  if (!Number.isFinite(parsed) || parsed < 1) return null;
-  return parsed;
-}
+export { customerOrderIdFromLocation as customerOrderIdFromPathname } from '@/lib/grading/admin-routes';
 
 export default function GradingCustomerOrderViewClient() {
   const pathname = useBrowserPathname();
-  const orderId = useMemo(() => customerOrderIdFromPathname(pathname), [pathname]);
+  const search = useBrowserSearch();
+  const orderId = useMemo(
+    () => customerOrderIdFromLocation(pathname, search),
+    [pathname, search],
+  );
 
   if (orderId === null) {
     return (

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import { createBatch, listBatches } from '@/lib/grading/admin-api';
+import { batchDetailHref } from '@/lib/grading/admin-routes';
 import {
   formatBatchReferenceCode,
   isValidBatchReferenceCode,
@@ -95,7 +96,7 @@ export default function GradingBatchNewClient() {
         psaOrderNumber: parseNumericInput(psaOrderNumber),
         completedStepIndex,
       });
-      router.push(`/admin/psa-grading/batches/${encodeURIComponent(batch.referenceCode)}`);
+      router.push(batchDetailHref(batch.referenceCode));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React from 'react';
+import { customerOrderDetailHref } from '@/lib/grading/admin-routes';
 
 type Props = {
   orderId: number | null | undefined;
@@ -14,7 +15,7 @@ export default function CustomerOrderLink({ orderId }: Props) {
 
   return (
     <Link
-      href={`/admin/psa-grading/orders/${orderId}`}
+      href={customerOrderDetailHref(orderId)}
       className="font-mono text-xs text-accent-link hover:underline"
     >
       {orderId}

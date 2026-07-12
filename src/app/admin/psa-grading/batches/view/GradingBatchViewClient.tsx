@@ -3,21 +3,19 @@
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useBrowserPathname } from '@/hooks/useBrowserPathname';
+import { useBrowserSearch } from '@/hooks/useBrowserSearch';
+import { batchReferenceFromLocation } from '@/lib/grading/admin-routes';
 import GradingBatchDetailClient from './GradingBatchDetailClient';
 
-const RESERVED_SEGMENTS = new Set(['view', 'new']);
-
-/** Parse batch reference from `/admin/psa-grading/batches/:code/` or `/zh/admin/...`. */
-export function batchReferenceFromPathname(pathname: string): string {
-  const match = pathname.match(/\/(?:zh\/)?admin\/psa-grading\/batches\/([^/]+)\/?$/);
-  const segment = match?.[1] ?? '';
-  if (!segment || RESERVED_SEGMENTS.has(segment)) return '';
-  return decodeURIComponent(segment);
-}
+export { batchReferenceFromLocation as batchReferenceFromPathname } from '@/lib/grading/admin-routes';
 
 export default function GradingBatchViewClient() {
   const pathname = useBrowserPathname();
-  const referenceCode = useMemo(() => batchReferenceFromPathname(pathname), [pathname]);
+  const search = useBrowserSearch();
+  const referenceCode = useMemo(
+    () => batchReferenceFromLocation(pathname, search),
+    [pathname, search],
+  );
 
   if (!referenceCode) {
     return (

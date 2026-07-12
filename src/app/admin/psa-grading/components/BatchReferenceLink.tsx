@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React from 'react';
+import { batchDetailHref } from '@/lib/grading/admin-routes';
 
 type Props = {
   referenceCode: string | null | undefined;
@@ -14,7 +15,7 @@ export default function BatchReferenceLink({ referenceCode }: Props) {
 
   return (
     <Link
-      href={`/admin/psa-grading/batches/${encodeURIComponent(referenceCode)}`}
+      href={batchDetailHref(referenceCode)}
       className="font-mono text-xs text-accent-link hover:underline"
     >
       {referenceCode}

@@ -10,10 +10,21 @@ const MARKER = 'id="gh-pages-spa-fallback"';
 
 const FALLBACK_SCRIPT = `<script ${MARKER}>(function(){
 var p=location.pathname;
+var q=location.search;
+var h=location.hash;
+var m;
+if((m=p.match(/^\\/(?:zh\\/)?admin\\/psa-grading\\/orders\\/(?!view)([^/]+)\\/?$/))){
+  var zh=p.indexOf('/zh/')===0;
+  location.replace((zh?'/zh/admin/psa-grading/orders/view/?id=':'/admin/psa-grading/orders/view/?id=')+encodeURIComponent(m[1])+(q?'&'+q.slice(1):'')+h);
+  return;
+}
+if((m=p.match(/^\\/(?:zh\\/)?admin\\/psa-grading\\/batches\\/(?!view|new)([^/]+)\\/?$/))){
+  var zh=p.indexOf('/zh/')===0;
+  location.replace((zh?'/zh/admin/psa-grading/batches/view/?ref=':'/admin/psa-grading/batches/view/?ref=')+encodeURIComponent(m[1])+(q?'&'+q.slice(1):'')+h);
+  return;
+}
 var d=null;
 if(/^\\/(?:zh\\/)?collection\\/p\\/(?!view|_)[^/]+\\/?$/.test(p))d=(p.indexOf('/zh/')===0?'/zh/collection/p/view/':'/collection/p/view/');
-else if(/^\\/(?:zh\\/)?admin\\/psa-grading\\/orders\\/(?!view)[^/]+\\/?$/.test(p))d=(p.indexOf('/zh/')===0?'/zh/admin/psa-grading/orders/view/':'/admin/psa-grading/orders/view/');
-else if(/^\\/(?:zh\\/)?admin\\/psa-grading\\/batches\\/(?!view|new)[^/]+\\/?$/.test(p))d=(p.indexOf('/zh/')===0?'/zh/admin/psa-grading/batches/view/':'/admin/psa-grading/batches/view/');
 if(!d)return;
 document.documentElement.style.visibility='hidden';
 fetch(d).then(function(r){if(!r.ok)throw new Error(r.status);return r.text()}).then(function(html){
