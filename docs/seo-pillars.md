@@ -86,11 +86,11 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | PSA card protector | PSA卡保護殼 | Protector intent; secondary in ZH title |
 | slab case | 卡殼 | Short form; body copy only unless space allows |
 | graded card display case | 鑑定卡展示殼 | Display guide (`display-graded-cards`) |
-| PSA regrade | PSA重評 | Guide `regrade-or-reholder` + centering slab mode |
-| PSA reholder | PSA換殼 | Guide `regrade-or-reholder` |
-| regrade downgrade risk | 重評降級風險 | Centering FAQ + guide H2 |
+| PSA regrade | PSA重新評級 | Guide `regrade-or-reholder` + centering slab mode |
+| PSA reholder | PSA更換新殼 | Guide `regrade-or-reholder` |
+| regrade downgrade risk | 重新評級降級風險 | Centering FAQ + guide H2 |
 | graded slab centering | 鑑定卡置中 | Centering slab workflow H2 |
-| check centering before regrading | 重評前置中檢查 | Tool + guide CTA |
+| check centering before regrading | 重新評級前置中檢查 | Tool + guide CTA |
 | UV glass slab case | 防UV玻璃鑑定卡殼 | Product meta + body |
 | tempered glass card protector | 強化玻璃卡殼 | Product meta + body |
 | PSA magnetic case | 磁吸PSA卡殼 | Product meta, FAQ, JSON-LD `alternateName`; compatibility copy only — not official product name |
@@ -240,8 +240,8 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 | Context | EN | ZH (zh-HK) | Avoid |
 |---------|----|----|-------|
-| Same grade, new case | reholder | 換殼 | 重新鑑定 (for reholder) |
-| Full re-score | regrade | 重評 | 換殼 (for regrade) |
+| Same grade, new case | reholder | 更換新殼 | 重新鑑定 (for reholder) |
+| Full re-score | regrade | 重新評級 | 更換新殼 (for regrade) |
 | Grade label on slab | PSA 10, numeric grade | PSA 10、數字評級 | 評級卡 (use 鑑定卡) |
 | Graded slab (tool / guide UI) | Graded slab | 鑑定卡 | 鑑定卡磚 |
 | Tool disclaimer | screening aid, not a grader | 篩選參考，非評級機構 | guaranteed upgrade |

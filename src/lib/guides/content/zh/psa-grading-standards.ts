@@ -11,7 +11,7 @@ const guide: GuideContent = {
   readTime: '14 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
-    { label: '累計認證', value: '6500 萬件以上' },
+    { label: '累計認證', value: '6500 萬件以上（PSA 官網）' },
     { label: 'PSA 10 正面', value: '55/45 或更佳' },
     { label: 'PSA 10 背面', value: '75/25 或更佳' },
     { label: 'Qualifier', value: 'OC · ST · PD · OF · MK · MC' },
@@ -50,12 +50,17 @@ const guide: GuideContent = {
       id: 'what-is-psa',
       title: 'PSA 評級是什麼',
       paragraphs: [
-        'PSA（Professional Sports Authenticator）累計認證逾 6500 萬件藏品，為買賣雙方共用的品相語言：數字越高，代表四角、邊緣、表面與置中越接近出廠狀態。',
+        'PSA（Professional Sports Authenticator）為全球主要第三方卡牌鑑定機構之一。據 [PSA 官網 About 頁](https://www.psacard.com/info/about-psa) 所示，自 1991 年成立以來累計認證逾 6500 萬件藏品。此為官方案件宣傳數字，非即時統計。',
+        '對收藏家與投資者而言，PSA 評級是買賣雙方共用的品相語言：數字越高，代表四角、邊緣、表面與置中越接近出廠狀態。',
       ],
       bulletGroups: [
         {
           label: '延伸閱讀',
           items: [
+            {
+              label: 'PSA 公司簡介（6500 萬件認證數字出處）',
+              text: '[psacard.com/info/about-psa](https://www.psacard.com/info/about-psa)',
+            },
             {
               label: 'PSA 官方評級標準',
               text: '[psacard.com/gradingstandards](https://www.psacard.com/gradingstandards)',
@@ -211,7 +216,7 @@ const guide: GuideContent = {
     },
     {
       q: '覺得分數被評低，可以重新鑑定嗎？',
-      a: '可以提交 Regrade（重評），卡片再次進入評級流程。需注意可能升分、維持或降分。',
+      a: '可以提交 Regrade（重新評級），卡片再次進入評級流程。需注意可能升分、維持或降分。',
     },
   ],
   midCta: {
@@ -234,6 +239,10 @@ const guide: GuideContent = {
     'regrade-or-reholder',
   ],
   sources: [
+    {
+      label: 'PSA, About PSA（1991 年起累計認證逾 6500 萬件）',
+      href: 'https://www.psacard.com/info/about-psa',
+    },
     {
       label: 'PSA, 評級標準',
       href: 'https://www.psacard.com/gradingstandards',

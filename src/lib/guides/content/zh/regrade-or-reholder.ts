@@ -2,10 +2,10 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'regrade-or-reholder',
-  title: 'PSA 重評與換殼：何時選擇',
+  title: 'PSA 重新評級與更換新殼：何時選擇',
   badge: '鑑定卡流程',
   lead:
-    '鑑定殼出現刮痕，未必代表評分有問題。換殼（Reholder）更換外殼；重評（Regrade）重新評分。選錯服務，可能白付費用，或失去已有的 PSA 10。',
+    '鑑定殼出現刮痕，未必代表評分有問題。更換新殼（Reholder）更換外殼；重新評級（Regrade）重新評分。選錯服務，可能白付費用，或失去已有的 PSA 10。',
   published: '2026-06-13',
   updated: '2026-07-12',
   readTime: '9 分鐘',
@@ -13,7 +13,7 @@ const guide: GuideContent = {
   heroSpecs: [
     { label: 'Regrade 風險', value: 'PSA 10 易降分' },
     { label: 'Reholder', value: '同分數，新外殼' },
-    { label: 'Regrade', value: '全面重評，可升可降' },
+    { label: 'Regrade', value: '全面重新評級，可升可降' },
     { label: 'Reholder 風險', value: '低（非零）' },
   ],
   sections: [
@@ -94,7 +94,7 @@ const guide: GuideContent = {
         '寄送前拍攝多角度高解析度照片與影片，記錄目前鑑定殼與卡片狀態。',
         '詳閱 PSA 官網最新服務政策：[psacard.com/services](https://www.psacard.com/services)。費用與流程可能調整。',
         '申報價值要合理，以確保保險保障。鑑定殼已明顯破裂時，PSA 通常視為需審核案件，增加轉 Regrade 的機率。',
-        '換殼或重評完成後，日常攜帶或卡展交接前應加裝 [抗 UV 外殼](/products/psa-protectors/)。評級殼為展示級，非背包防護。',
+        '更換新殼或重新評級完成後，日常攜帶或卡展交接前應加裝 [抗 UV 外殼](/products/psa-protectors/)。評級殼為展示級，非背包防護。',
       ],
     },
     {
@@ -107,7 +107,7 @@ const guide: GuideContent = {
   ],
   faq: [
     { q: 'PSA Reholder 是什麼？', a: '更換外殼與標籤耗材，等級與證書編號通常不變，適合外殼外觀問題。' },
-    { q: 'PSA Regrade 是什麼？', a: '完整重新審核，分數可能升、維持或降。PSA 10 重評降分風險最高。' },
+    { q: 'PSA Regrade 是什麼？', a: '完整重新審核，分數可能升、維持或降。PSA 10 重新評級降分風險最高。' },
     { q: '外殼刮花應 Reholder 還是 Regrade？', a: '僅塑料受損且滿意現有分數 → Reholder。願承擔降分風險追更高分 → Regrade。' },
   ],
   midCta: {
@@ -121,7 +121,7 @@ const guide: GuideContent = {
     title: '寄出前先篩選置中',
     body: '上傳鑑定卡照片、切換鑑定卡模式，依置中閱讀 Regrade 升值與降級風險，瀏覽器免費使用。',
     primary: { label: '免費置中工具', href: '/tools/card-centering/' },
-    secondary: { label: '換殼後加裝保護', href: '/products/psa-protectors/' },
+    secondary: { label: '更換新殼後加裝保護', href: '/products/psa-protectors/' },
   },
   relatedSlugs: ['psa-10-centering-requirements', 'identify-fake-psa-slabs', 'grade-or-protect-first'],
   sources: [

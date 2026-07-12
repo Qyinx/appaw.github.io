@@ -145,7 +145,7 @@ export const zh: Translations = {
       centering: {
         badge: '送鑑前檢查',
         title: '卡牌置中量度工具',
-        description: '量度裸卡或鑑定卡照片，重評或送鑑前先篩選 PSA 10 邊距與降級風險。',
+        description: '量度裸卡或鑑定卡照片，重新評級或送鑑前先篩選 PSA 10 邊距與降級風險。',
         cta: '免費量度置中',
       },
       psaGrading: {
@@ -154,7 +154,7 @@ export const zh: Translations = {
         description: '銅鑼灣 138 Arena 面交交卡及取件。服務費由 HKD 890 起，每批可網上查詢進度。',
         cta: '了解代送服務',
       },
-      guidesLink: '鑑定卡保護、防 UV、置中與重評／換殼指南',
+      guidesLink: '鑑定卡保護、防 UV、置中與重新評級／更換新殼指南',
       guidesCta: '閱讀指南',
       trading: {
         badge: '鑑定卡交易',
@@ -822,9 +822,9 @@ export const zh: Translations = {
           body: '合併批次寄送 PSA。參考編號對應您的卡牌及 PSA 訂單。',
         },
         {
-          title: 'PSA 評級與品控',
+          title: 'PSA 評級與品質控制',
           tagline: 'PSA 鑑定進行中',
-          body: 'PSA 完成研究、評分、封裝與品控。進度同步至系統各階段 — 可隨時在查詢頁查看。',
+          body: 'PSA 完成研究、評分、封裝與品質控制。進度同步至系統各階段 — 可隨時在查詢頁查看。',
         },
         {
           title: '返港取件',
@@ -1377,7 +1377,7 @@ export const zh: Translations = {
       // Keep in sync with CENTERING_SEO.zh in product-names.ts
       webAppName: '卡牌置中工具 & PSA 10 分析器',
       webAppDescription:
-        '量度裸卡或鑑定卡照片的置中比例。對齊導線、校正傾斜，讀取 PSA/BGS/SGC/CGC 邊距，並篩選重評升值空間。在瀏覽器內運行。',
+        '量度裸卡或鑑定卡照片的置中比例。對齊導線、校正傾斜，讀取 PSA/BGS/SGC/CGC 邊距，並篩選重新評級升值空間。在瀏覽器內運行。',
       featureList: [...CENTERING_SEO.zh.featureList],
       breadcrumbHome: '首頁',
       breadcrumbTool: '卡牌置中工具',
@@ -1407,12 +1407,12 @@ export const zh: Translations = {
         a: '完全免費，在瀏覽器中使用，無需註冊。量度在您的裝置上進行，不會上傳至伺服器。',
       },
       {
-        q: '應該重評還是換殼？',
-        a: '換殼修復外殼並保留數字評級。重評重新檢查所有子項，可能降級。先量度置中：Gem Mint 邊距配 PSA 9 標籤或可考慮重評；殼體完好則僅換殼。',
+        q: '應該重新評級還是更換新殼？',
+        a: '更換新殼修復外殼並保留數字評級。重新評級重新檢查所有子項，可能降級。先量度置中：Gem Mint 邊距配 PSA 9 標籤或可考慮重新評級；殼體完好則僅更換新殼。',
       },
       {
         q: '重新評級會令卡牌降級嗎？',
-        a: '會。PSA 10 重評變 9 很常見。正面置中差過 55/45，更要小心。',
+        a: '會。PSA 10 重新評級變 9 很常見。正面置中差過 55/45，更要小心。',
       },
       {
         q: '能否使用鑑定卡照片檢查置中？',
@@ -1535,28 +1535,28 @@ export const zh: Translations = {
       verdicts: {
         regradeCandidate: {
           label: '建議重新評級',
-          hint: '置中達 Gem Mint 區間。付重評費前請再檢查四角與表面。',
+          hint: '置中達 Gem Mint 區間。付重新評級費前請再檢查四角與表面。',
         },
         borderlineRegrade: {
           label: '邊界案例',
-          hint: '置中在 Mint 區間。僅當其他子項明顯優於現有標籤時才考慮重評。',
+          hint: '置中在 Mint 區間。僅當其他子項明顯優於現有標籤時才考慮重新評級。',
         },
         holdGrade: {
           label: '維持評級',
-          hint: '置中在 NM–MT 區間。重評難以升級。若殼體有問題可考慮換殼。',
+          hint: '置中在 NM–MT 區間。重新評級難以升級。若殼體有問題可考慮更換新殼。',
         },
         downgradeRisk: {
           label: '高降級風險警告',
-          hint: '置中超過 PSA 8 容差。除非接受較低標籤，否則避免重評。',
+          hint: '置中超過 PSA 8 容差。除非接受較低標籤，否則避免重新評級。',
         },
       },
       reholderNote:
-        '換殼保留數字評級，處理殼體或標籤問題。置中無法偵測殼體損壞。鑑定卡模式僅用於篩選重評升值空間。',
+        '更換新殼保留數字評級，處理殼體或標籤問題。置中無法偵測殼體損壞。鑑定卡模式僅用於篩選重新評級升值空間。',
     },
     content: {
       h1: CENTERING_SEO.zh.h1 as string,
       lead:
-        '卡在 8、9 的卡，很多是置中問題，不是四角。PSA 10 要正面 55/45、背面 75/25。上傳、對齊導線，讀左右和上下比例，對照 PSA、BGS、SGC、CGC。鑑定卡模式可先看重評有沒有空間。在你裝置上跑，圖片不上傳。',
+        '卡在 8、9 的卡，很多是置中問題，不是四角。PSA 10 要正面 55/45、背面 75/25。上傳、對齊導線，讀左右和上下比例，對照 PSA、BGS、SGC、CGC。鑑定卡模式可先看重新評級有沒有空間。在你裝置上跑，圖片不上傳。',
       howToTitle: '如何使用 Appaw 卡牌置中分析器',
       howToBadge: '四步流程',
       stepLabel: '第 {n} 步',
@@ -1631,17 +1631,17 @@ export const zh: Translations = {
         },
         {
           title: '查看鑑定卡篩選結果',
-          body: '將照片類型設為「鑑定卡」。篩選列依置中估算重評升值與降級風險。不含四角、表面或殼體狀況。',
+          body: '將照片類型設為「鑑定卡」。篩選列依置中估算重新評級升值與降級風險。不含四角、表面或殼體狀況。',
         },
       ],
-      regradeTitle: '應該重評還是換殼？',
+      regradeTitle: '應該重新評級還是更換新殼？',
       regradeAeoAnswer:
-        '換殼只換外殼，數字評級不變。重評會重新看四角、邊緣、表面、置中，分數可能掉。先在平整的鑑定卡照片上量置中：邊距達 Gem Mint、標籤卻是 PSA 9，才值得考慮重評；殼沒問題、置中也過，換殼就好。',
+        '更換新殼只換外殼，數字評級不變。重新評級會重新看四角、邊緣、表面、置中，分數可能掉。先在平整的鑑定卡照片上量置中：邊距達 Gem Mint、標籤卻是 PSA 9，才值得考慮重新評級；殼沒問題、置中也過，更換新殼就好。',
       regradeP1:
-        '殼裂了卻去付重評費，是常見冤枉錢。換殼保留數字；重評依現行標準從頭再看置中、四角、邊緣及表面。',
+        '殼裂了卻去付重新評級費，是常見冤枉錢。更換新殼保留數字；重新評級依現行標準從頭再看置中、四角、邊緣及表面。',
       regradeP2:
-        'eBay、Carousell、卡展上的鑑定卡照，多半不是平整掃描。置中是少數能靠照片先看的子項。邊距已低於 PSA 8 容差，殼再新，重評多半也不划算。',
-      regradeGuideLink: 'PSA 重評與換殼：何時選擇',
+        'eBay、Carousell、卡展上的鑑定卡照，多半不是平整掃描。置中是少數能靠照片先看的子項。邊距已低於 PSA 8 容差，殼再新，重新評級多半也不划算。',
+      regradeGuideLink: 'PSA 重新評級與更換新殼：何時選擇',
       referencesTitle: '參考資料與延伸閱讀',
       referencesExternalLabel: '官方鑑定標準',
       referencesGuidesLabel: '相關收藏指南',
@@ -1678,7 +1678,7 @@ export const zh: Translations = {
           href: '/guides/identify-fake-psa-slabs/',
         },
         {
-          label: 'PSA 重評與換殼：何時選擇',
+          label: 'PSA 重新評級與更換新殼：何時選擇',
           href: '/guides/regrade-or-reholder/',
         },
         {

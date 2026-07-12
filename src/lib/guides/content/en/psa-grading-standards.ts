@@ -7,11 +7,11 @@ const guide: GuideContent = {
   lead:
     'A PSA 10 can sell for six figures. A PSA 9 on the same card might not clear four. The gap is not luck. It is the 1–10 scale, Qualifier codes, and centering rules buyers already use at checkout.',
   published: '2026-06-18',
-  updated: '2026-07-11',
+  updated: '2026-07-12',
   readTime: '14 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
-    { label: 'Items graded', value: '65 million+ certified' },
+    { label: 'Items graded', value: '65M+ (PSA About page)' },
     { label: 'PSA 10 front', value: '55/45 or better' },
     { label: 'PSA 10 back', value: '75/25 or better' },
     { label: 'Qualifiers', value: 'OC · ST · PD · OF · MK · MC' },
@@ -21,12 +21,17 @@ const guide: GuideContent = {
       id: 'what-is-psa',
       title: 'PSA grades are the checkout language',
       paragraphs: [
-        'PSA (Professional Sports Authenticator), founded by David Hall in 1991, is one of the world\'s largest third-party card grading companies, over 65 million items certified to date. For collectors and investors, a PSA grade is the shared condition language: higher numbers mean sharper corners, cleaner surfaces, and better centering closer to factory state.',
+        'PSA (Professional Sports Authenticator), founded by David Hall in 1991, is one of the world\'s largest third-party card grading companies. According to [PSA\'s About page](https://www.psacard.com/info/about-psa), PSA has certified over 65 million items since 1991. That figure is company-published marketing copy, not a live submission counter.',
+        'For collectors and investors, a PSA grade is the shared condition language: higher numbers mean sharper corners, cleaner surfaces, and better centering closer to factory state.',
       ],
       bulletGroups: [
         {
           label: 'Further reading',
           items: [
+            {
+              label: 'PSA company overview (65M+ certified claim)',
+              text: '[psacard.com/info/about-psa](https://www.psacard.com/info/about-psa)',
+            },
             {
               label: 'PSA official grading standards',
               text: '[psacard.com/gradingstandards](https://www.psacard.com/gradingstandards)',
@@ -245,6 +250,10 @@ const guide: GuideContent = {
     'regrade-or-reholder',
   ],
   sources: [
+    {
+      label: 'PSA, About PSA (65 million+ certified since 1991)',
+      href: 'https://www.psacard.com/info/about-psa',
+    },
     {
       label: 'PSA, Grading Standards',
       href: 'https://www.psacard.com/gradingstandards',
