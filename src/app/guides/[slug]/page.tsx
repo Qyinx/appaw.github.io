@@ -69,7 +69,7 @@ function guideStructuredData(slug: GuideSlug, locale: GuideLocale) {
               {
                 '@type': 'HowToStep',
                 name: 'UV 黑光燈測試',
-                text: '以 UV 燈檢查標籤正反面。#43 後正面應有隱藏 PSA 字樣；背面應有六個微型標誌。',
+                text: '以 UV 燈檢查標籤正面/背面。#43 後正面應有隱藏 PSA 字樣；背面應有六個微型標誌。',
               },
               {
                 '@type': 'HowToStep',

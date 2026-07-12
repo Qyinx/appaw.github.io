@@ -22,7 +22,7 @@ const guide: GuideContent = {
       title: '為什麼選對服務很重要',
       paragraphs: [
         'PSA 鑑定卡外殼難免出現刮痕、霧化、邊角磨損或標籤褪色。Reholder 與 Regrade 是最常見的兩個選項，目的完全不同。',
-        'Reholder 更換外殼與標籤耗材，分數通常不變。Regrade 重新審核全部品相面向，分數可能上升、維持或下降。外殼受損而分數滿意 → Reholder；願承擔降分風險追更高分 → Regrade。',
+        'Reholder 更換外殼與標籤耗材，分數通常不變——像替鑑定卡換一件新外套。Regrade 重新審核全部品相面向，分數可能上升、維持或下降。外殼受損而分數滿意 → Reholder；願承擔降分風險追更高分 → Regrade。',
       ],
       bridge: '先釐清 Reholder 做什麼、不做什麼。',
     },
@@ -84,7 +84,7 @@ const guide: GuideContent = {
         '優先選 Reholder：主要目的是改善外觀、統一系列風格，且對目前等級滿意。殼體是唯一問題時，付 Regrade 費用屬浪費。',
         '選 Regrade：明確希望挑戰更高分數，或鑑定殼損壞嚴重到必須全面檢查。先算期望值：升級可能帶來的價值是否足以覆蓋費用與降分風險。',
         '高價值卡提醒：PSA 10 重新送審風險最高，微小瑕疵可能掉到 PSA 9。寄送前可先聯絡 PSA 客服，或透過授權經銷商提交。',
-        '決策流程：於 [psacard.com/cert](https://www.psacard.com/cert) 核實證書 → 平整拍攝正反面 → 鑑定卡模式量度置中 → 放大鏡檢查四角與表面 → 僅殼體不合格則 Reholder；置中與肉眼觀感明顯優於標籤且數字合理，再考慮 Regrade。',
+        '決策流程：於 [psacard.com/cert](https://www.psacard.com/cert) 核實證書 → 平整拍攝正面/背面 → 鑑定卡模式量度置中 → 放大鏡檢查四角與表面 → 僅殼體不合格則 Reholder；置中與肉眼觀感明顯優於標籤且數字合理，再考慮 Regrade。',
       ],
     },
     {
@@ -112,7 +112,7 @@ const guide: GuideContent = {
   ],
   midCta: {
     afterSectionId: 'comparison',
-    title: '不確定？先上傳照片量置中',
+    title: '不確定？先上傳照片測量置中',
     body: '鑑定卡模式下比對置中與降分風險，再決定寄 Reholder 還是 Regrade。',
     primary: { label: '免費置中工具', href: '/tools/card-centering/' },
     secondary: { label: 'PSA 10 置中標準', href: '/guides/psa-10-centering-requirements/' },

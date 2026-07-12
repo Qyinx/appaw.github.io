@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'A scratched slab is not always a grading problem. Reholder fixes the shell. Regrade reopens the score. Pick wrong and you pay twice or lose a PSA 10 you already had.',
   published: '2026-06-13',
-  updated: '2026-06-17',
+  updated: '2026-07-12',
   readTime: '9 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -121,6 +121,13 @@ const guide: GuideContent = {
       a: 'Reholder if only the plastic failed and the grade satisfies you. Regrade only when you accept downgrade risk for upside.',
     },
   ],
+  midCta: {
+    afterSectionId: 'comparison',
+    title: 'Not sure? Upload a photo and measure centering',
+    body: 'In graded-slab mode, compare centering and downgrade risk before you mail for reholder or regrade.',
+    primary: { label: 'Free Centering Tool', href: '/tools/card-centering/' },
+    secondary: { label: 'PSA 10 centering requirements', href: '/guides/psa-10-centering-requirements/' },
+  },
   cta: {
     title: 'Screen centering before you mail',
     body: 'Upload a slab photo, switch to Graded slab mode, and read regrade upside vs downgrade risk, free in your browser.',

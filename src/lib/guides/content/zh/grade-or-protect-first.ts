@@ -24,7 +24,7 @@ const guide: GuideContent = {
         '搜尋「先送鑑還是先保護」常令人以為須在兩者間擇一。實務上兩者無衝突：裸卡階段決定是否付送鑑費；鑑定卡到手或購入後，下一步是加外層保護殼。同一張卡不會在同一時間點面臨此抉擇。',
         '常見疏漏是送鑑回來後未即時加殼，或把兩個獨立問題混為一談。路徑 A：自有裸卡，經送鑑取得鑑定卡；路徑 B：直接購入鑑定卡。兩條路徑於加保護殼後匯合。',
       ],
-      bridge: '先談路徑 A 的裸卡經濟學。鑑定卡到手當日，進入階段二。',
+      bridge: '先談路徑 A 的裸卡經濟學。鑑定卡一到手，就該加外層保護殼。',
     },
     {
       id: 'when-to-submit-raw',
@@ -32,8 +32,8 @@ const guide: GuideContent = {
       paragraphs: [
         '提交裸卡旨在提升市值，並非每張卡都值得付送鑑費。送錯則費用白付，或標籤分數拉低轉售價。',
         '值得送：品相接近 Gem Mint（PSA 10 範圍），裸卡行情 $25+，PSA 10 預期至少 2–4× 裸卡價；熱門新秀卡或稀缺 TCG（寶可夢、MTG 等）高分需求強。eBay Authenticity Guarantee 或 PSA 優惠期間，風險稍低。',
-        '不宜送：裸卡低於 $20–25，送鑑費吃光溢價；邊角磨損、表面刮痕明顯，多半 PSA 8 以下；PSA 積壓嚴重或暫停服務；純收藏、無轉售打算。',
-        '打包前：分幣護套與半硬卡夾；查 PSA Pop Report 看 PSA 10 數量；核算成本並選服務等級（Value、Express 等）；用免費 [卡牌置中工具](/tools/card-centering/) 量置中，見 [PSA 10 置中標準](/guides/psa-10-centering-requirements/)。',
+        '不宜送：裸卡低於 $20–25，送鑑費會吃掉全部溢價空間；邊角磨損、表面刮痕明顯，多半 PSA 8 以下；PSA 積壓嚴重或暫停服務；純收藏、無轉售打算。',
+        '打包前：分幣護套與半硬卡夾；查 PSA Pop Report 看 PSA 10 數量；核算成本並選服務等級（Value、Express 等）；用免費 [卡牌置中工具](/tools/card-centering/) 測量置中，見 [PSA 10 置中標準](/guides/psa-10-centering-requirements/)。',
       ],
       specs: [
         { label: 'PSA 10 正面 (2025+)', value: '55/45 或更佳' },
@@ -68,7 +68,7 @@ const guide: GuideContent = {
       table: {
         headers: ['步驟', '路徑 A：自有裸卡', '路徑 B：購入鑑定卡'],
         rows: [
-          ['1', '量置中、評估品相與 $25+ 經濟性', '核對賣家照片與證書查詢'],
+          ['1', '測量置中、評估品相與 $25+ 經濟性', '核對賣家照片與證書查詢'],
           ['2', '值得則送鑑並等待取回', '（無需送鑑）'],
           ['3', '鑑定卡到手，核對證書', '收貨即核對證書'],
           ['4', '加裝外層保護殼', '加裝外層保護殼'],
@@ -80,7 +80,7 @@ const guide: GuideContent = {
       id: 'practical-advice',
       title: '實務步驟清單',
       paragraphs: [
-        '路徑 A：量置中 → 放大鏡檢查表面與邊角 → 經濟合理則送鑑 → 取回後於 [psacard.com/cert](https://www.psacard.com/cert) 核對證書 → 加 [外層保護殼](/products/psa-protectors/) → 展示、交易或寄送。',
+        '路徑 A：測量置中 → 放大鏡檢查表面與邊角 → 經濟合理則送鑑 → 取回後於 [psacard.com/cert](https://www.psacard.com/cert) 核對證書 → 加 [外層保護殼](/products/psa-protectors/) → 展示、交易或寄送。',
         '路徑 B：核對賣家照片與 PSA 認證資料庫 → 收貨即加外殼 → 記錄購入價與證書編號。',
         '高價值卡：先做成本效益分析。香港藏家可到合作店舖 [138 Arena](/business/psa-grading/)（銅鑼灣謝斐道522號1/F）交卡及取件，代送 PSA 並提供進度查詢。送鑑費用、政策與週期以 [PSA 官網](https://www.psacard.com) 為準。',
         '新手：先以低中價位卡練熟送鑑與保護流程，再處理夢幻級卡牌。',
@@ -110,7 +110,7 @@ const guide: GuideContent = {
   ],
   midCta: {
     afterSectionId: 'when-to-submit-raw',
-    title: '裸卡在手？先量置中再送鑑',
+    title: '裸卡在手？先測量置中，再決定是否送鑑',
     body: '付送鑑費前，用免費工具核對置中與邊距。鑑定卡已到手則直接選保護殼。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
     secondary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },

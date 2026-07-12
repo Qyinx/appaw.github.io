@@ -237,6 +237,13 @@ const guide: GuideContent = {
       a: 'Yes, submit for Regrade. Outcomes can be higher, unchanged, or lower.',
     },
   ],
+  midCta: {
+    afterSectionId: 'qualifiers',
+    title: 'Before grading fees: measure centering, check the slab',
+    body: 'Upload raw or seller photos against PSA 10 thresholds; verify cert and shell on graded buys.',
+    primary: { label: 'Free centering tool', href: '/tools/card-centering/' },
+    secondary: { label: 'PSA slab authentication guide', href: '/guides/identify-fake-psa-slabs/' },
+  },
   cta: {
     title: 'Measure centering before you submit',
     body: 'Upload a scan or seller photo and compare front/back percentages against PSA 10 thresholds before paying grading fees.',

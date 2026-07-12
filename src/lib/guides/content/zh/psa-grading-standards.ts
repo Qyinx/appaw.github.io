@@ -18,35 +18,6 @@ const guide: GuideContent = {
   ],
   sections: [
     {
-      id: 'record-sales',
-      title: 'PSA 10 天價成交紀錄',
-      paragraphs: [
-        'PSA 10 Gem Mint 在拍賣市場常出現數量級溢價。以下三筆公開成交說明市場如何為完美品相定價。',
-      ],
-      bulletGroups: [
-        {
-          label: '公開成交紀錄',
-          items: [
-            {
-              label: '1998 寶可夢插畫家皮卡超, PSA 10',
-              text: '成交價 **527.5 萬美元**（約 385 萬英鎊）。YouTuber Logan Paul 於 2023 年私人交易購得，被廣泛視為史上最貴集換式卡牌之一。',
-            },
-            {
-              label: '1993 萬智牌 Alpha 黑蓮花, PSA 10',
-              text: '成交價 **54 萬美元**（約 42.8 萬英鎊），2023 年拍賣創下紀錄。競技已禁用，PSA 10 完美狀態仍為 TCG 歷史象徵卡的高分標本。',
-            },
-            {
-              label: '1998 日版銀卡皮卡超（第二屆錦標賽）PSA 10',
-              text: '成交價 **44.4 萬美元**（約 34.73 萬英鎊），同樣於 2023 年售出，顯示寶可夢賽事獎勵卡在拍賣市場的高分溢價。',
-            },
-          ],
-        },
-      ],
-      callout:
-        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍，送鑑前先用量度工具篩選，見 [裸卡到受保護鑑定卡：送鑑後加裝保護殼](/guides/grade-or-protect-first/)。',
-      bridge: '溢價來自分數規則。以下是 PSA 1–10 量表與 Qualifier 定義。',
-    },
-    {
       id: 'what-is-psa',
       title: 'PSA 評級是什麼',
       paragraphs: [
@@ -188,12 +159,60 @@ const guide: GuideContent = {
           ],
         },
       ],
+      bridge: '量表讀完，再看市場如何為完美品相定價。',
+    },
+    {
+      id: 'record-sales',
+      title: 'PSA 10 天價成交紀錄',
+      paragraphs: [
+        'PSA 10 Gem Mint 在拍賣市場常出現數量級溢價。以下三筆公開成交說明市場如何為完美品相定價。',
+      ],
+      bulletGroups: [
+        {
+          label: '公開成交紀錄',
+          items: [
+            {
+              label: '1998 寶可夢插畫家皮卡超, PSA 10',
+              text: '成交價 **527.5 萬美元**（約 385 萬英鎊）。YouTuber Logan Paul 於 2023 年私人交易購得；[Guinness World Records](https://www.guinnessworldrecords.com/news/2022/4/logan-paul-owns-5-275-million-pokemon-card-after-record-breaking-trade-697189) 載有這筆交易紀錄。',
+            },
+            {
+              label: '1993 萬智牌 Alpha 黑蓮花, PSA 10',
+              text: '2023 年拍賣以 **54 萬美元**（約 42.8 萬英鎊）成交。競技已禁用，但 PSA 10 仍是 TCG 史上最具象徵意義的高分標本之一。',
+            },
+            {
+              label: '1998 日版銀卡皮卡超（第二屆錦標賽）PSA 10',
+              text: '全球僅少數幾張的賽事獎勵卡，2023 年以 **44.4 萬美元**（約 34.73 萬英鎊）售出——寶可夢早期錦標賽卡的高分標本，在拍場上向來搶手。',
+            },
+          ],
+        },
+      ],
+      callout:
+        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍，送鑑前先用量度工具篩選，見 [裸卡到受保護鑑定卡：送鑑後加裝保護殼](/guides/grade-or-protect-first/)。',
     },
     {
       id: 'bottom-line',
       title: '結語：先讀懂分數，再付送鑑費',
       paragraphs: [
-        'PSA 1–10 與 Qualifier 是收藏市場的共通語言。送鑑前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼。送鑑前可用 [免費置中計算器](/tools/card-centering/) 篩選裸卡；香港藏家交卡及取件見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
+        'PSA 1–10 與 Qualifier 是收藏市場的共通語言。送鑑前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼。',
+      ],
+      bulletGroups: [
+        {
+          label: '下一步',
+          items: [
+            {
+              label: '指南索引',
+              text: '更多流程見 [收藏指南索引](/guides/)。',
+            },
+            {
+              label: '香港代送鑑',
+              text: '銅鑼灣合作店舖 138 Arena 交卡及取件，代送 PSA 並提供進度查詢。詳見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
+            },
+            {
+              label: '置中篩選',
+              text: '送鑑前可用 [免費置中計算器](/tools/card-centering/) 篩選裸卡。',
+            },
+          ],
+        },
       ],
     },
   ],
@@ -221,13 +240,13 @@ const guide: GuideContent = {
   ],
   midCta: {
     afterSectionId: 'qualifiers',
-    title: '付送鑑費前：先量置中、再查假殼',
+    title: '付送鑑費前：先測量置中，再查驗假殼',
     body: '上傳裸卡或賣家照片比對 PSA 10 門檻；購入鑑定卡則交叉驗證證書與外殼。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
     secondary: { label: 'PSA 鑑定殼真偽驗證指南', href: '/guides/identify-fake-psa-slabs/' },
   },
   cta: {
-    title: '送鑑前先量邊距',
+    title: '送鑑前先測量邊距',
     body: '上傳掃描或賣家照片，比對正背面置中是否達 PSA 10 門檻，再決定是否付送鑑費。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
     secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },

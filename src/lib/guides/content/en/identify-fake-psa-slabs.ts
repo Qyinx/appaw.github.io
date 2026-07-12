@@ -65,12 +65,8 @@ const guide: GuideContent = {
           label: 'Label back',
           items: [
             {
-              label: 'Before cert #43:',
-              text: 'Six small glowing PSA logos should appear evenly around the main PSA logo.',
-            },
-            {
-              label: 'After cert #43:',
-              text: 'Six small glowing PSA logos should appear evenly around the main PSA logo.',
+              label: 'All eras:',
+              text: 'Six small glowing PSA logos should appear evenly around the main PSA logo (same before and after cert #43).',
             },
           ],
         },
@@ -185,10 +181,10 @@ const guide: GuideContent = {
           ],
         },
         {
-          title: 'After cert #5xxxxxxx (from #6xxxxxxx)',
+          title: 'After cert #6xxxxxxx (post-transition)',
           level: 4,
           paragraphs: [
-            'Once the transition ended, hologram microtext reads "PSA" across the board.',
+            'Once the transition ended, hologram microtext reads "PSA" across the board. Late #5xxxxxxx copies may still show CLCT — always verify under magnification.',
           ],
           videos: [
             {

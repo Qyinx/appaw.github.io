@@ -347,7 +347,7 @@ export const zh: Translations = {
     centeringCrossLink: {
       badge: '送鑑前工具',
       title: '送鑑前先檢查置中',
-      body: '先用免費置中計算器量度正反面邊距，對照 PSA 10 標準。之後可用防UV玻璃保護殼妥善保存鑑定卡磚。',
+      body: '先用免費置中計算器量度正面/背面邊距，對照 PSA 10 標準。之後可用防UV玻璃保護殼妥善保存鑑定卡磚。',
       cta: '免費置中計算器',
     },
     hkGuide: {
@@ -1580,7 +1580,7 @@ export const zh: Translations = {
       ],
       psaRequirementsTitle: 'PSA 10 的置中要求是什麼？',
       psaRequirementsIntro:
-        '置中指印刷邊框在切邊內的分佈是否均勻，以左右及上下比例量度。越接近 50/50 越好。PSA 已於 2025 年將 Gem Mint 10 正面標準收緊至 55/45。下表列出常見等級的公佈正反面容差。',
+        '置中指印刷邊框在切邊內的分佈是否均勻，以左右及上下比例量度。越接近 50/50 越好。PSA 已於 2025 年將 Gem Mint 10 正面標準收緊至 55/45。下表列出常見等級的公佈正面/背面容差。',
       gradeTable: {
         headers: {
           grade: '等級',
@@ -1603,7 +1603,7 @@ export const zh: Translations = {
       centeringGuideLink: 'PSA 10 置中標準詳解',
       whyMattersTitle: '為何卡牌置中很重要',
       whyMattersP1:
-        '鑑定看四角、邊緣、表面、置中四項。送鑑前，只有置中能靠照片先量。四角再尖、表面再乾淨，邊框偏了還是常卡在 PSA 8 或 9。9 和 10 的市價差兩三倍不稀奇。先量邊距，比盲送便宜。',
+        '鑑定看四角、邊緣、表面、置中四項。送鑑前，只有置中能靠照片先測。四角再尖、表面再乾淨，邊框偏了還是常卡在 PSA 8 或 9。9 和 10 的市價差兩三倍不稀奇。先測量邊距，比盲目送鑑更划算。',
       whyMattersBeforeProtector: '確認卡牌置中良好且值得送鑑後，往返鑑定機構途中可用優質 ',
       protectorLink: 'PSA 防UV玻璃保護殼',
       whyMattersBeforeTrading: ' 妥善保護，或了解我們的 ',
@@ -1636,7 +1636,7 @@ export const zh: Translations = {
       ],
       regradeTitle: '應該重新評級還是更換新殼？',
       regradeAeoAnswer:
-        '更換新殼只換外殼，數字評級不變。重新評級會重新看四角、邊緣、表面、置中，分數可能掉。先在平整的鑑定卡照片上量置中：邊距達 Gem Mint、標籤卻是 PSA 9，才值得考慮重新評級；殼沒問題、置中也過，更換新殼就好。',
+        '更換新殼只換外殼，數字評級不變。重新評級會重新看四角、邊緣、表面、置中，分數可能掉。先在平整的鑑定卡照片上測量置中：邊距達 Gem Mint、標籤卻是 PSA 9，才值得考慮重新評級；殼沒問題、置中也過，更換新殼就好。',
       regradeP1:
         '殼裂了卻去付重新評級費，是常見冤枉錢。更換新殼保留數字；重新評級依現行標準從頭再看置中、四角、邊緣及表面。',
       regradeP2:

@@ -22,7 +22,7 @@ const guide: GuideContent = {
       title: '為什麼不能只靠一種方法',
       paragraphs: [
         'PSA 鑑定卡有溢價，假標、假殼、盜號、仿查詢頁都會跟著來。2025–2026 仍有高仿流入。',
-        '單一檢查皆不足以單獨定論。查詢通過只是第一關；高仿常盜真號。下面五步從線上查到實物，須疊加使用。',
+        '單一檢查皆不足以單獨定論。查詢通過只是第一關；高仿常盜用真實認證編號。下面五步從線上查到實物，須疊加使用。',
       ],
     },
     {
@@ -65,12 +65,8 @@ const guide: GuideContent = {
           label: '標籤背面',
           items: [
             {
-              label: '編號 43 開頭前：',
-              text: '核心大 PSA Logo 周圍應均勻出現 6 個小型發光的 PSA Logo 圖案。',
-            },
-            {
-              label: '編號 43 開頭後：',
-              text: '核心大 PSA Logo 周圍應均勻出現 6 個小型發光的 PSA Logo 圖案。',
+              label: '全時期：',
+              text: '核心大 PSA Logo 周圍應均勻出現 6 個小型發光的 PSA Logo 圖案（編號 #43 前後皆同）。',
             },
           ],
         },
@@ -185,10 +181,10 @@ const guide: GuideContent = {
           ],
         },
         {
-          title: '編號 5xxxxxxx 之後（6xxxxxxx 起）',
+          title: '編號 6xxxxxxx 起（過渡期結束後）',
           level: 4,
           paragraphs: [
-            '過渡期結束後，全息圖案內微型隱藏字體已全面改為「PSA」。',
+            '過渡期結束後，全息圖案內微型隱藏字體已全面改為「PSA」。5xxxxxxx 末段仍可能見 CLCT，以實測為準。',
           ],
           videos: [
             {
@@ -251,7 +247,7 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'uv-blacklight',
     title: '黑光燈通過？展示前先加殼',
-    body: '查過的鑑定磚放窗邊、卡展易手，仍會刮痕與 UV 褪色。上架或攜帶前加剛性外層保護殼。',
+    body: '查過的鑑定磚放窗邊、卡展易手，仍可能留下刮痕與 UV 褪色。上架或攜帶前加剛性外層保護殼。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定卡防紫外線指南', href: '/guides/uv-protection-graded-cards/' },
   },

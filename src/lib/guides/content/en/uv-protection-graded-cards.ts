@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'Your slab is sealed. Your holo is not safe. Window sun through a humid HK summer can dull a chase card in two seasons.',
   published: '2026-06-07',
-  updated: '2026-06-07',
+  updated: '2026-07-12',
   readTime: '7 min',
   heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
@@ -78,6 +78,13 @@ const guide: GuideContent = {
       a: '45–55% RH in a dry cabinet is common. Hong Kong indoor RH often runs 70–80%, which risks label fog over time.',
     },
   ],
+  midCta: {
+    afterSectionId: 'why-uv-matters',
+    title: 'Displaying by a window? Add >95% UV glass',
+    body: 'The outer case filters UV first so the inner label and holo see less radiation.',
+    primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
+    secondary: { label: 'Display graded cards', href: '/guides/display-graded-cards/' },
+  },
   cta: {
     title: 'Display without sun damage',
     body: 'Our graded slab UV glass protector uses >95% UV-blocking glass and seals standard 35PT PSA / CGC slabs for home or showroom display.',

@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: 'Display Graded Cards: Safe Setup for Your Slabs',
   badge: 'Display',
   lead:
-    'Bad display scratches holders and fades labels before the card inside shows wear. Good display is protection with the collection visible.',
+    'Buyers judge the holder before the card inside. One scuff or hazy label can cost you half the negotiation before the cardboard shows wear. Display is protection with the collection visible.',
   published: '2026-06-09',
-  updated: '2026-06-17',
+  updated: '2026-07-12',
   readTime: '9 min',
   heroImage: '/images/background/display-graded-cards.png',
   heroSpecs: [
@@ -45,7 +45,8 @@ const guide: GuideContent = {
       id: 'advanced-display',
       title: 'Advanced and Large-Collection Display',
       paragraphs: [
-        'Display cases and cabinets: multi-slab display cases add dust and UV cover; wood or glass cabinets suit living rooms and hobby rooms with low-color-temperature, UV-free LED; drawer cabinets scale for large sorted sets.',
+        'Display cases and cabinets: multi-slab display cases add dust and UV cover; wood or glass cabinets suit living rooms and hobby rooms with low-color-temperature, UV-free LED.',
+        'Drawer cabinets scale for large sorted sets.',
         'Wall display: floating frames or slab wall ledges for vertical hero cards. Stay off sun-hit windows; use UV-filtering glass or acrylic. Anchor for 74–150 g per unit, adhesive strips fail after a humid Hong Kong summer.',
         'Card shows: portable case, layered packing, spare sleeves; insure high-value copies. Display the same slab in the same outer case end to end so photos and inventory stay aligned.',
         'Shelf rows: stand slabs vertical with at least 5 mm between outer cases. Never stack bare slabs ten deep flat, weight and vibration stress inner case seams.',
@@ -109,6 +110,13 @@ const guide: GuideContent = {
       a: 'Yes over seasons. Use UV-filtering glass or acrylic and keep slabs off direct sun paths.',
     },
   ],
+  midCta: {
+    afterSectionId: 'basic-display',
+    title: 'Spotlight cards in a magnetic case; bulk in binders',
+    body: 'High-value singles deserve >95% UV glass cases; large collections stay safe in binder sleeves.',
+    primary: { label: 'Graded Card Protector', href: '/products/psa-protectors/' },
+    secondary: { label: 'UV protection for slabs', href: '/guides/uv-protection-graded-cards/' },
+  },
   cta: {
     title: 'Display-ready slab protection',
     body: 'Magnetic case with >95% UV-blocking glass, standard 35PT PSA/CGC fit, sized for desk or shelf display.',

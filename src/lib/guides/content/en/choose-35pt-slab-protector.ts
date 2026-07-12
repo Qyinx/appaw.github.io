@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'One loose slab in a bag can chip a corner on a $200 label. Most PSA and CGC bricks at card shows share the same 35PT thickness band. Match that profile and the protector does the job.',
   published: '2026-06-07',
-  updated: '2026-06-07',
+  updated: '2026-07-12',
   readTime: '6 min',
   heroImage: '/images/background/guide-35pt-slab-protector.png',
   heroSpecs: [
