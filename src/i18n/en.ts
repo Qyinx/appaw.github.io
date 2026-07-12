@@ -905,19 +905,27 @@ export const en = {
         },
         {
           id: 'fees',
-          label: 'Fees & upcharges',
+          label: 'Pickup & fees',
           items: [
             {
-              q: 'Why does PSA upcharge?',
-              a: 'When your card grades high (e.g. PSA 10) or its market value exceeds the declared-value cap for your chosen tier, PSA charges an upcharge to cover the grading fee difference. If this happens, we will contact you with two options — see the next question.',
+              q: 'When can I pick up my cards?',
+              a: 'When tracking shows "Ready for Pickup at 138 Arena" and you receive our WhatsApp or email pickup notice, you have 30 days from the notification date to collect your cards at 138 Arena.',
             },
             {
-              q: 'What can I do if my card gets upcharged?',
+              q: 'What happens if I don\'t pick up within 30 days?',
+              a: 'Cards not collected within 30 days of the pickup notice are treated as abandoned. We send you a card abandonment notice and no fees are refunded.',
+            },
+            {
+              q: 'Why does PSA upcharge?',
+              a: 'If your card grades high (e.g. PSA 10) or its market value exceeds the maximum declared value on your submission, PSA charges an upcharge to cover the grading fee difference. If that happens, we contact you with two options (see the next question).',
+            },
+            {
+              q: 'What can I do if one of my cards gets upcharged?',
               a: {
                 intro: 'We offer two options:',
                 options: [
-                  'Pay the upgraded tier fee to receive the graded card, plus a complimentary PSA UV-protector case (random color).',
-                  'Transfer ownership of the card to Appaw Store and receive a 50% refund of your original tier grading fee.',
+                  'Pay the tier difference when you pick up the card (the gap between your original tier fee and the higher tier it now qualifies for).',
+                  'Tell us within the pickup window that you are waiving the card; we refund 50% of what you paid for that card.',
                 ],
               },
             },
