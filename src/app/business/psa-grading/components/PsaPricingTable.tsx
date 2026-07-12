@@ -1,11 +1,10 @@
 'use client';
 
 import React from 'react';
+import { CalendarDays } from 'lucide-react';
 import { formatHkd } from '@/lib/grading/admin-format';
-import {
-  PSA_PRICING_ROWS,
-  psaQuoteWhatsAppUrl,
-} from '@/lib/grading/psa-pricing';
+import { PSA_PRICING_ROWS } from '@/lib/grading/psa-pricing';
+import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 import { GRADING_SERVICE_PLAN_LABELS } from '@/lib/grading/reference-code';
 import type { Translations } from '@/i18n/en';
 
@@ -14,6 +13,32 @@ type PricingCopy = Translations['psaGradingPage']['pricing'];
 type Props = {
   copy: PricingCopy;
 };
+
+function PsaPricingFeeCell({
+  listFeeHkd,
+  discountedFeeHkd,
+  listLabel,
+}: {
+  listFeeHkd: number;
+  discountedFeeHkd: number | null;
+  listLabel: string;
+}) {
+  const showDiscount =
+    discountedFeeHkd != null && discountedFeeHkd > 0 && discountedFeeHkd < listFeeHkd;
+
+  if (!showDiscount) {
+    return <span className="font-mono font-tabular text-text-primary">{formatHkd(listFeeHkd)}</span>;
+  }
+
+  return (
+    <div className="flex flex-col gap-0.5">
+      <span className="font-mono font-tabular text-text-primary font-medium">{formatHkd(discountedFeeHkd)}</span>
+      <span className="font-mono font-tabular text-xs text-text-muted line-through" aria-label={listLabel}>
+        {formatHkd(listFeeHkd)}
+      </span>
+    </div>
+  );
+}
 
 export default function PsaPricingTable({ copy }: Props) {
   return (
@@ -38,24 +63,20 @@ export default function PsaPricingTable({ copy }: Props) {
           </thead>
           <tbody className="divide-y divide-border-default">
             {PSA_PRICING_ROWS.map((row) => {
-              const label = GRADING_SERVICE_PLAN_LABELS[row.plan];
               return (
                 <tr key={row.plan} className="align-top">
                   <th scope="row" className="px-5 py-3 text-left font-medium text-text-primary">
-                    {label}
+                    {GRADING_SERVICE_PLAN_LABELS[row.plan]}
                   </th>
                   <td className="px-5 py-3">
                     {row.feeHkd != null ? (
-                      <span className="font-mono font-tabular text-text-primary">{formatHkd(row.feeHkd)}</span>
+                      <PsaPricingFeeCell
+                        listFeeHkd={row.feeHkd}
+                        discountedFeeHkd={row.discountedFeeHkd}
+                        listLabel={copy.listPriceLabel.replace('{price}', formatHkd(row.feeHkd))}
+                      />
                     ) : (
-                      <a
-                        href={psaQuoteWhatsAppUrl(label)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-accent-secondary hover:underline min-h-[44px] inline-flex items-center"
-                      >
-                        {copy.quoteLink}
-                      </a>
+                      <span className="text-text-muted">—</span>
                     )}
                   </td>
                   <td className="px-5 py-3 font-mono font-tabular text-text-secondary">
@@ -76,6 +97,19 @@ export default function PsaPricingTable({ copy }: Props) {
       </p>
       <p className="text-xs text-text-muted leading-relaxed max-w-3xl">{copy.footnote1}</p>
       <p className="text-xs text-text-muted leading-relaxed max-w-3xl">{copy.footnote2}</p>
+
+      <div className="panel-raised p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <p className="text-sm text-text-secondary">{copy.bookFooter}</p>
+        <a
+          href={PSA_SUBMISSION_APPOINTMENT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-primary shrink-0 min-h-[44px]"
+        >
+          <CalendarDays className="w-4 h-4" aria-hidden="true" />
+          <span>{copy.ctaBook}</span>
+        </a>
+      </div>
     </div>
   );
 }

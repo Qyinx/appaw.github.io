@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { CalendarDays } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
@@ -13,9 +14,15 @@ export type AvailabilityBannerCopy = {
 
 type Props = {
   copy: AvailabilityBannerCopy;
+  ctaHref?: string;
+  ctaIcon?: 'whatsapp' | 'calendar';
 };
 
-export default function ServiceAvailabilityBanner({ copy }: Props) {
+export default function ServiceAvailabilityBanner({
+  copy,
+  ctaHref = 'https://wa.me/85292851189',
+  ctaIcon = 'whatsapp',
+}: Props) {
   return (
     <aside
       className="service-availability-banner border-b border-border-default bg-surface-raised/90"
@@ -38,12 +45,16 @@ export default function ServiceAvailabilityBanner({ copy }: Props) {
             </p>
           </div>
           <a
-            href="https://wa.me/85292851189"
+            href={ctaHref}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-secondary shrink-0 min-h-[44px] self-start md:self-center"
           >
-            <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-accent-success" />
+            {ctaIcon === 'calendar' ? (
+              <CalendarDays className="w-4 h-4 text-accent-secondary" aria-hidden="true" />
+            ) : (
+              <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-accent-success" />
+            )}
             <span>{copy.ctaContact}</span>
           </a>
         </div>

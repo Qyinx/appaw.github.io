@@ -2528,6 +2528,20 @@ select option {
   }
 }
 
+/* PSA grading hub — grouped FAQ */
+.psa-grading-faq__group + .psa-grading-faq__group {
+  margin-top: 1.5rem;
+}
+
+.psa-grading-faq__group-label {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
 /* ── Color variant instrument (neo-brutalist + retro-tech) ── */
 .color-instrument {
   border-left: 4px solid var(--accent-primary);

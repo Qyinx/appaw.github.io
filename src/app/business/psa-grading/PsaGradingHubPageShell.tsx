@@ -4,6 +4,7 @@ import {
   buildPsaGradingHubStructuredData,
   type PsaGradingLocale,
 } from '@/lib/seo/psa-grading-structured-data';
+import { formatPsaTierPriceLine } from '@/lib/grading/psa-pricing';
 import PsaGradingHubClient from './PsaGradingHubClient';
 
 type Props = {
@@ -26,9 +27,7 @@ export default function PsaGradingHubPageShell({ locale = 'en' }: Props) {
           <p>
             {zhCopy.dropOff.title}: {zhCopy.dropOffAddress}. {zhCopy.dropOff.hoursNote}
           </p>
-          <p>
-            PSA 服務費：Regular HKD 890 · Express HKD 1900 · Super Express HKD 3600 · Walk-Through HKD 5900
-          </p>
+          <p>{formatPsaTierPriceLine('zh')}</p>
         </div>
       ) : null}
       <PsaGradingHubClient />

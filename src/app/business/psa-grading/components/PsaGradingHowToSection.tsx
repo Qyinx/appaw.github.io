@@ -2,10 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import LocalLink from '@/components/LocalLink';
-import { ArrowRight, Search } from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { ArrowRight, CalendarDays, Search } from 'lucide-react';
 import { PSA_HOW_TO_SCENES } from '@/lib/grading/how-to-scenes';
+import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 import type { Translations } from '@/i18n/en';
 import PsaGradingHowToScrollBackground from './PsaGradingHowToScrollBackground';
 import PsaGradingWorkflowTimeline from './PsaGradingWorkflowTimeline';
@@ -52,20 +51,20 @@ export default function PsaGradingHowToSection({ badge, hero, howTo, aeo }: Prop
         </div>
       ) : null}
       <div className="flex flex-wrap gap-3 mt-4">
-        <LocalLink href="/business/psa-grading/track" className="btn btn-primary group min-h-[44px]">
+        <a
+          href={PSA_SUBMISSION_APPOINTMENT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-primary group min-h-[44px]"
+        >
+          <CalendarDays className="w-4 h-4" aria-hidden="true" />
+          <span>{hero.ctaBook}</span>
+        </a>
+        <LocalLink href="/business/psa-grading/track" className="btn btn-secondary group min-h-[44px]">
           <Search className="w-4 h-4" aria-hidden="true" />
           <span>{hero.ctaTrack}</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-150" aria-hidden="true" />
         </LocalLink>
-        <a
-          href="https://wa.me/85292851189"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-secondary group min-h-[44px]"
-        >
-          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-accent-success" />
-          <span>{hero.ctaContact}</span>
-        </a>
       </div>
     </header>
   );

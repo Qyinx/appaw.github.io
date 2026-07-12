@@ -2,6 +2,9 @@
  * EN search query → ZH equivalent for titles, meta, and on-page copy.
  * @see docs/seo-pillars.md — Keyword mapping (EN ↔ ZH)
  */
+import { getPsaLowestDisplayFee } from '@/lib/grading/psa-pricing';
+
+const psaLowestDisplayFee = getPsaLowestDisplayFee();
 export const SEO_KEYWORD_MAP = {
   'PSA slab case': 'PSA卡殼',
   'graded card case': '鑑定卡殼',
@@ -128,7 +131,7 @@ export const PSA_GRADING_SEO = {
   en: {
     title: 'PSA Collectibles Submission Hong Kong | Appaw Store',
     description:
-      'Face-to-face PSA submission at 138 Arena, Causeway Bay. Service from HKD 890. Track batches with phone and reference code.',
+      `Book face-to-face PSA drop-off at 138 Arena, Causeway Bay. Service from HKD ${psaLowestDisplayFee}. Track batches with phone and BAT reference code.`,
     h1Keyword: 'We submit your collectibles to PSA',
     webAppName: 'PSA Submission Tracker',
     trackTitle: 'Track PSA Submission | Appaw Store',
@@ -146,7 +149,7 @@ export const PSA_GRADING_SEO = {
   zh: {
     title: 'PSA 收藏卡代送鑑定 | 香港 – Appaw Store',
     description:
-      '銅鑼灣 138 Arena 面交代送 PSA，服務費由 HKD 890 起。憑電話及參考編號查詢批次進度。',
+      `預約銅鑼灣 138 Arena 面交代送 PSA，服務費由 HKD ${psaLowestDisplayFee} 起。憑電話及 BAT 參考編號查詢批次進度。`,
     h1Keyword: 'PSA 收藏卡代送鑑定',
     webAppName: 'PSA 代送進度查詢',
     trackTitle: '查詢 PSA 代送進度 | Appaw Store',

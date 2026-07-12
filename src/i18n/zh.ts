@@ -247,6 +247,7 @@ export const zh: Translations = {
       chips: ['138 Arena', 'HKD 890 起', '僅限面交', '批次查詢'],
       cta: '了解代送服務',
       trackCta: '查詢批次',
+      bookCta: '預約交卡',
     },
     cardProtector: {
       title: '磁吸防UV鑑定卡保護殼',
@@ -744,15 +745,15 @@ export const zh: Translations = {
     lastUpdatedLabel: '最後更新',
     lastUpdated: '2026-07-12',
     availability: {
-      badge: '優先體驗',
-      title: '目前僅限受邀客戶',
-      body: 'PSA 代送鑑定現階段僅開放予受邀客戶。交卡及取件須親臨銅鑼灣 138 Arena，不接受郵寄。如需優先體驗，歡迎 WhatsApp 聯絡我們。',
-      ctaContact: 'WhatsApp 聯絡',
+      badge: '預約交卡',
+      title: '銅鑼灣 138 Arena 預約交卡時段',
+      body: '僅限面交交卡及取件，不接受郵寄。交卡前請先選好 PSA 服務等級。',
+      ctaContact: '預約交卡',
     },
     aeo: {
       title: '如何在香港送卡牌至 PSA 鑑定？',
       answer:
-        '請親臨銅鑼灣 138 Arena 交收寶可夢、運動卡或 MTG 裸卡／套袋卡。Appaw 按您選擇的等級代送 PSA（服務費由 HKD 890 起）。憑收據上的電話號碼及 BAT 參考編號查詢每批進度。',
+        '先預約銅鑼灣 138 Arena 交卡時段，再親臨交收寶可夢、運動卡或 MTG 裸卡／套袋卡。Appaw 按您選擇的等級代送 PSA。憑收據上的電話號碼及 BAT 參考編號查詢每批進度。',
     },
     whoThisIsFor: {
       title: '適合對象',
@@ -777,13 +778,34 @@ export const zh: Translations = {
       title: 'PSA 收藏卡代送鑑定',
       definition:
         '我們提供 PSA 鑑定代送服務，每批可網上追溯進度。卡磚返港後通知取件，讓收藏獲得 PSA 官方評級，讓你交託時更安心。',
+      ctaBook: '預約交卡',
       ctaTrack: '查詢進度',
-      ctaContact: 'WhatsApp 聯絡',
     },
     chapters: {
       pricing: '價目',
       howTo: '流程',
+      book: '預約',
       faq: '常見問題',
+    },
+    bookSection: {
+      badge: '預約交卡',
+      title: '預約前準備',
+      checklistTitle: '準備清單',
+      checklistItems: [
+        '選好 PSA 服務等級 — 見下方價目表。',
+        '卡牌已套袋，並備妥書面清單供收件核對。',
+        '帶備聯絡電話 — 收據上的號碼用於查詢進度。',
+      ],
+      locationTitle: '138 Arena',
+      directionsLink: '查看路線',
+      ctaBook: '預約交卡',
+      questionsPrefix: '有疑問？',
+      questionsWhatsApp: 'WhatsApp 聯絡',
+    },
+    mobileSticky: {
+      label: '快捷操作',
+      book: '預約',
+      track: '查詢',
     },
     quotes: {
       prev: '上一則',
@@ -836,34 +858,81 @@ export const zh: Translations = {
     faq: {
       badge: '常見問題',
       title: '常見問題',
-      items: [
+      subtitle: '預約、查詢進度及費用 — 138 Arena 交卡前後必讀。',
+      statLabel: '個常見問題',
+      quickLinks: {
+        title: '快捷連結',
+        book: '預約交卡',
+        track: '查詢進度',
+        pricing: 'PSA 服務等級',
+      },
+      groups: [
         {
-          q: '如何查詢代送進度？',
-          a: '在「查詢進度」頁輸入收據上的電話號碼及參考編號。兩者缺一不可，我們不會僅憑電話公開委託資料。',
+          id: 'booking',
+          label: '預約與交卡',
+          items: [
+            {
+              q: '如何預約交卡？',
+              a: '按「預約交卡」按鈕選擇銅鑼灣 138 Arena 時段。僅限面交，不接受郵寄。交卡前請先查閱準備清單及 PSA 服務等級。',
+            },
+            {
+              q: '在哪裡交卡及取件？',
+              a: '僅限 138 Arena 面交交卡及取件，不接受郵寄。營業時間見 Instagram @138arena。',
+            },
+            {
+              q: '接受哪些卡牌？',
+              a: '寶可夢、運動卡、MTG 及 One Piece（海賊王）裸卡或套袋卡。高價值卡牌或需額外申報文件。可先預約交卡，交卡前有疑問可 WhatsApp 聯絡我們。',
+            },
+          ],
         },
         {
-          q: '一次交卡有多個 PSA 方案？',
-          a: '每個服務等級有獨立 BAT 批次。請用相同電話分別查詢。',
+          id: 'tracking',
+          label: '進度查詢',
+          items: [
+            {
+              q: '如何查詢代送進度？',
+              a: '在「查詢進度」頁輸入收據上的電話號碼及參考編號。兩者缺一不可，我們不會僅憑電話公開委託資料。',
+            },
+            {
+              q: '一次交卡有多個 PSA 方案？',
+              a: '每個服務等級有獨立 BAT 批次。請用相同電話分別查詢。',
+            },
+            {
+              q: '時間軸各階段代表什麼？',
+              a: '「卡牌已於 138 Arena 登記」為收件。「已提交至 PSA 香港」為批次已送交 PSA。中間階段由 PSA 同步。「可於 138 Arena 取件」表示卡磚已返港。',
+            },
+          ],
         },
         {
-          q: '在哪裡交卡及取件？',
-          a: '僅限 138 Arena 面交交卡及取件，不接受郵寄。營業時間見 Instagram @138arena。',
-        },
-        {
-          q: '時間軸各階段代表什麼？',
-          a: '「卡牌已於 138 Arena 登記」為收件。「已提交至 PSA 香港」為批次已送交 PSA。中間階段由 PSA 同步。「可於 138 Arena 取件」表示卡磚已返港。',
-        },
-        {
-          q: '接受哪些卡牌？',
-          a: '寶可夢、運動卡及 MTG 裸卡或套袋卡。高價值卡牌或需額外申報文件，交卡前請先聯絡我們。',
+          id: 'fees',
+          label: '費用與加價',
+          items: [
+            {
+              q: '為什麼會被 PSA upcharge？',
+              a: '當你的卡片鑑定出高分（如 PSA 10）或市場價值飆升，超出當初申報的「最高申報價值」時，PSA 會收取 Upcharge（加價費用）以補足鑑定費差額。若發生加價，我們會聯絡你並提供兩個處理方案（見下一題）。',
+            },
+            {
+              q: '當其中一張卡片被 PSA upcharge 時，我可以採取什麼措施？',
+              a: {
+                intro: '我們會向客戶提供 2 個方案：',
+                options: [
+                  '補繳新方案費用以取回該卡片，同時獲贈 PSA 防 UV 保護殼（顏色隨機）。',
+                  '將該卡片擁有權轉移至 Appaw Store，客戶可獲退還原有方案 50% 鑑定費用。',
+                ],
+              },
+            },
+          ],
         },
       ],
     },
     cta: {
-      title: '交卡前有疑問？',
-      body: '可參閱 PSA 評級標準指南，或 WhatsApp 聯絡我們。',
+      title: '準備送鑑？',
+      body: '預約交卡時段，再憑收據上的電話號碼及 BAT 參考編號查詢批次進度。',
+      book: '預約交卡',
       track: '查詢進度',
       guide: 'PSA 評級標準',
+      questionsPrefix: '有疑問？',
+      questionsWhatsApp: 'WhatsApp 聯絡',
     },
     pricing: {
       badge: '價目',
@@ -873,7 +942,9 @@ export const zh: Translations = {
       colFee: '收費 (HKD)',
       colMaxValue: '最高申報價值',
       colTurnaround: '鑑定期',
-      quoteLink: 'WhatsApp 查詢',
+      ctaBook: '預約交卡',
+      bookFooter: '準備好交卡？',
+      listPriceLabel: '原價 {price}',
       days: '{days} 個工作天',
       footnote1: '價格或會因應官方調整而更改，恕不另行通知。',
       footnote2: '若評級後價值超過所選服務的最高申報價值，PSA 有權升級服務等級並收取差價。',
@@ -908,7 +979,7 @@ export const zh: Translations = {
       fillDemo: '填入示範資料',
       fillDemoShort: '使用示範',
       notFoundTitle: '找不到委託紀錄',
-      notFoundBody: '請確認電話號碼及參考編號與收據一致。如需協助請 WhatsApp 聯絡我們。',
+      notFoundBody: '請確認電話號碼及參考編號與收據一致。如有疑問可 WhatsApp 聯絡我們。',
       pricingLink: 'PSA 服務等級及收費',
     },
     guide: {

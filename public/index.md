@@ -16,7 +16,7 @@
 
 ## PSA submission (Hong Kong)
 
-[PSA Collectibles Submission](https://appaw.store/business/psa-grading/) — invited customers only for now. Face-to-face drop-off and pickup at 138 Arena, Causeway Bay. Appaw submits to PSA on your behalf. Service tiers from **HKD 890** (REG) · 1900 (EXP) · 3600 (SPX) · 5900 (WALK). No mailed submissions.
+[PSA Collectibles Submission](https://appaw.store/business/psa-grading/) — face-to-face drop-off and pickup at 138 Arena, Causeway Bay. [Book a drop-off slot](https://calendar.app.google/zq1mn6H7d8GGtQpq9). Appaw submits to PSA on your behalf. Service tiers from **HKD 850** (REG) · 1800 (EXP) · 3400 (SPX) · 5500 (WALK). No mailed submissions.
 
 [Track submission](https://appaw.store/business/psa-grading/track/) — batch status lookup with phone number + BAT reference code from your receipt.
 

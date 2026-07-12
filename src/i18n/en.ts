@@ -246,6 +246,7 @@ export const en = {
       chips: ['138 Arena', 'From HKD 890', 'Face-to-face only', 'Batch tracking'],
       cta: 'View submission hub',
       trackCta: 'Track a batch',
+      bookCta: 'Book drop-off',
     },
     cardProtector: {
       title: 'Graded Slab UV Glass Protector',
@@ -744,15 +745,15 @@ export const en = {
     lastUpdatedLabel: 'Last updated',
     lastUpdated: '2026-07-12',
     availability: {
-      badge: 'Early access',
-      title: 'Currently available to invited customers only',
-      body: 'PSA submission is open to invited customers for now. Drop off and pick up in person at 138 Arena, Causeway Bay — no mailed submissions. WhatsApp us if you would like early access.',
-      ctaContact: 'WhatsApp us',
+      badge: 'Book drop-off',
+      title: 'Pick a time at 138 Arena, Causeway Bay',
+      body: 'Face-to-face drop-off and pickup only — no mailed submissions. Choose your PSA tier before you arrive.',
+      ctaContact: 'Book appointment',
     },
     aeo: {
       title: 'How do I submit cards to PSA in Hong Kong?',
       answer:
-        'Bring raw or sleeved Pokémon, sports, or MTG cards to 138 Arena in Causeway Bay. Appaw submits to PSA on your chosen tier (from HKD 890). Track each batch with the phone number and BAT reference code on your receipt.',
+        'Book a drop-off slot at 138 Arena in Causeway Bay, then bring raw or sleeved Pokémon, sports, MTG, or One Piece cards on your chosen tier (from HKD 850). Track each batch with the phone number and BAT reference code on your receipt.',
     },
     whoThisIsFor: {
       title: 'Who this service is for',
@@ -777,13 +778,34 @@ export const en = {
       title: 'We submit your collectibles to PSA',
       definition:
         'PSA grading submission with online progress tracking for every batch. We notify you when slabs return — official PSA grades for your collection, so you can send cards with confidence.',
+      ctaBook: 'Book drop-off',
       ctaTrack: 'Track progress',
-      ctaContact: 'WhatsApp us',
     },
     chapters: {
       pricing: 'Pricing',
       howTo: 'How it works',
+      book: 'Book',
       faq: 'FAQ',
+    },
+    bookSection: {
+      badge: 'Book drop-off',
+      title: 'Before you book',
+      checklistTitle: 'Prep checklist',
+      checklistItems: [
+        'Pick your PSA service tier — see Pricing below.',
+        'Cards sleeved with a written list ready for intake.',
+        'Bring a contact number — it appears on your receipt for tracking.',
+      ],
+      locationTitle: '138 Arena',
+      directionsLink: 'Get directions',
+      ctaBook: 'Book appointment',
+      questionsPrefix: 'Questions?',
+      questionsWhatsApp: 'WhatsApp us',
+    },
+    mobileSticky: {
+      label: 'Quick actions',
+      book: 'Book',
+      track: 'Track',
     },
     quotes: {
       prev: 'Previous quote',
@@ -836,34 +858,81 @@ export const en = {
     faq: {
       badge: 'FAQ',
       title: 'Common questions',
-      items: [
+      subtitle: 'Booking, tracking, and fees — before and after your drop-off at 138 Arena.',
+      statLabel: 'questions answered',
+      quickLinks: {
+        title: 'Quick links',
+        book: 'Book appointment',
+        track: 'Track submission',
+        pricing: 'PSA service tiers',
+      },
+      groups: [
         {
-          q: 'How do I track my submission?',
-          a: 'Use the Track page with the phone number and reference code from your receipt. Both are required. We never expose submissions by phone alone.',
+          id: 'booking',
+          label: 'Booking & drop-off',
+          items: [
+            {
+              q: 'How do I book a drop-off?',
+              a: 'Use the Book appointment button to pick a time at 138 Arena, Causeway Bay. Face-to-face only — no mailed submissions. Review the prep checklist and PSA tiers before you arrive.',
+            },
+            {
+              q: 'Where do I drop off and pick up?',
+              a: '138 Arena only. Face-to-face drop-off and pickup. No mailed submissions. Hours on Instagram @138arena.',
+            },
+            {
+              q: 'What cards do you accept?',
+              a: 'Pokémon, sports cards, MTG, and One Piece in raw or sleeved form. High-value items may need extra declared-value paperwork. Book a slot and ask us on WhatsApp if you have questions before drop-off.',
+            },
+          ],
         },
         {
-          q: 'Multiple PSA plans in one visit?',
-          a: 'Each service level gets its own BAT batch. Track each batch with the same phone number.',
+          id: 'tracking',
+          label: 'Tracking your batch',
+          items: [
+            {
+              q: 'How do I track my submission?',
+              a: 'Use the Track page with the phone number and reference code from your receipt. Both are required. We never expose submissions by phone alone.',
+            },
+            {
+              q: 'Multiple PSA plans in one visit?',
+              a: 'Each service level gets its own BAT batch. Track each batch with the same phone number.',
+            },
+            {
+              q: 'What do the timeline steps mean?',
+              a: '"Card Recorded at 138 Arena" is intake. "Submitted to PSA Hong Kong" means your batch left for PSA. Middle steps sync from PSA. "Ready for Pickup at 138 Arena" means slabs are back.',
+            },
+          ],
         },
         {
-          q: 'Where do I drop off and pick up?',
-          a: '138 Arena only. Face-to-face drop-off and pickup. No mailed submissions. Hours on Instagram @138arena.',
-        },
-        {
-          q: 'What do the timeline steps mean?',
-          a: '"Card Recorded at 138 Arena" is intake. "Submitted to PSA Hong Kong" means your batch left for PSA. Middle steps sync from PSA. "Ready for Pickup at 138 Arena" means slabs are back.',
-        },
-        {
-          q: 'What cards do you accept?',
-          a: 'Pokémon, sports cards, and MTG in raw or sleeved form. High-value items may need extra declared-value paperwork. Contact us before drop-off.',
+          id: 'fees',
+          label: 'Fees & upcharges',
+          items: [
+            {
+              q: 'Why does PSA upcharge?',
+              a: 'When your card grades high (e.g. PSA 10) or its market value exceeds the declared-value cap for your chosen tier, PSA charges an upcharge to cover the grading fee difference. If this happens, we will contact you with two options — see the next question.',
+            },
+            {
+              q: 'What can I do if my card gets upcharged?',
+              a: {
+                intro: 'We offer two options:',
+                options: [
+                  'Pay the upgraded tier fee to receive the graded card, plus a complimentary PSA UV-protector case (random color).',
+                  'Transfer ownership of the card to Appaw Store and receive a 50% refund of your original tier grading fee.',
+                ],
+              },
+            },
+          ],
         },
       ],
     },
     cta: {
-      title: 'Questions before drop-off?',
-      body: 'Read our PSA grading standards guide or message us on WhatsApp.',
+      title: 'Ready to submit?',
+      body: 'Book a drop-off slot, then track your batch with the phone number and BAT reference on your receipt.',
+      book: 'Book appointment',
       track: 'Track submission',
       guide: 'PSA grading standards',
+      questionsPrefix: 'Questions?',
+      questionsWhatsApp: 'WhatsApp us',
     },
     pricing: {
       badge: 'Pricing',
@@ -873,7 +942,9 @@ export const en = {
       colFee: 'Fee (HKD)',
       colMaxValue: 'Max declared value',
       colTurnaround: 'Turnaround',
-      quoteLink: 'WhatsApp for quote',
+      ctaBook: 'Book appointment',
+      bookFooter: 'Ready to drop off?',
+      listPriceLabel: 'List price {price}',
       days: '{days} business days',
       footnote1: 'Fees may change without notice.',
       footnote2:
@@ -909,7 +980,7 @@ export const en = {
       fillDemo: 'Fill demo credentials',
       fillDemoShort: 'Use demo',
       notFoundTitle: 'No submission found',
-      notFoundBody: 'Check your phone number and reference code match your receipt exactly. Contact us on WhatsApp if you need help.',
+      notFoundBody: 'Check your phone number and reference code match your receipt exactly. WhatsApp us if you have questions.',
       pricingLink: 'PSA service tiers & fees',
     },
     guide: {

@@ -1,9 +1,12 @@
 import type { GradingServicePlan } from './reference-code';
-import { GRADING_SERVICE_PLAN_CODES } from './reference-code';
+import { GRADING_SERVICE_PLAN_CODES, GRADING_SERVICE_PLAN_LABELS } from './reference-code';
 
 export type PsaPricingRow = {
   plan: GradingServicePlan;
+  /** List / standard Appaw service fee (HKD). */
   feeHkd: number | null;
+  /** Optional promotional fee — when set and lower than feeHkd, table shows discount + struck list price. */
+  discountedFeeHkd: number | null;
   maxDeclaredValueUsd: number;
   turnaroundDays: string;
 };
@@ -11,17 +14,37 @@ export type PsaPricingRow = {
 /** PSA tier data — Appaw HKD service fees. */
 export const PSA_PRICING_ROWS: PsaPricingRow[] = GRADING_SERVICE_PLAN_CODES.map((plan) => {
   const byPlan: Record<GradingServicePlan, Omit<PsaPricingRow, 'plan'>> = {
-    REG: { feeHkd: 890, maxDeclaredValueUsd: 1500, turnaroundDays: '40–50' },
-    EXP: { feeHkd: 1900, maxDeclaredValueUsd: 2500, turnaroundDays: '20–30' },
-    SPX: { feeHkd: 3600, maxDeclaredValueUsd: 5000, turnaroundDays: '7–10' },
-    WALK: { feeHkd: 5900, maxDeclaredValueUsd: 10000, turnaroundDays: '7' },
+    REG: { feeHkd: 890, discountedFeeHkd: 850, maxDeclaredValueUsd: 1500, turnaroundDays: '~40–50' },
+    EXP: { feeHkd: 1900, discountedFeeHkd: 1800, maxDeclaredValueUsd: 2500, turnaroundDays: '~20–30' },
+    SPX: { feeHkd: 3600, discountedFeeHkd: 3400, maxDeclaredValueUsd: 5000, turnaroundDays: '~7–10' },
+    WALK: { feeHkd: 5900, discountedFeeHkd: 5500, maxDeclaredValueUsd: 10000, turnaroundDays: '~7' },
   };
   return { plan, ...byPlan[plan] };
 });
 
-const WHATSAPP_NUMBER = '85292851189';
+/** Effective fee shown in pricing table and SEO — promo when set and lower than list. */
+export function getPsaDisplayFee(row: PsaPricingRow): number {
+  if (row.feeHkd == null) return 0;
+  if (
+    row.discountedFeeHkd != null &&
+    row.discountedFeeHkd > 0 &&
+    row.discountedFeeHkd < row.feeHkd
+  ) {
+    return row.discountedFeeHkd;
+  }
+  return row.feeHkd;
+}
 
-export function psaQuoteWhatsAppUrl(planLabel: string): string {
-  const text = encodeURIComponent(`PSA ${planLabel} quote`);
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+export function getPsaLowestDisplayFee(): number {
+  return Math.min(
+    ...PSA_PRICING_ROWS.filter((row) => row.feeHkd != null).map((row) => getPsaDisplayFee(row)),
+  );
+}
+
+export function formatPsaTierPriceLine(locale: 'en' | 'zh'): string {
+  const prefix = locale === 'zh' ? 'PSA 服務費：' : 'PSA service fees: ';
+  const parts = PSA_PRICING_ROWS.filter((row) => row.feeHkd != null).map(
+    (row) => `${GRADING_SERVICE_PLAN_LABELS[row.plan]} HKD ${getPsaDisplayFee(row)}`,
+  );
+  return prefix + parts.join(' · ');
 }

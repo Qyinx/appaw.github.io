@@ -6,7 +6,7 @@ import LocalLink from '@/components/LocalLink';
 import {
   Shield, ArrowRight, CheckCircle, XCircle,
   Eye, Lock,
-  Star, Package, TrendingUp, Users, Search,
+  Star, Package, TrendingUp, Users, Search, CalendarDays,
 } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -18,6 +18,7 @@ import Reveal from '@/components/ui/Reveal';
 import { MotionStagger } from '@/components/ui/Reveal';
 import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import { protectorPriceLabels } from '@/lib/products/protector-pricing';
+import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 
 /* ─── Section label — use globals .section-label ─── */
 function SectionLabel({ text, variant = 'brand' }: { text: string; variant?: 'brand' | 'link' }) {
@@ -328,9 +329,17 @@ export default function BusinessClient() {
                 </div>
               </Reveal>
               <Reveal visible={gradingRef.visible} dir="left" delay={160}>
-                <div className="flex flex-wrap items-center gap-5">
-                  <LocalLink href="/business/psa-grading" className="btn btn-primary">
-                    <Search className="w-3.5 h-3.5" />
+                <div className="flex flex-wrap items-center gap-3">
+                  <a
+                    href={PSA_SUBMISSION_APPOINTMENT_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary"
+                  >
+                    <CalendarDays className="w-3.5 h-3.5" />
+                    {t.business.psaGrading.bookCta}
+                  </a>
+                  <LocalLink href="/business/psa-grading" className="btn btn-secondary">
                     {t.business.psaGrading.cta}
                   </LocalLink>
                   <LocalLink href="/business/psa-grading/track" className="btn btn-secondary">

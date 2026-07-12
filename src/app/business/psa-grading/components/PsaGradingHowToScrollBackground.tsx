@@ -15,7 +15,7 @@ export default function PsaGradingHowToScrollBackground() {
         >
           <img
             src={scene.src}
-            alt=""
+            alt={scene.alt}
             className="how-to-scroll-bg__img"
             data-how-to-scene-img={index}
             loading={index === 0 ? 'eager' : 'lazy'}

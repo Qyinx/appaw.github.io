@@ -1,6 +1,8 @@
+import { flattenPsaFaqItems } from '@/lib/grading/psa-faq-types';
+import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 import { en, zh } from '@/i18n';
 import { GRADING_SERVICE_PLAN_LABELS } from '@/lib/grading/reference-code';
-import { PSA_PRICING_ROWS } from '@/lib/grading/psa-pricing';
+import { PSA_PRICING_ROWS, getPsaDisplayFee } from '@/lib/grading/psa-pricing';
 import { PSA_GRADING_SEO } from '@/lib/product-names';
 import { SITE_ORIGIN } from '@/lib/seo/brand';
 import {
@@ -39,14 +41,38 @@ export function buildPsaGradingHubStructuredData(locale: PsaGradingLocale) {
     provider: { '@type': 'Organization', name: 'Appaw Store', url: SITE_ORIGIN },
     serviceType: 'PSA Grading Submission',
     areaServed: { '@type': 'City', name: 'Hong Kong' },
-    offers: PSA_PRICING_ROWS.filter((row) => row.feeHkd != null).map((row) => ({
-      '@type': 'Offer',
-      name: `PSA ${GRADING_SERVICE_PLAN_LABELS[row.plan]}`,
-      price: String(row.feeHkd),
-      priceCurrency: 'HKD',
-      url: `${url}#pricing`,
-      availability: 'https://schema.org/LimitedAvailability',
-    })),
+    offers: PSA_PRICING_ROWS.filter((row) => row.feeHkd != null).map((row) => {
+      const listFee = row.feeHkd!;
+      const displayFee = getPsaDisplayFee(row);
+      const hasDiscount =
+        row.discountedFeeHkd != null &&
+        row.discountedFeeHkd > 0 &&
+        row.discountedFeeHkd < listFee;
+
+      return {
+        '@type': 'Offer',
+        name: `PSA ${GRADING_SERVICE_PLAN_LABELS[row.plan]}`,
+        price: String(displayFee),
+        priceCurrency: 'HKD',
+        url: `${url}#pricing`,
+        availability: 'https://schema.org/InStock',
+        ...(hasDiscount
+          ? {
+              priceSpecification: {
+                '@type': 'UnitPriceSpecification',
+                price: String(listFee),
+                priceCurrency: 'HKD',
+                priceType: 'https://schema.org/ListPrice',
+              },
+            }
+          : {}),
+      };
+    }),
+    potentialAction: {
+      '@type': 'ReserveAction',
+      target: PSA_SUBMISSION_APPOINTMENT_URL,
+      name: locale === 'zh' ? '預約交卡' : 'Book drop-off',
+    },
   });
 
   const breadcrumb = breadcrumbJsonLd([
@@ -66,7 +92,7 @@ export function buildPsaGradingHubStructuredData(locale: PsaGradingLocale) {
     })),
   });
 
-  const faq = faqJsonLd(copy.faq.items);
+  const faq = faqJsonLd(flattenPsaFaqItems(copy.faq.groups));
 
   const webPage = webPageJsonLd({
     name: seo.title,
@@ -75,7 +101,7 @@ export function buildPsaGradingHubStructuredData(locale: PsaGradingLocale) {
     dateModified: seo.lastUpdated,
     speakable: {
       '@type': 'SpeakableSpecification',
-      cssSelector: ['.psa-grading-aeo-answer'],
+      cssSelector: ['.psa-grading-aeo-answer', '.guide-aeo-answer'],
     },
   });
 
