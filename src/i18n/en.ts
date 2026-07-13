@@ -747,18 +747,18 @@ export const en = {
     availability: {
       badge: 'Book drop-off',
       title: 'Pick a time at 138 Arena, Causeway Bay',
-      body: 'Face-to-face drop-off and pickup only — no mailed submissions. Choose your PSA tier before you arrive.',
+      body: 'Face-to-face drop-off and pickup only — no mailed submissions.',
       ctaContact: 'Book appointment',
     },
     aeo: {
       title: 'How do I submit cards to PSA in Hong Kong?',
       answer:
-        'Hong Kong TCG collectors book a drop-off slot at 138 Arena in Causeway Bay, then bring raw or sleeved Pokémon, One Piece, sports, or MTG cards on your chosen tier (from HKD 850). Appaw coordinates PSA submission. Track each batch with the phone number and BAT reference code on your receipt.',
+        'Hong Kong TCG collectors book a drop-off slot at 138 Arena in Causeway Bay, then bring raw or sleeved Pokémon, One Piece, sports, or MTG cards. Appaw confirms your tier on-site and coordinates PSA submission. Track each batch with the phone number and BAT reference code on your receipt.',
     },
     whoThisIsFor: {
       title: 'Who this service is for',
       body:
-        'Hong Kong TCG collectors submitting Pokémon TCG, One Piece, sports cards, or Magic: The Gathering to PSA. Raw or sleeved cards welcome. High-value submissions may need extra declared-value paperwork. Check centering before you pay grading fees.',
+        'Hong Kong TCG collectors submitting Pokémon TCG, One Piece, sports cards, or Magic: The Gathering to PSA. Raw or sleeved cards welcome. Appaw helps confirm tier and intake on-site. Optional: check centering with the free tool if you have time.',
     },
     dropOff: {
       title: 'Drop-off location',
@@ -790,12 +790,12 @@ export const en = {
     },
     bookSection: {
       badge: 'Book drop-off',
-      title: 'Before you book',
-      checklistTitle: 'Prep checklist',
+      title: 'Before you arrive',
+      checklistTitle: 'Before you arrive',
       checklistItems: [
-        'Pick your PSA service tier — see Pricing below.',
-        'Cards sleeved with a written list ready for intake.',
-        'Bring a contact number — it appears on your receipt for tracking.',
+        'Bring your cards and a contact number. Sleeve cards for travel to avoid scratches.',
+        'PSA tier and declared value — Appaw confirms on-site (preview Pricing below if you like).',
+        'Receipt phone number and BAT reference code for batch status lookup.',
       ],
       locationTitle: '138 Arena',
       directionsLink: 'Get directions',
@@ -878,7 +878,7 @@ export const en = {
             },
             {
               q: 'How do I book a drop-off?',
-              a: 'Use the Book appointment button to pick a time at 138 Arena, Causeway Bay. Face-to-face only — no mailed submissions. Review the prep checklist and PSA tiers before you arrive.',
+              a: 'Use the Book appointment button to pick a time at 138 Arena, Causeway Bay. Face-to-face only — no mailed submissions. Bring your cards; Appaw confirms tier and intake on-site.',
             },
             {
               q: 'Where do I drop off and pick up?',

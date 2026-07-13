@@ -749,18 +749,18 @@ export const zh: Translations = {
     availability: {
       badge: '預約交卡',
       title: '銅鑼灣 138 Arena 預約交卡時段',
-      body: '僅限面交評估卡況及提交鑑定及取件，不接受郵寄。提交卡牌前請先選好 PSA 服務等級。',
+      body: '僅限面交評估卡況及提交鑑定及取件，不接受郵寄。',
       ctaContact: '預約交卡',
     },
     aeo: {
       title: '如何在香港為 TCG 卡牌提交 PSA 鑑定？',
       answer:
-        '香港 TCG 收藏家可先預約銅鑼灣 138 Arena 面交時段，再親臨提交寶可夢、One Piece、運動卡或 MTG 裸卡／套袋卡。Appaw 按您選擇的等級代送 PSA。憑收據上的電話號碼及 BAT 參考編號查看每批現有進度。',
+        '香港 TCG 收藏家可先預約銅鑼灣 138 Arena 面交時段，再親臨提交寶可夢、One Piece、運動卡或 MTG 裸卡／套袋卡。Appaw 現場協助確認服務等級並代送 PSA。憑收據上的電話號碼及 BAT 參考編號查看每批現有進度。',
     },
     whoThisIsFor: {
       title: '適合對象',
       body:
-        '欲提交鑑定的香港藏家：寶可夢 TCG、One Piece、運動卡或 Magic: The Gathering。接受裸卡或套袋卡。高價值卡牌或需額外申報文件。支付鑑定費用前可先以置中工具檢查。',
+        '欲提交鑑定的香港藏家：寶可夢 TCG、One Piece、運動卡或 Magic: The Gathering。接受裸卡或套袋卡；Appaw 現場協助確認服務等級與收件。有時間可先以免費置中工具自行檢查。',
     },
     dropOff: {
       title: '提交卡牌地點',
@@ -792,12 +792,12 @@ export const zh: Translations = {
     },
     bookSection: {
       badge: '預約交卡',
-      title: '預約前準備',
-      checklistTitle: '準備清單',
+      title: '預約交卡須知',
+      checklistTitle: '預約交卡須知',
       checklistItems: [
-        '選好 PSA 服務等級，見下方價目表。',
-        '卡牌已套袋，並備妥書面清單供收件核對。',
-        '帶備聯絡電話。收據上的號碼用於查看現有進度。',
+        '帶同卡牌與聯絡電話；運送途中請以卡套保護，避免刮損。',
+        'PSA 服務等級與申報價值，Appaw 現場會協助確認（可先參閱下方價目表）。',
+        '收據上的電話號碼及 BAT 參考編號，用於查看批次現有進度。',
       ],
       locationTitle: '138 Arena',
       directionsLink: '查看路線',
@@ -880,7 +880,7 @@ export const zh: Translations = {
             },
             {
               q: '如何預約提交卡牌？',
-              a: '按「預約交卡」按鈕選擇銅鑼灣 138 Arena 時段。僅限面交，不接受郵寄。提交卡牌前請先查閱準備清單及 PSA 服務等級。',
+              a: '按「預約交卡」按鈕選擇銅鑼灣 138 Arena 時段。僅限面交，不接受郵寄。預約後帶同卡牌到店即可；服務等級與收件清單由 Appaw 現場協助確認。',
             },
             {
               q: '在哪裡提交卡牌及取件？',
