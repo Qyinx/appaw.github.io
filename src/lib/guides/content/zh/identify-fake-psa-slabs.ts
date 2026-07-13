@@ -7,11 +7,11 @@ const guide: GuideContent = {
   lead:
     '證書查詢通過不代表真品。高仿常盜用真實認證編號。以下五步實物檢查，才是證書查詢顯示「有效」之後該做的。',
   published: '2026-06-08',
-  updated: '2026-07-12',
+  updated: '2026-07-13',
   readTime: '12 分鐘',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
-    { label: '核心原則', value: '多重交叉檢查，勿單信一步' },
+    { label: '核心原則', value: '多重交叉檢查，請勿單憑一步定論' },
     { label: '盜用編號', value: '查詢通過，實物仍可能假' },
     { label: 'UV 分水嶺', value: '編號 #43 後正面隱藏字' },
     { label: '第一步', value: '[psacard.com/cert](https://www.psacard.com/cert) 查證' },
@@ -30,7 +30,7 @@ const guide: GuideContent = {
       title: '第一步：線上認證查詢',
       paragraphs: [
         '每張 PSA 鑑定卡標籤都印有 Certification Number（認證編號）。',
-        '前往 PSA 官方認證查詢頁：[psacard.com/cert](https://www.psacard.com/cert)。自行輸入網址，勿信任賣家截圖中的連結或 QR 碼。',
+        '前往 PSA 官方認證查詢頁：[psacard.com/cert](https://www.psacard.com/cert)。自行輸入網址，請勿信任賣家截圖中的連結或 QR 碼。',
         '輸入編號後，確認查詢結果與實物完全匹配：卡片照片（含邊角磨損、瑕疵位置）、年份、球員/角色名稱、等級（Grade）、特殊標記（如 1st Edition、Rookie 等）。',
         '若網站回傳「找不到證書編號」，立即停止。若查詢顯示 1986 Fleer Jordan，你手上卻是 2023 寶可夢，代表編號被盜用。截圖保存查詢結果，付款前完成此步。',
       ],
@@ -149,7 +149,7 @@ const guide: GuideContent = {
         {
           title: '2021 退市過渡期：CLCT → PSA 小字',
           paragraphs: [
-            '27xxxxxx 之後標籤具備 LightHouse™ 雙色反射，視覺效果大致相若。PSA 母公司 2021 年初私有化、自納斯達克退市後，標籤內微型小字（Microtext）在 4xxxxxxx～5xxxxxxx 區間逐步由「NASDAQ : CLCT」改為「PSA」。兩個編號段內皆曾見 CLCT 與 PSA 並存，無固定切點，須放大實測，勿單靠證書編號推斷。',
+            '27xxxxxx 之後標籤具備 LightHouse™ 雙色反射，視覺效果大致相若。PSA 母公司 2021 年初私有化、自納斯達克退市後，標籤內微型小字（Microtext）在 4xxxxxxx～5xxxxxxx 區間逐步由「NASDAQ : CLCT」改為「PSA」。兩個編號段內皆曾見 CLCT 與 PSA 並存，無固定切點，須放大實測，請勿單憑證書編號推斷。',
           ],
         },
         {
@@ -255,7 +255,7 @@ const guide: GuideContent = {
     title: '先查證，再加殼',
     body: '五步交叉驗證通過後，硬質外殼展示或運輸時防刮、防 UV。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: '裸卡到受保護鑑定卡：送鑑後加裝保護殼', href: '/guides/grade-or-protect-first/' },
+    secondary: { label: '裸卡到受保護鑑定卡：提交鑑定後加裝保護殼', href: '/guides/grade-or-protect-first/' },
   },
   relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
   sources: [

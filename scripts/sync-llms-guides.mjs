@@ -27,6 +27,8 @@ const TOPICS = {
     'PSA regrade vs reholder — comparison table, fees, downgrade risk, when to choose each',
   'psa-grading-standards':
     'PSA 1–10 grade scale, Qualifier codes (OC/ST/PD), and record sale premiums',
+  'hong-kong-tcg-grading-guide':
+    'Hong Kong TCG PSA proxy submission — 138 Arena face-to-face intake, BAT batch status lookup, centering pre-check',
 };
 
 const registry = readFileSync(registryPath, 'utf8');

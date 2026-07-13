@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: '鑑定卡防紫外線指南',
   badge: '保存',
   lead:
-    '鑑定殼雖已封裝，全息閃卡仍有風險。香港潮濕夏季加上窗邊陽光，兩個季節即可令追卡失去光澤。',
+    '鑑定殼雖然已封裝，全息閃卡仍有風險。香港潮濕夏季加上窗邊陽光，兩個季節即可令重點收藏的卡牌失去光澤。',
   published: '2026-06-07',
-  updated: '2026-07-12',
+  updated: '2026-07-13',
   readTime: '7 分鐘',
   heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
@@ -46,7 +46,7 @@ const guide: GuideContent = {
       paragraphs: [
         '鑑定殼封住了卡，但不是防潮箱。多年後濕氣仍會緩慢滲透鑑定殼。香港室內相對濕度大部分時間約 70–80%。超過 60% RH 時，開架存放的鑑定卡可能出現標籤起霧或全息閃卡面波紋。',
         '潮濕城市的收藏家通常以 45–55% RH 電子乾燥櫃存放鑑定卡磚。此範圍保持卡紙穩定，又不會過乾令邊角反捲。穩定比追求完美數值重要：一週內 40% 到 75% 的波動，比穩定 52% 傷害更大。',
-        '封閉盒內放矽膠乾燥劑對少量鑑定卡有效，但需定期再生。鑑定卡磚增多後，小型防潮箱（20–40 公升，可容納數十塊磚）是常見升級。',
+        '封閉盒內放矽膠乾燥劑對少量鑑定卡有效，但需要定期再更換。鑑定卡磚增多後，小型防潮箱（20–40 公升，可容納數十塊磚）是常見升級。',
       ],
       specs: [
         { label: '最佳儲存濕度', value: '45–55%' },
@@ -58,8 +58,8 @@ const guide: GuideContent = {
       id: 'daily-habits',
       title: '日常可做的習慣',
       paragraphs: [
-        '鑑定卡直立放在有襯墊的架子上，勿平放堆疊十層。重量加濕度變化會壓到最底層鑑定磚的外殼。',
-        '用超細纖維布擦拭外保護殼，勿用紙巾，紙巾會在壓克力上留下細刮痕。',
+        '鑑定卡直立放在有襯墊的架子上，請勿平放堆疊十層。重量加濕度變化會壓到最底層鑑定磚的外殼。',
+        '用超細纖維布擦拭外保護殼，請勿使用紙巾，紙巾會在壓克力上留下細刮痕。',
         '郵寄鑑定卡時，用氣泡膜包裹外保護殼，再放入硬質郵袋。若包裹到達時內層鑑定殼已裂，防 UV 和濕度控制都失去意義。',
       ],
     },
@@ -80,7 +80,7 @@ const guide: GuideContent = {
     title: '展示同時防曬',
     body: '鑑定卡保護殼採紫外線阻隔率 >95% 的玻璃，密封標準 35PT PSA / CGC 鑑定卡，適用於家庭或展覽展示。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: '裸卡到受保護鑑定卡：送鑑後加裝保護殼', href: '/guides/grade-or-protect-first/' },
+    secondary: { label: '裸卡到受保護鑑定卡：提交鑑定後加裝保護殼', href: '/guides/grade-or-protect-first/' },
   },
   relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],
   sources: [

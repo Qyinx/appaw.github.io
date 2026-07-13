@@ -46,6 +46,8 @@ export function storeJsonLd() {
       'PSA 10 centering requirements',
       'PSA submission Hong Kong',
       'PSA card submission proxy service',
+      'Hong Kong TCG grading submission',
+      'TCG card PSA proxy service',
     ],
     address: {
       '@type': 'PostalAddress',

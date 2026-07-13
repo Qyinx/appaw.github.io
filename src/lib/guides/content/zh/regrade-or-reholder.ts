@@ -5,7 +5,7 @@ const guide: GuideContent = {
   title: 'PSA 重新評級與更換新殼：何時選擇',
   badge: '鑑定卡流程',
   lead:
-    '鑑定殼出現刮痕，未必代表評分有問題。更換新殼（Reholder）更換外殼；重新評級（Regrade）重新評分。選錯服務，可能白付費用，或失去已有的 PSA 10。',
+    '鑑定殼出現刮痕，未必代表評分有問題。更換新殼（Reholder）更換外殼；重新評級（Regrade）重新評分。選錯服務，可能白白付出成本，或失去已有的 PSA 10。',
   published: '2026-06-13',
   updated: '2026-07-12',
   readTime: '9 分鐘',
@@ -22,7 +22,7 @@ const guide: GuideContent = {
       title: '為什麼選對服務很重要',
       paragraphs: [
         'PSA 鑑定卡外殼難免出現刮痕、霧化、邊角磨損或標籤褪色。Reholder 與 Regrade 是最常見的兩個選項，目的完全不同。',
-        'Reholder 更換外殼與標籤耗材，分數通常不變——像替鑑定卡換一件新外套。Regrade 重新審核全部品相面向，分數可能上升、維持或下降。外殼受損而分數滿意 → Reholder；願承擔降分風險追更高分 → Regrade。',
+        'Reholder 更換外殼與標籤耗材，分數通常不變，像替鑑定卡換一件新外套。Regrade 重新審核全部品相面向，分數可能上升、維持或下降。外殼受損而分數滿意可選 Reholder；願承擔降分風險追更高分可選 Regrade。',
       ],
       bridge: '先釐清 Reholder 做什麼、不做什麼。',
     },

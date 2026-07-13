@@ -19,11 +19,30 @@ Sitemap, static params, and index `ItemList` JSON-LD pick up new slugs automatic
 
 - UI/metadata language tag: `zh-HK`
 - Marketing terms: **鑑定卡 / 鑑定卡磚 / 鑑定卡保護殼** — not 評級卡
-- Action: **送鑑** for general PSA submission; **代送鑑定** for Appaw's Hong Kong proxy service (`/business/psa-grading/`) — not 評級 as generic verb
-- Avoid legacy **送評** in new copy (use 送鑑 or 代送鑑定 instead)
+- Action: **提交鑑定** for general PSA submission in body copy; **代送鑑定** / **PSA 收藏卡代送鑑定** for Appaw's Hong Kong proxy service (`/business/psa-grading/`) — not 評級 as generic verb
+- Avoid legacy **送評** and abbreviated **送鑑** in new body copy (meta keywords may keep search variants)
 - Centering: **置中** — not 居中
 - Avoid Simplified variants (保护壳, 鉴定卡, 视频, etc.)
 - **Register:** formal written Chinese (書面語) — not Cantonese colloquial (口語). Avoid 唔、嘅、喺、俾、睇、揀、點樣、搞反、chip/dull 等口語或中英夾雜
+- **Full phrases:** do not shorten for brevity. Examples: 查看現有進度 (not 查進度); 面交評估卡況及提交 (not 面交交卡); 請勿等待 (not 勿等); 白白付出成本 (not 白付費用)
+
+| Avoid (abbrev / vague) | Use (full 書面語) |
+|------------------------|-------------------|
+| 查進度 / 查詢進度 (body) | 查看現有進度 |
+| 追溯進度 | 於網上查看批次現有進度 |
+| 面交交卡 | 面交評估卡況及提交 |
+| 送鑑 / 付送鑑費 (body) | 提交鑑定 / 支付鑑定費用 |
+| 勿等 / 勿假設 | 請勿等待 / 請勿假設 |
+| 勿用 / 勿平放 / 勿以 / 勿信任 / 勿單… | 請勿使用 / 請勿平放 / 請勿以 / 請勿信任 / 請勿單憑… |
+| 雖已 / 雖進步（省略「然」） | 雖然已 / 雖然進步 |
+| 定期再生（矽膠乾燥劑） | 定期再更換 |
+| 追卡 | 重點收藏的卡牌 / 重點單張（依語境） |
+| 白付費用 / 費用白付 | 白白付出成本 |
+| 盲目送鑑 | 未完成置中評估前提交鑑定 |
+| 不稀奇 | 並不罕見 |
+| 一併損失 | 一併蒙受損失 |
+
+**UI short labels** (nav/buttons only): `預約交卡`, `查詢進度`, service name `PSA 代送鑑定`.
 
 Full glossary: [`seo-pillars.md`](seo-pillars.md) § Terminology policy (ZH).
 
@@ -42,7 +61,7 @@ Full glossary: [`seo-pillars.md`](seo-pillars.md) § Terminology policy (ZH).
 
 ## Voice
 
-- **Humanizer:** no em dashes in body copy; no AI filler (此外, crucial, landscape, etc.)
+- **Humanizer:** no em dashes in body copy; no AI filler (此外, crucial, landscape, etc.); remove marketing fluff (展館級, 媲美, 完美結合, 市面上最強) — replace with specs; **do not shorten sentences** for brevity
 - **Hooks:** cost / contrarian / proof — second sentence must carry a number or concrete check
 - **Avoid:** LinkedIn bait ("The brutal truth?"), fake urgency, "Complete Guide" title suffix
 

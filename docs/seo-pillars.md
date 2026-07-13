@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-07-12 (batch 9) — PSA submission hub + track SEO: indexable metadata, JSON-LD, sitemap, llms.txt, AEO blocks, homepage/business internal links.
+Last updated: 2026-07-13 (batch 10) — HK TCG grading keyword cluster; zh-HK full-phrase copy pass (guides-content.md).
+
+Prior batch (2026-07-12) — PSA submission hub + track SEO: indexable metadata, JSON-LD, sitemap, llms.txt, AEO blocks, homepage/business internal links.
 
 Prior batch (2026-07-02) — Protector recommended prices centralized in `src/lib/products/protector-pricing.ts` (HKD 82 single / 92 gradient).
 
@@ -20,6 +22,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-07-13 | HK TCG grading SEO | `SEO_KEYWORD_MAP` + `HK_SEO_KEYWORDS` cluster (香港 TCG 鑑定, TCG 提交鑑定). `PSA_GRADING_SEO` title/description retarget. `knowsAbout`, `llms.txt`, `guides-content.md` full-phrase zh-HK copy rules. |
 | 2026-07-12 | PSA submission SEO | `/business/psa-grading/` + `/track/` indexable (EN+ZH). `PSA_GRADING_SEO`, JSON-LD (Service/HowTo/FAQ/WebApplication), sitemap, llms.txt/index.md, AEO classes, live-service banner, internal links from `/`, `/business/`. |
 | 2026-07-02 | Protector pricing | Recommended retail prices centralized in `src/lib/products/protector-pricing.ts`: HKD 82 (single color), HKD 92 (gradient). UI + Product/Service JSON-LD read from single module; price strings removed from i18n. |
 | 2026-07-02 | PSA magnetic case SEO | Added **PSA magnetic case** / **magnetic PSA slab case** (EN) ↔ **磁吸PSA卡殼** (ZH) to `SEO_KEYWORD_MAP`, product metadata keywords, JSON-LD `alternateName`, overview copy + FAQ (EN+ZH), `llms.txt` / `index.md`. Meta description retargeted for magnetic+PSA+case proximity. Official product name unchanged; aluminum still retired. |
@@ -95,6 +98,10 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | tempered glass card protector | 強化玻璃卡殼 | Product meta + body |
 | PSA magnetic case | 磁吸PSA卡殼 | Product meta, FAQ, JSON-LD `alternateName`; compatibility copy only — not official product name |
 | magnetic PSA slab case | 磁吸PSA卡殼 | Long-tail variant of above |
+| HK TCG grading | 香港 TCG 鑑定 | PSA grading hub |
+| Hong Kong TCG card grading | 香港卡牌鑑定 | PSA grading hub |
+| TCG grading submission HK | TCG 提交鑑定 | PSA grading hub |
+| Pokémon TCG grading HK | 寶可夢 TCG 提交鑑定 | PSA grading + centering |
 
 **Translation rules**
 
@@ -110,7 +117,7 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | Context | Preferred term | Avoid |
 |---------|----------------|-------|
 | Graded card / slab | 鑑定卡、鑑定卡牌、鑑定卡磚 | 評級卡、評級卡牌、評級卡磚 |
-| Submit to PSA (general) | 送鑑 | 送評、評級（動詞） |
+| Submit to PSA (general) | 提交鑑定 | 送評、評級（動詞）、送鑑（正文缩略） |
 | Appaw HK proxy service | 代送鑑定、PSA 收藏卡代送鑑定 | 送評服務、收件查詢（作標題） |
 | Protector product | 鑑定卡保護殼、磁吸防UV鑑定卡保護殼、磁吸卡殼、PSA 保護殼 | 評級卡保護殼、保護卡磚、鋁合金、金屬框架 |
 | Frame (specs) | 金屬邊框 | 金屬框架、鋁合金框架 |
@@ -418,7 +425,7 @@ Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: tex
 - **URLs:** `https://appaw.store/business/psa-grading/` (hub), `https://appaw.store/business/psa-grading/track/` (lookup); `/zh/...` mirrors
 - **Metadata:** `PSA_GRADING_SEO` in `src/lib/product-names.ts` → `psaGradingMetadata` / `zhPsaGradingMetadata` in `src/lib/seo/metadata.ts`
 - **EN title:** PSA Collectibles Submission Hong Kong | Appaw Store
-- **ZH title:** PSA 收藏卡代送鑑定 | 香港 – Appaw Store
+- **ZH title:** 香港 TCG 卡牌 PSA 代送鑑定 | 138 Arena – Appaw Store
 - **EN description (number-led):** Face-to-face PSA submission at 138 Arena, Causeway Bay. Service from HKD 890. Track batches with phone and reference code.
 - **Indexing:** `robots: { index: true, follow: true }` on hub + track (EN + ZH)
 - **JSON-LD:** Hub — `Service`, `Offer`×4 (from `psa-pricing.ts`), `HowTo`, `FAQPage`, `BreadcrumbList`, `WebPage` with `speakable` → `.psa-grading-aeo-answer`. Track — `WebApplication`, `BreadcrumbList`, `WebPage`

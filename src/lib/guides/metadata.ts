@@ -103,6 +103,20 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
     'PSA 磚尺寸',
     '35PT 鑑定殼',
   ],
+  'hong-kong-tcg-grading-guide': [
+    'Hong Kong TCG grading',
+    'HK TCG grading submission',
+    'PSA submission Hong Kong',
+    '138 Arena PSA drop-off',
+    'Pokémon TCG grading HK',
+    'One Piece card grading HK',
+    '香港 TCG 鑑定',
+    'TCG 提交鑑定',
+    '香港卡牌提交鑑定',
+    '寶可夢 TCG 提交鑑定',
+    'PSA 代送鑑定',
+    '香港 PSA 代送',
+  ],
 };
 
 function guideOgImage(guide: GuideContent): string {

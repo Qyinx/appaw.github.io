@@ -143,7 +143,7 @@ function guideStructuredData(slug: GuideSlug, locale: GuideLocale) {
               {
                 '@type': 'HowToStep',
                 name: '對照等級門檻',
-                text: '用置中工具或卡尺比對 PSA 10、9、8 門檻再送鑑。',
+                text: '用置中工具或卡尺比對 PSA 10、9、8 門檻後再提交鑑定。',
               },
             ]
           : [

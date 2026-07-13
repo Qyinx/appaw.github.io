@@ -181,19 +181,19 @@ const guide: GuideContent = {
             },
             {
               label: '1998 日版銀卡皮卡超（第二屆錦標賽）PSA 10',
-              text: '全球僅少數幾張的賽事獎勵卡，2023 年以 **44.4 萬美元**（約 34.73 萬英鎊）售出——寶可夢早期錦標賽卡的高分標本，在拍場上向來搶手。',
+              text: '全球僅少數幾張的賽事獎勵卡，2023 年以 **44.4 萬美元**（約 34.73 萬英鎊）售出。寶可夢早期錦標賽卡的高分標本，在拍場上向來搶手。',
             },
           ],
         },
       ],
       callout:
-        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍，送鑑前先用量度工具篩選，見 [裸卡到受保護鑑定卡：送鑑後加裝保護殼](/guides/grade-or-protect-first/)。',
+        '天價案例多為全球僅數張的 PSA 10。一般熱門卡 PSA 10 與 PSA 9 的溢價差距仍可能達數倍，提交鑑定前先用量度工具篩選，見 [裸卡到受保護鑑定卡：提交鑑定後加裝保護殼](/guides/grade-or-protect-first/)。',
     },
     {
       id: 'bottom-line',
-      title: '結語：先讀懂分數，再付送鑑費',
+      title: '結語：先讀懂分數，再支付鑑定費用',
       paragraphs: [
-        'PSA 1–10 與 Qualifier 是收藏市場的共通語言。送鑑前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼。',
+        'PSA 1–10 與 Qualifier 是收藏市場的共通語言。提交鑑定前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼。',
       ],
       bulletGroups: [
         {
@@ -204,12 +204,12 @@ const guide: GuideContent = {
               text: '更多流程見 [收藏指南索引](/guides/)。',
             },
             {
-              label: '香港代送鑑',
-              text: '銅鑼灣合作店舖 138 Arena 交卡及取件，代送 PSA 並提供進度查詢。詳見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
+              label: '香港代送鑑定',
+              text: '銅鑼灣合作店舖 138 Arena 面交評估卡況及提交鑑定及取件，代送 PSA 並提供查看現有進度。詳見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
             },
             {
               label: '置中篩選',
-              text: '送鑑前可用 [免費置中計算器](/tools/card-centering/) 篩選裸卡。',
+              text: '提交鑑定前可用 [免費置中計算器](/tools/card-centering/) 篩選裸卡。',
             },
           ],
         },
@@ -219,15 +219,15 @@ const guide: GuideContent = {
   faq: [
     {
       q: '拍賣前應該先送 PSA 評級嗎？',
-      a: '多數情況建議先送鑑。PSA 標籤提供權威真偽與品相背書，消除買家疑慮，常能吸引更多競標者並抬高成交價。若裸卡品相明顯不足 PSA 8，或市值低於送鑑費，則可先評估經濟性再決定。',
+      a: '多數情況建議先提交鑑定。PSA 標籤提供權威真偽與品相背書，消除買家疑慮，常能吸引更多競標者並抬高成交價。若裸卡品相明顯不足 PSA 8，或市值低於鑑定費用，則可先評估經濟性再決定。',
     },
     {
       q: '低分稀有卡還有市場價值嗎？',
       a: '有。稀有度常凌駕品相。2025 年初，一張品相極差、邊緣疑似以黑筆掩蓋泛白的萬智牌黑蓮花（無限版）仍在拍賣拍出約 5,200 英鎊。夠稀有的卡，低分也不容小覷。',
     },
     {
-      q: 'PSA 送鑑費用如何計算？',
-      a: '依服務等級（Value、Regular、Express 等）與申報價值（Declared Value）而定；大量送鑑另有批量方案。最新價目與週期請查 psacard.com/services。',
+      q: 'PSA 鑑定費用用如何計算？',
+      a: '依服務等級（Value、Regular、Express 等）與申報價值（Declared Value）而定；大量提交鑑定另有批量方案。最新價目與週期請查 psacard.com/services。',
     },
     {
       q: '收到評級後如何驗證鑑定殼真偽？',
@@ -240,14 +240,14 @@ const guide: GuideContent = {
   ],
   midCta: {
     afterSectionId: 'qualifiers',
-    title: '付送鑑費前：先測量置中，再查驗假殼',
+    title: '支付鑑定費用前：先測量置中，再查驗假殼',
     body: '上傳裸卡或賣家照片比對 PSA 10 門檻；購入鑑定卡則交叉驗證證書與外殼。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
     secondary: { label: 'PSA 鑑定殼真偽驗證指南', href: '/guides/identify-fake-psa-slabs/' },
   },
   cta: {
-    title: '送鑑前先測量邊距',
-    body: '上傳掃描或賣家照片，比對正背面置中是否達 PSA 10 門檻，再決定是否付送鑑費。',
+    title: '提交鑑定前先測量邊距',
+    body: '上傳掃描或賣家照片，比對正背面置中是否達 PSA 10 門檻，再決定是否支付鑑定費用。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
     secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
   },

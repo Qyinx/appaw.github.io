@@ -23,6 +23,10 @@ export const SEO_KEYWORD_MAP = {
   'PSA submission Hong Kong': 'PSA代送鑑定',
   'PSA grading service HK': '香港PSA代送',
   'PSA card submission': '收藏卡送鑑',
+  'HK TCG grading': '香港 TCG 鑑定',
+  'Hong Kong TCG card grading': '香港卡牌鑑定',
+  'TCG grading submission HK': 'TCG 提交鑑定',
+  'Pokémon TCG grading HK': '寶可夢 TCG 提交鑑定',
 } as const;
 
 /** Canonical product names — keep in sync with i18n business.cardProtector.title / nav.psaProtector */
@@ -75,6 +79,11 @@ export const HK_SEO_KEYWORDS = [
   '鑑定卡置中檢查',
   '磁吸PSA卡殼',
   'PSA代送鑑定',
+  '香港 TCG 鑑定',
+  'TCG 提交鑑定',
+  '香港卡牌提交鑑定',
+  '寶可夢 TCG 提交鑑定',
+  'HK TCG grading',
   '138 Arena',
   '銅鑼灣',
 ] as const;
@@ -129,9 +138,9 @@ export const CENTERING_SEO = {
 /** PSA submission hub + track — keep in sync with i18n psaGradingPage / psaGradingTrack */
 export const PSA_GRADING_SEO = {
   en: {
-    title: 'PSA Collectibles Submission Hong Kong | Appaw Store',
+    title: 'Hong Kong TCG Grading Submission | PSA – Appaw Store',
     description:
-      `Book face-to-face PSA drop-off at 138 Arena, Causeway Bay. Service from HKD ${psaLowestDisplayFee}. Track batches with phone and BAT reference code.`,
+      `Face-to-face PSA drop-off at 138 Arena, Causeway Bay. Pokémon, One Piece, MTG, sports cards. From HKD ${psaLowestDisplayFee}. Track batches with phone and BAT reference code.`,
     h1Keyword: 'We submit your collectibles to PSA',
     webAppName: 'PSA Submission Tracker',
     trackTitle: 'Track PSA Submission | Appaw Store',
@@ -147,9 +156,9 @@ export const PSA_GRADING_SEO = {
     lastUpdated: '2026-07-12',
   },
   zh: {
-    title: 'PSA 收藏卡代送鑑定 | 香港 – Appaw Store',
+    title: '香港 TCG 卡牌 PSA 代送鑑定 | 138 Arena – Appaw Store',
     description:
-      `預約銅鑼灣 138 Arena 面交代送 PSA，服務費由 HKD ${psaLowestDisplayFee} 起。憑電話及 BAT 參考編號查詢批次進度。`,
+      `銅鑼灣 138 Arena 面交評估卡況及提交鑑定。寶可夢、One Piece、MTG、運動卡裸卡或套袋卡。服務費由 HKD ${psaLowestDisplayFee} 起，憑 BAT 參考編號查看現有進度。`,
     h1Keyword: 'PSA 收藏卡代送鑑定',
     webAppName: 'PSA 代送進度查詢',
     trackTitle: '查詢 PSA 代送進度 | Appaw Store',
@@ -157,7 +166,7 @@ export const PSA_GRADING_SEO = {
     featureList: [
       '憑電話及 BAT 參考編號查詢批次狀態',
       '由 138 Arena 收件至 PSA 鑑定各階段時間軸',
-      '同一交卡日期的相關批次快速切換',
+      '同一提交卡牌日期的相關批次快速切換',
     ],
     breadcrumb: 'PSA 代送鑑定',
     trackBreadcrumb: '查詢進度',

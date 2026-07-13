@@ -23,7 +23,7 @@ const UI = {
     badge: '收藏指南',
     title: '鑑定卡保護與置中指南',
     subtitle:
-      '真實證書編號、UV 實測、置中公式。做錯一步，送鑑費與溢價可能一併損失。',
+      '真實證書編號、UV 實測、置中公式。做錯一步，鑑定費用與溢價可能一併蒙受損失。',
     indexLabel: '指南索引',
     articleCount: (n: number) => `${n} 篇`,
     read: '閱讀指南',
