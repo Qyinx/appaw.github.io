@@ -26,18 +26,26 @@ A modern e-commerce and collector platform for Appaw Store — featuring PSA car
 - 🍪 **GDPR Compliant** — Cookie consent with GA4 consent API
 - 🚀 **Static Export** — Deployed to GitHub Pages via GitHub Actions
 
+
+
 ## Getting Started
+
+
 
 ### Prerequisites
 
 - Node.js 24+
 - npm
 
+
+
 ### Installation
 
 ```bash
 npm install
 ```
+
+
 
 ### Development
 
@@ -63,12 +71,16 @@ npm run optimize-images-linux  # Linux / macOS
 npm run optimize-and-build     # Optimise then build in one step
 ```
 
+
+
 ## Deployment
 
 Configured for GitHub Pages with the custom domain `appaw.store`.
 
 - **Manual**: Run `npm run build`, then deploy the `out/` folder.
 - **Automatic**: Push to `main` — GitHub Actions builds and deploys automatically.
+
+
 
 ## Project Structure
 
@@ -120,23 +132,29 @@ src/
 └── styles/                     # globals.css (Tailwind v4)
 ```
 
+
+
 ## Pages
 
-| Route | Access | Description |
-|---|---|---|
-| `/` | Public | Home — hero, features, product showcase |
-| `/about/` | Public | About Us |
-| `/privacy/` | Public | Privacy policy |
-| `/products/psa-protectors/` | Public | PSA Aluminium Protector product page |
-| `/business/` | Public | Business services overview |
-| `/business/card-trading/` | Public | TCG card marketplace listing |
-| `/business/card-trading/[id]/` | Public | Individual card detail (shareable URL) |
-| `/collection/` | 🔒 Auth | Collection manager landing |
-| `/collection/list` | 🔒 Auth | Card list with portfolio tabs |
-| `/collection/card/new` | 🔒 Auth | Add a new card |
-| `/collection/card/edit?id=` | 🔒 Auth | Edit an existing card |
-| `/admin/trade-cards/` | 🔒 Admin | Admin card management |
-| `/style-guide/` | Dev | Design system reference |
+
+| Route                          | Access   | Description                             |
+| ------------------------------ | -------- | --------------------------------------- |
+| `/`                            | Public   | Home — hero, features, product showcase |
+| `/about/`                      | Public   | About Us                                |
+| `/privacy/`                    | Public   | Privacy policy                          |
+| `/products/psa-protectors/`    | Public   | PSA Aluminium Protector product page    |
+| `/business/`                   | Public   | Business services overview              |
+| `/business/card-trading/`      | Public   | TCG card marketplace listing            |
+| `/business/card-trading/[id]/` | Public   | Individual card detail (shareable URL)  |
+| `/collection/`                 | 🔒 Auth  | Collection manager landing              |
+| `/collection/list`             | 🔒 Auth  | Card list with portfolio tabs           |
+| `/collection/card/new`         | 🔒 Auth  | Add a new card                          |
+| `/collection/card/edit?id=`    | 🔒 Auth  | Edit an existing card                   |
+| `/admin/trade-cards/`          | 🔒 Admin | Admin card management                   |
+| `/style-guide/`                | Dev      | Design system reference                 |
+
+
+
 
 ## Collection Manager
 
@@ -150,19 +168,25 @@ The `/collection` section is an Auth0-protected app that connects to a separate 
 - **Paginated API** — `GET /cards` is fetched with `limit=100` and all pages are loaded in parallel on mount
 - **Optimistic UI** — Local state updated immediately on card add/remove/toggle-sold; cache invalidated after mutations
 
+
+
 ### Environment variables
 
-| Variable | Description |
-|---|---|
-| `NEXT_PUBLIC_BACKEND_URL` | Base URL of the collection backend API |
-| `NEXT_PUBLIC_AUTH0_DOMAIN` | Auth0 domain |
-| `NEXT_PUBLIC_AUTH0_CLIENT_ID` | Auth0 SPA client ID |
-| `NEXT_PUBLIC_AUTH0_REDIRECT_URI` | Callback URL after login |
-| `NEXT_PUBLIC_AUTH0_AUDIENCE` | Auth0 API audience (for access tokens) |
+
+| Variable                         | Description                            |
+| -------------------------------- | -------------------------------------- |
+| `NEXT_PUBLIC_BACKEND_URL`        | Base URL of the collection backend API |
+| `NEXT_PUBLIC_AUTH0_DOMAIN`       | Auth0 domain                           |
+| `NEXT_PUBLIC_AUTH0_CLIENT_ID`    | Auth0 SPA client ID                    |
+| `NEXT_PUBLIC_AUTH0_REDIRECT_URI` | Callback URL after login               |
+| `NEXT_PUBLIC_AUTH0_AUDIENCE`     | Auth0 API audience (for access tokens) |
+
+
+
 
 ## Card Trading Marketplace
 
-Public cards are managed in [`public/data/trade-card.json`](public/data/trade-card.json). Each entry generates a static detail page at `/business/card-trading/[id]/` at build time.
+Public cards are managed in `[public/data/trade-card.json](public/data/trade-card.json)`. Each entry generates a static detail page at `/business/card-trading/[id]/` at build time.
 
 ### Adding / Editing a Card
 
@@ -170,39 +194,49 @@ Public cards are managed in [`public/data/trade-card.json`](public/data/trade-ca
 2. Run `npm run build` — static pages are regenerated automatically
 3. The sitemap and all JSON-LD structured data update alongside
 
+
+
 ### Card Fields (`TradingCard`)
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `id` | `string` (UUID) | ✅ | Unique identifier — used as the URL slug |
-| `name` | `string` | ✅ | Card name |
-| `year` | `number` | ✅ | Print year |
-| `company` | `"PSA" \| "BGS" \| "CGC"` | ✅ | Grading company |
-| `grade` | `number` | ✅ | Numeric grade (e.g. `10`, `9.5`) |
-| `isBlackLabel` | `boolean` | — | PSA Black Label — adds a gold **BL** badge |
-| `image` | `string` | — | Front image path (relative to `/public`) |
-| `imageBack` | `string` | — | Back image path — enables 3D flip & magnifier |
-| `set` | `string` | — | Set name |
-| `number` | `string` | — | Card number within the set |
-| `certNumber` | `string` | — | Grading certificate serial number |
-| `price` | `number` | ✅ | Listing price |
-| `currency` | `string` | ✅ | ISO currency code (e.g. `"HKD"`) |
-| `language` | `string` | — | Card language |
-| `description` | `string` | — | Long-form description for detail page & SEO |
-| `sold` | `boolean` | — | `true` shows SOLD ribbon and removes CTA |
-| `bundleCards` | `BundleCard[]` | — | Cards sold as a complete set |
+
+| Field          | Type                    | Required | Description                                   |
+| -------------- | ----------------------- | -------- | --------------------------------------------- |
+| `id`           | `string` (UUID)         | ✅        | Unique identifier — used as the URL slug      |
+| `name`         | `string`                | ✅        | Card name                                     |
+| `year`         | `number`                | ✅        | Print year                                    |
+| `company`      | `"PSA" | "BGS" | "CGC"` | ✅        | Grading company                               |
+| `grade`        | `number`                | ✅        | Numeric grade (e.g. `10`, `9.5`)              |
+| `isBlackLabel` | `boolean`               | —        | PSA Black Label — adds a gold **BL** badge    |
+| `image`        | `string`                | —        | Front image path (relative to `/public`)      |
+| `imageBack`    | `string`                | —        | Back image path — enables 3D flip & magnifier |
+| `set`          | `string`                | —        | Set name                                      |
+| `number`       | `string`                | —        | Card number within the set                    |
+| `certNumber`   | `string`                | —        | Grading certificate serial number             |
+| `price`        | `number`                | ✅        | Listing price                                 |
+| `currency`     | `string`                | ✅        | ISO currency code (e.g. `"HKD"`)              |
+| `language`     | `string`                | —        | Card language                                 |
+| `description`  | `string`                | —        | Long-form description for detail page & SEO   |
+| `sold`         | `boolean`               | —        | `true` shows SOLD ribbon and removes CTA      |
+| `bundleCards`  | `BundleCard[]`          | —        | Cards sold as a complete set                  |
+
+
+
 
 ### Bundle Fields (`BundleCard`)
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `name` | `string` | ✅ | Card name |
-| `image` | `string` | ✅ | Front image path |
-| `imageBack` | `string` | — | Back image path |
-| `company` | `"PSA" \| "BGS" \| "CGC"` | ✅ | Grading company |
-| `grade` | `number` | ✅ | Grade |
-| `isBlackLabel` | `boolean` | — | PSA Black Label |
-| `certNumber` | `string` | — | Certificate number |
+
+| Field          | Type                    | Required | Description        |
+| -------------- | ----------------------- | -------- | ------------------ |
+| `name`         | `string`                | ✅        | Card name          |
+| `image`        | `string`                | ✅        | Front image path   |
+| `imageBack`    | `string`                | —        | Back image path    |
+| `company`      | `"PSA" | "BGS" | "CGC"` | ✅        | Grading company    |
+| `grade`        | `number`                | ✅        | Grade              |
+| `isBlackLabel` | `boolean`               | —        | PSA Black Label    |
+| `certNumber`   | `string`                | —        | Certificate number |
+
+
+
 
 ## SEO & Analytics
 
@@ -213,6 +247,8 @@ Public cards are managed in [`public/data/trade-card.json`](public/data/trade-ca
 - Open Graph & Twitter Cards
 - `robots.txt` — blocks `/admin/`, `/api/`, `/graphql/`, `/style-guide/`, and filter query params; allows `/collection/` and `/business/card-trading/`
 
+
+
 ## Colour Palette
 
 - **Primary**: Orange (`#ec7d1f`) — PSA protectors
@@ -221,6 +257,8 @@ Public cards are managed in [`public/data/trade-card.json`](public/data/trade-ca
 - **Collection UI**: Purple (`#9B7EBF`) — Collection manager chrome
 - **Dark**: `#1e1e2e` (collection) / Slate (`#1e293b`) (marketing)
 
+
+
 ## PSA Card Aluminium Protector Specs
 
 - **Size**: 8.7 × 14.2 × 0.98 cm
@@ -228,11 +266,6 @@ Public cards are managed in [`public/data/trade-card.json`](public/data/trade-ca
 - **Materials**: Aluminium Alloy + UV-Blocking Glass
 - **UV Protection**: > 95%
 - **Closure**: N52 Magnets
-
-## License
-
-MIT
-
 
 ## Tech Stack
 
@@ -243,11 +276,12 @@ MIT
 - **Analytics**: Google Analytics 4 (GA4)
 - **i18n**: Custom React Context
 
+
+
 ## Features
 
 - 🌐 **Bilingual Support** - Full English/Chinese (繁體中文) translations
 - 🛍️ **Products Section** - Graded cards collection and PSA protectors
-
 - 🎨 **Modern UI** - Glassmorphism, 3D effects, smooth animations
 - 📱 **Fully Responsive** - Mobile-first design
 - 🔍 **SEO Optimized** - Structured data, sitemap, metadata
@@ -256,18 +290,26 @@ MIT
 - 🎠 **Interactive Carousel** - Modern product showcase with zoom effects
 - 🚀 **Static Export** - Optimized for GitHub Pages
 
+
+
 ## Getting Started
+
+
 
 ### Prerequisites
 
 - Node.js 24+
 - npm or yarn
 
+
+
 ### Installation
 
 ```bash
 npm install
 ```
+
+
 
 ### Development
 
@@ -294,6 +336,8 @@ This project is configured for GitHub Pages deployment with custom domain (appaw
 1. Run `npm run build`
 2. Deploy the `out` folder to your hosting service
 
+
+
 ### GitHub Actions (Automatic)
 
 Push to the `main` branch to trigger automatic deployment to GitHub Pages.
@@ -319,6 +363,8 @@ src/
 └── styles/                # Global styles (Tailwind v4)
 ```
 
+
+
 ## Pages
 
 - `/` - Home page with hero, features, and product showcase
@@ -329,9 +375,11 @@ src/
 - `/about` - About Us page
 - `/style-guide` - Design system and component library
 
+
+
 ## Card Trading Marketplace
 
-Cards are managed in [`public/data/trade-card.json`](public/data/trade-card.json). Each entry generates a static detail page at `/business/card-trading/[id]/` at build time.
+Cards are managed in `[public/data/trade-card.json](public/data/trade-card.json)`. Each entry generates a static detail page at `/business/card-trading/[id]/` at build time.
 
 ### Adding / Editing a Card
 
@@ -339,41 +387,51 @@ Cards are managed in [`public/data/trade-card.json`](public/data/trade-card.json
 2. Run `npm run build` — static pages are regenerated automatically
 3. The sitemap and all JSON-LD structured data update along with the pages
 
+
+
 ### Card Fields (`TradingCard`)
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `id` | `string` (UUID) | ✅ | Unique identifier — used as the URL slug. Generate with `crypto.randomUUID()` |
-| `name` | `string` | ✅ | Card name displayed in the listing and detail page |
-| `year` | `number` | ✅ | Year the card was printed / released |
-| `company` | `"PSA" \| "BGS" \| "CGC"` | ✅ | Grading company |
-| `grade` | `number` | ✅ | Numeric grade (e.g. `10`, `9.5`, `8`) |
-| `isBlackLabel` | `boolean` | — | `true` for PSA Black Label (perfect 10 sub-grades). Adds a gold **BL** indicator |
-| `image` | `string` | — | Path to front image relative to `/public` (e.g. `/images/trade/{cardId}/front.jpg`) |
-| `imageBack` | `string` | — | Path to back image (e.g. `/images/trade/{cardId}/back.jpg`). When present, enables the 3D flip toggle and magnifier |
-| `set` | `string` | — | Set name (e.g. `"Obsidian Flames"`) |
-| `number` | `string` | — | Card number within the set (e.g. `"211/197"`) |
-| `certNumber` | `string` | — | Grading certificate / slab serial number |
-| `price` | `number` | ✅ | Listing price (numeric, no symbol) |
-| `currency` | `string` | ✅ | ISO currency code (e.g. `"HKD"`, `"USD"`) |
-| `language` | `string` | — | Card language (e.g. `"Japanese"`, `"English"`) |
-| `description` | `string` | — | Long-form description shown on the detail page and used for SEO meta |
-| `sold` | `boolean` | — | `true` marks the card as sold — shows a SOLD ribbon on the image, strikethrough price, and replaces the WhatsApp CTA with a "sold" notice. Defaults to `false` |
-| `bundleCards` | `BundleCard[]` | — | Present when listing a **set / bundle** — see below |
+
+| Field          | Type                    | Required | Description                                                                                                                                                    |
+| -------------- | ----------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`           | `string` (UUID)         | ✅        | Unique identifier — used as the URL slug. Generate with `crypto.randomUUID()`                                                                                  |
+| `name`         | `string`                | ✅        | Card name displayed in the listing and detail page                                                                                                             |
+| `year`         | `number`                | ✅        | Year the card was printed / released                                                                                                                           |
+| `company`      | `"PSA" | "BGS" | "CGC"` | ✅        | Grading company                                                                                                                                                |
+| `grade`        | `number`                | ✅        | Numeric grade (e.g. `10`, `9.5`, `8`)                                                                                                                          |
+| `isBlackLabel` | `boolean`               | —        | `true` for PSA Black Label (perfect 10 sub-grades). Adds a gold **BL** indicator                                                                               |
+| `image`        | `string`                | —        | Path to front image relative to `/public` (e.g. `/images/trade/{cardId}/front.jpg`)                                                                            |
+| `imageBack`    | `string`                | —        | Path to back image (e.g. `/images/trade/{cardId}/back.jpg`). When present, enables the 3D flip toggle and magnifier                                            |
+| `set`          | `string`                | —        | Set name (e.g. `"Obsidian Flames"`)                                                                                                                            |
+| `number`       | `string`                | —        | Card number within the set (e.g. `"211/197"`)                                                                                                                  |
+| `certNumber`   | `string`                | —        | Grading certificate / slab serial number                                                                                                                       |
+| `price`        | `number`                | ✅        | Listing price (numeric, no symbol)                                                                                                                             |
+| `currency`     | `string`                | ✅        | ISO currency code (e.g. `"HKD"`, `"USD"`)                                                                                                                      |
+| `language`     | `string`                | —        | Card language (e.g. `"Japanese"`, `"English"`)                                                                                                                 |
+| `description`  | `string`                | —        | Long-form description shown on the detail page and used for SEO meta                                                                                           |
+| `sold`         | `boolean`               | —        | `true` marks the card as sold — shows a SOLD ribbon on the image, strikethrough price, and replaces the WhatsApp CTA with a "sold" notice. Defaults to `false` |
+| `bundleCards`  | `BundleCard[]`          | —        | Present when listing a **set / bundle** — see below                                                                                                            |
+
+
+
 
 ### Bundle / Set Fields (`BundleCard`)
 
 Use `bundleCards` to list a complete set where all cards are sold together. The parent card's `price` is the total set price.
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `name` | `string` | ✅ | Individual card name |
-| `image` | `string` | ✅ | Front image path |
-| `imageBack` | `string` | — | Back image path |
-| `company` | `"PSA" \| "BGS" \| "CGC"` | ✅ | Grading company for this card |
-| `grade` | `number` | ✅ | Grade for this card |
-| `isBlackLabel` | `boolean` | — | PSA Black Label for this card |
-| `certNumber` | `string` | — | Certificate number for this card |
+
+| Field          | Type                    | Required | Description                      |
+| -------------- | ----------------------- | -------- | -------------------------------- |
+| `name`         | `string`                | ✅        | Individual card name             |
+| `image`        | `string`                | ✅        | Front image path                 |
+| `imageBack`    | `string`                | —        | Back image path                  |
+| `company`      | `"PSA" | "BGS" | "CGC"` | ✅        | Grading company for this card    |
+| `grade`        | `number`                | ✅        | Grade for this card              |
+| `isBlackLabel` | `boolean`               | —        | PSA Black Label for this card    |
+| `certNumber`   | `string`                | —        | Certificate number for this card |
+
+
+
 
 ### Minimal Example (single card)
 
@@ -396,6 +454,8 @@ Use `bundleCards` to list a complete set where all cards are sold together. The 
   "sold": false
 }
 ```
+
+
 
 ### Bundle Example (full set)
 
@@ -425,9 +485,14 @@ Use `bundleCards` to list a complete set where all cards are sold together. The 
 }
 ```
 
+
+
 ## Key Features
 
+
+
 ### Modern Carousel
+
 - Dark glassmorphism design
 - Smooth zoom & fade transitions (1200ms)
 - Circular progress ring indicator
@@ -435,7 +500,10 @@ Use `bundleCards` to list a complete set where all cards are sold together. The 
 - Auto-advance with manual control
 - Hover effects and animations
 
+
+
 ### Animations
+
 - Text shine gradient effect
 - Floating 3D elements
 - Scale-in effects
@@ -443,13 +511,18 @@ Use `bundleCards` to list a complete set where all cards are sold together. The 
 - Gradient shifts
 - Smooth transitions (500-1200ms)
 
+
+
 ### SEO & Analytics
+
 - Google Analytics 4 with consent API
 - Cookie consent banner (GDPR compliant)
 - Structured data (Store + FAQ schemas)
 - Comprehensive metadata
 - Dynamic sitemap
 - Open Graph & Twitter Cards
+
+
 
 ## Color Palette
 
@@ -459,15 +532,17 @@ Use `bundleCards` to list a complete set where all cards are sold together. The 
 - **Dark**: Slate (#1e293b) - Backgrounds
 - **Neutral**: Gray scale - Text & UI
 
+
+
 ## Technical Specifications
 
+
+
 ### PSA Card Aluminum Protector
+
 - **Size**: 8.7 × 14.2 × 0.98 cm
 - **Weight**: 74g
 - **Materials**: Aluminum Alloy + UV-Blocking Glass
 - **UV Protection**: >95%
 - **Closure**: N52 Magnets
 
-## License
-
-MIT
