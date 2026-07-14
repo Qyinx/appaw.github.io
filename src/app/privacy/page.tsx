@@ -1,17 +1,18 @@
 import type { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
+import { COMPANY } from '@/lib/company';
 import { webPageJsonLd, breadcrumbJsonLd } from '@/lib/seo';
 import { privacyMetadata } from '@/lib/seo/metadata';
 
 export const metadata = privacyMetadata;
 
-const LAST_UPDATED = 'June 13, 2026';
+const LAST_UPDATED = 'July 14, 2026';
 
 const webPage = webPageJsonLd({
   name: 'Privacy Policy – Appaw Store',
   url: 'https://appaw.store/privacy/',
   datePublished: '2026-04-17',
-  dateModified: '2026-06-13',
+  dateModified: '2026-07-14',
   publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
   inLanguage: 'en',
 });
@@ -230,7 +231,8 @@ export default function PrivacyPage() {
             <SectionDivider num="07" />
             <h2 className="text-2xl font-bold font-display text-text-primary mb-4">Data Controller</h2>
             <div className="panel p-6 text-sm text-text-secondary space-y-1">
-              <p className="font-semibold text-text-primary">Appaw Store</p>
+              <p className="font-semibold text-text-primary">{COMPANY.legalName}</p>
+              <p>Business Registration No. {COMPANY.brNumber}</p>
               <p>Hong Kong</p>
               <p>
                 WhatsApp:{' '}

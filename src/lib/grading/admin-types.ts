@@ -128,6 +128,19 @@ export interface AdminPaymentSummary {
   receivedCostSum: number;
 }
 
+/** Fully paid via checkbox or received covering total (includes over-receive). */
+export function isItemFullyPaid(item: AdminItem): boolean {
+  if (item.isPaid) return true;
+  if (item.totalCost == null) return false;
+  return (item.receivedCost ?? 0) >= item.totalCost;
+}
+
+/** Received exceeds listed total — customer has credit on that line. */
+export function isItemOverReceived(item: AdminItem): boolean {
+  if (item.totalCost == null) return false;
+  return (item.receivedCost ?? 0) > item.totalCost;
+}
+
 export function parseServicePlanLabel(referenceCode: string): GradingServicePlan | '—' {
   return parseBatchReferenceCode(referenceCode)?.plan ?? '—';
 }
@@ -135,7 +148,7 @@ export function parseServicePlanLabel(referenceCode: string): GradingServicePlan
 export function summarizePayment(items: AdminItem[]): AdminPaymentSummary {
   return items.reduce(
     (acc, item) => ({
-      paidCount: acc.paidCount + (item.isPaid ? 1 : 0),
+      paidCount: acc.paidCount + (isItemFullyPaid(item) ? 1 : 0),
       totalCount: acc.totalCount + 1,
       totalCostSum: acc.totalCostSum + (item.totalCost ?? 0),
       receivedCostSum: acc.receivedCostSum + (item.receivedCost ?? 0),

@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import LocalLink from '@/components/LocalLink';
 import HeaderScrambleText, { useHeaderScrambleTrigger } from '@/components/layout/HeaderScrambleText';
 import { useLanguage } from '@/context/LanguageContext';
+import { COMPANY } from '@/lib/company';
 
 function FooterScrambleLink({
   href,
@@ -105,10 +106,18 @@ export default function Footer() {
             <span className="site-footer__sep" aria-hidden="true">
               {' · '}
             </span>
+            <span className="site-footer__segment" style={{ '--footer-segment-i': 2 } as React.CSSProperties}>
+              <span translate="no">
+                {COMPANY.legalName} · {t.footer.brLabel} {COMPANY.brNumber}
+              </span>
+            </span>
+            <span className="site-footer__sep" aria-hidden="true">
+              {' · '}
+            </span>
             <FooterScrambleLink
               href="mailto:support@appaw.store"
               label="support@appaw.store"
-              segmentIndex={2}
+              segmentIndex={3}
               external
             />
             <span className="site-footer__sep" aria-hidden="true">
@@ -117,7 +126,7 @@ export default function Footer() {
             <FooterScrambleLink
               href="https://wa.me/85292851189"
               label={t.footer.phoneDisplay}
-              segmentIndex={3}
+              segmentIndex={4}
               className="font-tabular"
               external
               target="_blank"
@@ -126,7 +135,7 @@ export default function Footer() {
             <span className="site-footer__sep" aria-hidden="true">
               {' · '}
             </span>
-            <FooterScrambleLink href="/privacy" label={t.footer.privacy} segmentIndex={4} />
+            <FooterScrambleLink href="/privacy" label={t.footer.privacy} segmentIndex={5} />
             <span className="site-footer__cursor" aria-hidden="true" />
           </p>
         </div>

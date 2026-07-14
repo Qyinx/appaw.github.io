@@ -1113,6 +1113,7 @@ export const zh: Translations = {
     locationValue: '香港',
     phoneDisplay: '+852 9285 1189',
     privacy: '私隱政策',
+    brLabel: '商業登記',
   },
 
   // Cookie Consent

@@ -1112,6 +1112,7 @@ export const en = {
     locationValue: 'Hong Kong',
     phoneDisplay: '+852 9285 1189',
     privacy: 'Privacy Policy',
+    brLabel: 'BR',
   },
 
   // Cookie Consent

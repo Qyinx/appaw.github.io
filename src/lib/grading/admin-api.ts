@@ -69,11 +69,11 @@ async function parseJsonResponse(res: Response) {
 }
 
 /** POST /grading/auth — no X-Ops-Key (API-ADMIN.md § Login). */
-async function gradingLogin(password: string): Promise<string> {
+async function gradingLogin(password: string, turnstileToken: string): Promise<string> {
   const res = await fetch(gradingPath('auth'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ password }),
+    body: JSON.stringify({ password, turnstileToken }),
   });
 
   const payload = (await parseJsonResponse(res)) as { ok?: boolean; token?: string };
@@ -96,9 +96,15 @@ async function gradingOpsFetch(path: string, init?: RequestInit): Promise<Respon
   });
 }
 
-export async function verifyGradingAdminAuth(password: string): Promise<void> {
+export async function verifyGradingAdminAuth(
+  password: string,
+  turnstileToken: string,
+): Promise<void> {
+  if (!turnstileToken.trim()) {
+    throw new Error('Turnstile token required');
+  }
   try {
-    setOpsToken(await gradingLogin(password));
+    setOpsToken(await gradingLogin(password, turnstileToken));
   } catch (error) {
     if (error instanceof TypeError) {
       throw new Error('Cannot reach grading backend. Is the Worker running on :8787?');
@@ -347,13 +353,18 @@ export async function deleteCustomerOrderItem(itemId: string): Promise<void> {
 }
 
 export async function updateItem(itemId: string, patch: AdminUpdateItemPayload): Promise<AdminItem> {
-  const res = await gradingOpsFetch(`/grading/items/${itemId}`, {
+  if (Object.keys(patch).length === 0) {
+    throw new Error('Item update has no changed fields');
+  }
+  const res = await gradingOpsFetch(`/grading/items/${encodeURIComponent(itemId)}`, {
     method: 'PATCH',
     body: JSON.stringify(patch),
   });
   const payload = (await parseJsonResponse(res)) as { item?: AdminItem; data?: AdminItem };
   const item = payload.item ?? payload.data;
   if (!item) throw new Error('Item update failed');
+  // Payment edits affect order detail + dashboard payment summaries.
+  invalidateGradingListCache();
   return item;
 }
 

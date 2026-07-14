@@ -161,7 +161,8 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
 
       const updatedItems = [...nextDetail.items];
       for (const draft of changedItems) {
-        const updated = await updateItem(draft.id, itemUpdatePayload(draft));
+        const saved = savedById.get(draft.id);
+        const updated = await updateItem(draft.id, itemUpdatePayload(draft, saved));
         const index = updatedItems.findIndex((item) => item.id === draft.id);
         if (index >= 0) updatedItems[index] = updated;
       }
