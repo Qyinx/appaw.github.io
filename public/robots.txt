@@ -4,7 +4,6 @@
 
 # ── Default: allow everything except noise ───────────────────────────────────
 User-agent: *
-Content-Signal: ai-train=no, search=yes, ai-input=yes
 Allow: /
 
 # Block internal / admin / API routes — no indexing value
@@ -17,7 +16,6 @@ Disallow: /style-guide/
 
 # Block URL query parameters that create duplicate content
 # Filter & sort params on card marketplace — the `card-trading` section is blocked from indexing
-Disallow: /business/card-trading/
 Disallow: /collection/list/
 Disallow: /collection/auth/
 Disallow: /collection/card/
