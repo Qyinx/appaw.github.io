@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ArrowLeft } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { DEMO_LOOKUP } from '@/lib/grading/mock-data';
 import { mockLookup, parseDemoVariant } from '@/lib/grading/mock-lookup';
 import { lookupGradingSubmission } from '@/lib/grading/grading-api';
@@ -30,6 +30,7 @@ export default function PsaGradingTrackClient() {
   const copy = t.psaGradingTrack;
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const demoParam = searchParams.get('demo');
   const demoVariant = parseDemoVariant(demoParam);
   const isDev = process.env.NODE_ENV !== 'production';
@@ -43,7 +44,6 @@ export default function PsaGradingTrackClient() {
   const gridRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const skeletonTweenRef = useRef<gsap.core.Timeline | void>(undefined);
-  const autoLookupDoneRef = useRef(false);
 
   useGradingTrackMotion(pageRef);
 
@@ -58,17 +58,15 @@ export default function PsaGradingTrackClient() {
   const [liveMessage, setLiveMessage] = useState('');
 
   const syncUrl = useCallback(
-    (nextPhone: string, nextRef: string, nextView?: ResultsTab) => {
+    (nextView?: ResultsTab) => {
       const params = new URLSearchParams();
-      if (nextPhone.trim()) params.set('phone', nextPhone.trim());
-      if (nextRef.trim()) params.set('ref', nextRef.trim());
       if (nextView && nextView !== 'status') params.set('view', nextView);
       if (isDev && demoParam !== null) params.set('demo', demoParam);
       if (focusParam === 'lookup') params.set('focus', 'lookup');
       const qs = params.toString();
-      router.replace(qs ? `?${qs}` : '?', { scroll: false });
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     },
-    [demoParam, focusParam, isDev, router],
+    [demoParam, focusParam, isDev, pathname, router],
   );
 
   const fillDemo = useCallback(() => {
@@ -98,14 +96,14 @@ export default function PsaGradingTrackClient() {
       if (!result) {
         setState('not_found');
         setLiveMessage(copy.form.notFoundTitle);
-        syncUrl(lookupPhone, lookupRef);
+        syncUrl();
         return;
       }
       setSubmission(result.submission);
       setRelatedSubmissions(result.relatedSubmissions ?? []);
       setState('success');
       setLiveMessage(`${copy.results.refLabel}: ${result.submission.referenceCode}`);
-      syncUrl(lookupPhone, lookupRef, resultsTab);
+      syncUrl(resultsTab);
     },
     [copy.form.notFoundTitle, copy.results.refLabel, demoVariant, forceDemoMode, resultsTab, syncUrl],
   );
@@ -118,25 +116,17 @@ export default function PsaGradingTrackClient() {
   }, []);
 
   useEffect(() => {
-    const urlPhone = searchParams.get('phone') ?? '';
-    const urlRef = searchParams.get('ref') ?? '';
     const urlView = searchParams.get('view');
-
-    if (urlPhone) setPhone(urlPhone);
-    if (urlRef) setReferenceCode(urlRef);
     if (urlView === 'cards' || urlView === 'status') {
       setResultsTab(urlView);
     }
   }, [searchParams]);
 
   useEffect(() => {
-    if (autoLookupDoneRef.current) return;
-    const urlPhone = searchParams.get('phone') ?? '';
-    const urlRef = searchParams.get('ref') ?? '';
-    if (!urlPhone || !urlRef) return;
-    autoLookupDoneRef.current = true;
-    void runLookup(urlPhone, urlRef);
-  }, [searchParams, runLookup]);
+    if (!searchParams.has('phone') && !searchParams.has('ref')) return;
+    const urlView = searchParams.get('view');
+    syncUrl(urlView === 'cards' || urlView === 'status' ? urlView : undefined);
+  }, [searchParams, syncUrl]);
 
   useEffect(() => {
     const formEl = formHandleRef.current?.getFormElement() ?? null;
@@ -190,9 +180,9 @@ export default function PsaGradingTrackClient() {
   const handleTabChange = useCallback(
     (tab: ResultsTab) => {
       setResultsTab(tab);
-      syncUrl(phone, referenceCode, tab);
+      syncUrl(tab);
     },
-    [phone, referenceCode, syncUrl],
+    [syncUrl],
   );
 
   const showDemoButton = isDev && state !== 'success';
