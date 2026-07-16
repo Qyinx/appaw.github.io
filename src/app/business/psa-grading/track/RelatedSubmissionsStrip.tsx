@@ -15,6 +15,7 @@ type Props = {
   copy: RelatedCopy;
   servicePlanCopy: ServicePlanCopy;
   onSelectReference: (referenceCode: string) => void;
+  switchDisabled?: boolean;
 };
 
 function planLabel(plan: GradingServicePlan, copy: ServicePlanCopy): string {
@@ -33,6 +34,7 @@ export default function RelatedSubmissionsStrip({
   copy,
   servicePlanCopy,
   onSelectReference,
+  switchDisabled = false,
 }: Props) {
   const filtered = related.filter((r) => r.referenceCode !== currentReferenceCode);
   if (!filtered.length) return null;
@@ -45,8 +47,9 @@ export default function RelatedSubmissionsStrip({
           <li key={item.referenceCode}>
             <button
               type="button"
+              disabled={switchDisabled}
               onClick={() => onSelectReference(item.referenceCode)}
-              className="w-full text-left flex flex-wrap items-center gap-2 px-3 py-3 min-h-[44px] border border-border-default bg-surface-panel hover:border-accent-secondary/50 hover:bg-surface-raised transition-colors duration-150"
+              className="w-full text-left flex flex-wrap items-center gap-2 px-3 py-3 min-h-[44px] border border-border-default bg-surface-panel hover:border-accent-secondary/50 hover:bg-surface-raised transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-border-default disabled:hover:bg-surface-panel"
             >
               <span className="font-mono text-sm text-accent-brand tabular-nums">
                 {item.referenceCode}

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { CheckCircle2, Circle, Clock, PackageOpen, Send, Store } from 'lucide-react';
+import { PackageOpen, Send, Store } from 'lucide-react';
 
 function prefersReducedMotion(): boolean {
   if (typeof window === 'undefined') return false;
@@ -28,7 +28,10 @@ type Props = {
   progressPercent: number;
   currentStepIndex: number;
   progressSummary: string;
+  progressLabel?: string;
   phaseLabels: Record<StepperPhase, string>;
+  phaseCodes?: Record<StepperPhase, string>;
+  statusWords?: { complete: string; active: string; pending: string };
   progressBarRef?: React.RefObject<HTMLDivElement | null>;
   verticalFillRef?: React.RefObject<HTMLDivElement | null>;
   phaseBarRef?: React.RefObject<HTMLDivElement | null>;
@@ -38,34 +41,17 @@ type Props = {
 
 const PHASE_ORDER: StepperPhase[] = ['intake', 'psa', 'pickup'];
 
+const DEFAULT_PHASE_CODES: Record<StepperPhase, string> = {
+  intake: '01',
+  psa: '02',
+  pickup: '03',
+};
+
 const PHASE_ICONS: Record<StepperPhase, React.ComponentType<{ className?: string }>> = {
   intake: Store,
   psa: Send,
   pickup: PackageOpen,
 };
-
-function indicatorClass(state: StepperItemState, appaw?: boolean): string {
-  if (appaw && state === 'complete') return 'border-accent-brand/50 bg-surface-bg text-accent-brand';
-  if (state === 'complete') return 'border-accent-success/50 bg-surface-bg text-accent-success';
-  if (state === 'active') return 'border-accent-warn/50 bg-surface-bg text-accent-warn';
-  return 'border-border-strong bg-surface-bg text-text-muted';
-}
-
-function statusPillClass(state: StepperItemState): string {
-  if (state === 'complete') return 'border-accent-success/40 bg-accent-success/10 text-accent-success';
-  if (state === 'active') return 'border-accent-warn/40 bg-accent-warn/10 text-accent-warn';
-  return 'border-border-default bg-surface-raised text-text-muted';
-}
-
-function StatusPillIcon({ state }: { state: StepperItemState }) {
-  if (state === 'complete') {
-    return <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />;
-  }
-  if (state === 'active') {
-    return <Clock className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />;
-  }
-  return <Circle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />;
-}
 
 function getPhaseState(items: StepperItem[], phase: StepperPhase): StepperItemState {
   const phaseItems = items.filter((item) => item.phase === phase);
@@ -83,12 +69,6 @@ function getPhaseProgress(items: StepperItem[], phase: StepperPhase): { complete
   };
 }
 
-function phaseIndicatorClass(state: StepperItemState): string {
-  if (state === 'complete') return 'border-accent-success/50 bg-accent-success/10 text-accent-success';
-  if (state === 'active') return 'border-accent-warn/50 bg-accent-warn/10 text-accent-warn';
-  return 'border-border-strong bg-surface-bg text-text-muted';
-}
-
 function groupItemsByPhase(items: StepperItem[]): { phase: StepperPhase; items: StepperItem[] }[] {
   return PHASE_ORDER.map((phase) => ({
     phase,
@@ -96,13 +76,33 @@ function groupItemsByPhase(items: StepperItem[]): { phase: StepperPhase; items: 
   })).filter((group) => group.items.length > 0);
 }
 
-/** Vertical stepper with scrollable step list; auto-centers on current stage */
+function statusWordClass(state: StepperItemState): string {
+  if (state === 'complete') return 'text-accent-success';
+  if (state === 'active') return 'text-accent-warn';
+  return 'text-text-muted';
+}
+
+function phaseCellClass(state: StepperItemState, isActivePhase: boolean): string {
+  const base = 'flex flex-col gap-1.5 px-3 py-3 min-w-0 border-l-[3px]';
+  if (isActivePhase) {
+    return `${base} bg-surface-panel border-l-accent-primary text-text-primary`;
+  }
+  if (state === 'complete') {
+    return `${base} bg-surface-raised border-l-accent-success/60 text-text-secondary`;
+  }
+  return `${base} bg-surface-raised border-l-transparent text-text-muted`;
+}
+
+/** Vertical ops stepper: neo-brutalist rail + mono status words */
 export default function Stepper({
   items,
   progressPercent,
   currentStepIndex,
   progressSummary,
+  progressLabel = 'PROGRESS',
   phaseLabels,
+  phaseCodes = DEFAULT_PHASE_CODES,
+  statusWords = { complete: 'DONE', active: 'ACTIVE', pending: 'WAIT' },
   progressBarRef,
   verticalFillRef,
   phaseBarRef,
@@ -113,6 +113,13 @@ export default function Stepper({
   const grouped = groupItemsByPhase(items);
   const activePhase = items[currentStepIndex]?.phase;
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const phaseStatusWord = (state: StepperItemState) =>
+    state === 'complete'
+      ? statusWords.complete
+      : state === 'active'
+        ? statusWords.active
+        : statusWords.pending;
 
   let globalIndex = 0;
 
@@ -143,22 +150,32 @@ export default function Stepper({
   }, [currentStepIndex, items]);
 
   return (
-    <div className="min-w-0 space-y-6">
-      <div className="min-w-0 border-b border-border-default pb-4">
-        <p className="spec-row__label mb-3">{progressSummary}</p>
-        <div
-          className="relative h-1.5 bg-surface-raised border border-border-default overflow-hidden"
-          role="progressbar"
-          aria-valuenow={pct}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-label={progressSummary}
-        >
+    <div className="stepper-ops min-w-0 space-y-5">
+      <div className="stepper-ops__header border border-border-default bg-surface-panel">
+        <div className="flex items-baseline justify-between gap-3 px-4 py-3 border-b border-border-default">
+          <p className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-text-muted">
+            {progressLabel}
+          </p>
+          <p className="font-mono text-xs tabular-nums text-text-primary">{progressSummary}</p>
+        </div>
+        <div className="flex items-center gap-3 px-4 py-3">
           <div
-            ref={progressBarRef}
-            className="absolute inset-y-0 left-0 w-full bg-accent-brand origin-left"
-            style={progressBarRef ? { transform: 'scaleX(0)' } : { transform: `scaleX(${pct / 100})` }}
-          />
+            className="relative h-2 flex-1 bg-surface-raised border border-border-strong overflow-hidden"
+            role="progressbar"
+            aria-valuenow={pct}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label={progressSummary}
+          >
+            <div
+              ref={progressBarRef}
+              className="absolute inset-y-0 left-0 w-full bg-accent-brand origin-left"
+              style={progressBarRef ? { transform: 'scaleX(0)' } : { transform: `scaleX(${pct / 100})` }}
+            />
+          </div>
+          <span className="font-mono text-sm tabular-nums text-text-primary shrink-0 w-12 text-right">
+            {Math.round(pct)}%
+          </span>
         </div>
       </div>
 
@@ -179,25 +196,21 @@ export default function Stepper({
               key={phase}
               data-phase-node
               aria-label={`${phaseLabels[phase]}: ${completed} of ${total}`}
-              className={`flex flex-col items-center gap-1.5 px-2 py-3 min-w-0 transition-colors duration-150 ${
-                isActivePhase ? 'bg-surface-panel text-text-primary' : 'bg-surface-raised text-text-muted'
-              }`}
+              className={phaseCellClass(phaseState, isActivePhase)}
             >
-              <span
-                className={`inline-flex h-8 w-8 items-center justify-center border ${phaseIndicatorClass(phaseState)}`}
-              >
-                {phaseState === 'complete' ? (
-                  <CheckCircle2 className="w-4 h-4 shrink-0" aria-hidden="true" />
-                ) : phaseState === 'active' ? (
-                  <Clock className="w-4 h-4 shrink-0" aria-hidden="true" />
-                ) : (
-                  <PhaseIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
-                )}
-              </span>
-              <p className="spec-row__label text-center leading-tight line-clamp-2 w-full normal-case">
-                {phaseLabels[phase]}
-              </p>
-              <p className="text-xs text-text-muted font-mono tabular-nums">{completed}/{total}</p>
+              <div className="flex items-center gap-2 min-w-0">
+                <PhaseIcon className="w-3.5 h-3.5 shrink-0 opacity-70" aria-hidden="true" />
+                <span className="font-mono text-[0.6875rem] tabular-nums tracking-wider">
+                  [{phaseCodes[phase]}]
+                </span>
+              </div>
+              <p className="text-xs leading-snug line-clamp-2 w-full">{phaseLabels[phase]}</p>
+              <div className="flex items-center justify-between gap-2 font-mono text-[0.6875rem] tabular-nums">
+                <span>
+                  {completed}/{total}
+                </span>
+                <span className={statusWordClass(phaseState)}>{phaseStatusWord(phaseState)}</span>
+              </div>
             </div>
           );
         })}
@@ -205,12 +218,12 @@ export default function Stepper({
 
       <div
         ref={scrollRef}
-        className="relative min-w-0 max-h-[min(28rem,60vh)] overflow-y-auto overscroll-y-contain scroll-smooth [scrollbar-gutter:stable]"
+        className="relative min-w-0 max-h-[min(28rem,60vh)] overflow-y-auto overscroll-y-contain scroll-smooth border border-border-default bg-surface-panel [scrollbar-gutter:stable]"
         aria-label={progressSummary}
       >
-        <div className="relative min-w-0 pr-1">
+        <div className="relative min-w-0 px-3 py-3 sm:px-4">
           <div
-            className="absolute left-[1.375rem] top-2 bottom-2 w-0.5 bg-surface-raised overflow-hidden pointer-events-none"
+            className="absolute left-[1.65rem] sm:left-[1.9rem] top-4 bottom-4 w-px bg-border-strong overflow-hidden pointer-events-none"
             aria-hidden="true"
           >
             <div
@@ -224,20 +237,21 @@ export default function Stepper({
             />
           </div>
 
-          <div className="space-y-8 pb-2">
+          <div className="space-y-6 pb-1">
             {grouped.map(({ phase, items: phaseItems }) => (
               <section key={phase} aria-labelledby={`stepper-phase-${phase}`}>
                 <h3
                   id={`stepper-phase-${phase}`}
-                  className="spec-row__label mb-4 pl-12 normal-case tracking-normal"
+                  className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-text-muted mb-3 pl-11"
                 >
-                  {phaseLabels[phase]}
+                  [{phaseCodes[phase]}] {phaseLabels[phase]}
                 </h3>
-                <ol className="space-y-4" aria-label={phaseLabels[phase]}>
+                <ol className="space-y-2" aria-label={phaseLabels[phase]}>
                   {phaseItems.map((item) => {
                     const index = globalIndex++;
                     const isActive = item.state === 'active';
                     const isCurrentStage = index === currentStepIndex;
+                    const stepNum = String(index + 1).padStart(2, '0');
 
                     return (
                       <li
@@ -245,42 +259,53 @@ export default function Stepper({
                         ref={getItemRef?.(index)}
                         data-current-step={isCurrentStage ? 'true' : undefined}
                         aria-current={isActive ? 'step' : undefined}
-                        className="relative pl-12 scroll-mt-4"
+                        className="relative pl-11 scroll-mt-4"
                       >
                         <span
                           ref={isActive ? getActiveIconRef : undefined}
-                          className={`absolute left-0 top-0 flex h-11 w-11 items-center justify-center border ${indicatorClass(item.state, item.appaw)}`}
-                          aria-hidden={Boolean(item.icon)}
+                          className={`absolute left-0 top-1 flex h-8 w-8 items-center justify-center border font-mono text-[0.625rem] tabular-nums ${
+                            item.state === 'complete'
+                              ? 'border-accent-success/50 bg-surface-bg text-accent-success'
+                              : isActive
+                                ? 'border-accent-warn/60 bg-surface-bg text-accent-warn'
+                                : 'border-border-strong bg-surface-bg text-text-muted'
+                          }`}
+                          aria-hidden="true"
                         >
-                          {item.icon}
+                          {stepNum}
                         </span>
 
                         {isActive ? (
-                          <div className="panel-raised overflow-hidden px-4 py-3 motion-safe:shadow-[inset_3px_0_0_0_var(--accent-primary)]">
-                            <div className="min-w-0 space-y-2">
-                              <p className="text-base font-medium text-text-primary">{item.title}</p>
+                          <div className="border border-border-strong bg-surface-raised overflow-hidden pl-3 pr-3 py-3 shadow-[inset_3px_0_0_0_var(--accent-primary)]">
+                            <div className="flex items-start justify-between gap-3 min-w-0">
+                              <p className="text-sm font-medium text-text-primary min-w-0">
+                                <span className="font-mono text-accent-primary mr-1.5" aria-hidden="true">
+                                  &gt;
+                                </span>
+                                {item.title}
+                              </p>
                               {item.caption && (
                                 <span
-                                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium border ${statusPillClass(item.state)}`}
+                                  className={`shrink-0 font-mono text-[0.6875rem] uppercase tracking-[0.1em] ${statusWordClass(item.state)}`}
                                 >
-                                  <StatusPillIcon state={item.state} />
                                   {item.caption}
                                 </span>
                               )}
                             </div>
                           </div>
                         ) : (
-                          <div className="min-w-0 py-1.5 space-y-2">
+                          <div className="flex items-start justify-between gap-3 min-w-0 py-2 px-1 border-b border-border-default/80">
                             <p
-                              className={`text-sm ${item.state === 'complete' ? 'text-text-secondary' : 'text-text-primary'}`}
+                              className={`text-sm min-w-0 ${
+                                item.state === 'complete' ? 'text-text-secondary' : 'text-text-primary'
+                              }`}
                             >
                               {item.title}
                             </p>
                             {item.caption && (
                               <span
-                                className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium border ${statusPillClass(item.state)}`}
+                                className={`shrink-0 font-mono text-[0.6875rem] uppercase tracking-[0.1em] ${statusWordClass(item.state)}`}
                               >
-                                <StatusPillIcon state={item.state} />
                                 {item.caption}
                               </span>
                             )}

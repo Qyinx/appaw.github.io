@@ -26,6 +26,7 @@ type Props = {
   servicePlanCopy: ServicePlanCopy;
   relatedSubmissions?: GradingRelatedSubmission[];
   onSelectReference?: (referenceCode: string) => void;
+  relatedSwitchDisabled?: boolean;
   activeTab?: ResultsTab;
   onTabChange?: (tab: ResultsTab) => void;
 };
@@ -71,6 +72,7 @@ export default function TrackResultsPanel({
   servicePlanCopy,
   relatedSubmissions,
   onSelectReference,
+  relatedSwitchDisabled = false,
   activeTab: controlledTab,
   onTabChange,
 }: Props) {
@@ -229,6 +231,7 @@ export default function TrackResultsPanel({
                   copy={copy.relatedSubmissions!}
                   servicePlanCopy={servicePlanCopy}
                   onSelectReference={onSelectReference}
+                  switchDisabled={relatedSwitchDisabled}
                 />
               </div>
             )}

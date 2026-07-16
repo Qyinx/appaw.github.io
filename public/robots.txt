@@ -1,9 +1,10 @@
 # robots.txt — Appaw Store
-# Last updated: 2026-06-08
+# Last updated: 2026-07-16
 # GEO / LLM context: https://appaw.store/llms.txt
 
 # ── Default: allow everything except noise ───────────────────────────────────
 User-agent: *
+Content-Signal: ai-train=no, search=yes, ai-input=no
 Allow: /
 
 # Block internal / admin / API routes — no indexing value

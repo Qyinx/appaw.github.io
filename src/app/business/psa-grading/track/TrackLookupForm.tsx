@@ -5,6 +5,7 @@ import { Loader2, Search, AlertCircle } from 'lucide-react';
 import gsap from 'gsap';
 import type { Translations } from '@/i18n/en';
 import LocalLink from '@/components/LocalLink';
+import TurnstileWidget from '@/components/TurnstileWidget';
 import ReferenceCodeHighlight from './ReferenceCodeHighlight';
 import {
   animateButtonPress,
@@ -33,6 +34,14 @@ type Props = {
   compact?: boolean;
   showDemoButton?: boolean;
   initialFocus?: 'phone' | 'reference';
+  siteKey: string;
+  turnstileToken: string;
+  onTurnstileToken: (token: string) => void;
+  onTurnstileExpire: () => void;
+  onTurnstileError: () => void;
+  resetSignal: number;
+  securityError?: string;
+  requireTurnstile: boolean;
 };
 
 const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackLookupForm(
@@ -49,6 +58,14 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
     compact = false,
     showDemoButton = false,
     initialFocus,
+    siteKey,
+    turnstileToken,
+    onTurnstileToken,
+    onTurnstileExpire,
+    onTurnstileError,
+    resetSignal,
+    securityError,
+    requireTurnstile,
   },
   ref,
 ) {
@@ -58,6 +75,7 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
   const refFieldWrapRef = useRef<HTMLDivElement>(null);
   const errorAlertRef = useRef<HTMLDivElement>(null);
   const errorId = 'grading-track-error';
+  const securityErrorId = 'grading-track-security-error';
   const mountedRef = useRef(false);
 
   useImperativeHandle(ref, () => ({
@@ -112,104 +130,132 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
     if (state !== 'loading') animateButtonPress(e.currentTarget);
   };
 
+  const submitDisabled =
+    state === 'loading' || (requireTurnstile && (!siteKey || !turnstileToken));
+
   return (
     <form
       ref={formRef}
       onSubmit={onSubmit}
       className="grading-track-form border border-border-default bg-surface-panel"
       noValidate
-      aria-describedby={state === 'not_found' ? errorId : undefined}
+      aria-describedby={
+        [state === 'not_found' ? errorId : null, securityError ? securityErrorId : null]
+          .filter(Boolean)
+          .join(' ') || undefined
+      }
     >
       <div className="grading-track-form__header">
         <p className="grading-track-form__label">{panelLabel}</p>
       </div>
 
       <div className="grading-track-form__body space-y-5">
-      <div>
-        <label htmlFor="grading-phone" className="block text-sm font-medium text-text-primary mb-2">
-          {copy.phoneLabel}
-          <span className="text-accent-danger ml-1" aria-hidden="true">*</span>
-        </label>
-        <input
-          ref={phoneRef}
-          id="grading-phone"
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel"
-          required
-          value={phone}
-          onChange={(e) => onPhoneChange(e.target.value)}
-          aria-invalid={state === 'not_found'}
-          className="w-full min-h-[44px] px-4 py-2.5 bg-surface-raised border border-border-default text-text-primary text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary/50 transition-[box-shadow,border-color] duration-150"
-          placeholder={copy.phonePlaceholder}
-        />
-        <p className="mt-2 text-sm text-text-muted">{copy.phoneHelper}</p>
-      </div>
-
-      <div ref={refFieldWrapRef}>
-        <ReferenceCodeHighlight
-          id="grading-ref"
-          label={copy.refLabel}
-          value={referenceCode}
-          placeholder={copy.refPlaceholder}
-          helper={copy.refHelper}
-          inputRef={refInputRef}
-          onChange={onReferenceCodeChange}
-        />
-      </div>
-
-      <div className="flex flex-col gap-3 pt-2 w-full min-w-0">
-        <button
-          type="submit"
-          disabled={state === 'loading'}
-          onClick={handleSubmitClick}
-          className="btn btn-primary w-full min-h-[44px] inline-flex items-center justify-center gap-2 !whitespace-normal normal-case tracking-normal font-sans text-sm text-center disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {state === 'loading' ? (
-            <Loader2 className="w-4 h-4 shrink-0 animate-spin" aria-hidden="true" />
-          ) : (
-            <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
-          )}
-          {state === 'loading' ? copy.submitting : copy.submit}
-        </button>
-        {showDemoButton && state !== 'success' && (
-          <button
-            type="button"
-            onClick={handleFillDemo}
-            className="btn btn-secondary w-full min-h-[44px] inline-flex items-center justify-center !whitespace-normal normal-case tracking-normal font-sans text-sm text-center"
-          >
-            {compact ? (
-              <>
-                <span className="lg:hidden">{copy.fillDemo}</span>
-                <span className="hidden lg:inline">{copy.fillDemoShort}</span>
-              </>
-            ) : (
-              copy.fillDemo
-            )}
-          </button>
-        )}
-        <LocalLink
-          href="/business/psa-grading#pricing"
-          className="text-sm text-accent-secondary hover:underline min-h-[44px] inline-flex items-center justify-center"
-        >
-          {copy.pricingLink}
-        </LocalLink>
-      </div>
-
-      {state === 'not_found' && (
-        <div
-          ref={errorAlertRef}
-          id={errorId}
-          role="alert"
-          className="flex gap-3 p-4 border border-accent-danger/30 bg-accent-danger/5 text-text-primary"
-        >
-          <AlertCircle className="w-5 h-5 shrink-0 text-accent-danger mt-0.5" aria-hidden="true" />
-          <div>
-            <p className="font-medium">{copy.notFoundTitle}</p>
-            <p className="text-sm text-text-secondary mt-1">{copy.notFoundBody}</p>
-          </div>
+        <div>
+          <label htmlFor="grading-phone" className="block text-sm font-medium text-text-primary mb-2">
+            {copy.phoneLabel}
+            <span className="text-accent-danger ml-1" aria-hidden="true">
+              *
+            </span>
+          </label>
+          <input
+            ref={phoneRef}
+            id="grading-phone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            required
+            value={phone}
+            onChange={(e) => onPhoneChange(e.target.value)}
+            aria-invalid={state === 'not_found'}
+            className="w-full min-h-[44px] px-4 py-2.5 bg-surface-raised border border-border-default text-text-primary text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary/50 transition-[box-shadow,border-color] duration-150"
+            placeholder={copy.phonePlaceholder}
+          />
+          <p className="mt-2 text-sm text-text-muted">{copy.phoneHelper}</p>
         </div>
-      )}
+
+        <div ref={refFieldWrapRef}>
+          <ReferenceCodeHighlight
+            id="grading-ref"
+            label={copy.refLabel}
+            value={referenceCode}
+            placeholder={copy.refPlaceholder}
+            helper={copy.refHelper}
+            inputRef={refInputRef}
+            onChange={onReferenceCodeChange}
+          />
+        </div>
+
+        {requireTurnstile &&
+          (siteKey ? (
+            <TurnstileWidget
+              siteKey={siteKey}
+              onToken={onTurnstileToken}
+              onExpire={onTurnstileExpire}
+              onError={onTurnstileError}
+              resetSignal={resetSignal}
+            />
+          ) : (
+            <p className="text-sm text-accent-danger">{copy.turnstileMissingKey}</p>
+          ))}
+
+        {securityError && (
+          <p id={securityErrorId} role="alert" className="text-sm text-accent-danger">
+            {securityError}
+          </p>
+        )}
+
+        <div className="flex flex-col gap-3 pt-2 w-full min-w-0">
+          <button
+            type="submit"
+            disabled={submitDisabled}
+            onClick={handleSubmitClick}
+            className="btn btn-primary w-full min-h-[44px] inline-flex items-center justify-center gap-2 !whitespace-normal normal-case tracking-normal font-sans text-sm text-center disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {state === 'loading' ? (
+              <Loader2 className="w-4 h-4 shrink-0 animate-spin" aria-hidden="true" />
+            ) : (
+              <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
+            )}
+            {state === 'loading' ? copy.submitting : copy.submit}
+          </button>
+          {showDemoButton && state !== 'success' && (
+            <button
+              type="button"
+              onClick={handleFillDemo}
+              className="btn btn-secondary w-full min-h-[44px] inline-flex items-center justify-center !whitespace-normal normal-case tracking-normal font-sans text-sm text-center"
+            >
+              {compact ? (
+                <>
+                  <span className="lg:hidden">{copy.fillDemo}</span>
+                  <span className="hidden lg:inline">{copy.fillDemoShort}</span>
+                </>
+              ) : (
+                copy.fillDemo
+              )}
+            </button>
+          )}
+          <LocalLink
+            href="/business/psa-grading#pricing"
+            className="text-sm text-accent-secondary hover:underline min-h-[44px] inline-flex items-center justify-center"
+          >
+            {copy.pricingLink}
+          </LocalLink>
+        </div>
+
+        {state === 'not_found' && (
+          <div
+            ref={errorAlertRef}
+            id={errorId}
+            role="alert"
+            className="flex gap-3 p-4 border border-accent-danger/30 bg-accent-danger/5 text-text-primary"
+          >
+            <AlertCircle className="w-5 h-5 shrink-0 text-accent-danger mt-0.5" aria-hidden="true" />
+            <div>
+              <p className="font-medium">{copy.notFoundTitle}</p>
+              <p className="text-sm text-text-secondary mt-1">{copy.notFoundBody}</p>
+            </div>
+          </div>
+        )}
       </div>
     </form>
   );

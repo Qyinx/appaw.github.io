@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { verifyGradingAdminAuth } from '@/lib/grading/admin-api';
-import TurnstileWidget from './TurnstileWidget';
+import TurnstileWidget from '@/components/TurnstileWidget';
 
 type Props = {
   onUnlock: () => void;

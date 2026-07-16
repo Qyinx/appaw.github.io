@@ -995,6 +995,16 @@ export const en = {
       notFoundTitle: 'No submission found',
       notFoundBody: 'Check your phone number and reference code match your receipt exactly. WhatsApp us if you have questions.',
       pricingLink: 'PSA service tiers & fees',
+      turnstileMissingKey: 'Security check is not configured. Try again later.',
+      turnstileRequired: 'Complete the security check first.',
+      turnstileFailed: 'Security check failed. Try again.',
+      turnstileLoadError: 'Security check failed to load. Refresh and try again.',
+      lookupError: 'Lookup failed. Try again.',
+    },
+    summaryBar: {
+      phoneLabel: 'Phone',
+      refLabel: 'Reference',
+      newLookup: 'New lookup',
     },
     guide: {
       idleHint: 'Your receipt shows the phone number and BAT reference code you need.',
@@ -1033,10 +1043,16 @@ export const en = {
         switch: 'View this submission',
       },
       stepper: {
-        currentStep: 'In progress',
-        completed: 'Complete',
-        pending: 'Pending',
-        progress: 'Step {current} of {total}',
+        currentStep: 'ACTIVE',
+        completed: 'DONE',
+        pending: 'WAIT',
+        progress: 'STEP {current} / {total}',
+        progressLabel: 'PROGRESS',
+        phaseCodes: {
+          intake: '01',
+          psa: '02',
+          pickup: '03',
+        },
         phases: {
           intake: '138 Arena drop-off',
           psa: 'PSA Processing',

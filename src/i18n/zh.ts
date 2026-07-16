@@ -996,6 +996,16 @@ export const zh: Translations = {
       notFoundTitle: '找不到委託紀錄',
       notFoundBody: '請確認電話號碼及參考編號與收據一致。如有疑問可 WhatsApp 聯絡我們。',
       pricingLink: 'PSA 服務等級及收費',
+      turnstileMissingKey: '安全驗證尚未設定，請稍後再試。',
+      turnstileRequired: '請先完成安全驗證。',
+      turnstileFailed: '安全驗證失敗，請再試一次。',
+      turnstileLoadError: '安全驗證載入失敗，請重新整理頁面。',
+      lookupError: '查詢失敗，請再試一次。',
+    },
+    summaryBar: {
+      phoneLabel: '電話',
+      refLabel: '參考編號',
+      newLookup: '重新查詢',
     },
     guide: {
       idleHint: '收據上會顯示查詢所需的電話號碼及 BAT 參考編號。',
@@ -1035,9 +1045,15 @@ export const zh: Translations = {
       },
       stepper: {
         currentStep: '進行中',
-        completed: '已完成',
-        pending: '待處理',
-        progress: '第 {current} / {total} 步',
+        completed: '完成',
+        pending: '等待',
+        progress: '步驟 {current} / {total}',
+        progressLabel: '進度',
+        phaseCodes: {
+          intake: '01',
+          psa: '02',
+          pickup: '03',
+        },
         phases: {
           intake: '138 Arena 交卡',
           psa: 'PSA 評級',

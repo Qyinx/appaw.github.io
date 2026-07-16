@@ -1,14 +1,6 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import {
-  CheckCircle2,
-  Circle,
-  Clock,
-  PackageOpen,
-  Send,
-  Store,
-} from 'lucide-react';
 import type { GradingProgressStep, GradingSubmission } from '@/lib/grading/types';
 import { submissionProgressPercent } from '@/lib/grading/mock-data';
 import Stepper, { type StepperItem, type StepperPhase } from '@/components/ui/Stepper';
@@ -19,6 +11,8 @@ type StepperCopy = {
   completed: string;
   pending: string;
   progress: string;
+  progressLabel: string;
+  phaseCodes: Record<StepperPhase, string>;
   phases: Record<StepperPhase, string>;
 };
 
@@ -27,35 +21,6 @@ type Props = {
   copy: { stepper: StepperCopy };
   badgeRefs: React.MutableRefObject<HTMLSpanElement[]>;
 };
-
-function StepIcon({
-  step,
-  completed,
-  active,
-}: {
-  step: GradingProgressStep;
-  completed: boolean;
-  active: boolean;
-}) {
-  if (step.kind === 'appaw') {
-    const Icon =
-      step.id === 'appaw-pickup' ? PackageOpen : step.id === 'appaw-sent-psa' ? Send : Store;
-    const className = completed
-      ? 'w-5 h-5 shrink-0 text-accent-success'
-      : active
-        ? 'w-5 h-5 shrink-0 text-accent-warn'
-        : 'w-5 h-5 shrink-0 text-accent-brand';
-    return <Icon className={className} aria-hidden="true" />;
-  }
-
-  if (completed) {
-    return <CheckCircle2 className="w-5 h-5 shrink-0 text-accent-success" aria-hidden="true" />;
-  }
-  if (active) {
-    return <Clock className="w-5 h-5 shrink-0 text-accent-warn" aria-hidden="true" />;
-  }
-  return <Circle className="w-5 h-5 shrink-0 text-text-muted" aria-hidden="true" />;
-}
 
 function stepPhase(step: GradingProgressStep): StepperPhase {
   if (step.id === 'appaw-pickup') return 'pickup';
@@ -110,15 +75,14 @@ export default function GradingProgressStepper({ submission, copy, badgeRefs }: 
       caption: stateLabel,
       state: step.completed ? 'complete' : isActive ? 'active' : 'pending',
       phase: stepPhase(step),
-      icon: <StepIcon step={step} completed={step.completed} active={isActive} />,
       appaw: step.kind === 'appaw',
     };
   });
 
   const displayStepIndex = activeIndex === -1 ? submission.steps.length : activeIndex + 1;
   const progressSummary = copy.stepper.progress
-    .replace('{current}', String(displayStepIndex))
-    .replace('{total}', String(submission.steps.length));
+    .replace('{current}', String(displayStepIndex).padStart(2, '0'))
+    .replace('{total}', String(submission.steps.length).padStart(2, '0'));
 
   return (
     <Stepper
@@ -126,7 +90,14 @@ export default function GradingProgressStepper({ submission, copy, badgeRefs }: 
       progressPercent={progressPct}
       currentStepIndex={currentIdx}
       progressSummary={progressSummary}
+      progressLabel={copy.stepper.progressLabel}
       phaseLabels={copy.stepper.phases}
+      phaseCodes={copy.stepper.phaseCodes}
+      statusWords={{
+        complete: copy.stepper.completed,
+        active: copy.stepper.currentStep,
+        pending: copy.stepper.pending,
+      }}
       progressBarRef={progressBarRef}
       verticalFillRef={verticalFillRef}
       phaseBarRef={phaseBarRef}

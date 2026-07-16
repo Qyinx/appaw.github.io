@@ -8,11 +8,12 @@ function lookupEndpoint() {
 export async function lookupGradingSubmission(
   phoneNumber: string,
   referenceCode: string,
+  turnstileToken: string,
 ): Promise<GradingLookupResult | null> {
   const response = await fetch(lookupEndpoint(), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phoneNumber, referenceCode }),
+    body: JSON.stringify({ phoneNumber, referenceCode, turnstileToken }),
   });
 
   if (response.status === 404) {
