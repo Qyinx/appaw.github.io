@@ -324,6 +324,12 @@ export default function PsaGradingTrackClient() {
           >
             {copy.title}
           </h1>
+          <p
+            data-track-hero
+            className="mt-2 text-sm md:text-base text-text-secondary leading-relaxed max-w-xl psa-grading-track-aeo-answer"
+          >
+            {copy.subtitle}
+          </p>
         </header>
 
         <div aria-live="polite" aria-atomic="true" className="sr-only">

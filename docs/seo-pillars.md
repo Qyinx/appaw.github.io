@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-07-13 (batch 10) — HK TCG grading keyword cluster; zh-HK full-phrase copy pass (guides-content.md).
+Last updated: 2026-07-20 — PSA track page SEO hygiene + humanized EN/ZH copy (duplicate H1 fix, speakable AEO, meta keywords).
+
+Prior batch (2026-07-13) — HK TCG grading keyword cluster; zh-HK full-phrase copy pass (guides-content.md).
 
 Prior batch (2026-07-12) — PSA submission hub + track SEO: indexable metadata, JSON-LD, sitemap, llms.txt, AEO blocks, homepage/business internal links.
 
@@ -22,6 +24,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-07-20 | PSA track SEO | `/business/psa-grading/track/` hygiene: single H1, visible subtitle + AEO helpers, form `h2`, humanized EN/ZH meta + UI copy, track keywords/OG alt, `WebPage.speakable` → `.psa-grading-track-aeo-answer`, `llms.txt`/`index.md` soft pass. |
 | 2026-07-13 | HK TCG grading SEO | `SEO_KEYWORD_MAP` + `HK_SEO_KEYWORDS` cluster (香港 TCG 鑑定, TCG 提交鑑定). `PSA_GRADING_SEO` title/description retarget. `knowsAbout`, `llms.txt`, `guides-content.md` full-phrase zh-HK copy rules. |
 | 2026-07-12 | PSA submission SEO | `/business/psa-grading/` + `/track/` indexable (EN+ZH). `PSA_GRADING_SEO`, JSON-LD (Service/HowTo/FAQ/WebApplication), sitemap, llms.txt/index.md, AEO classes, live-service banner, internal links from `/`, `/business/`. |
 | 2026-07-02 | Protector pricing | Recommended retail prices centralized in `src/lib/products/protector-pricing.ts`: HKD 82 (single color), HKD 92 (gradient). UI + Product/Service JSON-LD read from single module; price strings removed from i18n. |
@@ -420,17 +423,18 @@ Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: tex
 
 ---
 
-5) PSA Grading Submission (`/business/psa-grading/`) — **IMPLEMENTED (2026-07-12)**
+5) PSA Grading Submission (`/business/psa-grading/`) — **IMPLEMENTED (2026-07-12)**; track hygiene **2026-07-20**
 
 - **URLs:** `https://appaw.store/business/psa-grading/` (hub), `https://appaw.store/business/psa-grading/track/` (lookup); `/zh/...` mirrors
-- **Metadata:** `PSA_GRADING_SEO` in `src/lib/product-names.ts` → `psaGradingMetadata` / `zhPsaGradingMetadata` in `src/lib/seo/metadata.ts`
-- **EN title:** PSA Collectibles Submission Hong Kong | Appaw Store
+- **Metadata:** `PSA_GRADING_SEO` in `src/lib/product-names.ts` → `psaGradingMetadata` / `zhPsaGradingMetadata` / track variants in `src/lib/seo/metadata.ts`
+- **EN title:** Hong Kong TCG Grading Submission | PSA – Appaw Store
 - **ZH title:** 香港 TCG 卡牌 PSA 代送鑑定 | 138 Arena – Appaw Store
-- **EN description (number-led):** Face-to-face PSA submission at 138 Arena, Causeway Bay. Service from HKD 890. Track batches with phone and reference code.
+- **Track EN title:** Track PSA Submission | Appaw Store
+- **Track description:** Look up PSA batch with phone + BAT on 138 Arena receipt (both required)
 - **Indexing:** `robots: { index: true, follow: true }` on hub + track (EN + ZH)
-- **JSON-LD:** Hub — `Service`, `Offer`×4 (from `psa-pricing.ts`), `HowTo`, `FAQPage`, `BreadcrumbList`, `WebPage` with `speakable` → `.psa-grading-aeo-answer`. Track — `WebApplication`, `BreadcrumbList`, `WebPage`
-- **AEO:** `.psa-grading-aeo-answer` on hero definition + PAA block; first FAQ answer uses `.guide-aeo-answer`
-- **sr-only zh:** EN hub shell mirrors zh copy (SSR defaults EN)
+- **JSON-LD:** Hub — `Service`, `Offer`×N (from `psa-pricing.ts`), `HowTo`, `FAQPage`, `BreadcrumbList`, `WebPage` with `speakable` → `.psa-grading-aeo-answer`. Track — `WebApplication`, `BreadcrumbList`, `WebPage` with `speakable` → `.psa-grading-track-aeo-answer`
+- **AEO:** Hub `.psa-grading-aeo-answer` on hero definition + PAA; track subtitle + form helpers use `.psa-grading-track-aeo-answer`
+- **Track semantics (2026-07-20):** single visible H1 (no sr-only duplicate); Lookup panel `h2`; humanized EN/ZH `psaGradingTrack` + `PSA_GRADING_SEO` track fields
 - **Sitemap:** hub priority 0.85, track 0.70 (`sitemap-config.ts`)
 - **GEO:** `llms.txt` + `index.md` pillar rows; HKD tier snippet for agents
 - **Internal links:** Header nav, 4 guides (inbound), hub reciprocal links, `/business/` ItemList #3, BusinessClient section, homepage services panel

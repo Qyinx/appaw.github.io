@@ -145,15 +145,15 @@ export const PSA_GRADING_SEO = {
     webAppName: 'PSA Submission Tracker',
     trackTitle: 'Track PSA Submission | Appaw Store',
     trackDescription:
-      'Check PSA submission status with your phone number and Appaw BAT reference code. Both are required for lookup.',
+      'Look up your PSA batch with the phone number and BAT reference code on your 138 Arena receipt.',
     featureList: [
-      'Batch status lookup by phone and BAT reference code',
-      'Timeline sync from 138 Arena intake through PSA grading',
-      'Related submissions from the same drop-off visit',
+      'Status lookup by phone and BAT reference code',
+      'Timeline from 138 Arena intake through PSA grading',
+      'Other batches from the same drop-off visit',
     ],
     breadcrumb: 'PSA Submission',
     trackBreadcrumb: 'Track',
-    lastUpdated: '2026-07-12',
+    lastUpdated: '2026-07-20',
   },
   zh: {
     title: '香港 TCG 卡牌 PSA 代送鑑定 | 138 Arena – Appaw Store',
@@ -162,14 +162,15 @@ export const PSA_GRADING_SEO = {
     h1Keyword: 'PSA 收藏卡代送鑑定',
     webAppName: 'PSA 代送進度查詢',
     trackTitle: '查詢 PSA 代送進度 | Appaw Store',
-    trackDescription: '憑電話號碼及 Appaw BAT 參考編號查詢 PSA 代送鑑定進度。兩者缺一不可。',
+    trackDescription:
+      '用收據上的電話號碼同 BAT 參考編號查 PSA 代送進度。',
     featureList: [
-      '憑電話及 BAT 參考編號查詢批次狀態',
+      '憑電話及 BAT 參考編號查批次狀態',
       '由 138 Arena 收件至 PSA 鑑定各階段時間軸',
-      '同一提交卡牌日期的相關批次快速切換',
+      '同一次交卡的其他批次',
     ],
     breadcrumb: 'PSA 代送鑑定',
     trackBreadcrumb: '查詢進度',
-    lastUpdated: '2026-07-12',
+    lastUpdated: '2026-07-20',
   },
 } as const;

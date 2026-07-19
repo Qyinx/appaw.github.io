@@ -21,7 +21,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | Centering tool | https://appaw.store/tools/card-centering/ | https://appaw.store/zh/tools/card-centering/ | Free PSA 10 centering calculator; raw + graded slab photos; regrade vs reholder screening |
 | Services | https://appaw.store/business/ | https://appaw.store/zh/business/ | Protector + PSA submission + graded card trading overview |
 | PSA submission | https://appaw.store/business/psa-grading/ | https://appaw.store/zh/business/psa-grading/ | Hong Kong TCG PSA proxy submission via 138 Arena; face-to-face card intake; BAT batch status lookup; tiers from HKD 850 |
-| Track PSA submission | https://appaw.store/business/psa-grading/track/ | https://appaw.store/zh/business/psa-grading/track/ | Batch status lookup (phone + BAT reference code) |
+| Track PSA submission | https://appaw.store/business/psa-grading/track/ | https://appaw.store/zh/business/psa-grading/track/ | Phone + BAT reference code from 138 Arena receipt |
 | Collection manager | https://appaw.store/collection/ | https://appaw.store/zh/collection/ | Free graded card inventory dashboard (landing only; sign-in required for app) |
 | About | https://appaw.store/about/ | https://appaw.store/zh/about/ | Brand story, Hong Kong origin |
 | Privacy | https://appaw.store/privacy/ | https://appaw.store/zh/privacy/ | Privacy policy |

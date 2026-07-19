@@ -132,6 +132,10 @@ export function buildPsaGradingTrackStructuredData(locale: PsaGradingLocale) {
     description: seo.trackDescription,
     url,
     dateModified: seo.lastUpdated,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.psa-grading-track-aeo-answer'],
+    },
   });
 
   return [webApp, breadcrumb, webPage];

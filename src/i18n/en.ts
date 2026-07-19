@@ -969,8 +969,8 @@ export const en = {
 
   psaGradingTrack: {
     badge: 'Submission tracking',
-    title: 'Track your PSA submission',
-    subtitle: 'Phone number and reference code from your receipt.',
+    title: 'Track PSA submission',
+    subtitle: 'Use the phone number and BAT reference code from your 138 Arena receipt.',
     formPanelLabel: 'Lookup',
     formPanelPart: '01',
     backToHub: 'Back to PSA submission',
@@ -983,16 +983,16 @@ export const en = {
     form: {
       phoneLabel: 'Phone number',
       phonePlaceholder: '+852 9123 4567',
-      phoneHelper: 'HK numbers accepted as +852, 852, or local 8-digit.',
+      phoneHelper: 'HK numbers: +852, 852, or local 8-digit.',
       refLabel: 'Reference code',
       refPlaceholder: '2026-07-EXP-99',
-      refHelper: 'Starts with BAT-. Rest as printed on your intake receipt.',
+      refHelper: 'Starts with BAT-. Enter the rest as printed on your intake receipt.',
       submit: 'Look up submission',
       submitting: 'Looking up…',
       fillDemo: 'Fill demo credentials',
       fillDemoShort: 'Use demo',
       notFoundTitle: 'No submission found',
-      notFoundBody: 'Check your phone number and reference code match your receipt exactly. WhatsApp us if you have questions.',
+      notFoundBody: 'Phone and reference code must match your receipt exactly. WhatsApp us if something looks wrong.',
       pricingLink: 'PSA service tiers & fees',
       turnstileMissingKey: 'Security check is not configured. Try again later.',
       turnstileRequired: 'Complete the security check first.',
@@ -1031,7 +1031,7 @@ export const en = {
       trackPackage: 'Track on carrier site',
       lastSynced: 'Last updated: {date}',
       relatedSubmissions: {
-        title: 'Also from your drop-off visit',
+        title: 'Other batches from this drop-off',
         switch: 'View this submission',
       },
       stepper: {
@@ -1047,7 +1047,7 @@ export const en = {
         },
         phases: {
           intake: '138 Arena drop-off',
-          psa: 'PSA Processing',
+          psa: 'PSA processing',
           pickup: '138 Arena pickup',
         },
         previous: 'Previous step',
@@ -1065,9 +1065,9 @@ export const en = {
       },
       tabsLabel: 'Results view',
       steps: {
-        appawRecorded: 'Card Recorded at 138 Arena',
-        appawSentToPsa: 'Submit to PSA Hong Kong',
-        appawPickup: 'Ready for Pickup at 138 Arena',
+        appawRecorded: 'Card recorded at 138 Arena',
+        appawSentToPsa: 'Submitted to PSA Hong Kong',
+        appawPickup: 'Ready for pickup at 138 Arena',
       },
       status: {
         problemOrder: 'Problem order — contact support',

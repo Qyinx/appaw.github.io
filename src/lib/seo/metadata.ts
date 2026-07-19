@@ -442,10 +442,13 @@ const psaGradingTrackMetadataBase: Metadata = {
   description: PSA_GRADING_SEO.en.trackDescription,
   keywords: [
     'track PSA submission',
+    'PSA submission status',
     'PSA batch status',
     'BAT reference code',
+    '138 Arena PSA track',
     'PSA代送進度',
     '查詢PSA批次',
+    'BAT參考編號',
   ],
   robots: { index: true, follow: true },
   openGraph: {
@@ -458,7 +461,7 @@ const psaGradingTrackMetadataBase: Metadata = {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Track PSA submission status — Appaw Store',
+        alt: 'Look up PSA batch status with phone and BAT code — Appaw Store',
       },
     ],
   },

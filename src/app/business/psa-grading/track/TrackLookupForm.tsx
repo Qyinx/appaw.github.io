@@ -146,7 +146,7 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
       }
     >
       <div className="grading-track-form__header">
-        <p className="grading-track-form__label">{panelLabel}</p>
+        <h2 className="grading-track-form__label">{panelLabel}</h2>
       </div>
 
       <div className="grading-track-form__body space-y-5">
@@ -170,7 +170,7 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
             className="w-full min-h-[44px] px-4 py-2.5 bg-surface-raised border border-border-default text-text-primary text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary/50 transition-[box-shadow,border-color] duration-150"
             placeholder={copy.phonePlaceholder}
           />
-          <p className="mt-2 text-sm text-text-muted">{copy.phoneHelper}</p>
+          <p className="mt-2 text-sm text-text-muted psa-grading-track-aeo-answer">{copy.phoneHelper}</p>
         </div>
 
         <div ref={refFieldWrapRef}>

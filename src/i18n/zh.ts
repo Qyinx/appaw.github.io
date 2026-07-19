@@ -970,8 +970,8 @@ export const zh: Translations = {
 
   psaGradingTrack: {
     badge: '進度查詢',
-    title: '查詢代送進度',
-    subtitle: '收據上的電話號碼及參考編號。',
+    title: '查詢 PSA 代送進度',
+    subtitle: '用 138 Arena 收據上的電話號碼同 BAT 參考編號。',
     formPanelLabel: '查詢',
     formPanelPart: '01',
     backToHub: '返回 PSA 代送鑑定',
@@ -984,16 +984,16 @@ export const zh: Translations = {
     form: {
       phoneLabel: '電話號碼',
       phonePlaceholder: '+852 9123 4567',
-      phoneHelper: '接受 +852、852 或本地 8 位數字格式。',
+      phoneHelper: '接受 +852、852 或本地 8 位數字。',
       refLabel: '參考編號',
       refPlaceholder: '2026-07-EXP-99',
-      refHelper: '已預填 BAT-，請輸入收據上的其餘部分。',
+      refHelper: '已預填 BAT-，其餘照收據輸入。',
       submit: '查詢',
       submitting: '查詢中…',
       fillDemo: '填入示範資料',
       fillDemoShort: '使用示範',
       notFoundTitle: '找不到委託紀錄',
-      notFoundBody: '請確認電話號碼及參考編號與收據一致。如有疑問可 WhatsApp 聯絡我們。',
+      notFoundBody: '電話同參考編號要同收據完全一致。有問題可以 WhatsApp 聯絡我哋。',
       pricingLink: 'PSA 服務等級及收費',
       turnstileMissingKey: '安全驗證尚未設定，請稍後再試。',
       turnstileRequired: '請先完成安全驗證。',
@@ -1067,7 +1067,7 @@ export const zh: Translations = {
       tabsLabel: '結果檢視',
       steps: {
         appawRecorded: '卡牌已於 138 Arena 登記',
-        appawSentToPsa: '提交至 PSA 香港',
+        appawSentToPsa: '已提交至 PSA 香港',
         appawPickup: '可於 138 Arena 取件',
       },
       status: {

@@ -89,7 +89,9 @@ export default function ReferenceCodeHighlight({
           />
         </div>
       </div>
-      {helper.trim() ? <p className="mt-2 text-sm text-text-muted">{helper}</p> : null}
+      {helper.trim() ? (
+        <p className="mt-2 text-sm text-text-muted psa-grading-track-aeo-answer">{helper}</p>
+      ) : null}
     </div>
   );
 }
