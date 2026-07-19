@@ -7,7 +7,12 @@ export function isDraftItemId(id: string): boolean {
 }
 
 export function cloneAdminItems(items: AdminItem[]): AdminItem[] {
-  return items.map((item) => ({ ...item }));
+  return items.map((item) => ({
+    ...item,
+    certNumber: item.certNumber ?? null,
+    grade: item.grade ?? null,
+    images: item.images ? item.images.map((img) => ({ ...img })) : [],
+  }));
 }
 
 export function itemFieldsDirty(saved: AdminItem, draft: AdminItem): boolean {
@@ -83,6 +88,9 @@ export function createDraftItem(
     customerName: customerOrder.customerName,
     phoneNumber: customerOrder.phoneNumber,
     cardName: '',
+    certNumber: null,
+    grade: null,
+    images: [],
     isPaid: false,
     totalCost: null,
     receivedCost: null,

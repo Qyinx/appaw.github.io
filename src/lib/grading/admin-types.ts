@@ -40,6 +40,11 @@ export interface AdminGradingCustomer {
   updatedAt?: string;
 }
 
+export interface AdminItemImage {
+  seq: number;
+  url: string;
+}
+
 export interface AdminItem {
   id: string;
   customerOrderId: number;
@@ -48,6 +53,9 @@ export interface AdminItem {
   customerName: string;
   phoneNumber: string;
   cardName: string;
+  certNumber: string | null;
+  grade: string | null;
+  images: AdminItemImage[];
   isPaid: boolean;
   totalCost: number | null;
   receivedCost: number | null;
@@ -92,10 +100,39 @@ export interface AdminCreateBatchPayload {
 
 export interface AdminUpdateItemPayload {
   cardName?: string;
+  certNumber?: string | null;
+  grade?: string | null;
   isPaid?: boolean;
   totalCost?: number | null;
   receivedCost?: number | null;
   psaUpgraded?: boolean;
+}
+
+export interface AdminApplyBatchGradesPayload {
+  items: Array<{
+    id: string;
+    certNumber: string | null;
+    grade: string | null;
+  }>;
+}
+
+export interface AdminImportBatchImagesPayload {
+  items: Array<{
+    id: string;
+    zipUrl: string;
+  }>;
+  force?: boolean;
+}
+
+export interface AdminImportBatchImagesResult {
+  processed: Array<{
+    itemId: string;
+    skipped?: boolean;
+    reason?: string;
+    imageCount?: number;
+    images?: AdminItemImage[];
+  }>;
+  failed: Array<{ itemId: string | null; error: string }>;
 }
 
 export interface AdminCreateOrderItemPayload {

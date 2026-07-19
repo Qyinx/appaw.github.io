@@ -11,7 +11,12 @@ import type { GradingDemoVariant, GradingLookupResult } from './types';
 
 const MOCK_DELAY_MS = 700;
 
-const ALL_DEMO_REFS = Object.values(DEMO_REFERENCES);
+const ALL_DEMO_REFS = [
+  DEMO_REFERENCES.EXP,
+  DEMO_REFERENCES.REG,
+  DEMO_REFERENCES.SPX,
+  DEMO_REFERENCES.WALK,
+];
 
 export function isDemoMatch(phone: string, referenceCode: string): boolean {
   if (!phonesMatch(phone, DEMO_LOOKUP.phoneNumber)) return false;

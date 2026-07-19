@@ -7,11 +7,14 @@ import { joinBackendUrl } from '@/lib/collection/backendUrl';
 import type {
   AdminBatch,
   AdminBatchDetail,
+  AdminApplyBatchGradesPayload,
   AdminCreateBatchPayload,
   AdminCreateOrderItemPayload,
   AdminCustomerOrder,
   AdminCustomerOrderDetail,
   AdminGradingCustomer,
+  AdminImportBatchImagesPayload,
+  AdminImportBatchImagesResult,
   AdminIntakePayload,
   AdminItem,
   AdminUpdateBatchPayload,
@@ -277,6 +280,35 @@ export async function updateBatch(
     body: JSON.stringify(patch),
   });
   const result = (await parseJsonResponse(res)) as AdminBatchDetail;
+  invalidateBatchDetailCache(referenceCode);
+  return result;
+}
+
+export async function applyBatchGrades(
+  referenceCode: string,
+  payload: AdminApplyBatchGradesPayload,
+): Promise<AdminBatchDetail> {
+  const res = await gradingOpsFetch(`/grading/batches/${encodeURIComponent(referenceCode)}/grades`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  const result = (await parseJsonResponse(res)) as AdminBatchDetail;
+  invalidateBatchDetailCache(referenceCode);
+  return result;
+}
+
+export async function importBatchImages(
+  referenceCode: string,
+  payload: AdminImportBatchImagesPayload,
+): Promise<AdminImportBatchImagesResult> {
+  const res = await gradingOpsFetch(
+    `/grading/batches/${encodeURIComponent(referenceCode)}/import-images`,
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    },
+  );
+  const result = (await parseJsonResponse(res)) as AdminImportBatchImagesResult;
   invalidateBatchDetailCache(referenceCode);
   return result;
 }

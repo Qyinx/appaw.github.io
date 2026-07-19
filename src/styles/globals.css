@@ -3269,6 +3269,41 @@ main {
   z-index: 200;
 }
 
+.workspace-lightbox__image {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .workspace-lightbox--portal {
+    animation: workspace-lightbox-fade 180ms ease-out;
+  }
+
+  .workspace-lightbox__image {
+    animation: workspace-lightbox-pop 220ms ease-out;
+  }
+}
+
+@keyframes workspace-lightbox-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes workspace-lightbox-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* In-page workspace-chrome deprecated — chrome lives in .site-subheader */
 .site-subheader {
   background: var(--surface-panel);
@@ -3306,35 +3341,22 @@ main {
   max-width: min(100%, 72rem);
 }
 
+.grading-track-hero {
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: clamp(1.25rem, 3vw, 1.75rem);
+  width: 100%;
+}
+
 .grading-track-grid {
   display: grid;
   gap: clamp(1.25rem, 3vw, 2rem);
-}
-
-@media (min-width: 1024px) {
-  .grading-track-grid {
-    grid-template-columns: minmax(17.5rem, 21.25rem) minmax(0, 1fr);
-    align-items: start;
-  }
-
-  .grading-track-grid > :not(.grading-track-form-panel) {
-    min-height: 12rem;
-  }
-}
-
-.grading-track-grid--results {
   grid-template-columns: minmax(0, 1fr);
 }
 
 .grading-track-form-panel {
   min-width: 0;
-}
-
-@media (min-width: 1024px) {
-  .grading-track-form-panel {
-    position: sticky;
-    top: calc(var(--site-header-height) + var(--site-subheader-height, 0px) + 0.75rem);
-  }
+  width: 100%;
+  max-width: none;
 }
 
 .grading-track-summary__row {
@@ -3344,6 +3366,7 @@ main {
   justify-content: space-between;
   gap: 0.75rem 1rem;
   padding: 0.875rem 1rem;
+  border-left: 3px solid var(--accent-primary);
 }
 
 @media (min-width: 768px) {
@@ -3404,6 +3427,7 @@ main {
   padding: 1rem 1rem 0.75rem;
   border-bottom: 1px solid var(--border-default);
   background: var(--surface-raised);
+  border-left: 3px solid var(--accent-primary);
 }
 
 @media (min-width: 768px) {
@@ -3420,6 +3444,80 @@ main {
   .grading-track-results__body {
     padding: 1.5rem 1.5rem 1.75rem;
   }
+}
+
+.grading-track-thumb img {
+  display: block;
+}
+
+.grading-track-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border-default);
+  background: var(--surface-panel);
+}
+
+.grading-track-item-card {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: 0.75rem 1rem;
+  align-items: start;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.grading-track-item-card:last-child {
+  border-bottom: 0;
+}
+
+.grading-track-item-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  min-width: 0;
+  padding-top: 0.125rem;
+}
+
+.grading-track-item-card__title {
+  margin: 0;
+}
+
+.grading-track-item-card__specs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid var(--border-default);
+}
+
+.grading-track-item-card__spec {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  min-height: 2.75rem;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.grading-track-item-card__spec:last-child {
+  border-bottom: 0;
+}
+
+.grading-track-item-card__spec dt {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.grading-track-item-card__spec dd {
+  margin: 0;
+  min-width: 0;
+  font-size: 0.875rem;
+  word-break: break-all;
 }
 
 .grading-track-skeleton {
@@ -3442,6 +3540,16 @@ main {
 
 .grading-track-skeleton__panel {
   border: 1px solid var(--border-default);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grading-track-thumb {
+    transition: none;
+  }
+
+  .grading-track-thumb:active {
+    transform: none;
+  }
 }
 
 .collection-account-trigger {
@@ -3926,7 +4034,9 @@ main {
   display: flex;
   border: 1px solid var(--border-default);
   background: var(--surface-raised);
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .collection-filter-pill {

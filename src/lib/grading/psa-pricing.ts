@@ -1,5 +1,5 @@
 import type { GradingServicePlan } from './reference-code';
-import { GRADING_SERVICE_PLAN_CODES, GRADING_SERVICE_PLAN_LABELS } from './reference-code';
+import { GRADING_SERVICE_PLAN_LABELS } from './reference-code';
 
 export type PsaPricingRow = {
   plan: GradingServicePlan;
@@ -11,16 +11,27 @@ export type PsaPricingRow = {
   turnaroundDays: string;
 };
 
-/** PSA tier data — Appaw HKD service fees. */
-export const PSA_PRICING_ROWS: PsaPricingRow[] = GRADING_SERVICE_PLAN_CODES.map((plan) => {
-  const byPlan: Record<GradingServicePlan, Omit<PsaPricingRow, 'plan'>> = {
-    REG: { feeHkd: 890, discountedFeeHkd: 850, maxDeclaredValueUsd: 1500, turnaroundDays: '~40–50' },
-    EXP: { feeHkd: 1900, discountedFeeHkd: 1800, maxDeclaredValueUsd: 2500, turnaroundDays: '~20–30' },
-    SPX: { feeHkd: 3600, discountedFeeHkd: 3400, maxDeclaredValueUsd: 5000, turnaroundDays: '~7–10' },
-    WALK: { feeHkd: 5900, discountedFeeHkd: 5500, maxDeclaredValueUsd: 10000, turnaroundDays: '~7' },
-  };
-  return { plan, ...byPlan[plan] };
-});
+/** Plans with published hub fees. Value / Premium tiers TBD. */
+const PRICED_PLANS: GradingServicePlan[] = ['REG', 'EXP', 'SPX', 'WALK'];
+
+const FEE_BY_PLAN: Record<GradingServicePlan, Omit<PsaPricingRow, 'plan'>> = {
+  VBLK: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
+  VPLS: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
+  VMAX: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
+  REG: { feeHkd: 890, discountedFeeHkd: 850, maxDeclaredValueUsd: 1500, turnaroundDays: '~40–50' },
+  EXP: { feeHkd: 1900, discountedFeeHkd: 1800, maxDeclaredValueUsd: 2500, turnaroundDays: '~20–30' },
+  SPX: { feeHkd: 3600, discountedFeeHkd: 3400, maxDeclaredValueUsd: 5000, turnaroundDays: '~7–10' },
+  WALK: { feeHkd: 5900, discountedFeeHkd: 5500, maxDeclaredValueUsd: 10000, turnaroundDays: '~7' },
+  PRE1: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
+  PRE2: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
+  PRE3: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
+};
+
+/** PSA tier data — Appaw HKD service fees (published rows only). */
+export const PSA_PRICING_ROWS: PsaPricingRow[] = PRICED_PLANS.map((plan) => ({
+  plan,
+  ...FEE_BY_PLAN[plan],
+}));
 
 /** Effective fee shown in pricing table and SEO — promo when set and lower than list. */
 export function getPsaDisplayFee(row: PsaPricingRow): number {

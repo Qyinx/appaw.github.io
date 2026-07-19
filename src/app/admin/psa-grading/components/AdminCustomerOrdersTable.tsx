@@ -12,6 +12,7 @@ type Props = {
   loading?: boolean;
   emptyMessage?: string;
   showBatchColumn?: boolean;
+  showPaymentColumn?: boolean;
 };
 
 function PaymentCell({ summary }: { summary: AdminPaymentSummary | undefined }) {
@@ -36,46 +37,64 @@ export default function AdminCustomerOrdersTable({
   loading,
   emptyMessage = 'No customer orders match.',
   showBatchColumn = true,
+  showPaymentColumn = true,
 }: Props) {
+  const colCount = 5 + (showBatchColumn ? 1 : 0) + (showPaymentColumn ? 1 : 0);
+  const minWidth = showBatchColumn
+    ? showPaymentColumn
+      ? '960px'
+      : '840px'
+    : showPaymentColumn
+      ? '760px'
+      : '640px';
+
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm min-w-[960px]">
+    <div className="overflow-x-auto max-h-[70vh] overflow-y-auto">
+      <table className="w-full table-fixed text-sm" style={{ minWidth }}>
         <thead>
           <tr className="text-left border-b border-border-default">
-            <th className="py-2 pr-3">Customer Order ID</th>
-            {showBatchColumn && <th className="py-2 pr-3">Reference ID in PSA Batches</th>}
-            <th className="py-2 pr-3">Customer</th>
-            <th className="py-2 pr-3">Phone</th>
-            <th className="py-2 pr-3">Cards</th>
-            <th className="py-2 pr-3">Payment</th>
-            <th className="py-2 pr-3">Updated</th>
+            <th className="sticky top-0 z-[1] py-2 pr-2 w-28 bg-surface-panel">Customer Order ID</th>
+            {showBatchColumn && (
+              <th className="sticky top-0 z-[1] py-2 pr-2 w-44 bg-surface-panel">Batch ref</th>
+            )}
+            <th className="sticky top-0 z-[1] py-2 pr-2 min-w-0 bg-surface-panel">Customer</th>
+            <th className="sticky top-0 z-[1] py-2 pr-2 w-32 bg-surface-panel">Phone</th>
+            <th className="sticky top-0 z-[1] py-2 pr-2 w-16 bg-surface-panel">Cards</th>
+            {showPaymentColumn && (
+              <th className="sticky top-0 z-[1] py-2 pr-2 w-36 bg-surface-panel">Payment</th>
+            )}
+            <th className="sticky top-0 z-[1] py-2 pr-2 w-36 bg-surface-panel">Updated</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
             <tr key={order.id} className="border-b border-border-default/70">
-              <td className="py-2.5 pr-3 font-mono text-xs">
+              <td className="py-2 pr-2 font-mono text-xs">
                 <CustomerOrderLink orderId={order.id} />
               </td>
               {showBatchColumn && (
-                <td className="py-2.5 pr-3">
+                <td className="py-2 pr-2">
                   <BatchReferenceLink referenceCode={order.batchReferenceCode} />
                 </td>
               )}
-              <td className="py-2.5 pr-3">{order.customerName}</td>
-              <td className="py-2.5 pr-3 font-mono text-xs">{order.phoneNumber}</td>
-              <td className="py-2.5 pr-3 tabular-nums">{order.itemCount}</td>
-              <td className="py-2.5 pr-3">
-                <PaymentCell summary={paymentMap?.[order.id]} />
+              <td className="py-2 pr-2 min-w-0 truncate" title={order.customerName}>
+                {order.customerName}
               </td>
-              <td className="py-2.5 pr-3 text-text-muted text-xs">
+              <td className="py-2 pr-2 font-mono text-xs">{order.phoneNumber}</td>
+              <td className="py-2 pr-2 tabular-nums">{order.itemCount}</td>
+              {showPaymentColumn && (
+                <td className="py-2 pr-2">
+                  <PaymentCell summary={paymentMap?.[order.id]} />
+                </td>
+              )}
+              <td className="py-2 pr-2 text-text-muted text-xs">
                 {new Date(order.updatedAt).toLocaleString()}
               </td>
             </tr>
           ))}
           {!loading && orders.length === 0 && (
             <tr>
-              <td colSpan={showBatchColumn ? 7 : 6} className="py-6 text-center text-text-muted">
+              <td colSpan={colCount} className="py-6 text-center text-text-muted">
                 {emptyMessage}
               </td>
             </tr>

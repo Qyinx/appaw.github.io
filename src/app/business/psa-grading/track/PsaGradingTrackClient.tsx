@@ -13,11 +13,11 @@ import { useSubHeader } from '@/hooks/useSubHeader';
 import TrackLookupForm, { type TrackLookupFormHandle } from './TrackLookupForm';
 import TrackLookupSummaryBar from './TrackLookupSummaryBar';
 import TrackResultsPanel, { type ResultsTab } from './TrackResultsPanel';
-import TrackGuidePanel from './TrackGuidePanel';
 import { useLanguage } from '@/context/LanguageContext';
 import {
   animateFormErrorShake,
   animateFormLoading,
+  animateHeroEntrance,
   animateLoadingSkeleton,
   animateResultsColumnEnter,
   animateSectionEntrance,
@@ -45,6 +45,7 @@ export default function PsaGradingTrackClient() {
   const formHandleRef = useRef<TrackLookupFormHandle>(null);
   const skeletonRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const skeletonTweenRef = useRef<gsap.core.Timeline | void>(undefined);
@@ -52,7 +53,7 @@ export default function PsaGradingTrackClient() {
   useGradingTrackMotion(pageRef);
 
   const [phone, setPhone] = useState('');
-  const [referenceCode, setReferenceCode] = useState('');
+  const [referenceCode, setReferenceCode] = useState('BAT-');
   const [state, setState] = useState<LookupState>('idle');
   const [submission, setSubmission] = useState<GradingSubmission | null>(null);
   const [resultsTab, setResultsTab] = useState<ResultsTab>(
@@ -181,9 +182,14 @@ export default function PsaGradingTrackClient() {
   );
 
   useEffect(() => {
-    const tween = animateSectionEntrance(gridRef.current);
+    const heroEls = heroRef.current
+      ? Array.from(heroRef.current.querySelectorAll<HTMLElement>('[data-track-hero]'))
+      : [];
+    const heroTween = animateHeroEntrance(heroEls);
+    const sectionTween = animateSectionEntrance(gridRef.current);
     return () => {
-      tween?.kill();
+      heroTween?.kill();
+      sectionTween?.kill();
     };
   }, []);
 
@@ -245,6 +251,7 @@ export default function PsaGradingTrackClient() {
     setSubmission(null);
     setLiveMessage('');
     setSecurityError('');
+    setReferenceCode('BAT-');
     resetTurnstile();
     syncUrl();
   }, [resetTurnstile, syncUrl]);
@@ -300,16 +307,32 @@ export default function PsaGradingTrackClient() {
       ref={pageRef}
       className="min-h-dvh bg-surface-bg grading-track-workspace collection-workspace page-blueprint overflow-x-clip"
     >
-      <div className="workspace-canvas container-tool grading-track-canvas pt-2 md:pt-4">
-        <h1 className="font-display text-2xl md:text-3xl font-bold text-text-primary mb-2">{copy.title}</h1>
-        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl mb-6">{copy.staticIntro}</p>
+      <div className="workspace-canvas container-tool grading-track-canvas pt-2 md:pt-4 pb-10 md:pb-14">
+        <header ref={heroRef} className="grading-track-hero mb-4">
+          <p
+            data-track-hero
+            className="chapter-label mb-3"
+            data-part={copy.formPanelPart}
+          >
+            <span className="sr-only">
+              Part {copy.formPanelPart} — {copy.badge}
+            </span>
+          </p>
+          <h1
+            data-track-hero
+            className="font-display text-2xl md:text-3xl font-bold text-text-primary text-balance"
+          >
+            {copy.title}
+          </h1>
+        </header>
+
         <div aria-live="polite" aria-atomic="true" className="sr-only">
           {liveMessage}
         </div>
 
         <div
           ref={gridRef}
-          className={`grading-track-grid${state === 'success' ? ' grading-track-grid--results' : ''}`}
+          className={`grading-track-grid${state === 'success' ? ' grading-track-grid--results' : ' grading-track-grid--idle'}`}
         >
           {showForm && (
             <div className="grading-track-form-panel">
@@ -351,8 +374,6 @@ export default function PsaGradingTrackClient() {
               <div data-skeleton-item className="grading-track-skeleton__panel h-44" />
             </div>
           )}
-
-          {(state === 'idle' || state === 'not_found') && <TrackGuidePanel copy={copy.guide} />}
 
           {state === 'success' && submission && (
             <div ref={resultsRef} className="min-w-0">

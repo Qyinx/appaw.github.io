@@ -5,6 +5,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import AdminCardsTable from '../../components/AdminCardsTable';
 import AdminCustomerOrdersTable from '../../components/AdminCustomerOrdersTable';
 import BatchNotesEditor, { normalizeBatchNotesHtml } from '../../components/BatchNotesEditor';
+import PsaGradesCsvImport from '../../components/PsaGradesCsvImport';
+import ServicePlanBadge from '../../components/ServicePlanBadge';
 import { replaceBrowserSearchParams, useBrowserSearch } from '@/hooks/useBrowserSearch';
 import { getBatch, updateBatch, updateItem } from '@/lib/grading/admin-api';
 import {
@@ -14,9 +16,11 @@ import {
   itemUpdatePayload,
 } from '@/lib/grading/admin-draft-utils';
 import { batchDetailTabFromSearch, type BatchDetailTab } from '@/lib/grading/admin-routes';
-import type { AdminBatchDetail, AdminItem } from '@/lib/grading/admin-types';
-import { parseServicePlanLabel } from '@/lib/grading/admin-types';
+import type { AdminBatchDetail, AdminItem, AdminPaymentSummary } from '@/lib/grading/admin-types';
+import { EMPTY_PAYMENT_SUMMARY, parseServicePlanLabel } from '@/lib/grading/admin-types';
 import { completedStepLabel, stepSelectOptions } from '@/lib/grading/admin-utils';
+
+const GRADES_READY_STEP = 8;
 
 type Props = {
   referenceCode: string;
@@ -106,6 +110,25 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
   );
 
   const hasUnsavedChanges = batchDirty || itemsDirty;
+
+  useEffect(() => {
+    if (!hasUnsavedChanges) return;
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [hasUnsavedChanges]);
+
+  const paymentMap = useMemo(() => {
+    if (!detail) return {} as Record<string, AdminPaymentSummary>;
+    const map: Record<string, AdminPaymentSummary> = {};
+    for (const order of detail.customerOrders) {
+      map[order.id] = order.paymentSummary ?? EMPTY_PAYMENT_SUMMARY;
+    }
+    return map;
+  }, [detail]);
 
   const handleDraftItemUpdate = (itemId: string, patch: Partial<AdminItem>) => {
     setDraftItems((prev) =>
@@ -198,7 +221,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div>
         <Link href="/admin/psa-grading" className="text-sm text-accent-link hover:underline">
           ← Dashboard
@@ -207,75 +230,93 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
         <p className="text-sm text-text-muted mt-1">PSA batch — manage progress, orders, and cards.</p>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <div
-          className="collection-filter-pills collection-filter-pills--scroll w-full sm:w-fit"
-          role="tablist"
-          aria-label="Batch sections"
-        >
-          <button
-            type="button"
-            role="tab"
-            id="batch-tab-details"
-            aria-selected={activeTab === 'details'}
-            aria-controls="batch-panel-details"
-            className="collection-filter-pill"
-            onClick={() => setActiveTab('details')}
+      <div
+        className="sticky z-20 -mx-[var(--space-page-x)] px-[var(--space-page-x)] py-3 border-b border-border-default bg-surface-bg/95 backdrop-blur-sm space-y-2"
+        style={{ top: 'calc(var(--site-header-height) + var(--site-subheader-height, 0px))' }}
+      >
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+          <div
+            className="collection-filter-pills collection-filter-pills--scroll w-full sm:w-fit"
+            role="tablist"
+            aria-label="Batch sections"
           >
-            Details{batchDirty ? ' •' : ''}
-          </button>
-          <button
-            type="button"
-            role="tab"
-            id="batch-tab-orders"
-            aria-selected={activeTab === 'orders'}
-            aria-controls="batch-panel-orders"
-            className="collection-filter-pill"
-            onClick={() => setActiveTab('orders')}
-          >
-            Orders ({detail.customerOrders.length})
-          </button>
-          <button
-            type="button"
-            role="tab"
-            id="batch-tab-cards"
-            aria-selected={activeTab === 'cards'}
-            aria-controls="batch-panel-cards"
-            className="collection-filter-pill"
-            onClick={() => setActiveTab('cards')}
-          >
-            Cards ({draftItems.length}){itemsDirty ? ' •' : ''}
-          </button>
-        </div>
+            <button
+              type="button"
+              role="tab"
+              id="batch-tab-details"
+              aria-selected={activeTab === 'details'}
+              aria-pressed={activeTab === 'details'}
+              aria-controls="batch-panel-details"
+              className="collection-filter-pill"
+              onClick={() => setActiveTab('details')}
+            >
+              Details{batchDirty ? ' •' : ''}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="batch-tab-orders"
+              aria-selected={activeTab === 'orders'}
+              aria-pressed={activeTab === 'orders'}
+              aria-controls="batch-panel-orders"
+              className="collection-filter-pill"
+              onClick={() => setActiveTab('orders')}
+            >
+              Orders ({detail.customerOrders.length})
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="batch-tab-cards"
+              aria-selected={activeTab === 'cards'}
+              aria-pressed={activeTab === 'cards'}
+              aria-controls="batch-panel-cards"
+              className="collection-filter-pill"
+              onClick={() => setActiveTab('cards')}
+            >
+              Cards ({draftItems.length}){itemsDirty ? ' •' : ''}
+            </button>
+          </div>
 
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => void saveAllChanges()}
-            disabled={saving || !hasUnsavedChanges}
-          >
-            {saving ? 'Saving…' : 'Save changes'}
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={discardChanges}
-            disabled={saving || !hasUnsavedChanges}
-          >
-            Discard
-          </button>
-          <button type="button" className="btn btn-secondary" onClick={() => void load(true)} disabled={saving}>
-            Refresh
-          </button>
-          {activeTab === 'orders' && (
-            <Link href="/admin/psa-grading/intake" className="btn btn-secondary">
-              Add customer order
-            </Link>
-          )}
+          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => void saveAllChanges()}
+              disabled={saving || !hasUnsavedChanges}
+            >
+              {saving ? 'Saving…' : 'Save changes'}
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={discardChanges}
+              disabled={saving || !hasUnsavedChanges}
+            >
+              Discard
+            </button>
+            <button type="button" className="btn btn-secondary" onClick={() => void load(true)} disabled={saving}>
+              Refresh
+            </button>
+            {activeTab === 'orders' && (
+              <Link href="/admin/psa-grading/intake" className="btn btn-secondary">
+                Add customer order
+              </Link>
+            )}
+          </div>
         </div>
         {hasUnsavedChanges && (
-          <p className="text-xs text-accent-warn">Unsaved changes — click Save changes when ready.</p>
+          <p className="text-xs text-accent-warn">Unsaved changes - click Save changes when ready.</p>
+        )}
+        {message && (
+          <p role="status" aria-live="polite" className="text-accent-success text-sm">
+            {message}
+          </p>
+        )}
+        {error && (
+          <p role="alert" aria-live="assertive" className="text-accent-danger text-sm">
+            {error}
+          </p>
         )}
       </div>
 
@@ -284,10 +325,9 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
           id="batch-panel-details"
           role="tabpanel"
           aria-labelledby="batch-tab-details"
-          className="panel p-5 space-y-4"
+          className="panel p-4 space-y-4"
         >
-          <h3 className="section-label">Batch details</h3>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
                 Reference ID
@@ -339,21 +379,6 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
               </select>
               <p className="text-xs text-text-muted mt-1">{completedStepLabel(completedStepIndex)}</p>
             </div>
-            <div className="md:col-span-2 lg:col-span-4">
-              <p className="text-xs text-text-secondary uppercase tracking-wide mb-2">Service levels</p>
-              <div className="flex flex-wrap gap-2">
-                {servicePlans.map((plan) => (
-                  <span
-                    key={plan}
-                    className="text-xs font-medium px-2 py-1 border border-border-default bg-surface-bg"
-                  >
-                    {plan}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
             <div>
               <label htmlFor="batch-est-shipping-date" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
                 Est. shipping date
@@ -367,6 +392,14 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
                 className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
               />
             </div>
+            <div className="sm:col-span-1 lg:col-span-3">
+              <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Service levels</p>
+              <div className="flex flex-wrap gap-2 min-h-[44px] items-center">
+                {servicePlans.map((plan) => (
+                  <ServicePlanBadge key={plan} plan={plan} />
+                ))}
+              </div>
+            </div>
           </div>
           <div>
             <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
@@ -377,7 +410,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
               onChange={setDraftNotes}
               disabled={saving}
             />
-            <p className="text-xs text-text-muted mt-1">Internal ops notes — not shown on customer tracking.</p>
+            <p className="text-xs text-text-muted mt-1">Internal ops notes - not shown on customer tracking.</p>
           </div>
         </section>
       )}
@@ -387,14 +420,12 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
           id="batch-panel-orders"
           role="tabpanel"
           aria-labelledby="batch-tab-orders"
-          className="panel p-5 space-y-4"
+          className="panel p-4 space-y-3"
         >
-          <h3 className="section-label">
-            Customer orders in batch ({detail.customerOrders.length})
-          </h3>
           {detail.customerOrders.length > 0 ? (
             <AdminCustomerOrdersTable
               orders={detail.customerOrders}
+              paymentMap={paymentMap}
               showBatchColumn={false}
               emptyMessage="No customer orders yet."
             />
@@ -414,24 +445,32 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
           id="batch-panel-cards"
           role="tabpanel"
           aria-labelledby="batch-tab-cards"
-          className="panel p-5 space-y-4"
+          className="panel p-4 space-y-3"
         >
-          <h3 className="section-label">
-            Cards in batch ({draftItems.length})
-          </h3>
+          {completedStepIndex >= GRADES_READY_STEP && (
+            <PsaGradesCsvImport
+              referenceCode={detail.batch.referenceCode}
+              items={draftItems}
+              onApplied={(next) => {
+                setDetail(next);
+                setDraftItems(cloneAdminItems(next.items));
+                setCompletedStepIndex(next.batch.completedStepIndex);
+              }}
+            />
+          )}
           <AdminCardsTable
             items={draftItems}
+            density="batch"
+            groupByOrder
             editable
             showFooter
             showBatchOrderId
             showBatchReferenceColumn={false}
+            showGradeColumns={completedStepIndex >= GRADES_READY_STEP}
             onUpdateItem={handleDraftItemUpdate}
           />
         </section>
       )}
-
-      {message && <p className="text-accent-success text-sm">{message}</p>}
-      {error && <p className="text-accent-danger text-sm">{error}</p>}
     </div>
   );
 }

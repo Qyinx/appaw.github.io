@@ -37,10 +37,16 @@ function servicePlanLabel(
 ): string | null {
   if (!plan) return null;
   const map: Record<GradingServicePlan, string> = {
+    VBLK: copy.valueBulk,
+    VPLS: copy.valuePlus,
+    VMAX: copy.valueMax,
     REG: copy.regular,
     EXP: copy.express,
     SPX: copy.superExpress,
     WALK: copy.walkThrough,
+    PRE1: copy.premium1,
+    PRE2: copy.premium2,
+    PRE3: copy.premium3,
   };
   return map[plan];
 }
@@ -82,6 +88,7 @@ export default function TrackResultsPanel({
   const tableRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLParagraphElement>(null);
   const badgeRefs = useRef<HTMLSpanElement[]>([]);
+  const statusBadgeRefs = useRef<HTMLSpanElement[]>([]);
   const [internalTab, setInternalTab] = useState<ResultsTab>(() => defaultTab(submission));
   const [copiedTracking, setCopiedTracking] = useState(false);
   const [copiedReference, setCopiedReference] = useState(false);
@@ -113,6 +120,7 @@ export default function TrackResultsPanel({
       setInternalTab(defaultTab(submission));
     }
     badgeRefs.current = [];
+    statusBadgeRefs.current = [];
   }, [submission.id, controlledTab]);
 
   useEffect(() => {
@@ -186,7 +194,7 @@ export default function TrackResultsPanel({
     <div className="min-w-0">
       <div
         ref={panelRef}
-        className="grading-track-results border border-border-default bg-surface-panel min-w-0"
+        className="grading-track-results border border-border-strong bg-surface-panel min-w-0"
       >
         <div className="grading-track-results__header">
           <div ref={headerRef} className="spec-row px-0 !py-0 !border-b-0">
@@ -216,6 +224,13 @@ export default function TrackResultsPanel({
                 <p className="spec-row__value">{planLabel}</p>
               </div>
             )}
+          </div>
+          <div className="mt-3">
+            <SubmissionStatusBadges
+              submission={submission}
+              copy={copy.status}
+              badgeRefs={statusBadgeRefs}
+            />
           </div>
         </div>
 
@@ -258,18 +273,20 @@ export default function TrackResultsPanel({
           </div>
 
           <div hidden={activeTab !== 'status'} className={activeTab === 'status' ? 'min-w-0' : 'hidden'}>
-            <GradingProgressStepper
-              submission={localizedSubmission}
-              copy={copy}
-              badgeRefs={badgeRefs}
-            />
+            <div ref={statusBlockRef}>
+              <GradingProgressStepper
+                submission={localizedSubmission}
+                copy={copy}
+                badgeRefs={badgeRefs}
+              />
+            </div>
 
             {submission.shipped && submission.shipTrackingNumber && (
               <div className="mt-6 pt-6 border-t border-border-default min-w-0" data-result-row>
                 <h2 className="text-lg font-display font-semibold text-text-primary mb-4">
                   {copy.shippingTitle}
                 </h2>
-                <div className="panel-raised px-4 py-1">
+                <div className="panel-raised px-4 py-1 border border-border-default">
                   <div className="spec-row px-0">
                     <span className="spec-row__label">{copy.carrierLabel}</span>
                     <span className="spec-row__value">{submission.shipCarrier}</span>

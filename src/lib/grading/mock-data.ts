@@ -11,17 +11,23 @@ import type {
 export const DEMO_INTAKE_GROUP_ID = 'intake-demo-2026-07-05';
 
 export const DEMO_LOOKUP = {
-  phoneNumber: '+85290000000',
-  /** Primary demo: Express plan, July 2026 batch 3 */
-  referenceCode: formatBatchReferenceCode(2026, 7, 'EXP', 3),
+  phoneNumber: '+85291234567',
+  /** Primary demo: Express plan, July 2026 batch 99 */
+  referenceCode: formatBatchReferenceCode(2026, 7, 'EXP', 99),
 } as const;
 
 /** All demo BAT reference codes for the same customer/month. */
 export const DEMO_REFERENCES: Record<GradingServicePlan, string> = {
-  EXP: formatBatchReferenceCode(2026, 7, 'EXP', 3),
-  REG: formatBatchReferenceCode(2026, 7, 'REG', 3),
-  SPX: formatBatchReferenceCode(2026, 7, 'SPX', 3),
-  WALK: formatBatchReferenceCode(2026, 7, 'WALK', 3),
+  VBLK: formatBatchReferenceCode(2026, 7, 'VBLK', 99),
+  VPLS: formatBatchReferenceCode(2026, 7, 'VPLS', 99),
+  VMAX: formatBatchReferenceCode(2026, 7, 'VMAX', 99),
+  EXP: formatBatchReferenceCode(2026, 7, 'EXP', 99),
+  REG: formatBatchReferenceCode(2026, 7, 'REG', 99),
+  SPX: formatBatchReferenceCode(2026, 7, 'SPX', 99),
+  WALK: formatBatchReferenceCode(2026, 7, 'WALK', 99),
+  PRE1: formatBatchReferenceCode(2026, 7, 'PRE1', 99),
+  PRE2: formatBatchReferenceCode(2026, 7, 'PRE2', 99),
+  PRE3: formatBatchReferenceCode(2026, 7, 'PRE3', 99),
 };
 
 const BASE_ITEMS_EXP = [
@@ -30,12 +36,32 @@ const BASE_ITEMS_EXP = [
     description: '2024 Pokémon SV8a GEM PACK — Umbreon ex SAR',
     certNumber: null as string | null,
     grade: null as string | null,
+    images: [
+      {
+        seq: 1,
+        url: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-front-old-label.jpg',
+      },
+      {
+        seq: 2,
+        url: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-back-old-label.jpg',
+      },
+    ],
   },
   {
     id: 'item-exp-2',
     description: '2023 Pokémon SV2a — Charizard ex #199',
     certNumber: null as string | null,
     grade: null as string | null,
+    images: [
+      {
+        seq: 1,
+        url: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-front-old-label.jpg',
+      },
+      {
+        seq: 2,
+        url: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-back-old-label.jpg',
+      },
+    ],
   },
 ];
 

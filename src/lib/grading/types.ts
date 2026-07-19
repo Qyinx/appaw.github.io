@@ -20,6 +20,7 @@ export interface GradingSubmissionItem {
   description: string;
   certNumber: string | null;
   grade: string | null;
+  images?: Array<{ seq: number; url: string }>;
 }
 
 export interface GradingSubmission {

@@ -6,6 +6,7 @@ import { parseServicePlanLabel } from '@/lib/grading/admin-types';
 import { completedStepLabel } from '@/lib/grading/admin-utils';
 import { isValidBatchReferenceCode } from '@/lib/grading/batch-reference-code';
 import BatchReferenceLink from './BatchReferenceLink';
+import ServicePlanBadge from './ServicePlanBadge';
 
 type Props = {
   batches: AdminBatch[];
@@ -169,9 +170,7 @@ export default function BatchReferencePicker({ batches, value, onChange, loading
                       <span className="font-mono text-sm font-medium text-text-primary">
                         {batch.referenceCode}
                       </span>
-                      <span className="text-xs font-medium px-1.5 py-0.5 border border-border-default bg-surface-bg">
-                        {plan}
-                      </span>
+                      <ServicePlanBadge plan={plan} />
                     </div>
                     <p className="text-xs text-text-muted mt-1 line-clamp-1">
                       {completedStepLabel(batch.completedStepIndex)}

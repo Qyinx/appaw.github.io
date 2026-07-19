@@ -1,6 +1,7 @@
 import type { GradingServicePlan } from './reference-code';
+import { GRADING_SERVICE_PLAN_SUFFIX_PATTERN } from './reference-code';
 
-const PLAN_SUFFIX_PATTERN = 'REG|EXP|SPX|WALK';
+const PLAN_SUFFIX_PATTERN = GRADING_SERVICE_PLAN_SUFFIX_PATTERN;
 
 export const BATCH_REFERENCE_CODE_PATTERN = new RegExp(
   `^BAT-\\d{4}-\\d{1,2}-(${PLAN_SUFFIX_PATTERN})-\\d+$`,
@@ -52,7 +53,9 @@ export function parseBatchReferenceCode(input: string): ParsedBatchReference | n
   const normalized = normalizeBatchReferenceCode(input);
   if (!normalized) return null;
 
-  const match = normalized.match(/^BAT-(\d{4})-(\d{1,2})-(REG|EXP|SPX|WALK)-(\d+)$/);
+  const match = normalized.match(
+    new RegExp(`^BAT-(\\d{4})-(\\d{1,2})-(${PLAN_SUFFIX_PATTERN})-(\\d+)$`),
+  );
   if (!match) return null;
 
   return {
@@ -70,8 +73,6 @@ export function suggestNextBatchRound(
   month: number,
   plan: GradingServicePlan,
 ): number {
-  const monthPadded = String(month).padStart(2, '0');
-  const prefix = `BAT-${year}-${monthPadded}-${plan}-`;
   let maxRound = 0;
 
   for (const code of existingReferenceCodes) {

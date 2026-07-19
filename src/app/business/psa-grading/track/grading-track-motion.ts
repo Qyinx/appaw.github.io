@@ -36,8 +36,8 @@ export function animateHeroEntrance(
   return gsap.to(targets, {
     autoAlpha: 1,
     y: 0,
-    duration: motionDuration(260) || 0.001,
-    stagger: 0.06,
+    duration: motionDuration(240) || 0.001,
+    stagger: 0.05,
     ease: ENTER_EASE_SOFT,
     onComplete,
   });
@@ -56,8 +56,8 @@ export function animateSectionEntrance(sectionEl: HTMLElement | null): gsap.core
   return gsap.to(sectionEl, {
     autoAlpha: 1,
     y: 0,
-    duration: motionDuration(320) || 0.001,
-    delay: 0.08,
+    duration: motionDuration(280) || 0.001,
+    delay: 0.06,
     ease: ENTER_EASE_SOFT,
   });
 }
@@ -76,8 +76,8 @@ export function animateFormEntrance(formEl: HTMLElement | null): gsap.core.Tween
     autoAlpha: 1,
     y: 0,
     scale: 1,
-    duration: motionDuration(340) || 0.001,
-    delay: 0.14,
+    duration: motionDuration(300) || 0.001,
+    delay: 0.1,
     ease: ENTER_EASE_SOFT,
   });
 }
@@ -283,25 +283,25 @@ export function animateResultsColumnEnter(
     return;
   }
 
-  gsap.set(resultsEl, { autoAlpha: 0, x: 32, y: 12 });
+  gsap.set(resultsEl, { autoAlpha: 0, x: 24, y: 8 });
   const tl = gsap.timeline();
   tl.to(resultsEl, {
     autoAlpha: 1,
     x: 0,
     y: 0,
-    duration: motionDuration(380) || 0.001,
+    duration: motionDuration(300) || 0.001,
     ease: ENTER_EASE_SOFT,
   });
   if (formEl) {
     tl.to(
       formEl,
       {
-        boxShadow: '0 0 0 1px rgba(59, 130, 246, 0.25)',
-        duration: 0.25,
+        boxShadow: '0 0 0 1px color-mix(in srgb, var(--accent-secondary) 35%, transparent)',
+        duration: 0.2,
       },
-      0.1,
+      0.08,
     );
-    tl.to(formEl, { boxShadow: '0 0 0 0px rgba(0,0,0,0)', duration: 0.4 }, 0.45);
+    tl.to(formEl, { boxShadow: '0 0 0 0px transparent', duration: 0.28 }, 0.35);
   }
   return tl;
 }

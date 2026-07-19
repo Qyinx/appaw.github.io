@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import AdminCardsTable from '../../components/AdminCardsTable';
 import BatchReferenceLink from '../../components/BatchReferenceLink';
+import ServicePlanBadge from '../../components/ServicePlanBadge';
 import {
   createCustomerOrderItem,
   deleteCustomerOrderItem,
@@ -237,7 +238,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
   const paymentSummary = summarizePayment(draftItems);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div>
         <Link href="/admin/psa-grading" className="text-sm text-accent-link hover:underline">
           ← Dashboard
@@ -245,52 +246,21 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
         <h2 className="text-xl font-semibold mt-2 font-mono tabular-nums">
           {customerOrder.batchReferenceCode} - {customerOrder.id}
         </h2>
-        <p className="text-sm text-text-muted mt-1">Customer order — cards and payment details.</p>
+        <p className="text-sm text-text-muted mt-1">Customer order - cards and payment details.</p>
       </div>
 
-      <section className="panel p-5 space-y-4">
-        <h3 className="section-label">Order details</h3>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Customer Order ID</p>
-            <p className="font-mono text-sm">{customerOrder.id}</p>
-          </div>
-          <div>
-            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Reference ID in PSA Batches</p>
-            <BatchReferenceLink referenceCode={customerOrder.batchReferenceCode} />
-          </div>
-          <div>
-            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Service level</p>
-            <p className="text-sm">{parseServicePlanLabel(customerOrder.batchReferenceCode)}</p>
-          </div>
-          <div>
-            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Batch progress</p>
-            <p className="text-sm">{completedStepLabel(detail.batchCompletedStepIndex)}</p>
-          </div>
-          <div>
-            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Customer</p>
-            <p className="text-sm">{customerOrder.customerName}</p>
-          </div>
-          <div>
-            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Phone</p>
-            <p className="font-mono text-sm">{customerOrder.phoneNumber}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="panel p-5 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h3 className="section-label">
-              Cards in order ({draftItems.length})
-            </h3>
-            <p className="text-xs text-text-muted mt-1">
-              {cardsEditable
-                ? 'Add, remove, rename, and reorder cards while batch is at step 0. Save when finished.'
-                : 'Batch has moved past step 0 — payment fields only. Add/remove cards locked.'}
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
+      <div
+        className="sticky z-20 -mx-[var(--space-page-x)] px-[var(--space-page-x)] py-3 border-b border-border-default bg-surface-bg/95 backdrop-blur-sm space-y-2"
+        style={{ top: 'calc(var(--site-header-height) + var(--site-subheader-height, 0px))' }}
+      >
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+          <p className="text-sm text-text-secondary">
+            Cards ({draftItems.length})
+            {cardsEditable
+              ? ' - add, remove, rename, reorder at step 0'
+              : ' - payment fields only (batch past step 0)'}
+          </p>
+          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             {cardsEditable && (
               <button
                 type="button"
@@ -317,7 +287,12 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
             >
               Discard
             </button>
-            <button type="button" className="btn btn-secondary" onClick={() => void load(true)} disabled={saving || exporting}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => void load(true)}
+              disabled={saving || exporting}
+            >
               Refresh
             </button>
             <button
@@ -337,11 +312,52 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
         </div>
         {hasUnsavedChanges && (
           <p className="text-xs text-accent-warn">
-            Unsaved changes — click Save changes when ready. Export Invoice stays locked until saved.
+            Unsaved changes - click Save changes when ready. Export Invoice stays locked until saved.
           </p>
         )}
+        {message && (
+          <p role="status" aria-live="polite" className="text-accent-success text-sm">
+            {message}
+          </p>
+        )}
+        {error && (
+          <p role="alert" aria-live="assertive" className="text-accent-danger text-sm">
+            {error}
+          </p>
+        )}
+      </div>
 
-        <div className="panel-raised p-4 max-w-md">
+      <section className="panel p-4 space-y-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div>
+            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Customer Order ID</p>
+            <p className="font-mono text-sm">{customerOrder.id}</p>
+          </div>
+          <div>
+            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Batch ref</p>
+            <BatchReferenceLink referenceCode={customerOrder.batchReferenceCode} />
+          </div>
+          <div>
+            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Service level</p>
+            <ServicePlanBadge plan={parseServicePlanLabel(customerOrder.batchReferenceCode)} />
+          </div>
+          <div>
+            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Batch progress</p>
+            <p className="text-sm">{completedStepLabel(detail.batchCompletedStepIndex)}</p>
+          </div>
+          <div>
+            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Customer</p>
+            <p className="text-sm">{customerOrder.customerName}</p>
+          </div>
+          <div>
+            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Phone</p>
+            <p className="font-mono text-sm">{customerOrder.phoneNumber}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="panel p-4 space-y-3">
+        <div className="panel-raised p-3 max-w-md">
           <div className="spec-row px-0">
             <span className="spec-row__label">Total</span>
             <span className="spec-row__value font-tabular">{formatHkd(paymentSummary.totalCostSum)}</span>
@@ -360,6 +376,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
 
         <AdminCardsTable
           items={draftItems}
+          density="order"
           editable
           editableCardName={cardsEditable}
           showFooter
@@ -373,9 +390,6 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
           onUpdateItem={handleDraftItemUpdate}
         />
       </section>
-
-      {message && <p className="text-accent-success text-sm">{message}</p>}
-      {error && <p className="text-accent-danger text-sm">{error}</p>}
     </div>
   );
 }

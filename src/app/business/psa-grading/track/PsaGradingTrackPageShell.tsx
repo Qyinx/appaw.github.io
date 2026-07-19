@@ -20,10 +20,9 @@ export default function PsaGradingTrackPageShell({ locale = 'en' }: Props) {
       <div className="sr-only">
         <h1>{copy.title}</h1>
         <p>{copy.subtitle}</p>
-        <p>{copy.guide.idleHint}</p>
-        <p>{copy.guide.formatExample}</p>
+        <p>{copy.form.phoneHelper}</p>
+        <p>{copy.form.refHelper}</p>
       </div>
-      <p className="sr-only">{copy.staticIntro}</p>
       <PsaGradingTrackClient />
     </>
   );

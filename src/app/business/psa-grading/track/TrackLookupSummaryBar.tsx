@@ -27,7 +27,7 @@ export default function TrackLookupSummaryBar({
   onNewLookup,
 }: Props) {
   return (
-    <div className="grading-track-summary border border-border-default bg-surface-panel mb-4">
+    <div className="grading-track-summary border border-border-strong bg-surface-panel mb-4">
       <div className="grading-track-summary__row">
         <dl className="grading-track-summary__specs min-w-0">
           <div className="grading-track-summary__spec">
@@ -36,7 +36,7 @@ export default function TrackLookupSummaryBar({
           </div>
           <div className="grading-track-summary__spec">
             <dt>{copy.refLabel}</dt>
-            <dd className="font-mono">{referenceCode}</dd>
+            <dd className="font-mono tracking-[0.06em] uppercase">{referenceCode}</dd>
           </div>
         </dl>
         <button

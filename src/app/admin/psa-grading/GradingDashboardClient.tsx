@@ -12,7 +12,6 @@ import { EMPTY_PAYMENT_SUMMARY } from '@/lib/grading/admin-types';
 import { completedStepLabel, stepSelectOptions } from '@/lib/grading/admin-utils';
 import AdminCustomerOrdersTable from './components/AdminCustomerOrdersTable';
 import BatchReferenceLink from './components/BatchReferenceLink';
-import SectionHeader from './components/SectionHeader';
 
 type DashboardTab = 'batches' | 'orders';
 type PaymentFilter = 'all' | 'full' | 'partial' | 'unpaid';
@@ -122,13 +121,17 @@ export default function GradingDashboardClient() {
   );
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="collection-filter-pills" role="group" aria-label="Dashboard view">
+    <div className="space-y-4">
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 min-w-0">
+          <div
+            className="collection-filter-pills min-w-0 max-w-full shrink overflow-x-auto"
+            role="group"
+            aria-label="Dashboard view"
+          >
             <button
               type="button"
-              className="collection-filter-pill"
+              className="collection-filter-pill shrink-0"
               aria-pressed={activeTab === 'batches'}
               onClick={() => updateParams({ tab: 'batches' })}
             >
@@ -136,14 +139,14 @@ export default function GradingDashboardClient() {
             </button>
             <button
               type="button"
-              className="collection-filter-pill"
+              className="collection-filter-pill shrink-0"
               aria-pressed={activeTab === 'orders'}
               onClick={() => updateParams({ tab: 'orders' })}
             >
-              Customer Orders
+              Orders
             </button>
           </div>
-          <button type="button" className="btn btn-secondary min-h-[44px]" onClick={() => void load(true)}>
+          <button type="button" className="btn btn-secondary min-h-[44px] shrink-0" onClick={() => void load(true)}>
             Refresh
           </button>
         </div>
@@ -180,6 +183,12 @@ export default function GradingDashboardClient() {
                 ))}
               </select>
             </div>
+            <Link href="/admin/psa-grading/batches/new" className="btn btn-primary min-h-[44px]">
+              New batch
+            </Link>
+            <p className="text-xs text-text-muted font-mono tabular-nums self-center sm:self-end sm:pb-3">
+              {filteredBatches.length} batches
+            </p>
           </div>
         )}
 
@@ -231,62 +240,54 @@ export default function GradingDashboardClient() {
                 <option value="unpaid">Unpaid</option>
               </select>
             </div>
+            <p className="text-xs text-text-muted font-mono tabular-nums self-center sm:self-end sm:pb-3">
+              {filteredOrders.length} orders
+            </p>
           </div>
         )}
-
-        <p className="text-xs text-text-muted font-mono tabular-nums">
-          {activeTab === 'batches'
-            ? `${filteredBatches.length} batches`
-            : `${filteredOrders.length} orders`}
-        </p>
       </div>
 
       {loading && <p className="text-text-muted text-sm">Loading…</p>}
       {error && <p className="text-accent-danger text-sm">{error}</p>}
 
       {activeTab === 'batches' && (
-        <section className="panel p-5">
-          <SectionHeader
-            title="PSA Batches"
-            action={
-              <Link href="/admin/psa-grading/batches/new" className="btn btn-primary text-sm">
-                New batch
-              </Link>
-            }
-          />
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm min-w-[840px]">
+        <section className="panel p-4">
+          <div className="overflow-x-auto max-h-[70vh] overflow-y-auto">
+            <table className="w-full table-fixed text-sm min-w-[840px]">
               <thead>
                 <tr className="text-left border-b border-border-default">
-                  <th className="py-2 pr-3">Reference ID</th>
-                  <th className="py-2 pr-3">PSA Submission</th>
-                  <th className="py-2 pr-3">PSA Order</th>
-                  <th className="py-2 pr-3">Progress</th>
-                  <th className="py-2 pr-3">Customer orders</th>
-                  <th className="py-2 pr-3">Cards</th>
-                  <th className="py-2 pr-3">Updated</th>
+                  <th className="sticky top-0 z-[1] py-2 pr-2 w-44 bg-surface-panel">Reference ID</th>
+                  <th className="sticky top-0 z-[1] py-2 pr-2 w-28 bg-surface-panel">PSA Submission</th>
+                  <th className="sticky top-0 z-[1] py-2 pr-2 w-28 bg-surface-panel">PSA Order</th>
+                  <th className="sticky top-0 z-[1] py-2 pr-2 w-48 bg-surface-panel">Progress</th>
+                  <th className="sticky top-0 z-[1] py-2 pr-2 w-20 bg-surface-panel">Customer orders</th>
+                  <th className="sticky top-0 z-[1] py-2 pr-2 w-20 bg-surface-panel">Cards</th>
+                  <th className="sticky top-0 z-[1] py-2 pr-2 w-36 bg-surface-panel">Updated</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredBatches.map((batch) => (
+                {filteredBatches.map((batch) => {
+                  const progress = completedStepLabel(batch.completedStepIndex);
+                  return (
                   <tr key={batch.id} className="border-b border-border-default/70">
-                    <td className="py-2.5 pr-3">
+                    <td className="py-2 pr-2">
                       <BatchReferenceLink referenceCode={batch.referenceCode} />
                     </td>
-                    <td className="py-2.5 pr-3 font-mono text-xs">
+                    <td className="py-2 pr-2 font-mono text-xs">
                       {batch.psaSubmissionNumber ?? '—'}
                     </td>
-                    <td className="py-2.5 pr-3 font-mono text-xs">{batch.psaOrderNumber ?? '—'}</td>
-                    <td className="py-2.5 pr-3 text-text-secondary">
-                      {completedStepLabel(batch.completedStepIndex)}
+                    <td className="py-2 pr-2 font-mono text-xs">{batch.psaOrderNumber ?? '—'}</td>
+                    <td className="py-2 pr-2 text-text-secondary truncate" title={progress}>
+                      {progress}
                     </td>
-                    <td className="py-2.5 pr-3 tabular-nums">{batch.orderCount}</td>
-                    <td className="py-2.5 pr-3 tabular-nums">{batch.cardCount}</td>
-                    <td className="py-2.5 pr-3 text-text-muted text-xs">
+                    <td className="py-2 pr-2 tabular-nums">{batch.orderCount}</td>
+                    <td className="py-2 pr-2 tabular-nums">{batch.cardCount}</td>
+                    <td className="py-2 pr-2 text-text-muted text-xs">
                       {new Date(batch.updatedAt).toLocaleString()}
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
                 {!loading && filteredBatches.length === 0 && (
                   <tr>
                     <td colSpan={7} className="py-6 text-center text-text-muted">
@@ -301,8 +302,7 @@ export default function GradingDashboardClient() {
       )}
 
       {activeTab === 'orders' && (
-        <section className="panel p-5">
-          <SectionHeader title="Customer Orders" />
+        <section className="panel p-4">
           <AdminCustomerOrdersTable
             orders={filteredOrders}
             paymentMap={paymentMap}

@@ -20,10 +20,16 @@ type Props = {
 
 function planLabel(plan: GradingServicePlan, copy: ServicePlanCopy): string {
   const map: Record<GradingServicePlan, string> = {
+    VBLK: copy.valueBulk,
+    VPLS: copy.valuePlus,
+    VMAX: copy.valueMax,
     REG: copy.regular,
     EXP: copy.express,
     SPX: copy.superExpress,
     WALK: copy.walkThrough,
+    PRE1: copy.premium1,
+    PRE2: copy.premium2,
+    PRE3: copy.premium3,
   };
   return map[plan];
 }
