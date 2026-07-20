@@ -117,7 +117,7 @@
   isolation: isolate;
   --loupe-edge-x: 12px;
   --loupe-edge-top: 56px;
-  --loupe-edge-bottom: 12px;
+  --loupe-edge-bottom: 8px;
 }
 
 .workspaceContainerReady {
@@ -255,28 +255,12 @@
   align-items: center;
   justify-content: center;
   padding: clamp(16px, 4vw, 28px);
-  padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   pointer-events: none;
 }
 
-.emptyUploadPlate,
-.emptyPlateEnter {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition:
-    opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@starting-style {
-  .emptyUploadPlate,
-  .emptyPlateEnter {
-    opacity: 0;
-    transform: translateY(10px) scale(0.97);
-  }
-}
-
 .emptyUploadPlate {
+  will-change: transform, opacity;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -410,6 +394,7 @@
 }
 
 .emptyPlate {
+  will-change: transform, opacity;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -548,178 +533,6 @@
 
 .uploadRetryBtn:hover { filter: brightness(1.08); }
 
-/* ---------- In-tool step guide banner (sibling overlay, above 3D canvas stack) ---------- */
-.guideStepLayer {
-  position: absolute;
-  inset: 0;
-  z-index: 40;
-  pointer-events: none;
-  overflow: visible;
-  isolation: isolate;
-}
-
-.guideStepBanner {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
-  border: var(--border-width, 1px) solid var(--tool-border);
-  border-left: 3px solid var(--accent-warn);
-  border-bottom: none;
-  background: color-mix(in srgb, var(--tool-panel) 98%, var(--tool-bg));
-  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.38);
-  pointer-events: none;
-}
-
-.guideStepBanner > * {
-  pointer-events: auto;
-}
-
-.guideStepHeader {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-}
-
-.guideStepCollapseToggle {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 0;
-  margin: 0;
-  border: none;
-  background: transparent;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.guideStepCollapseToggle:focus-visible {
-  outline: 2px solid var(--accent-secondary);
-  outline-offset: 2px;
-  border-radius: var(--radius-control, 4px);
-}
-
-.guideStepChevron {
-  flex-shrink: 0;
-  opacity: 0.75;
-  transition: transform 0.22s ease;
-}
-
-.guideStepBanner[data-expanded='true'] .guideStepChevron {
-  transform: rotate(180deg);
-}
-
-.guideStepBannerCollapsed {
-  gap: 0;
-  padding: 8px 10px;
-}
-
-.guideStepBannerCollapsed .guideStepMeta {
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.guideStepPills {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.guideStepPill {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 1.5px solid var(--tool-border);
-  background: transparent;
-  flex-shrink: 0;
-}
-
-.guideStepPill[data-state='completed'] {
-  background: var(--accent-success);
-  border-color: var(--accent-success);
-}
-
-.guideStepPill[data-state='current'] {
-  width: 10px;
-  height: 10px;
-  background: var(--accent-warn);
-  border-color: var(--accent-warn);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-warn) 28%, transparent);
-}
-
-.guideStepPill[data-state='upcoming'] {
-  opacity: 0.45;
-}
-
-.guideStepCopy {
-  min-width: 0;
-}
-
-.guideStepHeader .guideStepMeta {
-  flex: 1 1 auto;
-  min-width: 0;
-  margin: 0;
-}
-
-.guideStepMeta {
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent-warn);
-}
-
-.guideStepHint {
-  margin: 0;
-  font-size: 0.75rem;
-  line-height: 1.4;
-  color: var(--tool-text);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.guideStepProgress {
-  margin: 4px 0 0;
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--accent-warn);
-}
-
-.guideStepDismiss {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  min-height: 32px;
-  margin-left: auto;
-  padding: 0;
-  border-radius: var(--radius-control, 6px);
-  background: transparent;
-  color: var(--tool-text-muted);
-  font-size: 1.25rem;
-  line-height: 1;
-  border: var(--border-width, 1px) solid var(--tool-border-subtle);
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
 .guideTargetPulse {
   animation: guideTargetPulse 1.4s ease-in-out infinite;
 }
@@ -764,24 +577,55 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 0;
+}
+
+.workspaceToolsPanel {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  background: var(--tool-panel);
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-left: 3px solid var(--accent-primary);
+  /* visible so grading-company dropdown can escape the strip */
+  overflow: visible;
+}
+
+.workspaceLeftStack[data-open='false'] .workspaceToolsPanel {
+  width: auto;
+}
+
+.workspaceLeftStack[data-open='true'] .workspaceToolsPanel {
+  width: 100%;
+  max-width: 100%;
 }
 
 .workspaceToolStripToggle {
+  position: relative;
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  min-height: 32px;
-  padding: 6px;
-  background: var(--tool-panel);
-  border: var(--border-width, 1px) solid var(--tool-border);
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 44px;
+  min-height: 44px;
+  width: 100%;
+  padding: 0 10px 0 0;
+  margin: 0;
+  background: transparent;
+  border: none;
   color: var(--tool-text-muted);
   cursor: pointer;
   touch-action: manipulation;
-  pointer-events: auto;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+
+.workspaceLeftStack[data-open='false'] .workspaceToolStripToggle {
+  width: auto;
+  min-width: 52px;
+  padding-right: 8px;
 }
 
 .workspaceToolStripToggle:hover {
@@ -789,15 +633,51 @@
   color: var(--tool-text);
 }
 
+.workspaceToolStripToggle:active {
+  opacity: 0.88;
+}
+
 .workspaceToolStripToggle:focus-visible {
   outline: 2px solid var(--accent-secondary);
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
 .workspaceToolStripToggle[data-active='true'] {
   color: var(--tool-text);
-  background: color-mix(in srgb, var(--accent-primary) 14%, var(--tool-panel));
-  box-shadow: inset 0 -2px 0 var(--accent-primary);
+  background: color-mix(in srgb, var(--accent-primary) 10%, var(--tool-panel));
+  border-bottom: var(--border-width, 1px) solid var(--tool-border);
+}
+
+.workspaceToolStripToggleGlyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.workspaceToolStripToggleMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding-right: 2px;
+}
+
+.workspaceToolStripToggleMark {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tool-border);
+  box-shadow: inset 0 0 0 1px var(--tool-border);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.workspaceToolStripToggle[data-active='true'] .workspaceToolStripToggleMark {
+  background: var(--accent-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 24%, transparent);
 }
 
 .workspaceToolStripToggle svg {
@@ -809,18 +689,16 @@
 .workspaceToolStripToggle .chevron {
   width: 12px;
   height: 12px;
-  margin-left: 2px;
-  transition: transform 0.22s ease;
+  opacity: 0.75;
+  transition: transform 0.22s ease, opacity 0.15s ease;
+}
+
+.workspaceToolStripToggle:hover .chevron {
+  opacity: 1;
 }
 
 .workspaceToolStripToggle[data-active='true'] .chevron {
   transform: rotate(180deg);
-}
-
-.workspaceToolStripToggleIconPair {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
 }
 
 .workspaceToolStrip {
@@ -828,10 +706,11 @@
   flex-wrap: nowrap;
   align-items: center;
   align-content: center;
-  min-height: 32px;
+  min-height: 44px;
   width: 100%;
-  background: var(--tool-panel);
-  border: var(--border-width, 1px) solid var(--tool-border);
+  background: transparent;
+  border: none;
+  overflow: visible;
   pointer-events: auto;
 }
 
@@ -920,7 +799,8 @@
 }
 
 .workspaceShellReady .adjustDockRail {
-  padding-top: calc(6px + 30px + 6px);
+  /* Clear topRightStack: top inset + 44px action strip + gap */
+  padding-top: calc(6px + 44px + 8px);
 }
 
 .adjustDockRailDormant {
@@ -947,16 +827,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 32px;
-  min-height: 32px;
-  padding: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px;
   border: none;
   border-right: var(--border-width, 1px) solid var(--tool-border);
   background: transparent;
   color: var(--tool-text-muted);
   cursor: pointer;
   touch-action: manipulation;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
 }
 
 .topActionBtn svg {
@@ -980,7 +860,7 @@
 }
 
 .topActionBtn:active {
-  transform: translateY(1px);
+  opacity: 0.88;
 }
 
 .topActionBtn[data-active='true'] {
@@ -1107,18 +987,24 @@
   border-radius: 0;
   overflow: visible;
   box-shadow: none;
+  z-index: 1;
+}
+
+.gradingCompanyDockOpen,
+.gradingCompanyDock[data-open='true'] {
+  z-index: 60;
 }
 
 .gradingCompanyToggle {
   width: auto;
   min-width: 3.25rem;
-  min-height: 32px;
+  min-height: 44px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 4px;
-  padding: 6px 8px;
+  padding: 8px 10px;
   background: transparent;
   border: none;
   border-left: 3px solid var(--accent-secondary);
@@ -1185,7 +1071,7 @@
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  z-index: 55;
+  z-index: 70;
   display: none;
   flex-direction: column;
   width: max-content;
@@ -1229,8 +1115,8 @@
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  min-height: 32px;
-  padding: 6px 8px;
+  min-height: 44px;
+  padding: 10px 12px;
   border: none;
   border-bottom: var(--border-width, 1px) solid var(--tool-border);
   background: transparent;
@@ -1325,8 +1211,9 @@
   pointer-events: auto;
 }
 .photoModeBtn {
-  min-height: 32px;
-  padding: 5px 10px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 12px;
   border: none;
   border-right: var(--border-width, 1px) solid var(--tool-border);
   background: transparent;
@@ -1426,8 +1313,9 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  min-height: 32px;
-  padding: 5px 10px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 12px;
   border: none;
   border-right: var(--border-width, 1px) solid var(--tool-border);
   border-radius: 0;
@@ -1439,7 +1327,7 @@
   letter-spacing: 0.04em;
   cursor: pointer;
   touch-action: manipulation;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
   white-space: nowrap;
 }
 .guideModeBtn:last-child {
@@ -1516,8 +1404,58 @@
 
 .filterModeDock .filterModeBtn {
   flex: 1 1 auto;
-  justify-content: center;
+  justify-content: flex-start;
   min-width: 0;
+}
+
+.filterModeBarLabeled {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  width: 100%;
+  border: var(--border-width, 1px) solid var(--tool-border);
+  background: var(--tool-raised, var(--tool-panel));
+  overflow: hidden;
+}
+
+.filterModeBarLabeled .filterModeBtn,
+.filterModeBarLabeled .guideModeBtn {
+  min-height: 44px;
+  min-width: 0;
+  padding: 8px 10px;
+  justify-content: flex-start;
+  gap: 8px;
+  border: none;
+  border-right: var(--border-width, 1px) solid var(--tool-border);
+  border-bottom: var(--border-width, 1px) solid var(--tool-border);
+  border-radius: 0;
+  font-size: 0.6875rem;
+  background: transparent;
+}
+
+.filterModeBarLabeled .filterModeBtn:nth-child(2n),
+.filterModeBarLabeled .guideModeBtn:nth-child(2n) {
+  border-right: none;
+}
+
+.filterModeBarLabeled .filterModeBtn:nth-child(n + 3),
+.filterModeBarLabeled .guideModeBtn:nth-child(n + 3) {
+  border-bottom: none;
+}
+
+.filterModeBarLabeled .guideModeBtnLabel {
+  display: inline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.filterModeBarLabeled .filterDotNormal,
+.filterModeBarLabeled .filterDotGrayscale,
+.filterModeBarLabeled .filterDotContrast,
+.filterModeBarLabeled .filterDotInvert {
+  width: 10px;
+  height: 10px;
 }
 
 .filterDockBar {
@@ -1751,12 +1689,12 @@
 }
 .adjustDockToggle {
   width: 100%;
-  min-height: 28px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 5px 10px;
+  padding: 10px 12px;
   background: transparent;
   border: none;
   color: var(--tool-text);
@@ -1764,10 +1702,14 @@
   font-size: 0.75rem;
   cursor: pointer;
   touch-action: manipulation;
+  transition: opacity 0.15s ease;
 }
 .adjustDockToggle:focus-visible {
   outline: 2px solid var(--accent-secondary);
   outline-offset: -2px;
+}
+.adjustDockToggle:active {
+  opacity: 0.88;
 }
 .adjustDockToggleLeft {
   display: inline-flex;
@@ -2088,7 +2030,7 @@
   .workspaceContainer {
     --loupe-edge-x: 4px;
     --loupe-edge-top: 78px;
-    --loupe-edge-bottom: 12px;
+    --loupe-edge-bottom: 8px;
   }
 
   .workspaceLeftStack {
@@ -2113,8 +2055,9 @@
   }
 
   .photoModeBtn {
-    min-height: 28px;
-    padding: 4px 7px;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 8px 10px;
     font-size: 0.5625rem;
   }
 
@@ -2133,13 +2076,14 @@
   }
 
   .workspaceShellReady .adjustDockRail {
-    padding-top: calc(4px + 28px + 4px);
+    /* Clear topRightStack: top inset + 44px action strip + gap */
+    padding-top: calc(4px + 44px + 8px);
   }
 
   .topActionBtn {
-    min-width: 30px;
-    min-height: 30px;
-    padding: 5px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
   }
 
   .topActionBtn svg {
@@ -2170,8 +2114,8 @@
 
   .gradingCompanyToggle,
   .gradingCompanyBtn {
-    min-height: 32px;
-    padding: 6px 8px;
+    min-height: 44px;
+    padding: 10px 12px;
     font-size: 0.625rem;
   }
 
@@ -2194,8 +2138,9 @@
   }
 
   .guideModeBtn {
-    min-height: 32px;
-    padding: 4px 7px;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 8px 10px;
     font-size: 0.625rem;
     gap: 4px;
   }
@@ -2229,21 +2174,14 @@
     max-height: none;
   }
 
-  .guideStepBanner {
-    max-height: min(32svh, 180px);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .guideStepBannerCollapsed {
-    max-height: none;
-    overflow: visible;
-  }
-
   .workspaceToolStripToggle {
-    min-width: 30px;
-    min-height: 30px;
-    padding: 5px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .workspaceToolStripToggleGlyph {
+    width: 44px;
+    height: 44px;
   }
 
   .workspaceToolStripToggle svg {
@@ -2268,8 +2206,8 @@
     width: auto;
     min-width: 0;
     height: auto;
-    min-height: 32px;
-    padding: 6px 10px;
+    min-height: 44px;
+    padding: 10px 12px;
     justify-content: space-between;
     gap: 6px;
   }
@@ -2283,10 +2221,10 @@
   }
 
   .adjustDockToggle {
-    min-height: 26px;
-    padding: 3px 6px;
-    font-size: 0.5625rem;
-    gap: 4px;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 0.625rem;
+    gap: 6px;
   }
 
   .adjustDockLabel {
@@ -2390,12 +2328,13 @@
 
   .workspaceContainer {
     --loupe-edge-top: 76px;
-    --loupe-edge-bottom: 12px;
+    --loupe-edge-bottom: 8px;
   }
 
   .guideModeBtn {
-    min-height: 32px;
-    padding: 4px 6px;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 8px 10px;
     gap: 0;
   }
 
@@ -2418,15 +2357,15 @@
     width: auto;
     min-width: 0;
     height: auto;
-    min-height: 30px;
-    padding: 5px 8px;
+    min-height: 44px;
+    padding: 10px 12px;
   }
 
   .adjustDockToggle {
-    min-height: 24px;
-    padding: 3px 5px;
-    font-size: 0.5rem;
-    gap: 3px;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 0.625rem;
+    gap: 6px;
   }
 
   .adjustDockLabel {
@@ -2462,13 +2401,13 @@
   }
 
   .adjustDockCollapsed .adjustDockToggle {
-    min-height: 28px;
-    padding: 4px 6px;
+    min-height: 44px;
+    padding: 10px 12px;
   }
 
   .adjustDockToggle {
-    min-height: 22px;
-    padding: 2px 4px;
+    min-height: 44px;
+    padding: 10px 12px;
   }
   .workspaceShell {
     height: min(84svh, calc(100svh - 48px));
@@ -3666,7 +3605,6 @@
   .guideTargetPulse,
   .emptyUploadCtaGuide,
   .emptyUploadPlate,
-  .emptyPlateEnter,
   .adjustDockGuideActive,
   .adjustDockGuideActive::before,
   .adjustDockGuideActive .adjustDockToggle {
@@ -3686,9 +3624,7 @@
   .workspaceLeftStack,
   .workspaceToolStrip,
   .workspaceToolStripToggle,
-  .guideStepChevron,
   .emptyUploadPlate,
-  .emptyPlateEnter,
   .emptyUploadCta,
   .gradingCompanyDock,
   .gradingCompanyBody,

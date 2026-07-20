@@ -20,9 +20,9 @@ import {
   type QualityTier,
 } from '@/lib/centering';
 import styles from './card-centering.module.css';
-import GuideStepBanner from './GuideStepBanner';
 import { useCenteringGuide, useCenteringGuideRef } from './CenteringGuideContext';
 import { isInnerHandle, isOuterHandle, centeringHowToSteps } from './centering-guide';
+import { useCenteringToolMotion } from './useCenteringToolMotion';
 
 type PhotoMode = 'raw' | 'slab';
 type VerdictKey = 'regradeCandidate' | 'borderlineRegrade' | 'holdGrade' | 'downgradeRisk';
@@ -137,11 +137,11 @@ const ResetViewIcon = () => (
   </svg>
 );
 const WorkspaceToolsIcon = () => (
-  <svg {...ICON_PROPS} width={16} height={16}>
-    <rect x="3" y="3" width="7" height="7" rx="1" />
-    <rect x="14" y="3" width="7" height="7" rx="1" />
-    <rect x="3" y="14" width="7" height="7" rx="1" />
-    <rect x="14" y="14" width="7" height="7" rx="1" />
+  <svg {...ICON_PROPS} width={16} height={16} aria-hidden="true">
+    <rect x="3" y="3" width="5" height="18" rx="0.5" />
+    <line x1="12" y1="6" x2="21" y2="6" />
+    <line x1="12" y1="12" x2="21" y2="12" />
+    <line x1="12" y1="18" x2="18" y2="18" />
   </svg>
 );
 
@@ -240,6 +240,9 @@ export default function CardCenteringClient() {
   const guideModeRef = React.useRef(guideMode);
   const imageFilterRef = React.useRef(imageFilterMode);
   const gradingCompanyRef = React.useRef(gradingCompany);
+  const emptyPlateRef = React.useRef<HTMLDivElement | null>(null);
+  const adjustDockRef = React.useRef<HTMLElement | null>(null);
+  const gradePillRef = React.useRef<HTMLDivElement | null>(null);
 
   const CARD_FACE = 'front' as const;
 
@@ -2299,6 +2302,8 @@ export default function CardCenteringClient() {
   const imageFilterLabel = imageFilterLabels[imageFilterMode];
   const isUploading = uploadState === 'loading';
   const guideActive = !guide.guideDismissed;
+  const showEmptyPlate = !imageReady && uploadState !== 'loading';
+  const showGradePillMotion = Boolean(displayScore) || Boolean(photoMode === 'slab' && verdictCopy);
   const gradePillSub =
     zoneCopy?.short ??
     (displayScore
@@ -2308,6 +2313,15 @@ export default function CardCenteringClient() {
         : imageReady && !outerAligned && !innerAligned
           ? tool.dragHandlesHint
           : tool.alignGuides);
+
+  useCenteringToolMotion({
+    emptyPlateRef,
+    adjustDockRef,
+    gradePillRef,
+    adjustOpen,
+    showGradePill: showGradePillMotion,
+    showEmpty: showEmptyPlate,
+  });
 
   const triggerUpload = () => {
     if (isUploading) return;
@@ -2344,7 +2358,7 @@ export default function CardCenteringClient() {
       </div>
     ),
     trailing: (
-      <div className={styles.gradePillStack}>
+      <div ref={gradePillRef} className={styles.gradePillStack}>
         {photoMode === 'raw' ? (
           <div
             className={`${styles.gradePill} ${styles.gradePillHeader}`}
@@ -2440,7 +2454,7 @@ export default function CardCenteringClient() {
         {!imageReady && uploadState !== 'loading' && (
           guideActive && guide.activeStep === 0 ? (
             <div className={styles.emptyUploadCenter}>
-              <div className={styles.emptyUploadPlate}>
+              <div ref={emptyPlateRef} className={styles.emptyUploadPlate}>
                 <div className={styles.emptyPlateMarks} aria-hidden="true" />
                 <EmptyCardSchematic />
                 <p className={styles.emptyUploadStep}>
@@ -2465,7 +2479,7 @@ export default function CardCenteringClient() {
             </div>
           ) : (
           <div className={styles.emptyState}>
-            <div className={`${styles.emptyPlate} ${styles.emptyPlateEnter}`}>
+            <div ref={emptyPlateRef} className={styles.emptyPlate}>
               <div className={styles.emptyPlateMarks} aria-hidden="true" />
               <p className={styles.emptyBadge}>{tool.emptyBadge}</p>
               <EmptyCardSchematic />
@@ -2491,68 +2505,75 @@ export default function CardCenteringClient() {
         )}
 
         {/* Left toolbar — photo mode + grading + guides (collapsible strip) */}
-        <div className={styles.workspaceLeftStack}>
-          <button
-            type="button"
-            className={styles.workspaceToolStripToggle}
-            data-active={leftToolbarOpen ? 'true' : 'false'}
-            aria-expanded={leftToolbarOpen}
-            aria-controls="workspace-tool-strip"
-            aria-label={leftToolbarOpen ? tool.workspaceToolsCollapse : tool.workspaceToolsExpand}
-            title={leftToolbarOpen ? tool.workspaceToolsCollapse : tool.workspaceToolsExpand}
-            onClick={() => setLeftToolbarOpen((v) => !v)}
-          >
-            <span className={styles.workspaceToolStripToggleIconPair}>
-              <WorkspaceToolsIcon />
-              <ChevronIcon className={styles.chevron} />
-            </span>
-          </button>
+        <div
+          className={styles.workspaceLeftStack}
+          data-open={leftToolbarOpen ? 'true' : 'false'}
+        >
+          <div className={styles.workspaceToolsPanel}>
+            <button
+              type="button"
+              className={styles.workspaceToolStripToggle}
+              data-active={leftToolbarOpen ? 'true' : 'false'}
+              aria-expanded={leftToolbarOpen}
+              aria-controls="workspace-tool-strip"
+              aria-label={leftToolbarOpen ? tool.workspaceToolsCollapse : tool.workspaceToolsExpand}
+              title={leftToolbarOpen ? tool.workspaceToolsCollapse : tool.workspaceToolsExpand}
+              onClick={() => setLeftToolbarOpen((v) => !v)}
+            >
+              <span className={styles.workspaceToolStripToggleGlyph} aria-hidden="true">
+                <WorkspaceToolsIcon />
+              </span>
+              <span className={styles.workspaceToolStripToggleMeta} aria-hidden="true">
+                <span className={styles.workspaceToolStripToggleMark} />
+                <ChevronIcon className={styles.chevron} />
+              </span>
+            </button>
 
-          {leftToolbarOpen ? (
-          <div id="workspace-tool-strip" className={styles.workspaceToolStrip} role="toolbar" aria-label={tool.workspaceTitle}>
-            <div className={styles.photoModeBar} role="group" aria-label={tool.photoModeLabel}>
-              {(['raw', 'slab'] as const).map((mode) => (
-                <button
-                  key={mode}
-                  type="button"
-                  className={styles.photoModeBtn}
-                  data-active={photoMode === mode}
-                  aria-pressed={photoMode === mode}
-                  onClick={() => setPhotoMode(mode)}
-                >
-                  <span className={styles.photoModeBtnLong}>
-                    {mode === 'raw' ? tool.photoModeRaw : tool.photoModeSlab}
-                  </span>
-                  <span className={styles.photoModeBtnShort}>
-                    {mode === 'raw' ? tool.toolbarPhotoRaw : tool.toolbarPhotoSlab}
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            {photoMode === 'raw' ? (
-              <div
-                className={`${styles.gradingCompanyDock} ${gradingDockOpen ? styles.gradingCompanyDockOpen : styles.gradingCompanyDockCollapsed}`}
-                data-open={gradingDockOpen ? 'true' : 'false'}
-              >
-                <button
-                  type="button"
-                  className={styles.gradingCompanyToggle}
-                  onClick={() => setGradingDockOpen((v) => !v)}
-                  aria-expanded={gradingDockOpen}
-                  aria-controls="grading-company-list"
-                >
-                  <span className={styles.gradingCompanyToggleLeft}>
-                    <span className={styles.gradingCompanyToggleBadge} data-company={gradingCompany}>
-                      {gradingCompany}
+            {leftToolbarOpen ? (
+            <div id="workspace-tool-strip" className={styles.workspaceToolStrip} role="toolbar" aria-label={tool.workspaceTitle}>
+              <div className={styles.photoModeBar} role="group" aria-label={tool.photoModeLabel}>
+                {(['raw', 'slab'] as const).map((mode) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    className={styles.photoModeBtn}
+                    data-active={photoMode === mode}
+                    aria-pressed={photoMode === mode}
+                    onClick={() => setPhotoMode(mode)}
+                  >
+                    <span className={styles.photoModeBtnLong}>
+                      {mode === 'raw' ? tool.photoModeRaw : tool.photoModeSlab}
                     </span>
-                    <span className={styles.gradingCompanyToggleLabel}>{tool.gradingCompanyLabel}</span>
-                  </span>
-                  <ChevronIcon className={styles.chevron} />
-                </button>
+                    <span className={styles.photoModeBtnShort}>
+                      {mode === 'raw' ? tool.toolbarPhotoRaw : tool.toolbarPhotoSlab}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {photoMode === 'raw' ? (
                 <div
-                  id="grading-company-list"
-                  className={styles.gradingCompanyBody}
+                  className={`${styles.gradingCompanyDock} ${gradingDockOpen ? styles.gradingCompanyDockOpen : styles.gradingCompanyDockCollapsed}`}
+                  data-open={gradingDockOpen ? 'true' : 'false'}
+                >
+                  <button
+                    type="button"
+                    className={styles.gradingCompanyToggle}
+                    onClick={() => setGradingDockOpen((v) => !v)}
+                    aria-expanded={gradingDockOpen}
+                    aria-controls="grading-company-list"
+                  >
+                    <span className={styles.gradingCompanyToggleLeft}>
+                      <span className={styles.gradingCompanyToggleBadge} data-company={gradingCompany}>
+                        {gradingCompany}
+                      </span>
+                      <span className={styles.gradingCompanyToggleLabel}>{tool.gradingCompanyLabel}</span>
+                    </span>
+                    <ChevronIcon className={styles.chevron} />
+                  </button>
+                  <div
+                    id="grading-company-list"
+                    className={styles.gradingCompanyBody}
                   role="toolbar"
                   aria-label={tool.gradingCompanyLabel}
                 >
@@ -2594,29 +2615,15 @@ export default function CardCenteringClient() {
                 </button>
               ))}
             </div>
-
-            {imageReady ? (
-              <BlemishFilterBar
-                active={imageFilterMode}
-                onSelect={setImageFilterMode}
-                ariaLabel={tool.imageFilterLabel}
-                labels={imageFilterLabels}
-                barClassName={`${styles.guideModeBar} ${styles.filterDockBar} ${styles.filterModeBarIconsOnly}`}
-                iconsOnly
-              />
-            ) : null}
           </div>
           ) : null}
+          </div>
         </div>
 
         {/* Off-screen inputs driven programmatically */}
         <input type="file" id="upload" ref={fileInputRef} className={styles.srOnly} accept="image/*" aria-label={tool.uploadCardImage} />
         <input aria-hidden="true" type="range" id="panX" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
-        </div>
-
-        <div className={styles.guideStepLayer}>
-          <GuideStepBanner imageReady={imageReady} />
         </div>
 
         {/* Top-right — quick actions */}
@@ -2659,6 +2666,7 @@ export default function CardCenteringClient() {
         {/* Right rail — adjust dock (always mounted for canvas init) */}
         <div className={`${styles.adjustDockRail}${!imageReady ? ` ${styles.adjustDockRailDormant}` : ''}`}>
           <aside
+            ref={adjustDockRef}
             className={`${styles.adjustDock} ${adjustOpen ? styles.adjustDockOpen : styles.adjustDockCollapsed}${guideActive && guide.activeStep === 1 ? ` ${styles.adjustDockGuideActive}` : ''}`}
             data-open={adjustOpen ? 'true' : 'false'}
           >
@@ -2684,10 +2692,9 @@ export default function CardCenteringClient() {
                     onSelect={setImageFilterMode}
                     ariaLabel={tool.imageFilterLabel}
                     labels={imageFilterLabels}
-                    barClassName={`${styles.guideModeBar} ${styles.filterModeBarIconsOnly}`}
-                    iconsOnly
+                    barClassName={styles.filterModeBarLabeled}
                   />
-                  <p className={styles.filterModeDockHint}>
+                  <p className={styles.filterModeDockHint} aria-live="polite">
                     {imageFilterHints[imageFilterMode]}
                   </p>
                 </div>
