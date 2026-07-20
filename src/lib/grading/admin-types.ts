@@ -63,6 +63,12 @@ export interface AdminItem {
   submissionOrder: number;
 }
 
+/** Light GET/PATCH batch response — counts only, no orders/items. */
+export interface AdminBatchSummary {
+  batch: AdminBatch;
+}
+
+/** Assembled client-side or via ?include=full. */
 export interface AdminBatchDetail {
   batch: AdminBatch;
   customerOrders: AdminCustomerOrder[];

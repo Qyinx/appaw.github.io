@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { applyBatchGrades, getBatch, importBatchImages } from '@/lib/grading/admin-api';
-import type { AdminBatchDetail, AdminItem } from '@/lib/grading/admin-types';
+import { applyBatchGrades, importBatchImages, listItemsForBatch } from '@/lib/grading/admin-api';
+import type { AdminBatch, AdminItem } from '@/lib/grading/admin-types';
 import {
   matchPsaGradesToBatch,
   parsePsaGradesCsv,
@@ -14,7 +14,7 @@ const IMPORT_CHUNK = 3;
 type Props = {
   referenceCode: string;
   items: AdminItem[];
-  onApplied: (detail: AdminBatchDetail) => void;
+  onApplied: (batch: AdminBatch, items: AdminItem[]) => void;
 };
 
 type ImportProgress = {
@@ -75,9 +75,9 @@ export default function PsaGradesCsvImport({ referenceCode, items, onApplied }: 
       if (!ok) return;
     }
 
-      const zipItems = preview.rows
-        .filter((row) => row.zipUrl)
-        .map((row) => ({ id: row.itemId, zipUrl: row.zipUrl }));
+    const zipItems = preview.rows
+      .filter((row) => row.zipUrl)
+      .map((row) => ({ id: row.itemId, zipUrl: row.zipUrl }));
 
     // 1 step for grades + 1 per image card
     const totalSteps = 1 + zipItems.length;
@@ -87,7 +87,7 @@ export default function PsaGradesCsvImport({ referenceCode, items, onApplied }: 
     setMessage('');
     setProgress({ label: 'Saving cert & grade…', current: 0, total: totalSteps });
     try {
-      const detail = await applyBatchGrades(referenceCode, {
+      const summary = await applyBatchGrades(referenceCode, {
         items: preview.rows.map((row) => ({
           id: row.itemId,
           certNumber: row.certNumber || null,
@@ -119,7 +119,8 @@ export default function PsaGradesCsvImport({ referenceCode, items, onApplied }: 
         });
       }
 
-      onApplied(detail);
+      const refreshedItems = await listItemsForBatch(referenceCode, true);
+      onApplied(summary.batch, refreshedItems);
       setPreview(null);
       if (fileRef.current) fileRef.current.value = '';
       setMessage(
@@ -131,8 +132,6 @@ export default function PsaGradesCsvImport({ referenceCode, items, onApplied }: 
                 : ''
             }.`,
       );
-      const refreshed = await getBatch(referenceCode, true);
-      if (refreshed) onApplied(refreshed);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {

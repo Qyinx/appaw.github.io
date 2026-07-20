@@ -6,7 +6,7 @@
 import { joinBackendUrl } from '@/lib/collection/backendUrl';
 import type {
   AdminBatch,
-  AdminBatchDetail,
+  AdminBatchSummary,
   AdminApplyBatchGradesPayload,
   AdminCreateBatchPayload,
   AdminCreateOrderItemPayload,
@@ -195,7 +195,17 @@ export function invalidateGradingListCache(): void {
 }
 
 function invalidateBatchDetailCache(referenceCode: string): void {
-  listGetCache.delete(`batch:${decodeURIComponent(referenceCode)}`);
+  const normalized = decodeURIComponent(referenceCode);
+  listGetCache.delete(`batch:${normalized}`);
+  listGetCache.delete(`batch-items:${normalized}`);
+}
+
+function invalidateBatchOrdersCache(submissionId: string): void {
+  for (const key of listGetCache.keys()) {
+    if (key.startsWith('customer-orders:') && key.includes(`submissionId=${submissionId}`)) {
+      listGetCache.delete(key);
+    }
+  }
 }
 
 function invalidateCustomerOrderDetailCache(orderId: number): void {
@@ -257,7 +267,7 @@ export async function createBatch(payload: AdminCreateBatchPayload): Promise<Adm
   return parsed.batch;
 }
 
-export async function getBatch(referenceCode: string, force = false): Promise<AdminBatchDetail | null> {
+export async function getBatch(referenceCode: string, force = false): Promise<AdminBatchSummary | null> {
   const normalized = decodeURIComponent(referenceCode);
   const cacheKey = `batch:${normalized}`;
   return cachedListGet(
@@ -265,7 +275,7 @@ export async function getBatch(referenceCode: string, force = false): Promise<Ad
     async () => {
       const res = await gradingOpsFetch(`/grading/batches/${encodeURIComponent(normalized)}`);
       if (res.status === 404) return null;
-      return (await parseJsonResponse(res)) as AdminBatchDetail;
+      return (await parseJsonResponse(res)) as AdminBatchSummary;
     },
     force,
   );
@@ -274,12 +284,12 @@ export async function getBatch(referenceCode: string, force = false): Promise<Ad
 export async function updateBatch(
   referenceCode: string,
   patch: AdminUpdateBatchPayload,
-): Promise<AdminBatchDetail> {
+): Promise<AdminBatchSummary> {
   const res = await gradingOpsFetch(`/grading/batches/${encodeURIComponent(referenceCode)}`, {
     method: 'PATCH',
     body: JSON.stringify(patch),
   });
-  const result = (await parseJsonResponse(res)) as AdminBatchDetail;
+  const result = (await parseJsonResponse(res)) as AdminBatchSummary;
   invalidateBatchDetailCache(referenceCode);
   return result;
 }
@@ -287,12 +297,12 @@ export async function updateBatch(
 export async function applyBatchGrades(
   referenceCode: string,
   payload: AdminApplyBatchGradesPayload,
-): Promise<AdminBatchDetail> {
+): Promise<AdminBatchSummary> {
   const res = await gradingOpsFetch(`/grading/batches/${encodeURIComponent(referenceCode)}/grades`, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
-  const result = (await parseJsonResponse(res)) as AdminBatchDetail;
+  const result = (await parseJsonResponse(res)) as AdminBatchSummary;
   invalidateBatchDetailCache(referenceCode);
   return result;
 }
@@ -350,6 +360,30 @@ export async function listItemsForCustomerOrder(customerOrderId: number): Promis
   const res = await gradingOpsFetch(`/grading/items?customerOrderId=${customerOrderId}`);
   const payload = (await parseJsonResponse(res)) as { items?: AdminItem[] };
   return payload.items ?? [];
+}
+
+export async function listItemsForBatch(
+  referenceCode: string,
+  force = false,
+): Promise<AdminItem[]> {
+  const normalized = decodeURIComponent(referenceCode);
+  const cacheKey = `batch-items:${normalized}`;
+  return cachedListGet(
+    cacheKey,
+    async () => {
+      const res = await gradingOpsFetch(
+        `/grading/items?referenceCode=${encodeURIComponent(normalized)}`,
+      );
+      const payload = (await parseJsonResponse(res)) as { items?: AdminItem[] };
+      return payload.items ?? [];
+    },
+    force,
+  );
+}
+
+/** Drop cached orders for a batch so the next Orders-tab visit refetches. */
+export function invalidateBatchOrders(submissionId: string): void {
+  invalidateBatchOrdersCache(submissionId);
 }
 
 export async function createIntake(

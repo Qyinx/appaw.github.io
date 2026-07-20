@@ -1,14 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import AdminCardsTable from '../../components/AdminCardsTable';
 import AdminCustomerOrdersTable from '../../components/AdminCustomerOrdersTable';
 import BatchNotesEditor, { normalizeBatchNotesHtml } from '../../components/BatchNotesEditor';
 import PsaGradesCsvImport from '../../components/PsaGradesCsvImport';
 import ServicePlanBadge from '../../components/ServicePlanBadge';
 import { replaceBrowserSearchParams, useBrowserSearch } from '@/hooks/useBrowserSearch';
-import { getBatch, updateBatch, updateItem } from '@/lib/grading/admin-api';
+import {
+  getBatch,
+  invalidateBatchOrders,
+  listCustomerOrders,
+  listItemsForBatch,
+  updateBatch,
+  updateItem,
+} from '@/lib/grading/admin-api';
 import {
   anyItemFieldsDirty,
   cloneAdminItems,
@@ -16,7 +23,12 @@ import {
   itemUpdatePayload,
 } from '@/lib/grading/admin-draft-utils';
 import { batchDetailTabFromSearch, type BatchDetailTab } from '@/lib/grading/admin-routes';
-import type { AdminBatchDetail, AdminItem, AdminPaymentSummary } from '@/lib/grading/admin-types';
+import type {
+  AdminBatch,
+  AdminCustomerOrder,
+  AdminItem,
+  AdminPaymentSummary,
+} from '@/lib/grading/admin-types';
 import { EMPTY_PAYMENT_SUMMARY, parseServicePlanLabel } from '@/lib/grading/admin-types';
 import { completedStepLabel, stepSelectOptions } from '@/lib/grading/admin-utils';
 
@@ -33,6 +45,23 @@ function parseNumericInput(value: string): number | null {
   return Number(trimmed);
 }
 
+function applyBatchFields(
+  batch: AdminBatch,
+  setters: {
+    setPsaSubmissionNumber: (v: string) => void;
+    setPsaOrderNumber: (v: string) => void;
+    setCompletedStepIndex: (v: number) => void;
+    setDraftNotes: (v: string) => void;
+    setDraftEstShippingDate: (v: string) => void;
+  },
+) {
+  setters.setPsaSubmissionNumber(String(batch.psaSubmissionNumber ?? ''));
+  setters.setPsaOrderNumber(String(batch.psaOrderNumber ?? ''));
+  setters.setCompletedStepIndex(batch.completedStepIndex);
+  setters.setDraftNotes(batch.notes ?? '');
+  setters.setDraftEstShippingDate(batch.estShippingDate ?? '');
+}
+
 export default function GradingBatchDetailClient({ referenceCode }: Props) {
   const search = useBrowserSearch();
   const activeTab = batchDetailTabFromSearch(search);
@@ -44,59 +73,182 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
     [search],
   );
 
-  const [detail, setDetail] = useState<AdminBatchDetail | null>(null);
+  const [batch, setBatch] = useState<AdminBatch | null>(null);
+  const [customerOrders, setCustomerOrders] = useState<AdminCustomerOrder[]>([]);
+  const [savedItems, setSavedItems] = useState<AdminItem[]>([]);
   const [draftItems, setDraftItems] = useState<AdminItem[]>([]);
+  const [ordersLoaded, setOrdersLoaded] = useState(false);
+  const [itemsLoaded, setItemsLoaded] = useState(false);
+
   const [psaSubmissionNumber, setPsaSubmissionNumber] = useState('');
   const [psaOrderNumber, setPsaOrderNumber] = useState('');
   const [completedStepIndex, setCompletedStepIndex] = useState(0);
   const [draftNotes, setDraftNotes] = useState('');
   const [draftEstShippingDate, setDraftEstShippingDate] = useState('');
+
   const [loading, setLoading] = useState(true);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+  const [itemsLoading, setItemsLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [ordersError, setOrdersError] = useState('');
+  const [itemsError, setItemsError] = useState('');
   const [message, setMessage] = useState('');
 
-  const load = useCallback(async (force = false) => {
-    setError('');
-    setMessage('');
-    setLoading(true);
-    try {
-      const batchDetail = await getBatch(referenceCode, force);
-      if (!batchDetail) {
-        setError('Batch not found.');
-        setDetail(null);
-        setDraftItems([]);
-        return;
+  const ordersLoadedRef = useRef(false);
+  const itemsLoadedRef = useRef(false);
+  ordersLoadedRef.current = ordersLoaded;
+  itemsLoadedRef.current = itemsLoaded;
+
+  const fieldSetters = useMemo(
+    () => ({
+      setPsaSubmissionNumber,
+      setPsaOrderNumber,
+      setCompletedStepIndex,
+      setDraftNotes,
+      setDraftEstShippingDate,
+    }),
+    [],
+  );
+
+  const loadSummary = useCallback(
+    async (force = false) => {
+      setError('');
+      setMessage('');
+      setLoading(true);
+      setOrdersLoaded(false);
+      setItemsLoaded(false);
+      setCustomerOrders([]);
+      setSavedItems([]);
+      setDraftItems([]);
+      setOrdersError('');
+      setItemsError('');
+      try {
+        const summary = await getBatch(referenceCode, force);
+        if (!summary) {
+          setError('Batch not found.');
+          setBatch(null);
+          return;
+        }
+        setBatch(summary.batch);
+        applyBatchFields(summary.batch, fieldSetters);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : String(e));
+        setBatch(null);
+      } finally {
+        setLoading(false);
       }
-      setDetail(batchDetail);
-      setDraftItems(cloneAdminItems(batchDetail.items));
-      setPsaSubmissionNumber(String(batchDetail.batch.psaSubmissionNumber ?? ''));
-      setPsaOrderNumber(String(batchDetail.batch.psaOrderNumber ?? ''));
-      setCompletedStepIndex(batchDetail.batch.completedStepIndex);
-      setDraftNotes(batchDetail.batch.notes ?? '');
-      setDraftEstShippingDate(batchDetail.batch.estShippingDate ?? '');
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
-    } finally {
-      setLoading(false);
-    }
-  }, [referenceCode]);
+    },
+    [referenceCode, fieldSetters],
+  );
+
+  const loadOrders = useCallback(
+    async (submissionId: string, force = false) => {
+      setOrdersError('');
+      setOrdersLoading(true);
+      try {
+        if (force) invalidateBatchOrders(submissionId);
+        const orders = await listCustomerOrders({ submissionId }, force);
+        setCustomerOrders(orders);
+        setOrdersLoaded(true);
+      } catch (e) {
+        setOrdersError(e instanceof Error ? e.message : String(e));
+      } finally {
+        setOrdersLoading(false);
+      }
+    },
+    [],
+  );
+
+  const loadItems = useCallback(
+    async (ref: string, force = false) => {
+      setItemsError('');
+      setItemsLoading(true);
+      try {
+        const items = await listItemsForBatch(ref, force);
+        setSavedItems(cloneAdminItems(items));
+        setDraftItems(cloneAdminItems(items));
+        setItemsLoaded(true);
+      } catch (e) {
+        setItemsError(e instanceof Error ? e.message : String(e));
+      } finally {
+        setItemsLoading(false);
+      }
+    },
+    [],
+  );
+
+  const refreshAll = useCallback(
+    async (force = true) => {
+      setError('');
+      setMessage('');
+      setLoading(true);
+      try {
+        const summary = await getBatch(referenceCode, force);
+        if (!summary) {
+          setError('Batch not found.');
+          setBatch(null);
+          setCustomerOrders([]);
+          setSavedItems([]);
+          setDraftItems([]);
+          setOrdersLoaded(false);
+          setItemsLoaded(false);
+          return;
+        }
+        setBatch(summary.batch);
+        applyBatchFields(summary.batch, fieldSetters);
+
+        const tasks: Promise<void>[] = [];
+        if (ordersLoadedRef.current || activeTab === 'orders') {
+          tasks.push(loadOrders(summary.batch.id, force));
+        }
+        if (itemsLoadedRef.current || activeTab === 'cards') {
+          tasks.push(loadItems(summary.batch.referenceCode, force));
+        }
+        await Promise.all(tasks);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : String(e));
+      } finally {
+        setLoading(false);
+      }
+    },
+    [referenceCode, fieldSetters, activeTab, loadOrders, loadItems],
+  );
 
   useEffect(() => {
-    void load();
-  }, [load]);
+    void loadSummary();
+  }, [loadSummary]);
+
+  useEffect(() => {
+    if (!batch) return;
+    if (activeTab === 'orders' && !ordersLoaded && !ordersLoading) {
+      void loadOrders(batch.id);
+    }
+    if (activeTab === 'cards' && !itemsLoaded && !itemsLoading) {
+      void loadItems(batch.referenceCode);
+    }
+  }, [
+    activeTab,
+    batch,
+    ordersLoaded,
+    ordersLoading,
+    itemsLoaded,
+    itemsLoading,
+    loadOrders,
+    loadItems,
+  ]);
 
   const batchDirty = useMemo(() => {
-    if (!detail) return false;
+    if (!batch) return false;
     return (
-      parseNumericInput(psaSubmissionNumber) !== detail.batch.psaSubmissionNumber ||
-      parseNumericInput(psaOrderNumber) !== detail.batch.psaOrderNumber ||
-      completedStepIndex !== detail.batch.completedStepIndex ||
-      normalizeBatchNotesHtml(draftNotes) !== normalizeBatchNotesHtml(detail.batch.notes) ||
-      (draftEstShippingDate.trim() || null) !== (detail.batch.estShippingDate ?? null)
+      parseNumericInput(psaSubmissionNumber) !== batch.psaSubmissionNumber ||
+      parseNumericInput(psaOrderNumber) !== batch.psaOrderNumber ||
+      completedStepIndex !== batch.completedStepIndex ||
+      normalizeBatchNotesHtml(draftNotes) !== normalizeBatchNotesHtml(batch.notes) ||
+      (draftEstShippingDate.trim() || null) !== (batch.estShippingDate ?? null)
     );
   }, [
-    detail,
+    batch,
     psaSubmissionNumber,
     psaOrderNumber,
     completedStepIndex,
@@ -105,8 +257,8 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
   ]);
 
   const itemsDirty = useMemo(
-    () => (detail ? anyItemFieldsDirty(detail.items, draftItems) : false),
-    [detail, draftItems],
+    () => (itemsLoaded ? anyItemFieldsDirty(savedItems, draftItems) : false),
+    [itemsLoaded, savedItems, draftItems],
   );
 
   const hasUnsavedChanges = batchDirty || itemsDirty;
@@ -122,13 +274,12 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
   }, [hasUnsavedChanges]);
 
   const paymentMap = useMemo(() => {
-    if (!detail) return {} as Record<string, AdminPaymentSummary>;
     const map: Record<string, AdminPaymentSummary> = {};
-    for (const order of detail.customerOrders) {
+    for (const order of customerOrders) {
       map[order.id] = order.paymentSummary ?? EMPTY_PAYMENT_SUMMARY;
     }
     return map;
-  }, [detail]);
+  }, [customerOrders]);
 
   const handleDraftItemUpdate = (itemId: string, patch: Partial<AdminItem>) => {
     setDraftItems((prev) =>
@@ -138,19 +289,15 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
   };
 
   const discardChanges = () => {
-    if (!detail) return;
-    setDraftItems(cloneAdminItems(detail.items));
-    setPsaSubmissionNumber(String(detail.batch.psaSubmissionNumber ?? ''));
-    setPsaOrderNumber(String(detail.batch.psaOrderNumber ?? ''));
-    setCompletedStepIndex(detail.batch.completedStepIndex);
-    setDraftNotes(detail.batch.notes ?? '');
-    setDraftEstShippingDate(detail.batch.estShippingDate ?? '');
+    if (!batch) return;
+    setDraftItems(cloneAdminItems(savedItems));
+    applyBatchFields(batch, fieldSetters);
     setError('');
     setMessage('');
   };
 
   const saveAllChanges = async () => {
-    if (!detail || !hasUnsavedChanges) return;
+    if (!batch || !hasUnsavedChanges) return;
     if (psaSubmissionNumber.trim() && parseNumericInput(psaSubmissionNumber) === null) {
       setError('PSA submission number must be digits only.');
       return;
@@ -164,40 +311,39 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
     setError('');
     setMessage('');
     try {
-      let nextDetail = detail;
+      let nextBatch = batch;
 
       if (batchDirty) {
-        nextDetail = await updateBatch(detail.batch.referenceCode, {
+        const summary = await updateBatch(batch.referenceCode, {
           psaSubmissionNumber: parseNumericInput(psaSubmissionNumber),
           psaOrderNumber: parseNumericInput(psaOrderNumber),
           completedStepIndex,
           notes: normalizeBatchNotesHtml(draftNotes),
           estShippingDate: draftEstShippingDate.trim() || null,
         });
+        nextBatch = summary.batch;
+        setBatch(nextBatch);
+        applyBatchFields(nextBatch, fieldSetters);
       }
 
-      const savedById = new Map(nextDetail.items.map((item) => [item.id, item]));
-      const changedItems = draftItems.filter((draft) => {
-        const saved = savedById.get(draft.id);
-        return saved ? itemFieldsDirty(saved, draft) : false;
-      });
+      if (itemsDirty) {
+        const savedById = new Map(savedItems.map((item) => [item.id, item]));
+        const changedItems = draftItems.filter((draft) => {
+          const saved = savedById.get(draft.id);
+          return saved ? itemFieldsDirty(saved, draft) : false;
+        });
 
-      const updatedItems = [...nextDetail.items];
-      for (const draft of changedItems) {
-        const saved = savedById.get(draft.id);
-        const updated = await updateItem(draft.id, itemUpdatePayload(draft, saved));
-        const index = updatedItems.findIndex((item) => item.id === draft.id);
-        if (index >= 0) updatedItems[index] = updated;
+        const updatedItems = [...savedItems];
+        for (const draft of changedItems) {
+          const saved = savedById.get(draft.id);
+          const updated = await updateItem(draft.id, itemUpdatePayload(draft, saved));
+          const index = updatedItems.findIndex((item) => item.id === draft.id);
+          if (index >= 0) updatedItems[index] = updated;
+        }
+        setSavedItems(cloneAdminItems(updatedItems));
+        setDraftItems(cloneAdminItems(updatedItems));
       }
 
-      const merged: AdminBatchDetail = { ...nextDetail, items: updatedItems };
-      setDetail(merged);
-      setDraftItems(cloneAdminItems(updatedItems));
-      setPsaSubmissionNumber(String(merged.batch.psaSubmissionNumber ?? ''));
-      setPsaOrderNumber(String(merged.batch.psaOrderNumber ?? ''));
-      setCompletedStepIndex(merged.batch.completedStepIndex);
-      setDraftNotes(merged.batch.notes ?? '');
-      setDraftEstShippingDate(merged.batch.estShippingDate ?? '');
       setMessage('Changes saved.');
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -206,10 +352,23 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
     }
   };
 
-  const servicePlans = detail ? [parseServicePlanLabel(detail.batch.referenceCode)] : [];
+  const handleCsvApplied = useCallback(
+    (nextBatch: AdminBatch, nextItems: AdminItem[]) => {
+      setBatch(nextBatch);
+      applyBatchFields(nextBatch, fieldSetters);
+      setSavedItems(cloneAdminItems(nextItems));
+      setDraftItems(cloneAdminItems(nextItems));
+      setItemsLoaded(true);
+    },
+    [fieldSetters],
+  );
+
+  const orderCount = ordersLoaded ? customerOrders.length : (batch?.orderCount ?? 0);
+  const cardCount = itemsLoaded ? draftItems.length : (batch?.cardCount ?? 0);
+  const servicePlans = batch ? [parseServicePlanLabel(batch.referenceCode)] : [];
 
   if (loading) return <p className="text-text-muted text-sm">Loading batch…</p>;
-  if (!detail) {
+  if (!batch) {
     return (
       <div className="space-y-3">
         <p className="text-accent-danger">{error || 'Batch not found.'}</p>
@@ -226,7 +385,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
         <Link href="/admin/psa-grading" className="text-sm text-accent-link hover:underline">
           ← Dashboard
         </Link>
-        <h2 className="text-xl font-semibold mt-2 font-mono">{detail.batch.referenceCode}</h2>
+        <h2 className="text-xl font-semibold mt-2 font-mono">{batch.referenceCode}</h2>
         <p className="text-sm text-text-muted mt-1">PSA batch — manage progress, orders, and cards.</p>
       </div>
 
@@ -262,7 +421,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
               className="collection-filter-pill"
               onClick={() => setActiveTab('orders')}
             >
-              Orders ({detail.customerOrders.length})
+              Orders ({orderCount})
             </button>
             <button
               type="button"
@@ -274,7 +433,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
               className="collection-filter-pill"
               onClick={() => setActiveTab('cards')}
             >
-              Cards ({draftItems.length}){itemsDirty ? ' •' : ''}
+              Cards ({cardCount}){itemsDirty ? ' •' : ''}
             </button>
           </div>
 
@@ -295,7 +454,12 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
             >
               Discard
             </button>
-            <button type="button" className="btn btn-secondary" onClick={() => void load(true)} disabled={saving}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => void refreshAll(true)}
+              disabled={saving}
+            >
               Refresh
             </button>
             {activeTab === 'orders' && (
@@ -333,7 +497,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
                 Reference ID
               </label>
               <input
-                value={detail.batch.referenceCode}
+                value={batch.referenceCode}
                 readOnly
                 className="w-full border border-border-default bg-surface-bg/50 px-3 py-2 font-mono text-sm"
               />
@@ -422,9 +586,22 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
           aria-labelledby="batch-tab-orders"
           className="panel p-4 space-y-3"
         >
-          {detail.customerOrders.length > 0 ? (
+          {ordersLoading && !ordersLoaded ? (
+            <p className="text-sm text-text-muted">Loading orders…</p>
+          ) : ordersError ? (
+            <div className="space-y-2">
+              <p className="text-sm text-accent-danger">{ordersError}</p>
+              <button
+                type="button"
+                className="btn btn-secondary text-sm"
+                onClick={() => void loadOrders(batch.id, true)}
+              >
+                Retry
+              </button>
+            </div>
+          ) : customerOrders.length > 0 ? (
             <AdminCustomerOrdersTable
-              orders={detail.customerOrders}
+              orders={customerOrders}
               paymentMap={paymentMap}
               showBatchColumn={false}
               emptyMessage="No customer orders yet."
@@ -447,28 +624,41 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
           aria-labelledby="batch-tab-cards"
           className="panel p-4 space-y-3"
         >
-          {completedStepIndex >= GRADES_READY_STEP && (
-            <PsaGradesCsvImport
-              referenceCode={detail.batch.referenceCode}
-              items={draftItems}
-              onApplied={(next) => {
-                setDetail(next);
-                setDraftItems(cloneAdminItems(next.items));
-                setCompletedStepIndex(next.batch.completedStepIndex);
-              }}
-            />
+          {itemsLoading && !itemsLoaded ? (
+            <p className="text-sm text-text-muted">Loading cards…</p>
+          ) : itemsError ? (
+            <div className="space-y-2">
+              <p className="text-sm text-accent-danger">{itemsError}</p>
+              <button
+                type="button"
+                className="btn btn-secondary text-sm"
+                onClick={() => void loadItems(batch.referenceCode, true)}
+              >
+                Retry
+              </button>
+            </div>
+          ) : (
+            <>
+              {completedStepIndex >= GRADES_READY_STEP && (
+                <PsaGradesCsvImport
+                  referenceCode={batch.referenceCode}
+                  items={draftItems}
+                  onApplied={handleCsvApplied}
+                />
+              )}
+              <AdminCardsTable
+                items={draftItems}
+                density="batch"
+                groupByOrder
+                editable
+                showFooter
+                showBatchOrderId
+                showBatchReferenceColumn={false}
+                showGradeColumns={completedStepIndex >= GRADES_READY_STEP}
+                onUpdateItem={handleDraftItemUpdate}
+              />
+            </>
           )}
-          <AdminCardsTable
-            items={draftItems}
-            density="batch"
-            groupByOrder
-            editable
-            showFooter
-            showBatchOrderId
-            showBatchReferenceColumn={false}
-            showGradeColumns={completedStepIndex >= GRADES_READY_STEP}
-            onUpdateItem={handleDraftItemUpdate}
-          />
         </section>
       )}
     </div>
