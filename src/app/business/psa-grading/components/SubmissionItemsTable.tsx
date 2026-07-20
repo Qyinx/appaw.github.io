@@ -174,7 +174,6 @@ function ThumbSlot({
 }
 
 export default function SubmissionItemsTable({ items, copy, showTitle = true }: Props) {
-  const imageLabel = copy.image ?? 'Image';
   const [preview, setPreview] = useState<PreviewState | null>(null);
 
   const viewLabelFor = (name: string) =>
@@ -192,56 +191,7 @@ export default function SubmissionItemsTable({ items, copy, showTitle = true }: 
         <h3 className="text-lg font-display font-semibold text-text-primary mb-4">{copy.title}</h3>
       )}
 
-      <div className="hidden md:block border border-border-default overflow-x-auto">
-        <table className="w-full text-sm text-left">
-          <thead className="bg-surface-raised border-b border-border-default">
-            <tr>
-              <th scope="col" className="px-4 py-3 font-medium text-text-secondary w-16">
-                {imageLabel}
-              </th>
-              <th scope="col" className="px-4 py-3 font-medium text-text-secondary">
-                {copy.description}
-              </th>
-              <th scope="col" className="px-4 py-3 font-medium text-text-secondary w-36">
-                {copy.certNumber}
-              </th>
-              <th scope="col" className="px-4 py-3 font-medium text-text-secondary w-24">
-                {copy.grade}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => {
-              const url = frontImageUrl(item);
-              return (
-                <tr key={item.id} className="border-b border-border-default last:border-0" data-result-row>
-                  <td className="px-4 py-3">
-                    <ThumbSlot
-                      url={url}
-                      viewLabel={viewLabelFor(item.description)}
-                      onOpen={() => openItem(item)}
-                    />
-                  </td>
-                  <td className="px-4 py-3 text-text-primary">{item.description}</td>
-                  <td className="px-4 py-3">
-                    <CertNumberCell
-                      certNumber={item.certNumber}
-                      pending={copy.pending}
-                      openLabelTemplate={copy.openCertLookup}
-                      className="min-h-[44px]"
-                    />
-                  </td>
-                  <td className="px-4 py-3 font-mono tabular-nums text-text-primary">
-                    {item.grade ?? copy.pending}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      <ul className="md:hidden grading-track-item-list">
+      <ul className="grading-track-item-list">
         {items.map((item) => {
           const url = frontImageUrl(item);
           return (
