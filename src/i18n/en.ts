@@ -914,11 +914,11 @@ export const en = {
           items: [
             {
               q: 'When can I pick up my cards?',
-              a: 'When tracking shows "Ready for Pickup at 138 Arena" and you receive our WhatsApp or email pickup notice, you have 30 days from the notification date to collect your cards at 138 Arena.',
+              a: 'When tracking shows "Ready for Pickup at 138 Arena" and you receive our WhatsApp or email pickup notice, you have 14 days from the notification date to collect your cards at 138 Arena.',
             },
             {
-              q: 'What happens if I don\'t pick up within 30 days?',
-              a: 'Cards not collected within 30 days of the pickup notice are treated as abandoned. We send you a card abandonment notice and no fees are refunded.',
+              q: 'What happens if I don\'t pick up within 14 days?',
+              a: 'Cards not collected within 14 days of the pickup notice are treated as abandoned. We send you a card abandonment notice and no fees are refunded.',
             },
             {
               q: 'Why does PSA upcharge?',

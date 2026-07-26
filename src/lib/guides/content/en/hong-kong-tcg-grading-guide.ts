@@ -78,7 +78,7 @@ const guide: GuideContent = {
       title: 'Track batch status and pick up in Hong Kong',
       paragraphs: [
         'While PSA grades your cards, use the Appaw [PSA submission tracker](/business/psa-grading/track/) with your receipt phone number and BAT reference. On the timeline, "Card Recorded at 138 Arena" means local intake is complete; "Submitted to PSA Hong Kong" means Appaw forwarded the batch; middle steps sync from PSA; "Ready for Pickup at 138 Arena" means slabs are back in Hong Kong.',
-        'When status shows ready and you receive an Appaw WhatsApp or email pickup notice, collect at 138 Arena within 30 days of that notice. Late pickup may be treated as abandonment with no refund. At pickup, Appaw verifies BAT reference, card list, and grades against your receipt before handover at 138 Arena.',
+        'When status shows ready and you receive an Appaw WhatsApp or email pickup notice, collect at 138 Arena within 14 days of that notice. Late pickup may be treated as abandonment with no refund. At pickup, Appaw verifies BAT reference, card list, and grades against your receipt before handover at 138 Arena.',
         'If post-grade market value or grade exceeds your declared max, PSA may issue an Upcharge. Appaw will contact you with options; see [PSA submission hub](/business/psa-grading/) FAQ for full terms.',
       ],
       bridge:
