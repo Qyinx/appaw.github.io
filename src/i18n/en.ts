@@ -1572,6 +1572,7 @@ export const en = {
       fitToView: 'Fit to view',
       reset: 'Reset',
       adjustImage: 'Adjust image',
+      closeAdjustPanel: 'Close adjust panel',
       zoom: 'Zoom',
       rotate: 'Rotate',
       rotation: 'Rotation',

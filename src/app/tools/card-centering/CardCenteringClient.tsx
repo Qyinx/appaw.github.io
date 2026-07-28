@@ -210,6 +210,7 @@ export default function CardCenteringClient() {
   const [grade, setGrade] = React.useState<CenteringScore | null>(null);
   const [adjustOpen, setAdjustOpen] = React.useState(false);
   const [gradingDockOpen, setGradingDockOpen] = React.useState(false);
+  /* SSR-stable defaults — media queries applied after mount to avoid hydration mismatch */
   const [leftToolbarOpen, setLeftToolbarOpen] = React.useState(true);
   const [loupesOn, setLoupesOn] = React.useState(true);
   const [showHandlePulse, setShowHandlePulse] = React.useState(false);
@@ -232,7 +233,7 @@ export default function CardCenteringClient() {
     setInnerAligned,
   };
   imageReadyRef.current = imageReady;
-  const loupesOnRef = React.useRef(true);
+  const loupesOnRef = React.useRef(loupesOn);
   const [guideMode, setGuideMode] = React.useState<'edge' | 'border' | 'both'>('both');
   const [photoMode, setPhotoMode] = React.useState<PhotoMode>('raw');
   const [imageFilterMode, setImageFilterMode] = React.useState<ImageFilterMode>('off');
@@ -252,10 +253,20 @@ export default function CardCenteringClient() {
   }, [loupesOn]);
 
   useEffect(() => {
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      setLoupesOn(false);
-    }
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+    const narrow = window.matchMedia('(max-width: 768px)').matches;
+    if (coarse || narrow) setLeftToolbarOpen(false);
+    if (coarse) setLoupesOn(false);
   }, []);
+
+  useEffect(() => {
+    if (!adjustOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setAdjustOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [adjustOpen]);
 
   useEffect(() => {
     if (grade) guideRef.current.onGradeCalculated();
@@ -401,9 +412,10 @@ export default function CardCenteringClient() {
     const HANDLE_SNAP_PX = 0.45;
 
     const isCoarsePointer = typeof window !== 'undefined' && (window.matchMedia ? window.matchMedia('(pointer: coarse)').matches : ('ontouchstart' in window));
-    const handleRadius = isCoarsePointer ? 80 : 46;
-    const lineHitRadius = isCoarsePointer ? 64 : 28;
-    const outerLineHitRadius = isCoarsePointer ? 72 : 32;
+    /* Coarse: knob-sized hit (~48px). Line hits stay tight so pans are not stolen. */
+    const handleRadius = isCoarsePointer ? 48 : 46;
+    const lineHitRadius = isCoarsePointer ? 22 : 28;
+    const outerLineHitRadius = isCoarsePointer ? 26 : 32;
 
     // Pull colors from semantic site tokens (style.md §2)
     const rootStyles = typeof window !== 'undefined' ? getComputedStyle(document.documentElement) : null;
@@ -1177,7 +1189,7 @@ export default function CardCenteringClient() {
       active: boolean,
       vertical: boolean,
     ) {
-      const outerR = active ? (isCoarsePointer ? 16 : 14) : (isCoarsePointer ? 14 : 12);
+      const outerR = active ? (isCoarsePointer ? 18 : 14) : (isCoarsePointer ? 16 : 12);
       const innerR = outerR - 3;
       const stemLen = Math.hypot(px - anchorX, py - anchorY);
 
@@ -1485,7 +1497,7 @@ export default function CardCenteringClient() {
       scheduleDrawOverlay();
     }
 
-    function pickHandleAt(mouseX: number, mouseY: number): string | null {
+    function pickHandleAt(mouseX: number, mouseY: number, opts?: { knobsOnly?: boolean }): string | null {
       const handles = resolveHandles();
       let best: { name: string; dist: number } | null = null;
       for (const h of handles) {
@@ -1496,6 +1508,7 @@ export default function CardCenteringClient() {
         if (!best || score < best.dist) best = { name: h.name, dist: score };
       }
       if (best) return best.name;
+      if (opts?.knobsOnly) return null;
 
       let lineBest: { name: string; dist: number } | null = null;
       for (const h of handles) {
@@ -1510,39 +1523,9 @@ export default function CardCenteringClient() {
       return lineBest?.name ?? null;
     }
 
-    function pickOuterHandleNearEdge(mouseX: number, mouseY: number): string | null {
-      if (!isCoarsePointer) return null;
-
-      const mode = guideModeRef.current;
-      if (mode === 'border') return null;
-
-      const oxL = centerX + outerGuides.left;
-      const oxR = centerX + outerGuides.right;
-      const oyT = centerY + outerGuides.top;
-      const oyB = centerY + outerGuides.bottom;
-      const edgeHit = outerLineHitRadius + 8;
-
-      const candidates: Array<{ name: string; dist: number }> = [];
-      const distTop = Math.abs(mouseY - oyT);
-      if (distTop <= edgeHit && mouseX >= oxL - 16 && mouseX <= oxR + 16) {
-        candidates.push({ name: 'outerTop', dist: distTop });
-      }
-      const distBottom = Math.abs(mouseY - oyB);
-      if (distBottom <= edgeHit && mouseX >= oxL - 16 && mouseX <= oxR + 16) {
-        candidates.push({ name: 'outerBottom', dist: distBottom });
-      }
-      const distLeft = Math.abs(mouseX - oxL);
-      if (distLeft <= edgeHit && mouseY >= oyT - 16 && mouseY <= oyB + 16) {
-        candidates.push({ name: 'outerLeft', dist: distLeft });
-      }
-      const distRight = Math.abs(mouseX - oxR);
-      if (distRight <= edgeHit && mouseY >= oyT - 16 && mouseY <= oyB + 16) {
-        candidates.push({ name: 'outerRight', dist: distRight });
-      }
-
-      if (candidates.length === 0) return null;
-      candidates.sort((a, b) => a.dist - b.dist);
-      return candidates[0]?.name ?? null;
+    function pickOuterHandleNearEdge(_mouseX: number, _mouseY: number): string | null {
+      /* Edge-band grab retired — stole pans on touch. Mouse still gets line hits via pickHandleAt. */
+      return null;
     }
 
     // ---------- Corner magnifiers (loupes) ----------
@@ -1967,6 +1950,11 @@ export default function CardCenteringClient() {
     function applyPinchFrame(x1: number, y1: number, x2: number, y2: number) {
       const scaleChange = Math.hypot(x2 - x1, y2 - y1) / (initialPinchDistance || 1);
       const z = Math.max(0.1, Math.min(3, initialZoom * scaleChange));
+      /* Coarse: pinch = zoom only — accidental rotate is hard to undo. */
+      if (isCoarsePointer) {
+        applyImageTransformFast(z, initialRotate);
+        return;
+      }
       const deltaRad = normalizeAngleDelta(Math.atan2(y2 - y1, x2 - x1) - initialPinchAngle);
       const r = Math.max(-20, Math.min(20, initialRotate + deltaRad * (180 / Math.PI)));
       applyImageTransformFast(z, r);
@@ -2020,15 +2008,17 @@ export default function CardCenteringClient() {
       const rect = overlayEl.getBoundingClientRect();
       const mouseX = pos.clientX - rect.left;
       const mouseY = pos.clientY - rect.top;
+      const touchPath = !!(e.touches && e.touches.length === 1);
 
-      const handleHit =
-        pickHandleAt(mouseX, mouseY) ?? pickOuterHandleNearEdge(mouseX, mouseY);
+      const handleHit = touchPath
+        ? pickHandleAt(mouseX, mouseY, { knobsOnly: true })
+        : (pickHandleAt(mouseX, mouseY) ?? pickOuterHandleNearEdge(mouseX, mouseY));
       if (handleHit) {
         beginHandleDrag(handleHit, e, mouseX, mouseY);
         return;
       }
 
-      if (e.touches && e.touches.length === 1) {
+      if (touchPath) {
         const t = e.touches[0];
         pendingTouch = { id: t.identifier, startX: t.clientX, startY: t.clientY };
         lastPointerX = t.clientX;
@@ -2061,17 +2051,13 @@ export default function CardCenteringClient() {
           const rect = overlayEl.getBoundingClientRect();
           const touchX = t.clientX - rect.left;
           const touchY = t.clientY - rect.top;
-          const deferredHandle =
-            pickHandleAt(touchX, touchY) ?? pickOuterHandleNearEdge(touchX, touchY);
+          /* After slop: only steal if finger still on a knob — never guide lines. */
+          const deferredHandle = pickHandleAt(touchX, touchY, { knobsOnly: true });
           if (deferredHandle) {
             beginHandleDrag(deferredHandle, e, touchX, touchY);
             return;
           }
 
-          if (Math.abs(dy) > Math.abs(dx) * 1.25) {
-            pendingTouch = null;
-            return;
-          }
           e.preventDefault();
           pendingTouch = null;
           dragging = 'image';
@@ -2408,7 +2394,10 @@ export default function CardCenteringClient() {
         className={styles.toolInstrument}
         aria-label={`${tool.workspaceTitle} — ${tool.workspaceBrand}`}
       >
-        <div className={`${styles.workspaceShell}${imageReady ? ` ${styles.workspaceShellReady}` : ''}`}>
+        <div
+          className={`${styles.workspaceShell}${imageReady ? ` ${styles.workspaceShellReady}` : ''}`}
+          data-left-open={leftToolbarOpen ? 'true' : 'false'}
+        >
         <div className={`${styles.workspaceContainer}${imageReady ? ` ${styles.workspaceContainerReady}` : ''}`} id="workspace">
           <div className={styles.workspaceAtmosphere} aria-hidden="true" />
         <div id="image-wrapper" className={styles.imageWrapper}>
@@ -2626,7 +2615,7 @@ export default function CardCenteringClient() {
         <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         </div>
 
-        {/* Top-right — quick actions */}
+        {/* Top-right — quick actions (desktop); mobile folds into bottom sheet bar */}
         {imageReady ? (
           <div className={styles.topRightStack} role="presentation">
             <div className={styles.topActionStrip} role="toolbar" aria-label={tool.workspaceTitle}>
@@ -2663,25 +2652,68 @@ export default function CardCenteringClient() {
           </div>
         ) : null}
 
-        {/* Right rail — adjust dock (always mounted for canvas init) */}
+        {/* Right rail / mobile bottom sheet — adjust dock (always mounted for canvas init) */}
+        {imageReady && adjustOpen ? (
+          <button
+            type="button"
+            className={styles.adjustDockScrim}
+            aria-label={tool.closeAdjustPanel}
+            onClick={() => setAdjustOpen(false)}
+          />
+        ) : null}
         <div className={`${styles.adjustDockRail}${!imageReady ? ` ${styles.adjustDockRailDormant}` : ''}`}>
           <aside
             ref={adjustDockRef}
             className={`${styles.adjustDock} ${adjustOpen ? styles.adjustDockOpen : styles.adjustDockCollapsed}${guideActive && guide.activeStep === 1 ? ` ${styles.adjustDockGuideActive}` : ''}`}
             data-open={adjustOpen ? 'true' : 'false'}
           >
-            <button
-              type="button"
-              className={styles.adjustDockToggle}
-              onClick={toggleAdjustDock}
-              aria-expanded={adjustOpen}
-            >
-              <span className={styles.adjustDockToggleLeft}>
-                <SlidersIcon />
-                <span className={styles.adjustDockLabel}>{tool.adjustImage}</span>
-              </span>
-              <ChevronIcon className={styles.chevron} />
-            </button>
+            <div className={styles.adjustDockHeader}>
+              {imageReady ? (
+                <div className={styles.sheetQuickActions} role="toolbar" aria-label={tool.workspaceTitle}>
+                  <button
+                    type="button"
+                    className={styles.topActionBtn}
+                    data-active={loupesOn ? 'true' : 'false'}
+                    aria-pressed={loupesOn}
+                    aria-label={tool.cornerMagnifiersToggle}
+                    title={tool.cornerMagnifiersToggle}
+                    onClick={() => setLoupesOn((v) => !v)}
+                  >
+                    <CornerLoupeIcon />
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.topActionBtn}
+                    aria-label={tool.fitToView}
+                    title={tool.fitToView}
+                    onClick={() => fitRef.current?.()}
+                  >
+                    <FitViewIcon />
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.topActionBtn}
+                    aria-label={tool.reset}
+                    title={tool.reset}
+                    onClick={() => resetRef.current?.()}
+                  >
+                    <ResetViewIcon />
+                  </button>
+                </div>
+              ) : null}
+              <button
+                type="button"
+                className={styles.adjustDockToggle}
+                onClick={toggleAdjustDock}
+                aria-expanded={adjustOpen}
+              >
+                <span className={styles.adjustDockToggleLeft}>
+                  <SlidersIcon />
+                  <span className={styles.adjustDockLabel}>{tool.adjustImage}</span>
+                </span>
+                <ChevronIcon className={styles.chevron} />
+              </button>
+            </div>
 
             <div className={styles.adjustDockBody}>
               {imageReady ? (

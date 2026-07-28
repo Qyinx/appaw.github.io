@@ -1733,6 +1733,14 @@
 .adjustDockOpen .chevron,
 .adjustDock[data-open='true'] .chevron { transform: rotate(180deg); }
 
+.adjustDockHeader {
+  display: contents;
+}
+
+.sheetQuickActions {
+  display: none;
+}
+
 .adjustDockRail .chevron {
   transform: rotate(-90deg);
 }
@@ -1948,6 +1956,11 @@
   }
 }
 
+/* Mobile sheet scrim — hidden on desktop */
+.adjustDockScrim {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .wrapper {
     padding: 10px var(--space-page-x, clamp(10px, 3vw, 18px));
@@ -2028,15 +2041,35 @@
   }
 
   .workspaceContainer {
-    --loupe-edge-x: 4px;
-    --loupe-edge-top: 78px;
-    --loupe-edge-bottom: 8px;
+    --loupe-edge-x: 6px;
+    /* Top chrome = left tools chip only */
+    --loupe-edge-top: 52px;
+    --loupe-edge-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .workspaceShell[data-left-open='true'] .workspaceContainer {
+    --loupe-edge-top: 118px;
   }
 
   .workspaceLeftStack {
     top: 4px;
     left: 4px;
-    max-width: calc(100% - 112px);
+    /* Top-right actions moved to bottom bar — reclaim width */
+    max-width: calc(100% - 12px);
+  }
+
+  .workspaceLeftStack[data-open='false'] .workspaceToolsPanel {
+    background: color-mix(in srgb, var(--tool-panel) 88%, transparent);
+  }
+
+  .workspaceLeftStack[data-open='false'] .workspaceToolStripToggle {
+    min-width: 44px;
+    width: 44px;
+    padding: 0;
+  }
+
+  .workspaceLeftStack[data-open='false'] .workspaceToolStripToggleMeta {
+    display: none;
   }
 
   .workspaceToolStrip {
@@ -2061,23 +2094,205 @@
     font-size: 0.5625rem;
   }
 
+  /* Free top of canvas — actions live in bottom sheet bar */
   .topRightStack {
-    top: 4px;
-    right: 4px;
-    width: auto;
-    max-width: none;
+    display: none;
+  }
+
+  .adjustDockHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    flex-shrink: 0;
+    border-bottom: var(--border-width, 1px) solid var(--tool-border);
+  }
+
+  .sheetQuickActions {
+    display: flex;
+    align-items: stretch;
+    flex: 0 0 auto;
+    border-right: var(--border-width, 1px) solid var(--tool-border);
+  }
+
+  .sheetQuickActions .topActionBtn {
+    min-width: 44px;
+    min-height: 48px;
+    padding: 10px;
+    border-right: var(--border-width, 1px) solid var(--tool-border);
+    background: transparent;
+    color: var(--tool-text-muted);
+  }
+
+  .sheetQuickActions .topActionBtn:last-child {
+    border-right: none;
+  }
+
+  .sheetQuickActions .topActionBtn[data-active='true'] {
+    color: var(--tool-text);
+    background: color-mix(in srgb, var(--accent-primary) 16%, var(--tool-panel));
+    box-shadow: inset 0 -2px 0 var(--accent-primary);
+  }
+
+  .adjustDockHeader .adjustDockToggle {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+  }
+
+  /* ---------- Adjust → bottom sheet ---------- */
+  .adjustDockScrim {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 44;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0.42);
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .adjustDockScrim:focus-visible {
+    outline: 2px solid var(--accent-secondary);
+    outline-offset: -2px;
   }
 
   .adjustDockRail {
-    width: min(320px, calc(100% - 8px));
-    max-width: min(320px, calc(100% - 8px));
-    padding-top: 4px;
-    --adjust-dock-max-height: min(38svh, 340px);
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    align-items: stretch;
+    justify-content: flex-end;
+    z-index: 45;
+    --adjust-dock-max-height: min(45svh, 360px);
   }
 
   .workspaceShellReady .adjustDockRail {
-    /* Clear topRightStack: top inset + 44px action strip + gap */
-    padding-top: calc(4px + 44px + 8px);
+    padding-top: 0;
+  }
+
+  .adjustDock {
+    align-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    border-right: none;
+    border-left: none;
+    border-top: var(--border-width, 1px) solid var(--tool-border);
+    border-bottom: none;
+    border-left-width: 0;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.32);
+    transition: max-height 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .adjustDockGuideActive {
+    border-left-color: transparent;
+    border-top: 3px solid var(--accent-warn);
+  }
+
+  .adjustDockCollapsed {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    overflow: hidden;
+    border-left-width: 0;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
+  }
+
+  .adjustDockCollapsed .adjustDockHeader {
+    border-bottom: none;
+  }
+
+  .adjustDockCollapsed .adjustDockToggle {
+    width: auto;
+    min-width: 0;
+    height: auto;
+    min-height: 48px;
+    padding: 12px 14px;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .adjustDockCollapsed .adjustDockToggleLeft {
+    gap: 8px;
+  }
+
+  .adjustDockCollapsed .chevron {
+    display: block;
+  }
+
+  .adjustDockOpen,
+  .adjustDock[data-open='true'] {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: var(--adjust-dock-max-height);
+  }
+
+  .adjustDockGuideActive.adjustDockOpen,
+  .adjustDockGuideActive[data-open='true'] {
+    width: 100%;
+  }
+
+  .adjustDockGuideActive.adjustDockOpen .adjustDockBody,
+  .adjustDockGuideActive[data-open='true'] .adjustDockBody {
+    max-height: none;
+  }
+
+  /* Bottom sheet chevron: up when collapsed, down when open */
+  .adjustDockRail .chevron {
+    transform: rotate(180deg);
+  }
+
+  .adjustDockRail .adjustDockOpen .chevron,
+  .adjustDockRail .adjustDock[data-open='true'] .chevron {
+    transform: rotate(0deg);
+  }
+
+  .adjustDockToggle {
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 0.75rem;
+    gap: 8px;
+  }
+
+  .adjustDockLabel {
+    display: inline;
+    max-width: none;
+    font-size: 0.75rem;
+  }
+
+  .adjustDockOpen .adjustDockLabel,
+  .adjustDock[data-open='true'] .adjustDockLabel {
+    display: inline;
+  }
+
+  .adjustDockToggleLeft {
+    gap: 8px;
+  }
+
+  .adjustDockToggleLeft svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .chevron {
+    width: 14px;
+    height: 14px;
+  }
+
+  .adjustDockOpen .adjustDockBody,
+  .adjustDock[data-open='true'] .adjustDockBody {
+    padding: 0 14px calc(12px + env(safe-area-inset-bottom, 0px));
   }
 
   .topActionBtn {
@@ -2092,8 +2307,9 @@
   }
 
   .loupe {
-    width: 52px;
-    height: 52px;
+    width: 72px;
+    height: 72px;
+    z-index: 22;
   }
 
   .loupeBL { right: auto; }
@@ -2160,20 +2376,6 @@
     height: 6px;
   }
 
-  .adjustDock {
-    border-right: none;
-  }
-
-  .adjustDockGuideActive.adjustDockOpen,
-  .adjustDockGuideActive[data-open='true'] {
-    width: min(320px, 100%);
-  }
-
-  .adjustDockGuideActive.adjustDockOpen .adjustDockBody,
-  .adjustDockGuideActive[data-open='true'] .adjustDockBody {
-    max-height: none;
-  }
-
   .workspaceToolStripToggle {
     min-width: 44px;
     min-height: 44px;
@@ -2189,70 +2391,28 @@
     height: 15px;
   }
 
-  .adjustDockOpen,
-  .adjustDock[data-open='true'] {
-    width: min(320px, 100%);
-  }
-
-  .adjustDockCollapsed {
-    width: auto;
-    min-width: 9.5rem;
-    max-width: min(240px, calc(100% - 8px));
-    overflow: hidden;
-    border-left-width: 2px;
-  }
-
-  .adjustDockCollapsed .adjustDockToggle {
-    width: auto;
-    min-width: 0;
-    height: auto;
-    min-height: 44px;
-    padding: 10px 12px;
-    justify-content: space-between;
-    gap: 6px;
-  }
-
-  .adjustDockCollapsed .adjustDockToggleLeft {
-    gap: 6px;
-  }
-
-  .adjustDockCollapsed .chevron {
-    display: block;
-  }
-
-  .adjustDockToggle {
-    min-height: 44px;
-    padding: 10px 12px;
-    font-size: 0.625rem;
-    gap: 6px;
-  }
-
-  .adjustDockLabel {
-    display: inline;
-    font-size: 0.625rem;
-  }
-
-  .adjustDockToggleLeft {
-    gap: 4px;
-  }
-
-  .adjustDockToggleLeft svg {
-    width: 12px;
-    height: 12px;
-  }
-
-  .chevron {
-    width: 12px;
-    height: 12px;
-  }
-
   .controlRow {
-    padding: 6px 8px;
-    gap: 4px;
+    padding: 8px 10px;
+    gap: 6px;
   }
 
   .controlHeader {
     font-size: 0.75rem;
+  }
+
+  /* Touch-friendly range thumbs */
+  .rangeSlider {
+    height: 10px;
+  }
+
+  .rangeSlider::-webkit-slider-thumb {
+    width: 44px;
+    height: 44px;
+  }
+
+  .rangeSlider::-moz-range-thumb {
+    width: 44px;
+    height: 44px;
   }
 
   .emptyState {
@@ -2285,7 +2445,7 @@
 
 @media (max-width: 520px) {
   .adjustDockRail {
-    --adjust-dock-max-height: min(36svh, 300px);
+    --adjust-dock-max-height: min(42svh, 320px);
   }
 
   .toolInstrumentLabel {
@@ -2322,70 +2482,27 @@
   }
 
   .loupe {
-    width: 48px;
-    height: 48px;
+    width: 72px;
+    height: 72px;
   }
 
   .workspaceContainer {
-    --loupe-edge-top: 76px;
-    --loupe-edge-bottom: 8px;
+    --loupe-edge-top: 52px;
+    --loupe-edge-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
   }
 
+  /* Keep short labels — dots alone fail discoverability */
   .guideModeBtn {
     min-height: 44px;
-    min-width: 44px;
-    padding: 8px 10px;
-    gap: 0;
+    min-width: 0;
+    padding: 8px 8px;
+    gap: 4px;
   }
 
   .guideModeBtnLabel {
-    display: none;
-  }
-
-  .adjustDockOpen .adjustDockBody,
-  .adjustDock[data-open='true'] .adjustDockBody {
-    max-height: none;
-  }
-
-  .adjustDockCollapsed {
-    width: auto;
-    min-width: 8.5rem;
-    max-width: min(190px, calc(100% - 8px));
-  }
-
-  .adjustDockCollapsed .adjustDockToggle {
-    width: auto;
-    min-width: 0;
-    height: auto;
-    min-height: 44px;
-    padding: 10px 12px;
-  }
-
-  .adjustDockToggle {
-    min-height: 44px;
-    padding: 10px 12px;
-    font-size: 0.625rem;
-    gap: 6px;
-  }
-
-  .adjustDockLabel {
     display: inline;
     font-size: 0.5625rem;
-  }
-
-  .adjustDockToggleLeft svg {
-    width: 11px;
-    height: 11px;
-  }
-
-  .chevron {
-    width: 11px;
-    height: 11px;
-  }
-
-  .adjustDockOpen,
-  .adjustDock[data-open='true'] {
-    width: min(320px, 100%);
+    letter-spacing: 0.02em;
   }
 
   .adjustDockOpen .adjustDockBody,
@@ -2395,20 +2512,6 @@
 }
 
 @media (max-width: 375px) {
-  .adjustDockCollapsed {
-    min-width: 7.75rem;
-    max-width: min(176px, calc(100% - 8px));
-  }
-
-  .adjustDockCollapsed .adjustDockToggle {
-    min-height: 44px;
-    padding: 10px 12px;
-  }
-
-  .adjustDockToggle {
-    min-height: 44px;
-    padding: 10px 12px;
-  }
   .workspaceShell {
     height: min(84svh, calc(100svh - 48px));
     min-height: 260px;
@@ -2427,6 +2530,14 @@
 
   .gradePillRatios span {
     white-space: nowrap;
+  }
+
+  .guideModeBtn {
+    padding: 8px 6px;
+  }
+
+  .guideModeBtnLabel {
+    font-size: 0.5rem;
   }
 }
 
@@ -3630,7 +3741,8 @@
   .gradingCompanyBody,
   .gradingCompanyBtn,
   .guideModeBar,
-  .guideModeBtn {
+  .guideModeBtn,
+  .adjustDockScrim {
     transition: none !important;
   }
 

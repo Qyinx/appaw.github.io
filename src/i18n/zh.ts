@@ -1573,6 +1573,7 @@ export const zh: Translations = {
       fitToView: '適應畫面',
       reset: '重設',
       adjustImage: '調整圖片',
+      closeAdjustPanel: '關閉調整面板',
       zoom: '縮放',
       rotate: '旋轉',
       rotation: '旋轉',
