@@ -124,7 +124,9 @@ export function phaseProgress(status: PublicBoardPhase): number {
 export function getMockPublicBatchBoard(nowMs: number = Date.now()): PublicBatchBoardResponse {
   const inTwoDays = new Date(nowMs + 2 * 24 * 60 * 60 * 1000 - 3 * 60 * 60 * 1000).toISOString();
   const inFiveDays = new Date(nowMs + 5 * 24 * 60 * 60 * 1000).toISOString();
+  const inEighteenHours = new Date(nowMs + 18 * 60 * 60 * 1000).toISOString();
   const past = new Date(nowMs - 24 * 60 * 60 * 1000).toISOString();
+  const pastWeek = new Date(nowMs - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const raw = [
     {
@@ -138,9 +140,19 @@ export function getMockPublicBatchBoard(nowMs: number = Date.now()): PublicBatch
       intakeCutoffAt: inFiveDays,
     },
     {
+      referenceCode: 'BAT-2026-07-REG-4',
+      publicBoardStatus: 'intake' as const,
+      intakeCutoffAt: inEighteenHours,
+    },
+    {
       referenceCode: 'BAT-2026-06-EXP-3',
       publicBoardStatus: 'atPsa' as const,
       intakeCutoffAt: past,
+    },
+    {
+      referenceCode: 'BAT-2026-05-SPX-1',
+      publicBoardStatus: 'returning' as const,
+      intakeCutoffAt: pastWeek,
     },
   ];
 

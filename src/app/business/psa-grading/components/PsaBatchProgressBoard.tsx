@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import { CalendarDays, Search } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
@@ -17,19 +18,24 @@ import {
   type PublicBoardPhase,
 } from '@/lib/grading/public-board';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const PHASES: PublicBoardPhase[] = ['intake', 'atPsa', 'returning', 'pickup'];
 
+type BatchBoardCopy = ReturnType<typeof useLanguage>['t']['psaGradingPage']['batchBoard'];
+
+function refreshScrollTriggers() {
+  window.requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+  });
+}
+
 function formatCountdownLabel(
   item: PublicBatchBoardItem,
-  copy: {
-    closesIn: string;
-    closesInHours: string;
-    closesInMinutes: string;
-    intakeClosed: string;
-    noCutoff: string;
-  },
+  copy: Pick<
+    BatchBoardCopy,
+    'closesIn' | 'closesInHours' | 'closesInMinutes' | 'intakeClosed' | 'noCutoff'
+  >,
   nowMs: number,
 ): string {
   const cd = formatCountdown(item.intakeCutoffAt, nowMs);
@@ -55,19 +61,20 @@ function BatchStrip({
   nowMs,
 }: {
   item: PublicBatchBoardItem;
-  copy: ReturnType<typeof useLanguage>['t']['psaGradingPage']['batchBoard'];
+  copy: BatchBoardCopy;
   nowMs: number;
 }) {
   const urgency = cutoffUrgency(item, nowMs);
   const countdown = formatCountdownLabel(item, copy, nowMs);
   const activeIdx = phaseIndex(item.status);
   const showBook = item.intakeOpen;
+  const planLabel = GRADING_SERVICE_PLAN_LABELS[item.plan] ?? item.plan;
 
   return (
     <article
-      className="border border-border-default bg-surface-bg border-l-[3px] border-l-accent-brand"
+      className="border border-border-default bg-surface-bg border-l-[3px] border-l-accent-brand h-full"
       data-urgency={urgency}
-      aria-label={`${GRADING_SERVICE_PLAN_LABELS[item.plan]} ${copy.phases[item.status]}`}
+      aria-label={`${planLabel} ${copy.phases[item.status]}`}
     >
       <div className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between md:gap-6">
         <div className="min-w-0 flex-1 space-y-2">
@@ -98,7 +105,6 @@ function BatchStrip({
                   ? 'text-text-muted'
                   : 'text-text-primary'
             }`}
-            aria-live="polite"
           >
             {countdown}
           </p>
@@ -149,9 +155,7 @@ function BatchStrip({
               }`}
             >
               <span
-                className={`block h-1 mb-1.5 ${
-                  done ? 'bg-accent-brand' : 'bg-border-default'
-                }`}
+                className={`block h-1 mb-1.5 ${done ? 'bg-accent-brand' : 'bg-border-default'}`}
                 aria-hidden="true"
               />
               <span
@@ -169,6 +173,316 @@ function BatchStrip({
   );
 }
 
+function BatchCompactRow({
+  item,
+  copy,
+  nowMs,
+}: {
+  item: PublicBatchBoardItem;
+  copy: BatchBoardCopy;
+  nowMs: number;
+}) {
+  const urgency = cutoffUrgency(item, nowMs);
+  const countdown = formatCountdownLabel(item, copy, nowMs);
+  const showBook = item.intakeOpen;
+  const planLabel = GRADING_SERVICE_PLAN_LABELS[item.plan] ?? item.plan;
+
+  return (
+    <article
+      className="flex flex-col gap-2 border border-border-default bg-surface-bg px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+      aria-label={`${planLabel} ${copy.phases[item.status]}`}
+    >
+      <div className="min-w-0 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+        <span className="font-mono text-[0.6rem] uppercase tracking-[0.12em] text-accent-brand">
+          {item.plan}
+        </span>
+        <span className="font-display font-semibold text-sm text-text-primary">
+          {copy.phases[item.status]}
+        </span>
+        <span
+          className={`font-mono text-xs tabular-nums ${
+            urgency === 'soon' ? 'text-accent-warn' : 'text-text-muted'
+          }`}
+        >
+          {countdown}
+        </span>
+        <span className="font-mono text-[0.65rem] text-text-muted w-full sm:w-auto">
+          {item.referenceCode}
+        </span>
+      </div>
+      <div className="shrink-0">
+        {showBook ? (
+          <a
+            href={PSA_SUBMISSION_APPOINTMENT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary min-h-[40px] text-xs px-3"
+          >
+            {copy.bookCta}
+          </a>
+        ) : (
+          <LocalLink
+            href="/business/psa-grading/track"
+            className="btn btn-secondary min-h-[40px] text-xs px-3"
+          >
+            {copy.trackCta}
+          </LocalLink>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function BatchCarousel({
+  items,
+  copy,
+  nowMs,
+}: {
+  items: PublicBatchBoardItem[];
+  copy: BatchBoardCopy;
+  nowMs: number;
+}) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+  const count = items.length;
+  const safeIndex = ((index % count) + count) % count;
+  const active = items[safeIndex];
+
+  const goTo = useCallback(
+    (next: number) => {
+      if (count <= 1) return;
+      setIndex(((next % count) + count) % count);
+    },
+    [count],
+  );
+
+  useGSAP(
+    () => {
+      if (!trackRef.current || count <= 1) {
+        if (trackRef.current) gsap.set(trackRef.current, { xPercent: 0 });
+        return;
+      }
+      gsap.to(trackRef.current, {
+        xPercent: -100 * safeIndex,
+        duration: 0.45,
+        ease: 'power2.out',
+        onComplete: refreshScrollTriggers,
+      });
+    },
+    { scope: rootRef, dependencies: [safeIndex, count] },
+  );
+
+  useEffect(() => {
+    setIndex(0);
+  }, [count]);
+
+  if (count === 1 && active) {
+    return <BatchStrip item={active} copy={copy} nowMs={nowMs} />;
+  }
+
+  const slideLabel = copy.slideLabel
+    .replace('{n}', String(safeIndex + 1))
+    .replace('{total}', String(count));
+
+  return (
+    <div
+      ref={rootRef}
+      className="space-y-3"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={copy.title}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          goTo(safeIndex - 1);
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          goTo(safeIndex + 1);
+        }
+      }}
+    >
+      <div className="overflow-hidden w-full">
+        <div ref={trackRef} className="flex w-full will-change-transform">
+          {items.map((item) => (
+            <div
+              key={item.referenceCode}
+              className="w-full shrink-0 grow-0 basis-full"
+              role="group"
+              aria-roledescription="slide"
+              aria-hidden={item.referenceCode !== active?.referenceCode}
+            >
+              <BatchStrip item={item} copy={copy} nowMs={nowMs} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p className="sr-only" aria-live="polite">
+        {active
+          ? `${GRADING_SERVICE_PLAN_LABELS[active.plan] ?? active.plan} ${copy.phases[active.status]}. ${slideLabel}`
+          : slideLabel}
+      </p>
+
+      <div className="flex items-center justify-between gap-3">
+        <button
+          type="button"
+          className="btn btn-secondary min-h-[44px] min-w-[44px] px-3"
+          aria-label={copy.carouselPrev}
+          onClick={() => goTo(safeIndex - 1)}
+        >
+          <ChevronLeft className="w-4 h-4" aria-hidden="true" />
+        </button>
+        <div className="flex flex-col items-center gap-2">
+          <span className="font-mono text-xs text-text-muted tabular-nums">{slideLabel}</span>
+          <div className="flex items-center gap-1.5" role="tablist" aria-label={copy.title}>
+            {items.map((item, i) => (
+              <button
+                key={item.referenceCode}
+                type="button"
+                role="tab"
+                aria-selected={i === safeIndex}
+                aria-label={copy.slideLabel
+                  .replace('{n}', String(i + 1))
+                  .replace('{total}', String(count))}
+                className={`h-2 w-2 rounded-full transition-colors ${
+                  i === safeIndex ? 'bg-accent-brand' : 'bg-border-strong'
+                }`}
+                onClick={() => goTo(i)}
+              />
+            ))}
+          </div>
+        </div>
+        <button
+          type="button"
+          className="btn btn-secondary min-h-[44px] min-w-[44px] px-3"
+          aria-label={copy.carouselNext}
+          onClick={() => goTo(safeIndex + 1)}
+        >
+          <ChevronRight className="w-4 h-4" aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function OtherRoundsAccordion({
+  items,
+  copy,
+  nowMs,
+}: {
+  items: PublicBatchBoardItem[];
+  copy: BatchBoardCopy;
+  nowMs: number;
+}) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const didMountRef = useRef(false);
+  const [open, setOpen] = useState(false);
+
+  useGSAP(
+    () => {
+      const panel = panelRef.current;
+      if (!panel) return;
+
+      if (!didMountRef.current) {
+        didMountRef.current = true;
+        gsap.set(panel, { height: 0, opacity: 1, overflow: 'hidden' });
+        return;
+      }
+
+      if (open) {
+        gsap.set(panel, { height: 'auto', overflow: 'hidden' });
+        const target = panel.scrollHeight;
+        gsap.fromTo(
+          panel,
+          { height: 0, opacity: 0.6 },
+          {
+            height: target,
+            opacity: 1,
+            duration: 0.35,
+            ease: 'power2.out',
+            onComplete: () => {
+              gsap.set(panel, { height: 'auto', overflow: 'visible' });
+              refreshScrollTriggers();
+            },
+          },
+        );
+      } else {
+        gsap.set(panel, { overflow: 'hidden' });
+        gsap.to(panel, {
+          height: 0,
+          opacity: 0.85,
+          duration: 0.28,
+          ease: 'power2.inOut',
+          onComplete: refreshScrollTriggers,
+        });
+      }
+    },
+    { scope: rootRef, dependencies: [open, items.length] },
+  );
+
+  const toggleLabel = open
+    ? copy.hideOtherRounds
+    : copy.showOtherRounds.replace('{count}', String(items.length));
+
+  return (
+    <div ref={rootRef} className="border border-border-default bg-surface-bg">
+      <button
+        type="button"
+        className="flex w-full min-h-[44px] items-center justify-between gap-3 px-4 py-3 text-left"
+        aria-expanded={open}
+        aria-controls="batch-other-rounds-panel"
+        id="batch-other-rounds-trigger"
+        onClick={() => setOpen((v) => !v)}
+      >
+        <span className="font-display font-semibold text-sm text-text-primary">
+          {copy.otherRounds}
+        </span>
+        <span className="flex items-center gap-2 font-mono text-xs text-text-muted">
+          {toggleLabel}
+          <ChevronDown
+            className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`}
+            aria-hidden="true"
+          />
+        </span>
+      </button>
+      <div
+        ref={panelRef}
+        id="batch-other-rounds-panel"
+        role="region"
+        aria-labelledby="batch-other-rounds-trigger"
+        className="overflow-hidden"
+        style={{ height: 0 }}
+      >
+        <ul className="space-y-2 list-none m-0 px-3 pb-3">
+          {items.map((item) => (
+            <li key={item.referenceCode}>
+              <BatchCompactRow item={item} copy={copy} nowMs={nowMs} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function splitBoardBatches(batches: PublicBatchBoardItem[]): {
+  spotlight: PublicBatchBoardItem[];
+  others: PublicBatchBoardItem[];
+} {
+  const open = batches.filter((b) => b.intakeOpen);
+  if (open.length === 0) {
+    return { spotlight: batches, others: [] };
+  }
+  const openRefs = new Set(open.map((b) => b.referenceCode));
+  return {
+    spotlight: open,
+    others: batches.filter((b) => !openRefs.has(b.referenceCode)),
+  };
+}
+
 export default function PsaBatchProgressBoard() {
   const { t } = useLanguage();
   const copy = t.psaGradingPage.batchBoard;
@@ -180,7 +494,10 @@ export default function PsaBatchProgressBoard() {
   const load = useCallback(async () => {
     setError('');
     try {
-      const board = await fetchPublicBatchBoard();
+      const forceMock =
+        typeof window !== 'undefined' &&
+        new URLSearchParams(window.location.search).get('mockBoard') === '1';
+      const board = await fetchPublicBatchBoard({ forceMock });
       setBatches(board.batches);
       setUpdatedAt(board.updatedAt);
       setNowMs(Date.now());
@@ -194,19 +511,20 @@ export default function PsaBatchProgressBoard() {
     void load();
   }, [load]);
 
-  /* Board height settles after fetch — refresh how-to pin so chapter jumps stay aligned. */
   useEffect(() => {
     if (batches === null) return;
-    const id = window.requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
-    });
-    return () => window.cancelAnimationFrame(id);
+    refreshScrollTriggers();
   }, [batches]);
 
   useEffect(() => {
     const id = window.setInterval(() => setNowMs(Date.now()), 60_000);
     return () => window.clearInterval(id);
   }, []);
+
+  const { spotlight, others } = useMemo(
+    () => (batches ? splitBoardBatches(batches) : { spotlight: [], others: [] }),
+    [batches],
+  );
 
   return (
     <section
@@ -251,13 +569,14 @@ export default function PsaBatchProgressBoard() {
             </a>
           </div>
         ) : (
-          <ul className="space-y-3 list-none m-0 p-0">
-            {batches.map((item) => (
-              <li key={item.referenceCode}>
-                <BatchStrip item={item} copy={copy} nowMs={nowMs} />
-              </li>
-            ))}
-          </ul>
+          <div className="space-y-4">
+            {spotlight.length > 0 ? (
+              <BatchCarousel items={spotlight} copy={copy} nowMs={nowMs} />
+            ) : null}
+            {others.length > 0 ? (
+              <OtherRoundsAccordion items={others} copy={copy} nowMs={nowMs} />
+            ) : null}
+          </div>
         )}
 
         {updatedAt ? (

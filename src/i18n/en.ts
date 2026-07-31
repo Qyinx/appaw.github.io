@@ -813,6 +813,12 @@ export const en = {
       error: 'Could not load batch board.',
       retry: 'Retry',
       updatedLabel: 'Last updated',
+      otherRounds: 'Other rounds',
+      showOtherRounds: 'Show other rounds ({count})',
+      hideOtherRounds: 'Hide other rounds',
+      carouselPrev: 'Previous batch',
+      carouselNext: 'Next batch',
+      slideLabel: '{n} of {total}',
     },
     bookSection: {
       badge: 'Book drop-off',

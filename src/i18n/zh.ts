@@ -815,6 +815,12 @@ export const zh: Translations = {
       error: '無法載入批次看板。',
       retry: '重試',
       updatedLabel: '最後更新',
+      otherRounds: '其他批次',
+      showOtherRounds: '顯示其他批次（{count}）',
+      hideOtherRounds: '收起其他批次',
+      carouselPrev: '上一批',
+      carouselNext: '下一批',
+      slideLabel: '第 {n} / {total} 批',
     },
     bookSection: {
       badge: '預約交卡',
