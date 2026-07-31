@@ -16,6 +16,11 @@ import {
   type GradingServicePlan,
 } from '@/lib/grading/reference-code';
 import { completedStepLabel, stepSelectOptions } from '@/lib/grading/admin-utils';
+import {
+  normalizePublicBoardStatus,
+  PUBLIC_BOARD_STATUS_OPTIONS,
+  type PublicBoardStatus,
+} from '@/lib/grading/public-board';
 
 function parseNumericInput(value: string): number | null {
   const trimmed = value.trim();
@@ -27,6 +32,15 @@ function parseNumericInput(value: string): number | null {
 function currentDateParts() {
   const now = new Date();
   return { year: now.getFullYear(), month: now.getMonth() + 1 };
+}
+
+/** datetime-local value → ISO, or null if empty/invalid */
+function cutoffLocalToIso(local: string): string | null {
+  const trimmed = local.trim();
+  if (!trimmed) return null;
+  const ms = Date.parse(trimmed);
+  if (Number.isNaN(ms)) return null;
+  return new Date(ms).toISOString();
 }
 
 export default function GradingBatchNewClient() {
@@ -41,6 +55,8 @@ export default function GradingBatchNewClient() {
   const [psaSubmissionNumber, setPsaSubmissionNumber] = useState('');
   const [psaOrderNumber, setPsaOrderNumber] = useState('');
   const [completedStepIndex, setCompletedStepIndex] = useState(0);
+  const [publicBoardStatus, setPublicBoardStatus] = useState<PublicBoardStatus>('hidden');
+  const [intakeCutoffLocal, setIntakeCutoffLocal] = useState('');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -95,6 +111,8 @@ export default function GradingBatchNewClient() {
         psaSubmissionNumber: parseNumericInput(psaSubmissionNumber),
         psaOrderNumber: parseNumericInput(psaOrderNumber),
         completedStepIndex,
+        publicBoardStatus,
+        intakeCutoffAt: cutoffLocalToIso(intakeCutoffLocal),
       });
       router.push(batchDetailHref(batch.referenceCode));
     } catch (e) {
@@ -242,6 +260,40 @@ export default function GradingBatchNewClient() {
             ))}
           </select>
           <p className="text-xs text-text-muted mt-1">{completedStepLabel(completedStepIndex)}</p>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2 border-t border-border-default pt-4">
+          <div>
+            <label htmlFor="new-public-board-status" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+              Hub board status
+            </label>
+            <select
+              id="new-public-board-status"
+              value={publicBoardStatus}
+              onChange={(e) => setPublicBoardStatus(normalizePublicBoardStatus(e.target.value))}
+              className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
+            >
+              {PUBLIC_BOARD_STATUS_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <p className="text-xs text-text-muted mt-1">Shown on /business/psa-grading/. Manual — not synced from PSA.</p>
+          </div>
+          <div>
+            <label htmlFor="new-intake-cutoff" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+              Intake cutoff
+            </label>
+            <input
+              id="new-intake-cutoff"
+              type="datetime-local"
+              value={intakeCutoffLocal}
+              onChange={(e) => setIntakeCutoffLocal(e.target.value)}
+              className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
+            />
+            <p className="text-xs text-text-muted mt-1">Countdown on the hub board when status is Intake open.</p>
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2">

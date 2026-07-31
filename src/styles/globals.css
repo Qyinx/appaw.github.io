@@ -2225,8 +2225,9 @@ select option {
 }
 
 @media (min-width: 768px) {
+  /* Batches board sits between sticky chapter-nav and how-to — do not pull how-to up. */
   .psa-grading-hub .how-to-scroll-section:not(.how-to-scroll-section--static) {
-    margin-top: calc(-1 * var(--chapter-nav-height));
+    margin-top: 0;
   }
 
   .psa-grading-hub .how-to-scroll-section:not(.how-to-scroll-section--static) .how-to-scroll-section__hero-band {
@@ -2248,6 +2249,15 @@ select option {
     padding-top: calc(var(--site-header-height) + var(--chapter-nav-height) + clamp(0.375rem, 1vh, 0.625rem));
     max-height: 100%;
   }
+}
+
+/* Chapter hash targets clear sticky header + chapter nav */
+.psa-grading-hub #batches,
+.psa-grading-hub #how-to,
+.psa-grading-hub #book,
+.psa-grading-hub #pricing,
+.psa-grading-hub #faq {
+  scroll-margin-top: calc(var(--site-header-height) + var(--chapter-nav-height) + 0.5rem);
 }
 
 .how-to-scroll-section__header {

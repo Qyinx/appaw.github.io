@@ -1,5 +1,6 @@
 import { parseBatchReferenceCode } from './batch-reference-code';
 import type { GradingServicePlan } from './reference-code';
+import type { PublicBoardStatus } from './public-board';
 
 export interface AdminBatch {
   id: string;
@@ -14,6 +15,13 @@ export interface AdminBatch {
   notes?: string | null;
   /** ISO date YYYY-MM-DD. */
   estShippingDate?: string | null;
+  /**
+   * Manual hub board status. `hidden` = not listed on /business/psa-grading/.
+   * Not auto-synced from PSA.
+   */
+  publicBoardStatus?: PublicBoardStatus | null;
+  /** Manual intake cutoff ISO datetime for the public board countdown. */
+  intakeCutoffAt?: string | null;
   createdAt?: string;
   updatedAt: string;
 }
@@ -102,6 +110,8 @@ export interface AdminCreateBatchPayload {
   psaSubmissionNumber?: number | null;
   psaOrderNumber?: number | null;
   completedStepIndex?: number;
+  publicBoardStatus?: PublicBoardStatus | null;
+  intakeCutoffAt?: string | null;
 }
 
 export interface AdminUpdateItemPayload {
@@ -158,6 +168,8 @@ export interface AdminUpdateBatchPayload {
   completedStepIndex?: number;
   notes?: string | null;
   estShippingDate?: string | null;
+  publicBoardStatus?: PublicBoardStatus | null;
+  intakeCutoffAt?: string | null;
 }
 
 export interface AdminReorderItemsPayload {

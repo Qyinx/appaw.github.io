@@ -294,6 +294,15 @@ export async function updateBatch(
   return result;
 }
 
+export async function deleteBatch(referenceCode: string): Promise<void> {
+  const res = await gradingOpsFetch(`/grading/batches/${encodeURIComponent(referenceCode)}`, {
+    method: 'DELETE',
+  });
+  await parseJsonResponse(res);
+  invalidateBatchDetailCache(referenceCode);
+  invalidateGradingListCache();
+}
+
 export async function applyBatchGrades(
   referenceCode: string,
   payload: AdminApplyBatchGradesPayload,

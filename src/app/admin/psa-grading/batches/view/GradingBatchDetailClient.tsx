@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import AdminCardsTable from '../../components/AdminCardsTable';
 import AdminCustomerOrdersTable from '../../components/AdminCustomerOrdersTable';
@@ -9,6 +10,7 @@ import PsaGradesCsvImport from '../../components/PsaGradesCsvImport';
 import ServicePlanBadge from '../../components/ServicePlanBadge';
 import { replaceBrowserSearchParams, useBrowserSearch } from '@/hooks/useBrowserSearch';
 import {
+  deleteBatch,
   getBatch,
   invalidateBatchOrders,
   listCustomerOrders,
@@ -29,8 +31,17 @@ import type {
   AdminItem,
   AdminPaymentSummary,
 } from '@/lib/grading/admin-types';
-import { EMPTY_PAYMENT_SUMMARY, parseServicePlanLabel } from '@/lib/grading/admin-types';
+import {
+  BATCH_CARD_EDIT_STEP,
+  EMPTY_PAYMENT_SUMMARY,
+  parseServicePlanLabel,
+} from '@/lib/grading/admin-types';
 import { completedStepLabel, stepSelectOptions } from '@/lib/grading/admin-utils';
+import {
+  normalizePublicBoardStatus,
+  PUBLIC_BOARD_STATUS_OPTIONS,
+  type PublicBoardStatus,
+} from '@/lib/grading/public-board';
 
 const GRADES_READY_STEP = 8;
 
@@ -45,6 +56,23 @@ function parseNumericInput(value: string): number | null {
   return Number(trimmed);
 }
 
+function isoToDatetimeLocal(iso: string | null | undefined): string {
+  if (!iso) return '';
+  const ms = Date.parse(iso);
+  if (Number.isNaN(ms)) return '';
+  const d = new Date(ms);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function cutoffLocalToIso(local: string): string | null {
+  const trimmed = local.trim();
+  if (!trimmed) return null;
+  const ms = Date.parse(trimmed);
+  if (Number.isNaN(ms)) return null;
+  return new Date(ms).toISOString();
+}
+
 function applyBatchFields(
   batch: AdminBatch,
   setters: {
@@ -53,6 +81,8 @@ function applyBatchFields(
     setCompletedStepIndex: (v: number) => void;
     setDraftNotes: (v: string) => void;
     setDraftEstShippingDate: (v: string) => void;
+    setPublicBoardStatus: (v: PublicBoardStatus) => void;
+    setIntakeCutoffLocal: (v: string) => void;
   },
 ) {
   setters.setPsaSubmissionNumber(String(batch.psaSubmissionNumber ?? ''));
@@ -60,9 +90,12 @@ function applyBatchFields(
   setters.setCompletedStepIndex(batch.completedStepIndex);
   setters.setDraftNotes(batch.notes ?? '');
   setters.setDraftEstShippingDate(batch.estShippingDate ?? '');
+  setters.setPublicBoardStatus(normalizePublicBoardStatus(batch.publicBoardStatus ?? 'hidden'));
+  setters.setIntakeCutoffLocal(isoToDatetimeLocal(batch.intakeCutoffAt));
 }
 
 export default function GradingBatchDetailClient({ referenceCode }: Props) {
+  const router = useRouter();
   const search = useBrowserSearch();
   const activeTab = batchDetailTabFromSearch(search);
 
@@ -85,11 +118,14 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
   const [completedStepIndex, setCompletedStepIndex] = useState(0);
   const [draftNotes, setDraftNotes] = useState('');
   const [draftEstShippingDate, setDraftEstShippingDate] = useState('');
+  const [publicBoardStatus, setPublicBoardStatus] = useState<PublicBoardStatus>('hidden');
+  const [intakeCutoffLocal, setIntakeCutoffLocal] = useState('');
 
   const [loading, setLoading] = useState(true);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [itemsLoading, setItemsLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState('');
   const [ordersError, setOrdersError] = useState('');
   const [itemsError, setItemsError] = useState('');
@@ -107,6 +143,8 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
       setCompletedStepIndex,
       setDraftNotes,
       setDraftEstShippingDate,
+      setPublicBoardStatus,
+      setIntakeCutoffLocal,
     }),
     [],
   );
@@ -240,12 +278,16 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
 
   const batchDirty = useMemo(() => {
     if (!batch) return false;
+    const savedStatus = normalizePublicBoardStatus(batch.publicBoardStatus ?? 'hidden');
+    const savedCutoff = isoToDatetimeLocal(batch.intakeCutoffAt);
     return (
       parseNumericInput(psaSubmissionNumber) !== batch.psaSubmissionNumber ||
       parseNumericInput(psaOrderNumber) !== batch.psaOrderNumber ||
       completedStepIndex !== batch.completedStepIndex ||
       normalizeBatchNotesHtml(draftNotes) !== normalizeBatchNotesHtml(batch.notes) ||
-      (draftEstShippingDate.trim() || null) !== (batch.estShippingDate ?? null)
+      (draftEstShippingDate.trim() || null) !== (batch.estShippingDate ?? null) ||
+      publicBoardStatus !== savedStatus ||
+      intakeCutoffLocal !== savedCutoff
     );
   }, [
     batch,
@@ -254,6 +296,8 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
     completedStepIndex,
     draftNotes,
     draftEstShippingDate,
+    publicBoardStatus,
+    intakeCutoffLocal,
   ]);
 
   const itemsDirty = useMemo(
@@ -320,6 +364,8 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
           completedStepIndex,
           notes: normalizeBatchNotesHtml(draftNotes),
           estShippingDate: draftEstShippingDate.trim() || null,
+          publicBoardStatus,
+          intakeCutoffAt: cutoffLocalToIso(intakeCutoffLocal),
         });
         nextBatch = summary.batch;
         setBatch(nextBatch);
@@ -362,6 +408,39 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
     },
     [fieldSetters],
   );
+
+  const canDeleteBatch = batch != null && Number(batch.completedStepIndex) === BATCH_CARD_EDIT_STEP;
+
+  const handleDeleteBatch = async () => {
+    if (!batch || !canDeleteBatch || deleting || saving) return;
+
+    const orderCount = batch.orderCount ?? customerOrders.length;
+    const cardCount = batch.cardCount ?? savedItems.length;
+    const firstOk = window.confirm(
+      `Delete batch ${batch.referenceCode} permanently?\n\n` +
+        `This removes ${orderCount} customer order(s) and ${cardCount} card(s), including images.\n` +
+        `Only allowed while progress is at step 0.`,
+    );
+    if (!firstOk) return;
+
+    const typed = window.prompt(`Type the batch reference to confirm delete:\n${batch.referenceCode}`);
+    if (typed == null) return;
+    if (typed.trim() !== batch.referenceCode) {
+      setError('Delete cancelled — reference code did not match.');
+      return;
+    }
+
+    setDeleting(true);
+    setError('');
+    setMessage('');
+    try {
+      await deleteBatch(batch.referenceCode);
+      router.push('/admin/psa-grading');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+      setDeleting(false);
+    }
+  };
 
   const orderCount = ordersLoaded ? customerOrders.length : (batch?.orderCount ?? 0);
   const cardCount = itemsLoaded ? draftItems.length : (batch?.cardCount ?? 0);
@@ -556,7 +635,39 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
                 className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
               />
             </div>
-            <div className="sm:col-span-1 lg:col-span-3">
+            <div>
+              <label htmlFor="batch-public-board-status" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+                Hub board status
+              </label>
+              <select
+                id="batch-public-board-status"
+                value={publicBoardStatus}
+                onChange={(e) => setPublicBoardStatus(normalizePublicBoardStatus(e.target.value))}
+                disabled={saving}
+                className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
+              >
+                {PUBLIC_BOARD_STATUS_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-text-muted mt-1">Shown on /business/psa-grading/. Manual.</p>
+            </div>
+            <div>
+              <label htmlFor="batch-intake-cutoff" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+                Intake cutoff
+              </label>
+              <input
+                id="batch-intake-cutoff"
+                type="datetime-local"
+                value={intakeCutoffLocal}
+                onChange={(e) => setIntakeCutoffLocal(e.target.value)}
+                disabled={saving}
+                className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
+              />
+            </div>
+            <div className="sm:col-span-1 lg:col-span-2">
               <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Service levels</p>
               <div className="flex flex-wrap gap-2 min-h-[44px] items-center">
                 {servicePlans.map((plan) => (
@@ -572,9 +683,34 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
             <BatchNotesEditor
               value={draftNotes}
               onChange={setDraftNotes}
-              disabled={saving}
+              disabled={saving || deleting}
             />
             <p className="text-xs text-text-muted mt-1">Internal ops notes - not shown on customer tracking.</p>
+          </div>
+
+          <div className="border border-accent-danger/40 bg-surface-bg p-4 space-y-3">
+            <div>
+              <h3 className="text-sm font-semibold text-accent-danger">Delete batch</h3>
+              <p className="text-xs text-text-muted mt-1">
+                Permanently removes this batch, all customer orders, cards, and imported images.
+                Allowed only while submission progress is at step 0 (
+                {completedStepLabel(BATCH_CARD_EDIT_STEP)}).
+              </p>
+            </div>
+            {!canDeleteBatch && (
+              <p className="text-xs text-accent-warn">
+                Delete locked — batch progress is past step 0 (
+                {completedStepLabel(Number(batch.completedStepIndex))}).
+              </p>
+            )}
+            <button
+              type="button"
+              className="btn btn-secondary text-accent-danger border-accent-danger/50"
+              onClick={() => void handleDeleteBatch()}
+              disabled={!canDeleteBatch || deleting || saving}
+            >
+              {deleting ? 'Deleting…' : 'Delete this batch'}
+            </button>
           </div>
         </section>
       )}
