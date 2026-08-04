@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     '同一張卡 PSA 10 可售六位數，PSA 9 可能連四位數也不及。差距並非運氣，而是 1–10 量表、Qualifier 與置中規則，買家在結帳時早已沿用。',
   published: '2026-06-18',
-  updated: '2026-07-12',
+  updated: '2026-08-05',
   readTime: '14 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -122,7 +122,7 @@ const guide: GuideContent = {
       id: 'qualifiers',
       title: 'PSA Qualifier 扣分標籤',
       paragraphs: [
-        '部分卡片整體品相達某分數，但單一重大缺陷會加上 Qualifier 標籤，分數後標示如「PSA 8 OC」。收藏家常偏好 NQ（無限定）評級，因分數更直觀。',
+        '部分卡片整體品相達到特定分數，但若存在單一重大瑕疵，評級員會加上 Qualifier（修飾標籤），例如標示為「PSA 8 OC」。在二手市場中，收藏家普遍偏好 NQ（No Qualifier，無限定標籤）評級，因為單一分數能更直觀地反映整體品相。',
       ],
       bulletGroups: [
         {
@@ -159,7 +159,7 @@ const guide: GuideContent = {
           ],
         },
       ],
-      bridge: '量表讀完，再看市場如何為完美品相定價。',
+      bridge: '熟悉量表等級與扣分標籤後，以下透過國際公開拍賣的指標紀錄，直觀呈現頂級品相在二次市場所引發的溢價效益。',
     },
     {
       id: 'record-sales',
@@ -193,7 +193,7 @@ const guide: GuideContent = {
       id: 'bottom-line',
       title: '結語：先讀懂分數，再支付鑑定費用',
       paragraphs: [
-        'PSA 1–10 與 Qualifier 是收藏市場的共通語言。提交鑑定前對照等級表與置中門檻，購買鑑定卡時查證編號並交叉驗證外殼。',
+        'PSA 1–10 評分標準與 Qualifier 修飾標籤是全球 TCG 交易市場的共通語言。在正式提交鑑定前，對照官方等級表與置中門檻進行預先篩選，能有效避開不必要的鑑定開支。購入高價鑑定卡時，亦應於官方數據庫查驗編號，確保珍藏安全。',
       ],
       bulletGroups: [
         {
@@ -201,15 +201,15 @@ const guide: GuideContent = {
           items: [
             {
               label: '指南索引',
-              text: '更多流程見 [收藏指南索引](/guides/)。',
+              text: '參閱更多 [收藏指南索引](/guides/)，全面掌握鑑定防護知識。',
             },
             {
               label: '香港代送鑑定',
-              text: '銅鑼灣合作店舖 138 Arena 面交評估卡況及提交鑑定及取件，代送 PSA 並提供查看現有進度。詳見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
+              text: '可親臨銅鑼灣合作門市 138 Arena 面交評估卡況及提交鑑定。現場提供專業驗卡與清潔保養，協助降低扣分風險，詳見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
             },
             {
               label: '置中篩選',
-              text: '提交鑑定前可用 [免費置中計算器](/tools/card-centering/) 篩選裸卡。',
+              text: '提交鑑定前可使用 [免費置中計算器](/tools/card-centering/) 精確比對正背面邊距。',
             },
           ],
         },
@@ -247,7 +247,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: '提交鑑定前先測量邊距',
-    body: '上傳掃描或賣家照片，比對正背面置中是否達 PSA 10 門檻，再決定是否支付鑑定費用。',
+    body: '上傳照片比對正背面置中是否符合 PSA 10 的 55/45 門檻，理性評估提交鑑定的價值。香港藏家亦可親臨 138 Arena 門市，由 Appaw 團隊提供專業驗卡與清潔保養服務，全力協助珍藏爭取最佳評級。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
     secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
   },

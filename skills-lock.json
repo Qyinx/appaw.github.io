@@ -5,19 +5,13 @@
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "skillPath": "skills/ai-seo/SKILL.md",
-      "computedHash": "faa8c6c6b7cf7cf2b920cf865d117e08cc8e7a6f89672b98427bbd83fdf94d4c"
+      "computedHash": "9e9ea19c98f59261b7ee45c81edbce64b4011b597e1b67b37b6679e13e864448"
     },
     "algorithmic-art": {
       "source": "anthropics/skills",
       "sourceType": "github",
       "skillPath": "skills/algorithmic-art/SKILL.md",
       "computedHash": "987b24aa98171a0d3690420173b2cdb6eaafd57981ed716b5d50371affa82ea3"
-    },
-    "animejs": {
-      "source": "heygen-com/hyperframes",
-      "sourceType": "github",
-      "skillPath": "skills/animejs/SKILL.md",
-      "computedHash": "314c655fbc0df7eacc6f3853435ff8b03c2a771fad7435a58e2c4489a780d1b7"
     },
     "brandkit": {
       "source": "Leonxlnx/taste-skill",
@@ -35,31 +29,31 @@
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
       "skillPath": "skills/cavecrew/SKILL.md",
-      "computedHash": "326e2f95ddfa1d2aca1c33cbcc2c7352561e4e9a1d26b7c9e84f938590063c9f"
+      "computedHash": "9633c1391fa246091ce68ea522c0e424b2bc93aeb69fc44221a30b53e8a2c23d"
     },
     "caveman": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
       "skillPath": "skills/caveman/SKILL.md",
-      "computedHash": "7935e83f9c6a8b7cbb5404d144b0d19e3ba93583f4388301c3dada37cd25adf8"
+      "computedHash": "723fb2a8bec1156c0f0b5bf020cc739ed09702b7726ec6377480038871339f6e"
     },
     "caveman-commit": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
       "skillPath": "skills/caveman-commit/SKILL.md",
-      "computedHash": "1dd642480aee47934d6c202fd471e41922c7dc312e92a6e38059442b39bb0795"
+      "computedHash": "f028652defd5fdeddcce2994083cb1a7b201ee827bba8e2495546ee159fca3de"
     },
     "caveman-compress": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
       "skillPath": "skills/caveman-compress/SKILL.md",
-      "computedHash": "6a1722a4381909febe8c8b23e87e3396e3688c05c302f625143e194b447f5bd2"
+      "computedHash": "1055abaf7cb2f8c0ca78b64101b84dfc910d9819733ed9f0277b661441797aeb"
     },
     "caveman-help": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
       "skillPath": "skills/caveman-help/SKILL.md",
-      "computedHash": "7a667161d6a0644fa175b0cb4a043b76108a603af70cf25f62afd788191a3fa8"
+      "computedHash": "4dba39eea07a050108d47940b39600bc8f45489201ecff0ccf03627180fd8e50"
     },
     "caveman-review": {
       "source": "JuliusBrussee/caveman",
@@ -101,19 +95,25 @@
       "source": "alchaincyf/nuwa-skill",
       "sourceType": "github",
       "skillPath": "SKILL.md",
-      "computedHash": "da9ff8e15c2f7db328a28d8c8046439a2718b7f74aca464a9dba43b11b9b8c11"
+      "computedHash": "28622c84104443c457ae9cfd05eaa7e8dc510c727091aeb88f90b55ef9a3d67d"
     },
     "humanizer": {
       "source": "blader/humanizer",
       "sourceType": "github",
       "skillPath": "SKILL.md",
-      "computedHash": "778af856cac6ec4833fc5a8fef84718b1c87c0f69dbfcdedce5493a4115b68d2"
+      "computedHash": "73c03cc8028b39c9c2ecb94b81e9c9cf4276e4062ac127ed251006ab7facd67d"
     },
     "humanizer-zh": {
       "source": "op7418/humanizer-zh",
       "sourceType": "github",
       "skillPath": "SKILL.md",
-      "computedHash": "dede9681d9fea5caed2fb9d88656af3024c9ec0136fc833415ffc6e16d762429"
+      "computedHash": "ad6b2b1f1433413c64f6403dc322d950da175a058f494291bd4399e77cb587c7"
+    },
+    "hyperframes-animation": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-animation/SKILL.md",
+      "computedHash": "187113840817fc1e4bd0dd7008cd8010c61503d3a1f10be8b62648f269b2bd1a"
     },
     "image-to-code": {
       "source": "Leonxlnx/taste-skill",
@@ -137,7 +137,7 @@
       "source": "pbakaus/impeccable",
       "sourceType": "github",
       "skillPath": ".agents/skills/impeccable/SKILL.md",
-      "computedHash": "ac7d37b9e6dc9bdbb9b1ebd54368a3fab81920487eda3b6c109cf48b958a78dc"
+      "computedHash": "484bbc161054398ee3e0d292daf7648bc39e6300dd939697b394f273d56c8a62"
     },
     "industrial-brutalist-ui": {
       "source": "Leonxlnx/taste-skill",
@@ -155,13 +155,13 @@
       "source": "alchaincyf/mrbeast-skill",
       "sourceType": "github",
       "skillPath": "SKILL.md",
-      "computedHash": "e284cedf2ffe0713485cc8696d335e9031dce90484e186204e6d07a3b300c4f7"
+      "computedHash": "6e1f76785c7583eb42a6ecfba10f7eb654ed364b980c2c338646aed580c28e32"
     },
     "paul-graham-perspective": {
       "source": "alchaincyf/paul-graham-skill",
       "sourceType": "github",
       "skillPath": "SKILL.md",
-      "computedHash": "f2bb16a2c36d1612edc26fc9043646c35890e0705460f1045b6717f013759c86"
+      "computedHash": "72f0f2ed38c9b01a3f439c14fe664b9d04e113fea7ee2ae6c9ccf0d5f0138d78"
     },
     "redesign-existing-projects": {
       "source": "Leonxlnx/taste-skill",
@@ -173,7 +173,7 @@
       "source": "oso95/scroll-world",
       "sourceType": "github",
       "skillPath": "skills/scroll-world/SKILL.md",
-      "computedHash": "e6953d972ecd73341c84760bc6287bc0058a633833524cbd21e39b1de6d214c2"
+      "computedHash": "07ad6d6bad1e154a271e7bf1ef582b4e56c892caba56aff2674e761dc34c6859"
     },
     "seo": {
       "source": "Bhanunamikaze/Agentic-SEO-Skill",
@@ -203,19 +203,19 @@
       "source": "alchaincyf/trump-skill",
       "sourceType": "github",
       "skillPath": "SKILL.md",
-      "computedHash": "ed5abb54370ad5133e9a1bc17f58c06af2764efe8ce81120a67105d0eed059e6"
+      "computedHash": "75b64685aee42736a6c373f9888e7c703d8cdb0facb56cfd820f5ed668d0618d"
     },
     "ui-animation": {
       "source": "mblode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/ui-animation/SKILL.md",
-      "computedHash": "6cdb0f089b821656e31f56c1f4bba73a29525f34570d63567bb609ce9be8d6d0"
+      "computedHash": "fe6971b9ceae5abbc9d582b1b2adf4b6f9081bbbde24f36988123abd483057c9"
     },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",
       "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
-      "computedHash": "6337038fe1fe6bbe1b9f252ab678ee575859190bab6f0f246f4061824eb40875"
+      "computedHash": "6cb585d36a0d0418986bc8449bc0c8ff216344d692e08245d7f9e7414fee11a6"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",

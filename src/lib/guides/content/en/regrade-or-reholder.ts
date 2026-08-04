@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'A scratched slab is not always a grading problem. Reholder fixes the shell. Regrade reopens the score. Pick wrong and you pay twice or lose a PSA 10 you already had.',
   published: '2026-06-13',
-  updated: '2026-07-12',
+  updated: '2026-08-05',
   readTime: '9 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -86,14 +86,14 @@ const guide: GuideContent = {
         'Default to reholder when you want better looks or a matching set and the grade already satisfies you. Paying regrade fees when only the plastic failed burns cash.',
         'Choose regrade only when you explicitly want to chase a higher grade, or the slab is damaged enough that a full inspection is unavoidable. Run expected value: does upside cover fees plus downgrade loss?',
         'High-value warning: re-submitting PSA 10 is the riskiest bet, tiny flaws often return as PSA 9 and crush resale. Contact PSA support or submit through an authorised dealer when stakes are high.',
-        'Decision flow: verify cert on [psacard.com/cert](https://www.psacard.com/cert) → flat front/back photos → graded-slab centering check → loupe corners and surface → reholder if only the case fails; regrade only when centering and eye appeal clearly beat the label and the math works.',
+        'Decision flow: verify cert on [psacard.com/cert](https://www.psacard.com/cert) → flat front/back photos → graded-slab centering check → loupe corners and surface → reholder if only the case fails; regrade only when centering and eye appeal clearly beat the label and the math works. Hong Kong collectors can visit [138 Arena](/business/psa-grading/). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
       ],
     },
     {
       id: 'before-you-ship',
       title: 'Before You Ship',
       paragraphs: [
-        'Shoot high-res photos and video from every angle. Document slab and card condition before the package leaves your hands.',
+        'Shoot high-res photos and video from every angle. Document slab and card condition before the package leaves your hands. Hong Kong collectors can drop off at [138 Arena](/business/psa-grading/). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
         'Read PSA\'s current service terms: [psacard.com/services](https://www.psacard.com/services). Fees and workflows change over time.',
         'Declare insured value accurately. A visibly cracked slab often routes to review and raises the odds of a full regrade instead of a straight reholder.',
         'After either service, fit an outer [UV-rated protector](/products/psa-protectors/) before daily carry or card-meet hand-offs. Grader plastic is display-grade, not backpack armor.',
@@ -124,7 +124,7 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'comparison',
     title: 'Not sure? Upload a photo and measure centering',
-    body: 'In graded-slab mode, compare centering and downgrade risk before you mail for reholder or regrade.',
+    body: 'In graded-slab mode, compare centering and downgrade risk before you mail. Hong Kong collectors can drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'Free Centering Tool', href: '/tools/card-centering/' },
     secondary: { label: 'PSA 10 centering requirements', href: '/guides/psa-10-centering-requirements/' },
   },

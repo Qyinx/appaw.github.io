@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'One loose slab in a bag can chip a corner on a $200 label. Most PSA and CGC bricks at card shows share the same 35PT thickness band. Match that profile and the protector does the job.',
   published: '2026-06-07',
-  updated: '2026-07-12',
+  updated: '2026-08-05',
   readTime: '6 min',
   heroImage: '/images/background/guide-35pt-slab-protector.png',
   heroSpecs: [
@@ -70,9 +70,9 @@ const guide: GuideContent = {
   ],
   cta: {
     title: 'Built for standard 35PT slabs',
-    body: 'Appaw Store\'s magnetic UV glass case is sized for PSA and CGC 35PT profiles, with >95% UV-blocking glass and N52 closure.',
+    body: 'Appaw Store\'s magnetic UV glass case is sized for PSA and CGC 35PT profiles, with >95% UV-blocking glass and N52 closure. Slabs back from grading? Add the outer case. Raw cards heading to PSA? Hong Kong collectors can drop off at [138 Arena](/business/psa-grading/). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'See Graded Card Protector', href: '/products/psa-protectors/' },
-    secondary: { label: 'UV protection for slabs', href: '/guides/uv-protection-graded-cards/' },
+    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'grade-or-protect-first'],
   sources: [

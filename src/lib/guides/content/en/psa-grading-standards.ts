@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'A PSA 10 can sell for six figures. A PSA 9 on the same card might not clear four. The gap is not luck. It is the 1–10 scale, Qualifier codes, and centering rules buyers already use at checkout.',
   published: '2026-06-18',
-  updated: '2026-07-12',
+  updated: '2026-08-05',
   readTime: '14 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -123,6 +123,7 @@ const guide: GuideContent = {
       title: 'PSA Qualifier Codes',
       paragraphs: [
         'A card may meet a numeric grade overall but carry a Qualifier when one major flaw is present, shown as "PSA 8 OC" on the label. Many collectors prefer NQ (No Qualifier) grades for cleaner interpretation.',
+        'Surface dirt, wax residue, and light staining often map to ST (Staining) qualifiers. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Note that this cannot remove factory print defects (PD) or off-center issues (OC).',
       ],
       bulletGroups: [
         {
@@ -204,11 +205,11 @@ const guide: GuideContent = {
             },
             {
               label: 'Hong Kong submission',
-              text: 'Drop off and pick up at partner store 138 Arena, Causeway Bay — we submit to PSA on your behalf with online tracking. See [PSA collectibles submission](/business/psa-grading/).',
+              text: 'Drop off at 138 Arena, Causeway Bay. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. See [PSA collectibles submission](/business/psa-grading/).',
             },
             {
               label: 'Centering screen',
-              text: 'Screen raw cards with the [free centering tool](/tools/card-centering/) before submitting.',
+              text: 'Screen raw cards with the [free centering tool](/tools/card-centering/) before submitting. At 138 Arena, Appaw also evaluates condition and predicts potential grades on-site.',
             },
           ],
         },
@@ -246,7 +247,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: 'Measure centering before you submit',
-    body: 'Upload a scan or seller photo and compare front/back percentages against PSA 10 thresholds before paying grading fees.',
+    body: 'Upload raw or seller photos against PSA 10 thresholds. Hong Kong collectors can drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'Free centering tool', href: '/tools/card-centering/' },
     secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },

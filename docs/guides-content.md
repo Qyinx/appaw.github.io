@@ -50,6 +50,68 @@ Sitemap, static params, and index `ItemList` JSON-LD pick up new slugs automatic
 
 Full glossary: [`seo-pillars.md`](seo-pillars.md) § Terminology policy (ZH).
 
+### Length, density, and service-page scope
+
+These rules apply to **collector guides and business/service i18n** (e.g. `/business/psa-grading/` in `src/i18n`).
+
+- **ZH body must be complete 書面語 paragraphs.** Titles may be concise; body copy, subheads, and list explanations must be full sentences with clear cause and condition. Prefer one or two extra clauses over telegram-style slogans. Do not shorten for brevity when that makes meaning unclear.
+- **EN may stay punchier** (short hooks, numbers first). **ZH is not optimized for minimal word count.**
+- **Humanizer vs length:** strip AI filler (此外, 值得注意的是, crucial, landscape, 全面涵蓋, 賦能, etc.) and marketing fluff, but **never shorten ZH into fragments** to “sound more human.”
+- Anti-example (forbidden): 「顯微鏡驗屍。有圖有真相。風險自負。」
+- Prefer: 「我們以顯微鏡與強光檢測邊角、表面壓痕等瑕疵，並透過 WhatsApp 傳送微距照片供您判斷。若卡況不足以支持提交鑑定，我們會主動建議暫緩，以免徒增費用。」
+
+### FAQ freeze (hub / service pages)
+
+When evolving `/business/psa-grading/` and similar service hubs:
+
+- **Do not rewrite existing FAQ Q&A** strings in `src/i18n` (EN or ZH).
+- **Append-only** for new service questions.
+- **Terminology rename exception:** customer-facing「BAT 參考編號」→「參考編號」(EN: “BAT reference code” → “reference code”) is allowed as phrase-only swap; keep code-format helpers such as “Starts with BAT-”.
+- Guide `faq[]` in guide content files still follows normal edit rules when that guide itself is being revised.
+
+### PSA hub vs advisor split
+
+- Hub `/business/psa-grading/`: **submission-first** (H1/title, how-to, batches, book, pricing). Condition advice is a mid-page teaser only.
+- Advisor `/business/psa-grading/advisor/`: full advisor / trust / aftercare positioning.
+
+### Service Value Proposition & Messaging Standard
+
+All PSA proxy submission service copy across guides and i18n should incorporate Appaw's core service value proposition:
+
+> 我們為客戶提供免費的初步驗卡服務，協助評估卡況並預測可能的分數。同時附設基本清潔保養，有效降低鑑定過程中的扣分風險，全力為您的珍藏爭取最高評級。
+
+- **免費初步驗卡服務：** 現場協助評估卡況（置中、表面狀況、邊角完整度）並預測可能的分數。
+- **基本清潔保養：** 附設基本清潔與保養，有效降低鑑定過程中的扣分風險。
+- **全力爭取最高評級：** 協助客戶客觀判斷，避免不必要的鑑定成本，全力為珍藏爭取最高評級。
+
+### Human-like Rewriting Reference Examples (zh-HK)
+
+Use the following real rewrite pairs as references when adjusting tone or generating zh-HK content:
+
+#### 1. Avoid Telegraphic Fragments & Machine Translations (去電報式碎句與翻譯腔)
+
+| Anti-Pattern (AI / Fragmented) | Refined Human-like zh-HK |
+|--------------------------------|--------------------------|
+| 「黑光燈便宜，桌上放一支。常摸鑑定卡的話，值得備。」 | 「手持式波長 365nm 或 395nm 的 UV 黑光燈，是辨識假殼與偽造標籤成本最低且極為有效的物理檢測工具。對於經常進行二手交易或收藏高價鑑定卡的藏家而言，隨身配備一支黑光燈能即時過濾絕大多數低劣高仿。」 |
+| 「塑膠質感：真品堅硬、清澈、重量適中，邊緣焊接平整...」 | 「真品採用高清澈度的硬質壓克力，邊緣焊接超音波接縫極為平整且不含膠水痕跡；內部固定卡片的內槽四角應呈完美的 90 度直角，而非圓角。」 |
+| `{ label: '必對項目', value: '照片、年份、角色、等級、標記' }` | `{ label: '必須核對項目', value: '卡牌照片、年份、角色名稱、評級分數與特殊標記' }` |
+| `{ label: '通過意味', value: '過第一關，仍需後續檢查' }` | `{ label: '查證結果定義', value: '數據相符僅代表完成第一關，仍需進行實物細節檢測' }` |
+| `{ label: '完整流程', value: '裸卡 → 提交鑑定 → 鑑定卡磚 → 加裝鑑定卡保護殼' }` | `{ label: '完整流程', value: '由裸卡評估、提交鑑定到加裝外層保護殼的完整程序' }` |
+
+#### 2. Avoid Template-style AI Transitions (重寫生硬 AI 銜接句 `bridge`)
+
+| Rigid AI Transition | Natural Logical Transition |
+|---------------------|----------------------------|
+| `'門檻清楚了。接下來看置中如何影響市場溢價。'` | `'釐清官方的置中比例門檻後，下一步是瞭解置中表現如何直接塑造卡牌的二手市場溢價。'` |
+| `'量表讀完，再看市場如何為完美品相定價。'` | `'熟悉量表等級與扣分標籤後，以下透過國際公開拍賣的指標紀錄，直觀呈現頂級品相在二次市場所引發的溢價效益。'` |
+| `'查詢能過，不代表實物對。第二步：十餘元的 UV 黑光燈，多數賣家不願讓買家測試。'` | `'官方數據庫記錄相符僅代表完成第一關；要確認實物外殼與標籤未被替換，下一步需運用 UV 黑光燈檢測防偽墨水反應。'` |
+| `'了解更換新殼的處理範圍與限制，有助於判斷您的情況是否只需更新外殼外觀。'` | `'釐清兩者的分野後，以下詳細說明更換新殼（Reholder）的服務範疇、作業細節與潛在限制。'` |
+
+#### 3. Natural Context & HK Environmental Nuances (融合自然語境與香港環境語感)
+
+- **Air & Humidity:** Instead of generic "氣候潮濕", describe concrete Hong Kong experiences: 「香港室內相對濕度長年維持於 70–80%，若鑑定卡長期開架擺放且環境濕度持續高於 60%，標籤邊緣容易出現起霧，全息閃卡表面亦可能產生微小的紙張變形。」
+- **Service Value Integration:** Avoid copy-pasting identical promo templates into consecutive paragraphs. Adapt naturally according to the section focus: 「香港藏家可前往 138 Arena 門市面交，Appaw 提供專業驗卡與清潔保養服務，全力協助珍藏爭取最佳評級。」
+
 ## Content structure (`GuideContent`)
 
 | Field | Purpose |
@@ -100,6 +162,7 @@ Add a `service-roles` section after audience fit when the guide explains the Hon
 ## Voice
 
 - **Humanizer:** no em dashes (`—` / `——`) in body copy; no AI filler (此外, 值得注意的是, crucial, landscape, etc.); remove marketing fluff (展館級, 媲美, 完美結合, 市面上最強) — replace with specs; **do not shorten sentences** for brevity
+- **Service hubs:** follow Locale § Length/density and FAQ freeze above when editing `psaGradingPage` / related business strings
 - **Hooks:** cost / contrarian / proof — second sentence must carry a number or concrete check
 - **Avoid:** LinkedIn bait ("The brutal truth?"), fake urgency, "Complete Guide" title suffix
 - **Arrow chains:** replace `A → B → C` step lists in prose with full sequential sentences (tables may keep compact rows)

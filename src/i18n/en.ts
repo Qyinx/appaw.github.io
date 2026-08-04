@@ -148,10 +148,11 @@ export const en = {
         cta: 'Analyze Now',
       },
       psaGrading: {
-        badge: 'Submit',
-        title: 'PSA Submission (HK)',
-        description: 'Hong Kong TCG face-to-face PSA intake at 138 Arena, Causeway Bay. Tiers from HKD 890. Track every batch online.',
-        cta: 'View submission service',
+        badge: 'PSA Submission',
+        title: 'PSA submission (Hong Kong)',
+        description:
+          'Hong Kong TCG face-to-face PSA intake at 138 Arena, Causeway Bay. Condition advice before you ship, tiers from HKD 850. Track every batch online.',
+        cta: 'View PSA submission',
       },
       guidesLink: 'Guides on slab fit, UV storage, centering, and regrade vs reholder',
       guidesCta: 'Read Guides',
@@ -240,11 +241,11 @@ export const en = {
     service01Label: 'Service 01 — Protection',
     psaGrading: {
       badge: 'PSA Submission',
-      title: 'PSA Collectibles Submission',
+      title: 'PSA submission in Hong Kong',
       description:
-        'We submit your Pokémon, One Piece, sports, and MTG cards to PSA on your behalf. Face-to-face card intake at 138 Arena, Causeway Bay. Every batch is trackable online.',
-      chips: ['138 Arena', 'From HKD 890', 'Face-to-face only', 'Batch tracking'],
-      cta: 'View submission hub',
+        'Face-to-face PSA submission from 138 Arena, Causeway Bay. We help you decide whether a card should go to PSA, then track every batch online.',
+      chips: ['138 Arena', 'From HKD 850', 'Face-to-face only', 'Batch tracking'],
+      cta: 'View PSA submission',
       trackCta: 'Track a batch',
       bookCta: 'Book drop-off',
     },
@@ -740,19 +741,19 @@ export const en = {
   },
 
   psaGradingPage: {
-    badge: 'PSA submission',
+    badge: 'PSA Submission',
     dropOffAddress: '138 Arena, 1/F, 522 Jaffe Road, Causeway Bay',
     lastUpdatedLabel: 'Last updated',
-    lastUpdated: '2026-07-12',
+    lastUpdated: '2026-08-05',
     aeo: {
       title: 'How do I submit cards to PSA in Hong Kong?',
       answer:
-        'Hong Kong TCG collectors book a drop-off slot at 138 Arena in Causeway Bay, then bring raw or sleeved Pokémon, One Piece, sports, or MTG cards. Appaw confirms your tier on-site and coordinates PSA submission. Track each batch with the phone number and BAT reference code on your receipt.',
+        'Hong Kong TCG collectors book an in-person slot at 138 Arena in Causeway Bay to drop off raw or sleeved cards. Appaw provides free preliminary card inspection, condition evaluation, and grade prediction, alongside basic cleaning & maintenance to reduce point deduction risks. We confirm your PSA service tier, handle proxy submission, and provide a reference code to track batch progress online.',
     },
     whoThisIsFor: {
       title: 'Who this service is for',
       body:
-        'Hong Kong TCG collectors submitting Pokémon TCG, One Piece, sports cards, or Magic: The Gathering to PSA. Raw or sleeved cards welcome. Appaw helps confirm tier and intake on-site. Optional: check centering with the free tool if you have time.',
+        'Designed for Hong Kong collectors submitting Pokémon TCG, One Piece, sports cards, or MTG for PSA grading. We provide face-to-face intake at 138 Arena with free preliminary card inspection, grade prediction, and basic cleaning & maintenance to minimize deduction risks before confirming your service tier and proxy submission.',
     },
     dropOff: {
       title: 'Drop-off location',
@@ -770,11 +771,12 @@ export const en = {
       protectors: { label: 'Graded slab protectors', href: '/products/psa-protectors/' },
     },
     hero: {
-      title: 'We submit your collectibles to PSA',
+      title: 'PSA submission in Hong Kong',
       definition:
-        'Face-to-face intake at 138 Arena, Causeway Bay. We coordinate PSA grading submission for every batch. Each batch gets a BAT reference code for online status lookup. We notify you when graded slabs return for pickup.',
+        'In-person PSA submission at 138 Arena, Causeway Bay. We provide free preliminary card inspection, condition evaluation, predicted grades, and basic cleaning & maintenance to reduce point deduction risks and strive for the highest possible grade. We handle secure batch submission to PSA headquarters, help select the optimal service tier, and provide live online batch tracking until your slabs return for pickup. (Note: final grades are determined solely by PSA; we do not guarantee scores.)',
       ctaBook: 'Book drop-off',
       ctaTrack: 'Track progress',
+      ctaAdvisor: 'Condition advice',
     },
     chapters: {
       pricing: 'Pricing',
@@ -782,6 +784,67 @@ export const en = {
       book: 'Book',
       batches: 'Current batches',
       faq: 'FAQ',
+      advisor: 'Condition',
+    },
+    advisorTeaser: {
+      badge: 'Also at intake',
+      title: 'Condition check before you commit',
+      body:
+        'We provide customers with free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we effectively reduce point deduction risks during grading and strive for the highest possible grade for your collection.',
+      cta: 'Read condition advice',
+    },
+    advisorPage: {
+      backToHub: 'Back to PSA submission',
+    },
+    advisor: {
+      badge: 'Not a courier middleman',
+      title: 'High-value grading advisor, not a logistics handoff',
+      lead:
+        'Anyone can forward a sleeve to PSA. The expensive mistake is paying full submission fees and waiting a full cycle on a card that cannot support the grade you need. Our job is to protect that decision before the batch leaves Hong Kong.',
+      items: [
+        {
+          title: 'Condition-first screening mindset',
+          body: 'We look at surface, corners, edges, and centering with the tools that catch dents and whitening naked-eye intake misses. The goal is a clear submit or pause call before you spend the tier fee.',
+        },
+        {
+          title: 'Honest advise-against',
+          body: 'If a fatal flaw makes a strong grade unrealistic, we say so. We would rather you keep the card and the fee than force every piece into a BAT round.',
+        },
+        {
+          title: 'Tier advice when the card is strong',
+          body: 'When condition supports a serious PSA 10 attempt, we help match Regular, Express, Super Express, or Walk-Through to your time and declared-value stake. Faster tiers cost more; we only push them when the card justifies it.',
+        },
+      ],
+    },
+    trust: {
+      badge: 'Transparency is the storefront',
+      title: 'You see the process before you leave the cards',
+      lead:
+        'We partner with 138 Arena for face-to-face intake. Trust comes from what you can verify: the venue, the receipt credentials, live batch status, and a public process we are willing to show.',
+      items: [
+        {
+          title: 'Face-to-face only',
+          body: 'Drop-off and pickup happen at 138 Arena in Causeway Bay. We do not accept mailed raw-card submissions for this service.',
+        },
+        {
+          title: 'Live batch tracking',
+          body: 'Each service tier gets a reference code. Look up status with the phone number and reference code on your receipt. We never expose submissions by phone alone.',
+        },
+        {
+          title: 'Process you can follow',
+          body: 'From intake through outbound shipping to PSA return, stages stay visible on the Track page. Venue hours and location context are on Instagram @138arena.',
+        },
+      ],
+      igLabel: '138 Arena on Instagram',
+      igHref: 'https://www.instagram.com/138arena/',
+    },
+    aftercare: {
+      badge: 'After the slab returns',
+      title: 'PSA 10 is not the end of the story',
+      body:
+        'When a high grade lands, many collectors want liquidity. Appaw also runs graded-card trading and consignment in Hong Kong. If you want help turning a returned slab into a sale or a buy offer, start on the card trading desk after pickup.',
+      cta: 'Browse card trading',
+      ctaHref: '/business/card-trading/',
     },
     batchBoard: {
       title: 'Is this round still open?',
@@ -826,8 +889,8 @@ export const en = {
       checklistTitle: 'Before you arrive',
       checklistItems: [
         'Bring your cards and a contact number. Sleeve cards for travel to avoid scratches.',
-        'PSA tier and declared value — Appaw confirms on-site (preview Pricing below if you like).',
-        'Receipt phone number and BAT reference code for batch status lookup.',
+        'We provide free on-site card inspection, grade prediction, and basic cleaning & maintenance to help you confirm the optimal PSA service tier and declared value.',
+        'Receipt phone number and reference code for batch status lookup.',
       ],
       locationTitle: '138 Arena',
       directionsLink: 'Get directions',
@@ -853,7 +916,7 @@ export const en = {
           attribution: 'PSA submission service',
         },
         {
-          body: 'Each PSA service tier gets its own BAT batch reference.',
+          body: 'Each PSA service tier gets its own reference code.',
           attribution: '138 Arena team',
         },
       ],
@@ -862,14 +925,14 @@ export const en = {
       badge: 'How it works',
       title: 'From drop-off to graded slab',
       subtitle:
-        'From intake at 138 Arena through PSA grading to pickup — every stage is tracked so you always know where your cards are.',
+        'From face-to-face intake at 138 Arena through PSA grading to pickup, every stage is tracked so you know where the cards are.',
       trackLink: 'Track your batch',
       stepLabel: 'Step',
       steps: [
         {
           title: 'Drop off at 138 Arena',
           tagline: 'Received locally',
-          body: 'Face-to-face only. We confirm your list and assign a batch reference per service plan.',
+          body: 'Face-to-face intake at 138 Arena. We conduct free preliminary card inspection, grade prediction, and basic cleaning & maintenance to reduce deduction risks, then confirm your PSA tier and assign a batch reference code.',
         },
         {
           title: 'Submission to PSA',
@@ -879,7 +942,7 @@ export const en = {
         {
           title: 'PSA grading & quality review',
           tagline: 'PSA grading in progress',
-          body: 'PSA grades your cards through research, scoring, assembly, and QA. Progress syncs to our system at each stage — check the Track page anytime.',
+          body: 'PSA grades your cards through research, scoring, assembly, and QA. Progress syncs to our system at each stage. Check the Track page anytime.',
         },
         {
           title: 'Pick up in Causeway Bay',
@@ -917,8 +980,8 @@ export const en = {
               a: '138 Arena only. Face-to-face drop-off and pickup. No mailed submissions. Hours on Instagram @138arena.',
             },
             {
-              q: 'What cards do you accept?',
-              a: 'Pokémon, sports cards, MTG, and One Piece in raw or sleeved form. High-value items may need extra declared-value paperwork. Book a slot and ask us on WhatsApp if you have questions before drop-off.',
+              q: 'Are any types of cards NOT accepted for submission?',
+              a: 'Metal cards, oversized Jumbo cards, unofficial fan-made cards, severely torn items, and non-card memorabilia are not accepted. High-value rare cards are fully supported—simply select the matching declared-value tier. Feel free to ask us on WhatsApp before booking if you have unusual items.',
             },
           ],
         },
@@ -968,11 +1031,29 @@ export const en = {
             },
           ],
         },
+        {
+          id: 'advisor',
+          label: 'Advisor approach',
+          items: [
+            {
+              q: 'Are you just a PSA courier?',
+              a: 'No. Beyond coordinating batch submissions to PSA, we serve as high-value grading advisors. We provide free preliminary card inspection, condition evaluation, and grade prediction, along with basic cleaning & maintenance to reduce deduction risks and strive for the highest possible grade for your collection.',
+            },
+            {
+              q: 'Do you guarantee a PSA 10?',
+              a: 'No. Final grades are determined exclusively by PSA graders. Our free preliminary inspection, grade prediction, and basic cleaning & maintenance help minimize avoidable risks and lower submission failure rates, but grade estimates are references and not guarantees.',
+            },
+            {
+              q: 'What happens after I get a PSA 10 back?',
+              a: 'You can collect at 138 Arena as usual. If you want help selling or consigning the slab, Appaw also runs a graded-card trading desk in Hong Kong. Ask at pickup or open the card trading page.',
+            },
+          ],
+        },
       ],
     },
     cta: {
-      title: 'Ready to submit?',
-      body: 'Book a drop-off slot, then track your batch with the phone number and BAT reference on your receipt.',
+      title: 'Ready to strive for the highest grade for your collection?',
+      body: 'Book your drop-off slot at 138 Arena to enjoy free preliminary card inspection, condition evaluation, grade prediction, and basic cleaning & maintenance.',
       book: 'Book appointment',
       track: 'Track submission',
       guide: 'PSA grading standards',
@@ -1002,7 +1083,7 @@ export const en = {
   psaGradingTrack: {
     badge: 'Submission tracking',
     title: 'Track PSA submission',
-    subtitle: 'Use the phone number and BAT reference code from your 138 Arena receipt.',
+    subtitle: 'Use the phone number and reference code from your 138 Arena receipt.',
     formPanelLabel: 'Lookup',
     formPanelPart: '01',
     backToHub: 'Back to PSA submission',

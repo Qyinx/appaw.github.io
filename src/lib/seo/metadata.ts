@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CENTERING_OG_IMAGE, CENTERING_SEO, HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME, PSA_GRADING_SEO } from '@/lib/product-names';
+import { CENTERING_OG_IMAGE, CENTERING_SEO, HK_SEO_KEYWORDS, HOME_SEO, PRODUCT_NAME, PSA_GRADING_ADVISOR_SEO, PSA_GRADING_SEO } from '@/lib/product-names';
 import type { PublicPortfolio } from '@/lib/collection/publicPortfolio';
 import { SITE_ICONS } from '@/lib/seo/brand';
 import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata';
@@ -444,11 +444,11 @@ const psaGradingTrackMetadataBase: Metadata = {
     'track PSA submission',
     'PSA submission status',
     'PSA batch status',
-    'BAT reference code',
+    'reference code',
     '138 Arena PSA track',
     'PSA代送進度',
     '查詢PSA批次',
-    'BAT參考編號',
+    '參考編號',
   ],
   robots: { index: true, follow: true },
   openGraph: {
@@ -461,7 +461,7 @@ const psaGradingTrackMetadataBase: Metadata = {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Look up PSA batch status with phone and BAT code — Appaw Store',
+        alt: 'Look up PSA batch status with phone and reference code — Appaw Store',
       },
     ],
   },
@@ -478,6 +478,55 @@ export const zhPsaGradingTrackMetadata = zhRouteMetadata(psaGradingTrackMetadata
   title: { absolute: PSA_GRADING_SEO.zh.trackTitle },
   description: PSA_GRADING_SEO.zh.trackDescription,
 });
+
+const psaGradingAdvisorMetadataBase: Metadata = {
+  title: { absolute: PSA_GRADING_ADVISOR_SEO.en.title },
+  description: PSA_GRADING_ADVISOR_SEO.en.description,
+  keywords: [
+    'PSA grading advisor Hong Kong',
+    'PSA submission condition advice',
+    'high value card grading advice',
+    '138 Arena PSA',
+    'PSA鑑定顧問',
+    '香港PSA代送卡況',
+    '提交鑑定建議',
+    ...HK_SEO_KEYWORDS,
+  ],
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: PSA_GRADING_ADVISOR_SEO.en.title,
+    description: PSA_GRADING_ADVISOR_SEO.en.description,
+    url: 'https://appaw.store/business/psa-grading/advisor/',
+    type: 'website',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'PSA grading advisor positioning — Appaw Store',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: PSA_GRADING_ADVISOR_SEO.en.title,
+    description: PSA_GRADING_ADVISOR_SEO.en.description,
+    images: ['/images/og-image.png'],
+  },
+};
+
+export const psaGradingAdvisorMetadata = withLocaleAlternates(
+  psaGradingAdvisorMetadataBase,
+  '/business/psa-grading/advisor/',
+);
+export const zhPsaGradingAdvisorMetadata = zhRouteMetadata(
+  psaGradingAdvisorMetadataBase,
+  '/business/psa-grading/advisor/',
+  {
+    title: { absolute: PSA_GRADING_ADVISOR_SEO.zh.title },
+    description: PSA_GRADING_ADVISOR_SEO.zh.description,
+  },
+);
 
 export const zhCollectionMetadata = zhRouteMetadata(collectionMetadataBase, '/collection/', {
   title: { absolute: '我的收藏 — 鑑定卡管理工具 | Appaw Store' },

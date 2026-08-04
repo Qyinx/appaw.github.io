@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'Your slab is sealed. Your holo is not safe. Window sun through a humid HK summer can dull a chase card in two seasons.',
   published: '2026-06-07',
-  updated: '2026-07-12',
+  updated: '2026-08-05',
   readTime: '7 min',
   heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
@@ -81,15 +81,15 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'why-uv-matters',
     title: 'Displaying by a window? Add >95% UV glass',
-    body: 'The outer case filters UV first so the inner label and holo see less radiation.',
+    body: 'The outer case filters UV first so the inner label and holo see less radiation. Still grading raw copies? Hong Kong collectors can drop off at [138 Arena](/business/psa-grading/). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'Display graded cards', href: '/guides/display-graded-cards/' },
   },
   cta: {
     title: 'Display without sun damage',
-    body: 'Our graded slab UV glass protector uses >95% UV-blocking glass and seals standard 35PT PSA / CGC slabs for home or showroom display.',
+    body: 'Our graded slab UV glass protector uses >95% UV-blocking glass and seals standard 35PT PSA / CGC slabs for home or showroom display. Slabs back from PSA? Shield them here. Raw cards still in hand? Drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
-    secondary: { label: 'Grading then outer case', href: '/guides/grade-or-protect-first/' },
+    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],
   sources: [

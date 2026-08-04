@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'A clean cert lookup means nothing. Forgers steal real PSA cert numbers every week. Here are the five physical checks that catch them after the registry says "valid."',
   published: '2026-06-08',
-  updated: '2026-07-12',
+  updated: '2026-08-05',
   readTime: '12 min',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
@@ -212,7 +212,7 @@ const guide: GuideContent = {
       paragraphs: [
         'Card condition inside: even when the holder looks fine, check print sharpness, colour accuracy, and whether a claimed PSA 10 actually looks gem-worthy.',
         'Seller red flags: no multi-angle video, refuses UV testing, won\'t accept PSA re-authentication, price far below market with no story, cert number withheld until after payment, pressure to wire or pay crypto today with zero buyer protection.',
-        'Safer buying: prefer platforms with PSA-backed authentication, established dealers, or pay for a fresh PSA submission on high-value cards. First-time counterparties deserve marketplaces with dispute windows.',
+        'Safer buying: prefer platforms with PSA-backed authentication, established dealers, or submit high-value raw cards for fresh grading. Hong Kong collectors can drop off at [138 Arena](/business/psa-grading/). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. First-time counterparties deserve marketplaces with dispute windows.',
         'If you already suspect a fake: photograph label, cert, seams, and defects; save chat logs; screenshot cert mismatches on psacard.com; open a marketplace case immediately on eBay, COMC, or similar; contact PSA with documentation when needed.',
       ],
     },
@@ -253,9 +253,9 @@ const guide: GuideContent = {
   },
   cta: {
     title: 'Verify first, then protect',
-    body: 'After your five-step cross-check, a rigid outer case shields the grader label from scratches and UV during display or travel.',
+    body: 'After your five-step cross-check, a rigid outer case shields the grader label from scratches and UV during display or travel. Buying raw instead? Hong Kong collectors can drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
-    secondary: { label: 'Raw to protected slab workflow', href: '/guides/grade-or-protect-first/' },
+    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
   sources: [

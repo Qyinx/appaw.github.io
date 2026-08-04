@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'PSA 9 is the most expensive grade. Not because the card is bad. Because centering failed by a few percent and you still paid the full grading fee. Measure first. It is the cheapest filter you have.',
   published: '2026-06-07',
-  updated: '2026-07-11',
+  updated: '2026-08-05',
   readTime: '10 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -76,7 +76,7 @@ const guide: GuideContent = {
         'Factory cut drift: uneven trim at production. Screen every raw purchase with a centering tool, do not discover it at grading checkout.',
         'Print shift: artwork sits off-center even when border math looks close. Check overall eye appeal from multiple angles.',
         'TCG narrow borders: Pokémon and similar designs leave less margin for error, 55/45 tolerance bites harder.',
-        'Pre-submit checklist: only send copies that pass centering plus strong corners, surface, and edges. Hong Kong collectors drop off and pick up via [138 Arena PSA submission](/business/psa-grading/) with batch tracking. Save measurements and photos as your paper trail.',
+        'Pre-submit checklist: only send copies that pass centering plus strong corners, surface, and edges. Hong Kong collectors drop off at [138 Arena PSA submission](/business/psa-grading/). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Batch tracking is available online. Save measurements and photos as your paper trail.',
       ],
     },
     {
@@ -118,13 +118,13 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'psa-10-standard',
     title: 'Measure your copy against PSA 10 now',
-    body: 'Upload a flat scan or seller photo and compare front and back margins to the 55/45 and 75/25 thresholds before you pay grading fees.',
+    body: 'Upload a flat scan or seller photo and compare front and back margins to the 55/45 and 75/25 thresholds. Hong Kong collectors can drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
     secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
   cta: {
     title: 'Check your margins in minutes',
-    body: 'Upload a scan or seller photo, align the guides, and compare front and back percentages to PSA 10, 9, and 8 thresholds.',
+    body: 'Centering passes? Drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
     secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },

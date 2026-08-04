@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'Buyers judge the holder before the card inside. One scuff or hazy label can cost you half the negotiation before the cardboard shows wear. Display is protection with the collection visible.',
   published: '2026-06-09',
-  updated: '2026-07-12',
+  updated: '2026-08-05',
   readTime: '9 min',
   heroImage: '/images/background/display-graded-cards.png',
   heroSpecs: [
@@ -113,15 +113,15 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'basic-display',
     title: 'Spotlight cards in a magnetic case; bulk in binders',
-    body: 'High-value singles deserve >95% UV glass cases; large collections stay safe in binder sleeves.',
+    body: 'High-value singles deserve >95% UV glass cases; large collections stay safe in binder sleeves. Still holding raw copies? Hong Kong collectors can drop off at [138 Arena](/business/psa-grading/). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'Graded Card Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'UV protection for slabs', href: '/guides/uv-protection-graded-cards/' },
   },
   cta: {
     title: 'Display-ready slab protection',
-    body: 'Magnetic case with >95% UV-blocking glass, standard 35PT PSA/CGC fit, sized for desk or shelf display.',
+    body: 'Magnetic case with >95% UV-blocking glass, standard 35PT PSA/CGC fit, sized for desk or shelf display. Slabs in hand? Add the outer case. Raw cards still to grade? Drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
     primary: { label: 'Graded Card Protector', href: '/products/psa-protectors/' },
-    secondary: { label: 'UV protection for slabs', href: '/guides/uv-protection-graded-cards/' },
+    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'choose-35pt-slab-protector', 'grade-or-protect-first', 'regrade-or-reholder'],
   sources: [

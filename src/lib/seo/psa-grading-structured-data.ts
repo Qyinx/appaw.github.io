@@ -3,7 +3,7 @@ import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 import { en, zh } from '@/i18n';
 import { GRADING_SERVICE_PLAN_LABELS } from '@/lib/grading/reference-code';
 import { PSA_PRICING_ROWS, getPsaDisplayFee } from '@/lib/grading/psa-pricing';
-import { PSA_GRADING_SEO } from '@/lib/product-names';
+import { PSA_GRADING_ADVISOR_SEO, PSA_GRADING_SEO } from '@/lib/product-names';
 import { SITE_ORIGIN } from '@/lib/seo/brand';
 import {
   breadcrumbJsonLd,
@@ -26,6 +26,10 @@ function hubUrl(locale: PsaGradingLocale): string {
 
 function trackUrl(locale: PsaGradingLocale): string {
   return `${siteRoot(locale)}/business/psa-grading/track/`;
+}
+
+function advisorUrl(locale: PsaGradingLocale): string {
+  return `${siteRoot(locale)}/business/psa-grading/advisor/`;
 }
 
 export function buildPsaGradingHubStructuredData(locale: PsaGradingLocale) {
@@ -139,4 +143,35 @@ export function buildPsaGradingTrackStructuredData(locale: PsaGradingLocale) {
   });
 
   return [webApp, breadcrumb, webPage];
+}
+
+export function buildPsaGradingAdvisorStructuredData(locale: PsaGradingLocale) {
+  const copy = locale === 'zh' ? zh.psaGradingPage : en.psaGradingPage;
+  const seo = PSA_GRADING_ADVISOR_SEO[locale];
+  const hubSeo = PSA_GRADING_SEO[locale];
+  const url = advisorUrl(locale);
+
+  const breadcrumb = breadcrumbJsonLd([
+    { position: 1, name: locale === 'zh' ? '首頁' : 'Home', item: `${siteRoot(locale)}/` },
+    { position: 2, name: locale === 'zh' ? '服務' : 'Services', item: `${siteRoot(locale)}/business/` },
+    { position: 3, name: hubSeo.breadcrumb, item: hubUrl(locale) },
+    { position: 4, name: seo.breadcrumb, item: url },
+  ]);
+
+  const webPage = webPageJsonLd({
+    name: seo.title,
+    description: seo.description,
+    url,
+    dateModified: seo.lastUpdated,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.psa-grading-aeo-answer'],
+    },
+  });
+
+  const faq = faqJsonLd(
+    flattenPsaFaqItems(copy.faq.groups.filter((group) => group.id === 'advisor')),
+  );
+
+  return [breadcrumb, webPage, faq];
 }

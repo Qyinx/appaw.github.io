@@ -14,6 +14,7 @@ import PsaGradingHowToSection from './components/PsaGradingHowToSection';
 import PsaBatchProgressBoard from './components/PsaBatchProgressBoard';
 import PsaGradingBookSection from './components/PsaGradingBookSection';
 import PsaGradingFaqSection from './components/PsaGradingFaqSection';
+import PsaAdvisorTeaser from './components/PsaAdvisorTeaser';
 import { PSA_HOW_TO_SCENES } from '@/lib/grading/how-to-scenes';
 import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 
@@ -27,8 +28,9 @@ export default function PsaGradingHubClient() {
 
   const chapterNavItems = React.useMemo(
     () => [
-      { id: 'batches', label: copy.chapters.batches },
       { id: 'how-to', label: copy.chapters.howTo },
+      { id: 'batches', label: copy.chapters.batches },
+      { id: 'advisor', label: copy.chapters.advisor },
       { id: 'book', label: copy.chapters.book },
       { id: 'pricing', label: copy.chapters.pricing },
       { id: 'faq', label: copy.chapters.faq },
@@ -44,9 +46,11 @@ export default function PsaGradingHubClient() {
         </div>
       </div>
 
+      <PsaGradingHowToSection badge={copy.badge} hero={copy.hero} howTo={copy.howTo} aeo={copy.aeo} />
+
       <PsaBatchProgressBoard />
 
-      <PsaGradingHowToSection badge={copy.badge} hero={copy.hero} howTo={copy.howTo} aeo={copy.aeo} />
+      <PsaAdvisorTeaser copy={copy.advisorTeaser} />
 
       <PsaGradingBookSection
         copy={copy.bookSection}
