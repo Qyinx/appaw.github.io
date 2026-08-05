@@ -132,11 +132,17 @@ export interface AdminApplyBatchGradesPayload {
   }>;
 }
 
+/** JSON base64 upload of pre-extracted images for one batch item. */
+export interface AdminImportBatchImageEntry {
+  seq?: number;
+  contentType: string;
+  /** Raw base64 (no data: prefix required). */
+  data: string;
+}
+
 export interface AdminImportBatchImagesPayload {
-  items: Array<{
-    id: string;
-    zipUrl: string;
-  }>;
+  id: string;
+  images: AdminImportBatchImageEntry[];
   force?: boolean;
 }
 

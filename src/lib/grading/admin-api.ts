@@ -89,13 +89,16 @@ async function gradingOpsFetch(path: string, init?: RequestInit): Promise<Respon
   const token = getOpsToken();
   if (!token) throw new Error('Ops session required');
 
+  const headers = new Headers(init?.headers);
+  headers.set('X-Ops-Key', token);
+  // Let the browser set multipart boundary for FormData.
+  if (!(init?.body instanceof FormData) && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json');
+  }
+
   return fetch(joinBackendUrl(path), {
     ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Ops-Key': token,
-      ...(init?.headers ?? {}),
-    },
+    headers,
   });
 }
 
@@ -316,17 +319,61 @@ export async function applyBatchGrades(
   return result;
 }
 
+/** POST .../proxy-psa-zip — Worker fetches PSA ZIP when browser CORS fails; returns raw bytes. */
+export async function proxyPsaZip(
+  referenceCode: string,
+  zipUrl: string,
+): Promise<Uint8Array> {
+  let res: Response;
+  try {
+    res = await gradingOpsFetch(
+      `/grading/batches/${encodeURIComponent(referenceCode)}/proxy-psa-zip`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ zipUrl }),
+      },
+    );
+  } catch (err) {
+    if (err instanceof TypeError) {
+      throw new Error('Cannot reach grading backend (ZIP proxy). Check network / CORS.');
+    }
+    throw err;
+  }
+
+  if (res.status === 401) {
+    clearOpsSession();
+    throw new Error('Session expired — log in again');
+  }
+
+  if (!res.ok) {
+    const payload = await res.json().catch(() => ({}));
+    throw new Error(errorFromPayload(payload, `ZIP proxy failed (${res.status})`));
+  }
+
+  return new Uint8Array(await res.arrayBuffer());
+}
+
+/** POST .../import-images — JSON base64 upload of client-prepared images (one item). */
 export async function importBatchImages(
   referenceCode: string,
   payload: AdminImportBatchImagesPayload,
 ): Promise<AdminImportBatchImagesResult> {
-  const res = await gradingOpsFetch(
-    `/grading/batches/${encodeURIComponent(referenceCode)}/import-images`,
-    {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    },
-  );
+  let res: Response;
+  try {
+    res = await gradingOpsFetch(
+      `/grading/batches/${encodeURIComponent(referenceCode)}/import-images`,
+      {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      },
+    );
+  } catch (err) {
+    if (err instanceof TypeError) {
+      throw new Error('Cannot reach grading backend (image upload). Check network / CORS.');
+    }
+    throw err;
+  }
+
   const result = (await parseJsonResponse(res)) as AdminImportBatchImagesResult;
   invalidateBatchDetailCache(referenceCode);
   return result;

@@ -1,15 +1,22 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { applyBatchGrades, importBatchImages, listItemsForBatch } from '@/lib/grading/admin-api';
+import {
+  applyBatchGrades,
+  importBatchImages,
+  listItemsForBatch,
+  proxyPsaZip,
+} from '@/lib/grading/admin-api';
 import type { AdminBatch, AdminItem } from '@/lib/grading/admin-types';
 import {
   matchPsaGradesToBatch,
   parsePsaGradesCsv,
   type PsaGradeMatchResult,
 } from '@/lib/grading/psa-grades-csv';
-
-const IMPORT_CHUNK = 3;
+import {
+  fetchZipBytesDirect,
+  zipBytesToBase64Images,
+} from '@/lib/grading/psa-zip-client';
 
 type Props = {
   referenceCode: string;
@@ -98,23 +105,36 @@ export default function PsaGradesCsvImport({ referenceCode, items, onApplied }: 
 
       let failedCount = 0;
       let importedCount = 0;
-      for (let i = 0; i < zipItems.length; i += IMPORT_CHUNK) {
-        const chunk = zipItems.slice(i, i + IMPORT_CHUNK);
-        const doneBefore = 1 + i;
+      for (let i = 0; i < zipItems.length; i++) {
+        const entry = zipItems[i];
         setProgress({
-          label: `Importing images ${Math.min(i + chunk.length, zipItems.length)}/${zipItems.length}…`,
-          current: doneBefore,
+          label: `Importing images ${i + 1}/${zipItems.length}…`,
+          current: 1 + i,
           total: totalSteps,
         });
-        const result = await importBatchImages(referenceCode, {
-          items: chunk,
-          force: true,
-        });
-        failedCount += result.failed.length;
-        importedCount += result.processed.filter((p) => !p.skipped).length;
+        try {
+          let zipBytes: Uint8Array;
+          try {
+            zipBytes = await fetchZipBytesDirect(entry.zipUrl);
+          } catch (directErr) {
+            console.warn('Direct ZIP fetch failed; using Worker proxy', entry.id, directErr);
+            zipBytes = await proxyPsaZip(referenceCode, entry.zipUrl);
+          }
+          const images = await zipBytesToBase64Images(zipBytes);
+          const result = await importBatchImages(referenceCode, {
+            id: entry.id,
+            images,
+            force: true,
+          });
+          failedCount += result.failed.length;
+          importedCount += result.processed.filter((p) => !p.skipped).length;
+        } catch (e) {
+          failedCount += 1;
+          console.warn('PSA image import failed', entry.id, e);
+        }
         setProgress({
-          label: `Imported images ${Math.min(i + chunk.length, zipItems.length)}/${zipItems.length}`,
-          current: 1 + Math.min(i + chunk.length, zipItems.length),
+          label: `Imported images ${i + 1}/${zipItems.length}`,
+          current: 1 + i + 1,
           total: totalSteps,
         });
       }
@@ -133,7 +153,12 @@ export default function PsaGradesCsvImport({ referenceCode, items, onApplied }: 
             }.`,
       );
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      const msg = e instanceof Error ? e.message : String(e);
+      setError(
+        e instanceof TypeError
+          ? 'Cannot reach grading backend. Check network / CORS.'
+          : msg,
+      );
     } finally {
       setBusy(false);
       setProgress(null);
