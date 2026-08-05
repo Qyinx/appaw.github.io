@@ -14,9 +14,12 @@ import {
   type PsaGradeMatchResult,
 } from '@/lib/grading/psa-grades-csv';
 import {
-  fetchZipBytesDirect,
+  fetchZipBytesWithFallback,
   zipBytesToBase64Images,
 } from '@/lib/grading/psa-zip-client';
+
+/** Parallel ZIP → compress → upload workers (keeps Worker + CPU stable). */
+const IMAGE_IMPORT_CONCURRENCY = 4;
 
 type Props = {
   referenceCode: string;
@@ -29,6 +32,8 @@ type ImportProgress = {
   current: number;
   total: number;
 };
+
+type ZipImportEntry = { id: string; zipUrl: string };
 
 export default function PsaGradesCsvImport({ referenceCode, items, onApplied }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -105,21 +110,14 @@ export default function PsaGradesCsvImport({ referenceCode, items, onApplied }: 
 
       let failedCount = 0;
       let importedCount = 0;
-      for (let i = 0; i < zipItems.length; i++) {
-        const entry = zipItems[i];
-        setProgress({
-          label: `Importing images ${i + 1}/${zipItems.length}…`,
-          current: 1 + i,
-          total: totalSteps,
-        });
+      let completed = 0;
+      let nextIndex = 0;
+
+      const importOne = async (entry: ZipImportEntry) => {
         try {
-          let zipBytes: Uint8Array;
-          try {
-            zipBytes = await fetchZipBytesDirect(entry.zipUrl);
-          } catch (directErr) {
-            console.warn('Direct ZIP fetch failed; using Worker proxy', entry.id, directErr);
-            zipBytes = await proxyPsaZip(referenceCode, entry.zipUrl);
-          }
+          const zipBytes = await fetchZipBytesWithFallback(entry.zipUrl, (url) =>
+            proxyPsaZip(referenceCode, url),
+          );
           const images = await zipBytesToBase64Images(zipBytes);
           const result = await importBatchImages(referenceCode, {
             id: entry.id,
@@ -131,12 +129,32 @@ export default function PsaGradesCsvImport({ referenceCode, items, onApplied }: 
         } catch (e) {
           failedCount += 1;
           console.warn('PSA image import failed', entry.id, e);
+        } finally {
+          completed += 1;
+          setProgress({
+            label: `Importing images ${completed}/${zipItems.length}…`,
+            current: 1 + completed,
+            total: totalSteps,
+          });
         }
+      };
+
+      const workerCount = Math.min(IMAGE_IMPORT_CONCURRENCY, zipItems.length);
+      if (workerCount > 0) {
         setProgress({
-          label: `Imported images ${i + 1}/${zipItems.length}`,
-          current: 1 + i + 1,
+          label: `Importing images 0/${zipItems.length}…`,
+          current: 1,
           total: totalSteps,
         });
+        await Promise.all(
+          Array.from({ length: workerCount }, async () => {
+            while (true) {
+              const i = nextIndex++;
+              if (i >= zipItems.length) break;
+              await importOne(zipItems[i]);
+            }
+          }),
+        );
       }
 
       const refreshedItems = await listItemsForBatch(referenceCode, true);

@@ -9,6 +9,9 @@ export const GRADING_IMAGE_MAX_PER_ITEM = 2;
 
 const IMAGE_EXT_RE = /\.(jpe?g|png|webp|gif)$/i;
 
+/** Session flag: after first CORS/network fail, skip doomed direct fetches. */
+let directZipBlocked = false;
+
 export type ExtractedZipImage = {
   name: string;
   bytes: Uint8Array;
@@ -29,6 +32,34 @@ export async function fetchZipBytesDirect(zipUrl: string): Promise<Uint8Array> {
   return buf;
 }
 
+export function isDirectZipBlocked(): boolean {
+  return directZipBlocked;
+}
+
+/** @internal test helper */
+export function resetDirectZipBlockedForTests(): void {
+  directZipBlocked = false;
+}
+
+/**
+ * Try browser-direct ZIP fetch; on CORS/network fail mark session blocked and use proxy.
+ * Later calls skip direct when flag set.
+ */
+export async function fetchZipBytesWithFallback(
+  zipUrl: string,
+  proxy: (url: string) => Promise<Uint8Array>,
+): Promise<Uint8Array> {
+  if (!directZipBlocked) {
+    try {
+      return await fetchZipBytesDirect(zipUrl);
+    } catch (directErr) {
+      directZipBlocked = true;
+      console.warn('Direct ZIP fetch failed; using Worker proxy for rest of session', directErr);
+    }
+  }
+  return proxy(zipUrl);
+}
+
 /** List image entries from a ZIP buffer; sorted by path; capped. */
 export function extractImageBuffersFromZip(
   zipBytes: Uint8Array,
@@ -46,6 +77,32 @@ export function extractImageBuffersFromZip(
 }
 
 /**
+ * Decode with optional createImageBitmap resize when longest edge exceeds max.
+ */
+async function decodeBitmapForMaxEdge(sourceBlob: Blob, maxEdge: number): Promise<ImageBitmap> {
+  const probe = await createImageBitmap(sourceBlob);
+  const longest = Math.max(probe.width, probe.height);
+  if (longest <= maxEdge) return probe;
+
+  const scale = maxEdge / longest;
+  const w = Math.max(1, Math.round(probe.width * scale));
+  const h = Math.max(1, Math.round(probe.height * scale));
+  probe.close();
+
+  try {
+    return await createImageBitmap(sourceBlob, {
+      resizeWidth: w,
+      resizeHeight: h,
+      resizeQuality: 'high',
+    });
+  } catch {
+    // Fallback: full decode; caller draws scaled via canvas size mismatch — use full + scale draw
+    const full = await createImageBitmap(sourceBlob);
+    return full;
+  }
+}
+
+/**
  * Resize longest edge + encode WebP via canvas (JPEG fallback).
  */
 export async function compressImageToWebpBlob(
@@ -56,15 +113,15 @@ export async function compressImageToWebpBlob(
   const quality = opts?.quality ?? GRADING_IMAGE_WEBP_QUALITY;
   const copy = new Uint8Array(inputBytes);
   const sourceBlob = new Blob([copy]);
-  const bitmap = await createImageBitmap(sourceBlob);
+  const bitmap = await decodeBitmapForMaxEdge(sourceBlob, maxEdge);
   try {
     const longest = Math.max(bitmap.width, bitmap.height);
     let w = bitmap.width;
     let h = bitmap.height;
     if (longest > maxEdge) {
       const scale = maxEdge / longest;
-      w = Math.max(1, Math.round(w * scale));
-      h = Math.max(1, Math.round(h * scale));
+      w = Math.max(1, Math.round(bitmap.width * scale));
+      h = Math.max(1, Math.round(bitmap.height * scale));
     }
     const canvas = document.createElement('canvas');
     canvas.width = w;
@@ -95,13 +152,38 @@ function canvasToBlob(
 }
 
 export async function blobToBase64(blob: Blob): Promise<string> {
-  const buf = new Uint8Array(await blob.arrayBuffer());
-  let binary = '';
-  const chunk = 0x8000;
-  for (let i = 0; i < buf.length; i += chunk) {
-    binary += String.fromCharCode(...buf.subarray(i, i + chunk));
+  const dataUrl = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result ?? ''));
+    reader.onerror = () => reject(reader.error ?? new Error('FileReader failed'));
+    reader.readAsDataURL(blob);
+  });
+  const comma = dataUrl.indexOf(',');
+  if (comma < 0) throw new Error('Invalid data URL');
+  return dataUrl.slice(comma + 1);
+}
+
+function mimeFromZipName(name: string): string {
+  const lower = name.toLowerCase();
+  if (lower.endsWith('.png')) return 'image/png';
+  if (lower.endsWith('.webp')) return 'image/webp';
+  if (lower.endsWith('.gif')) return 'image/gif';
+  return 'image/jpeg';
+}
+
+async function fileToBase64Payload(file: ExtractedZipImage, seq: number): Promise<Base64ImagePayload> {
+  let blob: Blob;
+  try {
+    blob = await compressImageToWebpBlob(file.bytes);
+  } catch {
+    const copy = new Uint8Array(file.bytes);
+    blob = new Blob([copy], { type: mimeFromZipName(file.name) });
   }
-  return btoa(binary);
+  return {
+    seq,
+    contentType: blob.type || 'image/webp',
+    data: await blobToBase64(blob),
+  };
 }
 
 /** Unzip PSA ZIP bytes → base64 image payloads ready for JSON upload. */
@@ -109,29 +191,5 @@ export async function zipBytesToBase64Images(zipBytes: Uint8Array): Promise<Base
   const extracted = extractImageBuffersFromZip(zipBytes);
   if (!extracted.length) throw new Error('No images found in ZIP');
 
-  const out: Base64ImagePayload[] = [];
-  for (let seq = 0; seq < extracted.length; seq++) {
-    const file = extracted[seq];
-    let blob: Blob;
-    try {
-      blob = await compressImageToWebpBlob(file.bytes);
-    } catch {
-      const lower = file.name.toLowerCase();
-      const type = lower.endsWith('.png')
-        ? 'image/png'
-        : lower.endsWith('.webp')
-          ? 'image/webp'
-          : lower.endsWith('.gif')
-            ? 'image/gif'
-            : 'image/jpeg';
-      const copy = new Uint8Array(file.bytes);
-      blob = new Blob([copy], { type });
-    }
-    out.push({
-      seq,
-      contentType: blob.type || 'image/webp',
-      data: await blobToBase64(blob),
-    });
-  }
-  return out;
+  return Promise.all(extracted.map((file, seq) => fileToBase64Payload(file, seq)));
 }

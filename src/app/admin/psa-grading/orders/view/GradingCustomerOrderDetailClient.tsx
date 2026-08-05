@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import AdminCardComposer, { type CardComposerValue } from '../../components/AdminCardComposer';
 import AdminCardsTable from '../../components/AdminCardsTable';
+import AdminPendingCards from '../../components/AdminPendingCards';
 import BatchReferenceLink from '../../components/BatchReferenceLink';
 import ServicePlanBadge from '../../components/ServicePlanBadge';
 import {
@@ -17,15 +19,19 @@ import {
   cloneAdminItems,
   createDraftItem,
   createOrderItemPayload,
+  isCardNameFilled,
   isDraftItemId,
   itemFieldsDirty,
   itemOrderDirty,
   itemUpdatePayload,
+  settleItemsByCardName,
+  splitItemsByCardNameFill,
 } from '@/lib/grading/admin-draft-utils';
 import type { AdminCustomerOrderDetail, AdminItem } from '@/lib/grading/admin-types';
 import { BATCH_CARD_EDIT_STEP, parseServicePlanLabel, summarizePayment } from '@/lib/grading/admin-types';
 import { completedStepLabel } from '@/lib/grading/admin-utils';
 import { formatHkd } from '@/lib/grading/admin-format';
+import { getPsaDefaultTotalCost } from '@/lib/grading/psa-pricing';
 
 type Props = {
   orderId: number;
@@ -39,6 +45,8 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const listBottomRef = useRef<HTMLDivElement>(null);
+  const scrollAfterCommitRef = useRef(false);
 
   const load = useCallback(async (force = false) => {
     setError('');
@@ -53,7 +61,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
         return;
       }
       setDetail(result);
-      setDraftItems(cloneAdminItems(result.items));
+      setDraftItems(settleItemsByCardName(cloneAdminItems(result.items)));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -65,7 +73,24 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
     void load();
   }, [load]);
 
+  useEffect(() => {
+    if (!scrollAfterCommitRef.current) return;
+    scrollAfterCommitRef.current = false;
+    listBottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [draftItems]);
+
   const cardsEditable = detail?.batchCompletedStepIndex === BATCH_CARD_EDIT_STEP;
+
+  const { pending: pendingItems, filled: filledItems } = useMemo(
+    () => splitItemsByCardNameFill(draftItems),
+    [draftItems],
+  );
+
+  const planDefaultTotal = useMemo(() => {
+    if (!detail) return null;
+    const plan = parseServicePlanLabel(detail.customerOrder.batchReferenceCode);
+    return plan === '—' ? null : getPsaDefaultTotalCost(plan);
+  }, [detail]);
 
   const itemsDirty = useMemo(
     () => (detail ? anyItemFieldsDirty(detail.items, draftItems) : false),
@@ -88,45 +113,57 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
 
   const handleMoveItem = (itemId: string, direction: 'up' | 'down') => {
     if (!cardsEditable) return;
-    const currentIndex = draftItems.findIndex((item) => item.id === itemId);
+    const { pending, filled } = splitItemsByCardNameFill(draftItems);
+    const currentIndex = filled.findIndex((item) => item.id === itemId);
     if (currentIndex < 0) return;
 
     const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-    if (targetIndex < 0 || targetIndex >= draftItems.length) return;
+    if (targetIndex < 0 || targetIndex >= filled.length) return;
 
-    const reordered = [...draftItems];
+    const reordered = [...filled];
     [reordered[currentIndex], reordered[targetIndex]] = [
       reordered[targetIndex],
       reordered[currentIndex],
     ];
-    setDraftItems(
-      reordered.map((item, index) => ({ ...item, submissionOrder: index + 1 })),
-    );
+    setDraftItems(settleItemsByCardName([...pending, ...reordered]));
     setMessage('');
   };
 
-  const handleAddCard = () => {
+  const handleCommitComposer = (value: CardComposerValue) => {
     if (!detail || !cardsEditable) return;
-    setDraftItems((prev) => [
-      ...prev,
-      createDraftItem(detail.customerOrder, prev.length + 1),
-    ]);
+    const item = {
+      ...createDraftItem(detail.customerOrder, 0),
+      cardName: value.cardName,
+      isPaid: value.isPaid,
+      totalCost: value.totalCost,
+      receivedCost: value.receivedCost,
+      psaUpgraded: value.psaUpgraded,
+    };
+    scrollAfterCommitRef.current = true;
+    setDraftItems((prev) => settleItemsByCardName([...prev, item]));
     setMessage('');
+  };
+
+  const handlePendingBlur = () => {
+    if (!cardsEditable) return;
+    setDraftItems((prev) => settleItemsByCardName(prev));
   };
 
   const handleRemoveCard = (itemId: string) => {
-    if (!cardsEditable || draftItems.length <= 1) return;
-    setDraftItems((prev) =>
-      prev
-        .filter((item) => item.id !== itemId)
-        .map((item, index) => ({ ...item, submissionOrder: index + 1 })),
-    );
+    if (!cardsEditable) return;
+    setDraftItems((prev) => {
+      const next = prev.filter((item) => item.id !== itemId);
+      if (next.length === 0 && detail) {
+        return [];
+      }
+      return settleItemsByCardName(next);
+    });
     setMessage('');
   };
 
   const discardChanges = () => {
     if (!detail) return;
-    setDraftItems(cloneAdminItems(detail.items));
+    setDraftItems(settleItemsByCardName(cloneAdminItems(detail.items)));
     setError('');
     setMessage('');
   };
@@ -153,12 +190,12 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
     if (!detail || !hasUnsavedChanges) return;
 
     if (cardsEditable) {
-      if (draftItems.length === 0) {
-        setError('Order must have at least one card.');
+      if (draftItems.filter((item) => isCardNameFilled(item.cardName)).length === 0) {
+        setError('Order must have at least one named card.');
         return;
       }
       if (draftItems.some((item) => isDraftItemId(item.id) && !item.cardName.trim())) {
-        setError('Each new card needs a name.');
+        setError('Name or remove blank drafts before saving.');
         return;
       }
     }
@@ -170,21 +207,22 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
       const idMap = new Map<string, string>();
 
       if (cardsEditable) {
-        const draftIdSet = new Set(draftItems.map((item) => item.id));
+        const namedDrafts = draftItems.filter((item) => isCardNameFilled(item.cardName));
+        const draftIdSet = new Set(namedDrafts.map((item) => item.id));
         const toRemove = detail.items.filter((item) => !draftIdSet.has(item.id));
         for (const item of toRemove) {
           await deleteCustomerOrderItem(item.id);
         }
 
-        for (const draft of draftItems.filter((item) => isDraftItemId(item.id))) {
+        for (const draft of namedDrafts.filter((item) => isDraftItemId(item.id))) {
           const created = await createCustomerOrderItem(orderId, createOrderItemPayload(draft));
           idMap.set(draft.id, created.id);
         }
 
-        const resolvedIds = draftItems.map((draft) => idMap.get(draft.id) ?? draft.id);
+        const resolvedIds = namedDrafts.map((draft) => idMap.get(draft.id) ?? draft.id);
 
-        for (let i = 0; i < draftItems.length; i += 1) {
-          const draft = draftItems[i];
+        for (let i = 0; i < namedDrafts.length; i += 1) {
+          const draft = namedDrafts[i];
           const id = resolvedIds[i];
           const original = detail.items.find((item) => item.id === id);
           if (!original || itemFieldsDirty(original, draft)) {
@@ -195,7 +233,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
         const needsReorder =
           toRemove.length > 0 ||
           idMap.size > 0 ||
-          itemOrderDirty(detail.items, draftItems);
+          itemOrderDirty(detail.items, namedDrafts);
         if (needsReorder) {
           await reorderCustomerOrderItems(orderId, resolvedIds);
         }
@@ -235,10 +273,10 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
   }
 
   const { customerOrder } = detail;
-  const paymentSummary = summarizePayment(draftItems);
+  const paymentSummary = summarizePayment(filledItems);
 
   return (
-    <div className="space-y-4">
+    <div className={`space-y-4 ${cardsEditable ? 'pb-40' : ''}`}>
       <div>
         <Link href="/admin/psa-grading" className="text-sm text-accent-link hover:underline">
           ← Dashboard
@@ -255,25 +293,16 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <p className="text-sm text-text-secondary">
-            Cards ({draftItems.length})
+            Cards ({filledItems.length} named
+            {pendingItems.length > 0 ? `, ${pendingItems.length} draft` : ''})
             {cardsEditable
-              ? ' - add, remove, rename, reorder at step 0'
-              : ' - payment fields only (batch past step 0)'}
+              ? ' — composer at bottom'
+              : ' — payment fields only (batch past step 0)'}
           </p>
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">
-            {cardsEditable && (
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleAddCard}
-                disabled={saving || exporting}
-              >
-                Add card
-              </button>
-            )}
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-primary min-h-[44px]"
               onClick={() => void saveAllChanges()}
               disabled={saving || exporting || !hasUnsavedChanges}
             >
@@ -281,7 +310,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
             </button>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary min-h-[44px]"
               onClick={discardChanges}
               disabled={saving || exporting || !hasUnsavedChanges}
             >
@@ -289,7 +318,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
             </button>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary min-h-[44px]"
               onClick={() => void load(true)}
               disabled={saving || exporting}
             >
@@ -297,7 +326,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
             </button>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary min-h-[44px]"
               onClick={() => void exportInvoice()}
               disabled={saving || exporting || hasUnsavedChanges}
               title={
@@ -374,23 +403,53 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
           </div>
         </div>
 
-        <AdminCardsTable
-          items={draftItems}
-          density="order"
-          editable
-          editableCardName={cardsEditable}
-          showFooter
-          showOrderColumns={false}
-          reorderable={cardsEditable}
-          reordering={saving}
-          onMoveItem={handleMoveItem}
-          removable={cardsEditable}
-          removing={saving}
-          onRemoveItem={handleRemoveCard}
-          onUpdateItem={handleDraftItemUpdate}
-        />
+        {cardsEditable && (
+          <AdminPendingCards
+            items={pendingItems.map((item) => ({
+              id: item.id,
+              cardName: item.cardName,
+              isPaid: item.isPaid,
+              totalCost: item.totalCost,
+              receivedCost: item.receivedCost,
+              psaUpgraded: item.psaUpgraded,
+            }))}
+            disabled={saving || exporting}
+            onUpdate={(id, patch) => handleDraftItemUpdate(id, patch)}
+            onRemove={handleRemoveCard}
+            onRowBlur={() => handlePendingBlur()}
+          />
+        )}
+
+        <div className="space-y-2">
+          <p className="text-xs text-text-secondary uppercase tracking-wide">
+            {cardsEditable ? 'Settled cards' : 'Cards'}
+          </p>
+          <AdminCardsTable
+            items={cardsEditable ? filledItems : draftItems}
+            density="order"
+            editable
+            editableCardName={cardsEditable}
+            showFooter
+            showOrderColumns={false}
+            reorderable={cardsEditable}
+            reordering={saving}
+            onMoveItem={handleMoveItem}
+            removable={cardsEditable}
+            removing={saving}
+            onRemoveItem={handleRemoveCard}
+            onUpdateItem={handleDraftItemUpdate}
+            bottomRef={listBottomRef}
+          />
+        </div>
       </section>
+
+      {cardsEditable && (
+        <AdminCardComposer
+          defaultTotalCost={planDefaultTotal}
+          disabled={saving || exporting}
+          onCommit={handleCommitComposer}
+        />
+      )}
     </div>
   );
 }
-

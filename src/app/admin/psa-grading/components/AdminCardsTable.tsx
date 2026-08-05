@@ -36,6 +36,12 @@ type Props = {
   removable?: boolean;
   onRemoveItem?: (itemId: string) => void;
   removing?: boolean;
+  /** Anchor at start of scrollable table — scroll here after bulk-add to top. */
+  topRef?: React.RefObject<HTMLDivElement | null>;
+  /** Anchor at end of scrollable table body — used to scroll after bulk add. */
+  bottomRef?: React.RefObject<HTMLDivElement | null>;
+  /** Fired when card-name input blurs (settle filled rows). */
+  onCardNameBlur?: (itemId: string) => void;
 };
 
 const MONEY_INPUT =
@@ -208,6 +214,9 @@ export default function AdminCardsTable({
   removable,
   onRemoveItem,
   removing,
+  topRef,
+  bottomRef,
+  onCardNameBlur,
 }: Props) {
   const hideIdentity = density === 'batch' || density === 'order';
   const showCustomerOrderColumn = showOrderColumns && !groupByOrder;
@@ -348,10 +357,12 @@ export default function AdminCardsTable({
     </>
   );
 
-  const renderRow = (item: AdminItem, index: number, displaySeq?: number) => (
-    <tr key={item.id} className="border-b border-border-default/70">
-      {reorderable && (
-        <td className="py-2 px-2">
+  const renderRow = (item: AdminItem, index: number, displaySeq?: number) => {
+    const cells: React.ReactNode[] = [];
+
+    if (reorderable) {
+      cells.push(
+        <td key="reorder" className="py-2 px-2">
           <div className="flex items-center gap-1">
             <span className="font-mono text-sm text-text-muted w-5 tabular-nums">
               {item.submissionOrder}
@@ -377,42 +388,69 @@ export default function AdminCardsTable({
               </button>
             </div>
           </div>
-        </td>
-      )}
-      {showSubmissionOrder && !reorderable && !showBatchOrderId && (
-        <td className="py-2 px-2 font-mono text-sm text-text-muted tabular-nums">
+        </td>,
+      );
+    } else if (showSubmissionOrder && !showBatchOrderId) {
+      cells.push(
+        <td key="submission-order" className="py-2 px-2 font-mono text-sm text-text-muted tabular-nums">
           {item.submissionOrder}
-        </td>
-      )}
-      {showBatchOrderId && !reorderable && (
+        </td>,
+      );
+    } else if (showBatchOrderId) {
+      cells.push(
         <td
+          key="batch-order"
           className="py-2 px-2 font-mono text-sm text-text-muted tabular-nums"
           title="Sequence in batch"
         >
           {displaySeq ?? index + 1}
-        </td>
-      )}
-      {renderCardCell(item)}
-      {(showOrderLinkCol || showCustomerOrderColumn) && (
-        <td className="py-2 px-2 font-mono text-xs text-text-secondary">
+        </td>,
+      );
+    }
+
+    cells.push(<React.Fragment key="card">{renderCardCell(item)}</React.Fragment>);
+
+    if (showOrderLinkCol || showCustomerOrderColumn) {
+      cells.push(
+        <td key="order-link" className="py-2 px-2 font-mono text-xs text-text-secondary">
           <CustomerOrderLink orderId={item.customerOrderId} />
-        </td>
-      )}
-      {showBatchRefColumn && (
-        <td className="py-2 px-2">
+        </td>,
+      );
+    }
+    if (showBatchRefColumn) {
+      cells.push(
+        <td key="batch-ref" className="py-2 px-2">
           <BatchReferenceLink referenceCode={item.batchReferenceCode} />
-        </td>
-      )}
-      {showCustomerCol && <td className="py-2 px-2">{item.customerName}</td>}
-      {showPhoneCol && <td className="py-2 px-2 font-mono text-xs">{item.phoneNumber}</td>}
-      {showPlanCol && (
-        <td className="py-2 px-2">
+        </td>,
+      );
+    }
+    if (showCustomerCol) {
+      cells.push(
+        <td key="customer" className="py-2 px-2">
+          {item.customerName}
+        </td>,
+      );
+    }
+    if (showPhoneCol) {
+      cells.push(
+        <td key="phone" className="py-2 px-2 font-mono text-xs">
+          {item.phoneNumber}
+        </td>,
+      );
+    }
+    if (showPlanCol) {
+      cells.push(
+        <td key="plan" className="py-2 px-2">
           <ServicePlanBadge plan={parseServicePlanLabel(item.batchReferenceCode)} />
-        </td>
-      )}
-      {renderMoneyCells(item)}
-      {removable && (
-        <td className="py-2 px-2">
+        </td>,
+      );
+    }
+
+    cells.push(<React.Fragment key="money">{renderMoneyCells(item)}</React.Fragment>);
+
+    if (removable) {
+      cells.push(
+        <td key="remove" className="py-2 px-2">
           <button
             type="button"
             aria-label={`Remove ${item.cardName || 'card'}`}
@@ -422,13 +460,30 @@ export default function AdminCardsTable({
           >
             Remove
           </button>
-        </td>
-      )}
-    </tr>
-  );
+        </td>,
+      );
+    }
+
+    return (
+      <tr
+        key={item.id}
+        className="border-b border-border-default/70"
+        onBlur={
+          onCardNameBlur
+            ? (e) => {
+                const next = e.relatedTarget as Node | null;
+                if (next && e.currentTarget.contains(next)) return;
+                onCardNameBlur(item.id);
+              }
+            : undefined
+        }
+      >{cells}</tr>
+    );
+  };
 
   return (
     <div className="border border-border-default overflow-x-auto max-h-[70vh] overflow-y-auto">
+      {topRef && <div ref={topRef} aria-hidden="true" className="h-0 w-0" />}
       <table className="w-full table-fixed text-sm" style={{ minWidth }}>
         <thead>
           <tr className="text-left border-b border-border-default">
@@ -503,6 +558,9 @@ export default function AdminCardsTable({
           </tfoot>
         )}
       </table>
+      {bottomRef && (
+        <div ref={bottomRef} aria-hidden="true" className="h-0 w-0 scroll-mb-48" />
+      )}
     </div>
   );
 }

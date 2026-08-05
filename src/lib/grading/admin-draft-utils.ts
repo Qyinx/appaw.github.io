@@ -1,4 +1,6 @@
 import type { AdminCreateOrderItemPayload, AdminItem, AdminUpdateItemPayload } from './admin-types';
+import { parseServicePlanLabel } from './admin-types';
+import { getPsaDefaultTotalCost } from './psa-pricing';
 
 export const DRAFT_ITEM_ID_PREFIX = 'draft-';
 
@@ -80,6 +82,9 @@ export function createDraftItem(
   customerOrder: { id: number; submissionId: string; batchReferenceCode: string; customerName: string; phoneNumber: string },
   submissionOrder: number,
 ): AdminItem {
+  const plan = parseServicePlanLabel(customerOrder.batchReferenceCode);
+  const totalCost = plan === '—' ? null : getPsaDefaultTotalCost(plan);
+
   return {
     id: `${DRAFT_ITEM_ID_PREFIX}${crypto.randomUUID()}`,
     customerOrderId: customerOrder.id,
@@ -92,9 +97,41 @@ export function createDraftItem(
     grade: null,
     images: [],
     isPaid: false,
-    totalCost: null,
+    totalCost,
     receivedCost: null,
     psaUpgraded: false,
     submissionOrder,
   };
+}
+
+export function isCardNameFilled(cardName: string): boolean {
+  return cardName.trim().length > 0;
+}
+
+/** Unfilled names stay at top (compose zone); filled settle to bottom. */
+export function partitionItemsByCardNameFill<T extends { cardName: string }>(items: T[]): T[] {
+  const { pending, filled } = splitItemsByCardNameFill(items);
+  return [...pending, ...filled];
+}
+
+export function splitItemsByCardNameFill<T extends { cardName: string }>(items: T[]): {
+  pending: T[];
+  filled: T[];
+} {
+  const pending: T[] = [];
+  const filled: T[] = [];
+  for (const item of items) {
+    if (isCardNameFilled(item.cardName)) filled.push(item);
+    else pending.push(item);
+  }
+  return { pending, filled };
+}
+
+export function renumberSubmissionOrder(items: AdminItem[]): AdminItem[] {
+  return items.map((item, index) => ({ ...item, submissionOrder: index + 1 }));
+}
+
+/** Settle filled rows to bottom and refresh submissionOrder. */
+export function settleItemsByCardName(items: AdminItem[]): AdminItem[] {
+  return renumberSubmissionOrder(partitionItemsByCardNameFill(items));
 }

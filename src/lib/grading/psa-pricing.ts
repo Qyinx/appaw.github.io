@@ -46,6 +46,12 @@ export function getPsaDisplayFee(row: PsaPricingRow): number {
   return row.feeHkd;
 }
 
+/** Default card totalCost for admin drafts — promo fee when published, else null. */
+export function getPsaDefaultTotalCost(plan: GradingServicePlan): number | null {
+  const fee = FEE_BY_PLAN[plan]?.discountedFeeHkd;
+  return fee != null && fee > 0 ? fee : null;
+}
+
 export function getPsaLowestDisplayFee(): number {
   return Math.min(
     ...PSA_PRICING_ROWS.filter((row) => row.feeHkd != null).map((row) => getPsaDisplayFee(row)),
