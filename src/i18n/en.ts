@@ -1216,7 +1216,7 @@ export const en = {
       buttons: 'Buttons',
       cards: 'Cards',
       membership: 'Membership Badges',
-      spacing: 'Spacing',
+      spacing: 'Spacing & alignment',
     },
     membership: {
       subtitle: 'Tier labels keyed to name: Foil (silver stamp), Prism (spectrum rail), Aurora (borealis bands). Hover for shimmer or brighten; motion respects reduced-motion.',
@@ -1687,6 +1687,10 @@ export const en = {
       reset: 'Reset',
       adjustImage: 'Adjust image',
       closeAdjustPanel: 'Close adjust panel',
+      setupTitle: 'Setup',
+      setupExpand: 'Open setup',
+      setupCollapse: 'Close setup',
+      closeSetupPanel: 'Close setup panel',
       zoom: 'Zoom',
       rotate: 'Rotate',
       rotation: 'Rotation',
@@ -1725,6 +1729,9 @@ export const en = {
       dismissCoach: 'Dismiss',
       guideOpenAdjust: 'Open adjust',
       toolbarLoupe: 'Loupe',
+      loupeZoomLabel: 'Loupe magnification',
+      loupeZoomIn: 'Increase loupe zoom',
+      loupeZoomOut: 'Decrease loupe zoom',
       toolbarFit: 'Fit',
       toolbarReset: 'Reset',
       toolbarPhotoRaw: 'Raw',
@@ -1782,7 +1789,7 @@ export const en = {
         },
         {
           title: 'Straighten the photo',
-          body: 'Phone angles skew margins. Open Adjust image (sliders icon, bottom-right). Set zoom and H/V tilt until the card edges match the frame, not the slab plastic. Tap Fit to view if the image looks small.',
+          body: 'Phone angles skew margins. Tap Adjust in the bottom center. Set zoom and H/V tilt until the card edges match the frame, not the slab plastic. Dragging guides closes Adjust so you can see the card.',
         },
         {
           title: 'Align edge and border guides',
@@ -1790,7 +1797,7 @@ export const en = {
         },
         {
           title: 'Read your centering percentage',
-          body: 'The analyzer prints left/right and top/bottom ratios and a grade zone for PSA, BGS, SGC, or CGC. Switch the grading standard in the header.',
+          body: 'The analyzer prints left/right and top/bottom ratios and a grade zone for PSA, BGS, SGC, or CGC. Open Setup (top-left) to switch Raw/Slab and grading standard.',
         },
       ],
       psaRequirementsTitle: 'What are the centering requirements for a PSA 10?',
@@ -1835,7 +1842,7 @@ export const en = {
         },
         {
           title: 'Open Adjust image',
-          body: 'Correct keystone with zoom, rotate, and H/V tilt. The mini plot shows blue edge and pink border alignment.',
+          body: 'Tap Adjust in the bottom center. Correct keystone with zoom, rotate, and H/V tilt. The mini plot shows blue edge and pink border alignment. Dragging guides dismisses the sheet.',
         },
         {
           title: 'Match corner curves',

@@ -127,6 +127,28 @@ Rules:
 | `--border-width` | `1px` | Default panel border |
 | `--shadow-panel` | `0 12px 40px rgba(2,6,23,0.55)` | Dark panels only — no shadow on light brutalist cards |
 
+**Fibonacci retracement (layout ratios):** use for column/width splits of a parent band (container, column, viewport). Prefer φ asymmetry over 50/50 on marketing heroes and bentos.
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--ratio-fib-236` | `0.236` | Tight secondary band |
+| `--ratio-fib-382` | `0.382` | Secondary column / image band / filmstrip identity |
+| `--ratio-fib-500` | `0.5` | Equal split — avoid in hero |
+| `--ratio-fib-618` | `0.618` | Dominant column / lead bento / specimen |
+| `--ratio-fib-786` | `0.786` | Near-full content band / tall stage |
+| `--ratio-phi` | `1.618` | Grid fr partner (`1fr` + `1.618fr`) |
+
+**Derived alignment gaps** (retracement of `--space-section-y` — intra-section stacks, not page gutters):
+
+| Token | Formula | Use |
+|-------|---------|-----|
+| `--space-align-xs` | `section-y × 0.236` | Within-group stack |
+| `--space-align-sm` | `section-y × 0.382` | Section header → content; between panel groups |
+| `--space-align-md` | `section-y × 0.5` | Mid block separation |
+| `--space-align-lg` | `section-y × 0.618` | Major intra-section beat |
+
+Rule: ratios for **width/column** splits; `--space-align-*` for **vertical** component alignment inside a section.
+
 Max content width: **1080px** for tools/docs; **1280px** for marketing grids.
 
 Grid: CSS Grid/Flex only — no JS layout measurement.

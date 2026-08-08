@@ -1216,7 +1216,7 @@ export const zh: Translations = {
       buttons: '互動按鈕樣式',
       cards: '資訊卡片模組',
       membership: '專屬會籍徽章',
-      spacing: '網格與間距',
+      spacing: '間距與對齊',
     },
     membership: {
       subtitle: '會籍徽章效果：Foil（銀箔光澤）、Prism（光譜折射）、Aurora（極光漸變）。滑鼠懸停時帶有細緻動畫；全面支援無障礙減弱動態設定。',
@@ -1629,7 +1629,7 @@ export const zh: Translations = {
       },
       {
         q: '卡片已經封在 PSA 卡殼裡了，還能用照片量嗎？',
-        a: '可以的！在工具裡把模式切換到「鑑定卡」，量的時候記得把導線對準「殼裡面卡片的邊緣」，而不是對準外面的塑膠殼喔。如果照片有反光或傾斜，記得善用右下角的「調整圖片」功能微調。',
+        a: '可以的！在工具裡把模式切換到「鑑定卡」（左上角設定），量的時候記得把導線對準「殼裡面卡片的邊緣」，而不是對準外面的塑膠殼喔。如果照片有反光或傾斜，用底部「校正變形照片」微調。',
       },
     ],
     tool: {
@@ -1686,6 +1686,10 @@ export const zh: Translations = {
       reset: '打掉重來',
       adjustImage: '校正變形照片',
       closeAdjustPanel: '收起校正工具',
+      setupTitle: '設定',
+      setupExpand: '打開設定',
+      setupCollapse: '收起設定',
+      closeSetupPanel: '關閉設定面板',
       zoom: '放大/縮小',
       rotate: '旋轉角度',
       rotation: '旋轉調整',
@@ -1724,6 +1728,9 @@ export const zh: Translations = {
       dismissCoach: '我知道了，關閉',
       guideOpenAdjust: '覺得圖歪歪的？按這校正',
       toolbarLoupe: '開放大鏡',
+      loupeZoomLabel: '放大鏡倍率',
+      loupeZoomIn: '放大鏡放大',
+      loupeZoomOut: '放大鏡縮小',
       toolbarFit: '適應螢幕',
       toolbarReset: '還原',
       toolbarPhotoRaw: '量裸卡',
@@ -1781,7 +1788,7 @@ export const zh: Translations = {
         },
         {
           title: '第二步：把照片拉到最平正',
-          body: '手機拍難免會有點梯形變形。點擊右下角的「調整圖片」，利用旋轉跟傾斜滑桿，把卡片的邊緣調整到跟手機螢幕的邊框平行。切記！如果是量鑑定卡，要看裡面那張卡有沒有平，不要管外面的塑膠殼。',
+          body: '手機拍難免會有點梯形變形。點底部正中的「校正變形照片」，用旋轉跟傾斜滑桿把卡片邊緣調到跟螢幕邊框平行。拉導線時校正面板會自動收起，方便看清楚卡片。切記！量鑑定卡時要看裡面那張卡有沒有平，不要管外面的塑膠殼。',
         },
         {
           title: '第三步：框出外緣與圖框',
@@ -1789,7 +1796,7 @@ export const zh: Translations = {
         },
         {
           title: '第四步：驗收殘酷的百分比',
-          body: '拉完之後，雷達會立刻告訴你左右跟上下的比例，並殘酷預測這張卡在 PSA、BGS 或 CGC 能拿幾分。',
+          body: '拉完之後，雷達會立刻告訴你左右跟上下的比例，並殘酷預測這張卡在 PSA、BGS 或 CGC 能拿幾分。左上角「設定」可切換裸卡/鑑定卡與鑑定標準。',
         },
       ],
       psaRequirementsTitle: '傳說中的 PSA 10 置中要求到底有多嚴？',

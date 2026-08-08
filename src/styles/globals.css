@@ -22,6 +22,19 @@
 
   --space-page-x: clamp(16px, 4vw, 24px);
   --space-section-y: clamp(48px, 8vw, 96px);
+
+  /* Fibonacci retracement — column/width splits + derived stack gaps (style.md §2.4) */
+  --ratio-fib-236: 0.236;
+  --ratio-fib-382: 0.382;
+  --ratio-fib-500: 0.5;
+  --ratio-fib-618: 0.618;
+  --ratio-fib-786: 0.786;
+  --ratio-phi: 1.618;
+  --space-align-xs: calc(var(--space-section-y) * var(--ratio-fib-236));
+  --space-align-sm: calc(var(--space-section-y) * var(--ratio-fib-382));
+  --space-align-md: calc(var(--space-section-y) * var(--ratio-fib-500));
+  --space-align-lg: calc(var(--space-section-y) * var(--ratio-fib-618));
+
   --site-header-height: 4rem;
   --chapter-nav-height: 4.25rem;
   --site-subheader-height: 0px;
@@ -5364,7 +5377,7 @@ main {
   width: 100%;
   margin-inline: auto;
   aspect-ratio: 4 / 5;
-  max-height: min(68vh, 520px);
+  max-height: min(calc(100vh * var(--ratio-fib-618)), 520px);
   transition: filter 280ms ease;
 }
 
@@ -5669,7 +5682,7 @@ main {
   }
 
   .home-hero-filmstrip__identity {
-    flex: 0 0 min(16rem, 34%);
+    flex: 0 0 min(16rem, calc(100% * var(--ratio-fib-382)));
     border-bottom: none;
     border-right: var(--border-width) solid var(--border-default);
   }
@@ -5786,10 +5799,11 @@ main {
 
 @media (min-width: 1024px) {
   .home-hero-exhibit__body {
-    grid-template-columns: minmax(0, 1.05fr) minmax(260px, 380px);
+    /* Product-led φ: copy 0.382 · specimen 0.618 */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.618fr);
     gap: clamp(1.5rem, 3vw, 2.75rem);
     align-items: center;
-    min-height: clamp(320px, 38vh, 440px);
+    min-height: clamp(320px, calc(100vh * var(--ratio-fib-382)), 440px);
     padding-bottom: 0.75rem;
   }
 
@@ -5801,7 +5815,7 @@ main {
   .home-hero-exhibit__specimen {
     justify-self: center;
     align-self: center;
-    max-width: 460px;
+    max-width: min(100%, calc(80rem * var(--ratio-fib-618)));
   }
 
   .home-hero-poster:not(.home-hero-poster--zh) {

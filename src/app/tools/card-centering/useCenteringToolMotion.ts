@@ -56,7 +56,7 @@ export function useCenteringToolMotion({
     adjustOpenRef.current = adjustOpen;
 
     if (prefersReducedMotion()) {
-      gsap.set(el, { autoAlpha: 1, x: 0 });
+      gsap.set(el, { autoAlpha: 1, y: 0 });
       return;
     }
 
@@ -67,19 +67,19 @@ export function useCenteringToolMotion({
     if (adjustOpen) {
       gsap.fromTo(
         el,
-        { autoAlpha: 0.92, x: 14 },
-        { autoAlpha: 1, x: 0, duration: 0.24, ease: 'power2.out', clearProps: 'transform' },
+        { autoAlpha: 0.92, y: 16 },
+        { autoAlpha: 1, y: 0, duration: 0.24, ease: 'power2.out', clearProps: 'transform' },
       );
     } else {
       gsap.fromTo(
         el,
-        { x: 0 },
+        { y: 0 },
         {
-          x: 10,
+          y: 10,
           duration: 0.16,
           ease: 'power2.in',
           onComplete: () => {
-            gsap.set(el, { x: 0, clearProps: 'transform' });
+            gsap.set(el, { y: 0, clearProps: 'transform' });
           },
         },
       );

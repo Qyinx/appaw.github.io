@@ -122,14 +122,6 @@ const CornerLoupeIcon = () => (
     <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
   </svg>
 );
-const FitViewIcon = () => (
-  <svg {...ICON_PROPS} width={16} height={16}>
-    <polyline points="15 3 21 3 21 9" />
-    <polyline points="9 21 3 21 3 15" />
-    <line x1="21" y1="3" x2="14" y2="10" />
-    <line x1="3" y1="21" x2="10" y2="14" />
-  </svg>
-);
 const ResetViewIcon = () => (
   <svg {...ICON_PROPS} width={16} height={16}>
     <polyline points="1 4 1 10 7 10" />
@@ -200,7 +192,6 @@ export default function CardCenteringClient() {
   toolLabelsRef.current = tool;
 
   const resetRef = React.useRef<(() => void) | null>(null);
-  const fitRef = React.useRef<(() => void) | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const imageReadyRef = React.useRef(false);
   const redrawRef = React.useRef<(() => void) | null>(null);
@@ -209,10 +200,25 @@ export default function CardCenteringClient() {
   const [uploadState, setUploadState] = React.useState<UploadState>('idle');
   const [grade, setGrade] = React.useState<CenteringScore | null>(null);
   const [adjustOpen, setAdjustOpen] = React.useState(false);
-  const [gradingDockOpen, setGradingDockOpen] = React.useState(false);
-  /* SSR-stable defaults — media queries applied after mount to avoid hydration mismatch */
-  const [leftToolbarOpen, setLeftToolbarOpen] = React.useState(true);
+  const [setupOpen, setSetupOpen] = React.useState(false);
   const [loupesOn, setLoupesOn] = React.useState(true);
+  const [loupeMagUi, setLoupeMagUi] = React.useState(2.6);
+  const loupeMagRef = React.useRef(2.6);
+  const setLoupeMagUiRef = React.useRef(setLoupeMagUi);
+  setLoupeMagUiRef.current = setLoupeMagUi;
+  const dismissChromeRef = React.useRef<() => void>(() => {});
+
+  const LOUPE_MAG_MIN = 1.5;
+  const LOUPE_MAG_MAX = 5;
+  const LOUPE_MAG_STEP = 0.2;
+
+  const applyLoupeMag = React.useCallback((next: number) => {
+    const clamped = Math.min(LOUPE_MAG_MAX, Math.max(LOUPE_MAG_MIN, +next.toFixed(2)));
+    if (clamped === loupeMagRef.current) return;
+    loupeMagRef.current = clamped;
+    setLoupeMagUi(clamped);
+    redrawRef.current?.();
+  }, []);
   const [showHandlePulse, setShowHandlePulse] = React.useState(false);
   const [outerAligned, setOuterAligned] = React.useState(false);
   const [innerAligned, setInnerAligned] = React.useState(false);
@@ -254,19 +260,22 @@ export default function CardCenteringClient() {
 
   useEffect(() => {
     const coarse = window.matchMedia('(pointer: coarse)').matches;
-    const narrow = window.matchMedia('(max-width: 768px)').matches;
-    if (coarse || narrow) setLeftToolbarOpen(false);
     if (coarse) setLoupesOn(false);
   }, []);
 
+  dismissChromeRef.current = () => {
+    setAdjustOpen(false);
+    setSetupOpen(false);
+  };
+
   useEffect(() => {
-    if (!adjustOpen) return;
+    if (!adjustOpen && !setupOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setAdjustOpen(false);
+      if (e.key === 'Escape') dismissChromeRef.current();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [adjustOpen]);
+  }, [adjustOpen, setupOpen]);
 
   useEffect(() => {
     if (grade) guideRef.current.onGradeCalculated();
@@ -289,20 +298,15 @@ export default function CardCenteringClient() {
 
   useEffect(() => {
     if (guide.guideDismissed || guide.activeStep !== 1 || !imageReady) return;
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      setAdjustOpen(true);
-    }
+    setSetupOpen(false);
+    setAdjustOpen(true);
   }, [guide.activeStep, guide.guideDismissed, imageReady]);
 
   useEffect(() => {
     if (guide.guideDismissed || guide.activeStep !== 2 || !imageReady) return;
     setAdjustOpen(false);
+    setSetupOpen(false);
   }, [guide.activeStep, guide.guideDismissed, imageReady]);
-
-  useEffect(() => {
-    if (leftToolbarOpen) return;
-    setGradingDockOpen(false);
-  }, [leftToolbarOpen]);
 
   useEffect(() => {
     guideModeRef.current = guideMode;
@@ -352,11 +356,10 @@ export default function CardCenteringClient() {
       bl: document.getElementById('loupe-bl') as HTMLCanvasElement | null,
       br: document.getElementById('loupe-br') as HTMLCanvasElement | null,
     };
-    let loupeMag = 2.6;
     let loupeDrag: string | null = null;
     // Shared corner fillet radius (card-base px), comparable across all four loupes.
-    // 0 = no adjustable arc (stepped quarter-arc guides still show).
-    let refRadius = 0;
+    const DEFAULT_FILLET_RADIUS = 14;
+    let refRadius = DEFAULT_FILLET_RADIUS;
 
     const controls = {
       zoom: document.getElementById('zoom') as HTMLInputElement,
@@ -678,6 +681,7 @@ export default function CardCenteringClient() {
     }
 
     function beginImagePan(clientX: number, clientY: number) {
+      dismissChromeRef.current();
       setImageDragVisual(true);
       const { z, r, tx, ty, px, py } = readTransformState();
       panSession = { z, r, tx, ty };
@@ -827,8 +831,9 @@ export default function CardCenteringClient() {
         fitGuidesToImage();
       }
 
-      refRadius = 0;
-      loupeMag = 2.6;
+      refRadius = DEFAULT_FILLET_RADIUS;
+      loupeMagRef.current = 2.6;
+      setLoupeMagUiRef.current(2.6);
       lastGradeSnapshot = null;
       setGrade(null);
       setImageDragVisual(false);
@@ -918,10 +923,6 @@ export default function CardCenteringClient() {
 
     // expose controls to the component-level buttons via refs
     resetRef.current = resetAll;
-    fitRef.current = () => {
-      fitToImage();
-      maybeCompleteAdjustGuideStep();
-    };
     redrawRef.current = () => scheduleDrawOverlay();
 
     const sliderBindings: Array<{ el: HTMLInputElement; type: string; fn: EventListener }> = [];
@@ -1484,6 +1485,7 @@ export default function CardCenteringClient() {
 
     function beginHandleDrag(handleHit: string, e: any, mouseX: number, mouseY: number) {
       if (e.touches) e.preventDefault();
+      dismissChromeRef.current();
       pendingTouch = null;
       dragging = handleHit;
       if (isOuterHandle(handleHit)) {
@@ -1568,30 +1570,42 @@ export default function CardCenteringClient() {
     ) {
       const { sx, sy, arcStart, arcEnd } = loupeCornerMeta(key);
       const visibleBase = R / baseToLoupe;
-      const edgeLen = Math.min(
-        R * 0.88,
-        Math.max(28, (refRadius > 0 ? refRadius : visibleBase * 0.35) * baseToLoupe + 10),
-      );
+      // Blue edge legs always span to the loupe rim (clip handles the circle)
+      const edgeLen = R;
+      const filletBase = refRadius > 0 ? refRadius : DEFAULT_FILLET_RADIUS;
 
       lctx.save();
       lctx.translate(R, R);
 
       // Straight edge legs from the corner tip (card extends inward along +sx / +sy)
-      lctx.strokeStyle = edgeColor;
-      lctx.globalAlpha = 0.78;
-      lctx.lineWidth = 1.35;
+      // Dark under-stroke + bright edge so lines stay readable on light/dark card art
       lctx.setLineDash([]);
+      lctx.lineCap = 'round';
+      lctx.lineJoin = 'round';
+      lctx.globalAlpha = 1;
+      lctx.strokeStyle = 'rgba(0, 0, 0, 0.72)';
+      lctx.lineWidth = isCoarsePointer ? 4.5 : 3.75;
       lctx.beginPath();
       lctx.moveTo(0, 0);
       lctx.lineTo(sx * edgeLen, 0);
       lctx.moveTo(0, 0);
       lctx.lineTo(0, sy * edgeLen);
       lctx.stroke();
+      lctx.strokeStyle = edgeColor;
+      lctx.shadowColor = edgeColor;
+      lctx.shadowBlur = isCoarsePointer ? 8 : 6;
+      lctx.lineWidth = isCoarsePointer ? 2.75 : 2.35;
+      lctx.beginPath();
+      lctx.moveTo(0, 0);
+      lctx.lineTo(sx * edgeLen, 0);
+      lctx.moveTo(0, 0);
+      lctx.lineTo(0, sy * edgeLen);
+      lctx.stroke();
+      lctx.shadowBlur = 0;
 
       // Stepped quarter-arc guides — same fillet R in every loupe
-      lctx.strokeStyle = 'rgba(255,255,255,0.16)';
-      lctx.globalAlpha = 1;
-      lctx.lineWidth = 1;
+      lctx.strokeStyle = 'rgba(255,255,255,0.28)';
+      lctx.lineWidth = 1.15;
       lctx.setLineDash([2, 3]);
       for (let k = 1; k * ringStep <= visibleBase + ringStep; k++) {
         const rr = k * ringStep * baseToLoupe;
@@ -1604,18 +1618,22 @@ export default function CardCenteringClient() {
 
       // Corner tip
       lctx.fillStyle = '#fde047';
+      lctx.strokeStyle = 'rgba(0, 0, 0, 0.65)';
+      lctx.lineWidth = 1.25;
       lctx.beginPath();
-      lctx.arc(0, 0, 2, 0, Math.PI * 2);
+      lctx.arc(0, 0, isCoarsePointer ? 3.25 : 2.75, 0, Math.PI * 2);
       lctx.fill();
+      lctx.stroke();
 
-      if (refRadius > 0) {
-        const rr = refRadius * baseToLoupe;
+      // Yellow fillet always shown (default radius until user drags)
+      {
+        const rr = filletBase * baseToLoupe;
         const cx = sx * rr;
         const cy = sy * rr;
 
         // Tangent marks where the curve meets each straight edge
-        lctx.strokeStyle = 'rgba(253, 224, 71, 0.5)';
-        lctx.lineWidth = 1;
+        lctx.strokeStyle = 'rgba(253, 224, 71, 0.55)';
+        lctx.lineWidth = 1.15;
         lctx.beginPath();
         lctx.moveTo(0, cy);
         lctx.lineTo(cx, cy);
@@ -1624,7 +1642,7 @@ export default function CardCenteringClient() {
         lctx.stroke();
 
         // Fillet centre (shared R is distance from each edge)
-        lctx.fillStyle = 'rgba(253, 224, 71, 0.4)';
+        lctx.fillStyle = 'rgba(253, 224, 71, 0.45)';
         lctx.beginPath();
         lctx.arc(cx, cy, 2.4, 0, Math.PI * 2);
         lctx.fill();
@@ -1664,6 +1682,7 @@ export default function CardCenteringClient() {
       const imgReady = !!(imgEl.src && imgEl.complete && imgEl.naturalWidth > 0);
       const imgBw = imgReady ? (imgEl.offsetWidth || imgEl.naturalWidth) : 0;
       const imgBh = imgReady ? (imgEl.offsetHeight || imgEl.naturalHeight) : 0;
+      const m = loupeMagRef.current;
 
       const project = (bx: number, by: number) => {
         let x = bx, y = by, zc = 0;
@@ -1682,6 +1701,50 @@ export default function CardCenteringClient() {
         return { x: centerX + x * s, y: centerY + y * s };
       };
 
+      // Leader lines: loupe center → card corner (same overlay pass; CSS loupes sit above)
+      const overlayRect = overlayEl.getBoundingClientRect();
+      if (overlayRect.width > 1 && overlayRect.height > 1) {
+        const scaleX = overlayEl.width / overlayRect.width;
+        const scaleY = overlayEl.height / overlayRect.height;
+        const dash = isCoarsePointer ? ([5, 5] as number[]) : ([4, 4] as number[]);
+        const lineW = isCoarsePointer ? 2 : 1.35;
+        const tipR = isCoarsePointer ? 3.5 : 2.5;
+        ctx.save();
+        (['tl', 'tr', 'bl', 'br'] as const).forEach((key) => {
+          const el = loupeEls[key];
+          if (!el) return;
+          const lr = el.getBoundingClientRect();
+          if (lr.width < 8) return;
+          const fromX = (lr.left + lr.width / 2 - overlayRect.left) * scaleX;
+          const fromY = (lr.top + lr.height / 2 - overlayRect.top) * scaleY;
+          const S = loupeCorner(key);
+          const dx = S.x - fromX;
+          const dy = S.y - fromY;
+          const len = Math.hypot(dx, dy);
+          if (len < 12) return;
+          const insetFrom = Math.min(lr.width * 0.42 * scaleX, len * 0.22);
+          const insetTo = Math.min(10, len * 0.08);
+          const ux = dx / len;
+          const uy = dy / len;
+          ctx.strokeStyle = colorOuter;
+          ctx.globalAlpha = isCoarsePointer ? 0.72 : 0.55;
+          ctx.lineWidth = lineW;
+          ctx.lineCap = 'round';
+          ctx.setLineDash(dash);
+          ctx.beginPath();
+          ctx.moveTo(fromX + ux * insetFrom, fromY + uy * insetFrom);
+          ctx.lineTo(S.x - ux * insetTo, S.y - uy * insetTo);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.beginPath();
+          ctx.arc(S.x, S.y, tipR, 0, Math.PI * 2);
+          ctx.fillStyle = colorOuter;
+          ctx.globalAlpha = isCoarsePointer ? 0.9 : 0.75;
+          ctx.fill();
+        });
+        ctx.restore();
+      }
+
       (['tl', 'tr', 'bl', 'br'] as const).forEach((key) => {
         const el = loupeEls[key];
         if (!el) return;
@@ -1699,7 +1762,6 @@ export default function CardCenteringClient() {
         lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         lctx.clearRect(0, 0, size, size);
         const R = size / 2;
-        const m = loupeMag;
 
         lctx.save();
         lctx.beginPath();
@@ -1936,6 +1998,7 @@ export default function CardCenteringClient() {
     }
 
     function beginPinch(touches: TouchList) {
+      dismissChromeRef.current();
       setImageDragVisual(true);
       dragging = 'pinch';
       initialPinchDistance = getDistance(touches[0], touches[1]);
@@ -2186,7 +2249,7 @@ export default function CardCenteringClient() {
       const lx = pos.clientX - rect.left - size / 2;
       const ly = pos.clientY - rect.top - size / 2;
       const z = parseFloat(controls.zoom.value) || 1;
-      const baseToLoupe = loupeMag * z;
+      const baseToLoupe = loupeMagRef.current * z;
       // Fillet radius = inset along either card edge from the corner tip
       refRadius = filletRadiusFromPointer(key as LoupeCorner, lx, ly) / baseToLoupe;
       scheduleDrawOverlay();
@@ -2196,11 +2259,13 @@ export default function CardCenteringClient() {
       const el = loupeEls[key];
       if (!el) return;
       const down = (e: any) => { e.preventDefault(); e.stopPropagation(); loupeDrag = key; setRefFromEvent(key, e); };
-      const dbl = () => { refRadius = 0; drawLoupes(); };
+      const dbl = () => { refRadius = DEFAULT_FILLET_RADIUS; drawLoupes(); };
       const wheel = (e: any) => {
         e.preventDefault();
         const dir = e.deltaY > 0 ? -1 : 1;
-        loupeMag = Math.min(5, Math.max(1.5, +(loupeMag + dir * 0.2).toFixed(2)));
+        const next = Math.min(5, Math.max(1.5, +(loupeMagRef.current + dir * 0.2).toFixed(2)));
+        loupeMagRef.current = next;
+        setLoupeMagUiRef.current(next);
         drawLoupes();
       };
       el.addEventListener('mousedown', down);
@@ -2234,7 +2299,6 @@ export default function CardCenteringClient() {
       if (transformRaf) cancelAnimationFrame(transformRaf);
       if (panRaf) cancelAnimationFrame(panRaf);
       resetRef.current = null;
-      fitRef.current = null;
       redrawRef.current = null;
       window.removeEventListener('resize', onResize);
       uploadEl.removeEventListener('change', uploadHandler);
@@ -2314,12 +2378,23 @@ export default function CardCenteringClient() {
     fileInputRef.current?.click();
   };
 
-  const openAdjustDock = () => {
-    setAdjustOpen(true);
+  const toggleAdjustSheet = () => {
+    setAdjustOpen((open) => {
+      if (!open) setSetupOpen(false);
+      return !open;
+    });
   };
 
-  const toggleAdjustDock = () => {
-    setAdjustOpen((open) => !open);
+  const toggleSetupSheet = () => {
+    setSetupOpen((open) => {
+      if (!open) setAdjustOpen(false);
+      return !open;
+    });
+  };
+
+  const closeChromeSheets = () => {
+    setAdjustOpen(false);
+    setSetupOpen(false);
   };
 
   useSubHeader({
@@ -2396,7 +2471,8 @@ export default function CardCenteringClient() {
       >
         <div
           className={`${styles.workspaceShell}${imageReady ? ` ${styles.workspaceShellReady}` : ''}`}
-          data-left-open={leftToolbarOpen ? 'true' : 'false'}
+          data-setup-open={setupOpen ? 'true' : 'false'}
+          data-adjust-open={adjustOpen ? 'true' : 'false'}
         >
         <div className={`${styles.workspaceContainer}${imageReady ? ` ${styles.workspaceContainerReady}` : ''}`} id="workspace">
           <div className={styles.workspaceAtmosphere} aria-hidden="true" />
@@ -2493,120 +2569,32 @@ export default function CardCenteringClient() {
           )
         )}
 
-        {/* Left toolbar — photo mode + grading + guides (collapsible strip) */}
-        <div
-          className={styles.workspaceLeftStack}
-          data-open={leftToolbarOpen ? 'true' : 'false'}
-        >
-          <div className={styles.workspaceToolsPanel}>
-            <button
-              type="button"
-              className={styles.workspaceToolStripToggle}
-              data-active={leftToolbarOpen ? 'true' : 'false'}
-              aria-expanded={leftToolbarOpen}
-              aria-controls="workspace-tool-strip"
-              aria-label={leftToolbarOpen ? tool.workspaceToolsCollapse : tool.workspaceToolsExpand}
-              title={leftToolbarOpen ? tool.workspaceToolsCollapse : tool.workspaceToolsExpand}
-              onClick={() => setLeftToolbarOpen((v) => !v)}
-            >
-              <span className={styles.workspaceToolStripToggleGlyph} aria-hidden="true">
-                <WorkspaceToolsIcon />
+        {/* Setup chip — top-left */}
+        <div className={styles.setupChip} data-open={setupOpen ? 'true' : 'false'}>
+          <button
+            type="button"
+            className={styles.setupChipBtn}
+            data-active={setupOpen ? 'true' : 'false'}
+            aria-expanded={setupOpen}
+            aria-controls="setup-sheet"
+            aria-label={setupOpen ? tool.setupCollapse : tool.setupExpand}
+            title={setupOpen ? tool.setupCollapse : tool.setupExpand}
+            onClick={toggleSetupSheet}
+          >
+            <span className={styles.setupChipGlyph} aria-hidden="true">
+              <WorkspaceToolsIcon />
+            </span>
+            <span className={styles.setupChipMeta}>
+              <span className={styles.setupChipMode}>
+                {photoMode === 'raw' ? tool.toolbarPhotoRaw : tool.toolbarPhotoSlab}
               </span>
-              <span className={styles.workspaceToolStripToggleMeta} aria-hidden="true">
-                <span className={styles.workspaceToolStripToggleMark} />
-                <ChevronIcon className={styles.chevron} />
-              </span>
-            </button>
-
-            {leftToolbarOpen ? (
-            <div id="workspace-tool-strip" className={styles.workspaceToolStrip} role="toolbar" aria-label={tool.workspaceTitle}>
-              <div className={styles.photoModeBar} role="group" aria-label={tool.photoModeLabel}>
-                {(['raw', 'slab'] as const).map((mode) => (
-                  <button
-                    key={mode}
-                    type="button"
-                    className={styles.photoModeBtn}
-                    data-active={photoMode === mode}
-                    aria-pressed={photoMode === mode}
-                    onClick={() => setPhotoMode(mode)}
-                  >
-                    <span className={styles.photoModeBtnLong}>
-                      {mode === 'raw' ? tool.photoModeRaw : tool.photoModeSlab}
-                    </span>
-                    <span className={styles.photoModeBtnShort}>
-                      {mode === 'raw' ? tool.toolbarPhotoRaw : tool.toolbarPhotoSlab}
-                    </span>
-                  </button>
-                ))}
-              </div>
-
               {photoMode === 'raw' ? (
-                <div
-                  className={`${styles.gradingCompanyDock} ${gradingDockOpen ? styles.gradingCompanyDockOpen : styles.gradingCompanyDockCollapsed}`}
-                  data-open={gradingDockOpen ? 'true' : 'false'}
-                >
-                  <button
-                    type="button"
-                    className={styles.gradingCompanyToggle}
-                    onClick={() => setGradingDockOpen((v) => !v)}
-                    aria-expanded={gradingDockOpen}
-                    aria-controls="grading-company-list"
-                  >
-                    <span className={styles.gradingCompanyToggleLeft}>
-                      <span className={styles.gradingCompanyToggleBadge} data-company={gradingCompany}>
-                        {gradingCompany}
-                      </span>
-                      <span className={styles.gradingCompanyToggleLabel}>{tool.gradingCompanyLabel}</span>
-                    </span>
-                    <ChevronIcon className={styles.chevron} />
-                  </button>
-                  <div
-                    id="grading-company-list"
-                    className={styles.gradingCompanyBody}
-                  role="toolbar"
-                  aria-label={tool.gradingCompanyLabel}
-                >
-                  {GRADING_COMPANIES.map((company) => (
-                    <button
-                      key={company}
-                      type="button"
-                      className={styles.gradingCompanyBtn}
-                      data-active={gradingCompany === company}
-                      data-company={company}
-                      aria-pressed={gradingCompany === company}
-                      onClick={() => {
-                        setGradingCompany(company);
-                        setGradingDockOpen(false);
-                      }}
-                    >
-                      {company}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-
-            <div className={styles.guideModeBar} role="group" aria-label={tool.guideModeLabel}>
-              {(['edge', 'border', 'both'] as const).map((mode) => (
-                <button
-                  key={mode}
-                  type="button"
-                  className={styles.guideModeBtn}
-                  data-active={guideMode === mode}
-                  data-mode={mode}
-                  aria-pressed={guideMode === mode}
-                  onClick={() => setGuideMode(mode)}
-                >
-                  <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
-                  <span className={styles.guideModeBtnLabel}>
-                    {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-          ) : null}
-          </div>
+                <span className={styles.setupChipCompany} data-company={gradingCompany}>
+                  {gradingCompany}
+                </span>
+              ) : null}
+            </span>
+          </button>
         </div>
 
         {/* Off-screen inputs driven programmatically */}
@@ -2615,107 +2603,204 @@ export default function CardCenteringClient() {
         <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         </div>
 
-        {/* Top-right — quick actions (desktop); mobile folds into bottom sheet bar */}
-        {imageReady ? (
-          <div className={styles.topRightStack} role="presentation">
-            <div className={styles.topActionStrip} role="toolbar" aria-label={tool.workspaceTitle}>
-              <button
-                type="button"
-                className={styles.topActionBtn}
-                data-active={loupesOn ? 'true' : 'false'}
-                aria-pressed={loupesOn}
-                aria-label={tool.cornerMagnifiersToggle}
-                title={tool.cornerMagnifiersToggle}
-                onClick={() => setLoupesOn((v) => !v)}
-              >
-                <CornerLoupeIcon />
-              </button>
-              <button
-                type="button"
-                className={styles.topActionBtn}
-                aria-label={tool.fitToView}
-                title={tool.fitToView}
-                onClick={() => fitRef.current?.()}
-              >
-                <FitViewIcon />
-              </button>
-              <button
-                type="button"
-                className={styles.topActionBtn}
-                aria-label={tool.reset}
-                title={tool.reset}
-                onClick={() => resetRef.current?.()}
-              >
-                <ResetViewIcon />
-              </button>
-            </div>
+        {/* Bottom action bar — always visible; actions enable after upload */}
+        <div className={styles.actionBar} role="toolbar" aria-label={tool.workspaceTitle}>
+          <div className={styles.actionBarLoupeGroup}>
+            {imageReady && loupesOn && !adjustOpen && !setupOpen ? (
+              <div className={styles.loupeMagChip} role="group" aria-label={tool.loupeZoomLabel}>
+                <button
+                  type="button"
+                  className={styles.loupeMagBtn}
+                  aria-label={tool.loupeZoomOut}
+                  title={tool.loupeZoomOut}
+                  disabled={loupeMagUi <= LOUPE_MAG_MIN}
+                  onClick={() => applyLoupeMag(loupeMagRef.current - LOUPE_MAG_STEP)}
+                >
+                  −
+                </button>
+                <span className={styles.loupeMagValue} aria-live="polite">
+                  {loupeMagUi.toFixed(1)}×
+                </span>
+                <button
+                  type="button"
+                  className={styles.loupeMagBtn}
+                  aria-label={tool.loupeZoomIn}
+                  title={tool.loupeZoomIn}
+                  disabled={loupeMagUi >= LOUPE_MAG_MAX}
+                  onClick={() => applyLoupeMag(loupeMagRef.current + LOUPE_MAG_STEP)}
+                >
+                  +
+                </button>
+              </div>
+            ) : null}
+            <button
+              type="button"
+              className={styles.actionBarBtn}
+              data-active={loupesOn ? 'true' : 'false'}
+              aria-pressed={loupesOn}
+              aria-label={tool.cornerMagnifiersToggle}
+              title={tool.cornerMagnifiersToggle}
+              disabled={!imageReady}
+              onClick={() => setLoupesOn((v) => !v)}
+            >
+              <CornerLoupeIcon />
+              <span className={styles.actionBarBtnLabel}>{tool.toolbarLoupe}</span>
+            </button>
           </div>
-        ) : null}
-
-        {/* Right rail / mobile bottom sheet — adjust dock (always mounted for canvas init) */}
-        {imageReady && adjustOpen ? (
           <button
             type="button"
-            className={styles.adjustDockScrim}
-            aria-label={tool.closeAdjustPanel}
-            onClick={() => setAdjustOpen(false)}
+            className={`${styles.actionBarBtn} ${styles.actionBarAdjust}${guideActive && guide.activeStep === 1 ? ` ${styles.actionBarAdjustGuide}` : ''}`}
+            data-active={adjustOpen ? 'true' : 'false'}
+            aria-expanded={adjustOpen}
+            aria-controls="adjust-sheet"
+            aria-label={tool.adjustImage}
+            title={tool.adjustImage}
+            disabled={!imageReady}
+            onClick={toggleAdjustSheet}
+          >
+            <SlidersIcon />
+            <span className={styles.actionBarBtnLabel}>{tool.adjustImage}</span>
+          </button>
+          <button
+            type="button"
+            className={styles.actionBarBtn}
+            aria-label={tool.reset}
+            title={tool.reset}
+            disabled={!imageReady}
+            onClick={() => resetRef.current?.()}
+          >
+            <ResetViewIcon />
+            <span className={styles.actionBarBtnLabel}>{tool.toolbarReset}</span>
+          </button>
+        </div>
+
+        {/* Shared scrim for setup / adjust sheets */}
+        {imageReady && (setupOpen || adjustOpen) ? (
+          <button
+            type="button"
+            className={styles.chromeScrim}
+            aria-label={adjustOpen ? tool.closeAdjustPanel : tool.closeSetupPanel}
+            onClick={closeChromeSheets}
           />
         ) : null}
-        <div className={`${styles.adjustDockRail}${!imageReady ? ` ${styles.adjustDockRailDormant}` : ''}`}>
-          <aside
-            ref={adjustDockRef}
-            className={`${styles.adjustDock} ${adjustOpen ? styles.adjustDockOpen : styles.adjustDockCollapsed}${guideActive && guide.activeStep === 1 ? ` ${styles.adjustDockGuideActive}` : ''}`}
-            data-open={adjustOpen ? 'true' : 'false'}
-          >
-            <div className={styles.adjustDockHeader}>
-              {imageReady ? (
-                <div className={styles.sheetQuickActions} role="toolbar" aria-label={tool.workspaceTitle}>
-                  <button
-                    type="button"
-                    className={styles.topActionBtn}
-                    data-active={loupesOn ? 'true' : 'false'}
-                    aria-pressed={loupesOn}
-                    aria-label={tool.cornerMagnifiersToggle}
-                    title={tool.cornerMagnifiersToggle}
-                    onClick={() => setLoupesOn((v) => !v)}
-                  >
-                    <CornerLoupeIcon />
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.topActionBtn}
-                    aria-label={tool.fitToView}
-                    title={tool.fitToView}
-                    onClick={() => fitRef.current?.()}
-                  >
-                    <FitViewIcon />
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.topActionBtn}
-                    aria-label={tool.reset}
-                    title={tool.reset}
-                    onClick={() => resetRef.current?.()}
-                  >
-                    <ResetViewIcon />
-                  </button>
-                </div>
-              ) : null}
+
+        {/* Setup sheet — Raw/Slab, company, guides */}
+        <div
+          id="setup-sheet"
+          className={`${styles.setupSheet}${setupOpen ? ` ${styles.chromeSheetOpen}` : ''}`}
+          data-open={setupOpen ? 'true' : 'false'}
+          aria-hidden={!setupOpen}
+        >
+          <aside className={styles.chromeSheetPanel} aria-label={tool.setupTitle}>
+            <div className={styles.chromeSheetHeader}>
+              <span className={styles.chromeSheetTitle}>{tool.setupTitle}</span>
               <button
                 type="button"
-                className={styles.adjustDockToggle}
-                onClick={toggleAdjustDock}
-                aria-expanded={adjustOpen}
+                className={styles.chromeSheetClose}
+                aria-label={tool.closeSetupPanel}
+                onClick={closeChromeSheets}
               >
-                <span className={styles.adjustDockToggleLeft}>
-                  <SlidersIcon />
-                  <span className={styles.adjustDockLabel}>{tool.adjustImage}</span>
-                </span>
+                <ChevronIcon className={styles.chevron} />
+              </button>
+            </div>
+            <div className={styles.chromeSheetBody}>
+              <div className={styles.setupSection} role="group" aria-label={tool.photoModeLabel}>
+                <p className={styles.setupSectionLabel}>{tool.photoModeLabel}</p>
+                <div className={styles.photoModeBar}>
+                  {(['raw', 'slab'] as const).map((mode) => (
+                    <button
+                      key={mode}
+                      type="button"
+                      className={styles.photoModeBtn}
+                      data-active={photoMode === mode}
+                      aria-pressed={photoMode === mode}
+                      onClick={() => setPhotoMode(mode)}
+                    >
+                      <span className={styles.photoModeBtnLong}>
+                        {mode === 'raw' ? tool.photoModeRaw : tool.photoModeSlab}
+                      </span>
+                      <span className={styles.photoModeBtnShort}>
+                        {mode === 'raw' ? tool.toolbarPhotoRaw : tool.toolbarPhotoSlab}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {photoMode === 'raw' ? (
+                <div className={styles.setupSection} role="group" aria-label={tool.gradingCompanyLabel}>
+                  <p className={styles.setupSectionLabel}>{tool.gradingCompanyLabel}</p>
+                  <div className={styles.setupCompanyRow} id="grading-company-list">
+                    {GRADING_COMPANIES.map((company) => (
+                      <button
+                        key={company}
+                        type="button"
+                        className={styles.setupCompanyBtn}
+                        data-active={gradingCompany === company}
+                        data-company={company}
+                        aria-pressed={gradingCompany === company}
+                        onClick={() => setGradingCompany(company)}
+                      >
+                        {company}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              <div className={styles.setupSection} role="group" aria-label={tool.guideModeLabel}>
+                <p className={styles.setupSectionLabel}>{tool.guideModeLabel}</p>
+                <div className={styles.guideModeBar}>
+                  {(['edge', 'border', 'both'] as const).map((mode) => (
+                    <button
+                      key={mode}
+                      type="button"
+                      className={styles.guideModeBtn}
+                      data-active={guideMode === mode}
+                      data-mode={mode}
+                      aria-pressed={guideMode === mode}
+                      onClick={() => setGuideMode(mode)}
+                    >
+                      <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
+                      <span className={styles.guideModeBtnLabel}>
+                        {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        {/* Adjust sheet — always mounted so canvas controls stay in DOM */}
+        <div
+          id="adjust-sheet"
+          className={`${styles.adjustSheet}${!imageReady ? ` ${styles.adjustSheetDormant}` : ''}${adjustOpen ? ` ${styles.chromeSheetOpen}` : ''}${guideActive && guide.activeStep === 1 ? ` ${styles.adjustSheetGuideActive}` : ''}`}
+          data-open={adjustOpen ? 'true' : 'false'}
+          aria-hidden={!adjustOpen}
+        >
+          <aside
+            ref={adjustDockRef}
+            className={styles.chromeSheetPanel}
+            aria-label={tool.adjustImage}
+          >
+            <div className={styles.chromeSheetHeader}>
+              <span className={styles.chromeSheetTitle}>
+                <SlidersIcon />
+                {tool.adjustImage}
+              </span>
+              <button
+                type="button"
+                className={styles.chromeSheetClose}
+                aria-label={tool.closeAdjustPanel}
+                onClick={closeChromeSheets}
+              >
                 <ChevronIcon className={styles.chevron} />
               </button>
             </div>
 
-            <div className={styles.adjustDockBody}>
+            <div className={styles.chromeSheetBody}>
               {imageReady ? (
                 <div className={styles.filterModeDock}>
                   <p className={styles.filterModeDockLabel}>{tool.imageFilterLabel}</p>

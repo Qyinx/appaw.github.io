@@ -367,19 +367,20 @@ export default function StyleGuidePage() {
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="panel p-0 overflow-hidden">
               <div className="border-b border-border-default px-4 py-2 bg-surface-raised flex justify-between">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-text-muted">Hero · 2-col</span>
-                <span className="font-mono text-[10px] text-accent-warn">Available</span>
+                <span className="font-mono text-[10px] uppercase tracking-wider text-text-muted">Hero · φ 0.382 / 0.618</span>
+                <span className="font-mono text-[10px] text-accent-warn">Product-led</span>
               </div>
-              <div className="p-4 grid sm:grid-cols-2 gap-4">
+              <div className="p-4 grid grid-cols-[minmax(0,1fr)_minmax(0,1.618fr)] gap-4">
                 <div>
-                  <p className="section-label mb-2">Copy</p>
+                  <p className="section-label mb-2">Copy · 0.382</p>
                   <p className="font-display font-bold text-lg">Asymmetric headline</p>
-                  <p className="text-sm text-text-secondary mt-2">Hero stamp + CTA row</p>
+                  <p className="text-sm text-text-secondary mt-2">Masthead + CTA dock</p>
                 </div>
-                <div className="panel-raised p-3">
+                <div className="panel-raised p-3 flex flex-col justify-center">
+                  <p className="section-label mb-2">Specimen · 0.618</p>
                   <div className="spec-row py-2">
-                    <span className="spec-row__label">Spec</span>
-                    <span className="spec-row__value">Value</span>
+                    <span className="spec-row__label">Split</span>
+                    <span className="spec-row__value">1fr / 1.618fr</span>
                   </div>
                 </div>
               </div>
@@ -397,6 +398,7 @@ export default function StyleGuidePage() {
           </div>
           <p className="mt-6 text-sm text-text-secondary max-w-2xl">
             Marketing pages use <code className="font-mono text-xs">page-blueprint</code> for Hermes-style atmosphere: dual-scale engineering grid (24px minor + 72px major), radial center lift and edge vignette via <code className="font-mono text-xs">::after</code>, plus body-wide film grain from <code className="font-mono text-xs">page-noise</code> on <code className="font-mono text-xs">body</code> (~2% light, stronger in dark). Decorative layers use fixed attachment for parallax depth; <code className="font-mono text-xs">prefers-reduced-motion</code> falls back to scroll and disables grain.
+            Home hero uses Fibonacci product-led split (copy 0.382 / specimen 0.618). See Spacing &amp; alignment for ratio tokens.
             Tools use full-width workspace + spec-row control strip. Mobile: single column, 44px touch targets, <code className="font-mono text-xs">min-w-0</code>.
           </p>
         </div>
@@ -404,12 +406,48 @@ export default function StyleGuidePage() {
 
       <section className="section-padding">
         <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-8">{t.styleGuide?.sections?.spacing ?? 'Spacing'}</h2>
-          <div className="panel p-6 space-y-3 font-mono text-xs text-text-muted">
-            <p>--space-page-x: clamp(16px, 4vw, 24px)</p>
-            <p>--space-section-y: clamp(48px, 8vw, 96px)</p>
-            <p>--radius-panel: 0 · --radius-control: 6px</p>
-            <p>Max width: 1280px marketing · 1080px tools</p>
+          <h2 className="text-2xl font-display font-bold mb-8">{t.styleGuide?.sections?.spacing ?? 'Spacing & alignment'}</h2>
+          <p className="text-sm text-text-secondary max-w-2xl mb-6">
+            Use <code className="font-mono text-xs">--ratio-fib-*</code> for column/width splits. Use <code className="font-mono text-xs">--space-align-*</code> for intra-section stack gaps (retracement of <code className="font-mono text-xs">--space-section-y</code>).
+          </p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="panel p-6 space-y-3 font-mono text-xs text-text-muted">
+              <p className="text-text-secondary uppercase tracking-wider">Page gutters</p>
+              <p>--space-page-x: clamp(16px, 4vw, 24px)</p>
+              <p>--space-section-y: clamp(48px, 8vw, 96px)</p>
+              <p>--radius-panel: 0 · --radius-control: 6px</p>
+              <p>Max width: 1280px marketing · 1080px tools</p>
+            </div>
+            <div className="panel p-6 space-y-3 font-mono text-xs text-text-muted">
+              <p className="text-text-secondary uppercase tracking-wider">Fibonacci ratios</p>
+              <p>--ratio-fib-236 · --ratio-fib-382 · --ratio-fib-500</p>
+              <p>--ratio-fib-618 · --ratio-fib-786 · --ratio-phi (1.618)</p>
+            </div>
+          </div>
+          <div className="panel p-6 mt-6 space-y-4">
+            <p className="font-mono text-[10px] uppercase tracking-wider text-text-muted">Alignment scale · section-y retracement</p>
+            {(
+              [
+                { token: '--space-align-xs', ratio: '0.236', width: '23.6%' },
+                { token: '--space-align-sm', ratio: '0.382', width: '38.2%' },
+                { token: '--space-align-md', ratio: '0.500', width: '50%' },
+                { token: '--space-align-lg', ratio: '0.618', width: '61.8%' },
+              ] as const
+            ).map((row) => (
+              <div key={row.token} className="space-y-1">
+                <div className="flex justify-between font-mono text-xs text-text-muted">
+                  <span>{row.token}</span>
+                  <span>× {row.ratio}</span>
+                </div>
+                <div className="h-2 bg-surface-raised border border-border-default">
+                  <div
+                    className="h-full bg-accent-brand/70"
+                    style={{ width: row.width }}
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

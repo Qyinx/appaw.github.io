@@ -115,9 +115,9 @@
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   isolation: isolate;
-  --loupe-edge-x: 12px;
+  --loupe-edge-x: 8px;
   --loupe-edge-top: 56px;
-  --loupe-edge-bottom: 8px;
+  --loupe-edge-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
 }
 
 .workspaceContainerReady {
@@ -236,6 +236,7 @@
   align-items: center;
   justify-content: center;
   padding: clamp(16px, 4vw, 28px);
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
@@ -255,7 +256,7 @@
   align-items: center;
   justify-content: center;
   padding: clamp(16px, 4vw, 28px);
-  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   pointer-events: none;
 }
 
@@ -566,89 +567,52 @@
   pointer-events: none;
 }
 
-/* ---------- Left toolbar — unified strip (photo mode + grading + guides) ---------- */
-.workspaceLeftStack {
+/* ---------- Canvas-first chrome: setup chip + action bar + sheets ---------- */
+.setupChip {
   position: absolute;
   top: 6px;
   left: 6px;
   z-index: 48;
-  max-width: min(540px, calc(100% - 292px));
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
-}
-
-.workspaceToolsPanel {
   pointer-events: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  min-width: 0;
-  background: var(--tool-panel);
-  border: var(--border-width, 1px) solid var(--tool-border);
-  border-left: 3px solid var(--accent-primary);
-  /* visible so grading-company dropdown can escape the strip */
-  overflow: visible;
 }
 
-.workspaceLeftStack[data-open='false'] .workspaceToolsPanel {
-  width: auto;
-}
-
-.workspaceLeftStack[data-open='true'] .workspaceToolsPanel {
-  width: 100%;
-  max-width: 100%;
-}
-
-.workspaceToolStripToggle {
-  position: relative;
-  flex: 0 0 auto;
+.setupChipBtn {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 6px;
   min-width: 44px;
   min-height: 44px;
-  width: 100%;
   padding: 0 10px 0 0;
   margin: 0;
-  background: transparent;
-  border: none;
+  background: color-mix(in srgb, var(--tool-panel) 92%, transparent);
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-left: 3px solid var(--accent-primary);
   color: var(--tool-text-muted);
   cursor: pointer;
   touch-action: manipulation;
   transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
 }
 
-.workspaceLeftStack[data-open='false'] .workspaceToolStripToggle {
-  width: auto;
-  min-width: 52px;
-  padding-right: 8px;
-}
-
-.workspaceToolStripToggle:hover {
+.setupChipBtn:hover {
   background: var(--tool-overlay-hover);
   color: var(--tool-text);
 }
 
-.workspaceToolStripToggle:active {
+.setupChipBtn:active {
   opacity: 0.88;
 }
 
-.workspaceToolStripToggle:focus-visible {
+.setupChipBtn:focus-visible {
   outline: 2px solid var(--accent-secondary);
   outline-offset: -2px;
 }
 
-.workspaceToolStripToggle[data-active='true'] {
+.setupChipBtn[data-active='true'] {
   color: var(--tool-text);
-  background: color-mix(in srgb, var(--accent-primary) 10%, var(--tool-panel));
-  border-bottom: var(--border-width, 1px) solid var(--tool-border);
+  background: color-mix(in srgb, var(--accent-primary) 12%, var(--tool-panel));
 }
 
-.workspaceToolStripToggleGlyph {
+.setupChipGlyph {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -658,100 +622,42 @@
   color: inherit;
 }
 
-.workspaceToolStripToggleMeta {
+.setupChipGlyph svg {
+  width: 16px;
+  height: 16px;
+}
+
+.setupChipMeta {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  flex-shrink: 0;
-  padding-right: 2px;
+  padding-right: 4px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.workspaceToolStripToggleMark {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--tool-border);
-  box-shadow: inset 0 0 0 1px var(--tool-border);
-  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+.setupChipMode {
+  color: inherit;
+  white-space: nowrap;
 }
 
-.workspaceToolStripToggle[data-active='true'] .workspaceToolStripToggleMark {
-  background: var(--accent-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 24%, transparent);
-}
-
-.workspaceToolStripToggle svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-
-.workspaceToolStripToggle .chevron {
-  width: 12px;
-  height: 12px;
-  opacity: 0.75;
-  transition: transform 0.22s ease, opacity 0.15s ease;
-}
-
-.workspaceToolStripToggle:hover .chevron {
-  opacity: 1;
-}
-
-.workspaceToolStripToggle[data-active='true'] .chevron {
-  transform: rotate(180deg);
-}
-
-.workspaceToolStrip {
-  display: flex;
-  flex-wrap: nowrap;
+.setupChipCompany {
+  display: inline-flex;
   align-items: center;
-  align-content: center;
-  min-height: 44px;
-  width: 100%;
-  background: transparent;
-  border: none;
-  overflow: visible;
-  pointer-events: auto;
+  justify-content: center;
+  min-height: 22px;
+  padding: 2px 6px;
+  border: var(--border-width, 1px) solid var(--tool-border);
+  background: var(--tool-raised, var(--tool-bg));
+  color: var(--tool-text);
+  white-space: nowrap;
 }
 
-.workspaceToolStrip > .photoModeBar,
-.workspaceToolStrip > .gradingCompanyDock,
-.workspaceToolStrip > .guideModeBar,
-.workspaceToolStrip > .filterDockBar {
-  flex: 0 1 auto;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent;
-}
-
-.workspaceToolStrip > .photoModeBar {
-  border-right: var(--border-width, 1px) solid var(--tool-border);
-}
-
-.workspaceToolStrip > .gradingCompanyDock {
-  border-right: var(--border-width, 1px) solid var(--tool-border);
-  width: auto;
-  min-width: 3.5rem;
-  max-width: none;
-}
-
-.workspaceToolStrip > .guideModeBar {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.workspaceToolStrip > .filterDockBar {
-  border-left: var(--border-width, 1px) solid var(--tool-border);
-}
-
-@media (max-width: 959px) {
-  .workspaceToolStrip {
-    flex-wrap: wrap;
-    align-items: center;
-    align-content: flex-start;
-    min-height: 0;
-  }
+.setupChipCompany[data-company='BGS'] {
+  color: #d4a227;
 }
 
 .photoModeBtnLong {
@@ -762,74 +668,33 @@
   display: none;
 }
 
-/* ---------- Top-right stack — quick actions only ---------- */
-.topRightStack {
+/* Bottom action bar */
+.actionBar {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  z-index: 46;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  width: auto;
-  max-width: none;
-  pointer-events: none;
-}
-
-.topRightStack > * {
-  pointer-events: auto;
-}
-
-/* ---------- Right rail — adjust dock sticks to workspace edge ---------- */
-.adjustDockRail {
-  position: absolute;
-  top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  z-index: 45;
+  z-index: 54;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-start;
-  width: min(380px, calc(100% - 12px));
-  max-width: min(380px, calc(100% - 12px));
-  padding-top: 6px;
-  pointer-events: none;
-  --adjust-dock-max-height: min(42svh, 400px);
-}
-
-.workspaceShellReady .adjustDockRail {
-  /* Clear topRightStack: top inset + 44px action strip + gap */
-  padding-top: calc(6px + 44px + 8px);
-}
-
-.adjustDockRailDormant {
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.adjustDockRail > .adjustDock {
+  align-items: stretch;
+  width: 100%;
+  min-height: calc(48px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--tool-panel);
+  border-top: var(--border-width, 1px) solid var(--tool-border);
   pointer-events: auto;
 }
 
-.topActionStrip {
-  display: flex;
-  align-items: stretch;
-  width: auto;
-  background: var(--tool-panel);
-  border: var(--border-width, 1px) solid var(--tool-border);
-  border-radius: var(--radius-panel, 0);
-  overflow: hidden;
-}
-
-.topActionBtn {
-  flex: 0 0 auto;
+.actionBarBtn {
+  flex: 1 1 0;
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  padding: 10px;
+  gap: 2px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 6px 4px;
   border: none;
   border-right: var(--border-width, 1px) solid var(--tool-border);
   background: transparent;
@@ -839,34 +704,405 @@
   transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
 }
 
-.topActionBtn svg {
+.actionBarBtn:last-child {
+  border-right: none;
+}
+
+.actionBarAdjust {
+  flex: 1.6 1 0;
+  color: var(--tool-text);
+  border-left: var(--border-width, 1px) solid var(--tool-border);
+}
+
+.actionBarAdjust .actionBarBtnLabel {
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  max-width: none;
+}
+
+.actionBarBtn svg {
   width: 16px;
   height: 16px;
   flex-shrink: 0;
 }
 
-.topActionBtn:last-child {
-  border-right: none;
+.actionBarBtnLabel {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.topActionBtn:hover {
+.actionBarBtn:hover {
   background: var(--tool-overlay-hover);
   color: var(--tool-text);
 }
 
-.topActionBtn:focus-visible {
+.actionBarBtn:focus-visible {
   outline: 2px solid var(--accent-secondary);
   outline-offset: -2px;
 }
 
-.topActionBtn:active {
+.actionBarBtn:active {
   opacity: 0.88;
 }
 
-.topActionBtn[data-active='true'] {
+.actionBarBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.actionBarBtn[data-active='true'] {
   color: var(--tool-text);
-  background: color-mix(in srgb, var(--accent-primary) 16%, var(--tool-panel));
-  box-shadow: inset 0 -2px 0 var(--accent-primary);
+  background: color-mix(in srgb, var(--accent-primary) 14%, var(--tool-panel));
+  box-shadow: inset 0 2px 0 var(--accent-primary);
+}
+
+.actionBarAdjust[data-active='true'] {
+  box-shadow: inset 0 2px 0 var(--accent-warn);
+  background: color-mix(in srgb, var(--accent-warn) 12%, var(--tool-panel));
+}
+
+.actionBarAdjustGuide {
+  animation: adjustDockToggleNudge 1.6s ease-in-out infinite;
+  color: var(--accent-warn);
+}
+
+.workspaceShell[data-transforming='true'] .actionBarAdjustGuide {
+  animation: none !important;
+}
+
+/* Shared scrim + sheets */
+.chromeScrim {
+  display: block;
+  position: absolute;
+  inset: 0;
+  bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: rgba(0, 0, 0, 0.42);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chromeScrim:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: -2px;
+}
+
+.setupSheet,
+.adjustSheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  z-index: 52;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  width: 100%;
+  max-height: min(52svh, 420px);
+  padding-bottom: 0;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.2s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.22s;
+}
+
+.setupSheet.chromeSheetOpen,
+.adjustSheet.chromeSheetOpen {
+  pointer-events: auto;
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.adjustSheetDormant {
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+.chromeSheetPanel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: inherit;
+  background: var(--tool-panel);
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.32);
+  overflow: hidden;
+}
+
+.adjustSheet .chromeSheetPanel {
+  border-top: 3px solid var(--accent-warn);
+}
+
+.setupSheet .chromeSheetPanel {
+  border-top: 3px solid var(--accent-primary);
+}
+
+.adjustSheetGuideActive .chromeSheetPanel {
+  animation: adjustDockGuideGlow 1.6s ease-in-out infinite;
+}
+
+.workspaceShell[data-transforming='true'] .adjustSheetGuideActive .chromeSheetPanel {
+  animation: none !important;
+}
+
+.chromeSheetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 4px 0 14px;
+  border-bottom: var(--border-width, 1px) solid var(--tool-border);
+  flex-shrink: 0;
+}
+
+.chromeSheetTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tool-text);
+}
+
+.chromeSheetTitle svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--accent-warn);
+}
+
+.setupSheet .chromeSheetTitle svg {
+  color: var(--accent-primary);
+}
+
+.chromeSheetClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--tool-text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.chromeSheetClose:hover {
+  color: var(--tool-text);
+  background: var(--tool-overlay-hover);
+}
+
+.chromeSheetClose:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: -2px;
+}
+
+.chromeSheetClose .chevron {
+  width: 14px;
+  height: 14px;
+  transform: rotate(0deg);
+}
+
+.chromeSheetBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 14px 14px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
+}
+
+.setupSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.setupSectionLabel {
+  margin: 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tool-text-muted);
+}
+
+.setupCompanyRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.setupCompanyBtn {
+  flex: 1 1 calc(50% - 6px);
+  min-width: 4.5rem;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: var(--border-width, 1px) solid var(--tool-border);
+  background: transparent;
+  color: var(--tool-text-muted);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.setupCompanyBtn:hover {
+  color: var(--tool-text);
+  background: var(--tool-overlay-hover);
+}
+
+.setupCompanyBtn:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: -2px;
+}
+
+.setupCompanyBtn[data-active='true'] {
+  color: var(--tool-text);
+  background: color-mix(in srgb, var(--accent-primary) 14%, var(--tool-panel));
+  box-shadow: inset 3px 0 0 var(--accent-primary);
+}
+
+.setupCompanyBtn[data-company='BGS'][data-active='true'] {
+  box-shadow: inset 3px 0 0 #d4a227;
+}
+
+.setupSheet .photoModeBar,
+.setupSheet .guideModeBar {
+  display: flex;
+  width: 100%;
+  border: var(--border-width, 1px) solid var(--tool-border);
+  background: var(--tool-bg);
+}
+
+.setupSheet .photoModeBtn,
+.setupSheet .guideModeBtn {
+  flex: 1 1 0;
+}
+
+.adjustSheet .filterModeDock {
+  gap: 6px;
+  padding-bottom: 4px;
+}
+
+.adjustSheet .filterModeDockHint {
+  font-size: 0.625rem;
+  line-height: 1.35;
+}
+
+.adjustSheet .sliderStack {
+  gap: 6px;
+}
+
+.adjustSheet .controlRow {
+  gap: 4px;
+  padding: 6px 8px;
+}
+
+.adjustSheet .controlHeader {
+  font-size: 0.75rem;
+}
+
+.adjustSheet .mapRow {
+  margin-top: 4px;
+  padding-top: 8px;
+  gap: 8px;
+}
+
+.adjustSheet .plotCanvas {
+  width: 72px;
+}
+
+.adjustSheet .mapLegend {
+  gap: 4px;
+  font-size: 0.6875rem;
+}
+
+/* Desktop: setup as anchored popover near chip; adjust stays bottom sheet */
+@media (min-width: 960px) {
+  .setupChipMeta {
+    font-size: 0.6875rem;
+  }
+
+  .actionBarBtnLabel {
+    font-size: 0.625rem;
+  }
+
+  .setupSheet {
+    left: 6px;
+    right: auto;
+    top: 56px;
+    bottom: auto;
+    width: min(360px, calc(100% - 24px));
+    max-height: min(70vh, 520px);
+    transform: translateY(-8px);
+    justify-content: flex-start;
+    padding-bottom: 0;
+  }
+
+  .setupSheet.chromeSheetOpen {
+    transform: translateY(0);
+  }
+
+  .setupSheet .chromeSheetPanel {
+    border-radius: 0;
+    border-bottom: var(--border-width, 1px) solid var(--tool-border);
+    border-top: none;
+    border-left: 3px solid var(--accent-primary);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+    max-height: min(70vh, 520px);
+  }
+
+  .adjustSheet {
+    left: 50%;
+    right: auto;
+    width: min(420px, calc(100% - 48px));
+    transform: translate(-50%, 12px);
+    max-height: min(48svh, 440px);
+  }
+
+  .adjustSheet.chromeSheetOpen {
+    transform: translate(-50%, 0);
+  }
+
+  .workspaceContainer {
+    --loupe-edge-x: 10px;
+    --loupe-edge-top: 56px;
+    --loupe-edge-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .gradePill {
@@ -1294,6 +1530,87 @@
 .loupeBL { bottom: var(--loupe-edge-bottom); left: var(--loupe-edge-x); }
 .loupeBR { bottom: var(--loupe-edge-bottom); right: var(--loupe-edge-x); }
 
+.actionBarLoupeGroup {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  border-right: var(--border-width, 1px) solid var(--tool-border);
+}
+
+.actionBarLoupeGroup .actionBarBtn {
+  flex: 1 1 auto;
+  width: 100%;
+  border-right: none;
+}
+
+/* Loupe magnification chip — anchored above Loupe, clears card center/edges */
+.loupeMagChip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  z-index: 46;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: stretch;
+  min-height: 36px;
+  background: var(--tool-panel);
+  border: var(--border-width, 1px) solid var(--tool-border);
+  border-left: 3px solid var(--tool-guide-edge);
+  pointer-events: auto;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.22);
+}
+
+.loupeMagBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--tool-text);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.loupeMagBtn:hover {
+  background: var(--tool-overlay-hover);
+}
+
+.loupeMagBtn:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: -2px;
+}
+
+.loupeMagBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.loupeMagValue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.25rem;
+  padding: 0 6px;
+  border-left: var(--border-width, 1px) solid var(--tool-border);
+  border-right: var(--border-width, 1px) solid var(--tool-border);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--tool-text);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- Guide layer switcher ---------- */
 .guideModeBar {
   position: static;
@@ -1540,76 +1857,7 @@
   box-shadow: inset 3px 0 0 #f59e0b;
 }
 
-/* ---------- Adjust dock — right-edge rail panel ---------- */
-.adjustDock {
-  position: relative;
-  top: auto;
-  right: auto;
-  bottom: auto;
-  left: auto;
-  z-index: auto;
-  align-self: flex-end;
-  width: auto;
-  max-width: 100%;
-  max-height: 100%;
-  background: var(--tool-panel);
-  border: var(--border-width, 1px) solid var(--tool-border);
-  border-right: none;
-  border-left: 3px solid var(--accent-warn);
-  border-radius: var(--radius-panel, 0) 0 0 var(--radius-panel, 0);
-  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.22);
-  overflow: hidden;
-  transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: auto;
-}
-
-.adjustDockCollapsed {
-  width: auto;
-  min-width: 9.75rem;
-  max-width: min(240px, calc(100% - 8px));
-  max-height: none;
-  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.18);
-}
-
-.adjustDockCollapsed .adjustDockToggle {
-  width: auto;
-  min-width: 0;
-  justify-content: space-between;
-}
-
-.adjustDockGuideActive {
-  border-left-color: var(--accent-warn);
-  overflow: visible;
-  animation: adjustDockGuideGlow 1.6s ease-in-out infinite;
-}
-
-.adjustDockGuideActive::before {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border: 2px solid color-mix(in srgb, var(--accent-warn) 65%, transparent);
-  border-radius: inherit;
-  pointer-events: none;
-  animation: adjustDockGuideRing 1.6s ease-out infinite;
-}
-
-.adjustDockGuideActive .adjustDockToggle {
-  animation: adjustDockToggleNudge 1.6s ease-in-out infinite;
-}
-
-.workspaceShell[data-transforming='true'] .adjustDockGuideActive,
-.workspaceShell[data-transforming='true'] .adjustDockGuideActive::before,
-.workspaceShell[data-transforming='true'] .adjustDockGuideActive .adjustDockToggle {
-  animation: none !important;
-}
-
-.adjustDockGuideActive .adjustDockLabel {
-  color: var(--accent-warn);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
+/* ---------- Sheet motion keyframes (shared) ---------- */
 @keyframes adjustDockGuideGlow {
   0%, 100% {
     box-shadow:
@@ -1639,158 +1887,10 @@
   50% { transform: translateY(-2px); }
 }
 
-.adjustDockOpen,
-.adjustDock[data-open='true'] {
-  width: min(380px, 100%);
-  height: auto;
-  max-height: var(--adjust-dock-max-height);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.adjustDockOpen .filterModeDock {
-  gap: 6px;
-  padding-bottom: 8px;
-  margin-bottom: 2px;
-}
-
-.adjustDockOpen .filterModeDockHint {
-  font-size: 0.625rem;
-  line-height: 1.35;
-}
-
-.adjustDockOpen .sliderStack {
-  gap: 6px;
-}
-
-.adjustDockOpen .controlRow {
-  gap: 4px;
-  padding: 6px 8px;
-}
-
-.adjustDockOpen .controlHeader {
-  font-size: 0.75rem;
-}
-
-.adjustDockOpen .mapRow {
-  margin-top: 6px;
-  padding-top: 6px;
-  gap: 8px;
-}
-
-.adjustDockOpen .plotCanvas {
-  width: 72px;
-}
-
-.adjustDockOpen .mapLegend {
-  gap: 4px;
-  font-size: 0.6875rem;
-}
-.adjustDockToggle {
-  width: 100%;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 10px 12px;
-  background: transparent;
-  border: none;
-  color: var(--tool-text);
-  font-weight: 600;
-  font-size: 0.75rem;
-  cursor: pointer;
-  touch-action: manipulation;
-  transition: opacity 0.15s ease;
-}
-.adjustDockToggle:focus-visible {
-  outline: 2px solid var(--accent-secondary);
-  outline-offset: -2px;
-}
-.adjustDockToggle:active {
-  opacity: 0.88;
-}
-.adjustDockToggleLeft {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.adjustDockToggleLeft svg {
-  width: 14px;
-  height: 14px;
+.chevron {
+  transition: transform 0.25s ease;
+  opacity: 0.8;
   flex-shrink: 0;
-}
-.adjustDockLabel {
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.adjustDockOpen .adjustDockLabel,
-.adjustDock[data-open='true'] .adjustDockLabel { display: none; }
-.chevron { transition: transform 0.25s ease; opacity: 0.8; flex-shrink: 0; }
-.adjustDockOpen .chevron,
-.adjustDock[data-open='true'] .chevron { transform: rotate(180deg); }
-
-.adjustDockHeader {
-  display: contents;
-}
-
-.sheetQuickActions {
-  display: none;
-}
-
-.adjustDockRail .chevron {
-  transform: rotate(-90deg);
-}
-
-.adjustDockRail .adjustDockOpen .chevron,
-.adjustDockRail .adjustDock[data-open='true'] .chevron {
-  transform: rotate(90deg);
-}
-
-.adjustDockOpen .adjustDockToggle,
-.adjustDock[data-open='true'] .adjustDockToggle {
-  flex-shrink: 0;
-}
-
-.adjustDockBody {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  padding: 0 12px;
-  transition: max-height 0.28s ease, opacity 0.22s ease, padding 0.28s ease;
-}
-.adjustDockCollapsed .adjustDockBody {
-  position: absolute;
-  width: 0;
-  height: 0;
-  max-height: 0;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-  visibility: hidden;
-  pointer-events: none;
-  opacity: 0;
-}
-.adjustDockOpen .adjustDockBody,
-.adjustDock[data-open='true'] .adjustDockBody {
-  position: static;
-  width: auto;
-  height: auto;
-  visibility: visible;
-  pointer-events: auto;
-  flex: 1 1 auto;
-  min-height: 0;
-  max-height: none;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  opacity: 1;
-  padding: 0 10px 10px;
-  scrollbar-gutter: stable;
 }
 
 .sliderStack {
@@ -1956,11 +2056,6 @@
   }
 }
 
-/* Mobile sheet scrim — hidden on desktop */
-.adjustDockScrim {
-  display: none;
-}
-
 @media (max-width: 768px) {
   .wrapper {
     padding: 10px var(--space-page-x, clamp(10px, 3vw, 18px));
@@ -2042,41 +2137,13 @@
 
   .workspaceContainer {
     --loupe-edge-x: 6px;
-    /* Top chrome = left tools chip only */
     --loupe-edge-top: 52px;
     --loupe-edge-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
   }
 
-  .workspaceShell[data-left-open='true'] .workspaceContainer {
-    --loupe-edge-top: 118px;
-  }
-
-  .workspaceLeftStack {
+  .setupChip {
     top: 4px;
     left: 4px;
-    /* Top-right actions moved to bottom bar — reclaim width */
-    max-width: calc(100% - 12px);
-  }
-
-  .workspaceLeftStack[data-open='false'] .workspaceToolsPanel {
-    background: color-mix(in srgb, var(--tool-panel) 88%, transparent);
-  }
-
-  .workspaceLeftStack[data-open='false'] .workspaceToolStripToggle {
-    min-width: 44px;
-    width: 44px;
-    padding: 0;
-  }
-
-  .workspaceLeftStack[data-open='false'] .workspaceToolStripToggleMeta {
-    display: none;
-  }
-
-  .workspaceToolStrip {
-    flex-wrap: wrap;
-    align-items: stretch;
-    align-content: flex-start;
-    min-height: 0;
   }
 
   .photoModeBtnLong {
@@ -2094,216 +2161,9 @@
     font-size: 0.5625rem;
   }
 
-  /* Free top of canvas — actions live in bottom sheet bar */
-  .topRightStack {
-    display: none;
-  }
-
-  .adjustDockHeader {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    width: 100%;
-    flex-shrink: 0;
-    border-bottom: var(--border-width, 1px) solid var(--tool-border);
-  }
-
-  .sheetQuickActions {
-    display: flex;
-    align-items: stretch;
-    flex: 0 0 auto;
-    border-right: var(--border-width, 1px) solid var(--tool-border);
-  }
-
-  .sheetQuickActions .topActionBtn {
-    min-width: 44px;
-    min-height: 48px;
-    padding: 10px;
-    border-right: var(--border-width, 1px) solid var(--tool-border);
-    background: transparent;
-    color: var(--tool-text-muted);
-  }
-
-  .sheetQuickActions .topActionBtn:last-child {
-    border-right: none;
-  }
-
-  .sheetQuickActions .topActionBtn[data-active='true'] {
-    color: var(--tool-text);
-    background: color-mix(in srgb, var(--accent-primary) 16%, var(--tool-panel));
-    box-shadow: inset 0 -2px 0 var(--accent-primary);
-  }
-
-  .adjustDockHeader .adjustDockToggle {
-    flex: 1 1 auto;
-    min-width: 0;
-    border: none;
-  }
-
-  /* ---------- Adjust → bottom sheet ---------- */
-  .adjustDockScrim {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 44;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: rgba(0, 0, 0, 0.42);
-    cursor: pointer;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .adjustDockScrim:focus-visible {
-    outline: 2px solid var(--accent-secondary);
-    outline-offset: -2px;
-  }
-
-  .adjustDockRail {
-    top: auto;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    align-items: stretch;
-    justify-content: flex-end;
-    z-index: 45;
-    --adjust-dock-max-height: min(45svh, 360px);
-  }
-
-  .workspaceShellReady .adjustDockRail {
-    padding-top: 0;
-  }
-
-  .adjustDock {
-    align-self: stretch;
-    width: 100%;
-    max-width: 100%;
-    border-right: none;
-    border-left: none;
-    border-top: var(--border-width, 1px) solid var(--tool-border);
-    border-bottom: none;
-    border-left-width: 0;
-    border-radius: 12px 12px 0 0;
-    box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.32);
-    transition: max-height 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .adjustDockGuideActive {
-    border-left-color: transparent;
-    border-top: 3px solid var(--accent-warn);
-  }
-
-  .adjustDockCollapsed {
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-    max-height: none;
-    overflow: hidden;
-    border-left-width: 0;
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
-  }
-
-  .adjustDockCollapsed .adjustDockHeader {
-    border-bottom: none;
-  }
-
-  .adjustDockCollapsed .adjustDockToggle {
-    width: auto;
-    min-width: 0;
-    height: auto;
-    min-height: 48px;
-    padding: 12px 14px;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .adjustDockCollapsed .adjustDockToggleLeft {
-    gap: 8px;
-  }
-
-  .adjustDockCollapsed .chevron {
-    display: block;
-  }
-
-  .adjustDockOpen,
-  .adjustDock[data-open='true'] {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    max-height: var(--adjust-dock-max-height);
-  }
-
-  .adjustDockGuideActive.adjustDockOpen,
-  .adjustDockGuideActive[data-open='true'] {
-    width: 100%;
-  }
-
-  .adjustDockGuideActive.adjustDockOpen .adjustDockBody,
-  .adjustDockGuideActive[data-open='true'] .adjustDockBody {
-    max-height: none;
-  }
-
-  /* Bottom sheet chevron: up when collapsed, down when open */
-  .adjustDockRail .chevron {
-    transform: rotate(180deg);
-  }
-
-  .adjustDockRail .adjustDockOpen .chevron,
-  .adjustDockRail .adjustDock[data-open='true'] .chevron {
-    transform: rotate(0deg);
-  }
-
-  .adjustDockToggle {
-    min-height: 48px;
-    padding: 12px 16px;
-    font-size: 0.75rem;
-    gap: 8px;
-  }
-
-  .adjustDockLabel {
-    display: inline;
-    max-width: none;
-    font-size: 0.75rem;
-  }
-
-  .adjustDockOpen .adjustDockLabel,
-  .adjustDock[data-open='true'] .adjustDockLabel {
-    display: inline;
-  }
-
-  .adjustDockToggleLeft {
-    gap: 8px;
-  }
-
-  .adjustDockToggleLeft svg {
-    width: 14px;
-    height: 14px;
-  }
-
   .chevron {
     width: 14px;
     height: 14px;
-  }
-
-  .adjustDockOpen .adjustDockBody,
-  .adjustDock[data-open='true'] .adjustDockBody {
-    padding: 0 14px calc(12px + env(safe-area-inset-bottom, 0px));
-  }
-
-  .topActionBtn {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 10px;
-  }
-
-  .topActionBtn svg {
-    width: 15px;
-    height: 15px;
   }
 
   .loupe {
@@ -2444,10 +2304,6 @@
 }
 
 @media (max-width: 520px) {
-  .adjustDockRail {
-    --adjust-dock-max-height: min(42svh, 320px);
-  }
-
   .toolInstrumentLabel {
     max-width: 42%;
     padding: 5px 6px;
@@ -2503,11 +2359,6 @@
     display: inline;
     font-size: 0.5625rem;
     letter-spacing: 0.02em;
-  }
-
-  .adjustDockOpen .adjustDockBody,
-  .adjustDock[data-open='true'] .adjustDockBody {
-    max-height: none;
   }
 }
 
@@ -3716,9 +3567,8 @@
   .guideTargetPulse,
   .emptyUploadCtaGuide,
   .emptyUploadPlate,
-  .adjustDockGuideActive,
-  .adjustDockGuideActive::before,
-  .adjustDockGuideActive .adjustDockToggle {
+  .actionBarAdjustGuide,
+  .adjustSheetGuideActive .chromeSheetPanel {
     animation: none;
   }
 
@@ -3727,22 +3577,18 @@
     transform: none;
   }
 
-  .adjustDock,
-  .adjustDockBody,
-  .adjustDockRail,
+  .setupSheet,
+  .adjustSheet,
+  .chromeScrim,
   .chevron,
-  .workspaceDock,
-  .workspaceLeftStack,
-  .workspaceToolStrip,
-  .workspaceToolStripToggle,
   .emptyUploadPlate,
   .emptyUploadCta,
-  .gradingCompanyDock,
-  .gradingCompanyBody,
-  .gradingCompanyBtn,
   .guideModeBar,
   .guideModeBtn,
-  .adjustDockScrim {
+  .setupCompanyBtn,
+  .actionBarBtn,
+  .setupChipBtn,
+  .loupeMagBtn {
     transition: none !important;
   }
 
