@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-07-20 — PSA track page SEO hygiene + humanized EN/ZH copy (duplicate H1 fix, speakable AEO, meta keywords).
+Last updated: 2026-08-08 — GSC 28-day search performance integration, intent clusters (psa 換殼, 138 arena, psa 殼損), CTR retargeting for high-impression pages, mobile SERP snippet rules.
+
+Prior batch (2026-07-20) — PSA track page SEO hygiene + humanized EN/ZH copy (duplicate H1 fix, speakable AEO, meta keywords).
 
 Prior batch (2026-07-13) — HK TCG grading keyword cluster; zh-HK full-phrase copy pass (guides-content.md).
 
@@ -24,6 +26,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-08-08 | GSC Search Intent & CTR | 28-day GSC search data integration: search intent clusters (`psa 換殼`, `138 arena`, `psa 殼損`, `psa 鑑定 香港 流程`), mobile CTR optimization (73% mobile clicks), low-CTR high-impression retargeting (`psa-grading-standards`). |
 | 2026-07-20 | PSA track SEO | `/business/psa-grading/track/` hygiene: single H1, visible subtitle + AEO helpers, form `h2`, humanized EN/ZH meta + UI copy, track keywords/OG alt, `WebPage.speakable` → `.psa-grading-track-aeo-answer`, `llms.txt`/`index.md` soft pass. |
 | 2026-07-13 | HK TCG grading SEO | `SEO_KEYWORD_MAP` + `HK_SEO_KEYWORDS` cluster (香港 TCG 鑑定, TCG 提交鑑定). `PSA_GRADING_SEO` title/description retarget. `knowsAbout`, `llms.txt`, `guides-content.md` full-phrase zh-HK copy rules. |
 | 2026-07-12 | PSA submission SEO | `/business/psa-grading/` + `/track/` indexable (EN+ZH). `PSA_GRADING_SEO`, JSON-LD (Service/HowTo/FAQ/WebApplication), sitemap, llms.txt/index.md, AEO classes, live-service banner, internal links from `/`, `/business/`. |
@@ -51,6 +54,43 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 Goal: Provide SEO-ready title/meta, JSON-LD, sitemap, and GEO context for pillar pages to improve Google reach, SERP CTR, and LLM citation accuracy.
 
 Site OG image (used across the site): `/images/og-image.png` — recommended size 1200x630, used for homepage and default social previews.
+
+---
+
+### GSC 28-Day Search Performance & Intent Benchmark (28-Day Data Baseline — 2026-08-08)
+
+**Site Performance Metrics (28 Days):**
+- **Total Clicks**: 291 | **Total Impressions**: ~7,500+ (Daily impressions surged from ~150 to ~700/day)
+- **Top Countries**: Hong Kong (152 clicks / 5.62% CTR) and Taiwan (95 clicks / 8.38% CTR) account for >85% of organic traffic.
+- **Top Device Split**: Mobile devices account for **73.2% of total clicks** (213 mobile / 75 desktop / 3 tablet). Mobile SERP titles and meta descriptions must be optimized for compact screens.
+
+**Top High-Performing Pages:**
+1. `/zh/tools/card-centering/`: 84 clicks, 516 impressions, **16.28% CTR** (Top conversion engine for raw card & slab pre-grading).
+2. `/zh/guides/regrade-or-reholder/`: 70 clicks, 1,255 impressions, **5.58% CTR** (High intent for slab damage & regrade decision).
+3. `/zh/products/psa-protectors/`: 24 clicks, 331 impressions, **7.25% CTR**.
+4. `/zh/business/psa-grading/`: 21 clicks, 460 impressions, **4.57% CTR**.
+
+**High-Opportunity (Low CTR / High Impression) Pages:**
+- `/guides/psa-grading-standards/`: **2,040 impressions but only 0.20% CTR** (4 clicks). Retargeting Meta Title and adding `FAQPage` rich snippets will capture high-volume "psa 10 standards" intent.
+- `/guides/uv-protection-graded-cards/`: 267 impressions, 0 clicks. Needs HK climate (70-80% RH) and UV fading hook.
+- `/tools/card-centering/` (EN): 563 impressions, 2.84% CTR (vs 16.28% on ZH mirror). Needs English SERP snippet alignment with high-converting Chinese patterns.
+
+**Core Search Intent Clusters & Conversion Strategy:**
+
+1. **Slab Damage & Regrade Decision (`psa 換殼`, `psa 換 殼 費用`, `psa 殼損`, `reholder`)**:
+   - *User Need*: Broken/scratched slab or candidate for PSA score upgrade. Needs cost ($25-35 reholder vs $80+ regrade), risk, and turnaround comparison.
+   - *Target URL*: `/guides/regrade-or-reholder/` & `/tools/card-centering/` (slab mode).
+2. **HK Local Submission & Trust (`138 arena`, `香港psa鑑定`, `psa 鑑定 香港 流程`, `psa 收費`)**:
+   - *User Need*: Local HK drop-off (138 Arena), clear HKD tiers, on-site preliminary condition assessment, and BAT reference tracking.
+   - *Target URL*: `/business/psa-grading/` & `/business/psa-grading/track/`.
+3. **Pre-Grading Evaluation (`卡牌鑑定工具`, `psa 10 standards`, `card centering tool`)**:
+   - *User Need*: Self-evaluates raw/slab centering (55/45 front) before paying submission fees.
+   - *Target URL*: `/tools/card-centering/` & `/guides/psa-10-centering-requirements/`.
+4. **Slab Protection & Climate (`psa保護殼`, `psa卡殼`, `psa 鑑定 卡 防潮`)**:
+   - *User Need*: Protects high-value slabs against HK humidity (70-80% RH), UV fading, and scratch damage.
+   - *Target URL*: `/products/psa-protectors/` & `/guides/uv-protection-graded-cards/`.
+
+---
 
 0) Homepage (`/` and `/zh/`) — IMPLEMENTED
 
@@ -93,7 +133,8 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | slab case | 卡殼 | Short form; body copy only unless space allows |
 | graded card display case | 鑑定卡展示殼 | Display guide (`display-graded-cards`) |
 | PSA regrade | PSA重新評級 | Guide `regrade-or-reholder` + centering slab mode |
-| PSA reholder | PSA換殼 | Guide `regrade-or-reholder` |
+| PSA reholder | PSA換殼 | Top GSC query (23.8% CTR); guide `regrade-or-reholder` |
+| PSA slab damage | PSA殼損 | GSC query; slab damage decision guide |
 | regrade downgrade risk | 重新評級降級風險 | Centering FAQ + guide H2 |
 | graded slab centering | 鑑定卡置中 | Centering slab workflow H2 |
 | check centering before regrading | 重新評級前置中檢查 | Tool + guide CTA |
@@ -104,6 +145,10 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | HK TCG grading | 香港 TCG 鑑定 | PSA grading hub |
 | Hong Kong TCG card grading | 香港卡牌鑑定 | PSA grading hub |
 | TCG grading submission HK | TCG 提交鑑定 | PSA grading hub |
+| 138 Arena PSA submission | 138 Arena PSA 代送 | Top GSC query (31.2% CTR); local drop-off venue |
+| PSA submission process HK | PSA 鑑定香港流程 | GSC query; submission step-by-step guide |
+| PSA grading fees HK | PSA 鑑定費用 / PSA 收費 | GSC query; pricing & tier selection |
+| PSA grading standards | PSA 10 評級標準 | GSC query (2,000+ imp); guide `psa-grading-standards` |
 | Pokémon TCG grading HK | 寶可夢 TCG 提交鑑定 | PSA grading + centering |
 
 **Translation rules**

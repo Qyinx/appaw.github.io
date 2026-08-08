@@ -78,10 +78,10 @@ When evolving `/business/psa-grading/` and similar service hubs:
 
 All PSA proxy submission service copy across guides and i18n should incorporate Appaw's core service value proposition:
 
-> 我們為客戶提供免費的初步驗卡服務，協助評估卡況並預測可能的分數。同時附設基本清潔保養，有效降低鑑定過程中的扣分風險，全力為您的珍藏爭取最高評級。
+> 我們為客戶提供現場卡況初步評估服務，協助檢測置中比例、表面壓痕與邊角狀況並評估可能的分數。同時附設基本清潔保養，有效降低鑑定過程中的扣分風險，全力為您的珍藏爭取最高評級。
 
-- **免費初步驗卡服務：** 現場協助評估卡況（置中、表面狀況、邊角完整度）並預測可能的分數。
-- **基本清潔保養：** 附設基本清潔與保養，有效降低鑑定過程中的扣分風險。
+- **現場卡況初步評估：** 門市現場協助評估卡況（置中比例、表面壓痕、邊角完整度）並預測可能的分數門檻。
+- **基本清潔保養：** 提交前進行基本表面除塵與清潔保養，有效降低鑑定過程中的扣分風險。
 - **全力爭取最高評級：** 協助客戶客觀判斷，避免不必要的鑑定成本，全力為珍藏爭取最高評級。
 
 ### Human-like Rewriting Reference Examples (zh-HK)
@@ -111,6 +111,41 @@ Use the following real rewrite pairs as references when adjusting tone or genera
 
 - **Air & Humidity:** Instead of generic "氣候潮濕", describe concrete Hong Kong experiences: 「香港室內相對濕度長年維持於 70–80%，若鑑定卡長期開架擺放且環境濕度持續高於 60%，標籤邊緣容易出現起霧，全息閃卡表面亦可能產生微小的紙張變形。」
 - **Service Value Integration:** Avoid copy-pasting identical promo templates into consecutive paragraphs. Adapt naturally according to the section focus: 「香港藏家可前往 138 Arena 門市面交，Appaw 提供專業驗卡與清潔保養服務，全力協助珍藏爭取最佳評級。」
+
+### Decision Matrix & Math Framework Standards (決策矩陣與期望值分析規範)
+
+For decision-based guides (such as `regrade-or-reholder`, `grade-or-protect-first`, `psa-10-centering-requirements`), articles MUST include a structured comparison table and an Expected Value (EV) calculation framework to help collectors make financially rational decisions:
+
+#### 1. Standard Comparison Matrix (Reholder vs Regrade)
+
+| 評估維度 (Factor) | 換殼服務 (Reholder) | 重新評級 (New Submission / Regrade) |
+|------------------|-------------------|------------------------------------|
+| **服務費用 (Fee)** | $25–$35 美金 | $80–$150+ 美金 |
+| **作業時間 (Timeline)** | 15–20 個工作天 | 40–60 個工作天 |
+| **評級結果 (Outcome)** | 保留原本分數 (100% 相同) | 可能升級、降級或維持不變 |
+| **證書編號 (Cert #)** | 保留原版證書編號 | 發放全新證書編號 |
+| **適用情境 (Best for)** | 卡殼刮花、裂開、標籤起霧，且滿意現有分數 | 舊編號 PSA 9（懷疑評低）且 9 分與 10 分市場差價 > $200 美金 |
+
+#### 2. Expected Value Math Rule (期望值算式)
+Guides analyzing score upgrades must state the EV rule clearly in prose:
+$$\text{Expected Value (EV)} = (\text{PSA 10 Value} \times \text{Prob}) + (\text{PSA 9 Value} \times (1 - \text{Prob})) - \text{Submission Fees}$$
+*Rule of thumb:* Only attempt a Regrade if expected value is at least 1.5x to 2x the current slab value. Otherwise, choose Reholder or keep the current slab.
+
+---
+
+### Search Intent & Mobile CTR Optimization Rules (搜尋意圖與行動端 CTR 優化)
+
+With 73% of site traffic originating from mobile devices, guide metadata and content leads must follow strict mobile CTR rules:
+
+1. **Lead Sentence Numbers & Proof (前 15 字結論與數據):**
+   - The first 1–2 sentences of the `lead` must give a direct answer containing concrete numbers (e.g. `55/45`, `$25–35`, `70–80% RH`).
+   - Example: 「PSA 10 的官方置中門檻為正面 55/45、背面 75/25。只要正面超出 60/40 比例，卡牌即會直接降至 PSA 9 以下。」
+2. **CTR Retargeting for Low-CTR High-Impression Pages:**
+   - High impression pages (e.g. `psa-grading-standards` with 2,000+ impressions) must include local decision value in the title: `PSA 10 評級標準拆解：置中 55/45 門市初步評估 | Appaw Store`.
+3. **Structured Data Rich Snippets:**
+   - Every guide must include `faq[]` with 3–5 Q&As formatted for `FAQPage` JSON-LD to trigger mobile accordion snippets on SERPs.
+
+---
 
 ## Content structure (`GuideContent`)
 

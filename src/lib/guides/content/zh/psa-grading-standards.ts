@@ -2,12 +2,12 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'psa-grading-standards',
-  title: 'PSA 評級標準、Qualifier 代碼與成交紀錄說明',
+  title: 'PSA 10 評級標準拆解：置中 55/45 門檻與門市初步評估',
   badge: '鑑定規格',
   lead:
-    '同一張卡 PSA 10 可售六位數，PSA 9 可能連四位數也不及。差距並非運氣，而是 1–10 量表、Qualifier 與置中規則，買家在結帳時早已沿用。',
+    '一文看懂 PSA 10 與 9 分數巨大溢價！完整拆解 1–10 評級量表、55/45 置中門檻、Qualifier 扣分代碼與成交紀錄。附 138 Arena 門市現場卡況初步評估服務。',
   published: '2026-06-18',
-  updated: '2026-08-05',
+  updated: '2026-08-08',
   readTime: '14 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [

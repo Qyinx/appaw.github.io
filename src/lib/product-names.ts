@@ -26,6 +26,11 @@ export const SEO_KEYWORD_MAP = {
   'HK TCG grading': '香港 TCG 鑑定',
   'Hong Kong TCG card grading': '香港卡牌鑑定',
   'TCG grading submission HK': 'TCG 提交鑑定',
+  '138 Arena PSA submission': '138 Arena PSA 代送',
+  'PSA submission process HK': 'PSA 鑑定香港流程',
+  'PSA grading fees HK': 'PSA 鑑定費用',
+  'PSA grading standards': 'PSA 10 評級標準',
+  'PSA slab damage': 'PSA殼損',
   'Pokémon TCG grading HK': '寶可夢 TCG 提交鑑定',
 } as const;
 
@@ -138,9 +143,9 @@ export const CENTERING_SEO = {
 /** PSA submission hub + track — keep in sync with i18n psaGradingPage / psaGradingTrack */
 export const PSA_GRADING_SEO = {
   en: {
-    title: 'Hong Kong PSA Submission | 138 Arena – Appaw Store',
+    title: 'Hong Kong PSA Submission | 138 Arena Drop-off & Batch Tracking | Appaw Store',
     description:
-      `Face-to-face PSA submission at 138 Arena, Causeway Bay. Pokémon, One Piece, MTG, sports cards. From HKD ${psaLowestDisplayFee}. Track batches with phone and reference code. Condition advice available at intake.`,
+      `Face-to-face PSA submission at 138 Arena, Causeway Bay. Pokémon, One Piece, MTG, sports cards. On-site preliminary condition check & basic cleaning included. Track batches with phone & reference code. From HKD ${psaLowestDisplayFee}.`,
     h1Keyword: 'PSA submission in Hong Kong',
     webAppName: 'PSA Submission Tracker',
     trackTitle: 'Track PSA Submission | Appaw Store',
@@ -153,17 +158,17 @@ export const PSA_GRADING_SEO = {
     ],
     breadcrumb: 'PSA Submission',
     trackBreadcrumb: 'Track',
-    lastUpdated: '2026-08-05',
+    lastUpdated: '2026-08-08',
   },
   zh: {
-    title: '香港 PSA 代送鑑定｜銅鑼灣 138 Arena | Appaw Store',
+    title: '香港 PSA 代送鑑定｜138 Arena 門市面交・線上進度查詢 | Appaw Store',
     description:
-      `銅鑼灣 138 Arena 面交提交鑑定。寶可夢、One Piece、MTG、運動卡。服務費由 HKD ${psaLowestDisplayFee} 起，代送 PSA；憑收據電話及參考編號查看現有進度。收件時可一併討論卡況。`,
+      `香港 PSA 代送鑑定服務。銅鑼灣 138 Arena 門市面交，提供現場卡況初步評估與基本清潔保養，降低扣分風險。寶可夢、One Piece、MTG、運動卡服務費由 HKD ${psaLowestDisplayFee} 起；憑收據電話及參考編號全程線上追蹤進度。`,
     h1Keyword: '香港 PSA 代送鑑定',
     webAppName: 'PSA 代送進度查詢',
-    trackTitle: '查詢 PSA 代送進度 | Appaw Store',
+    trackTitle: '查詢 PSA 代送進度｜線上追蹤 | Appaw Store',
     trackDescription:
-      '用收據上的電話號碼及參考編號查詢 PSA 代送進度。',
+      '輸入 138 Arena 門市收據上的電話號碼及參考編號，實時查詢 PSA 代送鑑定批次現有進度。',
     featureList: [
       '憑電話及參考編號查批次狀態',
       '由 138 Arena 收件至 PSA 鑑定各階段時間軸',
@@ -171,7 +176,7 @@ export const PSA_GRADING_SEO = {
     ],
     breadcrumb: 'PSA 代送鑑定',
     trackBreadcrumb: '查詢進度',
-    lastUpdated: '2026-08-05',
+    lastUpdated: '2026-08-08',
   },
 } as const;
 

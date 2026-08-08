@@ -789,9 +789,9 @@ export const zh: Translations = {
     },
     advisorTeaser: {
       badge: '初步檢驗',
-      title: '免費卡況判斷說明',
+      title: '卡況初步評估說明',
       body:
-        '我們提供免費初步驗卡，為您評估卡況並預測分數。配合基本清潔保養，有效減低鑑定時的扣分風險，助您的珍藏爭取最高評級。',
+        '我們提供現場卡況初步評估服務，協助檢測置中比例與瑕疵並預測分數。配合基本清潔保養，有效減低鑑定時的扣分風險，助您的珍藏爭取最高評級。',
       cta: '了解卡況判斷',
     },
     advisorPage: {
@@ -924,7 +924,7 @@ export const zh: Translations = {
     },
     howTo: {
       badge: '完整流程',
-      title: '從送件到拿回 PSA 卡磚的旅程',
+      title: '從送件到拿回PSA卡殼的旅程',
       subtitle:
         '從 138 Arena 收件、飛往美國 PSA 總部評級，到最後安然返港，每一個重要節點都會在查詢系統同步更新。',
       trackLink: '前往追蹤批次進度',

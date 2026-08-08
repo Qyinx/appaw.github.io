@@ -2,12 +2,12 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'psa-grading-standards',
-  title: 'PSA Grading Standards, Qualifiers & Record Sales Explained',
+  title: 'PSA 10 Grading Standards: 55/45 Centering Rules & On-Site Check',
   badge: 'Grading Spec',
   lead:
-    'A PSA 10 can sell for six figures. A PSA 9 on the same card might not clear four. The gap is not luck. It is the 1–10 scale, Qualifier codes, and centering rules buyers already use at checkout.',
+    'A PSA 10 card can command a 5x price premium over a PSA 9. Master the 1–10 scale, 55/45 centering thresholds, surface flaw rules, and qualifier codes before submitting.',
   published: '2026-06-18',
-  updated: '2026-08-05',
+  updated: '2026-08-08',
   readTime: '14 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
