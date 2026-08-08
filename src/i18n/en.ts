@@ -356,7 +356,7 @@ export const en = {
       title: 'How to choose a 35PT graded card case',
       body: [
         'Standard PSA and CGC slabs measure roughly 35PT thick. A proper PSA slab case should add a rigid metal frame—not just another acrylic shell—plus tempered UV-blocking glass to slow holo and chrome fade over years on display.',
-        'Appaw Store designed this magnetic graded card case in Hong Kong for Hong Kong TCG collectors — Pokémon PTCG, sports cards, and MTG — who display slabs at home, at card shows, or in our Quarry Bay showroom and partner stores. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
+        'Appaw Store designed this magnetic graded card case in Hong Kong for Hong Kong TCG collectors — Pokémon PTCG, sports cards, and MTG — who display slabs at home, at card shows, or at 138 Arena and partner stores. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
         'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a PSA card protector built for long-term display and transport.',
       ],
       fullGuideLink: 'Read the full 35PT slab case guide',
@@ -534,7 +534,7 @@ export const en = {
         items: [
           {
             q: 'Where can we meet for a card transaction in Hong Kong?',
-            a: 'For card trading meetups, our primary location is the Appaw Store showroom at Shop No. 9, Basement, Manly Plaza, 995-997 King\'s Road, Quarry Bay. Causeway Bay, Central, or Mong Kok East are also available upon discussion. WhatsApp +852-9285-1189 to confirm a time.',
+            a: 'For card trading meetups, our primary location is 138 Arena, 1/F, 522 Jaffe Road, Causeway Bay. The Manly Plaza point (Shop No. 9, Basement, 995-997 King\'s Road, Quarry Bay) is for protector pickup only. WhatsApp +852-9285-1189 to confirm a time.',
           },
           {
             q: 'What payment methods do you accept when buying graded cards?',
@@ -1255,15 +1255,15 @@ export const en = {
   retailPartners: {
     badge: 'Where to Buy',
     title: 'Purchase Channels',
-    subtitle: 'Shop online, visit our Quarry Bay showroom, or find us at partner stores across Hong Kong',
+    subtitle: 'Main selling floor at 138 Arena, Causeway Bay. Protectors also stocked at our Quarry Bay pickup point — or shop online.',
     buyNow: 'Shop Now',
     orVisit: 'or visit our store & partners',
     visitStore: 'Visit Store',
     getDirections: 'Get Directions',
     partners: {
       appawShop: {
-        name: 'Appaw Store - Quarry Bay',
-        description: 'Our Hong Kong showroom. See graded slab protectors in person.',
+        name: 'Appaw Store · Manly Plaza',
+        description: 'Protector pickup only — try UV glass cases in person. Not a full retail floor for cards or PSA drop-off.',
         location: 'Shop No. 9, Basement, Manly Plaza, 995-997 King\'s Road, Quarry Bay, Hong Kong',
       },
       cardtheland: {
@@ -1273,7 +1273,7 @@ export const en = {
       },
       arena138: {
         name: '138 Arena',
-        description: 'Authorised partner · Causeway Bay',
+        description: 'Our main Hong Kong selling location — protectors, graded cards, and PSA face-to-face drop-off in Causeway Bay.',
         location: '1/F, 522 Jaffe Road, Causeway Bay, Hong Kong',
       },
       appawstore: {
@@ -1282,9 +1282,9 @@ export const en = {
       },
     },
     directDesc: 'Direct from manufacturer',
-    retailHint: 'Visit our Quarry Bay showroom or authorised partner stores',
+    retailHint: 'Shop at 138 Arena, or pick up protectors at Manly Plaza',
     onlineTitle: 'Online Store',
-    retailTitle: 'Showroom & Partners',
+    retailTitle: 'Main store & pickup',
     partnerStoresTitle: 'Partner Stores',
     types: {
       online: 'Online',
@@ -1292,6 +1292,9 @@ export const en = {
     },
     tags: {
       authorized: 'Primary',
+      main: 'Main location',
+      fullService: 'Full service',
+      protectorOnly: 'Protectors only',
       partner: 'Partner',
       official: 'Online Shop',
       inStock: 'In Stock',

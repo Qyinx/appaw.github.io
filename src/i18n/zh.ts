@@ -358,7 +358,7 @@ export const zh: Translations = {
       title: '如何挑選最合適的鑑定卡保護殼？',
       body: [
         '標準的 PSA 及 CGC 鑑定卡磚厚度通常為 35PT。一款優秀的保護殼，應摒棄易碎的壓克力，改用高剛性金屬邊框，並配備防 UV 強化玻璃，以減緩閃卡及全息卡在長期展示下的褪色危機。',
-        'Appaw Store 專為香港 TCG 藏家及寶可夢、運動卡玩家設計了這款磁吸保護殼。不論擺放在家中、卡展還是實體店面都極具質感。歡迎親臨鰂魚涌門市或合作店舖（如：咭之島）實際體驗。其 N52 磁吸設計讓您免鎖螺絲，幾秒鐘即可輕鬆換卡。',
+        'Appaw Store 專為香港 TCG 藏家及寶可夢、運動卡玩家設計了這款磁吸保護殼。不論擺放在家中、卡展還是實體店面都極具質感。歡迎親臨銅鑼灣 138 Arena、鰂魚涌萬利廣場取貨點，或合作店舖（如：咭之島）實際體驗。其 N52 磁吸設計讓您免鎖螺絲，幾秒鐘即可輕鬆換卡。',
         '提交鑑定前，建議先用免費的置中量度工具評估 PSA 10 機會；待愛卡獲取佳績後，再用這款保護殼為其提供最完善的防護。',
       ],
       fullGuideLink: '閱讀完整鑑定卡保護殼選購指南',
@@ -536,7 +536,7 @@ export const zh: Translations = {
         items: [
           {
             q: '請問面交地點通常安排在哪裡？',
-            a: '卡牌面交強烈建議於我們的鰂魚涌門市（英皇道995-997號萬利廣場地庫9號舖）進行。如需在銅鑼灣、中環或旺角東交收亦可討論。請提前透過 WhatsApp（+852-9285-1189）預約時間。',
+            a: '卡牌面交以銅鑼灣 138 Arena（謝斐道522號1/F）為主據點。鰂魚涌萬利廣場地庫9號舖僅供保護殼取貨，不作卡牌交易面交。請提前透過 WhatsApp（+852-9285-1189）預約時間。',
           },
           {
             q: '支援哪些付款方式？',
@@ -1255,30 +1255,33 @@ export const zh: Translations = {
   retailPartners: {
     badge: '哪裡買得到？',
     title: '實體與線上購買渠道',
-    subtitle: '無論是線上點擊送到家，還是親臨實體門市摸實品，都非常歡迎！',
+    subtitle: '主銷售據點為銅鑼灣 138 Arena；鰂魚涌萬利廣場僅售保護殼。亦可線上訂購。',
     buyNow: '線上馬上買',
     orVisit: '或親臨各大合作據點',
     visitStore: '造訪門市',
-    getDirections: '帶我去這',
+    getDirections: '查看地圖',
     directDesc: '官方品牌直營',
-    retailHint: '強烈建議到實體店把玩一下實品，感受金屬與玻璃的重量感。',
+    retailHint: '主據點前往 138 Arena；僅需保護殼可到萬利廣場取貨。',
     onlineTitle: '官方網上商店',
-    retailTitle: '體驗門市與合作經銷',
+    retailTitle: '主店與取貨點',
     partnerStoresTitle: '精選經銷店舖',
     types: {
       online: '網上購物',
       retail: '實體體驗',
     },
     tags: {
-      authorized: '官方展示中心',
-      partner: '認證經銷商',
+      authorized: '主銷售據點',
+      main: '主銷售據點',
+      fullService: '全服務',
+      protectorOnly: '僅售保護殼',
+      partner: '經銷商',
       official: '官方直營店',
       inStock: '熱銷現貨中',
     },
     partners: {
       appawShop: {
-        name: 'Appaw Store 鰂魚涌概念店',
-        description: '全港唯一的品牌實體展示空間，讓您親手感受頂級保護殼的魅力。',
+        name: 'Appaw Store · 萬利廣場',
+        description: '僅售鑑定卡保護殼 — 可親臨試用防 UV 玻璃殼。非卡牌交易或 PSA 交件據點。',
         location: '香港鰂魚涌英皇道995-997號萬利廣場地庫9號舖',
       },
       cardtheland: {
@@ -1288,7 +1291,7 @@ export const zh: Translations = {
       },
       arena138: {
         name: '138 Arena',
-        description: '提交鑑定據點兼經銷商 · 銅鑼灣區',
+        description: 'Appaw 香港主銷售據點 — 保護殼、鑑定卡交易，以及 PSA 面交提交鑑定，盡在銅鑼灣。',
         location: '銅鑼灣謝斐道522號1/F',
       },
       appawstore: {
