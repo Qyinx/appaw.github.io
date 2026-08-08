@@ -7,6 +7,7 @@ export type GradingServicePlan =
   | 'EXP'
   | 'SPX'
   | 'WALK'
+  | 'RHLD'
   | 'PRE1'
   | 'PRE2'
   | 'PRE3';
@@ -20,6 +21,7 @@ export const GRADING_SERVICE_PLAN_CODES: GradingServicePlan[] = [
   'EXP',
   'SPX',
   'WALK',
+  'RHLD',
   'PRE1',
   'PRE2',
   'PRE3',
@@ -33,6 +35,7 @@ export const GRADING_SERVICE_PLAN_LABELS: Record<GradingServicePlan, string> = {
   EXP: 'Express',
   SPX: 'Super Express',
   WALK: 'Walk-Through',
+  RHLD: 'Reholder',
   PRE1: 'Premium 1',
   PRE2: 'Premium 2',
   PRE3: 'Premium 3',

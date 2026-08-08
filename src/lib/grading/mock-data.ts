@@ -25,6 +25,7 @@ export const DEMO_REFERENCES: Record<GradingServicePlan, string> = {
   REG: formatBatchReferenceCode(2026, 7, 'REG', 99),
   SPX: formatBatchReferenceCode(2026, 7, 'SPX', 99),
   WALK: formatBatchReferenceCode(2026, 7, 'WALK', 99),
+  RHLD: formatBatchReferenceCode(2026, 7, 'RHLD', 99),
   PRE1: formatBatchReferenceCode(2026, 7, 'PRE1', 99),
   PRE2: formatBatchReferenceCode(2026, 7, 'PRE2', 99),
   PRE3: formatBatchReferenceCode(2026, 7, 'PRE3', 99),

@@ -213,7 +213,7 @@ const centeringMetadataBase: Metadata = {
     'check centering before regrading',
     'regrade or reholder',
     'PSA重新評級',
-    'PSA更換新殼',
+    'PSA換殼',
     '重新評級降級',
     '鑑定卡置中檢查',
   ],

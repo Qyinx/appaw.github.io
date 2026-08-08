@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { CalendarDays, ChevronDown, Search } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -9,6 +9,7 @@ import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
 import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 import { GRADING_SERVICE_PLAN_LABELS } from '@/lib/grading/reference-code';
+import { planBoardAccent } from '@/lib/grading/plan-accent';
 import {
   cutoffUrgency,
   fetchPublicBatchBoard,
@@ -69,20 +70,27 @@ function BatchStrip({
   const activeIdx = phaseIndex(item.status);
   const showBook = item.intakeOpen;
   const planLabel = GRADING_SERVICE_PLAN_LABELS[item.plan] ?? item.plan;
+  const accent = planBoardAccent(item.plan);
 
   return (
     <article
-      className="border border-border-default bg-surface-bg border-l-[3px] border-l-accent-brand h-full"
+      className={`border border-border-default bg-surface-bg border-l-[3px] ${accent.edge}`}
       data-urgency={urgency}
+      data-plan={item.plan}
       aria-label={`${planLabel} ${copy.phases[item.status]}`}
     >
       <div className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between md:gap-6">
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-accent-brand border border-accent-brand/30 px-2 py-0.5">
+            <span
+              className={`font-mono text-[0.65rem] uppercase tracking-[0.14em] border px-2 py-0.5 ${accent.badge}`}
+            >
               {item.plan}
             </span>
             <p className="font-display font-bold text-text-primary text-base md:text-lg leading-snug">
+              {planLabel}
+            </p>
+            <p className="font-display font-semibold text-text-secondary text-sm md:text-base leading-snug">
               {copy.phases[item.status]}
             </p>
             {urgency === 'soon' ? (
@@ -148,14 +156,14 @@ function BatchStrip({
               role="listitem"
               className={`px-2 py-2 text-center border-r border-border-default last:border-r-0 ${
                 current
-                  ? 'bg-accent-brand/10'
+                  ? accent.phaseCurrent
                   : done
                     ? 'bg-surface-raised'
                     : 'bg-surface-bg'
               }`}
             >
               <span
-                className={`block h-1 mb-1.5 ${done ? 'bg-accent-brand' : 'bg-border-default'}`}
+                className={`block h-1 mb-1.5 ${done ? accent.bar : 'bg-border-default'}`}
                 aria-hidden="true"
               />
               <span
@@ -186,17 +194,20 @@ function BatchCompactRow({
   const countdown = formatCountdownLabel(item, copy, nowMs);
   const showBook = item.intakeOpen;
   const planLabel = GRADING_SERVICE_PLAN_LABELS[item.plan] ?? item.plan;
+  const accent = planBoardAccent(item.plan);
 
   return (
     <article
-      className="flex flex-col gap-2 border border-border-default bg-surface-bg px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+      className={`flex flex-col gap-2 border border-border-default bg-surface-bg border-l-[3px] ${accent.edge} px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4`}
+      data-plan={item.plan}
       aria-label={`${planLabel} ${copy.phases[item.status]}`}
     >
       <div className="min-w-0 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        <span className="font-mono text-[0.6rem] uppercase tracking-[0.12em] text-accent-brand">
+        <span className={`font-mono text-[0.6rem] uppercase tracking-[0.12em] ${accent.badgeText}`}>
           {item.plan}
         </span>
-        <span className="font-display font-semibold text-sm text-text-primary">
+        <span className="font-display font-semibold text-sm text-text-primary">{planLabel}</span>
+        <span className="font-display font-medium text-sm text-text-secondary">
           {copy.phases[item.status]}
         </span>
         <span
@@ -233,7 +244,7 @@ function BatchCompactRow({
   );
 }
 
-function BatchCarousel({
+function SpotlightBatchList({
   items,
   copy,
   nowMs,
@@ -242,128 +253,14 @@ function BatchCarousel({
   copy: BatchBoardCopy;
   nowMs: number;
 }) {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
-  const count = items.length;
-  const safeIndex = ((index % count) + count) % count;
-  const active = items[safeIndex];
-
-  const goTo = useCallback(
-    (next: number) => {
-      if (count <= 1) return;
-      setIndex(((next % count) + count) % count);
-    },
-    [count],
-  );
-
-  useGSAP(
-    () => {
-      if (!trackRef.current || count <= 1) {
-        if (trackRef.current) gsap.set(trackRef.current, { xPercent: 0 });
-        return;
-      }
-      gsap.to(trackRef.current, {
-        xPercent: -100 * safeIndex,
-        duration: 0.45,
-        ease: 'power2.out',
-        onComplete: refreshScrollTriggers,
-      });
-    },
-    { scope: rootRef, dependencies: [safeIndex, count] },
-  );
-
-  useEffect(() => {
-    setIndex(0);
-  }, [count]);
-
-  if (count === 1 && active) {
-    return <BatchStrip item={active} copy={copy} nowMs={nowMs} />;
-  }
-
-  const slideLabel = copy.slideLabel
-    .replace('{n}', String(safeIndex + 1))
-    .replace('{total}', String(count));
-
   return (
-    <div
-      ref={rootRef}
-      className="space-y-3"
-      role="region"
-      aria-roledescription="carousel"
-      aria-label={copy.title}
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          goTo(safeIndex - 1);
-        } else if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          goTo(safeIndex + 1);
-        }
-      }}
-    >
-      <div className="overflow-hidden w-full">
-        <div ref={trackRef} className="flex w-full will-change-transform">
-          {items.map((item) => (
-            <div
-              key={item.referenceCode}
-              className="w-full shrink-0 grow-0 basis-full"
-              role="group"
-              aria-roledescription="slide"
-              aria-hidden={item.referenceCode !== active?.referenceCode}
-            >
-              <BatchStrip item={item} copy={copy} nowMs={nowMs} />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <p className="sr-only" aria-live="polite">
-        {active
-          ? `${GRADING_SERVICE_PLAN_LABELS[active.plan] ?? active.plan} ${copy.phases[active.status]}. ${slideLabel}`
-          : slideLabel}
-      </p>
-
-      <div className="flex items-center justify-between gap-3">
-        <button
-          type="button"
-          className="btn btn-secondary min-h-[44px] min-w-[44px] px-3"
-          aria-label={copy.carouselPrev}
-          onClick={() => goTo(safeIndex - 1)}
-        >
-          <ChevronLeft className="w-4 h-4" aria-hidden="true" />
-        </button>
-        <div className="flex flex-col items-center gap-2">
-          <span className="font-mono text-xs text-text-muted tabular-nums">{slideLabel}</span>
-          <div className="flex items-center gap-1.5" role="tablist" aria-label={copy.title}>
-            {items.map((item, i) => (
-              <button
-                key={item.referenceCode}
-                type="button"
-                role="tab"
-                aria-selected={i === safeIndex}
-                aria-label={copy.slideLabel
-                  .replace('{n}', String(i + 1))
-                  .replace('{total}', String(count))}
-                className={`h-2 w-2 rounded-full transition-colors ${
-                  i === safeIndex ? 'bg-accent-brand' : 'bg-border-strong'
-                }`}
-                onClick={() => goTo(i)}
-              />
-            ))}
-          </div>
-        </div>
-        <button
-          type="button"
-          className="btn btn-secondary min-h-[44px] min-w-[44px] px-3"
-          aria-label={copy.carouselNext}
-          onClick={() => goTo(safeIndex + 1)}
-        >
-          <ChevronRight className="w-4 h-4" aria-hidden="true" />
-        </button>
-      </div>
-    </div>
+    <ul className="m-0 list-none space-y-3 p-0" aria-label={copy.title}>
+      {items.map((item) => (
+        <li key={item.referenceCode}>
+          <BatchStrip item={item} copy={copy} nowMs={nowMs} />
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -571,7 +468,7 @@ export default function PsaBatchProgressBoard() {
         ) : (
           <div className="space-y-4">
             {spotlight.length > 0 ? (
-              <BatchCarousel items={spotlight} copy={copy} nowMs={nowMs} />
+              <SpotlightBatchList items={spotlight} copy={copy} nowMs={nowMs} />
             ) : null}
             {others.length > 0 ? (
               <OtherRoundsAccordion items={others} copy={copy} nowMs={nowMs} />

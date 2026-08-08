@@ -27,6 +27,7 @@ function planLabel(plan: GradingServicePlan, copy: ServicePlanCopy): string {
     EXP: copy.express,
     SPX: copy.superExpress,
     WALK: copy.walkThrough,
+    RHLD: copy.reholder,
     PRE1: copy.premium1,
     PRE2: copy.premium2,
     PRE3: copy.premium3,

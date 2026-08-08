@@ -3,6 +3,7 @@
 import React from 'react';
 import { CalendarDays } from 'lucide-react';
 import { formatHkd } from '@/lib/grading/admin-format';
+import { planPricingAccent } from '@/lib/grading/plan-accent';
 import { PSA_PRICING_ROWS } from '@/lib/grading/psa-pricing';
 import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 import { GRADING_SERVICE_PLAN_LABELS } from '@/lib/grading/reference-code';
@@ -47,7 +48,7 @@ export default function PsaPricingTable({ copy }: Props) {
         <table className="w-full min-w-[560px] border-collapse text-sm">
           <thead>
             <tr className="border-b border-border-default">
-              <th scope="col" className="px-5 py-3 text-left font-mono text-xs uppercase tracking-wide text-text-muted w-[22%]">
+              <th scope="col" className="px-5 py-3 text-left font-mono text-xs uppercase tracking-wide text-text-muted w-[28%]">
                 {copy.colService}
               </th>
               <th scope="col" className="px-5 py-3 text-left font-mono text-xs uppercase tracking-wide text-text-muted">
@@ -63,10 +64,24 @@ export default function PsaPricingTable({ copy }: Props) {
           </thead>
           <tbody className="divide-y divide-border-default">
             {PSA_PRICING_ROWS.map((row) => {
+              const accent = planPricingAccent(row.plan);
               return (
-                <tr key={row.plan} className="align-top">
-                  <th scope="row" className="px-5 py-3 text-left font-medium text-text-primary">
-                    {GRADING_SERVICE_PLAN_LABELS[row.plan]}
+                <tr
+                  key={row.plan}
+                  className={`align-top ${accent.row} ${accent.edge}`}
+                  data-plan={row.plan}
+                >
+                  <th scope="row" className="px-5 py-3 text-left">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span
+                        className={`font-mono text-[0.65rem] uppercase tracking-[0.12em] border px-1.5 py-0.5 ${accent.chip}`}
+                      >
+                        {row.plan}
+                      </span>
+                      <span className="font-medium text-text-primary">
+                        {GRADING_SERVICE_PLAN_LABELS[row.plan]}
+                      </span>
+                    </div>
                   </th>
                   <td className="px-5 py-3">
                     {row.feeHkd != null ? (

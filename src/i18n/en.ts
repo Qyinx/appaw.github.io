@@ -812,7 +812,7 @@ export const en = {
         },
         {
           title: 'Tier advice when the card is strong',
-          body: 'When condition supports a serious PSA 10 attempt, we help match Regular, Express, Super Express, or Walk-Through to your time and declared-value stake. Faster tiers cost more; we only push them when the card justifies it.',
+          body: 'When condition supports a serious PSA 10 attempt, we help match Regular, Express, Super Express, or Walk-Through to your time and declared-value stake. Faster tiers cost more; we only push them when the card justifies it. For scuffed holders that still grade right, we also offer Reholder.',
         },
       ],
     },
@@ -1126,6 +1126,7 @@ export const en = {
       express: 'Express',
       superExpress: 'Super Express',
       walkThrough: 'Walk-Through',
+      reholder: 'Reholder',
       premium1: 'Premium 1',
       premium2: 'Premium 2',
       premium3: 'Premium 3',

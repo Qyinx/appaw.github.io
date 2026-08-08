@@ -135,6 +135,11 @@ export function getMockPublicBatchBoard(nowMs: number = Date.now()): PublicBatch
       intakeCutoffAt: inTwoDays,
     },
     {
+      referenceCode: 'BAT-2026-07-RHLD-1',
+      publicBoardStatus: 'intake' as const,
+      intakeCutoffAt: inFiveDays,
+    },
+    {
       referenceCode: 'BAT-2026-07-VPLS-2',
       publicBoardStatus: 'intake' as const,
       intakeCutoffAt: inFiveDays,

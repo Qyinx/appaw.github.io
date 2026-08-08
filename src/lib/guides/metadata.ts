@@ -89,9 +89,9 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
     'regrade downgrade risk',
     'PSA slab refresh',
     'PSA 重新評級',
-    'PSA 更換新殼',
+    'PSA 換殼',
     'Regrade 降分',
-    '鑑定卡更換新殼',
+    '鑑定卡換殼',
   ],
   'choose-35pt-slab-protector': [
     '35PT slab protector',
@@ -155,7 +155,7 @@ const guidesIndexBase: Metadata = {
     'PSA reholder',
     'regrade downgrade',
     'PSA 重新評級',
-    'PSA 更換新殼',
+    'PSA 換殼',
   ],
   alternates: { canonical: '/guides/' },
   openGraph: {

@@ -12,7 +12,7 @@ export type PsaPricingRow = {
 };
 
 /** Plans with published hub fees. Value / Premium tiers TBD. */
-const PRICED_PLANS: GradingServicePlan[] = ['REG', 'EXP', 'SPX', 'WALK'];
+const PRICED_PLANS: GradingServicePlan[] = ['REG', 'EXP', 'SPX', 'WALK', 'RHLD'];
 
 const FEE_BY_PLAN: Record<GradingServicePlan, Omit<PsaPricingRow, 'plan'>> = {
   VBLK: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
@@ -22,6 +22,7 @@ const FEE_BY_PLAN: Record<GradingServicePlan, Omit<PsaPricingRow, 'plan'>> = {
   EXP: { feeHkd: 1900, discountedFeeHkd: 1800, maxDeclaredValueUsd: 2500, turnaroundDays: '~20–30' },
   SPX: { feeHkd: 3600, discountedFeeHkd: 3400, maxDeclaredValueUsd: 5000, turnaroundDays: '~7–10' },
   WALK: { feeHkd: 5900, discountedFeeHkd: 5500, maxDeclaredValueUsd: 10000, turnaroundDays: '~7' },
+  RHLD: { feeHkd: 550, discountedFeeHkd: 550, maxDeclaredValueUsd: 5000, turnaroundDays: '~65–75' },
   PRE1: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
   PRE2: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
   PRE3: { feeHkd: null, discountedFeeHkd: null, maxDeclaredValueUsd: 0, turnaroundDays: '—' },
