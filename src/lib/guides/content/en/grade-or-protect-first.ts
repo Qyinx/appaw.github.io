@@ -50,7 +50,7 @@ const guide: GuideContent = {
         'A slab seals the card, it does not make the plastic invincible. Scratches, haze, and cracks on the holder still hurt display value and buyer confidence. An outer case defends the grade you paid for.',
         'When a graded slab arrives or you buy graded, verify the cert on [psacard.com/cert](https://www.psacard.com/cert), then install a [magnetic graded slab protector](/products/psa-protectors/). The 35PT rigid case with a metal frame fits PSA/CGC holders, beats soft slab sleeves for scratch and crush resistance, and the UV-rated front panel slows label and surface fade.',
         'High-value PSA 10s or keys also need cool, dry, stable storage. Shipping, card shows, or long-term holds need layered packing and insurance.',
-        'Light holder wear → consider [PSA reholder](/guides/regrade-or-reholder/). Severe damage or a deliberate grade chase → regrade instead.',
+        'Light holder wear → consider [PSA reholder](/guides/psa-reholder-guide/). For a deliberate grade chase, consult the [regrade strategy](/guides/psa-review-vs-crack/).',
         'Minimize bare-hand contact; keep slabs out of direct sun, heat spikes, and humidity swings; inspect holders regularly. Grader plastic is for seal and display, not backpack or meet hand-offs, see [UV storage guide](/guides/uv-protection-graded-cards/) and [35PT case fit guide](/guides/choose-35pt-slab-protector/).',
       ],
       specs: [
@@ -121,7 +121,7 @@ const guide: GuideContent = {
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
-  relatedSlugs: ['psa-10-centering-requirements', 'choose-35pt-slab-protector', 'uv-protection-graded-cards', 'regrade-or-reholder'],
+  relatedSlugs: ['psa-10-centering-requirements', 'choose-35pt-slab-protector', 'uv-protection-graded-cards', 'psa-reholder-guide'],
   sources: [
     {
       label: 'PSA, Grading Standards (Gem Mint centering and condition)',

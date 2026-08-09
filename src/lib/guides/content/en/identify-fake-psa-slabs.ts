@@ -257,7 +257,7 @@ const guide: GuideContent = {
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
-  relatedSlugs: ['regrade-or-reholder', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
+  relatedSlugs: ['psa-reholder-guide', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
   sources: [
     {
       label: 'PSA, Cert Verification',

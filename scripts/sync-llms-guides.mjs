@@ -23,8 +23,10 @@ const TOPICS = {
     'PSA slab authentication — five-step cert lookup, UV blacklight (#43+), label eras, physical verification refs',
   'display-graded-cards':
     'Graded slab display — binder, magnetic case, wall/cabinet setup, UV protection table',
-  'regrade-or-reholder':
-    'PSA regrade vs reholder — comparison table, fees, downgrade risk, when to choose each',
+  'psa-reholder-guide':
+    'PSA Reholder guide — $14.99 standard fee, cosmetic plastic replacement, hidden risks of new damage or fading',
+  'psa-review-vs-crack':
+    'PSA Regrade Strategy — Review (in-slab) anchoring bias vs Crack & Resubmit raw, downgrade risks, and Expected Value (EV) math',
   'psa-grading-standards':
     'PSA 1–10 grade scale, Qualifier codes (OC/ST/PD), and record sale premiums',
   'hong-kong-tcg-grading-guide':

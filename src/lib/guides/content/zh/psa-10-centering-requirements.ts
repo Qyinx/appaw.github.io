@@ -86,7 +86,7 @@ const guide: GuideContent = {
       paragraphs: [
         '裸卡篩選順序：先核對置中比例，通過後再仔細檢查邊角與卡面。若正面任一軸已超過 55/45，應先評估拿 PSA 9 是否仍具備經濟價值，再決定是否提交鑑定。',
         '網上選購注意事項：要求賣家提供平放的高解析正背面掃描圖，並載入置中計算器進行檢測，避免傾斜拍攝角度遮掩偏斜瑕疵。',
-        '把握提交鑑定時機：選擇鑑定積壓較少的時段並合理申報保險價值。若置中精確且卡況極佳但初次僅拿 PSA 9，可評估是否申請 [Regrade（重新評級）](/guides/regrade-or-reholder/)，唯需留意重新評級的降分風險。',
+        '把握提交鑑定時機：選擇鑑定積壓較少的時段並合理申報保險價值。若置中精確且卡況極佳但初次僅拿 PSA 9，可評估是否考慮 [破殼重送或原殼重評](/guides/psa-review-vs-crack/)，唯需留意破殼重送的降分風險。',
         '獲取高分後的防護：取回 PSA 10 鑑定卡磚後，建議儘快加裝 [磁吸防 UV 保護殼](/products/psa-protectors/)，避免展示或攜帶時刮花壓克力外殼。詳細步驟可參考 [裸卡到受保護鑑定卡](/guides/grade-or-protect-first/)。',
       ],
     },
@@ -125,7 +125,7 @@ const guide: GuideContent = {
     primary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
     secondary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
   },
-  relatedSlugs: ['grade-or-protect-first', 'regrade-or-reholder', 'choose-35pt-slab-protector', 'display-graded-cards'],
+  relatedSlugs: ['grade-or-protect-first', 'psa-review-vs-crack', 'choose-35pt-slab-protector', 'display-graded-cards'],
   sources: [
     {
       label: 'PSA 鑑定標準, Gem Mint 10 置中',

@@ -349,7 +349,7 @@ export default function CenteringContent() {
         <p className={styles.contentP}>{c.regradeP1}</p>
         <p className={styles.contentP}>{c.regradeP2}</p>
         <p className={styles.contentP}>
-          <LocalLink href="/guides/regrade-or-reholder/" className={styles.contentLink}>
+          <LocalLink href="/guides/psa-review-vs-crack/" className={styles.contentLink}>
             {c.regradeGuideLink}
           </LocalLink>
         </p>

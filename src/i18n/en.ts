@@ -1904,8 +1904,8 @@ export const en = {
           href: '/guides/identify-fake-psa-slabs/',
         },
         {
-          label: 'PSA regrade vs reholder: when to choose each',
-          href: '/guides/regrade-or-reholder/',
+          label: 'PSA regrade strategy: review vs crack & resubmit',
+          href: '/guides/psa-review-vs-crack/',
         },
         {
           label: 'When to submit raw cards vs protect graded slabs',

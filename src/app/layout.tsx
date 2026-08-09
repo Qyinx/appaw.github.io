@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { SiteShell, Footer } from '@/components/layout';
 import { CookieConsent } from '@/components/CookieConsent';
@@ -41,44 +42,39 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       {/* Note: Consider making lang dynamic based on user's language selection in future */}
       <head>
-        {/* Google Analytics with Cookie Consent */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-MTFS1VS5S4"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              
-              // Default consent to denied (GDPR compliance)
-              gtag('consent', 'default', {
-                'analytics_storage': 'denied'
-              });
-              
-              gtag('config', 'G-MTFS1VS5S4');
-            `,
-          }}
-        />
-
-        {/* Microsoft Clarity */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-              })(window, document, "clarity", "script", "sm2b2ujusi");
-            `,
-          }}
-        />
-        
         {/* Structured Data for Search Engines & AI */}
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
         <AgentDiscoveryLinks />
         {/* Language declared via <html lang> and hreflang <link> tags (generated from alternates.languages above) */}
       </head>
       <body className="bg-surface-bg text-text-primary antialiased">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-MTFS1VS5S4"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              // Default consent to denied (GDPR compliance)
+              gtag('consent', 'default', {
+                'analytics_storage': 'denied'
+              });
+
+              gtag('config', 'G-MTFS1VS5S4');
+            `}
+        </Script>
+        <Script id="ms-clarity" strategy="afterInteractive">
+          {`
+              (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+              })(window, document, "clarity", "script", "sm2b2ujusi");
+            `}
+        </Script>
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>

@@ -21,7 +21,7 @@ Appaw is a high-value card grading advisor coordinating PSA proxy submission at 
 - **Hook:** 「PSA 卡殼刮花甚至裂開？先別急著花 $80 美金送去重新評級！」
 - **Core Concept:** 比較 **Reholder (換殼 $25–35)** 與 **Regrade (重新評級 $80+)** 的成本、時間（15-20 天 vs 40-60 天）與風險。
 - **Key Message:** 只有卡殼損壞且滿意現有分數時才選換殼；若懷疑被評低（Old Slab 舊編號 PSA 9 想衝 10）且 9 分與 10 分差價高於 $200 美金時，才值得重新評級。
-- **CTA:** 「想知道你的 PSA 9 值得 Reholder 還是 Regrade？詳見官網指南：`appaw.store/guides/regrade-or-reholder/`」
+- **CTA:** 「想知道你的 PSA 9 值得 Reholder 還是破殼重送？詳見官網指南：`appaw.store/guides/psa-review-vs-crack/`」
 
 ### 2. 138 Arena 門市交卡流程與現場評估 (Local Drop-off & Preliminary Assessment Walk-through)
 - **Target Queries:** `138 arena`, `香港psa鑑定`, `psa 鑑定 香港 流程`, `psa 收費`
@@ -50,7 +50,7 @@ Appaw is a high-value card grading advisor coordinating PSA proxy submission at 
 
 | 內容主題 | 社群痛點／鉤子 | 轉化目標 (On-Site CTA) | 網站落腳頁 (Landing Page) |
 |---------|----------------|----------------------|---------------------------|
-| 換殼 vs 重新評級 | 卡殼損壞／想衝分數 | 閱讀決策指南，使用鑑定卡照片置中自測 | `/guides/regrade-or-reholder/` & `/tools/card-centering/` |
+| 換殼 vs 破殼重送 | 卡殼損壞／想衝分數 | 閱讀決策指南，使用鑑定卡照片置中自測 | `/guides/psa-reholder-guide/` & `/guides/psa-review-vs-crack/` |
 | 門市交卡全流程 | 害怕郵寄風險，不熟悉流程 | 預約 138 Arena 交卡，查詢批次進度 | `/business/psa-grading/` & `/track/` |
 | 送評置中自測 | 避免白付出鑑定費，預測分數 | 免費體驗卡牌置中工具 | `/tools/card-centering/` |
 | 鑑定卡防潮防光 | 香港濕度高，擔心標籤起霧褪色 | 購買 PSA 磁吸防 UV 鑑定卡保護殼 | `/products/psa-protectors/` |

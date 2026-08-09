@@ -58,7 +58,7 @@ const guide: GuideContent = {
       paragraphs: [
         '環境溫濕控制：存放於陰涼乾燥處，避免高溫與濕度劇烈波動。香港家居環境建議搭配防潮箱或除濕設備，詳情見 [鑑定卡防紫外線指南](/guides/uv-protection-graded-cards/)。',
         '光線防護：優先選擇標示 400 nm 以下阻隔率 >95% 的防護外殼或展示箱，減緩標籤與卡面墨彩褪色。即使有窗簾遮擋，玻璃後的 UVA 輻射仍會隨時間累積。',
-        '日常保養衛生：拿取時僅持握保護殼外框，減少手指直接接觸；若外殼塵封，可用微濕的超細纖維布輕拭，切勿使用粗糙紙巾；若原廠外殼不幸產生深層刮痕，可評估透過 [PSA Reholder](/guides/regrade-or-reholder/) 換殼。',
+        '日常保養衛生：拿取時僅持握保護殼外框，減少手指直接接觸；若外殼塵封，可用微濕的超細纖維布輕拭，切勿使用粗糙紙巾；若原廠外殼不幸產生深層刮痕，可評估透過 [PSA Reholder](/guides/psa-reholder-guide/) 換殼。',
         '定期輪換展示：長期展示於 LED 燈下的鑑定卡宜定期輪換。雖然外層保護殼能阻隔光線傷害，但燈具產生的微熱仍需適度散熱。',
       ],
     },
@@ -114,7 +114,7 @@ const guide: GuideContent = {
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
   },
-  relatedSlugs: ['uv-protection-graded-cards', 'choose-35pt-slab-protector', 'grade-or-protect-first', 'regrade-or-reholder'],
+  relatedSlugs: ['uv-protection-graded-cards', 'choose-35pt-slab-protector', 'grade-or-protect-first', 'psa-reholder-guide'],
   sources: [
     {
       label: 'PSA, 鑑定殼尺寸',

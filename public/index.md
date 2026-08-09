@@ -30,7 +30,8 @@
 | Raw to protected slab | https://appaw.store/guides/grade-or-protect-first/ |
 | PSA slab authentication | https://appaw.store/guides/identify-fake-psa-slabs/ |
 | Display graded cards | https://appaw.store/guides/display-graded-cards/ |
-| PSA regrade vs reholder | https://appaw.store/guides/regrade-or-reholder/ |
+| PSA regrade strategy | https://appaw.store/guides/psa-review-vs-crack/ |
+| PSA reholder guide | https://appaw.store/guides/psa-reholder-guide/ |
 
 ## Purchase (Hong Kong)
 

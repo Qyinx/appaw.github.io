@@ -13,6 +13,10 @@ var p=location.pathname;
 var q=location.search;
 var h=location.hash;
 var m;
+if(/^\\/(?:zh\\/)?guides\\/regrade-or-reholder\\/?$/.test(p)){
+  location.replace((p.indexOf('/zh/')===0?'/zh/guides/psa-reholder-guide/':'/guides/psa-reholder-guide/')+q+h);
+  return;
+}
 if((m=p.match(/^\\/(?:zh\\/)?admin\\/psa-grading\\/orders\\/(?!view)([^/]+)\\/?$/))){
   var zh=p.indexOf('/zh/')===0;
   location.replace((zh?'/zh/admin/psa-grading/orders/view/?id=':'/admin/psa-grading/orders/view/?id=')+encodeURIComponent(m[1])+(q?'&'+q.slice(1):'')+h);

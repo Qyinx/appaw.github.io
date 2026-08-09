@@ -25,6 +25,32 @@ const nextConfig = {
       },
     ];
   },
+  // Dev / next start only — ignored by static export (GitHub Pages).
+  // Production also ships dedicated redirect pages + public/_redirects for hosts that honor it.
+  async redirects() {
+    return [
+      {
+        source: '/guides/regrade-or-reholder',
+        destination: '/guides/psa-reholder-guide/',
+        permanent: true,
+      },
+      {
+        source: '/guides/regrade-or-reholder/',
+        destination: '/guides/psa-reholder-guide/',
+        permanent: true,
+      },
+      {
+        source: '/zh/guides/regrade-or-reholder',
+        destination: '/zh/guides/psa-reholder-guide/',
+        permanent: true,
+      },
+      {
+        source: '/zh/guides/regrade-or-reholder/',
+        destination: '/zh/guides/psa-reholder-guide/',
+        permanent: true,
+      },
+    ];
+  },
   // Proxy image requests through Next.js in dev to avoid CORS issues.
   // (rewrites are ignored in static export builds — in production the backend
   //  must have CORS configured for the deployed origin)

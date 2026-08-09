@@ -5,6 +5,7 @@ import { renderGuideParagraph } from '@/lib/guides/parseParagraphLinks';
 import GuideBulletGroups from './GuideBulletGroups';
 import GuideSpecPanel from './GuideSpecPanel';
 import GuideTable from './GuideTable';
+import GuideFormulaBlock from './GuideFormulaBlock';
 import GuideImage from './GuideImage';
 import GuideVideo from './GuideVideo';
 import GuideMidCta from './GuideMidCta';
@@ -53,12 +54,14 @@ export default function GuideProse({ sections, midCta, midCtaLabel }: GuideProse
           </h2>
           <div className="space-y-4">
             {section.paragraphs.map((para, i) => (
-              <p
-                key={i}
-                className={`text-text-secondary text-base leading-relaxed${i === 0 ? ' guide-aeo-answer' : ''}`}
-              >
-                {renderGuideParagraph(para)}
-              </p>
+              <React.Fragment key={i}>
+                <p
+                  className={`text-text-secondary text-base leading-relaxed${i === 0 ? ' guide-aeo-answer' : ''}`}
+                >
+                  {renderGuideParagraph(para)}
+                </p>
+                {i === 0 && section.formula ? <GuideFormulaBlock formula={section.formula} /> : null}
+              </React.Fragment>
             ))}
           </div>
           {section.bulletGroups ? <GuideBulletGroups groups={section.bulletGroups} /> : null}

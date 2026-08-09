@@ -85,7 +85,7 @@ const guide: GuideContent = {
       paragraphs: [
         'Raw screening order: centering first → corners and surface second. If either front axis reads worse than 55/45, decide whether PSA 9 still makes financial sense before bulk submit or overpaying for a slab.',
         'Buying graded online: demand flat, high-res front and back scans; run [graded-slab mode](/tools/card-centering/) on listing photos. Angled slab shots hide skew.',
-        'Submit timing: pick a reasonable queue window and declare accurate insured value. If centering is the only weak point and everything else is elite, [regrade](/guides/regrade-or-reholder/) is an option, downgrade risk included.',
+        'Submit timing: pick a reasonable queue window and declare accurate insured value. If centering is the only weak point and everything else is elite, [a regrade strategy](/guides/psa-review-vs-crack/) is an option, downgrade risk included.',
         'After a PSA 10 returns: fit a [magnetic graded slab protector](/products/psa-protectors/) before display or travel so holder scuffs do not eat resale. See [raw to protected slab workflow](/guides/grade-or-protect-first/).',
       ],
     },
@@ -128,7 +128,7 @@ const guide: GuideContent = {
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
     secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
-  relatedSlugs: ['grade-or-protect-first', 'regrade-or-reholder', 'choose-35pt-slab-protector', 'display-graded-cards'],
+  relatedSlugs: ['grade-or-protect-first', 'psa-review-vs-crack', 'choose-35pt-slab-protector', 'display-graded-cards'],
   sources: [
     {
       label: 'PSA Grading Standards, Gem Mint 10 centering',

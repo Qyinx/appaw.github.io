@@ -58,7 +58,7 @@ const guide: GuideContent = {
       paragraphs: [
         'Environment: cool, dry, stable humidity, no heat spikes or window sun. In Hong Kong apartments, pair with desiccant; see our [UV storage guide](/guides/uv-protection-graded-cards/).',
         'UV: pick sleeves, rigid cases, or display boxes that block >95% of UV below 400 nm. Window sun still adds UVA behind glass season after season.',
-        'Maintenance: minimize bare-hand contact, grip sleeve or outer case edges; wipe with a lightly damp soft cloth, not paper towels on plastic; light holder wear → [PSA reholder](/guides/regrade-or-reholder/).',
+        'Maintenance: minimize bare-hand contact, grip sleeve or outer case edges; wipe with a lightly damp soft cloth, not paper towels on plastic; light holder wear → [PSA reholder](/guides/psa-reholder-guide/).',
         'Stacking: avoid long vertical crush loads or flat bare-slab stacks. Rotate slabs under booth LEDs at shows, outer cases slow UV, they do not remove heat.',
       ],
     },
@@ -123,7 +123,7 @@ const guide: GuideContent = {
     primary: { label: 'Graded Card Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
   },
-  relatedSlugs: ['uv-protection-graded-cards', 'choose-35pt-slab-protector', 'grade-or-protect-first', 'regrade-or-reholder'],
+  relatedSlugs: ['uv-protection-graded-cards', 'choose-35pt-slab-protector', 'grade-or-protect-first', 'psa-reholder-guide'],
   sources: [
     {
       label: 'PSA, holder sizes and slab dimensions',

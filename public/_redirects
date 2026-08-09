@@ -12,3 +12,7 @@
 
 # Legacy centering OG asset (pre-2026-06-13)
 /images/og-centering.png  /images-optimized/og/og-centering.png  301
+
+# Guide restructures
+/guides/regrade-or-reholder/  /guides/psa-reholder-guide/  301
+/zh/guides/regrade-or-reholder/  /zh/guides/psa-reholder-guide/  301

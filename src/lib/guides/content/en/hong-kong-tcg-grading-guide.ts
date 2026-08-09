@@ -90,7 +90,7 @@ const guide: GuideContent = {
       paragraphs: [
         'After slabs return, verify cert number and label details at [PSA cert lookup](https://www.psacard.com/cert) before display, resale, or shipping. For carry or long-term display, add an outer [magnetic UV graded slab protector](/products/psa-protectors/) soon; factory slabs scratch easily and an outer case protects label and card face.',
         'Hong Kong indoor humidity often runs 70–80%. Open-shelf display raises fogging and aging risk over time. For display, travel, resale, or shipping, pair an outer protector with stable storage. See [UV protection for graded cards](/guides/uv-protection-graded-cards/) and [how to choose a 35PT slab protector](/guides/choose-35pt-slab-protector/).',
-        'For high-value PSA 10s you may reholder or regrade, read [PSA regrade vs reholder](/guides/regrade-or-reholder/) for risk and fit. For most collectors, cert check plus outer protection covers typical display and resale needs.',
+        'For high-value PSA 9s you may consider chasing a 10, read [PSA regrade strategy](/guides/psa-review-vs-crack/) for risk and fit. For most collectors, cert check plus outer protection covers typical display and resale needs.',
       ],
     },
   ],

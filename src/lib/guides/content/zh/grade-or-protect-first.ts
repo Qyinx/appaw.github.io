@@ -70,7 +70,7 @@ const guide: GuideContent = {
         '鑑定卡到手或購入後應儘快加裝外層鑑定卡保護殼，因為原廠鑑定殼雖然已封裝卡面，塑料外殼仍會因日常接觸而出現刮擦、霧化或龜裂，直接影響展示價值與買家信心。',
         '收到鑑定卡後，請先於 [證書查詢](https://www.psacard.com/cert) 核對證書編號與標籤資訊無誤，再儘快加裝 [磁吸防紫外線鑑定卡保護殼](/products/psa-protectors/)。標準 35PT 規格貼合 PSA 與 CGC 鑑定卡磚，剛性金屬邊框較軟質護套更能抵禦刮擦與擠壓，紫外線阻隔前板則可減慢標籤與卡面褪色。',
         '高價 PSA 10 或稀有鑑定卡另須存放於陰涼乾燥、恆溫恆濕的環境；若需運送、參與卡展或長期保管，應採用多層包裝並考慮投保。',
-        '若原廠鑑定殼出現輕微磨損，可考慮 [PSA Reholder（換殼）](/guides/regrade-or-reholder/)；若損壞嚴重或您有意追求更高分數，則應評估 Regrade（重新評級）是否合適。',
+        '若原廠鑑定殼出現輕微磨損，可考慮 [PSA Reholder（換殼）](/guides/psa-reholder-guide/)；若您有意追求更高分數，則應評估 [升分策略](/guides/psa-review-vs-crack/) 是否合適。',
         '日常保管應減少裸手觸摸，避開直射陽光、高溫與濕度劇變，並定期檢查鑑定殼狀況。原廠鑑定殼設計用於封裝展示，並非適合背包攜帶或卡展反覆易手的旅行保護殼；詳見 [鑑定卡防紫外線指南](/guides/uv-protection-graded-cards/) 與 [如何選擇 35PT 鑑定卡保護殼](/guides/choose-35pt-slab-protector/)。',
       ],
       specs: [
@@ -174,7 +174,7 @@ const guide: GuideContent = {
     'psa-10-centering-requirements',
     'choose-35pt-slab-protector',
     'uv-protection-graded-cards',
-    'regrade-or-reholder',
+    'psa-reholder-guide',
   ],
   sources: [
     {

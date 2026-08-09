@@ -5,7 +5,8 @@ import psa10CenteringEn from './content/en/psa-10-centering-requirements';
 import gradeOrProtectEn from './content/en/grade-or-protect-first';
 import identifyFakePsaEn from './content/en/identify-fake-psa-slabs';
 import displayGradedEn from './content/en/display-graded-cards';
-import regradeOrReholderEn from './content/en/regrade-or-reholder';
+import psaReholderGuideEn from './content/en/psa-reholder-guide';
+import psaReviewVsCrackEn from './content/en/psa-review-vs-crack';
 import psaGradingStandardsEn from './content/en/psa-grading-standards';
 import hongKongTcgGradingEn from './content/en/hong-kong-tcg-grading-guide';
 import choose35ptZh from './content/zh/choose-35pt-slab-protector';
@@ -14,7 +15,8 @@ import psa10CenteringZh from './content/zh/psa-10-centering-requirements';
 import gradeOrProtectZh from './content/zh/grade-or-protect-first';
 import identifyFakePsaZh from './content/zh/identify-fake-psa-slabs';
 import displayGradedZh from './content/zh/display-graded-cards';
-import regradeOrReholderZh from './content/zh/regrade-or-reholder';
+import psaReholderGuideZh from './content/zh/psa-reholder-guide';
+import psaReviewVsCrackZh from './content/zh/psa-review-vs-crack';
 import psaGradingStandardsZh from './content/zh/psa-grading-standards';
 import hongKongTcgGradingZh from './content/zh/hong-kong-tcg-grading-guide';
 
@@ -25,7 +27,8 @@ export const GUIDE_SLUGS = [
   'grade-or-protect-first',
   'identify-fake-psa-slabs',
   'display-graded-cards',
-  'regrade-or-reholder',
+  'psa-reholder-guide',
+  'psa-review-vs-crack',
   'psa-grading-standards',
   'hong-kong-tcg-grading-guide',
 ] as const;
@@ -39,7 +42,8 @@ export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
   { slug: 'grade-or-protect-first', published: '2026-06-07', updated: '2026-07-13' },
   { slug: 'identify-fake-psa-slabs', published: '2026-06-08', updated: '2026-07-12' },
   { slug: 'display-graded-cards', published: '2026-06-09', updated: '2026-07-12' },
-  { slug: 'regrade-or-reholder', published: '2026-06-13', updated: '2026-07-13' },
+  { slug: 'psa-reholder-guide', published: '2026-08-09', updated: '2026-08-09' },
+  { slug: 'psa-review-vs-crack', published: '2026-08-09', updated: '2026-08-09' },
   { slug: 'psa-grading-standards', published: '2026-06-18', updated: '2026-07-12' },
   { slug: 'hong-kong-tcg-grading-guide', published: '2026-07-13', updated: '2026-07-14' },
 ];
@@ -52,7 +56,8 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'grade-or-protect-first': gradeOrProtectEn,
     'identify-fake-psa-slabs': identifyFakePsaEn,
     'display-graded-cards': displayGradedEn,
-    'regrade-or-reholder': regradeOrReholderEn,
+    'psa-reholder-guide': psaReholderGuideEn,
+    'psa-review-vs-crack': psaReviewVsCrackEn,
     'psa-grading-standards': psaGradingStandardsEn,
     'hong-kong-tcg-grading-guide': hongKongTcgGradingEn,
   },
@@ -63,7 +68,8 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'grade-or-protect-first': gradeOrProtectZh,
     'identify-fake-psa-slabs': identifyFakePsaZh,
     'display-graded-cards': displayGradedZh,
-    'regrade-or-reholder': regradeOrReholderZh,
+    'psa-reholder-guide': psaReholderGuideZh,
+    'psa-review-vs-crack': psaReviewVsCrackZh,
     'psa-grading-standards': psaGradingStandardsZh,
     'hong-kong-tcg-grading-guide': hongKongTcgGradingZh,
   },

@@ -255,7 +255,7 @@ const guide: GuideContent = {
     'psa-10-centering-requirements',
     'grade-or-protect-first',
     'identify-fake-psa-slabs',
-    'regrade-or-reholder',
+    'psa-review-vs-crack',
   ],
   sources: [
     {

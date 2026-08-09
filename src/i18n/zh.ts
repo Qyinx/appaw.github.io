@@ -1902,8 +1902,8 @@ export const zh: Translations = {
           href: '/guides/identify-fake-psa-slabs/',
         },
         {
-          label: '抉擇時刻：重新評級(Regrade) 還是 換殼(Reholder)？',
-          href: '/guides/regrade-or-reholder/',
+          label: 'PSA 升分策略：原殼重評 (Review) 還是破殼重送？',
+          href: '/guides/psa-review-vs-crack/',
         },
         {
           label: '從裸卡到 PSA 10：提交鑑定與保護全攻略',

@@ -12,6 +12,24 @@ export type GuideTable = {
   rows: string[][];
 };
 
+/** Styled math / decision formula rendered by GuideFormulaBlock (HTML+CSS, not LaTeX). */
+export type GuideFormulaTerm = {
+  /** Operator shown before this term: × + − */
+  op?: '×' | '+' | '−';
+  /** Main expression text, e.g. "PSA 10 市值 × 升分機率" */
+  text: string;
+  /** Optional secondary hint under the term */
+  hint?: string;
+};
+
+export type GuideFormula = {
+  /** Left-hand result label, e.g. "期望值 (EV)" */
+  result: string;
+  /** Small header label above the ledger */
+  eyebrow?: string;
+  terms: GuideFormulaTerm[];
+};
+
 export type GuideFigure = {
   /** Public path, e.g. `/images-optimized/guides/slug/file.jpg`. */
   src: string;
@@ -53,6 +71,8 @@ export type GuideSection = {
   subsections?: GuideSubsection[];
   specs?: GuideSpecRow[];
   table?: GuideTable;
+  /** Optional styled formula block (HTML+CSS). */
+  formula?: GuideFormula;
   /** One-sentence open loop teasing the next section (retention). */
   bridge?: string;
 };
