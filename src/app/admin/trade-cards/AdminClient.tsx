@@ -711,11 +711,11 @@ export default function AdminClient() {
           {/* ── GRADING ── */}
           <Section title="Grading">
             <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {COMPANIES.map(co => (
                   <button key={co} type="button"
                     onClick={() => setF('company', co)}
-                    className={`py-2 rounded-lg text-sm font-bold border transition-[color,background-color,border-color,opacity,transform] ${form.company === co
+                    className={`py-2 min-h-11 rounded-lg text-sm font-bold border transition-[color,background-color,border-color,opacity,transform] ${form.company === co
                       ? co === 'PSA' ? 'bg-red-700/80 border-red-600 text-text-primary'
                         : co === 'BGS' ? 'bg-blue-700/80 border-blue-600 text-text-primary'
                         : 'bg-purple-700/80 border-purple-600 text-text-primary'
@@ -739,7 +739,7 @@ export default function AdminClient() {
                         disabled={fetchingPsa === 'main'}
                         onClick={() => fetchPsaImages(form.certNumber, 'main')}
                         title="Fetch front & back images from PSA"
-                        className="flex items-center gap-1.5 px-3 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-text-primary text-[10px] font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform] disabled:opacity-50 whitespace-nowrap"
+                        className="flex items-center gap-1.5 px-3 min-h-11 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-text-primary text-xs font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform] disabled:opacity-50 whitespace-nowrap"
                       >
                         {fetchingPsa === 'main'
                           ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -928,11 +928,11 @@ export default function AdminClient() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       {COMPANIES.map(co => (
                         <button key={co} type="button"
                           onClick={() => setBF(idx, 'company', co)}
-                          className={`py-1.5 rounded-lg text-xs font-bold border transition-[color,background-color,border-color,opacity,transform] ${b.company === co
+                          className={`py-1.5 min-h-11 rounded-lg text-xs font-bold border transition-[color,background-color,border-color,opacity,transform] ${b.company === co
                             ? co === 'PSA' ? 'bg-red-700/80 border-red-600 text-text-primary'
                               : co === 'BGS' ? 'bg-blue-700/80 border-blue-600 text-text-primary'
                               : 'bg-purple-700/80 border-purple-600 text-text-primary'
@@ -957,7 +957,7 @@ export default function AdminClient() {
                               disabled={fetchingPsa === `bundle-${idx}`}
                               onClick={() => fetchPsaImages(b.certNumber, `bundle-${idx}`)}
                               title="Fetch images from PSA"
-                              className="flex items-center gap-1 px-2.5 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-text-primary text-[10px] font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform] disabled:opacity-50 whitespace-nowrap"
+                              className="flex items-center gap-1 px-2.5 min-h-11 rounded-lg border border-red-700/40 bg-red-700/15 text-red-300 hover:bg-red-700/30 hover:text-text-primary text-xs font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform] disabled:opacity-50 whitespace-nowrap"
                             >
                               {fetchingPsa === `bundle-${idx}`
                                 ? <Loader2 className="w-3 h-3 animate-spin" />

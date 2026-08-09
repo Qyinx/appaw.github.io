@@ -38,7 +38,7 @@ export default function PsaGradingHubClient() {
   );
 
   return (
-    <div ref={pageRef} className="psa-grading-hub flex flex-col bg-surface-bg pb-16 md:pb-0">
+    <div ref={pageRef} className="psa-grading-hub flex flex-col bg-surface-bg sticky-bottom-bar-spacer">
       <div className="chapter-nav-shell">
         <div className="container-custom">
           <ChapterNav items={chapterNavItems} />
@@ -78,7 +78,7 @@ export default function PsaGradingHubClient() {
       </footer>
 
       <div
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-border-default bg-surface-panel/95 backdrop-blur-sm p-3 md:hidden"
+        className="sticky-bottom-bar md:hidden"
         aria-label={copy.mobileSticky.label}
       >
         <div className="flex gap-2">

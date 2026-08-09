@@ -265,7 +265,7 @@ export function PublicPortfolioView({ portfolio }: PublicPortfolioViewProps) {
 
       {contactWa && (
         <>
-          <div className="fixed bottom-0 inset-x-0 z-40 border-t border-border-default bg-surface-panel/95 backdrop-blur-sm p-3 md:hidden">
+          <div className="sticky-bottom-bar md:hidden">
             <a
               href={buildWhatsAppShareUrl(contactMessage, contactWa)}
               target="_blank"

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface ChapterNavItem {
   id: string;
@@ -20,6 +20,28 @@ export default function ChapterNav({
   className = '',
 }: ChapterNavProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const shell = nav.closest('.chapter-nav-shell') as HTMLElement | null;
+    const measureTarget = shell ?? nav;
+
+    const syncHeight = () => {
+      const height = measureTarget.getBoundingClientRect().height;
+      document.documentElement.style.setProperty('--chapter-nav-height', `${height}px`);
+    };
+
+    syncHeight();
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(measureTarget);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty('--chapter-nav-height');
+    };
+  }, [items]);
 
   useEffect(() => {
     if (!items.length) return;
@@ -65,6 +87,7 @@ export default function ChapterNav({
 
   return (
     <nav
+      ref={navRef}
       className={`chapter-nav${className ? ` ${className}` : ''}`}
       aria-label={ariaLabel}
     >

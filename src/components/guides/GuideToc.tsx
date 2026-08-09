@@ -7,11 +7,13 @@ type GuideTocProps = {
   sections: GuideSection[];
   label: string;
   faqTitle?: string;
+  /** Denser chrome for mobile collapsible TOC (hides outer panel chrome when nested). */
+  compact?: boolean;
 };
 
 type TocEntry = { id: string; title: string };
 
-export default function GuideToc({ sections, label, faqTitle }: GuideTocProps) {
+export default function GuideToc({ sections, label, faqTitle, compact = false }: GuideTocProps) {
   const faqEntry = faqTitle ? { id: 'guide-faq', title: faqTitle } : null;
   const entries: TocEntry[] = useMemo(
     () => (faqEntry ? [...sections, faqEntry] : sections),
@@ -77,20 +79,27 @@ export default function GuideToc({ sections, label, faqTitle }: GuideTocProps) {
   }, [entries]);
 
   return (
-    <nav className="guide-toc panel p-5" aria-label={label}>
-      <div className="guide-toc__progress-track" aria-hidden="true">
-        <div className="guide-toc__progress-bar" style={{ width: `${progress}%` }} />
-      </div>
+    <nav
+      className={compact ? 'guide-toc guide-toc--compact' : 'guide-toc panel p-5'}
+      aria-label={label}
+    >
+      {!compact ? (
+        <div className="guide-toc__progress-track" aria-hidden="true">
+          <div className="guide-toc__progress-bar" style={{ width: `${progress}%` }} />
+        </div>
+      ) : null}
 
-      <p className="section-label mb-4">{label}</p>
-      <ol className="space-y-1">
+      {!compact ? <p className="section-label mb-4">{label}</p> : null}
+      <ol className="space-y-0.5">
         {entries.map((section, i) => {
           const isActive = section.id === activeId;
           return (
             <li key={section.id}>
               <a
                 href={`#${section.id}`}
-                className={`guide-toc__link flex items-start gap-2 py-1.5 text-sm transition-colors duration-150 ${
+                className={`guide-toc__link flex items-start gap-2 text-sm transition-colors duration-150 ${
+                  compact ? 'min-h-11 px-3 py-3' : 'py-1.5'
+                } ${
                   isActive
                     ? 'text-accent-link font-medium'
                     : 'text-text-secondary hover:text-accent-link'
@@ -109,3 +118,4 @@ export default function GuideToc({ sections, label, faqTitle }: GuideTocProps) {
     </nav>
   );
 }
+

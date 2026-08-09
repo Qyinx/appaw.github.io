@@ -145,6 +145,15 @@ With 73% of site traffic originating from mobile devices, guide metadata and con
 3. **Structured Data Rich Snippets:**
    - Every guide must include `faq[]` with 3–5 Q&As formatted for `FAQPage` JSON-LD to trigger mobile accordion snippets on SERPs.
 
+### Mobile guide layout (on-page UX)
+
+CTR rules above cover SERP; these cover the article chrome once the reader lands (see also `docs/style.md` §2.4.1):
+
+1. **In-page TOC on phone:** Long guides ship a collapsible “On this page” TOC below the spec panel on `<lg`. Desktop sticky TOC at `lg+` stays unchanged (`GuideArticle` + `GuideToc`).
+2. **Wide tables:** Keep the `GuideTable` horizontal-scroll pattern (`overflow-x-auto` + `min-w-*`). Do not redesign cells into stacked cards in content docs.
+3. **FAQ:** Single accordion UI + `FAQPage` JSON-LD — do not duplicate FAQ prose into `sections[]`.
+4. **Tap / type:** Follow style-guide floors (≥44px taps, ≥12px type) for any new in-guide controls.
+
 ---
 
 ## Content structure (`GuideContent`)

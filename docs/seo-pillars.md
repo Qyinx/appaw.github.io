@@ -1,6 +1,8 @@
 SEO Draft — Pillar Pages
 
-Last updated: 2026-08-08 — GSC 28-day search performance integration, intent clusters (psa 換殼, 138 arena, psa 殼損), CTR retargeting for high-impression pages, mobile SERP snippet rules.
+Last updated: 2026-08-09 — Mobile layout ops note (safe-area / tap / type) beside GSC device split; see `docs/style.md` §2.4.1.
+
+Prior batch (2026-08-08) — GSC 28-day search performance integration, intent clusters (psa 換殼, 138 arena, psa 殼損), CTR retargeting for high-impression pages, mobile SERP snippet rules.
 
 Prior batch (2026-07-20) — PSA track page SEO hygiene + humanized EN/ZH copy (duplicate H1 fix, speakable AEO, meta keywords).
 
@@ -26,6 +28,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 
 | Date | Area | Changes |
 |------|------|---------|
+| 2026-08-09 | Mobile layout ops | Device-split note expanded: safe-area sticky CTAs, ≥44px taps, ≥12px type on hub/guides/tools; cross-link `docs/style.md` §2.4.1. |
 | 2026-08-08 | GSC Search Intent & CTR | 28-day GSC search data integration: search intent clusters (`psa 換殼`, `138 arena`, `psa 殼損`, `psa 鑑定 香港 流程`), mobile CTR optimization (73% mobile clicks), low-CTR high-impression retargeting (`psa-grading-standards`). |
 | 2026-07-20 | PSA track SEO | `/business/psa-grading/track/` hygiene: single H1, visible subtitle + AEO helpers, form `h2`, humanized EN/ZH meta + UI copy, track keywords/OG alt, `WebPage.speakable` → `.psa-grading-track-aeo-answer`, `llms.txt`/`index.md` soft pass. |
 | 2026-07-13 | HK TCG grading SEO | `SEO_KEYWORD_MAP` + `HK_SEO_KEYWORDS` cluster (香港 TCG 鑑定, TCG 提交鑑定). `PSA_GRADING_SEO` title/description retarget. `knowsAbout`, `llms.txt`, `guides-content.md` full-phrase zh-HK copy rules. |
@@ -62,7 +65,7 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
 **Site Performance Metrics (28 Days):**
 - **Total Clicks**: 291 | **Total Impressions**: ~7,500+ (Daily impressions surged from ~150 to ~700/day)
 - **Top Countries**: Hong Kong (152 clicks / 5.62% CTR) and Taiwan (95 clicks / 8.38% CTR) account for >85% of organic traffic.
-- **Top Device Split**: Mobile devices account for **73.2% of total clicks** (213 mobile / 75 desktop / 3 tablet). Mobile SERP titles and meta descriptions must be optimized for compact screens.
+- **Top Device Split**: Mobile devices account for **73.2% of total clicks** (213 mobile / 75 desktop / 3 tablet). Mobile SERP titles and meta descriptions must be optimized for compact screens. **Layout ops (same traffic split):** hub/guides/tools sticky CTAs must use safe-area padding, interactive targets ≥44px, and body type ≥12px — see `docs/style.md` §2.4.1 Responsive / Mobile.
 
 **Top High-Performing Pages:**
 1. `/zh/tools/card-centering/`: 84 clicks, 516 impressions, **16.28% CTR** (Top conversion engine for raw card & slab pre-grading).

@@ -75,13 +75,13 @@ export default function AdminPendingCards({
                   className="w-full border border-border-strong bg-surface-panel px-3 py-2 text-sm min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
                 />
               </div>
-              <label className="flex items-center gap-2 text-sm whitespace-nowrap min-h-[44px]">
+              <label className="flex items-center gap-2 text-sm min-h-[44px] min-w-0">
                 <input
                   type="checkbox"
                   checked={card.isPaid}
                   disabled={disabled}
                   onChange={(e) => onUpdate(card.id, { isPaid: e.target.checked })}
-                  className="w-4 h-4"
+                  className="w-4 h-4 shrink-0"
                 />
                 Paid
               </label>
@@ -115,13 +115,13 @@ export default function AdminPendingCards({
                   className="w-[6.5rem] border border-border-strong bg-surface-raised px-2.5 py-2 text-sm font-mono font-tabular text-right min-h-[44px]"
                 />
               </div>
-              <label className="flex items-center gap-2 text-sm whitespace-nowrap min-h-[44px]">
+              <label className="flex items-center gap-2 text-sm min-h-[44px] min-w-0">
                 <input
                   type="checkbox"
                   checked={card.psaUpgraded}
                   disabled={disabled}
                   onChange={(e) => onUpdate(card.id, { psaUpgraded: e.target.checked })}
-                  className="w-4 h-4"
+                  className="w-4 h-4 shrink-0"
                 />
                 PSA up
               </label>

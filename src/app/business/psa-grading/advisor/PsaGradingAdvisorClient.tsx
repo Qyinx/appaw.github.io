@@ -17,7 +17,7 @@ export default function PsaGradingAdvisorClient() {
   const seo = PSA_GRADING_ADVISOR_SEO[language === 'zh' ? 'zh' : 'en'];
 
   return (
-    <div className="psa-grading-advisor flex flex-col bg-surface-bg pb-16 md:pb-0">
+    <div className="psa-grading-advisor flex flex-col bg-surface-bg sticky-bottom-bar-spacer">
       <PsaGradingHero badge={copy.advisor.badge} title={seo.h1Keyword} subtitle={copy.advisor.lead} variant="compact">
         <a
           href={PSA_SUBMISSION_APPOINTMENT_URL}
@@ -43,7 +43,7 @@ export default function PsaGradingAdvisorClient() {
       </footer>
 
       <div
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-border-default bg-surface-panel/95 backdrop-blur-sm p-3 md:hidden"
+        className="sticky-bottom-bar md:hidden"
         aria-label={copy.mobileSticky.label}
       >
         <a

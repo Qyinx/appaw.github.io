@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronDown } from 'lucide-react';
 import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
 import { useSubHeader } from '@/hooks/useSubHeader';
@@ -84,6 +84,22 @@ export default function GuideArticle({ slug }: GuideArticleProps) {
           <div className="grid lg:grid-cols-[minmax(0,1fr)_280px] gap-12 lg:gap-16">
             <div className="min-w-0 space-y-12">
               <GuideSpecPanel rows={guide.heroSpecs} title={ui.specTitle} />
+              <div className="lg:hidden">
+                <details className="guide-toc-mobile panel">
+                  <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-medium text-text-primary marker:content-none [&::-webkit-details-marker]:hidden">
+                    <span className="section-label mb-0">{ui.toc}</span>
+                    <ChevronDown className="guide-toc-mobile__chevron h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
+                  </summary>
+                  <div className="border-t border-border-default px-1 pb-2">
+                    <GuideToc
+                      sections={guide.sections}
+                      label={ui.toc}
+                      faqTitle={guide.faq?.length ? ui.faq : undefined}
+                      compact
+                    />
+                  </div>
+                </details>
+              </div>
               <GuideProse sections={guide.sections} midCta={guide.midCta} midCtaLabel={ui.midCtaLabel} />
               {guide.faq?.length ? (
                 <GuideFaq items={guide.faq} title={ui.faq} badge={ui.faqBadge} countLabel={ui.faqCount} />

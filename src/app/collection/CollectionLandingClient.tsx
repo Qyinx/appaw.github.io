@@ -83,7 +83,7 @@ function HowItWorksSteps({
                   <div className="w-11 h-11 border border-accent-link/30 bg-accent-link/10 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
                     <Icon className="w-5 h-5 text-accent-link" />
                   </div>
-                  <span className="md:hidden font-mono text-[10px] uppercase tracking-[0.22em] text-accent-link/70 font-semibold">
+                  <span className="md:hidden font-mono text-xs uppercase tracking-[0.22em] text-accent-link/70 font-semibold">
                     {stepLabel.replace('{n}', String(i + 1))}
                   </span>
                 </div>
@@ -120,10 +120,10 @@ function DashboardPreview({ labels }: { labels: ReturnType<typeof useLanguage>['
             </div>
             <div className="flex gap-2">
               <div className="px-2.5 py-1 border border-accent-success/20 bg-accent-success/10">
-                <span className="text-accent-success text-[10px] font-bold">8 {labels.statActive}</span>
+                <span className="text-accent-success text-xs font-bold">8 {labels.statActive}</span>
               </div>
               <div className="px-2.5 py-1 border border-accent-danger/20 bg-accent-danger/10">
-                <span className="text-accent-danger/80 text-[10px] font-bold">4 {labels.statSold}</span>
+                <span className="text-accent-danger/80 text-xs font-bold">4 {labels.statSold}</span>
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@ function DashboardPreview({ labels }: { labels: ReturnType<typeof useLanguage>['
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-text-primary text-xs font-semibold truncate">{labels.sampleCard}</p>
-                <p className="text-text-muted text-[10px] truncate mb-2">{labels.sampleSet}</p>
+                <p className="text-text-muted text-xs truncate mb-2">{labels.sampleSet}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="px-1.5 py-0.5 text-[9px] font-bold bg-accent-danger/90 text-text-primary">{labels.sampleGrade.split(' ')[0]}</span>
                   <span className="px-1.5 py-0.5 text-[9px] font-black bg-accent-link/20 text-accent-link border border-accent-link/30">10</span>
@@ -266,7 +266,7 @@ export default function CollectionLandingClient() {
                 className="bg-surface-panel px-6 py-6 text-center hover:bg-surface-raised transition-colors duration-300"
               >
                 <p className="font-display text-2xl md:text-3xl font-bold text-accent-link mb-1 font-tabular">{value}</p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-muted">{label}</p>
+                <p className="font-mono text-xs uppercase tracking-[0.22em] text-text-muted">{label}</p>
               </Reveal>
             ))}
           </div>
@@ -319,7 +319,7 @@ export default function CollectionLandingClient() {
                       <p className={`text-text-secondary leading-relaxed ${isHero ? 'text-sm max-w-md' : 'text-sm'}`}>{body}</p>
 
                       {isWide && (
-                        <div className="mt-4 inline-flex items-center gap-2 text-accent-link/70 font-mono text-[10px] uppercase tracking-[0.2em]">
+                        <div className="mt-4 inline-flex items-center gap-2 text-accent-link/70 font-mono text-xs uppercase tracking-[0.2em]">
                           <Sparkles className="w-3 h-3" />
                           {L.aiBadge}
                         </div>

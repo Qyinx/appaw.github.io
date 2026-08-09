@@ -2029,7 +2029,7 @@
 @media (max-width: 989px) and (min-width: 769px) {
   .toolInstrumentLabel {
     padding: 8px 10px;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     letter-spacing: 0.1em;
     max-width: 34%;
   }
@@ -2075,7 +2075,7 @@
     width: auto;
     max-width: 38%;
     padding: 6px 8px;
-    font-size: 0.5625rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     border-right: var(--border-width, 1px) solid var(--tool-border);
     border-bottom: none;
@@ -2307,7 +2307,7 @@
   .toolInstrumentLabel {
     max-width: 42%;
     padding: 5px 6px;
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .gradePillMain {

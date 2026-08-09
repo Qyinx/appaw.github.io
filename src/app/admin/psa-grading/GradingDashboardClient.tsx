@@ -152,8 +152,8 @@ export default function GradingDashboardClient() {
         </div>
 
         {activeTab === 'batches' && (
-          <div className="flex flex-wrap items-end gap-3">
-            <div className="flex-1 min-w-[200px]">
+          <div className="flex flex-col sm:flex-wrap sm:flex-row items-stretch sm:items-end gap-3">
+            <div className="flex-1 min-w-0 sm:min-w-[200px]">
               <label htmlFor="batch-search" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
                 Search batches
               </label>
@@ -165,7 +165,7 @@ export default function GradingDashboardClient() {
                 className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
               />
             </div>
-            <div className="min-w-[180px]">
+            <div className="w-full sm:w-auto sm:min-w-[180px]">
               <label htmlFor="batch-progress" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
                 Progress
               </label>
@@ -193,8 +193,8 @@ export default function GradingDashboardClient() {
         )}
 
         {activeTab === 'orders' && (
-          <div className="flex flex-wrap items-end gap-3">
-            <div className="flex-1 min-w-[200px]">
+          <div className="flex flex-col sm:flex-wrap sm:flex-row items-stretch sm:items-end gap-3">
+            <div className="flex-1 min-w-0 sm:min-w-[200px]">
               <label htmlFor="order-search" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
                 Search orders
               </label>
@@ -206,7 +206,7 @@ export default function GradingDashboardClient() {
                 className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
               />
             </div>
-            <div className="min-w-[180px]">
+            <div className="w-full sm:w-auto sm:min-w-[180px]">
               <label htmlFor="order-batch" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
                 Batch reference
               </label>
@@ -224,7 +224,7 @@ export default function GradingDashboardClient() {
                 ))}
               </select>
             </div>
-            <div className="min-w-[160px]">
+            <div className="w-full sm:w-auto sm:min-w-[160px]">
               <label htmlFor="order-payment" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
                 Payment status
               </label>

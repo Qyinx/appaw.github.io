@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import LocalLink from '@/components/LocalLink';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -147,6 +147,7 @@ export default function Header() {
   const [isMobileBusinessOpen, setIsMobileBusinessOpen] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(cachedProfile);
   const { language, setLanguage, t } = useLanguage();
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (cachedProfile) {
@@ -160,6 +161,35 @@ export default function Header() {
       setProfile(profileFromStorage);
     }
   }, []);
+
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+    setIsMobileBusinessOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false);
+        setIsMobileBusinessOpen(false);
+        menuToggleRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isMenuOpen]);
 
   const navLinks = [
     { href: '/', label: t.nav.home },
@@ -177,9 +207,6 @@ export default function Header() {
     { href: '/guides', label: t.nav.guides },
     { href: '/about', label: t.nav.about },
   ];
-
-  const pathname = usePathname();
-  const router = useRouter();
 
   const selectLanguage = (next: 'en' | 'zh') => {
     if (next === language) return;
@@ -309,11 +336,13 @@ export default function Header() {
             />
 
             <button
+              ref={menuToggleRef}
               type="button"
               className="header-chrome md:hidden relative min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors duration-150"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
+              aria-controls="site-mobile-nav"
             >
               <HeaderChrome showCursor={false}>
                 {isMenuOpen ? (
@@ -327,9 +356,14 @@ export default function Header() {
         </div>
 
         <div
-          className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-200 ${isMenuOpen ? 'max-h-[480px] opacity-100' : 'max-h-0 opacity-0'}`}
+          id="site-mobile-nav"
+          className={`md:hidden transition-[max-height,opacity] duration-200 ${
+            isMenuOpen
+              ? 'max-h-[min(80dvh,calc(100dvh-var(--site-header-height)))] opacity-100 overflow-y-auto overscroll-contain'
+              : 'max-h-0 opacity-0 overflow-hidden'
+          }`}
         >
-          <div className="py-4 border-t border-border-default">
+          <div className="py-4 border-t border-border-default pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
             {profile && (
               <div className="px-4 py-3 mb-2 flex items-center gap-2 panel-raised">
                 <span className="w-1.5 h-1.5 bg-accent-brand" aria-hidden="true" />
@@ -344,7 +378,7 @@ export default function Header() {
                     <div key={link.href}>
                       <button
                         type="button"
-                        className={`header-chrome relative w-full text-left px-4 py-3 text-sm font-medium ${isActive ? 'text-accent-brand' : 'text-text-secondary'}`}
+                        className={`header-chrome relative w-full text-left px-4 py-3 text-sm font-medium min-h-11 ${isActive ? 'text-accent-brand' : 'text-text-secondary'}`}
                         onClick={() => setIsMobileBusinessOpen(!isMobileBusinessOpen)}
                         aria-expanded={isMobileBusinessOpen}
                       >
@@ -359,14 +393,20 @@ export default function Header() {
                           </span>
                         </HeaderChrome>
                       </button>
-                      <div className={`overflow-hidden transition-[max-height,opacity] duration-200 ${isMobileBusinessOpen ? 'max-h-56 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div
+                        className={`overflow-hidden transition-[max-height,opacity] duration-200 ${
+                          isMobileBusinessOpen
+                            ? 'max-h-[min(50dvh,20rem)] opacity-100 overflow-y-auto'
+                            : 'max-h-0 opacity-0'
+                        }`}
+                      >
                         {link.children.map((child) => {
                           const isChildActive = isActivePath(child.href);
                           return (
                             <LocalLink
                               key={child.href}
                               href={child.href}
-                              className={`header-chrome relative block pl-8 pr-4 py-2.5 text-sm ${isChildActive ? 'text-accent-brand' : 'text-text-secondary'}`}
+                              className={`header-chrome relative block pl-8 pr-4 py-3 text-sm min-h-11 ${isChildActive ? 'text-accent-brand' : 'text-text-secondary'}`}
                               onClick={() => setIsMenuOpen(false)}
                             >
                               <HeaderChrome>{child.label}</HeaderChrome>
@@ -381,7 +421,7 @@ export default function Header() {
                   <LocalLink
                     key={link.href}
                     href={link.href}
-                    className={`header-chrome relative block px-4 py-3 text-sm font-medium ${isActive ? 'text-accent-brand' : 'text-text-secondary'}`}
+                    className={`header-chrome relative block px-4 py-3 text-sm font-medium min-h-11 ${isActive ? 'text-accent-brand' : 'text-text-secondary'}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <HeaderChrome>{link.label}</HeaderChrome>

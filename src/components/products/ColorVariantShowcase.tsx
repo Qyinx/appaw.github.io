@@ -189,7 +189,7 @@ export default function ColorVariantShowcase({
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-3 mb-8" role="radiogroup" aria-label={pickColorLabel}>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8" role="radiogroup" aria-label={pickColorLabel}>
           {colors.map((color, i) => {
             const isActive = selectedColor === i;
             return (

@@ -1,7 +1,7 @@
 # Appaw Store — Design System & Style Guide
 
 **Status:** Draft foundation for design-system revamp — **light-first default** (June 2026)  
-**Last updated:** 2026-06-06  
+**Last updated:** 2026-08-09 — Responsive / Mobile layout rules for majority-mobile traffic
 
 > **Light-first default (2026-06-06):** Site ships with light semantic tokens on `:root` (`--surface-bg: #FAFAF8`, flat panels, visible 1px borders). Dark theme is opt-in via `.dark` on `<html>` (style-guide preview toggle only for now). Noise overlay and panel drop-shadows apply in dark mode only. Components should use semantic Tailwind aliases (`text-text-primary`, `bg-surface-panel`, etc.) — not hardcoded `text-white` or dark hex backgrounds.
 
@@ -153,7 +153,24 @@ Rule: ratios for **width/column** splits; `--space-align-*` for **vertical** com
 
 Max content width: **1080px** for tools/docs; **1280px** for marketing grids.
 
-Grid: CSS Grid/Flex only — no JS layout measurement.
+Grid: CSS Grid/Flex only — no JS layout measurement for column placement. Exception: measure sticky chrome height (`ChapterNav` → `--chapter-nav-height`) so scroll-margin stays correct when chips wrap.
+
+### 2.4.1 Responsive / Mobile
+
+GSC baseline: majority of organic clicks are mobile (~73%). Layout must stay operable on ~390px viewports.
+
+| Rule | Detail |
+|------|--------|
+| Gutters | `--space-page-x` (`clamp(16px, 4vw, 24px)`) via `container-custom` / `container-tool` |
+| Sticky bottom CTAs | Use `.sticky-bottom-bar` + `.sticky-bottom-bar-spacer` (includes `safe-area-inset-bottom`) — do not invent local `fixed bottom-0 p-3` bars |
+| Header mobile nav | Scrollable panel (`max-h` ≤ viewport minus header), body scroll lock while open, close on Escape / route change |
+| Tables | Wrap in `overflow-x-auto`; wide tables may use `min-w-*` — never clip without scroll |
+| Type floor | Minimum **12px** (`text-xs` / `0.75rem`) — no `text-[10px]` / sub-12px instrument labels |
+| Tap targets | Interactive controls ≥ **44×44px** (`.btn`, hamburger, footer links, filter pills) |
+| Chapter nav | Keep `--chapter-nav-height` in sync when wrapped; sticky shell under `--site-header-height` |
+| Motion | No ScrollTrigger **pin** below `md` (see §1.1 Tier B) |
+
+Breakpoints (Tailwind defaults): `sm` 640 · `md` 768 (primary phone/desktop split) · `lg` 1024 (guide TOC sidebar).
 
 ### 2.5 Motion
 
