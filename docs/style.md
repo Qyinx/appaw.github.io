@@ -76,7 +76,7 @@ Implement in `src/styles/globals.css` `@theme` block. Semantic names first; scal
 
 ### 2.1 Color — semantic
 
-**Light palette rationale (June 2026):** Warm paper canvas `#FAFAF8` keeps hardware/product photography neutral without sterile cool-gray. Deepened blush `#E85D6F` retains brand warmth while pairing with near-black `#0F1419` borders for neo-brutalist CTAs — saturated enough to pop, dark enough for 4.5:1 on white button labels via structural ink. Slate-indigo `#5B6FD6` replaces pastel `#818cf8` for links and focus rings: ~5.2:1 on white (AA), reads as engineering data not generic purple gradient. Gold warn unchanged — tool metrics anchor. Structural near-black handles spec labels, mono badges, and 1px chrome without importing full dark canvas.
+**Light palette rationale (June 2026):** Warm paper canvas `#FAFAF8` keeps hardware/product photography neutral without sterile cool-gray. Brand blush `#E85D6F` is for rails, active chrome, and tinted surfaces — not solid button fills. Solid CTAs use deepened `--accent-cta` `#C23D52` with white `--accent-cta-ink` (~5.1:1 AA) so primary controls stay readable; mid blush + dark ink looked muddy and failed on hover. Soft dark blush `#ff9aa6` stays accent-only. Slate-indigo `#5B6FD6` replaces pastel `#818cf8` for links and focus rings: ~5.2:1 on white (AA). Gold warn unchanged — tool metrics anchor. Structural flips with theme for filled chrome (selected filter pills), not for CTA label ink.
 
 | Token | Light | Dark | Use |
 |-------|-------|------|-----|
@@ -88,9 +88,11 @@ Implement in `src/styles/globals.css` `@theme` block. Semantic names first; scal
 | `--text-primary` | `#0F1419` | `#e5e7eb` | Body |
 | `--text-secondary` | `#4A5568` | `#9ca3af` | Labels, hints |
 | `--text-muted` | `#6B7280` | `#6b7280` | Spec labels, disabled |
-| `--accent-primary` | `#E85D6F` | `#ff9aa6` | Brand blush — CTAs, active |
+| `--accent-primary` | `#E85D6F` | `#ff9aa6` | Brand blush — rails, active, tints |
+| `--accent-cta` | `#C23D52` | `#C23D52` | Solid primary buttons (`.btn-primary`) |
+| `--accent-cta-ink` | `#ffffff` | `#ffffff` | Label ink on solid CTAs |
 | `--accent-secondary` | `#5B6FD6` | `#8b98fb` | Links, focus ring |
-| `--accent-structural` | `#0F1419` | `#e5e7eb` | Brutalist chrome, CTA label ink |
+| `--accent-structural` | `#0F1419` | `#e5e7eb` | Brutalist chrome fills / borders |
 | `--accent-warn` | `#f59e0b` | `#fbbf24` | Tool highlights, metrics |
 | `--accent-success` | `#22c55e` | `#4ade80` | Pass states |
 | `--accent-danger` | `#ef4444` | `#f87171` | Errors, destructive |

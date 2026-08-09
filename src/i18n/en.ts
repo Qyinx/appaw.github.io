@@ -847,7 +847,7 @@ export const en = {
       ctaHref: '/business/card-trading/',
     },
     batchBoard: {
-      title: 'Is this round still open?',
+      title: 'Current progress of PSA grading batches',
       lead: 'Intake cutoff and where each BAT round sits.',
       phases: {
         intake: 'Intake open',

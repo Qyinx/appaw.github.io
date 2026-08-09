@@ -22,7 +22,7 @@ export default function GuideMidCta({ cta, label = 'Next step' }: GuideMidCtaPro
       <div className="flex flex-wrap gap-3">
         <LocalLink
           href={cta.primary.href}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-accent-brand text-accent-structural border border-accent-brand font-semibold text-sm hover:opacity-90 transition-opacity duration-150"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-accent-cta text-accent-cta-ink border border-accent-cta font-semibold text-sm hover:opacity-90 transition-opacity duration-150"
         >
           {cta.primary.label}
           <ArrowRight className="w-4 h-4" aria-hidden="true" />

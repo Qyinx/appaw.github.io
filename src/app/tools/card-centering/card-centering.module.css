@@ -312,9 +312,9 @@
   min-height: 48px;
   padding: 10px 12px 10px 10px;
   border-radius: var(--radius-control, 6px);
-  background: var(--accent-primary);
-  color: var(--accent-structural);
-  border: var(--border-width, 1px) solid color-mix(in srgb, var(--accent-primary) 70%, var(--accent-structural));
+  background: var(--accent-cta);
+  color: var(--accent-cta-ink);
+  border: var(--border-width, 1px) solid color-mix(in srgb, var(--accent-cta) 72%, #0F1419);
   cursor: pointer;
   touch-action: manipulation;
   text-align: left;
@@ -523,11 +523,11 @@
   padding: 8px 16px;
   min-height: 40px;
   border-radius: var(--radius-control, 6px);
-  background: var(--accent-primary);
-  color: var(--accent-structural);
+  background: var(--accent-cta);
+  color: var(--accent-cta-ink);
   font-size: 0.8125rem;
   font-weight: 600;
-  border: var(--border-width, 1px) solid color-mix(in srgb, var(--accent-primary) 70%, var(--accent-structural));
+  border: var(--border-width, 1px) solid color-mix(in srgb, var(--accent-cta) 72%, #0F1419);
   cursor: pointer;
   touch-action: manipulation;
 }

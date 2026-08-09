@@ -60,7 +60,7 @@ const navIdle =
   'border-l-[3px] border-transparent text-text-secondary hover:text-text-primary hover:bg-surface-raised font-medium';
 const portfolioIconBtn =
   'inline-flex items-center justify-center w-7 h-7 border border-border-default transition-[background-color,color,opacity,filter] focus-visible:outline-none focus-visible:border-accent-secondary focus-visible:shadow-[0_0_0_2px_color-mix(in_srgb,var(--accent-secondary)_25%,transparent)]';
-const portfolioIconBtnConfirm = `${portfolioIconBtn} bg-accent-primary text-accent-structural hover:brightness-110 disabled:opacity-40`;
+const portfolioIconBtnConfirm = `${portfolioIconBtn} bg-accent-cta text-accent-cta-ink hover:brightness-110 disabled:opacity-40`;
 const portfolioIconBtnNeutral = `${portfolioIconBtn} bg-surface-raised text-text-muted hover:text-text-primary`;
 const portfolioIconBtnDanger = `${portfolioIconBtn} bg-surface-raised text-text-muted hover:border-accent-danger/30 hover:bg-accent-danger/10 hover:text-accent-danger`;
 

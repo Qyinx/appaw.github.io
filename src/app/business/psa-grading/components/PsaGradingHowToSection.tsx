@@ -8,6 +8,7 @@ import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 import type { Translations } from '@/i18n/en';
 import PsaGradingHowToScrollBackground from './PsaGradingHowToScrollBackground';
 import PsaGradingWorkflowTimeline from './PsaGradingWorkflowTimeline';
+import PsaBatchProgressBoard from './PsaBatchProgressBoard';
 
 type HowToCopy = Translations['psaGradingPage']['howTo'];
 type HeroCopy = Translations['psaGradingPage']['hero'];
@@ -82,6 +83,8 @@ export default function PsaGradingHowToSection({ badge, hero, howTo, aeo }: Prop
       <div className="how-to-scroll-section__hero-band page-blueprint bg-surface-bg border-b border-border-default">
         <div className="container-custom">{heroBlock}</div>
       </div>
+
+      <PsaBatchProgressBoard />
 
       <div className="how-to-scroll-section__stage">
         <div className="how-to-scroll-section__bg" aria-hidden="true">

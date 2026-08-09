@@ -11,7 +11,6 @@ import ChapterNav from '@/components/motion/ChapterNav';
 import LocalLink from '@/components/LocalLink';
 import PsaPricingTable from './components/PsaPricingTable';
 import PsaGradingHowToSection from './components/PsaGradingHowToSection';
-import PsaBatchProgressBoard from './components/PsaBatchProgressBoard';
 import PsaGradingBookSection from './components/PsaGradingBookSection';
 import PsaGradingFaqSection from './components/PsaGradingFaqSection';
 import PsaAdvisorTeaser from './components/PsaAdvisorTeaser';
@@ -47,8 +46,6 @@ export default function PsaGradingHubClient() {
       </div>
 
       <PsaGradingHowToSection badge={copy.badge} hero={copy.hero} howTo={copy.howTo} aeo={copy.aeo} />
-
-      <PsaBatchProgressBoard />
 
       <PsaAdvisorTeaser copy={copy.advisorTeaser} />
 

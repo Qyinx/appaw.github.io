@@ -14,6 +14,9 @@
   --text-secondary: #4A5568;
   --text-muted: #6B7280;
   --accent-primary: #E85D6F;
+  /* Solid CTA fill — deeper than brand blush so white label ink clears WCAG AA */
+  --accent-cta: #C23D52;
+  --accent-cta-ink: #ffffff;
   --accent-secondary: #5B6FD6;
   --accent-structural: #0F1419;
   --accent-warn: #f59e0b;
@@ -113,7 +116,11 @@
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
   --accent-primary: #ff9aa6;
+  /* Solid CTAs stay deepened + white ink; soft blush is for rails/active only */
+  --accent-cta: #C23D52;
+  --accent-cta-ink: #ffffff;
   --accent-secondary: #8b98fb;
+  --accent-structural: #e5e7eb;
   --accent-warn: #fbbf24;
   --accent-success: #4ade80;
   --accent-danger: #f87171;
@@ -192,6 +199,8 @@
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
   --color-accent-brand: var(--accent-primary);
+  --color-accent-cta: var(--accent-cta);
+  --color-accent-cta-ink: var(--accent-cta-ink);
   --color-accent-link: var(--accent-secondary);
   --color-accent-warn: var(--accent-warn);
   --color-accent-success: var(--accent-success);
@@ -465,21 +474,21 @@ select option {
 }
 
 .btn-primary {
-  background: var(--accent-primary);
-  border-color: color-mix(in srgb, var(--accent-primary) 70%, var(--accent-structural));
-  color: var(--accent-structural);
+  background: var(--accent-cta);
+  border-color: color-mix(in srgb, var(--accent-cta) 72%, #0F1419);
+  color: var(--accent-cta-ink);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--accent-primary) 90%, var(--accent-structural));
-  border-color: var(--accent-structural);
-  color: var(--accent-structural);
+  background: color-mix(in srgb, var(--accent-cta) 88%, #0F1419);
+  border-color: #0F1419;
+  color: var(--accent-cta-ink);
 }
 
 .btn-primary:active:not(:disabled) {
-  background: color-mix(in srgb, var(--accent-primary) 78%, var(--accent-structural));
-  border-color: var(--accent-structural);
-  color: var(--accent-structural);
+  background: color-mix(in srgb, var(--accent-cta) 78%, #0F1419);
+  border-color: #0F1419;
+  color: var(--accent-cta-ink);
 }
 
 .btn-secondary,
@@ -2238,7 +2247,7 @@ select option {
 }
 
 @media (min-width: 768px) {
-  /* Batches board sits between sticky chapter-nav and how-to — do not pull how-to up. */
+  /* Batch board sits after hero, before pinned how-to stage — do not pull how-to up. */
   .psa-grading-hub .how-to-scroll-section:not(.how-to-scroll-section--static) {
     margin-top: 0;
   }
@@ -2729,9 +2738,9 @@ select option {
 }
 
 .feature-index-badge[data-active='true'] {
-  background: var(--accent-primary);
-  border-color: color-mix(in srgb, var(--accent-primary) 70%, var(--accent-structural));
-  color: var(--accent-structural);
+  background: var(--accent-cta);
+  border-color: color-mix(in srgb, var(--accent-cta) 72%, #0F1419);
+  color: var(--accent-cta-ink);
 }
 
 .feature-slot-btn {
@@ -2750,9 +2759,9 @@ select option {
 }
 
 .feature-slot-btn[aria-current='true'] {
-  background: var(--accent-primary);
-  border-color: color-mix(in srgb, var(--accent-primary) 70%, var(--accent-structural));
-  color: var(--accent-structural);
+  background: var(--accent-cta);
+  border-color: color-mix(in srgb, var(--accent-cta) 72%, #0F1419);
+  color: var(--accent-cta-ink);
   font-weight: 600;
 }
 
@@ -4167,21 +4176,21 @@ main {
 }
 
 .collection-action-pill--primary {
-  background: var(--accent-primary);
-  border-color: color-mix(in srgb, var(--accent-primary) 70%, var(--accent-structural));
-  color: var(--accent-structural);
+  background: var(--accent-cta);
+  border-color: color-mix(in srgb, var(--accent-cta) 72%, #0F1419);
+  color: var(--accent-cta-ink);
 }
 
 .collection-action-pill--primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--accent-primary) 90%, var(--accent-structural));
-  border-color: var(--accent-structural);
-  color: var(--accent-structural);
+  background: color-mix(in srgb, var(--accent-cta) 88%, #0F1419);
+  border-color: #0F1419;
+  color: var(--accent-cta-ink);
 }
 
 .collection-action-pill--primary:active:not(:disabled) {
-  background: color-mix(in srgb, var(--accent-primary) 78%, var(--accent-structural));
-  border-color: var(--accent-structural);
-  color: var(--accent-structural);
+  background: color-mix(in srgb, var(--accent-cta) 78%, #0F1419);
+  border-color: #0F1419;
+  color: var(--accent-cta-ink);
 }
 
 .collection-action-pill--danger {

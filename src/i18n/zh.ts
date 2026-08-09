@@ -848,7 +848,7 @@ export const zh: Translations = {
       ctaHref: '/business/card-trading/',
     },
     batchBoard: {
-      title: '這輪還要送件嗎？',
+      title: '現有 PSA 鑑定團進度',
       lead: '目前各批次的收件與處理進度。',
       phases: {
         intake: '開放收件中',
@@ -897,7 +897,7 @@ export const zh: Translations = {
       directionsLink: '查看 Google 路線圖',
       ctaBook: '立刻預約',
       questionsPrefix: '還有其他疑問嗎？',
-      questionsWhatsApp: '聯絡客服 WhatsApp',
+      questionsWhatsApp: '聯絡我們 WhatsApp',
     },
     mobileSticky: {
       label: '快速導航',
@@ -1059,7 +1059,7 @@ export const zh: Translations = {
       track: '查看現有進度',
       guide: '複習 PSA 評分標準',
       questionsPrefix: '還在猶豫？',
-      questionsWhatsApp: '敲 WhatsApp 問我們',
+      questionsWhatsApp: '聯絡我們 WhatsApp',
     },
     pricing: {
       badge: '透明收費',
