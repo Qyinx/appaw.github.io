@@ -6,6 +6,12 @@ const nextConfig = {
   // Static export for production deploy only. Dev needs API routes (/api/admin/*).
   ...(process.env.NODE_ENV === 'production' ? { output: 'export' } : {}),
   trailingSlash: true,
+  // Inline CSS into HTML so Clarity (and similar) capture styles in the DOM snapshot.
+  // Hashed /_next/static/css/*.css files are deleted on each GitHub Pages deploy;
+  // Clarity refetches those URLs at replay time and otherwise shows unstyled HTML.
+  experimental: {
+    inlineCss: true,
+  },
   images: {
     unoptimized: true,
     qualities: [75, 85, 100],
