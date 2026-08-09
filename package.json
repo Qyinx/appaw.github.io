@@ -9,7 +9,7 @@
     "dev": "next dev --turbopack --hostname 0.0.0.0 --experimental-https",
     "build": "next build && node scripts/patch-zh-html-lang.mjs && node scripts/patch-gh-pages-spa-fallback.mjs",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "lint:zh-guides": "node scripts/lint-zh-guides.mjs",
     "export": "next build",
     "optimize-images": "node scripts/optimize-images.mjs",
@@ -20,7 +20,7 @@
     "optimize-and-build": "npm run optimize-images && npm run build"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.16.2",
+    "@auth0/auth0-react": "^2.23.0",
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-brands-svg-icons": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
@@ -35,7 +35,7 @@
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
     "lucide-react": "^0.468.0",
-    "next": "^16.0.7",
+    "next": "^16.3.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },
@@ -47,10 +47,10 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
-    "baseline-browser-mapping": "^2.9.19",
+    "baseline-browser-mapping": "^2.11.13",
     "eslint": "^9.16.0",
-    "eslint-config-next": "^15.1.0",
-    "sharp": "^0.34.5",
+    "eslint-config-next": "^16.3.0",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.7.2"
   }

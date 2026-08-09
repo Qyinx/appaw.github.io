@@ -137,24 +137,6 @@ export default function CollectionSettingsClient() {
     }
   };
 
-  if (auth0Loading || (!isAuthenticated && typeof window !== 'undefined')) {
-    if (!auth0Loading && !isAuthenticated && typeof window !== 'undefined') {
-      window.location.replace(localize('/collection/auth'));
-    }
-    return (
-      <div className="min-h-dvh bg-surface-bg collection-workspace page-blueprint">
-        <div className="workspace-canvas container-tool max-w-3xl py-8">
-          <CollectionLoadingSkeleton variant="form" label={t.common.loading} />
-        </div>
-      </div>
-    );
-  }
-
-  const emailDisplay = mail || user?.email || '—';
-
-  const selectCls =
-    'w-full bg-surface-panel border border-border-default px-3 py-2 min-h-11 text-text-primary text-sm focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-[border-color,box-shadow]';
-
   useSubHeader({
     width: 'narrow',
     layout: 'form',
@@ -191,6 +173,24 @@ export default function CollectionSettingsClient() {
       </button>
     ),
   });
+
+  if (auth0Loading || (!isAuthenticated && typeof window !== 'undefined')) {
+    if (!auth0Loading && !isAuthenticated && typeof window !== 'undefined') {
+      window.location.replace(localize('/collection/auth'));
+    }
+    return (
+      <div className="min-h-dvh bg-surface-bg collection-workspace page-blueprint">
+        <div className="workspace-canvas container-tool max-w-3xl py-8">
+          <CollectionLoadingSkeleton variant="form" label={t.common.loading} />
+        </div>
+      </div>
+    );
+  }
+
+  const emailDisplay = mail || user?.email || '—';
+
+  const selectCls =
+    'w-full bg-surface-panel border border-border-default px-3 py-2 min-h-11 text-text-primary text-sm focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg transition-[border-color,box-shadow]';
 
   return (
     <div className="min-h-dvh bg-surface-bg collection-page collection-workspace page-blueprint overflow-x-clip">
