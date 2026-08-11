@@ -5,9 +5,9 @@
 :root {
   color-scheme: light;
 
-  --surface-bg: #FAFAF8;
+  --surface-bg: #FBFAF6;
   --surface-panel: #ffffff;
-  --surface-raised: #F3F2F0;
+  --surface-raised: #F2EBDD;
   --border-default: rgba(15, 20, 25, 0.08);
   --border-strong: rgba(15, 20, 25, 0.14);
   --text-primary: #0F1419;
@@ -98,8 +98,9 @@
   --atmosphere-grid-major-size: 72px;
   --atmosphere-vignette-color: 15, 20, 25;
   --atmosphere-vignette-opacity: 0.055;
-  --atmosphere-center-glow-color: 255, 255, 255;
-  --atmosphere-center-glow-opacity: 0.28;
+  /* Warm paper glow — match canvas hue (avoid grey/white wash) */
+  --atmosphere-center-glow-color: 250, 246, 236;
+  --atmosphere-center-glow-opacity: 0.22;
   --atmosphere-noise-opacity: 0.034;
   --atmosphere-noise-size: 128px;
 }
@@ -177,7 +178,7 @@
   --color-accent-900: #78350f;
   --color-accent-950: #451a03;
 
-  --color-neutral-50: #FAFAF8;
+  --color-neutral-50: #FBFAF6;
   --color-neutral-100: #f3f4f6;
   --color-neutral-200: #e5e7eb;
   --color-neutral-300: #d1d5db;
@@ -1671,59 +1672,165 @@ select option {
   border-color: var(--border-strong);
 }
 
-/* Header language segmented toggle */
+/* Header language pill toggle — flat west column / east lantern + bounce slide */
 .header-lang-toggle {
-  display: inline-flex;
+  --lang-toggle-pad: 0.1875rem;
+  --lang-toggle-speed: 0.5s;
+  --lang-toggle-ease: cubic-bezier(0.4, -0.3, 0.6, 1.3);
+  --lang-east: 0;
+  --lang-west-sky: #8fa9c4;
+  --lang-east-sky: #b07a86;
+  --lang-motif: rgb(255 255 255 / 0.72);
+  --lang-thumb: var(--surface-bg);
+
+  position: relative;
+  display: inline-grid;
   flex-shrink: 0;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  min-width: 7.25rem;
+  min-height: 2.75rem;
+  padding: var(--lang-toggle-pad);
   border: var(--border-width) solid var(--border-strong);
-  background: var(--surface-panel);
+  border-radius: 0;
+  background: color-mix(
+    in srgb,
+    var(--lang-west-sky) calc((1 - var(--lang-east)) * 100%),
+    var(--lang-east-sky) calc(var(--lang-east) * 100%)
+  );
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  isolation: isolate;
+  transition:
+    transform 120ms ease,
+    background var(--lang-toggle-speed) var(--lang-toggle-ease);
 }
 
-.header-lang-toggle__option {
+.header-lang-toggle[aria-pressed='true'] {
+  --lang-east: 1;
+}
+
+.header-lang-toggle:active {
+  transform: scale(0.97);
+}
+
+.header-lang-toggle:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 2px;
+}
+
+.header-lang-toggle__scene {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.header-lang-toggle__motif {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  display: grid;
+  align-items: end;
+  justify-items: stretch;
+  color: var(--lang-motif);
+  transition:
+    opacity var(--lang-toggle-speed) var(--lang-toggle-ease),
+    translate var(--lang-toggle-speed) var(--lang-toggle-ease);
+}
+
+/* Open-sky half only — never under the thumb, never under active label */
+.header-lang-toggle__motif--west {
+  right: 0;
+  opacity: calc(1 - var(--lang-east));
+  translate: calc(var(--lang-east) * 12%) 0;
+}
+
+.header-lang-toggle__motif--east {
+  left: 0;
+  opacity: var(--lang-east);
+  translate: calc((1 - var(--lang-east)) * -12%) 0;
+}
+
+.header-lang-toggle__svg {
+  display: block;
+  width: 100%;
+  height: 88%;
+  padding: 0.15rem 0.3rem 0.1rem;
+  box-sizing: border-box;
+}
+
+.header-lang-toggle__thumb {
+  position: absolute;
+  top: var(--lang-toggle-pad);
+  bottom: var(--lang-toggle-pad);
+  left: var(--lang-toggle-pad);
+  width: calc(50% - var(--lang-toggle-pad));
+  border-radius: 0;
+  background: var(--lang-thumb);
+  pointer-events: none;
+  z-index: 1;
+  transition: translate var(--lang-toggle-speed) var(--lang-toggle-ease);
+  translate: 0 0;
+}
+
+.header-lang-toggle[aria-pressed='true'] .header-lang-toggle__thumb {
+  translate: 100% 0;
+}
+
+.header-lang-toggle__labels {
+  display: contents;
+}
+
+.header-lang-toggle__label {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
-  padding: 0 0.625rem;
+  padding: 0 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  background: transparent;
-  border: none;
-  border-right: var(--border-width) solid var(--border-default);
-  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  color: rgb(255 255 255 / 0.88);
+  text-shadow: 0 1px 2px rgb(15 20 25 / 0.35);
+  transition: color calc(var(--lang-toggle-speed) * 0.6) ease, text-shadow calc(var(--lang-toggle-speed) * 0.6) ease;
+  user-select: none;
 }
 
-.header-lang-toggle__option:last-child {
-  border-right: none;
+.header-lang-toggle__label--zh {
+  letter-spacing: 0.04em;
+  text-transform: none;
 }
 
-.header-lang-toggle__option:hover {
+/* Keep open-sky half art-only — inactive label hidden so motifs stay clear */
+.header-lang-toggle__label:not(.is-active) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.header-lang-toggle__label.is-active {
   color: var(--text-primary);
-  background: var(--surface-raised);
-}
-
-.header-lang-toggle__option[aria-pressed='true'] {
-  background: var(--accent-structural);
-  color: var(--surface-bg);
-}
-
-.header-lang-toggle__option[aria-pressed='true']:hover {
-  background: var(--accent-structural);
-  color: var(--surface-bg);
-}
-
-.header-lang-toggle__option:focus-visible {
-  outline: 2px solid var(--accent-secondary);
-  outline-offset: -2px;
-  z-index: 1;
+  text-shadow: none;
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .header-lang-toggle,
+  .header-lang-toggle__thumb,
+  .header-lang-toggle__label,
+  .header-lang-toggle__motif {
+    transition: none;
+  }
+
   .header-chrome__cursor {
     animation: none !important;
   }
@@ -3617,7 +3724,15 @@ main {
   max-width: min(100%, 67.5rem);
   padding-top: 0;
   padding-bottom: 0;
-  min-height: 0;
+  /* Keep stable chrome height — 0 collapses measured --site-subheader-height. */
+  min-height: 2.75rem;
+  align-items: stretch;
+}
+
+.site-subheader--tool .collection-workspace-chrome__leading,
+.site-subheader--tool .collection-workspace-chrome__trailing {
+  align-self: stretch;
+  align-items: center;
 }
 
 .site-subheader--tool .collection-workspace-chrome__leading {
@@ -3629,6 +3744,7 @@ main {
   flex: 1 1 auto;
   min-width: 0;
   max-width: min(100%, 640px);
+  justify-content: flex-end;
 }
 
 /* PSA grading track — operational workspace (shares collection chrome z-index fixes) */

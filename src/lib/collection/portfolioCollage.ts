@@ -79,7 +79,7 @@ export async function generatePortfolioCollage(
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
 
-  ctx.fillStyle = '#FAFAF8';
+  ctx.fillStyle = '#FBFAF6';
   ctx.fillRect(0, 0, width, height);
 
   ctx.fillStyle = '#0F1419';

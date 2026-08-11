@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useSyncExternalStore } from 'react';
+import React, { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 import { useSubHeaderContext, type SubHeaderConfig } from '@/context/sub-header-context';
 
 function hasSubHeaderContent(config: SubHeaderConfig): boolean {
@@ -68,17 +68,22 @@ export default function SiteSubHeader() {
 
   const visible = config != null && hasSubHeaderContent(config);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = document.documentElement;
 
-    if (!visible || !rootRef.current) {
+    if (!visible) {
       root.style.setProperty('--site-subheader-height', '0px');
       return;
     }
 
     const el = rootRef.current;
+    if (!el) return;
+
     const syncHeight = () => {
-      root.style.setProperty('--site-subheader-height', `${el.offsetHeight}px`);
+      const next = `${el.offsetHeight}px`;
+      if (root.style.getPropertyValue('--site-subheader-height') !== next) {
+        root.style.setProperty('--site-subheader-height', next);
+      }
     };
 
     syncHeight();
@@ -87,9 +92,10 @@ export default function SiteSubHeader() {
 
     return () => {
       observer.disconnect();
+      // Unmount / hide only — do not depend on config identity (avoids 0px flicker).
       root.style.setProperty('--site-subheader-height', '0px');
     };
-  }, [visible, config]);
+  }, [visible]);
 
   if (!visible || !config) return null;
 

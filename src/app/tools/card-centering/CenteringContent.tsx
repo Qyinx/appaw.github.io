@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from 'react';
 import { ImageUp, SlidersHorizontal, Frame, Gauge, ExternalLink, ArrowRight } from 'lucide-react';
 import LocalLink from '@/components/LocalLink';
-import HeroStamp from '@/components/ui/HeroStamp';
 import GuideFaq from '@/components/guides/GuideFaq';
 import { useLanguage } from '@/context/LanguageContext';
 import { useCenteringGuide } from './CenteringGuideContext';
@@ -69,11 +68,12 @@ function HowToSteps({
   const { t } = useLanguage();
   const tool = t.centeringPage.tool;
   const howToSteps = centeringHowToSteps(t.centeringPage.content.steps);
-  const { activeStep, getStepState } = useCenteringGuide();
+  const { activeStep, getStepState, guideDismissed } = useCenteringGuide();
   const sectionRef = useRef<HTMLElement>(null);
   const prevStepRef = useRef(activeStep);
 
   useEffect(() => {
+    if (guideDismissed) return;
     if (prevStepRef.current === activeStep) return;
     prevStepRef.current = activeStep;
 
@@ -86,14 +86,15 @@ function HowToSteps({
 
     const currentEl = section.querySelector(`#centering-step-${activeStep + 1}`);
     currentEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, [activeStep]);
+  }, [activeStep, guideDismissed]);
 
-  const liveStatus = howToSteps[activeStep]
-    ? tool.guideLiveStatus
-        .replace('{current}', String(activeStep + 1))
-        .replace('{total}', String(STEP_COUNT))
-        .replace('{title}', howToSteps[activeStep].name)
-    : null;
+  const liveStatus =
+    !guideDismissed && howToSteps[activeStep]
+      ? tool.guideLiveStatus
+          .replace('{current}', String(activeStep + 1))
+          .replace('{total}', String(STEP_COUNT))
+          .replace('{title}', howToSteps[activeStep].name)
+      : null;
 
   return (
     <section
@@ -260,7 +261,6 @@ export default function CenteringContent() {
     <article className={styles.contentWrapper}>
       <div className={styles.contentInner}>
       <header className={styles.contentHeader}>
-        <HeroStamp className="mb-8 max-w-md" lines={{ muted: c.howToBadge }} />
         <p className="section-label mb-5">{c.howToBadge}</p>
         <h1 className={styles.contentH1}>{c.h1}</h1>
         <p className={`${styles.contentLead} centering-aeo-answer`}>{c.lead}</p>

@@ -4,8 +4,8 @@
   "description": "Premium graded card protectors and TCG trading in Hong Kong",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FAFAF8",
-  "theme_color": "#FAFAF8",
+  "background_color": "#FBFAF6",
+  "theme_color": "#FBFAF6",
   "icons": [
     {
       "src": "/favicon.ico",

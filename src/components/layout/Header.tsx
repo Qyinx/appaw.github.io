@@ -90,27 +90,121 @@ function HeaderLanguageToggle({
   groupLabel: string;
   onSelect: (next: 'en' | 'zh') => void;
 }) {
+  const isZh = language === 'zh';
+
   return (
-    <div className="header-lang-toggle" role="group" aria-label={groupLabel}>
-      <button
-        type="button"
-        className="header-lang-toggle__option"
-        aria-pressed={language === 'en'}
-        aria-label="English"
-        onClick={() => onSelect('en')}
-      >
-        EN
-      </button>
-      <button
-        type="button"
-        className="header-lang-toggle__option"
-        aria-pressed={language === 'zh'}
-        aria-label="中文"
-        onClick={() => onSelect('zh')}
-      >
-        中文
-      </button>
-    </div>
+    <button
+      type="button"
+      className="header-lang-toggle"
+      aria-pressed={isZh}
+      aria-label={groupLabel}
+      title={isZh ? 'Switch to English' : 'Switch to 中文'}
+      onClick={() => onSelect(isZh ? 'en' : 'zh')}
+    >
+      <span className="header-lang-toggle__scene" aria-hidden="true">
+        <span className="header-lang-toggle__motif header-lang-toggle__motif--west">
+          <svg
+            className="header-lang-toggle__svg"
+            viewBox="0 0 72 44"
+            fill="currentColor"
+          >
+            {/* Ground steps */}
+            <rect x="1" y="39" width="70" height="2.5" opacity="0.4" />
+            <rect x="8" y="36.5" width="56" height="2" opacity="0.25" />
+            {/* Left ruin / small column */}
+            <g opacity="0.5">
+              <rect x="4" y="18" width="9" height="2" />
+              <rect x="5.5" y="20" width="6" height="16" />
+              <rect x="3" y="36" width="11" height="2" />
+            </g>
+            {/* Main Ionic column */}
+            <path d="M22 6h28l-5-4H27l-5 4z" opacity="0.55" />
+            <rect x="24" y="6" width="24" height="3.5" />
+            <rect x="27" y="9.5" width="18" height="2.5" />
+            <path d="M28 12h5c0 2.5-2 4-2 4s-2-1.5-2-4zm16 0h-5c0 2.5 2 4 2 4s2-1.5 2-4z" />
+            <rect x="31" y="16" width="10" height="20" />
+            <rect x="29.5" y="18" width="2" height="16" opacity="0.4" />
+            <rect x="40.5" y="18" width="2" height="16" opacity="0.4" />
+            <rect x="27" y="36" width="18" height="2.5" />
+            <rect x="23" y="38.5" width="26" height="3" />
+            {/* Laurel */}
+            <path
+              d="M52 20c5-7 12-9 17-8-4 3-6 9-7 14 3-1 6-1 9 1-5 2-11 2-16-2z"
+              opacity="0.55"
+            />
+            <path
+              d="M53 26c4-2 9-2 13 0-3 2-6 4-10 5 2 1 4 2 7 2-5 1-11 0-14-3z"
+              opacity="0.4"
+            />
+            {/* Birds */}
+            <path d="M58 7l2.5 1.8L63 7" fill="none" stroke="currentColor" strokeWidth="1.3" opacity="0.65" />
+            <path d="M64 12l1.8 1.2L67.5 12" fill="none" stroke="currentColor" strokeWidth="1.1" opacity="0.45" />
+            {/* Arch accent */}
+            <path
+              d="M10 20v16h3V24c0-3 2-5 5-5s5 2 5 5v12h3V20c0-5-4-8-8-8s-8 3-8 8z"
+              opacity="0.35"
+            />
+          </svg>
+        </span>
+        <span className="header-lang-toggle__motif header-lang-toggle__motif--east">
+          <svg
+            className="header-lang-toggle__svg"
+            viewBox="0 0 72 44"
+            fill="currentColor"
+          >
+            {/* Stars */}
+            <circle cx="6" cy="6" r="1.3" opacity="0.75" />
+            <circle cx="16" cy="3.5" r="1" opacity="0.55" />
+            <circle cx="26" cy="8" r="1.2" opacity="0.65" />
+            <circle cx="11" cy="13" r="0.8" opacity="0.45" />
+            <circle cx="33" cy="5" r="0.7" opacity="0.4" />
+            {/* 祥云 */}
+            <path
+              d="M2 17c4-4 9-4 13-1 3-4 8-5 12-2-5 1-7 4-7 4h6c-5 1-9 3-13 6-4-3-8-4-11-7z"
+              opacity="0.5"
+            />
+            <path
+              d="M46 5c4-3 9-2 12 1 2-3 6-3 9-1-3 1-4 3-4 3h5c-4 2-8 3-12 5-4-3-7-4-10-8z"
+              opacity="0.42"
+            />
+            {/* Small lantern */}
+            <g opacity="0.55">
+              <rect x="9" y="15" width="1.75" height="3.5" />
+              <path d="M4 18.5h12l-1.5 2H5.5L4 18.5z" />
+              <ellipse cx="10" cy="26" rx="7" ry="7" />
+              <rect x="7.5" y="20" width="1.5" height="10" opacity="0.45" />
+              <path d="M4.5 32.5h11l-1.5 2H6l-1.5-2z" />
+              <rect x="9" y="34.5" width="2" height="3.5" />
+              <circle cx="10" cy="39" r="1.6" />
+            </g>
+            {/* Main lantern */}
+            <rect x="42" y="6" width="2.5" height="5" />
+            <path d="M34 11h18.5l-2.5 3H36.5L34 11z" />
+            <ellipse cx="43.25" cy="24" rx="12" ry="11.5" />
+            <rect x="37" y="16" width="2" height="14" opacity="0.45" />
+            <rect x="47.5" y="16" width="2" height="14" opacity="0.45" />
+            <path d="M32 34h22.5l-2.5 3H34.5L32 34z" />
+            <rect x="42" y="37" width="2.5" height="4" />
+            <circle cx="43.25" cy="42" r="2.2" />
+            {/* Ground */}
+            <rect x="1" y="41" width="70" height="2" opacity="0.35" />
+          </svg>
+        </span>
+      </span>
+      <span className="header-lang-toggle__thumb" aria-hidden="true" />
+      <span className="header-lang-toggle__labels" aria-hidden="true">
+        <span
+          className={`header-lang-toggle__label${language === 'en' ? ' is-active' : ''}`}
+        >
+          EN
+        </span>
+        <span
+          className={`header-lang-toggle__label header-lang-toggle__label--zh${language === 'zh' ? ' is-active' : ''}`}
+        >
+          中文
+        </span>
+      </span>
+    </button>
   );
 }
 

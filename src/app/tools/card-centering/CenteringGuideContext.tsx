@@ -41,13 +41,13 @@ const CenteringGuideContext = createContext<CenteringGuideContextValue | null>(n
 
 export function CenteringGuideProvider({ children }: { children: React.ReactNode }) {
   const [activeStep, setActiveStep] = useState<CenteringStepIndex>(0);
-  const [guideDismissed, setGuideDismissed] = useState(false);
+  const [guideDismissed, setGuideDismissed] = useState(true);
   const [completedFlags, setCompletedFlags] = useState<boolean[]>(() =>
     Array.from({ length: STEP_COUNT }, () => false),
   );
   const [touchedHandles, setTouchedHandles] = useState<Set<string>>(() => new Set());
 
-  // Guide shows on every visit; dismiss lasts for this page load only.
+  // Interactive follow-steps obsolete — start dismissed. restartGuide can re-enable.
   useEffect(() => {
     try {
       sessionStorage.removeItem(GUIDE_DISMISS_KEY);
@@ -125,8 +125,9 @@ export function CenteringGuideProvider({ children }: { children: React.ReactNode
   const touchedGuideHandleCount = touchedHandles.size;
 
   const getStepState = useCallback(
-    (index: number) => stepStateForIndex(index, activeStep),
-    [activeStep],
+    (index: number) =>
+      guideDismissed ? ('upcoming' as StepState) : stepStateForIndex(index, activeStep),
+    [activeStep, guideDismissed],
   );
 
   const value = useMemo<CenteringGuideContextValue>(

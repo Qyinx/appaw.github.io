@@ -37,11 +37,11 @@ export default function StyleGuidePage() {
     document.documentElement.classList.toggle('dark', theme === 'dark');
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
-      meta.setAttribute('content', theme === 'dark' ? '#0B0C0D' : '#FAFAF8');
+      meta.setAttribute('content', theme === 'dark' ? '#0B0C0D' : '#FBFAF6');
     }
     return () => {
       document.documentElement.classList.remove('dark');
-      if (meta) meta.setAttribute('content', '#FAFAF8');
+      if (meta) meta.setAttribute('content', '#FBFAF6');
     };
   }, [theme]);
 

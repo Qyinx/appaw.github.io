@@ -74,7 +74,7 @@ function BatchStrip({
 
   return (
     <article
-      className={`border border-border-default bg-surface-bg border-l-[3px] ${accent.edge}`}
+      className={`border border-border-default bg-surface-panel border-l-[3px] ${accent.edge}`}
       data-urgency={urgency}
       data-plan={item.plan}
       aria-label={`${planLabel} ${copy.phases[item.status]}`}
@@ -198,7 +198,7 @@ function BatchCompactRow({
 
   return (
     <article
-      className={`flex flex-col gap-2 border border-border-default bg-surface-bg border-l-[3px] ${accent.edge} px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4`}
+      className={`flex flex-col gap-2 border border-border-default bg-surface-panel border-l-[3px] ${accent.edge} px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4`}
       data-plan={item.plan}
       aria-label={`${planLabel} ${copy.phases[item.status]}`}
     >
@@ -325,7 +325,7 @@ function OtherRoundsAccordion({
     : copy.showOtherRounds.replace('{count}', String(items.length));
 
   return (
-    <div ref={rootRef} className="border border-border-default bg-surface-bg">
+    <div ref={rootRef} className="border border-border-default bg-surface-panel">
       <button
         type="button"
         className="flex w-full min-h-[44px] items-center justify-between gap-3 px-4 py-3 text-left"
@@ -426,7 +426,7 @@ export default function PsaBatchProgressBoard() {
   return (
     <section
       id="batches"
-      className="relative overflow-x-clip border-b border-border-default bg-surface-panel page-blueprint scroll-mt-20"
+      className="relative overflow-x-clip border-b border-border-default bg-surface-bg page-blueprint scroll-mt-20"
       aria-labelledby="batch-board-title"
     >
       <div className="container-custom py-8 md:py-10">
@@ -452,7 +452,7 @@ export default function PsaBatchProgressBoard() {
             </button>
           </div>
         ) : batches.length === 0 ? (
-          <div className="border border-border-default bg-surface-bg p-5 space-y-3 max-w-xl">
+          <div className="border border-border-default bg-surface-panel p-5 space-y-3 max-w-xl">
             <p className="font-display font-bold text-text-primary text-lg">{copy.emptyTitle}</p>
             <p className="text-sm text-text-secondary">{copy.emptyBody}</p>
             <a

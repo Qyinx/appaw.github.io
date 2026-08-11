@@ -58,7 +58,7 @@ export default function PsaGradingHubClient() {
       <ScrollChapter
         id="pricing"
         title={copy.pricing.title}
-        className="relative overflow-x-clip bg-surface-panel page-blueprint !min-h-0"
+        className="relative overflow-x-clip bg-surface-bg page-blueprint !min-h-0"
       >
         <div ref={pricingRef.ref}>
           <Reveal visible={pricingRef.visible} dir="up" delay={40}>

@@ -201,7 +201,7 @@ export default function CardCenteringClient() {
   const [grade, setGrade] = React.useState<CenteringScore | null>(null);
   const [adjustOpen, setAdjustOpen] = React.useState(false);
   const [setupOpen, setSetupOpen] = React.useState(false);
-  const [loupesOn, setLoupesOn] = React.useState(true);
+  const [loupesOn, setLoupesOn] = React.useState(false);
   const [loupeMagUi, setLoupeMagUi] = React.useState(2.6);
   const loupeMagRef = React.useRef(2.6);
   const setLoupeMagUiRef = React.useRef(setLoupeMagUi);
@@ -1767,7 +1767,7 @@ export default function CardCenteringClient() {
         lctx.beginPath();
         lctx.arc(R, R, R, 0, Math.PI * 2);
         lctx.clip();
-        lctx.fillStyle = '#FAFAF8';
+        lctx.fillStyle = '#FBFAF6';
         lctx.fillRect(0, 0, size, size);
 
         const S = loupeCorner(key);
@@ -2405,7 +2405,7 @@ export default function CardCenteringClient() {
       <div className="flex items-stretch min-w-0">
         <LocalLink
           href="/"
-          className="inline-flex items-center gap-2 px-3 sm:px-3.5 text-xs uppercase tracking-[0.12em] text-[var(--tool-text-muted)] hover:text-[var(--tool-text)] transition-colors min-h-[44px] shrink-0 border-r border-[var(--tool-border)]"
+          className="hidden md:inline-flex items-center gap-2 px-3 sm:px-3.5 text-xs uppercase tracking-[0.12em] text-[var(--tool-text-muted)] hover:text-[var(--tool-text)] transition-colors min-h-[44px] shrink-0 border-r border-[var(--tool-border)]"
         >
           <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
           <span className="hidden sm:inline">{seo.breadcrumbHome}</span>

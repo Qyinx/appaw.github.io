@@ -52,14 +52,15 @@
 .toolInstrumentLabel {
   flex: 0 1 auto;
   min-width: 0;
-  align-self: center;
+  align-self: stretch;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  align-items: baseline;
+  align-items: center;
   gap: 0.35em;
-  padding: 10px 14px;
+  padding: 0 14px;
   font-size: 0.75rem;
+  line-height: 1.2;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--tool-text-muted);
@@ -90,10 +91,13 @@
 }
 
 /* ---------- Workspace (dark engineering surface — style.md §4) ---------- */
+/* Fill remaining viewport under fixed header + site-subheader (not raw vh). */
 .workspaceShell {
   position: relative;
   width: 100%;
-  height: 88vh;
+  height: calc(
+    100svh - var(--site-header-height) - var(--site-subheader-height, 0px) - 3.5rem
+  );
   min-height: 600px;
   max-height: 1024px;
 }
@@ -1166,7 +1170,7 @@
 }
 .gradePillRatios {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 0;
   margin-top: 0;
   padding: 0;
@@ -1176,18 +1180,22 @@
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
   min-width: 0;
+  align-self: stretch;
 }
 .gradePillRatios span {
   background: transparent;
-  padding: 8px 10px;
+  padding: 3px 10px;
   border-radius: 0;
   color: var(--tool-text);
-  border-right: var(--border-width, 1px) solid var(--tool-border);
+  border-right: none;
+  border-bottom: var(--border-width, 1px) solid var(--tool-border);
   white-space: nowrap;
   min-width: 0;
+  display: flex;
+  align-items: center;
 }
 .gradePillRatios span:last-child {
-  border-right: none;
+  border-bottom: none;
 }
 .gradePillRatios span[data-quality='excellent'] { color: var(--accent-success); }
 .gradePillRatios span[data-quality='good'] { color: var(--accent-warn); }
@@ -1816,7 +1824,7 @@
 }
 
 .filterDotContrast {
-  background: linear-gradient(135deg, #fafaf8 50%, #121212 50%);
+  background: linear-gradient(135deg, #faf6ec 50%, #121212 50%);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tool-text) 28%, transparent);
 }
 
@@ -1850,7 +1858,7 @@
 }
 
 .filterModeBtn[data-active='true'][data-filter-mode='contrast'] {
-  box-shadow: inset 3px 0 0 #fafaf8;
+  box-shadow: inset 3px 0 0 #faf6ec;
 }
 
 .filterModeBtn[data-active='true'][data-filter-mode='invert'] {
@@ -2028,7 +2036,7 @@
 /* ---------- Responsive ---------- */
 @media (max-width: 989px) and (min-width: 769px) {
   .toolInstrumentLabel {
-    padding: 8px 10px;
+    padding: 0 10px;
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     max-width: 34%;
@@ -2058,8 +2066,7 @@
 
 @media (max-width: 768px) {
   .wrapper {
-    padding: 10px var(--space-page-x, clamp(10px, 3vw, 18px));
-    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+    padding: 0;
   }
 
   .toolInstrument {
@@ -2071,31 +2078,30 @@
     gap: 0;
   }
 
+  /* Keep label single-row in site-subheader — stacked title/brand inflate chrome height. */
   .toolInstrumentLabel {
     width: auto;
-    max-width: 38%;
-    padding: 6px 8px;
-    font-size: 0.75rem;
+    max-width: min(42vw, 11rem);
+    padding: 0 8px;
+    font-size: 0.6875rem;
     letter-spacing: 0.08em;
     border-right: var(--border-width, 1px) solid var(--tool-border);
     border-bottom: none;
-    line-height: 1.25;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1px;
+    line-height: 1.2;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    align-self: stretch;
+    gap: 0.35em;
   }
 
-  .toolInstrumentTitle,
+  .toolInstrumentTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .toolInstrumentBrand {
-    white-space: normal;
-  }
-
-  .toolInstrumentBrand {
-    font-size: 0.9em;
-    letter-spacing: 0.1em;
-  }
-
-  .toolInstrumentBrand::before {
     display: none;
   }
 
@@ -2126,11 +2132,13 @@
   }
 
   .gradePillRatios span {
-    padding: 5px 6px;
+    padding: 2px 6px;
   }
 
   .workspaceShell {
-    height: min(74svh, calc(100svh - 64px));
+    height: calc(
+      100svh - var(--site-header-height) - var(--site-subheader-height, 0px)
+    );
     min-height: 300px;
     max-height: none;
   }
@@ -2305,15 +2313,15 @@
 
 @media (max-width: 520px) {
   .toolInstrumentLabel {
-    max-width: 42%;
-    padding: 5px 6px;
-    font-size: 0.75rem;
+    max-width: min(36vw, 8.5rem);
+    padding: 0 6px;
+    font-size: 0.625rem;
   }
 
   .gradePillMain {
     flex-direction: row;
     align-items: baseline;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 3px 6px;
     padding: 4px 6px;
   }
@@ -2327,12 +2335,14 @@
   }
 
   .gradePillRatios span {
-    padding: 4px 5px;
+    padding: 2px 5px;
     font-size: 0.5625rem;
   }
 
   .workspaceShell {
-    height: min(80svh, calc(100svh - 56px));
+    height: calc(
+      100svh - var(--site-header-height) - var(--site-subheader-height, 0px)
+    );
     min-height: 280px;
     max-height: none;
   }
@@ -2364,7 +2374,9 @@
 
 @media (max-width: 375px) {
   .workspaceShell {
-    height: min(84svh, calc(100svh - 48px));
+    height: calc(
+      100svh - var(--site-header-height) - var(--site-subheader-height, 0px)
+    );
     min-height: 260px;
   }
 

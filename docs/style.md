@@ -3,7 +3,7 @@
 **Status:** Draft foundation for design-system revamp — **light-first default** (June 2026)  
 **Last updated:** 2026-08-09 — Responsive / Mobile layout rules for majority-mobile traffic
 
-> **Light-first default (2026-06-06):** Site ships with light semantic tokens on `:root` (`--surface-bg: #FAFAF8`, flat panels, visible 1px borders). Dark theme is opt-in via `.dark` on `<html>` (style-guide preview toggle only for now). Noise overlay and panel drop-shadows apply in dark mode only. Components should use semantic Tailwind aliases (`text-text-primary`, `bg-surface-panel`, etc.) — not hardcoded `text-white` or dark hex backgrounds.
+> **Light-first default (2026-06-06):** Site ships with light semantic tokens on `:root` (`--surface-bg: #FBFAF6`, flat panels, visible 1px borders). Dark theme is opt-in via `.dark` on `<html>` (style-guide preview toggle only for now). Noise overlay and panel drop-shadows apply in dark mode only. Components should use semantic Tailwind aliases (`text-text-primary`, `bg-surface-panel`, etc.) — not hardcoded `text-white` or dark hex backgrounds.
 
 **Reference:** [Hermes Agent](https://hermes-agent.nousresearch.com/) (Nous Research) — neo-brutalist structure, terminal/retro-tech atmosphere, minimalist engineering discipline  
 **Engineering baseline:** [Vercel Web Interface Guidelines](https://github.com/vercel-labs/web-interface-guidelines)
@@ -53,6 +53,7 @@ Adapt for Appaw: keep **blush + indigo + gold** brand identity; borrow Hermes **
 - `chapter-title` — display heading
 - Optional sticky `ChapterNav` — `#pricing`, `#how-to`, `#faq`
 - `min-h-[70vh]` section rhythm using `--space-section-y`
+- **Surfaces:** marketing chapter shells use `--surface-bg` (light paper canvas) — never full-bleed `--surface-panel`. Reserve `--surface-panel` / `.panel` for nested cards, FAQ items, and interactive containers only.
 
 **Two motion tiers:**
 
@@ -76,13 +77,13 @@ Implement in `src/styles/globals.css` `@theme` block. Semantic names first; scal
 
 ### 2.1 Color — semantic
 
-**Light palette rationale (June 2026):** Warm paper canvas `#FAFAF8` keeps hardware/product photography neutral without sterile cool-gray. Brand blush `#E85D6F` is for rails, active chrome, and tinted surfaces — not solid button fills. Solid CTAs use deepened `--accent-cta` `#C23D52` with white `--accent-cta-ink` (~5.1:1 AA) so primary controls stay readable; mid blush + dark ink looked muddy and failed on hover. Soft dark blush `#ff9aa6` stays accent-only. Slate-indigo `#5B6FD6` replaces pastel `#818cf8` for links and focus rings: ~5.2:1 on white (AA). Gold warn unchanged — tool metrics anchor. Structural flips with theme for filled chrome (selected filter pills), not for CTA label ink.
+**Light palette rationale (June 2026 / Aug 2026 canvas nudge):** Page canvas `#FBFAF6` — lighter paper with less yellow than `#FAF6EC` (not grey `#F5F2EC`, not flat white). Nested `--surface-panel` stays pure white so cards lift. Brand blush `#E85D6F` is for rails, active chrome, and tinted surfaces — not solid button fills. Solid CTAs use deepened `--accent-cta` `#C23D52` with white `--accent-cta-ink` (~5.1:1 AA) so primary controls stay readable; mid blush + dark ink looked muddy and failed on hover. Soft dark blush `#ff9aa6` stays accent-only. Slate-indigo `#5B6FD6` replaces pastel `#818cf8` for links and focus rings: ~5.2:1 on white (AA). Gold warn unchanged — tool metrics anchor. Structural flips with theme for filled chrome (selected filter pills), not for CTA label ink.
 
 | Token | Light | Dark | Use |
 |-------|-------|------|-----|
-| `--surface-bg` | `#FAFAF8` | `#0B0C0D` | Page canvas (warm paper) |
+| `--surface-bg` | `#FBFAF6` | `#0B0C0D` | Page canvas (light paper) |
 | `--surface-panel` | `#ffffff` | `#111214` | Cards, panels, workspace |
-| `--surface-raised` | `#F3F2F0` | `#181A1E` | Nested panels, inputs |
+| `--surface-raised` | `#F2EBDD` | `#181A1E` | Nested panels, inputs |
 | `--border-default` | `rgba(15,20,25,0.08)` | `rgba(255,255,255,0.06)` | Panel edges |
 | `--border-strong` | `rgba(15,20,25,0.14)` | `rgba(255,255,255,0.12)` | Neo-brutalist emphasis |
 | `--text-primary` | `#0F1419` | `#e5e7eb` | Body |
