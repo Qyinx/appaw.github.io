@@ -203,16 +203,16 @@
   transition: filter 0.15s ease;
 }
 
-.cardImage[data-filter='grayscale'] {
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.28)) grayscale(1) contrast(1.35) brightness(1.04);
-}
-
 .cardImage[data-filter='contrast'] {
   filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.28)) grayscale(1) contrast(2.35) brightness(0.9);
 }
 
 .cardImage[data-filter='invert'] {
   filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.28)) invert(1) contrast(1.12);
+}
+
+.cardImage[data-filter='relief'] {
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.28)) url(#centering-relief-filter);
 }
 
 .overlayCanvas {
@@ -1763,6 +1763,7 @@
   border-right: none;
 }
 
+/* Last row in 2-col grid (4 filter modes). */
 .filterModeBarLabeled .filterModeBtn:nth-child(n + 3),
 .filterModeBarLabeled .guideModeBtn:nth-child(n + 3) {
   border-bottom: none;
@@ -1776,9 +1777,9 @@
 }
 
 .filterModeBarLabeled .filterDotNormal,
-.filterModeBarLabeled .filterDotGrayscale,
 .filterModeBarLabeled .filterDotContrast,
-.filterModeBarLabeled .filterDotInvert {
+.filterModeBarLabeled .filterDotInvert,
+.filterModeBarLabeled .filterDotRelief {
   width: 10px;
   height: 10px;
 }
@@ -1798,17 +1799,17 @@
 }
 
 .filterDockBar.filterModeBarIconsOnly .filterDotNormal,
-.filterDockBar.filterModeBarIconsOnly .filterDotGrayscale,
 .filterDockBar.filterModeBarIconsOnly .filterDotContrast,
-.filterDockBar.filterModeBarIconsOnly .filterDotInvert {
+.filterDockBar.filterModeBarIconsOnly .filterDotInvert,
+.filterDockBar.filterModeBarIconsOnly .filterDotRelief {
   width: 8px;
   height: 8px;
 }
 
 .filterDotNormal,
-.filterDotGrayscale,
 .filterDotContrast,
-.filterDotInvert {
+.filterDotInvert,
+.filterDotRelief {
   width: 8px;
   height: 8px;
   border-radius: 0;
@@ -1817,10 +1818,6 @@
 
 .filterDotNormal {
   background: var(--tool-text-muted);
-}
-
-.filterDotGrayscale {
-  background: linear-gradient(135deg, #e8e8e8 50%, #5a5a5a 50%);
 }
 
 .filterDotContrast {
@@ -1833,6 +1830,17 @@
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tool-text) 22%, transparent);
 }
 
+.filterDotRelief {
+  background: linear-gradient(
+    135deg,
+    #c8c8c8 0%,
+    #3a3a3a 35%,
+    #f0f0f0 55%,
+    #6e6e6e 100%
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tool-text) 24%, transparent);
+}
+
 .filterModeBarIconsOnly .filterModeBtnIconOnly {
   flex: 1 1 0;
   justify-content: center;
@@ -1842,9 +1850,9 @@
 }
 
 .filterModeBarIconsOnly .filterDotNormal,
-.filterModeBarIconsOnly .filterDotGrayscale,
 .filterModeBarIconsOnly .filterDotContrast,
-.filterModeBarIconsOnly .filterDotInvert {
+.filterModeBarIconsOnly .filterDotInvert,
+.filterModeBarIconsOnly .filterDotRelief {
   width: 14px;
   height: 14px;
 }
@@ -1853,16 +1861,16 @@
   box-shadow: inset 3px 0 0 var(--tool-text-muted);
 }
 
-.filterModeBtn[data-active='true'][data-filter-mode='grayscale'] {
-  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--tool-text) 55%, transparent);
-}
-
 .filterModeBtn[data-active='true'][data-filter-mode='contrast'] {
   box-shadow: inset 3px 0 0 #faf6ec;
 }
 
 .filterModeBtn[data-active='true'][data-filter-mode='invert'] {
   box-shadow: inset 3px 0 0 #f59e0b;
+}
+
+.filterModeBtn[data-active='true'][data-filter-mode='relief'] {
+  box-shadow: inset 3px 0 0 #9a9a9a;
 }
 
 /* ---------- Sheet motion keyframes (shared) ---------- */
@@ -2145,13 +2153,42 @@
 
   .workspaceContainer {
     --loupe-edge-x: 6px;
-    --loupe-edge-top: 52px;
+    --loupe-edge-top: 42px;
     --loupe-edge-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
   }
 
   .setupChip {
     top: 4px;
     left: 4px;
+  }
+
+  .setupChipBtn {
+    min-width: 32px;
+    min-height: 32px;
+    gap: 4px;
+    padding: 0 6px 0 0;
+  }
+
+  .setupChipGlyph {
+    width: 32px;
+    height: 32px;
+  }
+
+  .setupChipGlyph svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .setupChipMeta {
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+    gap: 4px;
+    padding-right: 2px;
+  }
+
+  .setupChipCompany {
+    min-height: 18px;
+    padding: 1px 4px;
   }
 
   .photoModeBtnLong {
@@ -2237,9 +2274,9 @@
   }
 
   .filterDotNormal,
-  .filterDotGrayscale,
   .filterDotContrast,
-  .filterDotInvert {
+  .filterDotInvert,
+  .filterDotRelief {
     width: 6px;
     height: 6px;
   }
@@ -2353,7 +2390,7 @@
   }
 
   .workspaceContainer {
-    --loupe-edge-top: 52px;
+    --loupe-edge-top: 42px;
     --loupe-edge-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
   }
 

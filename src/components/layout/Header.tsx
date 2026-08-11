@@ -5,6 +5,7 @@ import LocalLink from '@/components/LocalLink';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { stripZhPrefix, toggleLocalePath } from '@/lib/i18n-routing';
+import { writeLocalePreference } from '@/lib/locale-preference';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
@@ -304,6 +305,7 @@ export default function Header() {
 
   const selectLanguage = (next: 'en' | 'zh') => {
     if (next === language) return;
+    writeLocalePreference(next);
     setLanguage(next);
     router.push(toggleLocalePath(pathname, next));
   };

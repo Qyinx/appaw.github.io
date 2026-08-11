@@ -11,6 +11,7 @@ import AgentDiscoveryLinks from '@/components/AgentDiscoveryLinks';
 import StructuredData from '@/components/StructuredData';
 import { webSiteJsonLd, storeJsonLd } from '@/lib/seo';
 import { rootMetadata } from '@/lib/seo/metadata';
+import { LOCALE_BOOTSTRAP_SCRIPT } from '@/lib/locale-preference';
 import '@/styles/globals.css';
 
 export const metadata = rootMetadata;
@@ -42,6 +43,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       {/* Note: Consider making lang dynamic based on user's language selection in future */}
       <head>
+        {/* First-visit locale detect before hydrate (static export — no middleware). */}
+        <Script id="locale-bootstrap" strategy="beforeInteractive">
+          {LOCALE_BOOTSTRAP_SCRIPT}
+        </Script>
         {/* Structured Data for Search Engines & AI */}
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
         <AgentDiscoveryLinks />

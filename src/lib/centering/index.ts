@@ -17,7 +17,16 @@ export {
 } from './types';
 export {
   IMAGE_FILTER_MODES,
+  RELIEF_FILTER_ID,
+  RELIEF_BAKE_MAX_EDGE,
+  RELIEF_LOUPE_PENDING_FILTER,
   cssImageFilter,
   nextImageFilterMode,
   type ImageFilterMode,
 } from './imageFilters';
+export {
+  bakeReliefImageBitmap,
+  embossImageData,
+  releaseReliefBitmap,
+  scheduleReliefBake,
+} from './reliefBake';

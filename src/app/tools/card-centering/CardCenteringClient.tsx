@@ -12,8 +12,13 @@ import {
   measureFromGuides,
   scoreCentering,
   GRADING_COMPANIES,
+  bakeReliefImageBitmap,
   cssImageFilter,
   IMAGE_FILTER_MODES,
+  RELIEF_FILTER_ID,
+  RELIEF_LOUPE_PENDING_FILTER,
+  releaseReliefBitmap,
+  scheduleReliefBake,
   type CenteringScore,
   type GradingCompany,
   type ImageFilterMode,
@@ -139,9 +144,9 @@ const WorkspaceToolsIcon = () => (
 
 const FILTER_DOT_CLASS: Record<ImageFilterMode, keyof typeof styles> = {
   off: 'filterDotNormal',
-  grayscale: 'filterDotGrayscale',
   contrast: 'filterDotContrast',
   invert: 'filterDotInvert',
+  relief: 'filterDotRelief',
 };
 
 function BlemishFilterBar({
@@ -222,6 +227,7 @@ export default function CardCenteringClient() {
   const [showHandlePulse, setShowHandlePulse] = React.useState(false);
   const [outerAligned, setOuterAligned] = React.useState(false);
   const [innerAligned, setInnerAligned] = React.useState(false);
+  const [imageEpoch, setImageEpoch] = React.useState(0);
   const uploadCallbacksRef = React.useRef({
     setUploadState,
     setImageReady,
@@ -229,6 +235,7 @@ export default function CardCenteringClient() {
     setShowHandlePulse,
     setOuterAligned,
     setInnerAligned,
+    setImageEpoch,
   });
   uploadCallbacksRef.current = {
     setUploadState,
@@ -237,6 +244,7 @@ export default function CardCenteringClient() {
     setShowHandlePulse,
     setOuterAligned,
     setInnerAligned,
+    setImageEpoch,
   };
   imageReadyRef.current = imageReady;
   const loupesOnRef = React.useRef(loupesOn);
@@ -247,6 +255,10 @@ export default function CardCenteringClient() {
   const guideModeRef = React.useRef(guideMode);
   const imageFilterRef = React.useRef(imageFilterMode);
   const gradingCompanyRef = React.useRef(gradingCompany);
+  /** One-shot emboss bitmap for loupes — never reconvolve in RAF. */
+  const reliefBitmapRef = React.useRef<ImageBitmap | null>(null);
+  const reliefBakeGenRef = React.useRef(0);
+  const cancelReliefBakeRef = React.useRef<(() => void) | null>(null);
   const emptyPlateRef = React.useRef<HTMLDivElement | null>(null);
   const adjustDockRef = React.useRef<HTMLElement | null>(null);
   const gradePillRef = React.useRef<HTMLDivElement | null>(null);
@@ -317,6 +329,60 @@ export default function CardCenteringClient() {
     imageFilterRef.current = imageFilterMode;
     redrawRef.current?.();
   }, [imageFilterMode]);
+
+  const invalidateReliefBake = React.useCallback(() => {
+    cancelReliefBakeRef.current?.();
+    cancelReliefBakeRef.current = null;
+    reliefBakeGenRef.current += 1;
+    releaseReliefBitmap(reliefBitmapRef.current);
+    reliefBitmapRef.current = null;
+  }, []);
+
+  const invalidateReliefBakeRef = React.useRef(invalidateReliefBake);
+  invalidateReliefBakeRef.current = invalidateReliefBake;
+
+  // Bake relief bitmap once when filter=relief and image is ready (idle, not RAF).
+  useEffect(() => {
+    if (imageFilterMode !== 'relief' || !imageReady) return;
+
+    if (reliefBitmapRef.current) {
+      redrawRef.current?.();
+      return;
+    }
+
+    const img = document.getElementById('card-image') as HTMLImageElement | null;
+    if (!img?.naturalWidth || !img.complete) return;
+
+    const gen = reliefBakeGenRef.current;
+    cancelReliefBakeRef.current?.();
+    cancelReliefBakeRef.current = scheduleReliefBake(() => {
+      void (async () => {
+        try {
+          const bitmap = await bakeReliefImageBitmap(img);
+          if (gen !== reliefBakeGenRef.current) {
+            releaseReliefBitmap(bitmap);
+            return;
+          }
+          releaseReliefBitmap(reliefBitmapRef.current);
+          reliefBitmapRef.current = bitmap;
+          redrawRef.current?.();
+        } catch {
+          /* loupe falls back to pending CSS filter */
+        }
+      })();
+    });
+
+    return () => {
+      cancelReliefBakeRef.current?.();
+      cancelReliefBakeRef.current = null;
+    };
+  }, [imageFilterMode, imageReady, imageEpoch]);
+
+  useEffect(() => {
+    return () => {
+      invalidateReliefBakeRef.current();
+    };
+  }, []);
 
   useEffect(() => {
     gradingCompanyRef.current = gradingCompany;
@@ -413,12 +479,41 @@ export default function CardCenteringClient() {
     const handleDisplay: Record<string, { x: number; y: number }> = {};
     const HANDLE_SLIDE = 0.18;
     const HANDLE_SNAP_PX = 0.45;
+    type HandleDef = { name: string; x: number; y: number; anchorX: number; anchorY: number; vertical: boolean };
 
     const isCoarsePointer = typeof window !== 'undefined' && (window.matchMedia ? window.matchMedia('(pointer: coarse)').matches : ('ontouchstart' in window));
-    /* Coarse: knob-sized hit (~48px). Line hits stay tight so pans are not stolen. */
-    const handleRadius = isCoarsePointer ? 48 : 46;
+    /* Coarse: knob-sized hit. Line hits stay tighter so pans are not stolen — except outer rescue pick. */
     const lineHitRadius = isCoarsePointer ? 22 : 28;
-    const outerLineHitRadius = isCoarsePointer ? 26 : 32;
+    const outerLineHitRadius = isCoarsePointer ? 28 : 32;
+
+    function getHandleRadius() {
+      if (!isCoarsePointer) return 46;
+      // Short phones: larger grab so outer knobs stay usable after chrome clamp.
+      return overlayEl.height < 560 ? 58 : 52;
+    }
+
+    /** Keep knobs clear of setup chip / grade pill / bottom action bar on touch. */
+    function getChromeSafeInsets() {
+      if (!isCoarsePointer) return { top: 6, right: 6, bottom: 6, left: 6 };
+      // Action bar ~48px + home indicator; setup chip ~32–40px.
+      return {
+        top: 40,
+        right: 12,
+        bottom: 64,
+        left: 12,
+      };
+    }
+
+    function clampHandleToSafeArea(h: HandleDef): HandleDef {
+      const inset = getChromeSafeInsets();
+      const maxX = Math.max(inset.left + 8, overlayEl.width - inset.right);
+      const maxY = Math.max(inset.top + 8, overlayEl.height - inset.bottom);
+      return {
+        ...h,
+        x: Math.min(maxX, Math.max(inset.left, h.x)),
+        y: Math.min(maxY, Math.max(inset.top, h.y)),
+      };
+    }
 
     // Pull colors from semantic site tokens (style.md §2)
     const rootStyles = typeof window !== 'undefined' ? getComputedStyle(document.documentElement) : null;
@@ -603,6 +698,7 @@ export default function CardCenteringClient() {
 
       const cb = uploadCallbacksRef.current;
       cb.setUploadState('loading');
+      invalidateReliefBakeRef.current();
 
       try {
         const { base64, mimeType } = await compressImage(file, 2048, 0.85);
@@ -622,6 +718,7 @@ export default function CardCenteringClient() {
         cb.setOuterAligned(false);
         cb.setInnerAligned(false);
         cb.setUploadState('idle');
+        cb.setImageEpoch((n: number) => n + 1);
 
         guideRef.current.onImageReady();
 
@@ -1248,8 +1345,6 @@ export default function CardCenteringClient() {
       ctx.restore();
     }
 
-    type HandleDef = { name: string; x: number; y: number; anchorX: number; anchorY: number; vertical: boolean };
-
     function computeHandleTargets(): HandleDef[] {
       const mode = guideModeRef.current;
       const both = mode === 'both';
@@ -1271,8 +1366,9 @@ export default function CardCenteringClient() {
       const ixH = iyB - iyT;
 
       const list: HandleDef[] = [];
-      const perpOff = isCoarsePointer ? 32 : 20;
-      const closeGap = isCoarsePointer ? 58 : 46;
+      const shortViewport = isCoarsePointer && overlayEl.height < 560;
+      const perpOff = isCoarsePointer ? (shortViewport ? 26 : 32) : 20;
+      const closeGap = isCoarsePointer ? (shortViewport ? 48 : 58) : 46;
 
       const place = (
         name: string,
@@ -1351,7 +1447,8 @@ export default function CardCenteringClient() {
         place('innerRight', ixR, iyT + ixH * ratio, true, { x: -1, y: 0 }, rightMix);
       }
 
-      return list;
+      // Touch: pull knobs out from under chrome so blue/pink frames stay draggable on small screens.
+      return isCoarsePointer ? list.map(clampHandleToSafeArea) : list;
     }
 
     function resolveHandles(): HandleDef[] {
@@ -1501,10 +1598,11 @@ export default function CardCenteringClient() {
 
     function pickHandleAt(mouseX: number, mouseY: number, opts?: { knobsOnly?: boolean }): string | null {
       const handles = resolveHandles();
+      const knobR = getHandleRadius();
       let best: { name: string; dist: number } | null = null;
       for (const h of handles) {
         const dist = Math.hypot(mouseX - h.x, mouseY - h.y);
-        if (dist > handleRadius) continue;
+        if (dist > knobR) continue;
         const anchorDist = Math.hypot(mouseX - h.anchorX, mouseY - h.anchorY);
         const score = handlePickScore(h.name, mouseX, mouseY, dist, anchorDist);
         if (!best || score < best.dist) best = { name: h.name, dist: score };
@@ -1525,8 +1623,34 @@ export default function CardCenteringClient() {
       return lineBest?.name ?? null;
     }
 
+    /**
+     * Touch rescue: outer (blue) frame often sits under chrome or off the knob.
+     * Allow a tight line grab only for outer edges, and only outside / in the margin
+     * so center pans are not stolen.
+     */
+    function pickOuterLineAt(mouseX: number, mouseY: number): string | null {
+      if (!isCoarsePointer) return null;
+      const mode = guideModeRef.current;
+      if (mode === 'border') return null;
+
+      const band = guideMarginBand(mouseX, mouseY);
+      if (band === 'inside') return null;
+
+      const names = ['outerTop', 'outerBottom', 'outerLeft', 'outerRight'] as const;
+      let best: { name: string; dist: number } | null = null;
+      for (const name of names) {
+        const seg = guideSegmentForHandle(name);
+        if (!seg) continue;
+        const dist = distanceToSegment(mouseX, mouseY, seg.x1, seg.y1, seg.x2, seg.y2);
+        if (dist > outerLineHitRadius) continue;
+        const score = handlePickScore(name, mouseX, mouseY, dist);
+        if (!best || score < best.dist) best = { name, dist: score };
+      }
+      return best?.name ?? null;
+    }
+
     function pickOuterHandleNearEdge(_mouseX: number, _mouseY: number): string | null {
-      /* Edge-band grab retired — stole pans on touch. Mouse still gets line hits via pickHandleAt. */
+      /* Broad edge-band grab retired — stole pans on touch. Use pickOuterLineAt instead. */
       return null;
     }
 
@@ -1802,9 +1926,22 @@ export default function CardCenteringClient() {
           // loupePixel = R + (screen - S) * m, with screen = (t0) + J * base
           lctx.setTransform(dpr, 0, 0, dpr, dpr * (R + (t0x - S.x) * m), dpr * (R + (t0y - S.y) * m));
           lctx.transform(aa * m, ab * m, ac * m, ad * m, 0, 0);
-          const loupeFilter = cssImageFilter(imageFilterRef.current);
-          if (loupeFilter !== 'none') lctx.filter = loupeFilter;
-          lctx.drawImage(imgEl, -imgBw / 2, -imgBh / 2, imgBw, imgBh);
+          const filterMode = imageFilterRef.current;
+          // Relief: draw one-shot baked bitmap (no per-frame convolution / fragile canvas url()).
+          if (filterMode === 'relief') {
+            const baked = reliefBitmapRef.current;
+            if (baked) {
+              lctx.filter = 'none';
+              lctx.drawImage(baked, -imgBw / 2, -imgBh / 2, imgBw, imgBh);
+            } else {
+              lctx.filter = RELIEF_LOUPE_PENDING_FILTER;
+              lctx.drawImage(imgEl, -imgBw / 2, -imgBh / 2, imgBw, imgBh);
+            }
+          } else {
+            const loupeFilter = cssImageFilter(filterMode);
+            if (loupeFilter !== 'none') lctx.filter = loupeFilter;
+            lctx.drawImage(imgEl, -imgBw / 2, -imgBh / 2, imgBw, imgBh);
+          }
           lctx.restore();
         } else {
           lctx.fillStyle = 'rgba(255,255,255,0.25)';
@@ -2074,7 +2211,7 @@ export default function CardCenteringClient() {
       const touchPath = !!(e.touches && e.touches.length === 1);
 
       const handleHit = touchPath
-        ? pickHandleAt(mouseX, mouseY, { knobsOnly: true })
+        ? (pickHandleAt(mouseX, mouseY, { knobsOnly: true }) ?? pickOuterLineAt(mouseX, mouseY))
         : (pickHandleAt(mouseX, mouseY) ?? pickOuterHandleNearEdge(mouseX, mouseY));
       if (handleHit) {
         beginHandleDrag(handleHit, e, mouseX, mouseY);
@@ -2114,8 +2251,9 @@ export default function CardCenteringClient() {
           const rect = overlayEl.getBoundingClientRect();
           const touchX = t.clientX - rect.left;
           const touchY = t.clientY - rect.top;
-          /* After slop: only steal if finger still on a knob — never guide lines. */
-          const deferredHandle = pickHandleAt(touchX, touchY, { knobsOnly: true });
+          /* After slop: knob first, then outer blue line rescue — never inner lines (steal pans). */
+          const deferredHandle =
+            pickHandleAt(touchX, touchY, { knobsOnly: true }) ?? pickOuterLineAt(touchX, touchY);
           if (deferredHandle) {
             beginHandleDrag(deferredHandle, e, touchX, touchY);
             return;
@@ -2339,15 +2477,15 @@ export default function CardCenteringClient() {
   const fmt = (n?: number) => (typeof n === 'number' ? n.toFixed(1) : '—');
   const imageFilterLabels: Record<ImageFilterMode, string> = {
     off: tool.imageFilterOff,
-    grayscale: tool.imageFilterGrayscale,
     contrast: tool.imageFilterContrast,
     invert: tool.imageFilterInvert,
+    relief: tool.imageFilterRelief,
   };
   const imageFilterHints: Record<ImageFilterMode, string> = {
     off: tool.imageFilterOffHint,
-    grayscale: tool.imageFilterGrayscaleHint,
     contrast: tool.imageFilterContrastHint,
     invert: tool.imageFilterInvertHint,
+    relief: tool.imageFilterReliefHint,
   };
   const imageFilterLabel = imageFilterLabels[imageFilterMode];
   const isUploading = uploadState === 'loading';
@@ -2464,6 +2602,41 @@ export default function CardCenteringClient() {
 
   return (
     <div className={styles.wrapper}>
+      {/* GPU emboss for main <img data-filter="relief">; loupes use baked bitmap. */}
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        width={0}
+        height={0}
+        style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}
+      >
+        <defs>
+          <filter
+            id={RELIEF_FILTER_ID}
+            colorInterpolationFilters="sRGB"
+            x="0%"
+            y="0%"
+            width="100%"
+            height="100%"
+          >
+            <feColorMatrix type="saturate" values="0" result="gray" />
+            <feConvolveMatrix
+              in="gray"
+              order="3"
+              kernelMatrix="-2 -1 0 -1 1 1 0 1 2"
+              divisor="1"
+              bias="0.5"
+              preserveAlpha="true"
+              result="emboss"
+            />
+            <feComponentTransfer in="emboss">
+              <feFuncR type="linear" slope="1.35" intercept="-0.1" />
+              <feFuncG type="linear" slope="1.35" intercept="-0.1" />
+              <feFuncB type="linear" slope="1.35" intercept="-0.1" />
+            </feComponentTransfer>
+          </filter>
+        </defs>
+      </svg>
       <section
         id="centering-analyzer"
         className={styles.toolInstrument}
