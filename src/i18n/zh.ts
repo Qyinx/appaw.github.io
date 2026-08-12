@@ -1247,8 +1247,8 @@ export const zh: Translations = {
   cookieConsent: {
     message: '為了給您更流暢的網站體驗，我們使用了分析 Cookie 默默努力著。',
     privacyLink: '了解我們的私隱政策',
-    accept: '沒問題，接受',
-    decline: '先不要',
+    accept: '接受',
+    decline: '拒絕',
   },
 
   // Retail Partners
@@ -1673,7 +1673,7 @@ export const zh: Translations = {
         },
       },
       gradingCompanyLabel: '切換鑑定標準',
-      emptyTitle: '把卡片照片丟上來吧',
+      emptyTitle: '上載照片',
       emptyBadge: '尚未輸入圖檔',
       emptyHint: '建議使用深色背景，把卡片放平從正上方拍下來',
       chooseImage: '從裝置選照片',
