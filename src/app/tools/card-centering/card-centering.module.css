@@ -252,6 +252,10 @@
   pointer-events: none;
 }
 
+.emptyState > .emptyPlate {
+  pointer-events: auto;
+}
+
 .emptyUploadCenter {
   position: absolute;
   inset: 0;
@@ -321,7 +325,9 @@
   border: var(--border-width, 1px) solid color-mix(in srgb, var(--accent-cta) 72%, #0F1419);
   cursor: pointer;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   text-align: left;
+  box-sizing: border-box;
   transition:
     transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 140ms ease,
@@ -523,6 +529,9 @@
 
 .uploadRetryBtn {
   pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 4px;
   padding: 8px 16px;
   min-height: 40px;
@@ -534,6 +543,8 @@
   border: var(--border-width, 1px) solid color-mix(in srgb, var(--accent-cta) 72%, #0F1419);
   cursor: pointer;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
 }
 
 .uploadRetryBtn:hover { filter: brightness(1.08); }
@@ -2039,6 +2050,27 @@
   clip: rect(0 0 0 0) !important;
   white-space: nowrap !important;
   border: 0 !important;
+}
+
+/*
+  File input must stay in the accessibility tree (not display:none) so
+  <label htmlFor> / native activation works on iOS Safari + Android WebViews.
+  Keep outside overflow/transform workspace when possible.
+*/
+.fileInput {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 /* ---------- Responsive ---------- */

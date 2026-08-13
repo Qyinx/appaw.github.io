@@ -31,20 +31,32 @@ export function useCenteringToolMotion({
     const el = emptyPlateRef.current;
     if (!el) return;
 
+    // Opacity only — autoAlpha sets visibility:hidden and blocks early taps
+    // on "choose image" (esp. touch / iOS file picker).
     if (prefersReducedMotion()) {
-      gsap.set(el, { autoAlpha: 1, y: 0 });
+      gsap.set(el, { opacity: 1, y: 0, clearProps: 'visibility' });
       return;
     }
 
     gsap.killTweensOf(el);
     gsap.fromTo(
       el,
-      { autoAlpha: 0, y: 12 },
-      { autoAlpha: 1, y: 0, duration: 0.26, ease: 'power2.out' },
+      { opacity: 0, y: 12 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.26,
+        ease: 'power2.out',
+        clearProps: 'transform',
+        onComplete: () => {
+          gsap.set(el, { clearProps: 'visibility' });
+        },
+      },
     );
 
     return () => {
       gsap.killTweensOf(el);
+      gsap.set(el, { opacity: 1, clearProps: 'visibility' });
     };
   }, [showEmpty, emptyPlateRef]);
 

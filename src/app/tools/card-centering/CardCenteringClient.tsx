@@ -2488,7 +2488,6 @@ export default function CardCenteringClient() {
     relief: tool.imageFilterReliefHint,
   };
   const imageFilterLabel = imageFilterLabels[imageFilterMode];
-  const isUploading = uploadState === 'loading';
   const guideActive = !guide.guideDismissed;
   const showEmptyPlate = !imageReady && uploadState !== 'loading';
   const showGradePillMotion = Boolean(displayScore) || Boolean(photoMode === 'slab' && verdictCopy);
@@ -2510,11 +2509,6 @@ export default function CardCenteringClient() {
     showGradePill: showGradePillMotion,
     showEmpty: showEmptyPlate,
   });
-
-  const triggerUpload = () => {
-    if (isUploading) return;
-    fileInputRef.current?.click();
-  };
 
   const toggleAdjustSheet = () => {
     setAdjustOpen((open) => {
@@ -2642,6 +2636,19 @@ export default function CardCenteringClient() {
         className={styles.toolInstrument}
         aria-label={`${tool.workspaceTitle} — ${tool.workspaceBrand}`}
       >
+        {/*
+          Keep file input outside #workspace (overflow/transform). Programmatic
+          .click() + clipped inputs fail intermittently on touch / iOS Safari;
+          labels use htmlFor for native activation instead.
+        */}
+        <input
+          type="file"
+          id="upload"
+          ref={fileInputRef}
+          className={styles.fileInput}
+          accept="image/*"
+          aria-label={tool.uploadCardImage}
+        />
         <div
           className={`${styles.workspaceShell}${imageReady ? ` ${styles.workspaceShellReady}` : ''}`}
           data-setup-open={setupOpen ? 'true' : 'false'}
@@ -2682,9 +2689,9 @@ export default function CardCenteringClient() {
           <div className={styles.uploadOverlay} role="alert">
             <div className={styles.uploadOverlayPlate}>
               <p className={styles.uploadOverlayText}>{tool.uploadFailed}</p>
-              <button type="button" className={styles.uploadRetryBtn} onClick={triggerUpload}>
+              <label htmlFor="upload" className={styles.uploadRetryBtn}>
                 {tool.tryAgain}
-              </button>
+              </label>
             </div>
           </div>
         )}
@@ -2699,11 +2706,9 @@ export default function CardCenteringClient() {
                   <span className={styles.emptyUploadStepIndex}>01</span>
                   <span>{howToSteps[0]?.name}</span>
                 </p>
-                <button
-                  type="button"
+                <label
+                  htmlFor="upload"
                   className={`${styles.emptyUploadCta} ${styles.emptyUploadCtaGuide}`}
-                  disabled={isUploading}
-                  onClick={triggerUpload}
                 >
                   <span className={styles.emptyUploadCtaIcon} aria-hidden="true">
                     <UploadImageIcon />
@@ -2712,7 +2717,7 @@ export default function CardCenteringClient() {
                     <span className={styles.emptyUploadCtaLabel}>{tool.chooseImage}</span>
                     <span className={styles.emptyUploadCtaMeta}>JPG · PNG · WEBP</span>
                   </span>
-                </button>
+                </label>
               </div>
             </div>
           ) : (
@@ -2723,12 +2728,7 @@ export default function CardCenteringClient() {
               <EmptyCardSchematic />
               <p className={styles.emptyTitle}>{tool.emptyTitle}</p>
               <p className={styles.emptyHint}>{tool.emptyHint}</p>
-              <button
-                type="button"
-                className={styles.emptyUploadCta}
-                disabled={isUploading}
-                onClick={triggerUpload}
-              >
+              <label htmlFor="upload" className={styles.emptyUploadCta}>
                 <span className={styles.emptyUploadCtaIcon} aria-hidden="true">
                   <UploadImageIcon />
                 </span>
@@ -2736,7 +2736,7 @@ export default function CardCenteringClient() {
                   <span className={styles.emptyUploadCtaLabel}>{tool.chooseImage}</span>
                   <span className={styles.emptyUploadCtaMeta}>JPG · PNG · WEBP</span>
                 </span>
-              </button>
+              </label>
             </div>
           </div>
           )
@@ -2770,8 +2770,7 @@ export default function CardCenteringClient() {
           </button>
         </div>
 
-        {/* Off-screen inputs driven programmatically */}
-        <input type="file" id="upload" ref={fileInputRef} className={styles.srOnly} accept="image/*" aria-label={tool.uploadCardImage} />
+        {/* Pan sliders stay in workspace; file input lives outside (see below). */}
         <input aria-hidden="true" type="range" id="panX" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         </div>
