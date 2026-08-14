@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: 'PSA 10 評級標準拆解：置中 55/45 門檻與門市初步評估',
   badge: '鑑定規格',
   lead:
-    '一文看懂 PSA 10 與 9 分數巨大溢價！完整拆解 1–10 評級量表、55/45 置中門檻、Qualifier 扣分代碼與成交紀錄。附 138 Arena 門市現場卡況初步評估服務。',
+    '完整拆解 PSA 10 評級標準，說明 1 至 10 分評分標準、正面 55/45 與背面 75/25 置中門檻、Qualifier（OC、ST、PD）扣分代碼，以及 PSA 10 相對 PSA 9 的價格溢價。香港藏家可親臨銅鑼灣 138 Arena 面交，由 Appaw 提供現場卡況初步評估，再決定是否提交鑑定。',
   published: '2026-06-18',
-  updated: '2026-08-08',
+  updated: '2026-08-15',
   readTime: '14 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [

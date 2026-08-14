@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: 'PSA 鑑定殼真偽驗證指南',
   badge: '真偽',
   lead:
-    '在二手市場中，官方證書查詢通過並不完全等同於收到真品。近年高仿假卡磚經常直接盜用公開資料庫中的真實認證編號。在官方網頁顯示「有效」之後，藏家必須進行以下五步實物細節交叉驗證，方能確保藏品真偽。',
+    '在二手市場購入 PSA 鑑定卡時，官方證書查詢通過並不完全等同於收到真品，高仿假卡磚經常盜用公開資料庫中的真實認證編號。藏家須以 psacard.com/cert 核對、UV 黑光燈、外殼觸感、全息標籤與微型小字世代（編號 27xxxxxx、43xxxxxx、5xxxxxxx）進行五步交叉驗證，以免誤購假 PSA 鑑定殼。',
   published: '2026-06-08',
-  updated: '2026-08-05',
+  updated: '2026-08-15',
   readTime: '12 分鐘',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [

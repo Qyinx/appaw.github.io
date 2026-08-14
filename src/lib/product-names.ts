@@ -103,7 +103,7 @@ export const HOME_SEO = {
   zh: {
     title: 'Appaw Store 香港｜PSA卡殼・鑑定卡殼・PSA卡保護殼',
     description:
-      '香港設計 PSA卡殼、鑑定卡殼及磁吸防UV PSA卡保護殼，適用 35PT PSA/CGC 鑑定卡磚。>95% 抗UV強化玻璃、N52 磁吸。兼營 PTCG 交易，全球付運。',
+      '香港設計 PSA卡殼、鑑定卡殼及 PSA卡保護殼，以磁吸防UV鑑定卡保護殼守護 PSA 與 CGC 鑑定卡，採用抗UV強化玻璃與 N52 磁吸閉合。另提供鑑定卡交易與免費卡牌置中工具；香港藏家可於銅鑼灣 138 Arena 交收，由 Appaw 提供 PSA 代送鑑定。',
   },
 } as const;
 
