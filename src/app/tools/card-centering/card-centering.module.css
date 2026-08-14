@@ -2070,6 +2070,7 @@
   white-space: nowrap !important;
   border: 0 !important;
   opacity: 0 !important;
+  /* Hit-test off; open via label onClick → input.click() in same gesture. */
   pointer-events: none !important;
 }
 

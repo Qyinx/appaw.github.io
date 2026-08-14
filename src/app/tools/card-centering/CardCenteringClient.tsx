@@ -732,9 +732,87 @@ export default function CardCenteringClient() {
         }
       } finally {
         input.value = '';
+        blurUploadPickerUi(input);
       }
     };
+
+    /** After cancel, mobile WebKit leaves focus on label/input — next tap only blurs. */
+    function blurUploadPickerUi(input?: HTMLInputElement | null) {
+      const el = input ?? (document.getElementById('upload') as HTMLInputElement | null);
+      try {
+        el?.blur();
+      } catch {
+        /* ignore */
+      }
+      const active = document.activeElement;
+      if (active instanceof HTMLElement) {
+        if (active.id === 'upload' || active.closest('label[for="upload"]')) {
+          active.blur();
+        }
+      }
+    }
+
+    function settleUploadDialog() {
+      window.setTimeout(() => {
+        const el = document.getElementById('upload') as HTMLInputElement | null;
+        if (!el) return;
+        // Cancel path: no files. Select path: change handler already cleared.
+        if (!el.files?.length) {
+          try {
+            el.value = '';
+          } catch {
+            /* ignore */
+          }
+        }
+        blurUploadPickerUi(el);
+      }, 350);
+    }
+
+    let fileDialogArmed = false;
+    let fileDialogFocusTimer = 0;
+    const disarmFileDialogWatch = () => {
+      if (!fileDialogArmed) return;
+      fileDialogArmed = false;
+      window.removeEventListener('focus', onFileDialogWindowFocus);
+      document.removeEventListener('visibilitychange', onFileDialogVisibility);
+      if (fileDialogFocusTimer) {
+        window.clearTimeout(fileDialogFocusTimer);
+        fileDialogFocusTimer = 0;
+      }
+    };
+    const onFileDialogWindowFocus = () => {
+      disarmFileDialogWatch();
+      settleUploadDialog();
+    };
+    const onFileDialogVisibility = () => {
+      if (document.visibilityState !== 'visible') return;
+      disarmFileDialogWatch();
+      settleUploadDialog();
+    };
+    const armFileDialogWatch = () => {
+      if (fileDialogArmed) return;
+      fileDialogArmed = true;
+      // Defer arming so the opening tap's focus churn doesn't settle early.
+      fileDialogFocusTimer = window.setTimeout(() => {
+        fileDialogFocusTimer = 0;
+        window.addEventListener('focus', onFileDialogWindowFocus);
+        document.addEventListener('visibilitychange', onFileDialogVisibility);
+      }, 0);
+    };
+
+    const onUploadCancel = () => {
+      disarmFileDialogWatch();
+      try {
+        uploadEl.value = '';
+      } catch {
+        /* ignore */
+      }
+      blurUploadPickerUi(uploadEl);
+    };
+
     uploadEl.addEventListener('change', uploadHandler);
+    uploadEl.addEventListener('cancel', onUploadCancel);
+    uploadEl.addEventListener('click', armFileDialogWatch);
 
     function isOverlayFastMode() {
       return dragging === 'image' || dragging === 'pinch' || transformSliderActive;
@@ -2439,7 +2517,10 @@ export default function CardCenteringClient() {
       resetRef.current = null;
       redrawRef.current = null;
       window.removeEventListener('resize', onResize);
+      disarmFileDialogWatch();
       uploadEl.removeEventListener('change', uploadHandler);
+      uploadEl.removeEventListener('cancel', onUploadCancel);
+      uploadEl.removeEventListener('click', armFileDialogWatch);
       sliderBindings.forEach(({ el, type, fn }) => el.removeEventListener(type, fn));
       overlayEl.removeEventListener('mousedown', pointerDown as any);
       window.removeEventListener('mousemove', pointerMove as any);
@@ -2509,6 +2590,22 @@ export default function CardCenteringClient() {
     showGradePill: showGradePillMotion,
     showEmpty: showEmptyPlate,
   });
+
+  /**
+   * Native label activation flakes after cancel on mobile (1st tap = blur only).
+   * preventDefault + same-gesture input.click() + cleared value reopens every time.
+   */
+  const openUploadPicker = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const input = fileInputRef.current;
+    if (!input || uploadState === 'loading') return;
+    try {
+      input.value = '';
+    } catch {
+      /* ignore */
+    }
+    input.click();
+  };
 
   const toggleAdjustSheet = () => {
     setAdjustOpen((open) => {
@@ -2689,7 +2786,7 @@ export default function CardCenteringClient() {
           <div className={styles.uploadOverlay} role="alert">
             <div className={styles.uploadOverlayPlate}>
               <p className={styles.uploadOverlayText}>{tool.uploadFailed}</p>
-              <label htmlFor="upload" className={styles.uploadRetryBtn}>
+              <label htmlFor="upload" className={styles.uploadRetryBtn} onClick={openUploadPicker}>
                 {tool.tryAgain}
               </label>
             </div>
@@ -2709,6 +2806,7 @@ export default function CardCenteringClient() {
                 <label
                   htmlFor="upload"
                   className={`${styles.emptyUploadCta} ${styles.emptyUploadCtaGuide}`}
+                  onClick={openUploadPicker}
                 >
                   <span className={styles.emptyUploadCtaIcon} aria-hidden="true">
                     <UploadImageIcon />
@@ -2728,7 +2826,7 @@ export default function CardCenteringClient() {
               <EmptyCardSchematic />
               <p className={styles.emptyTitle}>{tool.emptyTitle}</p>
               <p className={styles.emptyHint}>{tool.emptyHint}</p>
-              <label htmlFor="upload" className={styles.emptyUploadCta}>
+              <label htmlFor="upload" className={styles.emptyUploadCta} onClick={openUploadPicker}>
                 <span className={styles.emptyUploadCtaIcon} aria-hidden="true">
                   <UploadImageIcon />
                 </span>
