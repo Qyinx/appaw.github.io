@@ -24,6 +24,8 @@ type Props = {
   items: GradingSubmissionItem[];
   copy: TableCopy;
   showTitle?: boolean;
+  /** When false, hide intake grade until PSA confirms (gradesReady). */
+  gradesReady?: boolean;
 };
 
 type PreviewState = {
@@ -173,7 +175,12 @@ function ThumbSlot({
   );
 }
 
-export default function SubmissionItemsTable({ items, copy, showTitle = true }: Props) {
+export default function SubmissionItemsTable({
+  items,
+  copy,
+  showTitle = true,
+  gradesReady = true,
+}: Props) {
   const [preview, setPreview] = useState<PreviewState | null>(null);
 
   const viewLabelFor = (name: string) =>
@@ -194,6 +201,7 @@ export default function SubmissionItemsTable({ items, copy, showTitle = true }: 
       <ul className="grading-track-item-list">
         {items.map((item) => {
           const url = frontImageUrl(item);
+          const displayGrade = gradesReady ? item.grade : null;
           return (
             <li key={item.id} data-result-row className="grading-track-item-card">
               <ThumbSlot
@@ -220,7 +228,7 @@ export default function SubmissionItemsTable({ items, copy, showTitle = true }: 
                   <div className="grading-track-item-card__spec">
                     <dt>{copy.grade}</dt>
                     <dd className="font-mono tabular-nums text-text-primary">
-                      {item.grade ?? copy.pending}
+                      {displayGrade ?? copy.pending}
                     </dd>
                   </div>
                 </dl>

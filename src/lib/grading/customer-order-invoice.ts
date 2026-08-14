@@ -27,6 +27,8 @@ export type InvoicePaymentStatus = 'Paid' | 'Partial' | 'Unpaid' | 'Credit';
 export interface CustomerOrderInvoiceLine {
   order: number;
   cardName: string;
+  /** Existing / confirmed PSA cert when set. */
+  certNumber: string | null;
   plan: string;
   status: InvoicePaymentStatus;
   totalCost: number | null;
@@ -128,6 +130,7 @@ export function buildCustomerOrderInvoice(
     .map((item) => ({
       order: item.submissionOrder,
       cardName: item.cardName.trim() || '—',
+      certNumber: item.certNumber?.trim() || null,
       plan: String(parseServicePlanLabel(item.batchReferenceCode)),
       status: paymentStatus(item),
       totalCost: item.totalCost,

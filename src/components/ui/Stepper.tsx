@@ -102,7 +102,7 @@ export default function Stepper({
   progressLabel = 'PROGRESS',
   phaseLabels,
   phaseCodes = DEFAULT_PHASE_CODES,
-  statusWords = { complete: 'DONE', active: 'ACTIVE', pending: 'WAIT' },
+  statusWords = { complete: 'DONE', active: 'NOW', pending: 'NEXT' },
   progressBarRef,
   verticalFillRef,
   phaseBarRef,

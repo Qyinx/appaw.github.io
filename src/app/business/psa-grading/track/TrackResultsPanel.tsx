@@ -68,9 +68,14 @@ function carrierTrackingUrl(carrier: string, tracking: string): string | null {
 }
 
 function defaultTab(submission: GradingSubmission): ResultsTab {
-  const hasGrades =
-    submission.gradesReady || submission.items.some((item) => item.grade != null && item.grade !== '');
-  return hasGrades ? 'cards' : 'status';
+  const hasCardsDetail =
+    submission.gradesReady ||
+    submission.items.some(
+      (item) =>
+        (item.grade != null && item.grade !== '') ||
+        (item.certNumber != null && item.certNumber !== ''),
+    );
+  return hasCardsDetail ? 'cards' : 'status';
 }
 
 export default function TrackResultsPanel({
@@ -328,7 +333,12 @@ export default function TrackResultsPanel({
 
           <div hidden={activeTab !== 'cards'} className={activeTab === 'cards' ? 'min-w-0' : 'hidden'}>
             <div ref={tableRef} className="min-w-0 overflow-x-auto">
-              <SubmissionItemsTable items={submission.items} copy={copy.items} showTitle={false} />
+              <SubmissionItemsTable
+                items={submission.items}
+                copy={copy.items}
+                showTitle={false}
+                gradesReady={submission.gradesReady}
+              />
             </div>
           </div>
         </div>

@@ -34,11 +34,13 @@ export function stepLabel(step: PsaProgressStepId): string {
 export const FULL_STEP_COUNT = 12;
 
 /**
- * Build 12-step pipeline. completedThroughIndex is the last completed step index (0–11).
+ * Build 12-step pipeline.
+ * `currentStepIndex` is the **current** stage (0–11): steps before it are done,
+ * this index is in progress (track UI "NOW"), later steps are pending.
  * Index 0 = appaw-recorded, 1 = appaw-sent-psa, 2–10 = psa 0–8, 11 = appaw-pickup.
  */
 export function buildFullStepList(
-  completedThroughIndex: number,
+  currentStepIndex: number,
   labels: FullStepLabels = {
     appawRecorded: APPAW_STEP_LABELS.recorded,
     appawSentToPsa: APPAW_STEP_LABELS.sentToPsa,
@@ -46,19 +48,20 @@ export function buildFullStepList(
     psa: PSA_STEP_LABELS,
   },
 ): GradingProgressStep[] {
+  const current = Math.max(0, Math.min(11, Math.round(Number(currentStepIndex) || 0)));
   const steps: GradingProgressStep[] = [
     {
       id: 'appaw-recorded',
       index: 0,
       kind: 'appaw',
-      completed: completedThroughIndex >= 0,
+      completed: current > 0,
       label: labels.appawRecorded,
     },
     {
       id: 'appaw-sent-psa',
       index: 1,
       kind: 'appaw',
-      completed: completedThroughIndex >= 1,
+      completed: current > 1,
       label: labels.appawSentToPsa,
     },
   ];
@@ -70,7 +73,7 @@ export function buildFullStepList(
       index,
       kind: 'psa',
       psaStep,
-      completed: completedThroughIndex >= index,
+      completed: current > index,
       label: labels.psa[psaStep],
     });
   });
@@ -79,7 +82,7 @@ export function buildFullStepList(
     id: 'appaw-pickup',
     index: 11,
     kind: 'appaw',
-    completed: completedThroughIndex >= 11,
+    completed: current > 11,
     label: labels.appawPickup,
   });
 

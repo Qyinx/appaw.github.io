@@ -92,6 +92,10 @@ export interface AdminCustomerOrderDetail {
 
 export interface AdminIntakeItemDraft {
   cardName: string;
+  /** Existing PSA cert — required in practice for RHLD. */
+  certNumber?: string | null;
+  /** Intake current grade (optional); PSA CSV overwrites after return. */
+  grade?: string | null;
   isPaid: boolean;
   totalCost: number | null;
   receivedCost: number | null;
@@ -159,6 +163,8 @@ export interface AdminImportBatchImagesResult {
 
 export interface AdminCreateOrderItemPayload {
   cardName: string;
+  certNumber?: string | null;
+  grade?: string | null;
   isPaid?: boolean;
   totalCost?: number | null;
   receivedCost?: number | null;

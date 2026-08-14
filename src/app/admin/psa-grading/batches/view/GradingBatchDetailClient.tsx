@@ -790,7 +790,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
                 showFooter
                 showBatchOrderId
                 showBatchReferenceColumn={false}
-                showGradeColumns={completedStepIndex >= GRADES_READY_STEP}
+                showGradeColumns
                 onUpdateItem={handleDraftItemUpdate}
               />
             </>

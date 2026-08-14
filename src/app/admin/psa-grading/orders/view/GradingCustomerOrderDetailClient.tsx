@@ -32,6 +32,7 @@ import { BATCH_CARD_EDIT_STEP, parseServicePlanLabel, summarizePayment } from '@
 import { completedStepLabel } from '@/lib/grading/admin-utils';
 import { formatHkd } from '@/lib/grading/admin-format';
 import { getPsaDefaultTotalCost } from '@/lib/grading/psa-pricing';
+import { isReholderPlan } from '@/lib/grading/plan-accent';
 
 type Props = {
   orderId: number;
@@ -92,6 +93,12 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
     return plan === '—' ? null : getPsaDefaultTotalCost(plan);
   }, [detail]);
 
+  const showCertFields = useMemo(() => {
+    if (!detail) return false;
+    const plan = parseServicePlanLabel(detail.customerOrder.batchReferenceCode);
+    return plan !== '—' && isReholderPlan(plan);
+  }, [detail]);
+
   const itemsDirty = useMemo(
     () => (detail ? anyItemFieldsDirty(detail.items, draftItems) : false),
     [detail, draftItems],
@@ -134,6 +141,8 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
     const item = {
       ...createDraftItem(detail.customerOrder, 0),
       cardName: value.cardName,
+      certNumber: value.certNumber,
+      grade: value.grade,
       isPaid: value.isPaid,
       totalCost: value.totalCost,
       receivedCost: value.receivedCost,
@@ -408,12 +417,15 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
             items={pendingItems.map((item) => ({
               id: item.id,
               cardName: item.cardName,
+              certNumber: item.certNumber ?? null,
+              grade: item.grade ?? null,
               isPaid: item.isPaid,
               totalCost: item.totalCost,
               receivedCost: item.receivedCost,
               psaUpgraded: item.psaUpgraded,
             }))}
             disabled={saving || exporting}
+            showCertFields={showCertFields}
             onUpdate={(id, patch) => handleDraftItemUpdate(id, patch)}
             onRemove={handleRemoveCard}
             onRowBlur={() => handlePendingBlur()}
@@ -431,6 +443,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
             editableCardName={cardsEditable}
             showFooter
             showOrderColumns={false}
+            showGradeColumns
             reorderable={cardsEditable}
             reordering={saving}
             onMoveItem={handleMoveItem}
@@ -447,6 +460,7 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
         <AdminCardComposer
           defaultTotalCost={planDefaultTotal}
           disabled={saving || exporting}
+          showCertFields={showCertFields}
           onCommit={handleCommitComposer}
         />
       )}

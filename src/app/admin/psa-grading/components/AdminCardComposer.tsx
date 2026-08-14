@@ -7,6 +7,8 @@ const ADD_BLANKS_MAX = 50;
 
 export type CardComposerValue = {
   cardName: string;
+  certNumber: string | null;
+  grade: string | null;
   isPaid: boolean;
   totalCost: number | null;
   receivedCost: number | null;
@@ -17,6 +19,8 @@ type Props = {
   /** Plan promo fee prefilled into Total. */
   defaultTotalCost: number | null;
   disabled?: boolean;
+  /** Show cert + grade inputs (Reholder). */
+  showCertFields?: boolean;
   /** Commit a named card into the settled (bottom) list. */
   onCommit: (value: CardComposerValue) => void;
   /** Optional: spawn blank draft rows that float at top until named. */
@@ -25,6 +29,8 @@ type Props = {
 
 const emptyComposer = (defaultTotalCost: number | null): CardComposerValue => ({
   cardName: '',
+  certNumber: null,
+  grade: null,
   isPaid: false,
   totalCost: defaultTotalCost,
   receivedCost: null,
@@ -39,10 +45,13 @@ const emptyComposer = (defaultTotalCost: number | null): CardComposerValue => ({
 export default function AdminCardComposer({
   defaultTotalCost,
   disabled = false,
+  showCertFields = false,
   onCommit,
   onAddBlanks,
 }: Props) {
   const nameId = useId();
+  const certId = useId();
+  const gradeId = useId();
   const totalId = useId();
   const receivedId = useId();
   const nameRef = useRef<HTMLInputElement>(null);
@@ -67,7 +76,12 @@ export default function AdminCardComposer({
       nameRef.current?.focus();
       return;
     }
-    onCommit({ ...draft, cardName: name });
+    onCommit({
+      ...draft,
+      cardName: name,
+      certNumber: draft.certNumber?.trim() || null,
+      grade: draft.grade?.trim() || null,
+    });
     setDraft(emptyComposer(defaultTotalCost));
     requestAnimationFrame(() => nameRef.current?.focus());
   };
@@ -90,13 +104,21 @@ export default function AdminCardComposer({
             New card
           </p>
           <p className="text-xs text-text-muted">
-            {onAddBlanks
-              ? 'Enter inserts into the list bottom. Blank drafts float at top until named.'
-              : 'Enter inserts the card at the bottom of the list.'}
+            {showCertFields
+              ? 'Reholder: enter cert from the slab label. Grade optional until PSA returns.'
+              : onAddBlanks
+                ? 'Enter inserts into the list bottom. Blank drafts float at top until named.'
+                : 'Enter inserts the card at the bottom of the list.'}
           </p>
         </div>
 
-        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto_auto_auto_auto_auto] items-end">
+        <div
+          className={`grid gap-3 items-end ${
+            showCertFields
+              ? 'lg:grid-cols-[minmax(0,1.2fr)_minmax(7rem,0.7fr)_minmax(4.5rem,0.45fr)_auto_auto_auto_auto_auto]'
+              : 'lg:grid-cols-[minmax(0,1fr)_auto_auto_auto_auto_auto]'
+          }`}
+        >
           <div className="min-w-0">
             <label htmlFor={nameId} className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
               Card name
@@ -118,6 +140,56 @@ export default function AdminCardComposer({
               className="w-full border border-border-strong bg-surface-bg px-3 py-2.5 text-sm min-h-[44px] text-text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
             />
           </div>
+
+          {showCertFields && (
+            <>
+              <div className="min-w-0">
+                <label htmlFor={certId} className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+                  Cert #
+                </label>
+                <input
+                  id={certId}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  spellCheck={false}
+                  value={draft.certNumber ?? ''}
+                  disabled={disabled}
+                  onChange={(e) => patch({ certNumber: e.target.value || null })}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      commit();
+                    }
+                  }}
+                  placeholder="e.g. 82345678"
+                  className="w-full border border-border-strong bg-surface-bg px-2.5 py-2.5 text-sm font-mono min-h-[44px] text-text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+                />
+              </div>
+              <div className="min-w-0">
+                <label htmlFor={gradeId} className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+                  Grade
+                </label>
+                <input
+                  id={gradeId}
+                  type="text"
+                  autoComplete="off"
+                  spellCheck={false}
+                  value={draft.grade ?? ''}
+                  disabled={disabled}
+                  onChange={(e) => patch({ grade: e.target.value || null })}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      commit();
+                    }
+                  }}
+                  placeholder="e.g. 10"
+                  className="w-full border border-border-strong bg-surface-bg px-2.5 py-2.5 text-sm font-mono min-h-[44px] text-text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+                />
+              </div>
+            </>
+          )}
 
           <label className="flex items-center gap-2 text-sm whitespace-nowrap min-h-[44px] px-1">
             <input

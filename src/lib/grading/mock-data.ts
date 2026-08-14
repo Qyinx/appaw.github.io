@@ -222,6 +222,43 @@ function buildWalkSubmission(): GradingSubmission {
   };
 }
 
+function buildReholderSubmission(): GradingSubmission {
+  const base = baseSubmission('sub-demo-rhld', DEMO_REFERENCES.RHLD, 'RHLD', 'default');
+  return {
+    ...base,
+    statusSummary: 'Submitted to PSA — Reholder in progress',
+    gradesReady: false,
+    shipped: false,
+    readyForLabelReview: false,
+    shipCarrier: null,
+    shipTrackingNumber: null,
+    items: [
+      {
+        id: 'item-rhld-1',
+        description: '2021 Pokémon SWSH — Umbreon VMAX #215',
+        certNumber: '82345671',
+        grade: null,
+        images: [
+          {
+            seq: 1,
+            url: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-front-old-label.jpg',
+          },
+          {
+            seq: 2,
+            url: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-back-old-label.jpg',
+          },
+        ],
+      },
+      {
+        id: 'item-rhld-2',
+        description: '2019 Pokémon SM — Mewtwo GX #76',
+        certNumber: '82345672',
+        grade: null,
+      },
+    ],
+  };
+}
+
 const SUBMISSION_BUILDERS: Record<string, (variant: GradingDemoVariant) => GradingSubmission> = {
   [DEMO_REFERENCES.EXP]: buildExpressSubmission,
   [DEMO_REFERENCES.REG]: () => buildRegularSubmission(),
@@ -232,6 +269,7 @@ const SUBMISSION_BUILDERS: Record<string, (variant: GradingDemoVariant) => Gradi
     servicePlan: 'SPX' as const,
   }),
   [DEMO_REFERENCES.WALK]: () => buildWalkSubmission(),
+  [DEMO_REFERENCES.RHLD]: () => buildReholderSubmission(),
 };
 
 export function getMockSubmission(
@@ -264,6 +302,11 @@ export function getRelatedSubmissions(
       referenceCode: DEMO_REFERENCES.WALK,
       servicePlan: 'WALK',
       statusSummary: 'Quality review at PSA',
+    },
+    {
+      referenceCode: DEMO_REFERENCES.RHLD,
+      servicePlan: 'RHLD',
+      statusSummary: 'Submitted to PSA — Reholder in progress',
     },
   ];
 

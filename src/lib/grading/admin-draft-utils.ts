@@ -17,9 +17,17 @@ export function cloneAdminItems(items: AdminItem[]): AdminItem[] {
   }));
 }
 
+function normalizeNullableString(value: string | null | undefined): string | null {
+  if (value == null) return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
 export function itemFieldsDirty(saved: AdminItem, draft: AdminItem): boolean {
   return (
     saved.cardName !== draft.cardName ||
+    normalizeNullableString(saved.certNumber) !== normalizeNullableString(draft.certNumber) ||
+    normalizeNullableString(saved.grade) !== normalizeNullableString(draft.grade) ||
     saved.isPaid !== draft.isPaid ||
     saved.totalCost !== draft.totalCost ||
     saved.receivedCost !== draft.receivedCost ||
@@ -52,6 +60,8 @@ export function itemUpdatePayload(
   if (!saved) {
     return {
       cardName: draft.cardName,
+      certNumber: normalizeNullableString(draft.certNumber),
+      grade: normalizeNullableString(draft.grade),
       isPaid: draft.isPaid,
       totalCost: draft.totalCost,
       receivedCost: draft.receivedCost,
@@ -61,6 +71,14 @@ export function itemUpdatePayload(
 
   const payload: AdminUpdateItemPayload = {};
   if (saved.cardName !== draft.cardName) payload.cardName = draft.cardName;
+  if (
+    normalizeNullableString(saved.certNumber) !== normalizeNullableString(draft.certNumber)
+  ) {
+    payload.certNumber = normalizeNullableString(draft.certNumber);
+  }
+  if (normalizeNullableString(saved.grade) !== normalizeNullableString(draft.grade)) {
+    payload.grade = normalizeNullableString(draft.grade);
+  }
   if (saved.isPaid !== draft.isPaid) payload.isPaid = draft.isPaid;
   if (saved.totalCost !== draft.totalCost) payload.totalCost = draft.totalCost;
   if (saved.receivedCost !== draft.receivedCost) payload.receivedCost = draft.receivedCost;
@@ -71,6 +89,8 @@ export function itemUpdatePayload(
 export function createOrderItemPayload(draft: AdminItem): AdminCreateOrderItemPayload {
   return {
     cardName: draft.cardName.trim(),
+    certNumber: normalizeNullableString(draft.certNumber),
+    grade: normalizeNullableString(draft.grade),
     isPaid: draft.isPaid,
     totalCost: draft.totalCost,
     receivedCost: draft.receivedCost,

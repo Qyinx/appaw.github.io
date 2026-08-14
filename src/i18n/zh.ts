@@ -1149,9 +1149,9 @@ export const zh: Translations = {
         switch: '點擊切換查看',
       },
       stepper: {
-        currentStep: '現正進行中',
-        completed: '已順利完成',
-        pending: '耐心等待中',
+        currentStep: '目前階段',
+        completed: '已完成',
+        pending: '尚未開始',
         progress: '整體進度：{current} / {total}',
         progressLabel: '狀態條',
         phaseCodes: {
@@ -1179,9 +1179,9 @@ export const zh: Translations = {
       },
       tabsLabel: '顯示切換',
       steps: {
-        appawRecorded: '卡牌已安全抵達 138 Arena',
-        appawSentToPsa: '已安排航班，準備飛往 PSA 總部',
-        appawPickup: '好消息！已開放於 138 Arena 取件',
+        appawRecorded: '卡片已抵達 138 Arena',
+        appawSentToPsa: '準備飛往 PSA 總部',
+        appawPickup: '好消息！可於 138 Arena 取回卡片',
       },
       status: {
         problemOrder: '訂單異常 、 請儘速聯繫客服',

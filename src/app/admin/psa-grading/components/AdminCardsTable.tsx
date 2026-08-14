@@ -280,9 +280,72 @@ export default function AdminCardsTable({
           </span>
         )}
         {showGradeColumns && (
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-text-muted font-mono">
-            <span title="Cert number">Cert {item.certNumber || '—'}</span>
-            <span title="Grade">Grade {item.grade || '—'}</span>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-text-muted">
+            {editable && onUpdateItem ? (
+              <>
+                <label className="inline-flex items-center gap-1.5 min-w-0">
+                  <span className="shrink-0">Cert</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    spellCheck={false}
+                    value={item.certNumber ?? ''}
+                    onChange={(e) =>
+                      onUpdateItem(item.id, { certNumber: e.target.value || null })
+                    }
+                    placeholder="—"
+                    className="w-[8.5rem] border border-border-strong bg-surface-bg px-2 py-1 text-xs font-mono text-text-primary"
+                    aria-label={`Cert number: ${item.cardName || 'card'}`}
+                  />
+                </label>
+                <label className="inline-flex items-center gap-1.5 min-w-0">
+                  <span className="shrink-0">Grade</span>
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    spellCheck={false}
+                    value={item.grade ?? ''}
+                    onChange={(e) => onUpdateItem(item.id, { grade: e.target.value || null })}
+                    placeholder="—"
+                    className="w-[5.5rem] border border-border-strong bg-surface-bg px-2 py-1 text-xs font-mono text-text-primary"
+                    aria-label={`Grade: ${item.cardName || 'card'}`}
+                  />
+                </label>
+              </>
+            ) : (
+              <>
+                <span title="Cert number" className="font-mono">
+                  Cert{' '}
+                  {item.certNumber ? (
+                    <a
+                      href={`https://www.psacard.com/cert/${encodeURIComponent(item.certNumber.replace(/\s/g, ''))}/psa`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent-secondary hover:underline"
+                    >
+                      {item.certNumber}
+                    </a>
+                  ) : (
+                    '—'
+                  )}
+                </span>
+                <span title="Grade" className="font-mono">
+                  Grade {item.grade || '—'}
+                </span>
+              </>
+            )}
+            {item.certNumber && editable && onUpdateItem ? (
+              <a
+                href={`https://www.psacard.com/cert/${encodeURIComponent(item.certNumber.replace(/\s/g, ''))}/psa`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent-secondary hover:underline font-mono"
+                aria-label={`Open PSA cert ${item.certNumber}`}
+              >
+                Open
+              </a>
+            ) : null}
             <ItemImagesPopup images={item.images ?? []} cardName={item.cardName} />
           </div>
         )}

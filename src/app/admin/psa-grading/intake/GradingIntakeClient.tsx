@@ -18,6 +18,7 @@ import type { AdminBatch, AdminGradingCustomer, AdminIntakeItemDraft } from '@/l
 import { parseServicePlanLabel } from '@/lib/grading/admin-types';
 import { isValidBatchReferenceCode } from '@/lib/grading/batch-reference-code';
 import { getPsaDefaultTotalCost } from '@/lib/grading/psa-pricing';
+import { isReholderPlan } from '@/lib/grading/plan-accent';
 import AdminCardComposer, { type CardComposerValue } from '../components/AdminCardComposer';
 import AdminPendingCards from '../components/AdminPendingCards';
 import BatchReferencePicker from '../components/BatchReferencePicker';
@@ -36,6 +37,8 @@ function emptyCard(defaultTotal: number | null = null): IntakeCardDraft {
   return {
     localId: crypto.randomUUID(),
     cardName: '',
+    certNumber: null,
+    grade: null,
     isPaid: false,
     totalCost: defaultTotal,
     receivedCost: null,
@@ -70,6 +73,11 @@ export default function GradingIntakeClient() {
     () => defaultTotalForBatch(batchReferenceCode),
     [batchReferenceCode],
   );
+
+  const showCertFields = useMemo(() => {
+    const plan = parseServicePlanLabel(batchReferenceCode);
+    return plan !== '—' && isReholderPlan(plan);
+  }, [batchReferenceCode]);
 
   const { pending: pendingItems, filled: filledItems } = useMemo(
     () => splitItemsByCardNameFill(items),
@@ -158,6 +166,8 @@ export default function GradingIntakeClient() {
     const card: IntakeCardDraft = {
       localId: crypto.randomUUID(),
       cardName: value.cardName,
+      certNumber: value.certNumber,
+      grade: value.grade,
       isPaid: value.isPaid,
       totalCost: value.totalCost,
       receivedCost: value.receivedCost,
@@ -212,6 +222,8 @@ export default function GradingIntakeClient() {
         phoneNumber: phoneNumber.trim(),
         items: filledItems.map((card) => ({
           cardName: card.cardName.trim(),
+          certNumber: card.certNumber?.trim() || null,
+          grade: card.grade?.trim() || null,
           isPaid: card.isPaid,
           totalCost: card.totalCost,
           receivedCost: card.receivedCost,
@@ -353,12 +365,15 @@ export default function GradingIntakeClient() {
             items={pendingItems.map((card) => ({
               id: card.localId,
               cardName: card.cardName,
+              certNumber: card.certNumber ?? null,
+              grade: card.grade ?? null,
               isPaid: card.isPaid,
               totalCost: card.totalCost,
               receivedCost: card.receivedCost,
               psaUpgraded: card.psaUpgraded,
             }))}
             disabled={loading}
+            showCertFields={showCertFields}
             onUpdate={(id, patch) => updateCard(id, patch)}
             onRemove={removeCard}
             onRowBlur={() => handlePendingBlur()}
@@ -373,7 +388,11 @@ export default function GradingIntakeClient() {
               {filledItems.map((card, index) => (
                 <li
                   key={card.localId}
-                  className="grid gap-2 md:grid-cols-[auto_minmax(0,1fr)_auto_auto_auto_auto_auto] items-center border border-border-default/60 bg-surface-bg px-3 py-2.5"
+                  className={`grid gap-2 items-center border border-border-default/60 bg-surface-bg px-3 py-2.5 ${
+                    showCertFields
+                      ? 'md:grid-cols-[auto_minmax(0,1fr)_auto_auto_auto_auto_auto_auto_auto]'
+                      : 'md:grid-cols-[auto_minmax(0,1fr)_auto_auto_auto_auto_auto]'
+                  }`}
                 >
                   <span className="font-mono text-xs text-text-muted tabular-nums w-6">
                     {index + 1}
@@ -381,6 +400,19 @@ export default function GradingIntakeClient() {
                   <span className="text-sm text-text-primary truncate" title={card.cardName}>
                     {card.cardName}
                   </span>
+                  {showCertFields && (
+                    <>
+                      <span
+                        className="font-mono text-xs text-text-secondary truncate"
+                        title={card.certNumber || undefined}
+                      >
+                        {card.certNumber || '—'}
+                      </span>
+                      <span className="font-mono text-xs text-text-secondary">
+                        {card.grade || '—'}
+                      </span>
+                    </>
+                  )}
                   <span className={`text-xs ${card.isPaid ? 'text-accent-success' : 'text-text-muted'}`}>
                     {card.isPaid ? 'Paid' : 'Unpaid'}
                   </span>
@@ -437,6 +469,7 @@ export default function GradingIntakeClient() {
       <AdminCardComposer
         defaultTotalCost={planDefaultTotal}
         disabled={loading}
+        showCertFields={showCertFields}
         onCommit={handleCommitComposer}
         onAddBlanks={handleAddBlanks}
       />

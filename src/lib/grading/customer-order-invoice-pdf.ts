@@ -473,7 +473,7 @@ export async function exportCustomerOrderInvoicePdf(
     head: [['#', 'Card', 'Plan', 'Status', 'Total', 'Received']],
     body: invoice.lines.map((line) => [
       String(line.order),
-      line.cardName,
+      line.certNumber ? `${line.cardName}\nCert ${line.certNumber}` : line.cardName,
       line.plan,
       statusStamp(line.status),
       line.totalLabel,

@@ -1149,9 +1149,10 @@ export const en = {
         switch: 'View this submission',
       },
       stepper: {
-        currentStep: 'ACTIVE',
+        // Current stage only — not "batch is somewhere in this phase vaguely"
+        currentStep: 'NOW',
         completed: 'DONE',
-        pending: 'WAIT',
+        pending: 'NEXT',
         progress: 'STEP {current} / {total}',
         progressLabel: 'PROGRESS',
         phaseCodes: {

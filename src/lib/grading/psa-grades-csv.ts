@@ -96,21 +96,67 @@ export function parsePsaGradesCsv(text: string): PsaCsvGradeRow[] {
   return rows;
 }
 
-/** Pair CSV rows to batch items in table order (batch order ID = index + 1). */
+/** Normalize cert for match (digits / trim). */
+export function normalizeCertForMatch(value: string | null | undefined): string {
+  return (value ?? '').replace(/\s/g, '').toLowerCase();
+}
+
+/**
+ * Pair CSV rows to batch items.
+ * Prefer cert match when both sides have a cert; remaining rows fall back to table order.
+ */
 export function matchPsaGradesToBatch(
   csvRows: PsaCsvGradeRow[],
   batchItems: AdminItem[],
 ): PsaGradeMatchResult {
-  const len = Math.max(csvRows.length, batchItems.length);
-  const rows: PsaGradePreviewRow[] = [];
-  for (let i = 0; i < len; i += 1) {
-    const csv = csvRows[i];
-    const item = batchItems[i];
-    if (!csv || !item) continue;
+  const usedCsv = new Set<number>();
+  const usedItems = new Set<number>();
+  const paired: Array<{ csvIndex: number; itemIndex: number }> = [];
+
+  const itemsWithCert = batchItems.some(
+    (item) => normalizeCertForMatch(item.certNumber).length > 0,
+  );
+
+  if (itemsWithCert) {
+    const csvByCert = new Map<string, number>();
+    csvRows.forEach((row, index) => {
+      const cert = normalizeCertForMatch(row.certNumber);
+      if (cert && !csvByCert.has(cert)) csvByCert.set(cert, index);
+    });
+
+    batchItems.forEach((item, itemIndex) => {
+      const cert = normalizeCertForMatch(item.certNumber);
+      if (!cert) return;
+      const csvIndex = csvByCert.get(cert);
+      if (csvIndex == null || usedCsv.has(csvIndex)) return;
+      usedCsv.add(csvIndex);
+      usedItems.add(itemIndex);
+      paired.push({ csvIndex, itemIndex });
+    });
+  }
+
+  let csvCursor = 0;
+  let itemCursor = 0;
+  while (csvCursor < csvRows.length && itemCursor < batchItems.length) {
+    while (csvCursor < csvRows.length && usedCsv.has(csvCursor)) csvCursor += 1;
+    while (itemCursor < batchItems.length && usedItems.has(itemCursor)) itemCursor += 1;
+    if (csvCursor >= csvRows.length || itemCursor >= batchItems.length) break;
+    usedCsv.add(csvCursor);
+    usedItems.add(itemCursor);
+    paired.push({ csvIndex: csvCursor, itemIndex: itemCursor });
+    csvCursor += 1;
+    itemCursor += 1;
+  }
+
+  paired.sort((a, b) => a.itemIndex - b.itemIndex);
+
+  const rows: PsaGradePreviewRow[] = paired.map(({ csvIndex, itemIndex }) => {
+    const csv = csvRows[csvIndex];
+    const item = batchItems[itemIndex];
     const nameMatch =
       normalizeCardNameForMatch(csv.description) === normalizeCardNameForMatch(item.cardName);
-    rows.push({
-      batchOrder: i + 1,
+    return {
+      batchOrder: itemIndex + 1,
       itemId: item.id,
       ourCardName: item.cardName,
       psaDescription: csv.description,
@@ -118,8 +164,9 @@ export function matchPsaGradesToBatch(
       grade: csv.grade,
       zipUrl: csv.zipUrl,
       nameMatch,
-    });
-  }
+    };
+  });
+
   return {
     rows,
     countMismatch: csvRows.length !== batchItems.length,

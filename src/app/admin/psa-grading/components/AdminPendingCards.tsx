@@ -5,6 +5,8 @@ import { parseCostInput } from '@/lib/grading/admin-utils';
 
 export type PendingCardFields = {
   cardName: string;
+  certNumber: string | null;
+  grade: string | null;
   isPaid: boolean;
   totalCost: number | null;
   receivedCost: number | null;
@@ -18,6 +20,7 @@ type PendingCardRow = PendingCardFields & {
 type Props = {
   items: PendingCardRow[];
   disabled?: boolean;
+  showCertFields?: boolean;
   onUpdate: (id: string, patch: Partial<PendingCardFields>) => void;
   onRemove: (id: string) => void;
   /** Settle when focus leaves a row (named → bottom list). */
@@ -30,6 +33,7 @@ type Props = {
 export default function AdminPendingCards({
   items,
   disabled = false,
+  showCertFields = false,
   onUpdate,
   onRemove,
   onRowBlur,
@@ -60,7 +64,11 @@ export default function AdminPendingCards({
                 if (next && e.currentTarget.contains(next)) return;
                 onRowBlur(card.id);
               }}
-              className="grid gap-2 md:grid-cols-[minmax(0,1fr)_auto_auto_auto_auto_auto] items-end border border-border-strong border-dashed bg-surface-bg p-3"
+              className={`grid gap-2 items-end border border-border-strong border-dashed bg-surface-bg p-3 ${
+                showCertFields
+                  ? 'md:grid-cols-[minmax(0,1.2fr)_minmax(7rem,0.7fr)_minmax(4.5rem,0.45fr)_auto_auto_auto_auto_auto]'
+                  : 'md:grid-cols-[minmax(0,1fr)_auto_auto_auto_auto_auto]'
+              }`}
             >
               <div className="min-w-0">
                 <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
@@ -75,6 +83,43 @@ export default function AdminPendingCards({
                   className="w-full border border-border-strong bg-surface-panel px-3 py-2 text-sm min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
                 />
               </div>
+              {showCertFields && (
+                <>
+                  <div className="min-w-0">
+                    <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+                      Cert #
+                    </label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="off"
+                      spellCheck={false}
+                      value={card.certNumber ?? ''}
+                      disabled={disabled}
+                      onChange={(e) =>
+                        onUpdate(card.id, { certNumber: e.target.value || null })
+                      }
+                      placeholder="Cert #"
+                      className="w-full border border-border-strong bg-surface-panel px-2.5 py-2 text-sm font-mono min-h-[44px]"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <label className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+                      Grade
+                    </label>
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      spellCheck={false}
+                      value={card.grade ?? ''}
+                      disabled={disabled}
+                      onChange={(e) => onUpdate(card.id, { grade: e.target.value || null })}
+                      placeholder="Grade"
+                      className="w-full border border-border-strong bg-surface-panel px-2.5 py-2 text-sm font-mono min-h-[44px]"
+                    />
+                  </div>
+                </>
+              )}
               <label className="flex items-center gap-2 text-sm min-h-[44px] min-w-0">
                 <input
                   type="checkbox"
