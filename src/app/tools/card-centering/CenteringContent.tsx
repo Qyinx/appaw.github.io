@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { ImageUp, SlidersHorizontal, Frame, Gauge, ExternalLink, ArrowRight } from 'lucide-react';
 import LocalLink from '@/components/LocalLink';
 import GuideFaq from '@/components/guides/GuideFaq';
+import CenteringFollowCta from './CenteringFollowCta';
 import { useLanguage } from '@/context/LanguageContext';
 import { useCenteringGuide } from './CenteringGuideContext';
 import { STEP_COUNT, centeringHowToSteps } from './centering-guide';
@@ -366,6 +367,8 @@ export default function CenteringContent() {
           {c.whyMattersAfterTrading}
         </p>
       </section>
+
+      <CenteringFollowCta variant="panel" />
 
       <GuideFaq
         id="centering-faq"

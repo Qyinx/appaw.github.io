@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 import { organizationJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
-import { brandLogoImageObject } from '@/lib/seo/brand';
+import { brandLogoImageObject, SOCIAL_INSTAGRAM_URL, SOCIAL_THREADS_URL } from '@/lib/seo/brand';
 import { aboutMetadata } from '@/lib/seo/metadata';
 
 export const metadata = aboutMetadata;
@@ -38,8 +38,8 @@ const org = organizationJsonLd({
     availableLanguage: ['English', 'Chinese', 'Cantonese'],
   },
   sameAs: [
-    'https://www.instagram.com/appaw.store/',
-    'https://www.threads.net/@appaw.store',
+    SOCIAL_INSTAGRAM_URL,
+    SOCIAL_THREADS_URL,
     'https://appawstore.etsy.com/',
     'https://www.carousell.com.hk/u/appaw.store/',
   ],

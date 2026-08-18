@@ -1833,6 +1833,15 @@ export const zh: Translations = {
       whyMattersBeforeTrading: ' 來保駕護航。或者你也可以直接參考我們的 ',
       tradingLink: '卡牌高階寄售服務',
       whyMattersAfterTrading: ' 提早佈局變現策略。',
+      follow: {
+        stripLabel: '關注我們',
+        panelBadge: 'Channel',
+        panelMeta: 'Social',
+        panelTitle: '關注我們 @appaw.store',
+        panelBody: '歡迎在 Instagram 與 Threads 關注 @appaw.store。',
+        instagram: 'Instagram',
+        threads: 'Threads',
+      },
       slabWorkflowTitle: '已經封進鑑定殼的卡，要怎麼量才準？',
       slabWorkflowIntro:
         '隔著一層塑膠殼超難拍！會反光就算了，塑膠的厚度還會讓卡片邊緣產生折射，導致比例拉歪。記住口訣：開調整、貼內緣、別管外殼。',

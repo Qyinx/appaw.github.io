@@ -1,4 +1,4 @@
-import { brandLogoImageObject, SITE_ORIGIN } from '@/lib/seo/brand';
+import { brandLogoImageObject, SITE_ORIGIN, SOCIAL_INSTAGRAM_URL, SOCIAL_THREADS_URL } from '@/lib/seo/brand';
 
 // Centralized JSON-LD factories for Appaw Store
 export function webSiteJsonLd() {
@@ -71,8 +71,8 @@ export function storeJsonLd() {
       areaServed: ['HK', 'US', 'GB', 'CN', 'TW', 'SG', 'JP', 'AU'],
     },
     sameAs: [
-      'https://www.instagram.com/appaw.store/',
-      'https://www.threads.net/@appaw.store',
+      SOCIAL_INSTAGRAM_URL,
+      SOCIAL_THREADS_URL,
       'https://appawstore.etsy.com/',
       'https://www.carousell.com.hk/u/appaw.store/',
       'https://www.google.com/maps/search/?api=1&query=Shop+9+Basement+Manly+Plaza+995-997+King%27s+Road+Quarry+Bay+Hong+Kong',

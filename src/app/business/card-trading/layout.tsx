@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 import { serviceJsonLd, breadcrumbJsonLd } from '@/lib/seo';
+import { SOCIAL_INSTAGRAM_URL } from '@/lib/seo/brand';
 import { cardTradingMetadata } from '@/lib/seo/metadata';
 
 export const metadata = cardTradingMetadata;
@@ -32,7 +33,7 @@ const service = serviceJsonLd({
     sameAs: [
       'https://appawstore.etsy.com/',
       'https://www.carousell.com.hk/u/appaw.store/',
-      'https://www.instagram.com/appaw.store/',
+      SOCIAL_INSTAGRAM_URL,
     ],
   },
   areaServed: {

@@ -1836,6 +1836,15 @@ export const en = {
       whyMattersBeforeTrading: ', or explore our ',
       tradingLink: 'graded card trading & brokerage',
       whyMattersAfterTrading: ' service.',
+      follow: {
+        stripLabel: 'Follow Us',
+        panelBadge: 'Channel',
+        panelMeta: 'Social',
+        panelTitle: 'Follow us @appaw.store',
+        panelBody: 'Follow us on Instagram and Threads.',
+        instagram: 'Instagram',
+        threads: 'Threads',
+      },
       slabWorkflowTitle: 'How to measure centering on a graded slab photo',
       slabWorkflowIntro:
         'Slab plastic adds glare and skew. Use Adjust image and corner loupes so guides sit on the card inside the holder, not the outer case edge.',

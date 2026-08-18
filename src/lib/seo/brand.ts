@@ -1,6 +1,10 @@
 /** Canonical brand assets for metadata, JSON-LD, and web manifests. */
 export const SITE_ORIGIN = 'https://appaw.store';
 
+export const SOCIAL_HANDLE = '@appaw.store';
+export const SOCIAL_INSTAGRAM_URL = 'https://www.instagram.com/appaw.store/';
+export const SOCIAL_THREADS_URL = 'https://www.threads.net/@appaw.store';
+
 export const BRAND_LOGO_PATH = '/images/logo.png';
 export const BRAND_LOGO_URL = `${SITE_ORIGIN}${BRAND_LOGO_PATH}`;
 
