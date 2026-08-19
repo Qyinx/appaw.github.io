@@ -103,6 +103,8 @@
   --atmosphere-center-glow-opacity: 0.22;
   --atmosphere-noise-opacity: 0.034;
   --atmosphere-noise-size: 128px;
+  --atmosphere-main-bg-opacity: 0.22;
+  --atmosphere-secondary-bg-opacity: 0.42;
 }
 
 .dark {
@@ -136,6 +138,8 @@
   --atmosphere-center-glow-color: 91, 111, 214;
   --atmosphere-center-glow-opacity: 0.12;
   --atmosphere-noise-opacity: 0.045;
+  --atmosphere-main-bg-opacity: 0.12;
+  --atmosphere-secondary-bg-opacity: 0.38;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -386,6 +390,38 @@ select option {
 
 .site-main {
   padding-top: calc(var(--site-header-height) + var(--site-subheader-height, 0px));
+}
+
+/* Site-wide main atmosphere — paper grid texture under blueprint CSS layers */
+.site-main-atmosphere {
+  position: relative;
+  isolation: isolate;
+}
+
+.site-main-atmosphere::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-color: var(--surface-bg);
+  background-image: url('/images-optimized/background/bg-main-atmosphere.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: var(--atmosphere-main-bg-opacity);
+}
+
+.site-main-atmosphere > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-main-atmosphere::before {
+    background-attachment: scroll;
+  }
 }
 
 .site-subheader.collection-workspace-chrome__inner,
@@ -1847,75 +1883,27 @@ select option {
   }
 }
 
-/* Hermes-style page atmosphere — dual grid + radial depth (marketing sections) */
+/* Hero illustration stacking — grid/vignette live in site-main-atmosphere image */
 .page-blueprint {
   position: relative;
   isolation: isolate;
 }
 
-.page-blueprint::before {
-  content: '';
+.page-atmosphere-layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image:
-    linear-gradient(rgba(var(--atmosphere-grid-line), var(--atmosphere-grid-major-opacity)) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--atmosphere-grid-line), var(--atmosphere-grid-major-opacity)) 1px, transparent 1px),
-    linear-gradient(rgba(var(--atmosphere-grid-line), var(--atmosphere-grid-minor-opacity)) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--atmosphere-grid-line), var(--atmosphere-grid-minor-opacity)) 1px, transparent 1px);
-  background-size:
-    var(--atmosphere-grid-major-size) var(--atmosphere-grid-major-size),
-    var(--atmosphere-grid-major-size) var(--atmosphere-grid-major-size),
-    var(--atmosphere-grid-minor-size) var(--atmosphere-grid-minor-size),
-    var(--atmosphere-grid-minor-size) var(--atmosphere-grid-minor-size);
-  background-attachment: fixed;
 }
 
-.page-blueprint::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    radial-gradient(
-      ellipse 75% 55% at 50% 38%,
-      rgba(var(--atmosphere-center-glow-color), var(--atmosphere-center-glow-opacity)) 0%,
-      transparent 68%
-    ),
-    radial-gradient(
-      ellipse 110% 95% at 50% 50%,
-      transparent 42%,
-      rgba(var(--atmosphere-vignette-color), var(--atmosphere-vignette-opacity)) 100%
-    );
-  background-attachment: fixed;
-}
-
-.page-blueprint > *:not(.hero-bg-slab-art) {
+.page-blueprint > *:not(.hero-bg-slab-art):not(.home-hero-exhibit__atmosphere):not(.page-atmosphere-layer) {
   position: relative;
   z-index: 1;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .page-blueprint::before,
-  .page-blueprint::after {
-    background-attachment: scroll;
-  }
-}
-
-/* Guides hub hero — full illustration at 50% over section-scoped blueprint grid */
+/* Guides hub hero — full illustration over section-scoped atmosphere */
 .hero-bg-slab {
   min-height: 42vh;
-}
-
-.hero-bg-slab.page-blueprint::before,
-.hero-bg-slab.page-blueprint::after {
-  background-attachment: scroll;
-}
-
-.hero-bg-slab.page-blueprint::after {
-  opacity: 0.35;
 }
 
 .page-blueprint.hero-bg-slab > .hero-bg-slab-art {
@@ -1924,7 +1912,7 @@ select option {
   z-index: 0;
 }
 
-.page-blueprint.hero-bg-slab > *:not(.hero-bg-slab-art) {
+.page-blueprint.hero-bg-slab > *:not(.hero-bg-slab-art):not(.home-hero-exhibit__atmosphere) {
   position: relative;
   z-index: 2;
 }
@@ -1947,7 +1935,12 @@ select option {
   min-height: 100%;
   object-fit: cover;
   object-position: left bottom;
-  opacity: 0.5;
+  opacity: var(--atmosphere-secondary-bg-opacity);
+}
+
+.hero-bg-slab-art--anchor-right .hero-bg-slab-art__img,
+.hero-bg-slab--anchor-right .hero-bg-slab-art__img {
+  object-position: right bottom;
 }
 
 .hero-bg-slab-art::after {
@@ -1963,12 +1956,29 @@ select option {
   );
 }
 
+.hero-bg-slab--anchor-right .hero-bg-slab-art::after,
+.hero-bg-slab-art--anchor-right::after {
+  background: linear-gradient(
+    to left,
+    color-mix(in srgb, var(--surface-bg) 50%, transparent) 0%,
+    color-mix(in srgb, var(--surface-bg) 20%, transparent) 36%,
+    transparent 52%
+  );
+}
+
 @media (max-width: 767px) {
-  .hero-bg-slab.page-blueprint::after {
-    opacity: 0.12;
+  .hero-bg-slab-art::after {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--surface-bg) 96%, transparent) 0%,
+      color-mix(in srgb, var(--surface-bg) 72%, transparent) 22%,
+      color-mix(in srgb, var(--surface-bg) 18%, transparent) 48%,
+      transparent 72%
+    );
   }
 
-  .hero-bg-slab-art::after {
+  .hero-bg-slab--anchor-right .hero-bg-slab-art::after,
+  .hero-bg-slab-art--anchor-right::after {
     background: linear-gradient(
       to bottom,
       color-mix(in srgb, var(--surface-bg) 96%, transparent) 0%,
@@ -2602,8 +2612,8 @@ select option {
   padding-top: calc(var(--site-header-height) + var(--space-section-y));
 }
 
-.how-to-scroll-section__hero-band.page-blueprint .how-to-scroll-section__hero-title,
-.how-to-scroll-section__hero-band.page-blueprint .how-to-scroll-section__hero-definition {
+.how-to-scroll-section__hero-band .how-to-scroll-section__hero-title,
+.how-to-scroll-section__hero-band .how-to-scroll-section__hero-definition {
   text-shadow: none;
 }
 
@@ -3524,11 +3534,6 @@ main {
 /* Operational workspace — blueprint grid in canvas; panels stay opaque */
 .collection-workspace.page-blueprint {
   isolation: isolate;
-}
-
-.collection-workspace.page-blueprint::before,
-.collection-workspace.page-blueprint::after {
-  z-index: 0;
 }
 
 /* Reset page-blueprint flat z-index — later siblings were painting over sticky chrome */

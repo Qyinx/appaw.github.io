@@ -314,7 +314,7 @@ export default function StyleGuidePage() {
         </div>
       </section>
 
-      <section className="section-padding border-b border-border-default bg-surface-panel page-blueprint">
+      <section className="section-padding border-b border-border-default bg-surface-panel">
         <div className="container-custom">
           <h2 className="text-2xl font-display font-bold mb-2">Scroll Chapters</h2>
           <p className="text-text-secondary text-sm mb-8 max-w-2xl">
@@ -363,7 +363,7 @@ export default function StyleGuidePage() {
         </div>
       </section>
 
-      <section className="section-padding border-b border-border-default bg-surface-panel page-blueprint">
+      <section className="section-padding border-b border-border-default bg-surface-panel">
         <div className="container-custom">
           <h2 className="text-2xl font-display font-bold mb-8">Layout Patterns</h2>
           <div className="grid lg:grid-cols-2 gap-6">
@@ -399,7 +399,7 @@ export default function StyleGuidePage() {
             </div>
           </div>
           <p className="mt-6 text-sm text-text-secondary max-w-2xl">
-            Marketing pages use <code className="font-mono text-xs">page-blueprint</code> for Hermes-style atmosphere: dual-scale engineering grid (24px minor + 72px major), radial center lift and edge vignette via <code className="font-mono text-xs">::after</code>, plus body-wide film grain from <code className="font-mono text-xs">page-noise</code> on <code className="font-mono text-xs">body</code> (~2% light, stronger in dark). Decorative layers use fixed attachment for parallax depth; <code className="font-mono text-xs">prefers-reduced-motion</code> falls back to scroll and disables grain.
+            Site atmosphere uses three tiers: main paper-grid image on <code className="font-mono text-xs">site-main-atmosphere</code> (fixed, all pages), optional secondary illustration on marketing heroes via <code className="font-mono text-xs">hero-bg-slab</code>, and film grain from <code className="font-mono text-xs">page-noise</code> on <code className="font-mono text-xs">main</code>. Use <code className="font-mono text-xs">page-blueprint</code> only on sections with <code className="font-mono text-xs">hero-bg-slab-art</code> for z-index stacking. <code className="font-mono text-xs">prefers-reduced-motion</code> falls back main bg to scroll attachment.
             Home hero uses Fibonacci product-led split (copy 0.382 / specimen 0.618). See Spacing &amp; alignment for ratio tokens.
             Tools use full-width workspace + spec-row control strip. Mobile: single column, 44px touch targets, <code className="font-mono text-xs">min-w-0</code>.
           </p>

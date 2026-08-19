@@ -36,7 +36,7 @@ export default function PrivacyPage() {
     <>
       <StructuredData data={[webPage, breadcrumb]} />
 
-      <section className="relative bg-surface-bg pt-20 pb-12 overflow-hidden border-b border-border-default page-blueprint">
+      <section className="relative bg-surface-bg pt-20 pb-12 overflow-hidden border-b border-border-default">
 
         <div className="container-custom">
           <p className="section-label mb-8">Legal</p>

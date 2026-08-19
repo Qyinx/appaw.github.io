@@ -19,7 +19,7 @@ export default function PsaAdvisorTeaser({ copy }: Props) {
   return (
     <section
       id="advisor"
-      className="scroll-mt-20 border-t border-border-default bg-surface-bg page-blueprint"
+      className="scroll-mt-20 border-t border-border-default bg-surface-bg"
       aria-labelledby="advisor-teaser-title"
     >
       <div ref={reveal.ref} className="container-custom py-8 md:py-10">

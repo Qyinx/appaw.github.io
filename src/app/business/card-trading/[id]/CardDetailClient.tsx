@@ -172,7 +172,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
   });
 
   return (
-    <div className="bg-surface-bg min-h-dvh overflow-x-clip page-blueprint">
+    <div className="bg-surface-bg min-h-dvh overflow-x-clip">
 
       {/* ═══ Main content ═══ */}
       <div>

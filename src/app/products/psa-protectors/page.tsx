@@ -17,6 +17,7 @@ import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import { useProtectorColorState } from '@/hooks/useProtectorColorState';
 import { buildProtectorColors } from '@/lib/products/protector-colors';
 import { protectorPriceLabels } from '@/lib/products/protector-pricing';
+import SectionHeroBackground from '@/components/atmosphere/SectionHeroBackground';
 
 /* ─── FAQ Accordion ─── */
 const featureImages = [
@@ -109,11 +110,12 @@ export default function PSAProtectorPage() {
   ];
 
   return (
-    <div className="flex flex-col bg-surface-bg page-blueprint">
+    <div className="flex flex-col bg-surface-bg">
 
       {/* HERO — stamp + spec panel (aligned with homepage) */}
-      <section className="relative section-padding border-b border-border-default overflow-hidden">
-        <div className="container-custom">
+      <section className="relative section-padding border-b border-border-default overflow-hidden page-blueprint hero-bg-slab hero-bg-slab--anchor-right">
+        <SectionHeroBackground anchor="right" />
+        <div className="container-custom relative z-[2]">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
             <MotionStagger visible={heroMounted} className="min-w-0">
@@ -294,7 +296,7 @@ export default function PSAProtectorPage() {
       </section>
 
       {/* COMPATIBILITY — slab profile + verdict matrix */}
-      <section ref={compatReveal.ref} className="section-padding border-t border-border-default bg-surface-panel page-blueprint overflow-hidden">
+      <section ref={compatReveal.ref} className="section-padding border-t border-border-default bg-surface-panel overflow-hidden">
         <div className="container-custom">
           <div className="grid lg:grid-cols-[minmax(0,0.42fr)_1fr] gap-10 lg:gap-16 items-end mb-12 lg:mb-14">
             <Reveal visible={compatReveal.visible} dir="left" className="min-w-0">

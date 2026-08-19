@@ -15,6 +15,7 @@ import { authAuthorizationParams } from '@/app/collection/lib/authSession';
 import { getImagePath } from '@/lib/utils';
 import Reveal, { MotionStagger } from '@/components/ui/Reveal';
 import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
+import SectionHeroBackground from '@/components/atmosphere/SectionHeroBackground';
 
 const FEATURE_ICONS = [LayoutGrid, Database, Layers, ScanLine];
 const STEP_ICONS = [LogIn, Plus, BarChart3];
@@ -201,9 +202,10 @@ export default function CollectionLandingClient() {
     <div className="flex flex-col bg-surface-bg">
 
       {/* ═══ HERO ═══ */}
-      <section ref={heroRef.ref} className="relative min-h-[88dvh] flex items-center overflow-hidden border-b border-border-default page-blueprint">
+      <section ref={heroRef.ref} className="relative min-h-[88dvh] flex items-center overflow-hidden border-b border-border-default page-blueprint hero-bg-slab hero-bg-slab--anchor-right">
+        <SectionHeroBackground anchor="right" />
 
-        <div className="container-custom py-24 md:py-32">
+        <div className="container-custom py-24 md:py-32 relative z-[2]">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <MotionStagger visible={heroMounted}>
               <p className="section-label mb-8 text-accent-link before:bg-accent-link motion-stagger-item">{L.badge}</p>

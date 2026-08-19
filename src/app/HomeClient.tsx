@@ -105,7 +105,7 @@ export default function HomeClient() {
   ] as const;
 
   return (
-    <div className="flex flex-col bg-surface-bg page-blueprint">
+    <div className="flex flex-col bg-surface-bg">
       <HomeHero
         onShopClick={handleShopClick}
         onCollectionClick={handleCollectionClick}

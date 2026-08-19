@@ -10,7 +10,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     <SubHeaderProvider>
       <Header />
       <SiteSubHeader />
-      <main id="main-content" className="page-noise site-main bg-surface-bg" tabIndex={-1}>
+      <main id="main-content" className="page-noise site-main site-main-atmosphere bg-surface-bg" tabIndex={-1}>
         {children}
       </main>
     </SubHeaderProvider>

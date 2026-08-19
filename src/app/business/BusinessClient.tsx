@@ -73,7 +73,7 @@ export default function BusinessClient() {
       ══════════════════════════════════════════════════════ */}
       <section
         ref={heroRef.ref}
-        className="relative min-h-[70dvh] flex items-center overflow-hidden border-b border-border-default page-blueprint"
+        className="relative min-h-[70dvh] flex items-center overflow-hidden border-b border-border-default"
       >
 
         <div className="container-custom relative z-10 py-24 md:py-32">

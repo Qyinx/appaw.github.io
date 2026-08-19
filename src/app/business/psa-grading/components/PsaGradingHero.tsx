@@ -41,7 +41,7 @@ export default function PsaGradingHero({
 
   return (
     <section
-      className={`relative overflow-hidden border-b border-border-default page-blueprint ${
+      className={`relative overflow-hidden border-b border-border-default ${
         isCompact ? '' : 'min-h-[60dvh] flex items-center'
       }`}
     >

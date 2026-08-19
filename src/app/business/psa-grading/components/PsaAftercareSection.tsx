@@ -19,7 +19,7 @@ export default function PsaAftercareSection({ copy }: Props) {
   return (
     <section
       id="aftercare"
-      className="scroll-mt-20 border-t border-border-default bg-surface-bg page-blueprint"
+      className="scroll-mt-20 border-t border-border-default bg-surface-bg"
       aria-labelledby="aftercare-title"
     >
       <div ref={reveal.ref} className="container-custom py-10 md:py-14 max-w-3xl">

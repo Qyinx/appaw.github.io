@@ -22,7 +22,7 @@ export default function PsaAdvisorSection({ copy, omitHeader = false }: Props) {
   return (
     <section
       id="advisor"
-      className="scroll-mt-20 border-t border-border-default bg-surface-bg page-blueprint"
+      className="scroll-mt-20 border-t border-border-default bg-surface-bg"
       aria-labelledby={omitHeader ? undefined : 'advisor-title'}
       aria-label={omitHeader ? copy.title : undefined}
     >

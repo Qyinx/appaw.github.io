@@ -50,7 +50,7 @@ export default function CenteringPageContent({ t, pageUrl, homeUrl }: CenteringP
   return (
     <>
       <StructuredData data={[webApp, breadcrumb, howTo, faqSchema]} />
-      <div className="flex flex-col w-full min-w-0 bg-surface-bg page-blueprint">
+      <div className="flex flex-col w-full min-w-0 bg-surface-bg">
         <CenteringPageShell />
       </div>
     </>

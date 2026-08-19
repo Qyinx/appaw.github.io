@@ -10,6 +10,7 @@ import { useHeroMount } from '@/hooks/useRevealOnScroll';
 import { useProtectorColorState } from '@/hooks/useProtectorColorState';
 import { useHeroColorAutoplay } from '@/hooks/useHeroColorAutoplay';
 import { buildProtectorColors } from '@/lib/products/protector-colors';
+import SectionHeroBackground from '@/components/atmosphere/SectionHeroBackground';
 import HeroSpecimenStage from './HeroSpecimenStage';
 import HeroColorFilmstrip from './HeroColorFilmstrip';
 
@@ -51,7 +52,8 @@ export default function HomeHero({ onShopClick, onCollectionClick, onCenteringCl
   const h = t.home.hero;
 
   return (
-    <section className="home-hero-exhibit relative flex flex-col border-b border-border-default page-blueprint">
+    <section className="home-hero-exhibit relative flex flex-col border-b border-border-default page-blueprint hero-bg-slab hero-bg-slab--anchor-right">
+      <SectionHeroBackground anchor="right" />
       <div className="home-hero-exhibit__atmosphere" aria-hidden="true" />
 
       <div className="container-custom relative z-[1] flex-1 flex flex-col pt-8 sm:pt-10 pb-0">

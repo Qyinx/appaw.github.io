@@ -80,7 +80,7 @@ export default function PsaGradingHowToSection({ badge, hero, howTo, aeo }: Prop
         ['--how-to-rail-progress' as string]: '0',
       }}
     >
-      <div className="how-to-scroll-section__hero-band page-blueprint bg-surface-bg border-b border-border-default">
+      <div className="how-to-scroll-section__hero-band bg-surface-bg border-b border-border-default">
         <div className="container-custom">{heroBlock}</div>
       </div>
 

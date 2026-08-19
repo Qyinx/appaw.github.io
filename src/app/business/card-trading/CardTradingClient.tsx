@@ -50,7 +50,7 @@ function TradingGuide({ guide, registerActivate }: {
   const tabAccentRgb = activeTab === 'buy' ? '255,154,166' : '139,152,251';
 
   return (
-    <section id="consign" className="section-padding bg-surface-bg relative overflow-x-clip border-t border-border-default page-blueprint">
+    <section id="consign" className="section-padding bg-surface-bg relative overflow-x-clip border-t border-border-default">
 
       <div className="container-custom">
 

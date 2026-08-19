@@ -426,7 +426,7 @@ export default function PsaBatchProgressBoard() {
   return (
     <section
       id="batches"
-      className="relative overflow-x-clip border-b border-border-default bg-surface-bg page-blueprint scroll-mt-20"
+      className="relative overflow-x-clip border-b border-border-default bg-surface-bg scroll-mt-20"
       aria-labelledby="batch-board-title"
     >
       <div className="container-custom py-8 md:py-10">

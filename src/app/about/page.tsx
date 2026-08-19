@@ -30,7 +30,7 @@ export default function AboutPage() {
     <div className="flex flex-col bg-surface-bg">
 
       {/* HERO */}
-      <section className="relative min-h-[55vh] flex items-center overflow-hidden bg-surface-bg pt-20 border-b border-border-default page-blueprint">
+      <section className="relative min-h-[55vh] flex items-center overflow-hidden bg-surface-bg pt-20 border-b border-border-default">
         <div className="container-custom py-24">
           <MotionStagger visible={heroMounted} className="max-w-3xl">
             <p className="section-label mb-8 motion-stagger-item">Our Story</p>
