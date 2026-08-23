@@ -151,7 +151,7 @@ export const en = {
         badge: 'PSA Submission',
         title: 'PSA submission (Hong Kong)',
         description:
-          'Hong Kong TCG face-to-face PSA intake at 138 Arena, Causeway Bay. Condition advice before you ship, tiers from HKD 850. Track every batch online.',
+          'Hong Kong TCG face-to-face PSA intake at 138 Arena, Causeway Bay. Condition advice before you ship, tiers from HKD 790. Track every batch online.',
         cta: 'View PSA submission',
       },
       guidesLink: 'Guides on slab fit, UV storage, centering, and regrade vs reholder',
@@ -244,7 +244,7 @@ export const en = {
       title: 'PSA submission in Hong Kong',
       description:
         'Face-to-face PSA submission from 138 Arena, Causeway Bay. We help you decide whether a card should go to PSA, then track every batch online.',
-      chips: ['138 Arena', 'From HKD 850', 'Face-to-face only', 'Batch tracking'],
+      chips: ['138 Arena', 'From HKD 790', 'Face-to-face only', 'Batch tracking'],
       cta: 'View PSA submission',
       trackCta: 'Track a batch',
       bookCta: 'Book drop-off',

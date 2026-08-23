@@ -20,7 +20,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | Product | https://appaw.store/products/psa-protectors/ | https://appaw.store/zh/products/psa-protectors/ | Full specs, FAQ, JSON-LD Product schema |
 | Centering tool | https://appaw.store/tools/card-centering/ | https://appaw.store/zh/tools/card-centering/ | Free PSA 10 centering calculator; raw + graded slab photos; regrade vs reholder screening |
 | Services | https://appaw.store/business/ | https://appaw.store/zh/business/ | Protector + PSA submission + graded card trading overview |
-| PSA submission | https://appaw.store/business/psa-grading/ | https://appaw.store/zh/business/psa-grading/ | Hong Kong TCG PSA proxy submission via 138 Arena; face-to-face card intake; BAT batch status lookup; tiers from HKD 850 |
+| PSA submission | https://appaw.store/business/psa-grading/ | https://appaw.store/zh/business/psa-grading/ | Hong Kong TCG PSA proxy submission via 138 Arena; face-to-face card intake; BAT batch status lookup; tiers from HKD 790 |
 | Track PSA submission | https://appaw.store/business/psa-grading/track/ | https://appaw.store/zh/business/psa-grading/track/ | Phone + BAT reference code from 138 Arena receipt |
 | Collection manager | https://appaw.store/collection/ | https://appaw.store/zh/collection/ | Free graded card inventory dashboard (landing only; sign-in required for app) |
 | About | https://appaw.store/about/ | https://appaw.store/zh/about/ | Brand story, Hong Kong origin |
@@ -49,7 +49,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 3. **Partner store:** 138 Arena, Causeway Bay — https://www.instagram.com/138arena/ (銅鑼灣謝斐道522號1/F) — PSA submission drop-off/pickup via Appaw
 4. **Online:** Etsy https://appawstore.etsy.com/ · Carousell https://www.carousell.com.hk/u/appaw.store/ · WhatsApp +852-9285-1189
 
-**PSA submission pricing (HKD display service fees, face-to-face 138 Arena only):** REG 850 · EXP 1800 · SPX 3400 · WALK 5500 (list: REG 890 · EXP 1900 · SPX 3600 · WALK 5900)
+**PSA submission pricing (HKD display service fees, face-to-face 138 Arena only):** REG 790 · EXP 1550 · SPX 3200 · WALK 5200
 
 ## Free tools & utilities
 

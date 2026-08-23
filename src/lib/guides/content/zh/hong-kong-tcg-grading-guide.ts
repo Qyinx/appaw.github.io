@@ -5,7 +5,7 @@ const guide: GuideContent = {
   title: '香港 TCG 卡牌提交鑑定：138 Arena PSA 代送流程',
   badge: '香港',
   lead:
-    '香港 TCG 收藏家可親臨銅鑼灣 138 Arena 面交評估卡況及提交鑑定，由 Appaw Store 專人處理寶可夢、One Piece、Magic: The Gathering 及運動卡至 PSA 的代送程序。現場提供卡況初步評估與基本清潔保養服務，精確預估分數並降低潛在扣分風險，全力為珍藏爭取最佳評級。REG 方案服務費由 HKD 850 起，憑收據上的 參考編號 可隨時於網上查看現有進度。',
+    '香港 TCG 收藏家可親臨銅鑼灣 138 Arena 面交評估卡況及提交鑑定，由 Appaw Store 專人處理寶可夢、One Piece、Magic: The Gathering 及運動卡至 PSA 的代送程序。現場提供卡況初步評估與基本清潔保養服務，精確預估分數並降低潛在扣分風險，全力為珍藏爭取最佳評級。REG 方案服務費由 HKD 790 起，憑收據上的 參考編號 可隨時於網上查看現有進度。',
   published: '2026-07-13',
   updated: '2026-08-05',
   readTime: '9 分鐘',
@@ -18,7 +18,7 @@ const guide: GuideContent = {
     },
     {
       label: '服務費',
-      value: 'REG 方案 HKD 850 起，於 138 Arena 現場支付，完整價目見 PSA 代送鑑定頁面',
+      value: 'REG 方案 HKD 790 起，於 138 Arena 現場支付，完整價目見 PSA 代送鑑定頁面',
     },
     {
       label: '進度查詢',
@@ -108,7 +108,7 @@ const guide: GuideContent = {
     },
     {
       q: 'PSA 代送服務費由多少起？',
-      a: 'REG 方案服務費由 HKD 850 起，於 138 Arena 現場支付；EXP、SPX 及 Walk-Through 等更高等級的服務費與最高申報價值各有不同。完整價目、預計鑑定期及條款，請參閱 PSA 代送鑑定頁面，實際收費以預約時公布為準。',
+      a: 'REG 方案服務費由 HKD 790 起，於 138 Arena 現場支付；EXP、SPX 及 Walk-Through 等更高等級的服務費與最高申報價值各有不同。完整價目、預計鑑定期及條款，請參閱 PSA 代送鑑定頁面，實際收費以預約時公布為準。',
     },
     {
       q: '如何查看批次現有進度？',

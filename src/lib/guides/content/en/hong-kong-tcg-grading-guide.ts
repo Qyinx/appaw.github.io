@@ -5,7 +5,7 @@ const guide: GuideContent = {
   title: 'Hong Kong TCG Grading Submission: PSA Proxy at 138 Arena',
   badge: 'Hong Kong',
   lead:
-    'Hong Kong TCG collectors can drop off at 138 Arena, Causeway Bay, for face-to-face intake while Appaw Store proxies Pokémon, One Piece, MTG, and sports cards to PSA. On arrival, we provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Service fees start at HKD 850. Every batch gets a reference code for online status lookup on Appaw.',
+    'Hong Kong TCG collectors can drop off at 138 Arena, Causeway Bay, for face-to-face intake while Appaw Store proxies Pokémon, One Piece, MTG, and sports cards to PSA. On arrival, we provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Service fees start at HKD 790. Every batch gets a reference code for online status lookup on Appaw.',
   published: '2026-07-13',
   updated: '2026-08-05',
   readTime: '9 min',
@@ -18,7 +18,7 @@ const guide: GuideContent = {
     },
     {
       label: 'Service from',
-      value: 'HKD 850 (REG tier), paid on-site at 138 Arena; full pricing on the PSA submission hub',
+      value: 'HKD 790 (REG tier), paid on-site at 138 Arena; full pricing on the PSA submission hub',
     },
     {
       label: 'Tracking',
@@ -56,7 +56,7 @@ const guide: GuideContent = {
       paragraphs: [
         'First, book a face-to-face slot at 138 Arena, Causeway Bay through Appaw. Bring your cards and a contact phone number. Sleeve or hard-case your cards for travel so they do not pick up scratches en route. On arrival, we provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Appaw then verifies your cards, confirms PSA tier and declared value, helps with sleeving and a written list, assigns a reference code per service level, and issues a receipt. You pay the service fee on-site at 138 Arena per the [PSA submission hub](/business/psa-grading/) pricing table.',
         'After intake, Appaw consolidates batches by PSA tier and forwards them for research, grading, encapsulation, and quality control. Timeline steps sync to the Appaw [PSA submission tracker](/business/psa-grading/track/). You need both the phone number and reference code from your receipt to view batch status; Appaw does not expose submissions by phone number alone.',
-        'Multiple PSA tiers in one visit get separate reference codes under the same phone number. REG tier service fees start at HKD 850. Full tier pricing and max declared values are on the submission hub; fees at booking time are final.',
+        'Multiple PSA tiers in one visit get separate reference codes under the same phone number. REG tier service fees start at HKD 790. Full tier pricing and max declared values are on the submission hub; fees at booking time are final.',
       ],
       bridge: 'With drop-off clear, optional self-checks can help you aim for a higher grade.',
     },
@@ -105,7 +105,7 @@ const guide: GuideContent = {
     },
     {
       q: 'How much does the PSA proxy service cost?',
-      a: 'REG tier service fees start at HKD 850, paid on-site at 138 Arena. EXP, SPX, and Walk-Through tiers have different fees and max declared values. Full pricing, turnaround estimates, and terms are on the PSA submission hub; fees at booking time apply.',
+      a: 'REG tier service fees start at HKD 790, paid on-site at 138 Arena. EXP, SPX, and Walk-Through tiers have different fees and max declared values. Full pricing, turnaround estimates, and terms are on the PSA submission hub; fees at booking time apply.',
     },
     {
       q: 'How do I track my batch?',

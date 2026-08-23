@@ -152,7 +152,7 @@ export const zh: Translations = {
         badge: 'PSA 專業代送',
         title: '香港 PSA 代送鑑定',
         description:
-          '於銅鑼灣 138 Arena 面交收件，專人代送 PSA。服務費 HKD 850 起，支援線上追蹤進度，交收時更可即場交流卡況意見。',
+          '於銅鑼灣 138 Arena 面交收件，專人代送 PSA。服務費 HKD 790 起，支援線上追蹤進度，交收時更可即場交流卡況意見。',
         cta: '了解代送詳情',
       },
       guidesLink: '鑑定卡保護、防 UV、置中檢測與重新評級實用指南',
@@ -245,7 +245,7 @@ export const zh: Translations = {
       title: '香港 PSA 代送鑑定',
       description:
         '於銅鑼灣 138 Arena 進行面交收件，代您穩妥轉送 PSA。批次進度隨時可於線上查詢，交收時我們亦會提供卡況專業意見，幫您評估提交鑑定效益。',
-      chips: ['138 Arena 面交', 'HKD 850 起', '拒絕郵寄風險', '線上進度查詢'],
+      chips: ['138 Arena 面交', 'HKD 790 起', '拒絕郵寄風險', '線上進度查詢'],
       cta: '了解代送詳情',
       trackCta: '查詢批次進度',
       bookCta: '預約面交時段',
