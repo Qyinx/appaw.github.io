@@ -1081,11 +1081,14 @@ export const zh: Translations = {
   },
 
   psaGradingTrack: {
-    badge: '進度追蹤器',
+    badge: '遠征紀錄',
     title: '查詢 PSA 代送最新進度',
     subtitle: '請備妥您在 138 Arena 拿到的收據，輸入電話號碼與參考編號。',
-    formPanelLabel: '快速查詢',
-    formPanelPart: 'Step 01',
+    formPanelLabel: '查找批次',
+    formPanelPart: '01',
+    formIntro: '輸入電話號碼與參考編號。',
+    resultsPanelPart: '02',
+    skeletonLabel: '查閱紀錄中',
     backToHub: '← 返回代送首頁',
     breadcrumb: {
       home: '首頁',
@@ -1143,6 +1146,7 @@ export const zh: Translations = {
       copyTracking: '複製追蹤碼',
       copiedTracking: '追蹤碼已複製！',
       trackPackage: '前往快遞官網追蹤',
+      notesTitle: '最新通知',
       lastSynced: '最後更新時間：{date}',
       relatedSubmissions: {
         title: '您同天提交的其他批次',

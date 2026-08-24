@@ -2,7 +2,6 @@
 
 import React, { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef } from 'react';
 import { Loader2, Search, AlertCircle } from 'lucide-react';
-import gsap from 'gsap';
 import type { Translations } from '@/i18n/en';
 import LocalLink from '@/components/LocalLink';
 import TurnstileWidget from '@/components/TurnstileWidget';
@@ -11,9 +10,8 @@ import {
   animateButtonPress,
   animateErrorAlert,
   animateFieldFill,
-  animateFormEntrance,
-  prefersReducedMotion,
-} from './grading-track-motion';
+  animateFormEnter,
+} from './useGradingTrackAnime';
 
 export type TrackLookupFormHandle = {
   getFormElement: () => HTMLFormElement | null;
@@ -24,6 +22,8 @@ type FormCopy = Translations['psaGradingTrack']['form'];
 type Props = {
   copy: FormCopy;
   panelLabel: string;
+  panelPart: string;
+  formIntro: string;
   phone: string;
   referenceCode: string;
   onPhoneChange: (value: string) => void;
@@ -48,6 +48,8 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
   {
     copy,
     panelLabel,
+    panelPart,
+    formIntro,
     phone,
     referenceCode,
     onPhoneChange,
@@ -85,17 +87,7 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
   useLayoutEffect(() => {
     if (mountedRef.current) return;
     mountedRef.current = true;
-
-    if (prefersReducedMotion()) {
-      gsap.set(formRef.current, { autoAlpha: 1, y: 0, scale: 1 });
-      return;
-    }
-
-    gsap.set(formRef.current, { autoAlpha: 0, y: 28, scale: 0.98 });
-    const tween = animateFormEntrance(formRef.current);
-    return () => {
-      tween?.kill();
-    };
+    return animateFormEnter(formRef.current);
   }, []);
 
   useEffect(() => {
@@ -109,10 +101,7 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
   useEffect(() => {
     if (state !== 'not_found') return;
     phoneRef.current?.focus({ preventScroll: true });
-    const tween = animateErrorAlert(errorAlertRef.current);
-    return () => {
-      tween?.kill();
-    };
+    return animateErrorAlert(errorAlertRef.current);
   }, [state]);
 
   const handleFillDemo = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -137,7 +126,7 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
     <form
       ref={formRef}
       onSubmit={onSubmit}
-      className="grading-track-form border border-border-default bg-surface-panel"
+      className="grading-track-form grading-track-ledger-panel border border-border-default bg-surface-panel"
       noValidate
       aria-describedby={
         [state === 'not_found' ? errorId : null, securityError ? securityErrorId : null]
@@ -146,7 +135,17 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
       }
     >
       <div className="grading-track-form__header">
-        <h2 className="grading-track-form__label">{panelLabel}</h2>
+        <p className="chapter-label mb-2" data-part={panelPart}>
+          <span className="sr-only">Part {panelPart}</span>
+        </p>
+        <h2 className="grading-track-form__title font-display text-lg font-semibold text-text-primary">
+          {panelLabel}
+        </h2>
+        {formIntro.trim() ? (
+          <p className="grading-track-form__intro mt-1.5 text-sm text-text-secondary leading-relaxed psa-grading-track-aeo-answer">
+            {formIntro}
+          </p>
+        ) : null}
       </div>
 
       <div className="grading-track-form__body space-y-5">
@@ -167,7 +166,7 @@ const TrackLookupForm = forwardRef<TrackLookupFormHandle, Props>(function TrackL
             value={phone}
             onChange={(e) => onPhoneChange(e.target.value)}
             aria-invalid={state === 'not_found'}
-            className="w-full min-h-[44px] px-4 py-2.5 bg-surface-raised border border-border-default text-text-primary text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary/50 transition-[box-shadow,border-color] duration-150"
+            className="grading-track-field w-full min-h-[44px] px-4 py-2.5 border border-border-default text-text-primary text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary/50 transition-[box-shadow,border-color] duration-150"
             placeholder={copy.phonePlaceholder}
           />
           <p className="mt-2 text-sm text-text-muted psa-grading-track-aeo-answer">{copy.phoneHelper}</p>

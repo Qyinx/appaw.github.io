@@ -1081,11 +1081,14 @@ export const en = {
   },
 
   psaGradingTrack: {
-    badge: 'Submission tracking',
+    badge: 'Expedition ledger',
     title: 'Track PSA submission',
     subtitle: 'Use the phone number and reference code from your 138 Arena receipt.',
-    formPanelLabel: 'Lookup',
+    formPanelLabel: 'Locate batch',
     formPanelPart: '01',
+    formIntro: 'Use the phone number and reference code.',
+    resultsPanelPart: '02',
+    skeletonLabel: 'Consulting expedition archives',
     backToHub: 'Back to PSA submission',
     breadcrumb: {
       home: 'Home',
@@ -1143,6 +1146,7 @@ export const en = {
       copyTracking: 'Copy tracking number',
       copiedTracking: 'Tracking number copied',
       trackPackage: 'Track on carrier site',
+      notesTitle: 'Notifications',
       lastSynced: 'Last updated: {date}',
       relatedSubmissions: {
         title: 'Other batches from this drop-off',

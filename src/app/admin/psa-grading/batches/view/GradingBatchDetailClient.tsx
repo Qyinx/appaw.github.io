@@ -685,7 +685,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
               onChange={setDraftNotes}
               disabled={saving || deleting}
             />
-            <p className="text-xs text-text-muted mt-1">Internal ops notes - not shown on customer tracking.</p>
+            <p className="text-xs text-text-muted mt-1">Shown on customer track lookup when saved. Keep internal ops details out.</p>
           </div>
 
           <div className="border border-accent-danger/40 bg-surface-bg p-4 space-y-3">

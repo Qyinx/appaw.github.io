@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
 import { ArrowLeft } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { DEMO_LOOKUP } from '@/lib/grading/mock-data';
@@ -11,18 +10,14 @@ import type { GradingSubmission } from '@/lib/grading/types';
 import LocalLink from '@/components/LocalLink';
 import { useSubHeader } from '@/hooks/useSubHeader';
 import TrackLookupForm, { type TrackLookupFormHandle } from './TrackLookupForm';
-import TrackLookupSummaryBar from './TrackLookupSummaryBar';
 import TrackResultsPanel, { type ResultsTab } from './TrackResultsPanel';
 import { useLanguage } from '@/context/LanguageContext';
 import {
   animateFormErrorShake,
-  animateFormLoading,
-  animateHeroEntrance,
-  animateLoadingSkeleton,
-  animateResultsColumnEnter,
-  animateSectionEntrance,
-  useGradingTrackMotion,
-} from './useGradingTrackMotion';
+  useTrackGridEnter,
+  useTrackLoadingState,
+  useTrackResultsEnter,
+} from './useGradingTrackAnime';
 
 type LookupState = 'idle' | 'loading' | 'success' | 'not_found';
 
@@ -44,13 +39,8 @@ export default function PsaGradingTrackClient() {
 
   const formHandleRef = useRef<TrackLookupFormHandle>(null);
   const skeletonRef = useRef<HTMLDivElement>(null);
-  const pageRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const skeletonTweenRef = useRef<gsap.core.Timeline | void>(undefined);
-
-  useGradingTrackMotion(pageRef);
 
   const [phone, setPhone] = useState('');
   const [referenceCode, setReferenceCode] = useState('BAT-');
@@ -63,6 +53,10 @@ export default function PsaGradingTrackClient() {
   const [turnstileToken, setTurnstileToken] = useState('');
   const [resetSignal, setResetSignal] = useState(0);
   const [securityError, setSecurityError] = useState('');
+
+  useTrackGridEnter(gridRef);
+  useTrackLoadingState(formHandleRef, skeletonRef, state === 'loading');
+  useTrackResultsEnter(resultsRef, state === 'success' && submission != null);
 
   const resetTurnstile = useCallback(() => {
     setTurnstileToken('');
@@ -182,18 +176,6 @@ export default function PsaGradingTrackClient() {
   );
 
   useEffect(() => {
-    const heroEls = heroRef.current
-      ? Array.from(heroRef.current.querySelectorAll<HTMLElement>('[data-track-hero]'))
-      : [];
-    const heroTween = animateHeroEntrance(heroEls);
-    const sectionTween = animateSectionEntrance(gridRef.current);
-    return () => {
-      heroTween?.kill();
-      sectionTween?.kill();
-    };
-  }, []);
-
-  useEffect(() => {
     const urlView = searchParams.get('view');
     if (urlView === 'cards' || urlView === 'status') {
       setResultsTab(urlView);
@@ -207,39 +189,10 @@ export default function PsaGradingTrackClient() {
   }, [searchParams, syncUrl]);
 
   useEffect(() => {
-    const formEl = formHandleRef.current?.getFormElement() ?? null;
-    const loadingTween = animateFormLoading(formEl, skeletonRef.current, state === 'loading');
-
-    if (state === 'loading' && skeletonRef.current) {
-      skeletonTweenRef.current?.kill();
-      skeletonTweenRef.current = animateLoadingSkeleton(skeletonRef.current);
-    } else {
-      skeletonTweenRef.current?.kill();
-      skeletonTweenRef.current = undefined;
-    }
-
-    return () => {
-      loadingTween?.kill();
-      skeletonTweenRef.current?.kill();
-    };
-  }, [state]);
-
-  useEffect(() => {
     if (state !== 'not_found') return;
     const formEl = formHandleRef.current?.getFormElement() ?? null;
-    const shakeTween = animateFormErrorShake(formEl);
-    return () => {
-      shakeTween?.kill();
-    };
+    return animateFormErrorShake(formEl);
   }, [state]);
-
-  useEffect(() => {
-    if (state !== 'success' || !submission) return;
-    const enterTween = animateResultsColumnEnter(resultsRef.current, null);
-    return () => {
-      enterTween?.kill();
-    };
-  }, [state, submission]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -303,35 +256,8 @@ export default function PsaGradingTrackClient() {
   });
 
   return (
-    <div
-      ref={pageRef}
-      className="min-h-dvh bg-surface-bg grading-track-workspace collection-workspace page-blueprint overflow-x-clip"
-    >
-      <div className="workspace-canvas container-tool grading-track-canvas pt-2 md:pt-4 pb-10 md:pb-14">
-        <header ref={heroRef} className="grading-track-hero mb-4">
-          <p
-            data-track-hero
-            className="chapter-label mb-3"
-            data-part={copy.formPanelPart}
-          >
-            <span className="sr-only">
-              Part {copy.formPanelPart} — {copy.badge}
-            </span>
-          </p>
-          <h1
-            data-track-hero
-            className="font-display text-2xl md:text-3xl font-bold text-text-primary text-balance"
-          >
-            {copy.title}
-          </h1>
-          <p
-            data-track-hero
-            className="mt-2 text-sm md:text-base text-text-secondary leading-relaxed max-w-xl psa-grading-track-aeo-answer"
-          >
-            {copy.subtitle}
-          </p>
-        </header>
-
+    <div className="min-h-dvh bg-surface-bg grading-track-workspace collection-workspace page-blueprint overflow-x-clip">
+      <div className="workspace-canvas container-tool grading-track-canvas pb-10 md:pb-14">
         <div aria-live="polite" aria-atomic="true" className="sr-only">
           {liveMessage}
         </div>
@@ -346,6 +272,8 @@ export default function PsaGradingTrackClient() {
                 ref={formHandleRef}
                 copy={copy.form}
                 panelLabel={copy.formPanelLabel}
+                panelPart={copy.formPanelPart}
+                formIntro={copy.formIntro}
                 phone={phone}
                 referenceCode={referenceCode}
                 onPhoneChange={setPhone}
@@ -374,6 +302,7 @@ export default function PsaGradingTrackClient() {
               className="grading-track-skeleton min-w-0 min-h-[12rem]"
               aria-live="polite"
               aria-busy="true"
+              aria-label={copy.skeletonLabel}
             >
               <div data-skeleton-item className="grading-track-skeleton__row h-5 w-40" />
               <div data-skeleton-item className="grading-track-skeleton__panel h-28" />
@@ -383,16 +312,14 @@ export default function PsaGradingTrackClient() {
 
           {state === 'success' && submission && (
             <div ref={resultsRef} className="min-w-0">
-              <TrackLookupSummaryBar
-                copy={copy.summaryBar}
-                phone={phone}
-                referenceCode={submission.referenceCode}
-                onNewLookup={handleNewLookup}
-              />
               <TrackResultsPanel
                 submission={submission}
                 copy={copy.results}
+                summaryCopy={copy.summaryBar}
                 servicePlanCopy={copy.servicePlan}
+                resultsPanelPart={copy.resultsPanelPart}
+                phone={phone}
+                onNewLookup={handleNewLookup}
                 activeTab={resultsTab}
                 onTabChange={handleTabChange}
               />

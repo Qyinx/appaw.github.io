@@ -11,7 +11,7 @@ export interface AdminBatch {
   completedStepIndex: number;
   orderCount: number;
   cardCount: number;
-  /** Ops-only rich text notes (TipTap HTML). */
+  /** Customer-visible rich text notes (TipTap HTML). Shown on track lookup. */
   notes?: string | null;
   /** ISO date YYYY-MM-DD. */
   estShippingDate?: string | null;

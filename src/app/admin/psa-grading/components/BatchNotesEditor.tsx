@@ -3,6 +3,7 @@
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect } from 'react';
+import { normalizeBatchNotesHtml } from '@/lib/grading/batch-notes';
 
 type Props = {
   value: string;
@@ -132,10 +133,4 @@ export default function BatchNotesEditor({ value, onChange, disabled }: Props) {
   );
 }
 
-export function normalizeBatchNotesHtml(html: string | null | undefined): string | null {
-  const trimmed = (html ?? '').trim();
-  if (!trimmed || trimmed === '<p></p>' || trimmed === '<p><br></p>' || trimmed === '<p><br class="ProseMirror-trailingBreak"></p>') {
-    return null;
-  }
-  return trimmed;
-}
+export { normalizeBatchNotesHtml } from '@/lib/grading/batch-notes';

@@ -106,6 +106,9 @@ function buildSteps(variant: GradingDemoVariant): GradingProgressStep[] {
   return buildFullStepList(completedIndexForVariant(variant));
 }
 
+const DEMO_NOTES =
+  '<p>Your batch is on schedule. We will WhatsApp you when cards are ready for pickup at 138 Arena.</p>';
+
 function baseSubmission(
   id: string,
   referenceCode: string,
@@ -122,6 +125,7 @@ function baseSubmission(
     psaOrderNumber: variant === 'awaiting' ? null : 'PSA-DEMO-88421',
     problemOrder: false,
     accountingHold: false,
+    notes: DEMO_NOTES,
     lastSyncedAt: '2026-07-05T04:00:00.000Z',
     steps: buildSteps(variant),
   };

@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import { Hash } from 'lucide-react';
 import { GRADING_SERVICE_PLAN_SUFFIX_PATTERN } from '@/lib/grading/reference-code';
+import { animateSigilFocus } from './useGradingTrackAnime';
 
 export const BAT_REFERENCE_PREFIX = 'BAT-';
 
@@ -31,7 +32,7 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-/** Reference code input — ticket-style field for lookup form */
+/** Reference code input — sigil ticket field for lookup form */
 export default function ReferenceCodeHighlight({
   id,
   label,
@@ -42,6 +43,7 @@ export default function ReferenceCodeHighlight({
   onChange,
 }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const focusCleanupRef = useRef<(() => void) | null>(null);
 
   const handleChange = (next: string) => {
     onChange(ensureBatReferencePrefix(next));
@@ -56,6 +58,14 @@ export default function ReferenceCodeHighlight({
         el.setSelectionRange(len, len);
       });
     }
+    focusCleanupRef.current?.();
+    focusCleanupRef.current = animateSigilFocus(wrapRef.current);
+  };
+
+  const handleBlur = () => {
+    focusCleanupRef.current?.();
+    focusCleanupRef.current = null;
+    if (wrapRef.current) wrapRef.current.style.boxShadow = '';
   };
 
   return (
@@ -66,7 +76,7 @@ export default function ReferenceCodeHighlight({
           *
         </span>
       </label>
-      <div className="group relative border border-border-default bg-surface-raised transition-[border-color,box-shadow] duration-150 focus-within:border-accent-brand focus-within:shadow-[inset_3px_0_0_0_var(--accent-brand)]">
+      <div className="grading-track-sigil-field group relative border border-border-default transition-[border-color,box-shadow] duration-150 focus-within:border-accent-brand focus-within:shadow-[inset_3px_0_0_0_var(--accent-brand)]">
         <div className="relative flex items-center gap-3 px-4 py-2.5 min-h-[44px]">
           <Hash
             className="w-4 h-4 shrink-0 text-accent-brand"
@@ -81,6 +91,7 @@ export default function ReferenceCodeHighlight({
             value={value}
             onChange={(e) => handleChange(e.target.value)}
             onFocus={handleFocus}
+            onBlur={handleBlur}
             pattern={`BAT-\\d{4}-\\d{1,2}-(${GRADING_SERVICE_PLAN_SUFFIX_PATTERN})-\\d+`}
             title={placeholder}
             className="w-full min-w-0 bg-transparent border-0 p-0 text-text-primary font-mono text-base md:text-lg uppercase tracking-[0.12em] focus:outline-none focus-visible:ring-0 placeholder:text-text-muted/70 placeholder:tracking-normal placeholder:normal-case"

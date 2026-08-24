@@ -1,35 +1,50 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Check, Copy, ExternalLink, List, Route } from 'lucide-react';
+import { Check, Copy, ExternalLink, List, Route, Search } from 'lucide-react';
 import type { GradingRelatedSubmission, GradingSubmission } from '@/lib/grading/types';
 import type { GradingServicePlan } from '@/lib/grading/reference-code';
 import type { Translations } from '@/i18n/en';
 import GradingProgressStepper from '../components/GradingProgressStepper';
 import SubmissionItemsTable from '../components/SubmissionItemsTable';
+import SubmissionNotesMessage from '../components/SubmissionNotesMessage';
 import SubmissionStatusBadges from '../components/SubmissionStatusBadges';
-import RelatedSubmissionsStrip from '../track/RelatedSubmissionsStrip';
+import RelatedSubmissionsStrip from './RelatedSubmissionsStrip';
 import {
   animateButtonPress,
+  animateReferenceSigil,
   animateResultsTimeline,
   animateSummaryFields,
   animateTableRows,
-} from './grading-track-motion';
+  animateTabCrossfade,
+} from './useGradingTrackAnime';
 
 type ResultsCopy = Translations['psaGradingTrack']['results'];
+type SummaryCopy = Translations['psaGradingTrack']['summaryBar'];
 type ServicePlanCopy = Translations['psaGradingTrack']['servicePlan'];
 export type ResultsTab = 'status' | 'cards';
 
 type Props = {
   submission: GradingSubmission;
   copy: ResultsCopy;
+  summaryCopy: SummaryCopy;
   servicePlanCopy: ServicePlanCopy;
+  resultsPanelPart: string;
+  phone: string;
+  onNewLookup: () => void;
   relatedSubmissions?: GradingRelatedSubmission[];
   onSelectReference?: (referenceCode: string) => void;
   relatedSwitchDisabled?: boolean;
   activeTab?: ResultsTab;
   onTabChange?: (tab: ResultsTab) => void;
 };
+
+function maskPhone(phone: string): string {
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length < 4) return phone || '····';
+  const last4 = digits.slice(-4);
+  return `•••• ${last4}`;
+}
 
 function servicePlanLabel(
   plan: GradingServicePlan | null,
@@ -81,7 +96,11 @@ function defaultTab(submission: GradingSubmission): ResultsTab {
 export default function TrackResultsPanel({
   submission,
   copy,
+  summaryCopy,
   servicePlanCopy,
+  resultsPanelPart,
+  phone,
+  onNewLookup,
   relatedSubmissions,
   onSelectReference,
   relatedSwitchDisabled = false,
@@ -90,11 +109,15 @@ export default function TrackResultsPanel({
 }: Props) {
   const panelRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const codeRef = useRef<HTMLParagraphElement>(null);
   const statusBlockRef = useRef<HTMLDivElement>(null);
+  const statusTabRef = useRef<HTMLDivElement>(null);
+  const cardsTabRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLParagraphElement>(null);
   const badgeRefs = useRef<HTMLSpanElement[]>([]);
   const statusBadgeRefs = useRef<HTMLSpanElement[]>([]);
+  const prevTabRef = useRef<ResultsTab | null>(null);
   const [internalTab, setInternalTab] = useState<ResultsTab>(() => defaultTab(submission));
   const [copiedTracking, setCopiedTracking] = useState(false);
   const [copiedReference, setCopiedReference] = useState(false);
@@ -134,18 +157,30 @@ export default function TrackResultsPanel({
     if (panelRef.current) sections.push(panelRef.current);
     if (footerRef.current) sections.push(footerRef.current);
 
-    const tl = animateResultsTimeline(sections);
+    const timelineCleanup = animateResultsTimeline(sections);
     const statusFields: HTMLElement[] = [];
     if (headerRef.current) statusFields.push(headerRef.current);
     if (statusBlockRef.current) statusFields.push(statusBlockRef.current);
 
-    const summaryTween = animateSummaryFields(statusFields);
+    const summaryCleanup = animateSummaryFields(statusFields);
+    const sigilCleanup = animateReferenceSigil(headerRef.current, codeRef.current);
 
     return () => {
-      tl?.kill();
-      summaryTween?.kill();
+      timelineCleanup();
+      summaryCleanup();
+      sigilCleanup();
     };
   }, [submission.id]);
+
+  useEffect(() => {
+    const prev = prevTabRef.current;
+    prevTabRef.current = activeTab;
+    if (prev == null || prev === activeTab) return;
+
+    const outgoing = prev === 'status' ? statusTabRef.current : cardsTabRef.current;
+    const incoming = activeTab === 'status' ? statusTabRef.current : cardsTabRef.current;
+    return animateTabCrossfade(outgoing, incoming);
+  }, [activeTab]);
 
   useEffect(() => {
     if (activeTab !== 'cards' || !tableRef.current) return;
@@ -200,14 +235,21 @@ export default function TrackResultsPanel({
     <div className="min-w-0">
       <div
         ref={panelRef}
-        className="grading-track-results border border-border-strong bg-surface-panel min-w-0"
+        className="grading-track-results grading-track-dossier border border-border-strong bg-surface-panel min-w-0"
       >
-        <div className="grading-track-results__header">
-          <div ref={headerRef} className="spec-row px-0 !py-0 !border-b-0">
-            <div className="min-w-0">
-              <span className="spec-row__label block mb-1">{copy.refLabel}</span>
-              <div className="flex flex-wrap items-center gap-2">
-                <p className="font-mono text-sm md:text-base text-accent-brand tabular-nums tracking-[0.08em] uppercase">
+        <div className="grading-track-results__header grading-track-dossier-header">
+          <p className="chapter-label mb-2" data-part={resultsPanelPart}>
+            <span className="sr-only">Part {resultsPanelPart}</span>
+          </p>
+
+          <div ref={headerRef} className="grading-track-results__identity">
+            <div className="grading-track-results__ref min-w-0 flex-1">
+              <span className="spec-row__label">{copy.refLabel}</span>
+              <div className="flex flex-wrap items-center gap-2 mt-1">
+                <p
+                  ref={codeRef}
+                  className="grading-track-results__sigil font-mono text-lg md:text-xl text-accent-brand tabular-nums tracking-[0.08em] uppercase break-all"
+                >
                   {submission.referenceCode}
                 </p>
                 <button
@@ -224,14 +266,30 @@ export default function TrackResultsPanel({
                 </button>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={onNewLookup}
+              className="btn btn-secondary min-h-[44px] inline-flex items-center justify-center gap-2 shrink-0 px-4 text-sm self-start"
+            >
+              <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
+              {summaryCopy.newLookup}
+            </button>
+          </div>
+
+          <dl className="grading-track-results__meta">
+            <div className="grading-track-results__meta-item">
+              <dt>{summaryCopy.phoneLabel}</dt>
+              <dd className="font-mono tabular-nums">{maskPhone(phone)}</dd>
+            </div>
             {planLabel && (
-              <div className="text-right shrink-0">
-                <span className="spec-row__label block mb-1">{copy.servicePlanLabel}</span>
-                <p className="spec-row__value">{planLabel}</p>
+              <div className="grading-track-results__meta-item">
+                <dt>{copy.servicePlanLabel}</dt>
+                <dd>{planLabel}</dd>
               </div>
             )}
-          </div>
-          <div className="mt-3">
+          </dl>
+
+          <div className="grading-track-results__badges">
             <SubmissionStatusBadges
               submission={submission}
               copy={copy.status}
@@ -241,7 +299,6 @@ export default function TrackResultsPanel({
         </div>
 
         <div className="grading-track-results__body space-y-4">
-
           {relatedSubmissions &&
             relatedSubmissions.length > 0 &&
             onSelectReference && (
@@ -256,6 +313,8 @@ export default function TrackResultsPanel({
                 />
               </div>
             )}
+
+          <SubmissionNotesMessage title={copy.notesTitle} html={submission.notes} />
 
           <div className="collection-filter-pills w-full sm:w-fit" role="group" aria-label={copy.tabsLabel}>
             <button
@@ -279,66 +338,70 @@ export default function TrackResultsPanel({
           </div>
 
           <div hidden={activeTab !== 'status'} className={activeTab === 'status' ? 'min-w-0' : 'hidden'}>
-            <div ref={statusBlockRef}>
-              <GradingProgressStepper
-                submission={localizedSubmission}
-                copy={copy}
-                badgeRefs={badgeRefs}
-              />
-            </div>
-
-            {submission.shipped && submission.shipTrackingNumber && (
-              <div className="mt-6 pt-6 border-t border-border-default min-w-0" data-result-row>
-                <h2 className="text-lg font-display font-semibold text-text-primary mb-4">
-                  {copy.shippingTitle}
-                </h2>
-                <div className="panel-raised px-4 py-1 border border-border-default">
-                  <div className="spec-row px-0">
-                    <span className="spec-row__label">{copy.carrierLabel}</span>
-                    <span className="spec-row__value">{submission.shipCarrier}</span>
-                  </div>
-                  <div className="spec-row px-0">
-                    <span className="spec-row__label">{copy.trackingLabel}</span>
-                    <span className="spec-row__value inline-flex flex-wrap items-center justify-end gap-2 min-w-0">
-                      <span className="font-mono tabular-nums break-all">{submission.shipTrackingNumber}</span>
-                      <button
-                        type="button"
-                        onClick={(e) => copyTracking(submission.shipTrackingNumber!, e.currentTarget)}
-                        className="btn btn-secondary btn-icon shrink-0"
-                        aria-label={copiedTracking ? copy.copiedTracking : copy.copyTracking}
-                      >
-                        {copiedTracking ? (
-                          <Check className="w-4 h-4 text-accent-success" aria-hidden="true" />
-                        ) : (
-                          <Copy className="w-4 h-4" aria-hidden="true" />
-                        )}
-                      </button>
-                    </span>
-                  </div>
-                </div>
-                {trackingUrl && (
-                  <a
-                    href={trackingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 mt-4 text-sm text-accent-secondary hover:underline min-h-[44px]"
-                  >
-                    {copy.trackPackage}
-                    <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-                  </a>
-                )}
+            <div ref={statusTabRef} className="min-w-0">
+              <div ref={statusBlockRef} className="grading-track-journey">
+                <GradingProgressStepper
+                  submission={localizedSubmission}
+                  copy={copy}
+                  badgeRefs={badgeRefs}
+                />
               </div>
-            )}
+
+              {submission.shipped && submission.shipTrackingNumber && (
+                <div className="mt-6 pt-6 border-t border-border-default min-w-0" data-result-row>
+                  <h2 className="text-lg font-display font-semibold text-text-primary mb-4">
+                    {copy.shippingTitle}
+                  </h2>
+                  <div className="panel-raised px-4 py-1 border border-border-default">
+                    <div className="spec-row px-0">
+                      <span className="spec-row__label">{copy.carrierLabel}</span>
+                      <span className="spec-row__value">{submission.shipCarrier}</span>
+                    </div>
+                    <div className="spec-row px-0">
+                      <span className="spec-row__label">{copy.trackingLabel}</span>
+                      <span className="spec-row__value inline-flex flex-wrap items-center justify-end gap-2 min-w-0">
+                        <span className="font-mono tabular-nums break-all">{submission.shipTrackingNumber}</span>
+                        <button
+                          type="button"
+                          onClick={(e) => copyTracking(submission.shipTrackingNumber!, e.currentTarget)}
+                          className="btn btn-secondary btn-icon shrink-0"
+                          aria-label={copiedTracking ? copy.copiedTracking : copy.copyTracking}
+                        >
+                          {copiedTracking ? (
+                            <Check className="w-4 h-4 text-accent-success" aria-hidden="true" />
+                          ) : (
+                            <Copy className="w-4 h-4" aria-hidden="true" />
+                          )}
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                  {trackingUrl && (
+                    <a
+                      href={trackingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 mt-4 text-sm text-accent-secondary hover:underline min-h-[44px]"
+                    >
+                      {copy.trackPackage}
+                      <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           <div hidden={activeTab !== 'cards'} className={activeTab === 'cards' ? 'min-w-0' : 'hidden'}>
-            <div ref={tableRef} className="min-w-0 overflow-x-auto">
-              <SubmissionItemsTable
-                items={submission.items}
-                copy={copy.items}
-                showTitle={false}
-                gradesReady={submission.gradesReady}
-              />
+            <div ref={cardsTabRef} className="min-w-0 overflow-x-auto">
+              <div ref={tableRef}>
+                <SubmissionItemsTable
+                  items={submission.items}
+                  copy={copy.items}
+                  showTitle={false}
+                  gradesReady={submission.gradesReady}
+                />
+              </div>
             </div>
           </div>
         </div>

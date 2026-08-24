@@ -47,7 +47,7 @@ export default function RelatedSubmissionsStrip({
   if (!filtered.length) return null;
 
   return (
-    <div className="border border-border-default bg-surface-raised p-4 md:p-5 space-y-3">
+    <div className="grading-track-related-strip border border-border-default p-4 md:p-5 space-y-3">
       <p className="text-sm font-medium text-text-primary">{copy.title}</p>
       <ul className="space-y-2">
         {filtered.map((item) => (
@@ -56,7 +56,7 @@ export default function RelatedSubmissionsStrip({
               type="button"
               disabled={switchDisabled}
               onClick={() => onSelectReference(item.referenceCode)}
-              className="w-full text-left flex flex-wrap items-center gap-2 px-3 py-3 min-h-[44px] border border-border-default bg-surface-panel hover:border-accent-secondary/50 hover:bg-surface-raised transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-border-default disabled:hover:bg-surface-panel"
+              className="grading-track-related-strip__item w-full text-left flex flex-wrap items-center gap-2 px-3 py-3 min-h-[44px] border border-border-default bg-surface-panel hover:border-accent-secondary/50 transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-border-default disabled:hover:bg-surface-panel"
             >
               <span className="font-mono text-sm text-accent-brand tabular-nums">
                 {item.referenceCode}

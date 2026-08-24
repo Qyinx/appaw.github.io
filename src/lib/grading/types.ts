@@ -39,6 +39,8 @@ export interface GradingSubmission {
   readyForLabelReview: boolean;
   shipCarrier: string | null;
   shipTrackingNumber: string | null;
+  /** Customer-visible batch update (TipTap HTML from admin Notes). */
+  notes?: string | null;
   lastSyncedAt: string;
   steps: GradingProgressStep[];
   items: GradingSubmissionItem[];
