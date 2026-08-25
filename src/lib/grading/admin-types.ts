@@ -236,3 +236,28 @@ export const EMPTY_PAYMENT_SUMMARY: AdminPaymentSummary = {
   totalCostSum: 0,
   receivedCostSum: 0,
 };
+
+/** GET /grading/psa-sync/status — ops health for PSA poll job. */
+export type AdminPsaSyncHealth = 'never' | 'stale' | 'ok';
+
+export interface AdminPsaSyncStatus {
+  configured: boolean;
+  eligibleBatchCount: number;
+  lastSyncedAt: string | null;
+  status: AdminPsaSyncHealth;
+}
+
+export interface AdminPsaSyncRunSummary {
+  processed: number;
+  updated: number;
+  skipped: number;
+  errors: number;
+  truncated: boolean;
+  elapsedMs: number;
+}
+
+/** POST /grading/psa-sync/run — status fields + one-shot run summary. */
+export interface AdminPsaSyncRunResult extends AdminPsaSyncStatus {
+  ok: boolean;
+  summary: AdminPsaSyncRunSummary;
+}

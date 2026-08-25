@@ -17,6 +17,8 @@ import type {
   AdminImportBatchImagesResult,
   AdminIntakePayload,
   AdminItem,
+  AdminPsaSyncRunResult,
+  AdminPsaSyncStatus,
   AdminUpdateBatchPayload,
   AdminUpdateItemPayload,
 } from './admin-types';
@@ -501,4 +503,60 @@ export async function reorderCustomerOrderItems(
   const payload = (await parseJsonResponse(res)) as { items?: AdminItem[] };
   if (!payload.items) throw new Error('Item reorder failed');
   return payload.items;
+}
+
+function mapPsaSyncStatus(payload: Record<string, unknown>): AdminPsaSyncStatus {
+  const statusRaw = payload.status;
+  const status =
+    statusRaw === 'never' || statusRaw === 'stale' || statusRaw === 'ok' ? statusRaw : 'never';
+  const last =
+    typeof payload.lastSyncedAt === 'string'
+      ? payload.lastSyncedAt
+      : typeof payload.last_synced_at === 'string'
+        ? payload.last_synced_at
+        : null;
+  const eligible =
+    typeof payload.eligibleBatchCount === 'number'
+      ? payload.eligibleBatchCount
+      : typeof payload.eligible_batch_count === 'number'
+        ? payload.eligible_batch_count
+        : 0;
+
+  return {
+    configured: Boolean(payload.configured),
+    eligibleBatchCount: eligible,
+    lastSyncedAt: last,
+    status,
+  };
+}
+
+/** GET /grading/psa-sync/status */
+export async function getPsaSyncStatus(): Promise<AdminPsaSyncStatus> {
+  const res = await gradingOpsFetch('/grading/psa-sync/status');
+  const payload = (await parseJsonResponse(res)) as Record<string, unknown>;
+  return mapPsaSyncStatus(payload);
+}
+
+/** POST /grading/psa-sync/run — full PSA sync for eligible batches. */
+export async function runPsaSync(): Promise<AdminPsaSyncRunResult> {
+  const res = await gradingOpsFetch('/grading/psa-sync/run', { method: 'POST', body: '{}' });
+  const payload = (await parseJsonResponse(res)) as Record<string, unknown>;
+  const status = mapPsaSyncStatus(payload);
+  const rawSummary =
+    typeof payload.summary === 'object' && payload.summary
+      ? (payload.summary as Record<string, unknown>)
+      : {};
+
+  return {
+    ok: Boolean(payload.ok),
+    ...status,
+    summary: {
+      processed: Number(rawSummary.processed ?? 0),
+      updated: Number(rawSummary.updated ?? 0),
+      skipped: Number(rawSummary.skipped ?? 0),
+      errors: Number(rawSummary.errors ?? 0),
+      truncated: Boolean(rawSummary.truncated),
+      elapsedMs: Number(rawSummary.elapsedMs ?? rawSummary.elapsed_ms ?? 0),
+    },
+  };
 }

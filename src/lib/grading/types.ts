@@ -1,7 +1,7 @@
 import type { GradingServicePlan } from './reference-code';
 
-/** PSA OrderProgressStep.step enum 0–8 */
-export type PsaProgressStepId = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+/** PSA progress step id — live API index 1–8 */
+export type PsaProgressStepId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 export type GradingStepKind = 'appaw' | 'psa';
 

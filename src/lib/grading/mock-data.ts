@@ -92,13 +92,13 @@ function completedIndexForVariant(variant: GradingDemoVariant): number {
     case 'awaiting':
       return 0;
     case 'default':
-      return 6;
+      return 5;
     case 'shipped':
-      return 10;
+      return 9;
     case 'pickup':
-      return 11;
+      return 10;
     default:
-      return 6;
+      return 5;
   }
 }
 
@@ -166,7 +166,7 @@ function buildExpressSubmission(variant: GradingDemoVariant): GradingSubmission 
   if (variant === 'shipped') {
     return {
       ...base,
-      statusSummary: 'Shipped — on the way back',
+      statusSummary: 'Completing',
       gradesReady: true,
       shipped: true,
       readyForLabelReview: false,

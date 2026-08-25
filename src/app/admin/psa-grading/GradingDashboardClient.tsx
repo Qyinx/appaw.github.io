@@ -12,6 +12,7 @@ import { EMPTY_PAYMENT_SUMMARY } from '@/lib/grading/admin-types';
 import { completedStepLabel, stepSelectOptions } from '@/lib/grading/admin-utils';
 import AdminCustomerOrdersTable from './components/AdminCustomerOrdersTable';
 import BatchReferenceLink from './components/BatchReferenceLink';
+import PsaSyncPanel from './components/PsaSyncPanel';
 
 type DashboardTab = 'batches' | 'orders';
 type PaymentFilter = 'all' | 'full' | 'partial' | 'unpaid';
@@ -122,6 +123,8 @@ export default function GradingDashboardClient() {
 
   return (
     <div className="space-y-4">
+      <PsaSyncPanel />
+
       <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-3 min-w-0">
           <div

@@ -7,7 +7,7 @@ export function completedStepLabel(index: number): string {
 }
 
 export function stepSelectOptions(): Array<{ value: number; label: string }> {
-  return buildFullStepList(11).map((s) => ({
+  return buildFullStepList(10).map((s) => ({
     value: s.index,
     label: `${s.index} — ${s.label}`,
   }));
