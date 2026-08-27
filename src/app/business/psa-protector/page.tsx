@@ -1,12 +1,13 @@
-'use client';
-
-import { useEffect } from 'react';
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-export default function PSAProtectorRedirect() {
-  useEffect(() => {
-    redirect('/products/psa-protectors');
-  }, []);
+export const metadata: Metadata = {
+  title: { absolute: 'Redirecting… | Appaw Store' },
+  robots: { index: false, follow: false },
+  alternates: { canonical: '/products/psa-protectors/' },
+};
 
-  return null;
+/** Legacy URL — product moved to /products/psa-protectors/. */
+export default function PSAProtectorRedirect() {
+  redirect('/products/psa-protectors/');
 }

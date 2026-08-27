@@ -100,10 +100,13 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
   ],
   'psa-reholder-guide': [
     'PSA reholder',
+    'PSA regrade',
     'PSA slab refresh',
     'PSA label correction',
+    'regrade downgrade risk',
     'PSA 換殼',
     '鑑定卡換殼',
+    'PSA 重新評級',
     'PSA 標籤錯誤',
   ],
   'choose-35pt-slab-protector': [

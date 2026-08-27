@@ -245,7 +245,7 @@ Public cards are managed in `[public/data/trade-card.json](public/data/trade-car
 - JSON-LD structured data (Store + FAQ schemas)
 - Dynamic sitemap (`/sitemap.xml`) — active card listings at priority 0.7, sold listings at 0.4
 - Open Graph & Twitter Cards
-- `robots.txt` — blocks `/admin/`, `/api/`, `/graphql/`, `/style-guide/`, and filter query params; allows `/collection/` and `/business/card-trading/`
+- `robots.txt` — blocks `/admin/`, `/zh/admin/`, `/api/`, `/graphql/`, `/style-guide/`, private `/collection/*` app routes, and `/business/card-trading/` (EN + ZH); allows `/collection/` landing
 
 
 

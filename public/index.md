@@ -35,7 +35,7 @@
 
 ## Purchase (Hong Kong)
 
-1. Quarry Bay showroom — Manly Plaza, 995–997 King's Road
+1. 138 Arena, Causeway Bay — 1/F, 522 Jaffe Road
 2. Partner: Card The Land (咭之島), Hung Hom
 3. Online: Etsy · Carousell · WhatsApp +852-9285-1189
 

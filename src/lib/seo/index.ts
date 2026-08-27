@@ -75,7 +75,7 @@ export function storeJsonLd() {
       SOCIAL_THREADS_URL,
       'https://appawstore.etsy.com/',
       'https://www.carousell.com.hk/u/appaw.store/',
-      'https://www.google.com/maps/search/?api=1&query=Shop+9+Basement+Manly+Plaza+995-997+King%27s+Road+Quarry+Bay+Hong+Kong',
+      'https://maps.app.goo.gl/Gybs958UrANZSM3Z7',
     ],
     makesOffer: [
       { '@type': 'Offer', url: 'https://appaw.store/products/psa-protectors/', name: 'Graded Slab UV Glass Protector' },

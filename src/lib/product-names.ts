@@ -56,10 +56,9 @@ export const PRODUCT_NAME = {
       '35PT 磁吸防UV鑑定卡保護殼。>95% 抗UV強化玻璃、金屬邊框、N52 磁吸，適用 PSA/CGC 鑑定卡磚。香港設計，全球付運。',
   },
   shop: {
-    en: 'Shop No. 9, Basement, Manly Plaza, 995-997 King\'s Road, Quarry Bay, Hong Kong',
-    zh: '香港鰂魚涌英皇道995-997號萬利廣場地庫9號舖',
-    mapsUrl:
-      'https://www.google.com/maps/search/?api=1&query=Shop+9+Basement+Manly+Plaza+995-997+King%27s+Road+Quarry+Bay+Hong+Kong',
+    en: '138 Arena, 1/F, 522 Jaffe Road, Causeway Bay, Hong Kong',
+    zh: '銅鑼灣謝斐道522號1/F（138 Arena）',
+    mapsUrl: 'https://maps.app.goo.gl/Gybs958UrANZSM3Z7',
   },
 } as const;
 
@@ -75,9 +74,8 @@ export const HK_SEO_KEYWORDS = [
   'PSA卡殼',
   '鑑定卡殼',
   'PSA卡保護殼',
-  '鰂魚涌',
-  '萬利廣場',
-  'Quarry Bay card shop',
+  '銅鑼灣',
+  '138 Arena',
   'PSA重新評級',
   'PSA換殼',
   '重新評級降級',
@@ -89,8 +87,6 @@ export const HK_SEO_KEYWORDS = [
   '香港卡牌提交鑑定',
   '寶可夢 TCG 提交鑑定',
   'HK TCG grading',
-  '138 Arena',
-  '銅鑼灣',
 ] as const;
 
 /** Homepage meta — keep in sync with i18n home.hero.h1Keyword */

@@ -1,99 +1,62 @@
 # robots.txt — Appaw Store
-# Last updated: 2026-07-16
+# Last updated: 2026-08-27
 # GEO / LLM context: https://appaw.store/llms.txt
+#
+# `/collection/` landing = Allow. Private app routes = Disallow (EN + /zh).
+# `/collection/p/` public portfolios = crawlable but noindex via page meta.
+# AI crawlers without their own block follow User-agent: * below.
 
-# ── Default: allow everything except noise ───────────────────────────────────
 User-agent: *
 Content-Signal: ai-train=no, search=yes, ai-input=no
 Allow: /
 
-# Block internal / admin / API routes — no indexing value
 Disallow: /admin/
+Disallow: /zh/admin/
 Disallow: /api/
 Disallow: /graphql/
 
-# Block dev / utility pages
 Disallow: /style-guide/
+Disallow: /zh/style-guide/
 
-# Block URL query parameters that create duplicate content
-# Filter & sort params on card marketplace — the `card-trading` section is blocked from indexing
 Disallow: /collection/list/
 Disallow: /collection/auth/
 Disallow: /collection/card/
-# Public shared portfolios at /collection/p/ are indexable (Allow: / above)
-Disallow: /business/card-trading/?*search=
-Disallow: /business/card-trading/?*sort=
-Disallow: /business/card-trading/?*grade=
-Disallow: /business/card-trading/?*company=
+Disallow: /collection/settings/
+Disallow: /zh/collection/list/
+Disallow: /zh/collection/auth/
+Disallow: /zh/collection/card/
+Disallow: /zh/collection/settings/
 
-# Block Next.js internals
+Disallow: /business/card-trading/
+Disallow: /zh/business/card-trading/
+Disallow: /business/psa-protector/
+Disallow: /zh/business/psa-protector/
+
 Disallow: /_next/
 Disallow: /404
 Disallow: /500
 
-# ── AI / GEO crawlers — explicitly permitted ─────────────────────────────────
-User-agent: GPTBot
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-User-agent: ChatGPT-User
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-User-agent: Claude-Web
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-User-agent: anthropic-ai
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-User-agent: PerplexityBot
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-User-agent: ClaudeBot
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-User-agent: Google-Extended
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-User-agent: CCBot
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-User-agent: Bytespider
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-# ── Bing ─────────────────────────────────────────────────────────────────────
+# Bing uses its own group (does not inherit *), so repeat private paths.
 User-agent: Bingbot
 Allow: /
 Disallow: /admin/
+Disallow: /zh/admin/
 Disallow: /api/
+Disallow: /graphql/
 Disallow: /style-guide/
-Crawl-delay: 1
+Disallow: /zh/style-guide/
+Disallow: /collection/list/
+Disallow: /collection/auth/
+Disallow: /collection/card/
+Disallow: /collection/settings/
+Disallow: /zh/collection/list/
+Disallow: /zh/collection/auth/
+Disallow: /zh/collection/card/
+Disallow: /zh/collection/settings/
 Disallow: /business/card-trading/
+Disallow: /zh/business/card-trading/
+Disallow: /business/psa-protector/
+Disallow: /zh/business/psa-protector/
 Crawl-delay: 1
 
-# ── Google ───────────────────────────────────────────────────────────────────
-User-agent: Googlebot
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-Disallow: /style-guide/
-Disallow: /business/card-trading/
-
-# ── Sitemap ───────────────────────────────────────────────────────────────────
 Sitemap: https://appaw.store/sitemap.xml

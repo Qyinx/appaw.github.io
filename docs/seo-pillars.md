@@ -106,7 +106,7 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
   - Brand tagline (`headlineLines`) in `<p>` — visual only
   - Section headings: `home.services.title`, `retailPartners.title`, `home.cta.title` as `<h2>`
 - **Crawlable product specs:** `<table>` under services bento (35PT, UV >95%, N52, 74g, dimensions, HK origin)
-- **Purchase channels:** `RetailPartners.tsx` — Quarry Bay showroom (Manly Plaza), 咭之島 partner, online (Etsy / Carousell / WhatsApp)
+- **Purchase channels:** `RetailPartners.tsx` — 138 Arena (Causeway Bay), 咭之島 partner, online (Etsy / Carousell / WhatsApp)
 - **Internal links:** Primary CTA → `/products/psa-protectors/`; secondary → `/business/card-trading/`, `/tools/card-centering/`
 - **hreflang:** `alternates.languages: { en: '/', 'zh-HK': '/zh/' }` on both homepage metadata exports
 
@@ -196,8 +196,8 @@ Open Graph / Twitter: handled by `psaProtectorsMetadata` (summary_large_image). 
 - Optional: sr-only Chinese block on `/business/`.
 - ~~Content marketing / blog pillar~~ **Partially done (2026-06-08):** `/guides/` evergreen articles cover 35PT fit, UV/humidity, PSA 10 centering, grade vs protect, fake PSA slabs. `hkGuide` on product page remains supplementary.
 - Backlinks from HK TCG creators and local card communities — outreach, not code.
-- Physical showroom (primary): Shop No. 9, Basement, Manly Plaza, 995-997 King's Road, Quarry Bay (鰂魚涌英皇道995-997號萬利廣場地庫9號舖) — listed first in `RetailPartners`.
-- Cooperative retail partners (e.g. 咭之島 Card The Land, Hung Hom) — retained alongside own showroom in `RetailPartners` + i18n.
+- Physical showroom (primary): 138 Arena, 1/F, 522 Jaffe Road, Causeway Bay (銅鑼灣謝斐道522號1/F) — listed first in `RetailPartners`.
+- Cooperative retail partners (e.g. 咭之島 Card The Land, Hung Hom) — retained alongside main location in `RetailPartners` + i18n.
 
 **External SEO audit notes (2026-06-05, Gemini review) — response**
 
@@ -372,7 +372,7 @@ Purpose: Give LLM crawlers (GPTBot, Claude-Web, PerplexityBot, etc.) a concise, 
 Contents:
 - Brand one-liner + product definition (35PT PSA/CGC slab protector)
 - EN + ZH pillar URL table with hreflang note
-- Purchase channels (Quarry Bay showroom, 咭之島, Etsy/Carousell/WhatsApp)
+- Purchase channels (138 Arena, 咭之島, Etsy/Carousell/WhatsApp)
 - Free centering tool pointer
 - JSON-LD types per route
 - Contact / social

@@ -2,12 +2,11 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRight, MapPin, Globe, Store, Shield } from 'lucide-react';
+import { ArrowRight, MapPin, Globe, Store } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faEtsy, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
-import { PRODUCT_NAME } from '@/lib/product-names';
 import { PSA_DROP_OFF_MAPS_URL } from '@/lib/grading/psa-booking';
 import CarousellIcon from '@/components/ui/CarousellIcon';
 
@@ -23,7 +22,6 @@ export default function RetailPartners() {
   const [visible, setVisible] = useState(false);
 
   const arena = t.retailPartners?.partners?.arena138;
-  const showroom = t.retailPartners?.partners?.appawShop;
   const partner = t.retailPartners?.partners?.cardtheland;
   const online = t.retailPartners?.partners?.appawstore;
 
@@ -151,70 +149,41 @@ export default function RetailPartners() {
           </div>
         )}
 
-        {/* Secondary: protector-only showroom + partner */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border-default border border-border-default mb-px">
-          {showroom && (
-            <div className="bg-surface-panel p-6 md:p-7 flex flex-col">
-              <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-secondary/30 text-accent-secondary bg-accent-secondary/10 mb-4 w-fit">
-                <Shield className="w-3 h-3" />
-                {t.retailPartners?.tags?.protectorOnly ?? 'Protectors only'}
-              </span>
-              <h3 className="text-lg md:text-xl font-bold text-text-primary mb-1.5 font-display">
-                {showroom.name}
-              </h3>
-              <p className="text-text-muted text-xs mb-3 leading-relaxed">{showroom.description}</p>
-              <div className="flex items-start gap-2.5 mb-5 flex-1">
-                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5 text-text-muted" />
-                <p className="text-text-secondary text-sm leading-relaxed">{showroom.location}</p>
+        {partner && (
+          <div className="border border-border-default bg-surface-panel mb-px p-6 md:p-7 flex flex-col">
+            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-link/30 text-accent-link bg-accent-link/10 mb-4 w-fit">
+              <FontAwesomeIcon icon={faInstagram} className="w-3 h-3" />
+              {t.retailPartners?.tags?.partner ?? 'Partner'}
+            </span>
+            <div className="flex items-start gap-4 flex-1">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-lg md:text-xl font-bold text-text-primary mb-1.5 font-display">
+                  {partner.name}
+                </h3>
+                <p className="text-text-muted text-xs mb-3">{partner.description}</p>
+                <p className="text-text-secondary text-sm leading-relaxed mb-4">{partner.location}</p>
+                <a
+                  href={CARDTHELAND_IG}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-accent-link hover:text-accent-brand transition-colors duration-150"
+                >
+                  {t.retailPartners?.visitStore ?? 'Visit Store'}
+                  <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
-              <a
-                href={PRODUCT_NAME.shop.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-accent-link hover:text-accent-brand transition-colors duration-150"
-              >
-                {t.retailPartners?.getDirections ?? 'Get Directions'}
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
-          )}
-
-          {partner && (
-            <div className="bg-surface-panel p-6 md:p-7 flex flex-col">
-              <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-link/30 text-accent-link bg-accent-link/10 mb-4 w-fit">
-                <FontAwesomeIcon icon={faInstagram} className="w-3 h-3" />
-                {t.retailPartners?.tags?.partner ?? 'Partner'}
-              </span>
-              <div className="flex items-start gap-4 flex-1">
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg md:text-xl font-bold text-text-primary mb-1.5 font-display">
-                    {partner.name}
-                  </h3>
-                  <p className="text-text-muted text-xs mb-3">{partner.description}</p>
-                  <p className="text-text-secondary text-sm leading-relaxed mb-4">{partner.location}</p>
-                  <a
-                    href={CARDTHELAND_IG}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent-link hover:text-accent-brand transition-colors duration-150"
-                  >
-                    {t.retailPartners?.visitStore ?? 'Visit Store'}
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
-                </div>
-                <div className="w-[4.5rem] h-14 flex-shrink-0 border border-border-default bg-surface-raised flex items-center justify-center p-1.5">
-                  <Image
-                    src={getImagePath('/images/partners/cardtheland.png')}
-                    alt=""
-                    width={56}
-                    height={40}
-                    className="object-contain max-h-full w-auto"
-                  />
-                </div>
+              <div className="w-[4.5rem] h-14 flex-shrink-0 border border-border-default bg-surface-raised flex items-center justify-center p-1.5">
+                <Image
+                  src={getImagePath('/images/partners/cardtheland.png')}
+                  alt=""
+                  width={56}
+                  height={40}
+                  className="object-contain max-h-full w-auto"
+                />
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {online && (
           <div className="border border-border-default bg-border-default">

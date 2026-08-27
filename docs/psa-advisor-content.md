@@ -10,7 +10,7 @@ Appaw is a high-value card grading advisor coordinating PSA proxy submission at 
 
 1. **現場卡況初步評估 (On-site Preliminary Check):** 現場協助檢查置中比例、表面壓痕、邊角完整度，評估 PSA 10 成功率，避免白白付出鑑定成本。
 2. **基本清潔保養 (Basic Cleaning & Prep):** 提交前進行基本表面除塵與清潔保養，有效降低鑑定過程中的扣分風險。
-3. **實體門市與透明追蹤 (Physical Venue & Reference Tracking):** 鰂魚涌 138 Arena 實體門市面交，配合 Appaw 專屬參考編號（`BAT-XXXX`），於 `/business/psa-grading/track/` 全程追蹤批次進度。
+3. **實體門市與透明追蹤 (Physical Venue & Reference Tracking):** 銅鑼灣 138 Arena 實體門市面交，配合 Appaw 專屬參考編號（`BAT-XXXX`），於 `/business/psa-grading/track/` 全程追蹤批次進度。
 
 ---
 
@@ -26,7 +26,7 @@ Appaw is a high-value card grading advisor coordinating PSA proxy submission at 
 ### 2. 138 Arena 門市交卡流程與現場評估 (Local Drop-off & Preliminary Assessment Walk-through)
 - **Target Queries:** `138 arena`, `香港psa鑑定`, `psa 鑑定 香港 流程`, `psa 收費`
 - **Hook:** 「首次代送 PSA 害怕卡牌遺失？帶你直擊 138 Arena 門市交卡全流程！」
-- **Core Concept:** 展示實體門市交卡（鰂魚涌萬利廣場）、現場卡況初步評估（微距顯微鏡 / 強光燈檢測）、基本清潔保養、發放 BAT 門市收據。
+  - **Core Concept:** 展示實體門市交卡（銅鑼灣 138 Arena）、現場卡況初步評估（微距顯微鏡 / 強光燈檢測）、基本清潔保養、發放 BAT 門市收據。
 - **Key Message:** 不必自己準備卡套、繁瑣申報或擔心國際郵寄風險。Appaw 團隊全程跟進，專人送鑑。
 - **CTA:** 「預約門市交卡或線上手續，輸入手機與參考編號實時追蹤：`appaw.store/business/psa-grading/track/`」
 
@@ -62,7 +62,7 @@ Appaw is a high-value card grading advisor coordinating PSA proxy submission at 
 - Follow [`guides-content.md`](guides-content.md): 書面語 on zh captions; **提交鑑定** / **置中**; no **送評** in body copy.
 - Do not publish absolute hit-rate claims (e.g. “95% PSA 10”) without measured data.
 - Attribute venue vs Appaw correctly:
-  - **138 Arena**: 合作面交場地／門市地址 (Shop No. 9, Basement, Manly Plaza, Quarry Bay).
+  - **138 Arena**: 合作面交場地／門市地址 (1/F, 522 Jaffe Road, Causeway Bay)。
   - **Appaw Store**: 提交鑑定運作、現場卡況初步評估、基本清潔保養、BAT 批次進度系統。
 
 ## On-site page link

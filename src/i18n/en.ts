@@ -534,7 +534,7 @@ export const en = {
         items: [
           {
             q: 'Where can we meet for a card transaction in Hong Kong?',
-            a: 'For card trading meetups, our primary location is 138 Arena, 1/F, 522 Jaffe Road, Causeway Bay. The Manly Plaza point (Shop No. 9, Basement, 995-997 King\'s Road, Quarry Bay) is for protector pickup only. WhatsApp +852-9285-1189 to confirm a time.',
+            a: 'For card trading meetups, our primary location is 138 Arena, 1/F, 522 Jaffe Road, Causeway Bay. WhatsApp +852-9285-1189 to confirm a time.',
           },
           {
             q: 'What payment methods do you accept when buying graded cards?',
@@ -1260,17 +1260,12 @@ export const en = {
   retailPartners: {
     badge: 'Where to Buy',
     title: 'Purchase Channels',
-    subtitle: 'Main selling floor at 138 Arena, Causeway Bay. Protectors also stocked at our Quarry Bay pickup point — or shop online.',
+    subtitle: 'Main selling floor at 138 Arena, Causeway Bay — or shop online.',
     buyNow: 'Shop Now',
     orVisit: 'or visit our store & partners',
     visitStore: 'Visit Store',
     getDirections: 'Get Directions',
     partners: {
-      appawShop: {
-        name: 'Appaw Store · Manly Plaza',
-        description: 'Protector pickup only — try UV glass cases in person. Not a full retail floor for cards or PSA drop-off.',
-        location: 'Shop No. 9, Basement, Manly Plaza, 995-997 King\'s Road, Quarry Bay, Hong Kong',
-      },
       cardtheland: {
         name: 'Card The Land (咭之島)',
         description: 'Authorised partner · Hung Hom',
@@ -1287,9 +1282,9 @@ export const en = {
       },
     },
     directDesc: 'Direct from manufacturer',
-    retailHint: 'Shop at 138 Arena, or pick up protectors at Manly Plaza',
+    retailHint: 'Shop at 138 Arena, Causeway Bay',
     onlineTitle: 'Online Store',
-    retailTitle: 'Main store & pickup',
+    retailTitle: 'Main store',
     partnerStoresTitle: 'Partner Stores',
     types: {
       online: 'Online',
@@ -1299,7 +1294,6 @@ export const en = {
       authorized: 'Primary',
       main: 'Main location',
       fullService: 'Full service',
-      protectorOnly: 'Protectors only',
       partner: 'Partner',
       official: 'Online Shop',
       inStock: 'In Stock',

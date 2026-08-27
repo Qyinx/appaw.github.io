@@ -1,6 +1,6 @@
 # Appaw Store
 
-> Hong Kong brand designing premium magnetic UV glass protectors for standard 35PT PSA & CGC graded card slabs (Pokémon PTCG, sports cards, MTG). Ships worldwide. Physical showroom in Quarry Bay; cooperative retail partners in Hong Kong.
+> Hong Kong brand designing premium magnetic UV glass protectors for standard 35PT PSA & CGC graded card slabs (Pokémon PTCG, sports cards, MTG). Ships worldwide. Main Hong Kong location at 138 Arena, Causeway Bay; cooperative retail partners in Hong Kong.
 
 Canonical site: https://appaw.store/
 Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.store/zh/products/psa-protectors/)
@@ -44,10 +44,9 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 
 ## Purchase channels
 
-1. **Showroom (primary):** Shop No. 9, Basement, Manly Plaza, 995-997 King's Road, Quarry Bay, Hong Kong (鰂魚涌英皇道995-997號萬利廣場地庫9號舖)
+1. **Main location:** 138 Arena, Causeway Bay — https://www.instagram.com/138arena/ (銅鑼灣謝斐道522號1/F) — protectors, graded cards, PSA submission drop-off/pickup via Appaw
 2. **Partner store:** Card The Land (咭之島), Hung Hom — https://www.instagram.com/cardtheland_tcg/
-3. **Partner store:** 138 Arena, Causeway Bay — https://www.instagram.com/138arena/ (銅鑼灣謝斐道522號1/F) — PSA submission drop-off/pickup via Appaw
-4. **Online:** Etsy https://appawstore.etsy.com/ · Carousell https://www.carousell.com.hk/u/appaw.store/ · WhatsApp +852-9285-1189
+3. **Online:** Etsy https://appawstore.etsy.com/ · Carousell https://www.carousell.com.hk/u/appaw.store/ · WhatsApp +852-9285-1189
 
 **PSA submission pricing (HKD display service fees, face-to-face 138 Arena only):** REG 790 · EXP 1550 · SPX 3200 · WALK 5200
 
@@ -86,7 +85,8 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 
 - Sitemap: https://appaw.store/sitemap.xml (includes EN + zh-HK alternates)
 - **Public landing:** `/collection/` (indexable marketing page for the collection manager tool)
-- **Do not index:** `/admin/`, `/api/`, `/collection/list/`, `/collection/auth/`, `/collection/card/` (private app), `/business/card-trading/` (marketplace — robots.txt disallow)
+- **Do not index:** `/admin/`, `/zh/admin/`, `/api/`, `/collection/list|auth|card|settings/` (+ `/zh/…`), `/collection/p/` (shared portfolios — meta noindex), `/business/card-trading/` (+ `/zh/…`), `/business/psa-protector/` (legacy redirect), `/style-guide/`
+- **Legacy redirects (302, noindex):** `/guides/regrade-or-reholder/` → `/guides/psa-reholder-guide/` (+ `/zh/…`)
 - **Language:** EN routes use `lang=en`; `/zh/*` routes use zh-HK UI and metadata. hreflang `en` ↔ `zh-HK` on all public pillar pages.
 
 ## Suggested citations
