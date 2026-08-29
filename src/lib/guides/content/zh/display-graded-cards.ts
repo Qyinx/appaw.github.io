@@ -85,14 +85,14 @@ const guide: GuideContent = {
         '分級配置資源：高價值 PSA 10 或稀有主力卡採用 [磁吸鑑定卡保護殼](/products/psa-protectors/)；常規收藏則以防塵活頁冊整理為主。',
         '兼顧美觀與實用：按卡牌套牌、球星或年份系統化歸類。書桌陳列時面板稍微偏離螢幕反射角度，全息閃卡拍攝時能呈現更佳的光影層次。',
         '循序漸進升級：新手可從護套活頁夾起步，隨著重點藏品增加再升級磁吸硬殼或防潮展示櫃。購買保護硬殼前請先核對外徑規格，詳見 [如何選擇 35PT 鑑定卡保護殼](/guides/choose-35pt-slab-protector/)。',
-        '香港空間規劃：擺放位置寧可選擇室內內牆，亦不要放在午後有陽光西曬的窗台。親臨 [138 Arena](/business/psa-grading/)（合作場地）時，可帶同鑑定卡現場試裝外層保護殼。該場地負責場務；保護殼與評級代送均由 Appaw Store 跟進。',
+        '香港空間規劃：擺放位置寧可選擇室內內牆，亦不要放在午後有陽光西曬的窗台。親臨 [138 Arena](/business/psa-grading/)（合作場地）時，可帶同鑑定卡現場試裝外層保護殼。該場地負責場務；保護殼與評級代送鑑定均由 Appaw Store 跟進。',
       ],
     },
     {
       id: 'bottom-line',
       title: '標籤清晰、外殼無新損傷',
       paragraphs: [
-        '良好的展示方式能極大化賞玩樂趣，同時不對鑑定殼造成任何二次傷害。只要官方標籤清晰可讀、壓克力外殼無新增刮痕，即代表展示設置安全有效。對於尚未鑑定的裸卡，可先於網站預約，再到 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視及評級代送跟進。鑑定卡由 PSA 交還後，於 138 Arena 取回，再依本指南規劃防護展示。',
+        '良好的展示方式能極大化賞玩樂趣，同時不對鑑定殼造成任何二次傷害。只要官方標籤清晰可讀、壓克力外殼無新增刮痕，即代表展示設置安全有效。對於尚未鑑定的裸卡，可先於網站預約，再到 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視及評級代送鑑定跟進。鑑定卡由 PSA 交還後，於 138 Arena 取回，再依本指南規劃防護展示。',
       ],
     },
   ],
@@ -110,9 +110,9 @@ const guide: GuideContent = {
   },
   cta: {
     title: '展示級鑑定卡保護',
-    body: '磁吸防 UV 鑑定卡保護殼採用 400 nm 以下超過 95% 紫外線阻隔玻璃，專為標準 35PT 的 PSA 與 CGC 鑑定磚而設，適用於桌面陳列與收藏櫃展示。若持有裸卡並計劃提交鑑定，香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA 評級代送及跟進，並可調整最終應付金額。',
+    body: '磁吸防 UV 鑑定卡保護殼採用 400 nm 以下超過 95% 紫外線阻隔玻璃，專為標準 35PT 的 PSA 與 CGC 鑑定磚而設，適用於桌面陳列與收藏櫃展示。若持有裸卡並計劃提交鑑定，香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'choose-35pt-slab-protector', 'grade-or-protect-first', 'psa-reholder-guide'],
   sources: [

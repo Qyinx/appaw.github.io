@@ -115,9 +115,9 @@ const guide: GuideContent = {
   },
   cta: {
     title: '展示鑑定卡，同時減緩紫外線與濕氣影響',
-    body: '磁吸防 UV 鑑定卡保護殼採用 400 nm 以下超過 95% 紫外線阻隔玻璃，貼合標準 35PT PSA 及 CGC 鑑定卡，適用於桌面陳列與展覽展示。鑑定卡由 PSA 交還、於 138 Arena 取回後，建議儘快加裝外層保護殼。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA 評級代送及跟進，並可調整最終應付金額。顧客收貨後十四日內，如保護殼出現任何問題，可以退貨；退貨運費由買方承擔。',
+    body: '磁吸防 UV 鑑定卡保護殼採用 400 nm 以下超過 95% 紫外線阻隔玻璃，貼合標準 35PT PSA 及 CGC 鑑定卡，適用於桌面陳列與展覽展示。鑑定卡由 PSA 交還、於 138 Arena 取回後，建議儘快加裝外層保護殼。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。顧客收貨後十四日內，如保護殼出現任何問題，可以退貨；退貨運費由買方承擔。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],
   sources: [

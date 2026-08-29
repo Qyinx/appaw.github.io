@@ -10,7 +10,7 @@ export const zh: Translations = {
     psaProtector: '鑑定卡保護殼',
     collection: '我的收藏庫',
     cardTrading: '卡牌交易',
-    psaGrading: 'PSA 評級代送',
+    psaGrading: 'PSA評級代送鑑定',
     centeringTool: '卡牌置中量度工具',
     guides: '收藏指南',
     products: '精選商品',
@@ -149,8 +149,8 @@ export const zh: Translations = {
         cta: '免費檢測置中',
       },
       psaGrading: {
-        badge: 'PSA 評級代送',
-        title: '香港 PSA 評級代送',
+        badge: 'PSA評級代送鑑定',
+        title: '香港PSA評級代送鑑定',
         description:
           '於銅鑼灣 138 Arena 面交收件，專人代送 PSA。服務費 HKD 790 起，支援線上追蹤進度，交收時更可即場交流卡況意見。',
         cta: '了解代送詳情',
@@ -241,8 +241,8 @@ export const zh: Translations = {
     },
     service01Label: '服務 01 、 實體保護',
     psaGrading: {
-      badge: 'PSA 評級代送',
-      title: '香港 PSA 評級代送',
+      badge: 'PSA評級代送鑑定',
+      title: '香港PSA評級代送鑑定',
       description:
         '於銅鑼灣 138 Arena 進行面交收件，代您穩妥轉送 PSA。批次進度隨時可於線上查詢，交收時我們亦會提供卡況專業意見，幫您評估評級效益。',
       chips: ['138 Arena 面交', 'HKD 790 起', '拒絕郵寄風險', '線上進度查詢'],
@@ -746,7 +746,7 @@ export const zh: Translations = {
   },
 
   psaGradingPage: {
-    badge: 'PSA 評級代送',
+    badge: 'PSA評級代送鑑定',
     dropOffAddress: '銅鑼灣謝斐道 522 號 1/F (138 Arena 內)',
     lastUpdatedLabel: '資訊最後更新於',
     lastUpdated: '2026-08-05',
@@ -776,9 +776,9 @@ export const zh: Translations = {
       protectors: { label: '選購頂級保護殼', href: '/products/psa-protectors/' },
     },
     hero: {
-      title: '香港 PSA 評級代送',
+      title: '香港PSA評級代送鑑定',
       definition:
-        '我們與銅鑼灣 138 Arena 合作做 PSA 評級代送：138 Arena 負責場務及收費，Appaw Store 負責服務及跟進。代您將寶可夢、One Piece、運動卡或 MTG 妥善送交美國 PSA 總部，並協助挑選最具性價比的服務等級。每批訂單均附獨立追蹤編號，線上進度一目了然。當您的愛卡強勢回歸香港，我們第一時間通知取件。最重要的是：收件當下我們會坦誠與您討論卡況，避免您花冤枉錢（請留意，最終評級分數由 PSA 決定，我們無法保證分數）。',
+        '我們與銅鑼灣 138 Arena 合作做 PSA評級代送鑑定：138 Arena 負責場務及收費，Appaw Store 負責服務及跟進。代您將寶可夢、One Piece、運動卡或 MTG 妥善送交美國 PSA 總部，並協助挑選最具性價比的服務等級。每批訂單均附獨立追蹤編號，線上進度一目了然。當您的愛卡強勢回歸香港，我們第一時間通知取件。最重要的是：收件當下我們會坦誠與您討論卡況，避免您花冤枉錢（請留意，最終評級分數由 PSA 決定，我們無法保證分數）。',
       ctaBook: '預約面交時段',
       ctaTrack: '查詢送件進度',
       ctaAdvisor: '了解我們的卡況顧問服務',
@@ -799,7 +799,7 @@ export const zh: Translations = {
       cta: '了解卡況判斷',
     },
     advisorPage: {
-      backToHub: '← 返回評級代送',
+      backToHub: '← 返回評級代送鑑定',
     },
     advisor: {
       badge: '超越一般代送',
@@ -874,7 +874,7 @@ export const zh: Translations = {
       closingSoon: '最後衝刺，即將截單',
       bookCta: '馬上預約交卡',
       trackCta: '查詢進度',
-      emptyTitle: '目前暫無開放中的評級代送批次',
+      emptyTitle: '目前暫無開放中的評級代送鑑定批次',
       emptyBody: '別擔心，您可以先預約交卡時段、、在您交卡當天，我們就會為您開立全新的批次（BAT）。',
       emptyCta: '預約交卡時段',
       loading: '正在努力載入批次資料中…',
@@ -918,7 +918,7 @@ export const zh: Translations = {
         },
         {
           body: '您的隱私很重要。請務必使用收據上的電話與參考編號才能查詢進度。',
-          attribution: 'PSA 評級代送',
+          attribution: 'PSA評級代送鑑定',
         },
         {
           body: '不同 PSA 服務等級的處理速度不同，因此都會分配到獨立的參考編號以便追蹤。',
@@ -958,7 +958,7 @@ export const zh: Translations = {
     },
     faq: {
       badge: '解開疑惑',
-      title: '評級代送常見問題 (FAQ)',
+      title: '評級代送鑑定常見問題 (FAQ)',
       subtitle: '預約前、查詢進度或對費用有疑問？這裡為您一次解答。',
       statLabel: '個常見問答',
       quickLinks: {
@@ -974,7 +974,7 @@ export const zh: Translations = {
           items: [
             {
               q: '香港常見的 TCG 卡牌都能送 PSA 嗎？',
-              a: '沒問題！寶可夢 TCG、One Piece 海賊王、萬智牌（MTG）及各類運動卡（包含裸卡或裝於軟卡套內）均可透過 Appaw 評級代送，於 138 Arena（合作場地）交卡。',
+              a: '沒問題！寶可夢 TCG、One Piece 海賊王、萬智牌（MTG）及各類運動卡（包含裸卡或裝於軟卡套內）均可透過 Appaw 評級代送鑑定，於 138 Arena（合作場地）交卡。',
             },
             {
               q: '我該如何預約送件時間？',
@@ -1013,8 +1013,8 @@ export const zh: Translations = {
           label: '取件與收費相關',
           items: [
             {
-              q: 'PSA 評級代送的費用由誰收取？',
-              a: 'PSA 評級代送的費用由 138 Arena 收取。138 Arena 作為合作場地，負責場務及收費；Appaw Store 負責服務及跟進。基於雙方的服務安排，Appaw Store 可調整最終應付金額，顧客以調整後的金額繳付。',
+              q: 'PSA評級代送鑑定的費用由誰收取？',
+              a: 'PSA評級代送鑑定的費用由 138 Arena 收取。138 Arena 作為合作場地，負責場務及收費；Appaw Store 負責服務及跟進。基於雙方的服務安排，Appaw Store 可調整最終應付金額，顧客以調整後的金額繳付。',
             },
             {
               q: '卡片交還後，應於何時取件？',
@@ -1072,9 +1072,9 @@ export const zh: Translations = {
     pricing: {
       badge: '透明收費',
       title: 'PSA 服務方案與價目',
-      tableLabel: 'PSA 評級代送價目表',
+      tableLabel: 'PSA評級代送鑑定價目表',
       colService: '服務方案',
-      colFee: '評級代送費 (HKD)',
+      colFee: '評級代送鑑定費 (HKD)',
       colMaxValue: '最高申報價值限制',
       colTurnaround: '預估等待時間',
       ctaBook: '預約交卡',
@@ -1090,18 +1090,18 @@ export const zh: Translations = {
 
   psaGradingTrack: {
     badge: '遠征紀錄',
-    title: '查詢 PSA 評級代送進度',
+    title: '查詢 PSA評級代送鑑定進度',
     subtitle: '請備妥您在 138 Arena 拿到的收據，輸入電話號碼與參考編號。',
     formPanelLabel: '查找批次',
     formPanelPart: '01',
     formIntro: '輸入電話號碼與參考編號。',
     resultsPanelPart: '02',
     skeletonLabel: '查閱紀錄中',
-    backToHub: '← 返回評級代送',
+    backToHub: '← 返回評級代送鑑定',
     breadcrumb: {
       home: '首頁',
       business: '服務項目',
-      grading: 'PSA 評級代送',
+      grading: 'PSA評級代送鑑定',
       track: '查詢進度',
     },
     form: {
@@ -1265,13 +1265,13 @@ export const zh: Translations = {
     brLabel: '商業登記號碼',
     hongKong: '香港',
     intro:
-      '本條款說明 Appaw Store Limited 如何透過網站 appaw.store 提供服務，以及如何與合作場地 138 Arena 分工辦理。條文涵蓋 PSA 評級代送、費用繳付、保管與取件、鑑定卡保護殼，以及卡牌寄賣。顧客在預約交卡、下單或寄賣前，應先閱讀本條款。',
+      '本條款說明 Appaw Store Limited 如何透過網站 appaw.store 提供服務，以及如何與合作場地 138 Arena 分工辦理。條文涵蓋 PSA評級代送鑑定、費用繳付、保管與取件、鑑定卡保護殼，以及卡牌寄賣。顧客在預約交卡、下單或寄賣前，應先閱讀本條款。',
     sections: [
       {
         num: '01',
         heading: '當事人與分工',
         body: [
-          'Appaw Store Limited 以 Appaw Store 名義，提供 PSA 評級代送、與顧客的後續跟進，以及相關收藏服務。銅鑼灣 138 Arena 為面交辦理的合作場地。',
+          'Appaw Store Limited 以 Appaw Store 名義，提供 PSA評級代送鑑定、與顧客的後續跟進，以及相關收藏服務。銅鑼灣 138 Arena 為面交辦理的合作場地。',
           '138 Arena 負責場務及收費；Appaw Store 負責服務本身及跟進。基於雙方的服務安排，Appaw Store 可調整最終應付金額。',
         ],
       },
@@ -1279,16 +1279,16 @@ export const zh: Translations = {
         num: '02',
         heading: '網站',
         body: [
-          '網站 appaw.store 由 Appaw Store 營運。使用本網站，即表示同意本條款及私隱政策。網站公布產品與服務資料、接受 PSA 評級代送預約，並提供已提交批次的進度查詢及相關工具。',
+          '網站 appaw.store 由 Appaw Store 營運。使用本網站，即表示同意本條款及私隱政策。網站公布產品與服務資料、接受 PSA評級代送鑑定預約，並提供已提交批次的進度查詢及相關工具。',
           '網站內容可不時更新。除非另有通知，顧客使用某頁面當時所見的版本，即適用於該次瀏覽。',
         ],
       },
       {
         num: '03',
-        heading: 'PSA 評級代送',
+        heading: 'PSA評級代送鑑定',
         body: [
-          'PSA 評級代送須先於網站預約，並於 138 Arena 當面辦理。本服務不接受以郵寄方式提交裸卡。顧客須親自將卡片帶至合作場地，由現場完成點收、初步檢視，並確認服務方案。',
-          '服務方案僅以 PSA 評級代送頁面公布的價目表為準，包括 Regular、Express、Super Express、Walk-Through 及 Reholder。收費及最高申報價值限制，以預約當時價目表所列為準。',
+          'PSA評級代送鑑定須先於網站預約，並於 138 Arena 當面辦理。本服務不接受以郵寄方式提交裸卡。顧客須親自將卡片帶至合作場地，由現場完成點收、初步檢視，並確認服務方案。',
+          '服務方案僅以 PSA評級代送鑑定頁面公布的價目表為準，包括 Regular、Express、Super Express、Walk-Through 及 Reholder。收費及最高申報價值限制，以預約當時價目表所列為準。',
           '最終評級由 PSA 決定。Appaw Store 不保證分數。交卡時的初步檢視及任何分數討論，僅供參考，並不構成對 PSA 10 或其他結果的承諾。',
         ],
       },
@@ -1296,7 +1296,7 @@ export const zh: Translations = {
         num: '04',
         heading: '費用及付款',
         body: [
-          'PSA 評級代送的費用由 138 Arena 收取。基於雙方的服務安排，Appaw Store 可調整最終應付金額。若有調整，由 Appaw Store 確認金額，再由 138 Arena 收取。',
+          'PSA評級代送鑑定的費用由 138 Arena 收取。基於雙方的服務安排，Appaw Store 可調整最終應付金額。若有調整，由 Appaw Store 確認金額，再由 138 Arena 收取。',
           '若卡片評級後的市值或分數超出所選方案的最高申報價值，PSA 可能發出加價。顧客有兩項選擇。其一，於取件時向 138 Arena 補繳原方案與較高方案之間的差額；若涉及調整，則由 Appaw Store 確認最終金額。其二，在取件期限內聲明放棄該卡，由 Appaw Store 退還該卡已繳金額的百分之五十。',
           '價目表上的收費可隨 PSA 調整其收費、服務項目或處理時間而變更。除後來因 PSA 變更或加價而須另計的金額外，以預約當時價目表為準。',
         ],
@@ -1330,7 +1330,7 @@ export const zh: Translations = {
         heading: '責任範圍',
         body: [
           '評級由 PSA 決定，鑑定流程亦由其控制。Appaw Store 不就 PSA 給予的分數，或 PSA 系統內的延誤承擔責任。',
-          '由香港送往 PSA 的付運，屬評級代送的一部分。網站所列周轉時間僅為估計，並不構成保證。計時於 PSA 將訂單輸入其評級系統後方開始。',
+          '由香港送往 PSA 的付運，屬評級代送鑑定的一部分。網站所列周轉時間僅為估計，並不構成保證。計時於 PSA 將訂單輸入其評級系統後方開始。',
           '138 Arena 的營業時間由場地決定，並公布於 Instagram @138arena。Appaw Store 並不控制該等時間。',
         ],
       },

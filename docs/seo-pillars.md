@@ -148,8 +148,8 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | HK TCG grading | 香港 TCG 鑑定 | PSA grading hub |
 | Hong Kong TCG card grading | 香港卡牌鑑定 | PSA grading hub |
 | TCG grading submission HK | TCG 提交鑑定 | PSA grading hub |
-| 138 Arena PSA grading submission | 138 Arena PSA 評級代送 | Top GSC query (31.2% CTR); local drop-off venue |
-| PSA grading submission process HK | 香港 PSA 評級代送流程 | GSC query; grading submission step-by-step guide |
+| 138 Arena PSA grading submission | 138 Arena PSA評級代送鑑定 | Top GSC query (31.2% CTR); local drop-off venue |
+| PSA grading submission process HK | 香港PSA評級代送鑑定流程 | GSC query; grading submission step-by-step guide |
 | PSA grading fees HK | PSA 鑑定費用 / PSA 收費 | GSC query; pricing & tier selection |
 | PSA grading standards | PSA 10 評級標準 | GSC query (2,000+ imp); guide `psa-grading-standards` |
 | Pokémon TCG grading HK | 寶可夢 TCG 提交鑑定 | PSA grading + centering |
@@ -173,7 +173,7 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 |---------|----------------|-------|
 | Graded card / slab | 鑑定卡、鑑定卡牌、鑑定卡 | 評級卡、評級卡牌、評級卡磚 |
 | Submit to PSA (general) | 提交鑑定 | 送評、評級（動詞）、送鑑（正文缩略） |
-| Appaw HK PSA grading submission | PSA 評級代送 | 代送鑑定（舊稱）、送評服務、收件查詢（作標題） |
+| Appaw HK PSA grading submission | PSA評級代送鑑定 | 代送鑑定（舊稱）、評級代送（舊稱）、送評服務、收件查詢（作標題） |
 | Protector product | 鑑定卡保護殼、磁吸防UV鑑定卡保護殼、磁吸卡殼、PSA 保護殼 | 評級卡保護殼、保護卡磚、鋁合金、金屬框架 |
 | Frame (specs) | 金屬邊框 | 金屬框架、鋁合金框架 |
 | Grade score UI (PSA 10 etc.) | Keep 評級 for numeric grade labels only | — |
@@ -480,7 +480,7 @@ Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: tex
 - **URLs:** `https://appaw.store/business/psa-grading/` (hub), `https://appaw.store/business/psa-grading/track/` (lookup); `/zh/...` mirrors
 - **Metadata:** `PSA_GRADING_SEO` in `src/lib/product-names.ts` → `psaGradingMetadata` / `zhPsaGradingMetadata` / track variants in `src/lib/seo/metadata.ts`
 - **EN title:** Hong Kong PSA Grading Submission | 138 Arena Drop-off | Appaw Store
-- **ZH title:** 香港 PSA 評級代送｜138 Arena 門市面交・線上進度查詢 | Appaw Store
+- **ZH title:** 香港PSA評級代送鑑定｜138 Arena 門市面交・線上進度查詢 | Appaw Store
 - **Track EN title:** Track PSA Grading Submission | Appaw Store
 - **Track description:** Look up PSA batch with phone + BAT on 138 Arena receipt (both required)
 - **Indexing:** `robots: { index: true, follow: true }` on hub + track (EN + ZH)
@@ -490,7 +490,7 @@ Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: tex
 - **Sitemap:** hub priority 0.85, track 0.70 (`sitemap-config.ts`)
 - **GEO:** `llms.txt` + `index.md` pillar rows; HKD tier snippet for agents
 - **Internal links:** Header nav, 4 guides (inbound), hub reciprocal links, `/business/` ItemList #3, BusinessClient section, homepage services panel
-- **Keyword map:** `PSA grading submission Hong Kong` ↔ `香港PSA評級代送`; `PSA card submission` ↔ `收藏卡送鑑` (see `SEO_KEYWORD_MAP`)
+- **Keyword map:** `PSA grading submission Hong Kong` ↔ `香港PSA評級代送鑑定`; `PSA card submission` ↔ `收藏卡送鑑` (see `SEO_KEYWORD_MAP`)
 
 **Post-deploy:** Request indexing for hub + track EN/ZH in GSC.
 

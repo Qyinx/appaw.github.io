@@ -131,7 +131,7 @@ const guide: GuideContent = {
       paragraphs: [
         '自行提交鑑定的完整流程如下：先以 [卡牌置中工具](/tools/card-centering/) 測量置中，再以放大鏡檢查表面與邊角；若經濟效益合理，則提交鑑定並等待取回；鑑定卡返還後，於 [psacard.com/cert](https://www.psacard.com/cert) 核對證書；確認無誤後加裝 [外層鑑定卡保護殼](/products/psa-protectors/)；最後用於展示、交易轉售或郵寄運送。',
         '直接購入鑑定卡的完整流程如下：購買前核對賣家照片與 PSA 認證資料庫的證書資訊；收貨當日即加裝外層保護殼；同時記錄購入價格與證書編號，以便日後轉售或保險申報。',
-        '高價值卡牌應先完成成本效益分析，再決定是否提交鑑定或購入鑑定卡。香港藏家可到合作場地 [138 Arena](/business/psa-grading/)（銅鑼灣謝斐道 138 號 1/F）當面辦理提交鑑定，並於取件時完成交接。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視、評級代送及跟進，並可調整最終應付金額。該檢視僅供參考，最終分數由 PSA 決定。評級代送進度可於網上查看現有進度。鑑定卡由 PSA 交還後，由 Appaw Store 保管；十四日取件期限由發出 WhatsApp 或電郵通知當日起計。鑑定費用、政策與處理週期以 [PSA 官網](https://www.psacard.com) 及 Appaw 價目表公布為準。',
+        '高價值卡牌應先完成成本效益分析，再決定是否提交鑑定或購入鑑定卡。香港藏家可到合作場地 [138 Arena](/business/psa-grading/)（銅鑼灣謝斐道 138 號 1/F）當面辦理提交鑑定，並於取件時完成交接。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視、評級代送鑑定及跟進，並可調整最終應付金額。該檢視僅供參考，最終分數由 PSA 決定。評級代送鑑定進度可於網上查看現有進度。鑑定卡由 PSA 交還後，由 Appaw Store 保管；十四日取件期限由發出 WhatsApp 或電郵通知當日起計。鑑定費用、政策與處理週期以 [PSA 官網](https://www.psacard.com) 及 Appaw 價目表公布為準。',
         '新手藏家建議先以低中價位卡牌練熟提交鑑定與保護流程，待各步驟操作穩定後，再處理高價值的重點收藏卡牌。',
       ],
     },
@@ -166,9 +166,9 @@ const guide: GuideContent = {
   },
   cta: {
     title: '鑑定卡到手，加裝外層保護殼',
-    body: '為已有或剛取回的鑑定卡加裝外層保護殼。若手頭持有裸卡，提交鑑定前請先以免費置中工具核對邊距。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA 評級代送及跟進，並可調整最終應付金額。',
+    body: '為已有或剛取回的鑑定卡加裝外層保護殼。若手頭持有裸卡，提交鑑定前請先以免費置中工具核對邊距。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: [
     'psa-10-centering-requirements',

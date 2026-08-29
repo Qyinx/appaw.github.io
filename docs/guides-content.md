@@ -19,7 +19,7 @@ Sitemap, static params, and index `ItemList` JSON-LD pick up new slugs automatic
 
 - UI/metadata language tag: `zh-HK`
 - Marketing terms: **鑑定卡 / 鑑定卡 / 鑑定卡保護殼** — not 評級卡
-- Action: **提交鑑定** for the general act of sending cards to PSA. Appaw's Hong Kong service name is **PSA 評級代送** (EN: **PSA grading submission**) at `/business/psa-grading/` — not 代送鑑定 (legacy). Keep 評級 off product words (not 評級卡); 評級 is fine in the service name and for numeric grades.
+- Action: **提交鑑定** for the general act of sending cards to PSA. Appaw's Hong Kong service name is **PSA評級代送鑑定** (EN: **PSA grading submission**) at `/business/psa-grading/` — not 代送鑑定 or 評級代送 (legacy names). Keep 評級 off product words (not 評級卡); 評級 is fine in the service name and for numeric grades.
 - Avoid legacy **送評** and abbreviated **送鑑** in new body copy (meta keywords may keep search variants)
 - Centering: **置中** — not 居中
 - Avoid Simplified variants (保护壳, 鉴定卡, 视频, etc.)
@@ -46,7 +46,7 @@ Sitemap, static params, and index `ItemList` JSON-LD pick up new slugs automatic
 | 展示、攜帶、交易、寄送 | 用於展示、外出攜帶、交易轉售或郵寄運送時 |
 | 值得送 / 不宜送 | 值得支付鑑定費用的情況包括… / 不宜支付鑑定費用的情況包括… |
 
-**UI short labels** (nav/buttons only): `預約交卡`, `查詢進度`, service name `PSA 評級代送` (EN: `PSA Grading Submission`).
+**UI short labels** (nav/buttons only): `預約交卡`, `查詢進度`, service name `PSA評級代送鑑定` (EN: `PSA Grading Submission`).
 
 Full glossary: [`seo-pillars.md`](seo-pillars.md) § Terminology policy (ZH).
 
@@ -194,7 +194,7 @@ Use `midCta` after the pre-submit section when the centering tool is the natural
 | Situation | zh-HK | EN |
 |-----------|-------|-----|
 | Venue / hours | 138 Arena、合作面交場地 | 138 Arena, partner drop-off location |
-| Service provider | Appaw Store、Appaw PSA 評級代送 | Appaw Store, Appaw PSA grading submission |
+| Service provider | Appaw Store、Appaw PSA評級代送鑑定 | Appaw Store, Appaw PSA grading submission |
 | On-site payment | 於 138 Arena 現場支付服務費（收款支援） | pay the service fee on-site at 138 Arena (payment collection support) |
 | Service operations | Appaw 核對清單、分配 BAT、轉送 PSA、發出取件通知 | Appaw verifies your list, assigns BAT references, forwards batches to PSA, sends pickup notices |
 | Avoid | 店員、未指明的「我們」、138 Arena 代送 | unattributed "staff", ambiguous "we", "138 Arena submits to PSA" |

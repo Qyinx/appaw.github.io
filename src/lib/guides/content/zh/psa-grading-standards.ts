@@ -204,8 +204,8 @@ const guide: GuideContent = {
               text: '參閱更多 [收藏指南索引](/guides/)，了解鑑定卡保護與提交鑑定的相關步驟。',
             },
             {
-              label: '香港評級代送',
-              text: '可親臨銅鑼灣合作場地 138 Arena 當面辦理提交鑑定。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視及評級代送跟進。詳見 [PSA 評級代送](/business/psa-grading/)。',
+              label: '香港評級代送鑑定',
+              text: '可親臨銅鑼灣合作場地 138 Arena 當面辦理提交鑑定。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視及評級代送鑑定跟進。詳見 [PSA評級代送鑑定](/business/psa-grading/)。',
             },
             {
               label: '置中篩選',
@@ -227,7 +227,7 @@ const guide: GuideContent = {
     },
     {
       q: 'PSA 鑑定費用用如何計算？',
-      a: '香港 PSA 評級代送的公布方案為 Regular、Express、Super Express、Walk-Through 及 Reholder，收費及最高申報價值以預約當時價目表為準，詳見 PSA 評級代送頁面。費用由 138 Arena 收取；若有調整，由 Appaw Store 確認最終金額。PSA 官方價目與週期亦可查 psacard.com/services。',
+      a: '香港PSA評級代送鑑定的公布方案為 Regular、Express、Super Express、Walk-Through 及 Reholder，收費及最高申報價值以預約當時價目表為準，詳見 PSA評級代送鑑定頁面。費用由 138 Arena 收取；若有調整，由 Appaw Store 確認最終金額。PSA 官方價目與週期亦可查 psacard.com/services。',
     },
     {
       q: '收到評級後如何驗證鑑定殼真偽？',
@@ -247,9 +247,9 @@ const guide: GuideContent = {
   },
   cta: {
     title: '提交鑑定前先測量邊距',
-    body: '上傳照片比對正背面置中是否符合 PSA 10 的 55/45 門檻，再決定是否支付鑑定費用。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA 評級代送及跟進，並可調整最終應付金額。現場初步檢視僅供參考，最終分數由 PSA 決定。',
+    body: '上傳照片比對正背面置中是否符合 PSA 10 的 55/45 門檻，再決定是否支付鑑定費用。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。現場初步檢視僅供參考，最終分數由 PSA 決定。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
-    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: [
     'psa-10-centering-requirements',

@@ -210,7 +210,7 @@ const guide: GuideContent = {
       paragraphs: [
         '核對卡牌本體品相：外殼結構正常之餘，仍需獨立檢查卡面印刷清晰度、色澤光彩，以及高分數（特別是 PSA 10）的物理品相是否合理。',
         '識別賣家可疑警訊：若賣家拒絕提供多角度高清影片、拒絕 UV 測試、不接受 PSA 官方複檢，或售價遠低於市場行情且無法提供合理解釋，均屬於高風險警訊。',
-        '買家安全交易建議：優先選擇提供第三方認證保證的平台或信譽良好的卡店。若手中持有高價裸卡並計劃提交鑑定，可前往 [138 Arena](/business/psa-grading/)（合作場地）當面辦理。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視及評級代送跟進。進行大額交易時，務必選擇設有爭議申訴機制的平台。',
+        '買家安全交易建議：優先選擇提供第三方認證保證的平台或信譽良好的卡店。若手中持有高價裸卡並計劃提交鑑定，可前往 [138 Arena](/business/psa-grading/)（合作場地）當面辦理。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視及評級代送鑑定跟進。進行大額交易時，務必選擇設有爭議申訴機制的平台。',
         '疑遭偽造的處理程序：拍攝標籤細節、證書資訊及接縫並保存對話紀錄；若官方數據庫記錄不符，請立即向交易平台申訴並聯繫 PSA 官方進行查證。',
       ],
     },
@@ -251,9 +251,9 @@ const guide: GuideContent = {
   },
   cta: {
     title: '先查證真偽，再加裝防護',
-    body: '完成五步細節驗證後，建議為鑑定卡加裝可減少刮痕並阻隔紫外線的硬質保護殼。若手頭持有裸卡並計劃提交鑑定，香港藏家可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA 評級代送及跟進，並可調整最終應付金額。',
+    body: '完成五步細節驗證後，建議為鑑定卡加裝可減少刮痕並阻隔紫外線的硬質保護殼。若手頭持有裸卡並計劃提交鑑定，香港藏家可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['psa-reholder-guide', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
   sources: [

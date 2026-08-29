@@ -63,9 +63,9 @@ const guide: GuideContent = {
   ],
   cta: {
     title: '為標準 35PT 鑑定卡而設',
-    body: 'Appaw Store 磁吸防 UV 鑑定卡保護殼專為標準 35PT 的 PSA 及 CGC 鑑定磚而設，面板於 400 nm 以下可阻隔超過 95% 紫外線，並以 N52 強磁開合。鑑定卡由 PSA 交還、於 138 Arena 取回後，建議儘快加裝外層保護殼。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA 評級代送及跟進，並可調整最終應付金額。顧客收貨後十四日內，如保護殼出現任何問題，可以退貨；退貨運費由買方承擔。',
+    body: 'Appaw Store 磁吸防 UV 鑑定卡保護殼專為標準 35PT 的 PSA 及 CGC 鑑定磚而設，面板於 400 nm 以下可阻隔超過 95% 紫外線，並以 N52 強磁開合。鑑定卡由 PSA 交還、於 138 Arena 取回後，建議儘快加裝外層保護殼。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。顧客收貨後十四日內，如保護殼出現任何問題，可以退貨；退貨運費由買方承擔。',
     primary: { label: '查看鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'grade-or-protect-first'],
   sources: [

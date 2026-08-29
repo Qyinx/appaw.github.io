@@ -264,7 +264,7 @@ export const termsMetadata = withLocaleAlternates(termsMetadataBase, '/terms/');
 export const zhTermsMetadata = zhRouteMetadata(termsMetadataBase, '/terms/', {
   title: '服務條款 | Appaw Store',
   description:
-    'Appaw Store 服務條款，說明 PSA 評級代送、於 138 Arena 繳費、保管與取件、鑑定卡保護殼及卡牌寄賣安排。',
+    'Appaw Store 服務條款，說明 PSA評級代送鑑定、於 138 Arena 繳費、保管與取件、鑑定卡保護殼及卡牌寄賣安排。',
 });
 
 const aboutMetadataBase: Metadata = {

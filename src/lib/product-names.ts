@@ -17,15 +17,15 @@ export const SEO_KEYWORD_MAP = {
   'tempered glass card protector': '強化玻璃卡殼',
   'PSA magnetic case': '磁吸PSA卡殼',
   'magnetic PSA slab case': '磁吸PSA卡殼',
-  'PSA grading submission Hong Kong': '香港PSA評級代送',
-  'PSA grading submission HK': '香港PSA評級代送',
-  'Hong Kong PSA grading submission': '香港 PSA 評級代送',
+  'PSA grading submission Hong Kong': '香港PSA評級代送鑑定',
+  'PSA grading submission HK': '香港PSA評級代送鑑定',
+  'Hong Kong PSA grading submission': '香港PSA評級代送鑑定',
   'PSA card submission': '收藏卡送鑑',
   'HK TCG grading': '香港 TCG 鑑定',
   'Hong Kong TCG card grading': '香港卡牌鑑定',
   'TCG grading submission HK': 'TCG 提交鑑定',
-  '138 Arena PSA grading submission': '138 Arena PSA 評級代送',
-  'PSA grading submission process HK': '香港 PSA 評級代送流程',
+  '138 Arena PSA grading submission': '138 Arena PSA評級代送鑑定',
+  'PSA grading submission process HK': '香港PSA評級代送鑑定流程',
   'PSA grading fees HK': 'PSA 鑑定費用',
   'PSA grading standards': 'PSA 10 評級標準',
   'PSA slab damage': 'PSA殼損',
@@ -81,8 +81,11 @@ export const HK_SEO_KEYWORDS = [
   '重新評級降級',
   '鑑定卡置中檢查',
   '磁吸PSA卡殼',
+  '香港PSA評級代送鑑定',
   '香港PSA評級代送',
   '香港 PSA 評級代送',
+  'PSA評級代送鑑定',
+  'PSA 評級代送',
   '香港 TCG 鑑定',
   'TCG 提交鑑定',
   '香港卡牌提交鑑定',
@@ -100,7 +103,7 @@ export const HOME_SEO = {
   zh: {
     title: 'Appaw Store 香港｜PSA卡殼・鑑定卡殼・PSA卡保護殼',
     description:
-      '香港設計 PSA卡殼、鑑定卡殼及 PSA卡保護殼，以磁吸防UV鑑定卡保護殼守護 PSA 與 CGC 鑑定卡，採用抗UV強化玻璃與 N52 磁吸閉合。另提供鑑定卡交易與免費卡牌置中工具；香港藏家可於銅鑼灣 138 Arena（合作場地）交收。評級代送由 Appaw 負責服務及跟進，138 Arena 負責場務及收費。',
+      '香港設計 PSA卡殼、鑑定卡殼及 PSA卡保護殼，以磁吸防UV鑑定卡保護殼守護 PSA 與 CGC 鑑定卡，採用抗UV強化玻璃與 N52 磁吸閉合。另提供鑑定卡交易與免費卡牌置中工具；香港藏家可於銅鑼灣 138 Arena（合作場地）交收。評級代送鑑定由 Appaw 負責服務及跟進，138 Arena 負責場務及收費。',
   },
 } as const;
 
@@ -158,20 +161,20 @@ export const PSA_GRADING_SEO = {
     lastUpdated: '2026-08-08',
   },
   zh: {
-    title: '香港 PSA 評級代送｜138 Arena 合作場地面交 | Appaw Store',
+    title: '香港PSA評級代送鑑定｜138 Arena 合作場地面交 | Appaw Store',
     description:
-      '香港 PSA 評級代送。於銅鑼灣 138 Arena（合作場地）面交：138 Arena 負責場務及收費，Appaw 負責服務及跟進。Regular 由 HK$790 起；Reholder HK$550。',
-    h1Keyword: '香港 PSA 評級代送',
-    webAppName: 'PSA 評級代送進度查詢',
-    trackTitle: '查詢 PSA 評級代送進度｜線上追蹤 | Appaw Store',
+      '香港PSA評級代送鑑定。於銅鑼灣 138 Arena（合作場地）面交：138 Arena 負責場務及收費，Appaw 負責服務及跟進。Regular 由 HK$790 起；Reholder HK$550。',
+    h1Keyword: '香港PSA評級代送鑑定',
+    webAppName: 'PSA評級代送鑑定進度查詢',
+    trackTitle: '查詢 PSA評級代送鑑定進度｜線上追蹤 | Appaw Store',
     trackDescription:
-      '輸入 138 Arena 收據上的電話號碼及參考編號，查詢 PSA 評級代送進度。',
+      '輸入 138 Arena 收據上的電話號碼及參考編號，查詢 PSA評級代送鑑定進度。',
     featureList: [
       '憑電話及參考編號查批次狀態',
       '由 138 Arena 收件至 PSA 評級各階段時間軸',
       '同一次交卡的其他批次',
     ],
-    breadcrumb: 'PSA 評級代送',
+    breadcrumb: 'PSA評級代送鑑定',
     trackBreadcrumb: '查詢進度',
     lastUpdated: '2026-08-08',
   },
@@ -188,7 +191,7 @@ export const PSA_GRADING_ADVISOR_SEO = {
     lastUpdated: '2026-08-05',
   },
   zh: {
-    title: '高價值鑑定顧問定位｜PSA 評級代送 | Appaw Store',
+    title: '高價值鑑定顧問定位｜PSA評級代送鑑定 | Appaw Store',
     description:
       '說明 Appaw 如何以卡況為先協助判斷是否值得提交鑑定：暫緩建議、服務等級討論、透明進度追蹤，以及鑑定卡返港後的交易與寄售選項。',
     h1Keyword: '高價值鑑定顧問，而非單純的物流中介',

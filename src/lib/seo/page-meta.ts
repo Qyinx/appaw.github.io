@@ -66,7 +66,7 @@ export const PAGE_META: Record<string, LocaleMeta> = {
     },
     zh: {
       title: '服務條款 | Appaw Store',
-      description: 'Appaw Store 服務條款，說明 PSA 評級代送、於 138 Arena 繳費、保管與取件、鑑定卡保護殼及卡牌寄賣。',
+      description: 'Appaw Store 服務條款，說明 PSA評級代送鑑定、於 138 Arena 繳費、保管與取件、鑑定卡保護殼及卡牌寄賣。',
     },
   },
   '/collection': {
