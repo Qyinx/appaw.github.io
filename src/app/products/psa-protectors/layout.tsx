@@ -26,7 +26,7 @@ export default function PSAProtectorLayout({ children }: { children: React.React
       'PSA卡殼',
       '鑑定卡殼',
       'PSA卡保護殼',
-      '磁吸鑑定卡磚',
+      '磁吸鑑定卡',
       'PSA Card Case',
       'PSA Magnetic Case',
       'Magnetic PSA Slab Case',
@@ -93,7 +93,7 @@ export default function PSAProtectorLayout({ children }: { children: React.React
         <h2>{PRODUCT_NAME.zh.seoH1}</h2>
         <p>35PT Graded Card Protector — &gt;95% UV Tempered Glass, N52 Magnetic Closure for PSA 10 &amp; Investment‑Grade Cards</p>
         <p>
-          Appaw Store 35PT 鑑定卡保護殼：防UV強化玻璃 + 金屬邊框與 N52 磁吸閉合，專為標準 35PT PSA 及 CGC 鑑定卡磚提供防刮耐曬保護。香港設計，全球付運。
+          Appaw Store 35PT 鑑定卡保護殼：防UV強化玻璃 + 金屬邊框與 N52 磁吸閉合，專為標準 35PT PSA 及 CGC 鑑定卡提供防刮耐曬保護。香港設計，全球付運。
         </p>
         {zh.psaProtectorPage.overview.body.map((para, i) => (
           <p key={i}>{para}</p>
@@ -102,9 +102,9 @@ export default function PSAProtectorLayout({ children }: { children: React.React
           <p key={`guide-${i}`}>{para}</p>
         ))}
         <p>{PRODUCT_NAME.zh.metaDescription}</p>
-        <p>門市地址：{PRODUCT_NAME.shop.zh}（{PRODUCT_NAME.shop.en}）</p>
+        <p>合作場地：{PRODUCT_NAME.shop.zh}（{PRODUCT_NAME.shop.en}）</p>
         <p>
-          技術規格：尺寸 8.7 × 14.2 × 0.98 cm，重量 74 g，材質防UV強化玻璃及金屬邊框，N52 釹磁鐵磁吸閉合，兼容寶可夢、運動卡及 MTG 鑑定卡磚。
+          技術規格：尺寸 8.7 × 14.2 × 0.98 cm，重量 74 g，材質防UV強化玻璃及金屬邊框，N52 釹磁鐵磁吸閉合，兼容寶可夢、運動卡及 MTG 鑑定卡。
         </p>
       </div>
       {children}

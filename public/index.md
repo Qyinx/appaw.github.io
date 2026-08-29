@@ -14,7 +14,7 @@
 
 [Card Centering Tool](https://appaw.store/tools/card-centering/) — raw + graded slab centering; PSA/BGS/SGC margins; regrade vs reholder screening in Graded slab mode. No login.
 
-## PSA submission (Hong Kong)
+## PSA grading submission (Hong Kong)
 
 [PSA Collectibles Submission](https://appaw.store/business/psa-grading/) — face-to-face drop-off and pickup at 138 Arena, Causeway Bay. [Book a drop-off slot](https://calendar.app.google/zq1mn6H7d8GGtQpq9). Appaw submits to PSA on your behalf. Service tiers from **HKD 790** (REG) · 1550 (EXP) · 3200 (SPX) · 5200 (WALK). No mailed submissions.
 

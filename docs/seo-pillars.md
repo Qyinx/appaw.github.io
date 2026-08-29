@@ -120,7 +120,7 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
 - Primary Keywords (EN): "PSA slab case", "graded card case", "PSA card protector"
 - Supporting long-tails (EN): "35PT PSA slab case", "magnetic graded card case", "PSA magnetic case", "magnetic PSA slab case", "graded card display case", "tempered glass slab case", "PSA UV glass case", "N52 magnetic card holder"
 - Primary Keywords (ZH): "PSA卡殼", "鑑定卡殼", "PSA卡保護殼"
-- Supporting long-tails (ZH): "35PT 鑑定卡磚", "磁吸鑑定卡殼", "防UV 鑑定卡殼", "防UV玻璃", "強化玻璃卡殼", "香港 PSA卡殼", "寶可夢鑑定卡", "CGC 鑑定卡磚"
+- Supporting long-tails (ZH): "35PT 鑑定卡", "磁吸鑑定卡殼", "防UV 鑑定卡殼", "防UV玻璃", "強化玻璃卡殼", "香港 PSA卡殼", "寶可夢鑑定卡", "CGC 鑑定卡"
 - Product display name (EN): **Graded Slab UV Glass Protector** (nav short: Graded Slab Protector) — broader than PSA-only, matches CGC compatibility; use **case/protector** terms in titles and H1; lead **tempered UV glass** in meta/H1
 - Product display name (ZH): **鑑定卡保護殼** (full: 磁吸防UV鑑定卡保護殼); search-facing titles use **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼**; frame spec **金屬邊框** (avoid 鋁合金 / 金屬框架 in marketing copy)
 
@@ -165,9 +165,13 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 
 **Terminology policy (ZH)**
 
+**138 Arena vs Appaw:** PSA grading submission is a cooperation at 138 Arena. 138 Arena handles venue operations and charging; Appaw Store handles the service and follow-up. Call 138 Arena a 合作場地, not Appaw's 主店. Do not create an Appaw Google Business Profile at that address.
+
+
+
 | Context | Preferred term | Avoid |
 |---------|----------------|-------|
-| Graded card / slab | 鑑定卡、鑑定卡牌、鑑定卡磚 | 評級卡、評級卡牌、評級卡磚 |
+| Graded card / slab | 鑑定卡、鑑定卡牌、鑑定卡 | 評級卡、評級卡牌、評級卡磚 |
 | Submit to PSA (general) | 提交鑑定 | 送評、評級（動詞）、送鑑（正文缩略） |
 | Appaw HK PSA grading submission | PSA 評級代送 | 代送鑑定（舊稱）、送評服務、收件查詢（作標題） |
 | Protector product | 鑑定卡保護殼、磁吸防UV鑑定卡保護殼、磁吸卡殼、PSA 保護殼 | 評級卡保護殼、保護卡磚、鋁合金、金屬框架 |
@@ -301,7 +305,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 | Same grade, new case | reholder | 換殼 | 重新鑑定 (for reholder) |
 | Full re-score | regrade | 重新評級 | 換殼 (for regrade) |
 | Grade label on slab | PSA 10, numeric grade | PSA 10、數字評級 | 評級卡 (use 鑑定卡) |
-| Graded slab (tool / guide UI) | Graded slab | 鑑定卡 | 鑑定卡磚 |
+| Graded slab (tool / guide UI) | Graded slab | 鑑定卡 | 鑑定卡 |
 | Tool disclaimer | screening aid, not a grader | 篩選參考，非評級機構 | guaranteed upgrade |
 
 **Open improvements**

@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: 'Display Graded Cards: Safe Setup for Your Slabs',
   badge: 'Display',
   lead:
-    'Buyers judge the holder before the card inside. One scuff or hazy label can cost you half the negotiation before the cardboard shows wear. Display is protection with the collection visible.',
+    'In the secondary market, buyers usually inspect the holder before they look at the card inside. A scuff or a hazy label can weaken the price discussion before anyone talks about cardboard wear. Display is therefore the same job as protection, with the collection still visible.',
   published: '2026-06-09',
-  updated: '2026-08-05',
+  updated: '2026-08-30',
   readTime: '9 min',
   heroImage: '/images/background/display-graded-cards.png',
   heroSpecs: [
@@ -33,7 +33,7 @@ const guide: GuideContent = {
         'Best for beginners and small-to-mid collections, low cost, easy to learn.',
         'Slab sleeve + binder: slide each slab into a clear sleeve, then into a 3- or 4-ring binder page. Easy to flip, carry, and dust-proof. Pick binders with soft inner liners so slabs do not grind each other.',
         'Single-card stand: acrylic or plastic slab stands for desk or cabinet, upright or flat for a chase PSA 10 rookie or key TCG copy.',
-        'Magnetic rigid case: fit the slab in a [magnetic graded slab protector](/products/psa-protectors/), 35PT PSA/CGC fit, N52 closure, >95% UV front panel. Corner protection beats soft sleeves alone with gallery-level desk or shelf presentation. No screws through the inner holder.',
+        'Magnetic rigid case: fit the slab in a [magnetic graded slab protector](/products/psa-protectors/), 35PT PSA/CGC fit, N52 closure, >95% UV front panel. Corner protection beats soft sleeves alone with desk or shelf presentation. No screws through the inner holder.',
       ],
       specs: [
         { label: 'Daily storage', value: 'Slab sleeve + binder' },
@@ -99,29 +99,29 @@ const guide: GuideContent = {
   faq: [
     {
       q: 'What is the best way to display graded cards at home?',
-      a: 'Binder sleeves for bulk storage; a magnetic 35PT case with UV glass for spotlight cards on a desk or shelf.',
+      a: 'Use binder sleeves for bulk storage. For spotlight cards on a desk or shelf, use a magnetic 35PT case with ultraviolet-filtering glass so the label stays readable.',
     },
     {
       q: 'Can I stack PSA slabs flat on a shelf?',
-      a: 'Avoid long flat stacks of bare slabs. Stand them upright with at least 5 mm between outer cases.',
+      a: 'Avoid leaving bare slabs in long flat stacks. Stand them upright with at least 5 mm between outer cases, so the seams are not carrying the weight of the pile.',
     },
     {
       q: 'Does window light fade slabs even inside a case?',
-      a: 'Yes over seasons. Use UV-filtering glass or acrylic and keep slabs off direct sun paths.',
+      a: 'Yes. Even inside an outer case, seasons of window light still add ultraviolet. Use ultraviolet-filtering glass or acrylic, and keep slabs off the path of direct sun.',
     },
   ],
   midCta: {
     afterSectionId: 'basic-display',
     title: 'Spotlight cards in a magnetic case; bulk in binders',
-    body: 'High-value singles deserve >95% UV glass cases; large collections stay safe in binder sleeves. Still holding raw copies? Hong Kong collectors can drop off at [138 Arena](/business/psa-grading/). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
+    body: 'High-value singles are better shown in a case with glass that blocks more than 95% of ultraviolet below 400 nm. Larger stacks can stay in binder sleeves. Hong Kong collectors who still hold raw cards can book online and complete intake at 138 Arena; 138 Arena handles the floor and collects payment, while Appaw Store runs PSA grading submission and follow-up.',
     primary: { label: 'Graded Card Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'UV protection for slabs', href: '/guides/uv-protection-graded-cards/' },
   },
   cta: {
     title: 'Display-ready slab protection',
-    body: 'Magnetic case with >95% UV-blocking glass, standard 35PT PSA/CGC fit, sized for desk or shelf display. Slabs in hand? Add the outer case. Raw cards still to grade? Drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
+    body: 'The magnetic case uses glass that blocks more than 95% of ultraviolet below 400 nm, and is sized for standard 35PT PSA and CGC holders on a desk or shelf. If the slab is already in hand, fit the outer case before display. Hong Kong collectors who still hold raw cards book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount.',
     primary: { label: 'Graded Card Protector', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'choose-35pt-slab-protector', 'grade-or-protect-first', 'psa-reholder-guide'],
   sources: [

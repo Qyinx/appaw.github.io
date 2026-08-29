@@ -38,7 +38,7 @@ const psaProtectorsMetadataBase: Metadata = {
     '磁吸卡磚',
     '防UV玻璃',
     '強化玻璃卡殼',
-    '35PT 鑑定卡磚',
+    '35PT 鑑定卡',
     ...HK_SEO_KEYWORDS,
     PRODUCT_NAME.zh.metaTitle,
   ],
@@ -250,6 +250,21 @@ export const privacyMetadata = withLocaleAlternates(privacyMetadataBase, '/priva
 export const zhPrivacyMetadata = zhRouteMetadata(privacyMetadataBase, '/privacy/', {
   title: '私隱政策 | Appaw Store',
   description: '了解 Appaw Store 如何收集、使用及保護您的資料。網站分析使用 Google Analytics 4；購買透過 Etsy 及 Carousell 安全處理。',
+});
+
+const termsMetadataBase: Metadata = {
+  title: { absolute: 'Terms of Service | Appaw Store' },
+  description:
+    'Terms of service for Appaw Store covering PSA grading submission, payment collected at 138 Arena, storage and pickup, protectors, and card consignment.',
+  alternates: { canonical: '/terms/' },
+  robots: { index: true, follow: true },
+};
+
+export const termsMetadata = withLocaleAlternates(termsMetadataBase, '/terms/');
+export const zhTermsMetadata = zhRouteMetadata(termsMetadataBase, '/terms/', {
+  title: '服務條款 | Appaw Store',
+  description:
+    'Appaw Store 服務條款，說明 PSA 評級代送、於 138 Arena 繳費、保管與取件、鑑定卡保護殼及卡牌寄賣安排。',
 });
 
 const aboutMetadataBase: Metadata = {

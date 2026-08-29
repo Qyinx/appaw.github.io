@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     '原廠鑑定殼雖然能固定卡面，但透明壓克力外殼並無法完全阻擋紫外線，長時間光照會導致全息閃卡、鍍鉻層及官方標籤逐漸褪色失真。香港室內相對濕度高達 70–80%，若鑑定卡同時曝露於窗邊日光下，只需兩個夏季，卡面光澤與彩度便可能出現肉眼可見的衰退。',
   published: '2026-06-07',
-  updated: '2026-08-05',
+  updated: '2026-08-30',
   readTime: '7 分鐘',
   heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
@@ -43,7 +43,7 @@ const guide: GuideContent = {
         { label: '普通透明壓克力', value: '345 nm 以上波段幾乎無阻隔作用' },
       ],
       bridge:
-        '瞭解紫外線穿透鑑定殼的破壞原理後，可進一步檢視抗 UV 物理防護與室內光源對鑑定卡磚的實際影響。',
+        '瞭解紫外線穿透鑑定殼的破壞原理後，可進一步檢視抗 UV 物理防護與室內光源對鑑定卡的實際影響。',
     },
     {
       id: 'case-vs-room',
@@ -75,9 +75,9 @@ const guide: GuideContent = {
       id: 'daily-habits',
       title: '日常收納與運送習慣',
       paragraphs: [
-        '鑑定卡應直立放置於有襯墊的層架，請勿平放堆疊十層以上；長時間的重量壓力加上濕度變化，可能令最底層鑑定磚的外殼接合位受損。層架展示時，鑑定卡磚之間宜保留至少 5 mm 間距，避免外殼互相摩擦。',
+        '鑑定卡應直立放置於有襯墊的層架，請勿平放堆疊十層以上；長時間的重量壓力加上濕度變化，可能令最底層鑑定磚的外殼接合位受損。層架展示時，鑑定卡之間宜保留至少 5 mm 間距，避免外殼互相摩擦。',
         '清潔外層鑑定卡保護殼時，請使用超細纖維布輕拭表面，請勿以紙巾擦拭，以免在壓克力或玻璃面留下細微刮痕。減少裸手觸摸鑑定殼本體，僅持握外層保護殼或護套邊緣，可降低指紋與油脂轉移的風險。',
-        '郵寄鑑定卡時，應以氣泡膜包裹外層鑑定卡保護殼，再放入硬質郵袋或硬紙箱；若包裹送達時內層原廠鑑定殼已出現龜裂，此前在紫外線阻隔與濕度控制上的投入便難以發揮作用。購買外層保護殼前，可先確認標準 35PT 規格是否貼合您的 PSA 或 CGC 鑑定卡磚，詳見 [如何選擇 35PT 鑑定卡保護殼](/guides/choose-35pt-slab-protector/)。',
+        '郵寄鑑定卡時，應以氣泡膜包裹外層鑑定卡保護殼，再放入硬質郵袋或硬紙箱；若包裹送達時內層原廠鑑定殼已出現龜裂，此前在紫外線阻隔與濕度控制上的投入便難以發揮作用。購買外層保護殼前，可先確認標準 35PT 規格是否貼合您的 PSA 或 CGC 鑑定卡，詳見 [如何選擇 35PT 鑑定卡保護殼](/guides/choose-35pt-slab-protector/)。',
       ],
     },
     {
@@ -115,9 +115,9 @@ const guide: GuideContent = {
   },
   cta: {
     title: '展示鑑定卡，同時減緩紫外線與濕氣影響',
-    body: '磁吸防 UV 鑑定卡保護殼採用 400 nm 以下超過 95% 紫外線阻隔玻璃，貼合標準 35PT PSA 及 CGC 鑑定卡磚，適用於桌面陳列與展覽展示。鑑定卡返港取件後建議儘快加裝外層防護；計劃提交鑑定的藏家，可於 [138 Arena](/business/psa-grading/) 門市面交，Appaw 提供專業驗卡與清潔保養服務，全力協助珍藏爭取最佳評級。',
+    body: '磁吸防 UV 鑑定卡保護殼採用 400 nm 以下超過 95% 紫外線阻隔玻璃，貼合標準 35PT PSA 及 CGC 鑑定卡，適用於桌面陳列與展覽展示。鑑定卡由 PSA 交還、於 138 Arena 取回後，建議儘快加裝外層保護殼。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA 評級代送及跟進，並可調整最終應付金額。顧客收貨後十四日內，如保護殼出現任何問題，可以退貨；退貨運費由買方承擔。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],
   sources: [

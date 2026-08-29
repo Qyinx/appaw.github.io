@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     '在卡牌鑑定世界中，PSA 9 往往被視為最令人遺憾的等級：並非卡面存在物理傷痕，而是置中比例僅有數個百分點的微小偏差，卻同樣需要支付完整鑑定費用。在提交鑑定前，先精確測量正背面邊距比例，是成本最低且效益最高的篩選程序。',
   published: '2026-06-07',
-  updated: '2026-08-05',
+  updated: '2026-08-30',
   readTime: '10 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -77,7 +77,7 @@ const guide: GuideContent = {
         '出廠裁切偏移：原廠機器切邊不均。購入裸卡時應即時利用置中工具檢查，切勿寄望評級員忽視明顯的切割偏差。',
         '印刷圖案偏移：邊框寬度看似對稱，但內部印刷圖像偏向一側。評級員會綜合評估視覺眼感，圖案位移過大依然可能被扣分。',
         'TCG 窄邊框特性：寶可夢等 TCG 邊框較窄，55/45 的容許毫米誤差極小，對置中要求的嚴苛程度高於一般卡款。',
-        '提交鑑定前準備清單：先運用 [免費卡牌置中工具](/tools/card-centering/) 測量正背面比例，確認達標後再以放大鏡檢查四角、邊緣與卡面。香港藏家亦可前往 138 Arena 門市由 Appaw 團隊進行現場卡況初步評估與基本清潔保養，確保置中、表面狀況與邊角完整度均達到最佳狀態才安排提交鑑定。',
+        '提交鑑定前準備清單：先運用 [免費卡牌置中工具](/tools/card-centering/) 測量正背面比例，確認達標後再以放大鏡檢查四角、邊緣與卡面。香港藏家亦可前往 138 Arena（合作場地），由 Appaw 完成點收與初步檢視，並可作基本表面清潔。該檢視僅供參考，最終分數由 PSA 決定。',
       ],
     },
     {
@@ -87,7 +87,7 @@ const guide: GuideContent = {
         '裸卡篩選順序：先核對置中比例，通過後再仔細檢查邊角與卡面。若正面任一軸已超過 55/45，應先評估拿 PSA 9 是否仍具備經濟價值，再決定是否提交鑑定。',
         '網上選購注意事項：要求賣家提供平放的高解析正背面掃描圖，並載入置中計算器進行檢測，避免傾斜拍攝角度遮掩偏斜瑕疵。',
         '把握提交鑑定時機：選擇鑑定積壓較少的時段並合理申報保險價值。若置中精確且卡況極佳但初次僅拿 PSA 9，可評估是否考慮 [破殼重送或原殼重評](/guides/psa-review-vs-crack/)，唯需留意破殼重送的降分風險。',
-        '獲取高分後的防護：取回 PSA 10 鑑定卡磚後，建議儘快加裝 [磁吸防 UV 保護殼](/products/psa-protectors/)，避免展示或攜帶時刮花壓克力外殼。詳細步驟可參考 [裸卡到受保護鑑定卡](/guides/grade-or-protect-first/)。',
+        '獲取高分後的防護：取回 PSA 10 鑑定卡後，建議儘快加裝 [磁吸防 UV 保護殼](/products/psa-protectors/)，避免展示或攜帶時刮花壓克力外殼。詳細步驟可參考 [裸卡到受保護鑑定卡](/guides/grade-or-protect-first/)。',
       ],
     },
     {
@@ -117,12 +117,12 @@ const guide: GuideContent = {
     title: '上傳照片，30 秒比對 PSA 10 門檻',
     body: '平面掃描或賣家照片即可。比對正面/背面是否達 55/45 與 75/25，再決定是否支付鑑定費用。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
-    secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
   },
   cta: {
     title: '邊距達標？安排提交鑑定',
-    body: '置中確認達標後，即可安排代送 PSA 鑑定。香港藏家可前往 138 Arena 門市面交，Appaw 提供專業驗卡與基本清潔保養服務，全力協助珍藏降低扣分風險並爭取最高評級；返港取件後亦可加裝磁吸防護硬殼。',
-    primary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
+    body: '置中確認達標後，即可考慮提交鑑定。香港藏家如欲使用 PSA 評級代送，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責評級代送及跟進，並可調整最終應付金額。現場初步檢視僅供參考，最終分數由 PSA 決定。鑑定卡取回後，可加裝磁吸防護硬殼。',
+    primary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
     secondary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
   },
   relatedSlugs: ['grade-or-protect-first', 'psa-review-vs-crack', 'choose-35pt-slab-protector', 'display-graded-cards'],

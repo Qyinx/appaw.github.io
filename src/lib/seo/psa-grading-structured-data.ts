@@ -43,7 +43,7 @@ export function buildPsaGradingHubStructuredData(locale: PsaGradingLocale) {
     url,
     dateModified: seo.lastUpdated,
     provider: { '@type': 'Organization', name: 'Appaw Store', url: SITE_ORIGIN },
-    serviceType: locale === 'zh' ? '香港 TCG 卡牌 PSA 代送鑑定' : 'Hong Kong TCG PSA grading submission',
+    serviceType: locale === 'zh' ? '香港 PSA 評級代送' : 'Hong Kong PSA grading submission',
     areaServed: { '@type': 'City', name: 'Hong Kong' },
     offers: PSA_PRICING_ROWS.filter((row) => row.feeHkd != null).map((row) => {
       const listFee = row.feeHkd!;

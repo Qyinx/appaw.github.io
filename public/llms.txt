@@ -1,6 +1,6 @@
 # Appaw Store
 
-> Hong Kong brand designing premium magnetic UV glass protectors for standard 35PT PSA & CGC graded card slabs (Pokémon PTCG, sports cards, MTG). Ships worldwide. Main Hong Kong location at 138 Arena, Causeway Bay; also listed under Purchase channels.
+> Hong Kong brand designing premium magnetic UV glass protectors for standard 35PT PSA & CGC graded card slabs (Pokémon PTCG, sports cards, MTG). Ships worldwide. Face-to-face work at partner venue 138 Arena, Causeway Bay: 138 Arena handles venue and payment; Appaw Store handles service and follow-up.
 
 Canonical site: https://appaw.store/
 Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.store/zh/products/psa-protectors/)
@@ -8,9 +8,9 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 ## Primary product
 
 - [Graded Slab UV Glass Protector (EN)](https://appaw.store/products/psa-protectors/): 35PT magnetic UV glass slab case (PSA magnetic case compatibility) with tempered >95% UV-blocking glass and N52 neodymium closure. Fits standard PSA and CGC graded slabs — third-party, not official PSA. Weight 74g, dimensions 8.7 × 14.2 × 0.98 cm. Designed in Hong Kong.
-- [磁吸防UV鑑定卡保護殼 (ZH)](https://appaw.store/zh/products/psa-protectors/): 磁吸防UV鑑定卡保護殼，適用標準 35PT PSA 及 CGC 鑑定卡磚。>95% 抗UV強化玻璃、金屬邊框、N52 磁吸。香港設計，全球付運。
+- [磁吸防UV鑑定卡保護殼 (ZH)](https://appaw.store/zh/products/psa-protectors/): 磁吸防UV鑑定卡保護殼，適用標準 35PT PSA 及 CGC 鑑定卡。>95% 抗UV強化玻璃、金屬邊框、N52 磁吸。香港設計，全球付運。
 
-**Terminology (ZH marketing):** use 鑑定卡 / 鑑定卡磚 / 鑑定卡保護殼 as the product words — not 評級卡. Service name: EN “PSA grading submission”; ZH “PSA 評級代送”. Product words stay 鑑定卡 / 鑑定卡磚 / 鑑定卡保護殼 — not 評級卡.
+**Terminology (ZH marketing):** use 鑑定卡 / 鑑定卡 / 鑑定卡保護殼 as the product words — not 評級卡. Service name: EN “PSA grading submission”; ZH “PSA 評級代送”. Product words stay 鑑定卡 / 鑑定卡 / 鑑定卡保護殼 — not 評級卡.
 
 ## Key pages
 
@@ -25,6 +25,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | Collection manager | https://appaw.store/collection/ | https://appaw.store/zh/collection/ | Free graded card inventory dashboard (landing only; sign-in required for app) |
 | About | https://appaw.store/about/ | https://appaw.store/zh/about/ | Brand story, Hong Kong origin |
 | Privacy | https://appaw.store/privacy/ | https://appaw.store/zh/privacy/ | Privacy policy |
+| Terms of Service | https://appaw.store/terms/ | https://appaw.store/zh/terms/ | Service terms: roles, PSA grading submission, fees, pickup, protectors, consignment |
 | Guides (index) | https://appaw.store/guides/ | https://appaw.store/zh/guides/ | Evergreen slab protection & grading how-to articles |
 
 ## Collector guides
@@ -44,7 +45,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 
 ## Purchase channels
 
-1. **Main location:** 138 Arena, Causeway Bay — https://www.instagram.com/138arena/ (銅鑼灣謝斐道522號1/F) — protectors, graded cards, PSA grading submission drop-off/pickup via Appaw
+1. **Partner venue:** 138 Arena, Causeway Bay — https://www.instagram.com/138arena/ (銅鑼灣謝斐道522號1/F). 138 Arena: venue & payment. Appaw: PSA grading submission service & follow-up. Protector pickup also here.
 2. **Purchase channel:** Card The Land (咭之島), Hung Hom — https://www.instagram.com/cardtheland_tcg/
 3. **Online:** Etsy https://appawstore.etsy.com/ · Carousell https://www.carousell.com.hk/u/appaw.store/ · WhatsApp +852-9285-1189
 

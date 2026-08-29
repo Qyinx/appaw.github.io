@@ -5,16 +5,16 @@ const guide: GuideContent = {
   title: 'From Raw Card to Protected Slab: Grading Then Outer Case',
   badge: 'Workflow',
   lead:
-    '"Grade or protect first" is the wrong question: raw cards do not fit a 35PT outer case. Grading and protection are sequential steps at different moments. Both paths end with a protected slab; raw submit usually needs $25+ raw value and a 2–4× PSA 10 upside.',
+    '"Grade or protect first" is the wrong fork, because a raw card does not fit a 35PT outer case. Grading and protection happen at different moments on the same path. Both routes end with a protected slab. Paying a PSA fee on raw cardboard usually only makes sense when the raw copy is worth about $25 or more and a PSA 10 could sell for two to four times that figure.',
   published: '2026-06-07',
-  updated: '2026-08-05',
+  updated: '2026-08-30',
   readTime: '9 min',
   heroImage: '/images/background/grade-or-protect-first.png',
   heroSpecs: [
     { label: 'Submit threshold', value: 'Raw $25+, 2–4× slab premium' },
-    { label: 'Phase 1', value: 'Raw: decide if submit pays' },
-    { label: 'Phase 2', value: 'Slab: add outer case' },
-    { label: 'Full path', value: 'Raw → grade → outer case' },
+    { label: 'Phase 1', value: 'On raw cardboard, decide whether the PSA fee is worth paying' },
+    { label: 'Phase 2', value: 'Once the slab is yours, add an outer protector' },
+    { label: 'Full path', value: 'Evaluate the raw card, submit for grading, then fit an outer case' },
   ],
   sections: [
     {
@@ -33,13 +33,13 @@ const guide: GuideContent = {
         'Submitting raw is an upside play, not every card earns the fee. A bad submit wastes money or returns a label that hurts resale.',
         'Good candidates: condition looks Gem Mint-capable (PSA 10 range), raw market value is $25+ with expected PSA 10 resale at least 2–4× raw; hot rookie sports cards or scarce TCG (Pokémon, MTG) where high grades sell fast; eBay Authenticity Guarantee or PSA promo windows reduce risk.',
         'Skip submission: raw value under $20–25 where fees eat the upside; visible corner wear, surface scratches, or other flaws likely cap at PSA 8 or below; PSA backlog or service pause makes timing poor; pure long-term personal hold with zero resale intent.',
-        'Before you pack: Penny sleeve + Card Saver; check PSA Pop Report for gem counts; run cost math and pick a service tier (Value, Express, etc.); screen centering free in our [Card Centering Tool](/tools/card-centering/), see [PSA 10 centering requirements](/guides/psa-10-centering-requirements/). Hong Kong collectors can drop off at partner store [138 Arena](/business/psa-grading/) (Causeway Bay). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Then we confirm your PSA tier.',
+        'Before you pack: Penny sleeve + Card Saver; check PSA Pop Report for gem counts; run cost math and pick a service tier (Regular, Express, Super Express, Walk-Through, Reholder); screen centering free in our [Card Centering Tool](/tools/card-centering/), see [PSA 10 centering requirements](/guides/psa-10-centering-requirements/). Hong Kong collectors can drop off at partner venue [138 Arena](/business/psa-grading/) in Causeway Bay. 138 Arena handles the floor and collects payment. Appaw Store completes intake and a preliminary inspection, then confirms the PSA tier. That inspection is a reference only; PSA sets the final grade.',
       ],
       specs: [
         { label: 'PSA 10 front (2025+)', value: '55/45 or better' },
         { label: 'PSA 10 back', value: '75/25 or better' },
         { label: 'Economics', value: 'Raw $25+, 2–4× premium to justify' },
-        { label: 'Screen first', value: 'Centering + surface + corners' },
+        { label: 'Screen first', value: 'Check centering, surface condition, and corner completeness' },
       ],
       bridge: 'Slab returns switch the job to phase two: outer protection.',
     },
@@ -82,7 +82,7 @@ const guide: GuideContent = {
       paragraphs: [
         'Path A: measure centering → loupe surface and corners → submit if math works → verify cert on [psacard.com/cert](https://www.psacard.com/cert) → install an [outer protector](/products/psa-protectors/) → display, trade, or ship.',
         'Path B: match seller photos to PSA cert database → outer case on delivery → log price and cert number.',
-        'High-value cards: run expected-value math first. Hong Kong collectors drop off and pick up at partner store [138 Arena](/business/psa-grading/) (Causeway Bay, 522 Jaffe Road, 1/F) for face-to-face condition evaluation and PSA proxy submission. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Then we confirm your service tier. Fees, policies, and queue times: [PSA\'s site](https://www.psacard.com) is source of truth.',
+        'High-value cards: run expected-value math first. Hong Kong collectors drop off and pick up at partner venue [138 Arena](/business/psa-grading/) (Causeway Bay, 522 Jaffe Road, 1/F). 138 Arena handles the floor and collects payment. Appaw Store runs intake, a preliminary inspection, PSA grading submission, and follow-up, and may adjust the final amount. That inspection is a reference only; PSA sets the final grade. Returned slabs are stored by Appaw Store. The fourteen-day pickup window starts when the WhatsApp or email notice is issued. Fees, policies, and queue times: [PSA\'s site](https://www.psacard.com) and the Appaw pricing table are the sources of truth.',
         'New collectors: practice on low-to-mid copies before chasing grail submits and grail protection setups.',
       ],
     },
@@ -111,15 +111,15 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'when-to-submit-raw',
     title: 'Raw in hand? Measure centering before you submit',
-    body: 'Screen margins free before you pay grading fees. Hong Kong collectors can drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Slab already back? Skip to the outer case.',
+    body: 'Screen margins with the free tool before you pay grading fees. Hong Kong collectors can book online and complete intake at 138 Arena. 138 Arena handles the floor and collects payment; Appaw Store runs PSA grading submission and follow-up. If the slab is already back, skip to the outer case.',
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
     secondary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
   },
   cta: {
     title: 'Slab in hand? Add the outer case',
-    body: 'Shield slabs you own or just received. Screen raw copies with the free centering tool before you pay grading fees. Hong Kong collectors can drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
+    body: 'Fit an outer case on slabs you already own or have just collected. Screen raw copies with the free centering tool before you pay grading fees. Hong Kong collectors who want to submit for grading book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. A preliminary inspection on arrival is a reference only; PSA sets the final grade.',
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['psa-10-centering-requirements', 'choose-35pt-slab-protector', 'uv-protection-graded-cards', 'psa-reholder-guide'],
   sources: [

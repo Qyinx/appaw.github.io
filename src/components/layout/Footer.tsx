@@ -136,6 +136,10 @@ export default function Footer() {
               {' · '}
             </span>
             <FooterScrambleLink href="/privacy" label={t.footer.privacy} segmentIndex={5} />
+            <span className="site-footer__sep" aria-hidden="true">
+              {' · '}
+            </span>
+            <FooterScrambleLink href="/terms" label={t.footer.terms} segmentIndex={6} />
             <span className="site-footer__cursor" aria-hidden="true" />
           </p>
         </div>

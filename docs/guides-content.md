@@ -18,7 +18,7 @@ Sitemap, static params, and index `ItemList` JSON-LD pick up new slugs automatic
 ## Locale: zh-HK Traditional Chinese
 
 - UI/metadata language tag: `zh-HK`
-- Marketing terms: **鑑定卡 / 鑑定卡磚 / 鑑定卡保護殼** — not 評級卡
+- Marketing terms: **鑑定卡 / 鑑定卡 / 鑑定卡保護殼** — not 評級卡
 - Action: **提交鑑定** for the general act of sending cards to PSA. Appaw's Hong Kong service name is **PSA 評級代送** (EN: **PSA grading submission**) at `/business/psa-grading/` — not 代送鑑定 (legacy). Keep 評級 off product words (not 評級卡); 評級 is fine in the service name and for numeric grades.
 - Avoid legacy **送評** and abbreviated **送鑑** in new body copy (meta keywords may keep search variants)
 - Centering: **置中** — not 居中
@@ -96,7 +96,7 @@ Use the following real rewrite pairs as references when adjusting tone or genera
 | 「塑膠質感：真品堅硬、清澈、重量適中，邊緣焊接平整...」 | 「真品採用高清澈度的硬質壓克力，邊緣焊接超音波接縫極為平整且不含膠水痕跡；內部固定卡片的內槽四角應呈完美的 90 度直角，而非圓角。」 |
 | `{ label: '必對項目', value: '照片、年份、角色、等級、標記' }` | `{ label: '必須核對項目', value: '卡牌照片、年份、角色名稱、評級分數與特殊標記' }` |
 | `{ label: '通過意味', value: '過第一關，仍需後續檢查' }` | `{ label: '查證結果定義', value: '數據相符僅代表完成第一關，仍需進行實物細節檢測' }` |
-| `{ label: '完整流程', value: '裸卡 → 提交鑑定 → 鑑定卡磚 → 加裝鑑定卡保護殼' }` | `{ label: '完整流程', value: '由裸卡評估、提交鑑定到加裝外層保護殼的完整程序' }` |
+| `{ label: '完整流程', value: '裸卡 → 提交鑑定 → 鑑定卡 → 加裝鑑定卡保護殼' }` | `{ label: '完整流程', value: '由裸卡評估、提交鑑定到加裝外層保護殼的完整程序' }` |
 
 #### 2. Avoid Template-style AI Transitions (重寫生硬 AI 銜接句 `bridge`)
 

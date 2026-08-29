@@ -295,7 +295,7 @@ export const en = {
     },
     cardTrading: {
       title: 'TCG Trading & Brokerage',
-      description: 'A trusted marketplace for buying, selling, and brokering premium graded trading cards. Whether you\'re looking to acquire a grail or liquidate a collection, we handle the process with transparency and expertise.',
+      description: 'A trusted marketplace for buying, selling, and brokering premium graded trading cards. Whether you\'re looking to acquire a grail or liquidate a collection, we handle the process with transparency and expertise. Consignment is landed mainly at 138 Arena, and the same cards are also consigned in parallel on marketplaces.',
       badge: 'Trading Desk',
       featureTitles: ['Buy & Sell', 'Price Appraisal', 'Consignment', 'Authenticity Check'],
       chips: ['No Listing Fee', 'PSA & CGC', 'HK Face-to-Face', 'Commission on Sale Only'],
@@ -342,7 +342,7 @@ export const en = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: 'Premium Protection',
-    seoH1: '35PT Graded Card Protector — UV Tempered Glass',
+    seoH1: '35PT Graded Card Protector — UV Glass, Hong Kong',
     heroImageAlt: 'Appaw Store 35PT graded card protector with tempered UV-blocking glass and N52 magnetic closure',
     heroCta: 'See colors & pricing ↓',
     centeringCrossLink: {
@@ -356,7 +356,7 @@ export const en = {
       title: 'How to choose a 35PT graded card case',
       body: [
         'Standard PSA and CGC slabs measure roughly 35PT thick. A proper PSA slab case should add a rigid metal frame—not just another acrylic shell—plus tempered UV-blocking glass to slow holo and chrome fade over years on display.',
-        'Appaw Store designed this magnetic graded card case in Hong Kong for Hong Kong TCG collectors — Pokémon PTCG, sports cards, and MTG — who display slabs at home, at card shows, or at 138 Arena. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
+        'Appaw Store designed this magnetic graded card case in Hong Kong for Hong Kong TCG collectors — Pokémon PTCG, sports cards, and MTG — who display slabs at home, at card shows, or at 138 Arena (partner venue). The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
         'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a PSA card protector built for long-term display and transport.',
       ],
       fullGuideLink: 'Read the full 35PT slab case guide',
@@ -373,7 +373,7 @@ export const en = {
       badge: 'Product Overview',
       title: 'Premium Graded Card Protector',
       body: [
-        'Need a magnetic case for a PSA or CGC slab? This 35PT protector uses tempered UV-blocking glass and an N52 closure, sized for standard holders — third-party, not an official PSA product.',
+        'Looking for a 35PT PSA slab protector in Hong Kong? UV-blocking glass, metal frame, N52 magnets, sized for standard PSA and CGC holders. HK$60 single, HK$80 gradient. Third-party, not made by PSA.',
         'Built for collectors who treat graded cards as long-term assets, the Appaw Store Graded Slab UV Glass Protector is a magnetic graded card protector — exhibition-level presentation with durable protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
         'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the graded card case firmly shut for display and transport. Tempered UV-blocking glass and a rigid metal frame give it a solid, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
       ],
@@ -502,6 +502,10 @@ export const en = {
           q: 'Where can I buy it and does it ship internationally?',
           a: 'Order via our Etsy shop (appawstore.etsy.com), Carousell Hong Kong, or directly through WhatsApp at +852-9285-1189. Worldwide shipping to the USA, UK, HK, SG, and TW.',
         },
+        {
+          q: 'What is the return policy after I receive a protector?',
+          a: 'If any problem arises within fourteen days after you receive the goods, you may return the protector. The buyer pays the shipping cost of the return.',
+        },
       ],
     },
   },
@@ -534,7 +538,7 @@ export const en = {
         items: [
           {
             q: 'Where can we meet for a card transaction in Hong Kong?',
-            a: 'For card trading meetups, our primary location is 138 Arena, 1/F, 522 Jaffe Road, Causeway Bay. WhatsApp +852-9285-1189 to confirm a time.',
+            a: 'Card trading meetups are usually at 138 Arena (partner venue), 1/F, 522 Jaffe Road, Causeway Bay. WhatsApp +852-9285-1189 to confirm a time.',
           },
           {
             q: 'What payment methods do you accept when buying graded cards?',
@@ -773,7 +777,7 @@ export const en = {
     hero: {
       title: 'PSA grading submission in Hong Kong',
       definition:
-        'In-person PSA grading submission at 138 Arena, Causeway Bay. We provide free preliminary card inspection, condition evaluation, predicted grades, and basic cleaning & maintenance to reduce point deduction risks and strive for the highest possible grade. We handle secure batch submission to PSA headquarters, help select the optimal service tier, and provide live online batch tracking until your slabs return for pickup. (Note: final grades are determined solely by PSA; we do not guarantee scores.)',
+        'In-person PSA grading submission at 138 Arena, Causeway Bay (partner venue). 138 Arena handles the floor and payment; Appaw Store handles the service and follow-up — condition check, tier, shipping to PSA, and tracking. Final grades are set by PSA; we do not guarantee scores.',
       ctaBook: 'Book drop-off',
       ctaTrack: 'Track progress',
       ctaAdvisor: 'Condition advice',
@@ -977,7 +981,7 @@ export const en = {
             },
             {
               q: 'Where do I drop off and pick up?',
-              a: '138 Arena only. Face-to-face drop-off and pickup. No mailed submissions. Hours on Instagram @138arena.',
+              a: 'Drop-off and pickup both take place at 138 Arena in Causeway Bay, the partner venue. 138 Arena handles venue operations and charging; Appaw Store handles the service and follow-up. Raw cards are not accepted by mail. Venue hours are published on Instagram @138arena.',
             },
             {
               q: 'Are any types of cards NOT accepted for submission?',
@@ -994,8 +998,8 @@ export const en = {
               a: 'Use the Track page with the phone number and reference code from your receipt. Both are required. We never expose submissions by phone alone.',
             },
             {
-              q: 'Multiple PSA plans in one visit?',
-              a: 'Each service level gets its own BAT batch. Track each batch with the same phone number.',
+              q: 'If one visit includes more than one service tier from the published pricing table, such as Regular and Express, how do I track them?',
+              a: 'Each service tier on the published pricing table, including Regular and Express, is processed as its own BAT batch because turnaround differs by plan. Use the same phone number and the reference code printed for each batch to check progress separately.',
             },
             {
               q: 'What do the timeline steps mean?',
@@ -1008,24 +1012,28 @@ export const en = {
           label: 'Pickup & fees',
           items: [
             {
-              q: 'When can I pick up my cards?',
-              a: 'When tracking shows "Ready for Pickup at 138 Arena" and you receive our WhatsApp or email pickup notice, you have 14 days from the notification date to collect your cards at 138 Arena.',
+              q: 'Where is payment collected for PSA grading submission?',
+              a: 'Fees for PSA grading submission are collected at 138 Arena, which operates the venue and handles charging. Appaw Store provides the service and the follow-up. Because of that service arrangement, Appaw Store may adjust the final price, and the adjusted figure is the amount payable.',
             },
             {
-              q: 'What happens if I don\'t pick up within 14 days?',
-              a: 'Cards not collected within 14 days of the pickup notice are treated as abandoned. We send you a card abandonment notice and no fees are refunded.',
+              q: 'When can I pick up my cards?',
+              a: 'After PSA returns the graded slabs, Appaw Store keeps them in its custody. When tracking shows that the cards are ready for pickup at 138 Arena, Appaw Store notifies you by WhatsApp or email. The fourteen-day collection window starts on the date that notice is issued, not from the PSA return date alone. Collection is then arranged at 138 Arena, the partner venue where handover takes place.',
+            },
+            {
+              q: 'What happens if I do not pick up within 14 days?',
+              a: 'If the cards remain uncollected after the fourteen days that run from Appaw Store\'s pickup notice, they are treated as abandoned. Appaw Store then sends a written abandonment notice. Fees already paid are not refunded.',
             },
             {
               q: 'Why does PSA upcharge?',
-              a: 'If your card grades high (e.g. PSA 10) or its market value exceeds the maximum declared value on your submission, PSA charges an upcharge to cover the grading fee difference. If that happens, we contact you with two options (see the next question).',
+              a: 'Each service tier on the published pricing table carries a maximum declared value. If a card receives a high grade, such as a PSA 10, or if its market value after grading exceeds that limit, PSA charges an upcharge equal to the difference between the original tier fee and the higher tier that now applies. Appaw Store then contacts you with the two options set out in the next question.',
             },
             {
               q: 'What can I do if one of my cards gets upcharged?',
               a: {
-                intro: 'We offer two options:',
+                intro: 'When PSA issues an upcharge, Appaw Store contacts you with two options.',
                 options: [
-                  'Pay the tier difference when you pick up the card (the gap between your original tier fee and the higher tier it now qualifies for).',
-                  'Tell us within the pickup window that you are waiving the card; we refund 50% of what you paid for that card.',
+                  'Pay the difference between the original tier fee and the higher tier that now applies. That difference is paid to 138 Arena at pickup. If an adjustment is involved, Appaw Store confirms the final amount.',
+                  'Within the pickup window that runs from Appaw Store\'s notice, waive the card. Appaw Store then refunds 50% of what you paid for that card.',
                 ],
               },
             },
@@ -1045,7 +1053,7 @@ export const en = {
             },
             {
               q: 'What happens after I get a PSA 10 back?',
-              a: 'You can collect at 138 Arena as usual. If you want help selling or consigning the slab, Appaw also runs a graded-card trading desk in Hong Kong. Ask at pickup or open the card trading page.',
+              a: 'You may collect the slab at 138 Arena in the ordinary way. A card trading platform is also available through Appaw Store. Consignment is landed mainly at 138 Arena, and the same cards are consigned in parallel on marketplaces. You may raise this at pickup, or open the card trading page.',
             },
           ],
         },
@@ -1245,7 +1253,103 @@ export const en = {
     locationValue: 'Hong Kong',
     phoneDisplay: '+852 9285 1189',
     privacy: 'Privacy Policy',
+    terms: 'Terms of Service',
     brLabel: 'BR',
+  },
+
+
+  termsPage: {
+    label: 'Legal',
+    title: 'Terms of Service',
+    lastUpdatedPrefix: 'Last updated',
+    lastUpdated: '30 August 2026',
+    brLabel: 'Business Registration No.',
+    hongKong: 'Hong Kong',
+    intro:
+      'These terms set out how Appaw Store Limited provides services through the website at appaw.store, and how that work is carried out with 138 Arena as the partner venue. They cover PSA grading submission, payment, storage and pickup, graded-card protectors, and card consignment. Please read them before you book a drop-off, place an order, or consign a card.',
+    sections: [
+      {
+        num: '01',
+        heading: 'Parties and roles',
+        body: [
+          'Appaw Store Limited, trading as Appaw Store, provides PSA grading submission, follow-up with the customer, and related collector services. 138 Arena in Causeway Bay is the partner venue for face-to-face work.',
+          '138 Arena is responsible for venue operations and for collecting payment. Appaw Store is responsible for the service itself and for follow-up. Because of that service relationship, Appaw Store may adjust the final price payable on a booking.',
+        ],
+      },
+      {
+        num: '02',
+        heading: 'Website',
+        body: [
+          'The website at appaw.store is operated by Appaw Store. By using the site you agree to these terms and to the privacy policy. The site publishes information about products and services, accepts bookings for PSA grading submission, and provides tracking for submitted batches, together with related tools.',
+          'Content on the site may be updated from time to time. The version that appears when you use a page is the one that applies to that visit, unless a later notice says otherwise.',
+        ],
+      },
+      {
+        num: '03',
+        heading: 'PSA grading submission',
+        body: [
+          'PSA grading submission is booked through the website and completed face to face at 138 Arena. Raw cards are not accepted by mail. The customer brings the cards to the partner venue, where intake, a preliminary inspection, and confirmation of the service tier take place.',
+          'Service tiers follow only the pricing table published on the PSA grading submission page: Regular, Express, Super Express, Walk-Through, and Reholder. Fees and declared-value limits are those shown on that table at the time of booking.',
+          'Final grades are set by PSA. Appaw Store does not guarantee a score. A preliminary inspection and any grade discussion at intake are references only. They are not a promise of a PSA 10 or of any other result.',
+        ],
+      },
+      {
+        num: '04',
+        heading: 'Fees and payment',
+        body: [
+          'Money for PSA grading submission is collected at 138 Arena. Appaw Store may adjust the final price because of the service relationship between the parties. Where an adjustment applies, Appaw Store confirms the amount and 138 Arena collects it.',
+          'If PSA issues an upcharge because a card grades above the declared-value limit of the chosen tier, two options are available. The customer may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window the customer may waive the card. In that case Appaw Store refunds 50% of what the customer paid for that card.',
+          'Published fees can change when PSA changes its own charges, service list, or processing times. The figures on the pricing table at booking apply unless a later PSA change or an upcharge requires a different amount.',
+        ],
+      },
+      {
+        num: '05',
+        heading: 'Storage and pickup',
+        body: [
+          'Returned PSA slabs are stored by Appaw Store. The fourteen-day pickup window starts when Appaw Store begins notifying the customer, by WhatsApp or email, that the cards are ready. It does not start from the PSA return date alone.',
+          'Handover is arranged at 138 Arena. Appaw Store holds the cards and, within fourteen days after the pickup notice is issued, arranges return at that partner venue.',
+          'If the cards are not collected within those fourteen days, they are treated as abandoned. Appaw Store sends an abandonment notice. Fees already paid are not refunded.',
+        ],
+      },
+      {
+        num: '06',
+        heading: 'Protectors',
+        body: [
+          'The Graded Slab UV Glass Protector is a third-party case sized for standard 35PT PSA and CGC slabs. It is not manufactured by PSA. Purchase channels include Etsy, Carousell, WhatsApp, and pickup at 138 Arena.',
+          'If any problem arises within fourteen days after the customer receives the goods, the customer may return the protector. The buyer pays the shipping cost of the return.',
+        ],
+      },
+      {
+        num: '07',
+        heading: 'Card trading and consignment',
+        body: [
+          'Appaw Store operates a card trading platform. The main landing for consignment is 138 Arena. Cards are also consigned in parallel on marketplaces. Meetups and handover for trading follow the arrangements described on the card trading pages.',
+        ],
+      },
+      {
+        num: '08',
+        heading: 'Liability',
+        body: [
+          'PSA sets grades and controls its own pipeline. Appaw Store is not liable for the grade PSA assigns, or for delays inside PSA\'s system.',
+          'Shipping from Hong Kong to PSA is arranged as part of the submission. Turnaround times published on the site are estimates and are not a guarantee. The clock does not start until PSA enters the order into its grading system.',
+          'Venue hours at 138 Arena are set by the venue and published on Instagram @138arena. Appaw Store does not control those hours.',
+        ],
+      },
+      {
+        num: '09',
+        heading: 'Contact',
+        body: [
+          'Questions about these terms, a booking, or an order may be sent by WhatsApp to +852-9285-1189 or by email to support@appaw.store.',
+        ],
+      },
+      {
+        num: '10',
+        heading: 'Changes',
+        body: [
+          'Appaw Store may update these terms from time to time. The date at the top of this page is the date of the latest revision. Continued use of the website or of the services after a change means you accept the updated terms. These terms were last updated on 30 August 2026.',
+        ],
+      },
+    ],
   },
 
   // Cookie Consent
@@ -1260,20 +1364,21 @@ export const en = {
   retailPartners: {
     badge: 'Where to Buy',
     title: 'Purchase Channels',
-    subtitle: 'Main selling floor at 138 Arena, Causeway Bay — or shop online.',
+    subtitle: 'Shop online, or collect at 138 Arena in Causeway Bay (partner venue).',
     buyNow: 'Shop Now',
-    orVisit: 'or visit our store & partners',
-    visitStore: 'Visit Store',
+    orVisit: 'or visit 138 Arena (partner venue)',
+    visitStore: 'Visit 138 Arena',
+    visitPartner: 'Visit on Instagram',
     getDirections: 'Get Directions',
     partners: {
       cardtheland: {
         name: 'Card The Land (咭之島)',
-        description: 'Hung Hom',
-        location: 'Unit G1B, 3/F, Kaiser Estate, Phase 2, Hung Hom',
+        description: 'Authorised partner · Hung Hom',
+        location: 'Unit G1B, 3/F, Kaiser Estate Phase 2, 20–28 Man Lok Street, Hung Hom',
       },
       arena138: {
         name: '138 Arena',
-        description: 'Our main Hong Kong selling location — protectors, graded cards, and PSA face-to-face drop-off in Causeway Bay.',
+        description: 'Partner venue. 138 Arena handles the floor and payment; Appaw Store handles the service and follow-up.',
         location: '1/F, 522 Jaffe Road, Causeway Bay, Hong Kong',
       },
       appawstore: {
@@ -1282,9 +1387,9 @@ export const en = {
       },
     },
     directDesc: 'Direct from manufacturer',
-    retailHint: 'Shop at 138 Arena, Causeway Bay',
+    retailHint: '138 Arena, Causeway Bay (partner venue)',
     onlineTitle: 'Online Store',
-    retailTitle: 'Main store',
+    retailTitle: 'Partner venue',
     partnerStoresTitle: 'Partner Stores',
     types: {
       online: 'Online',

@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: 'PSA Regrade Strategy: Review vs Crack & Resubmit',
   badge: 'Advanced Strategy',
   lead:
-    'For advanced collectors, upgrading a PSA 9 to a PSA 10 is the ultimate value multiplier. However, submitting an encased card for a PSA Review is notoriously difficult due to anchoring bias. Cracking the slab and submitting it raw eliminates this bias but introduces significant downgrade risks. Always run the Expected Value (EV) math before deciding to break plastic.',
+    'For collectors sitting on a high-value PSA 9, moving the same card to a PSA 10 can multiply the resale price. Sending the card still in its holder for a PSA Review is often blocked by anchoring: the grader already sees the existing 9. Cracking the slab and submitting it raw removes that bias, but it also opens a path to a lower grade. Run the expected-value math before you break the plastic.',
   published: '2026-08-09',
-  updated: '2026-08-09',
+  updated: '2026-08-30',
   readTime: '10 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -55,7 +55,7 @@ const guide: GuideContent = {
       paragraphs: [
         'Never crack a slab based on intuition. Use an Expected Value (EV) check first to see whether the upside covers the downside and fees.',
         'Consider a card worth $200 in a PSA 9, $800 in a PSA 10, and $50 in a PSA 8. If you are highly confident (60% chance of a 10, 40% chance of an 8), and grading costs $50, your EV is ($800 × 0.6) + ($50 × 0.4) - $50 = $450. Because $450 is significantly higher than your current $200 baseline, cracking makes mathematical sense.',
-        'Rule of thumb: Only attempt a crack and resubmit if the calculated EV is at least 1.5x to 2x the value of your current slab, and only if you have rigorously pre-screened the card yourself. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) before cracking: Appaw’s on-site preliminary inspection checks centering, surface dents, and corners, then estimates a realistic grade band. Basic cleaning before submission further reduces point-deduction risk from dust or oils.',
+        'Rule of thumb: Only attempt a crack and resubmit if the calculated EV is at least 1.5x to 2x the value of your current slab, and only if you have rigorously pre-screened the card yourself. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) before cracking. Appaw completes a preliminary inspection of centering, surface dents, and corners. That check is a reference only; PSA sets the final grade. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up.',
       ],
       formula: {
         result: 'Expected Value (EV)',
@@ -74,7 +74,7 @@ const guide: GuideContent = {
       paragraphs: [
         'If you want to move a BGS or CGC slab into a PSA holder, you can use PSA’s Crossover service. This allows you to submit the card in its competitor slab while specifying a "Minimum Grade" on your submission form.',
         'For example, you can submit a BGS 9.5 and set the Minimum Grade to PSA 10. The grader evaluates the card through the BGS plastic. If they believe it meets the PSA 10 standard, they break it out and reslab it. If they feel it falls short of your minimum, they return it untouched in the BGS slab (though you still pay the grading fee).',
-        'While this sounds ideal, it suffers from the same anchoring bias and visibility issues as a Review. Graders are naturally conservative when evaluating surface condition through thick, scuffed competitor plastic. Consequently, many high-end collectors still prefer cracking BGS slabs themselves to ensure a fair, raw evaluation by PSA. Once you commit to a raw resubmission, Hong Kong collectors can hand cards to Appaw’s PSA proxy at 138 Arena for batched shipping and online progress tracking.',
+        'While this sounds ideal, it suffers from the same anchoring bias and visibility issues as a Review. Graders are naturally conservative when evaluating surface condition through thick, scuffed competitor plastic. Consequently, many high-end collectors still prefer cracking BGS slabs themselves to ensure a fair, raw evaluation by PSA. Once you commit to a raw resubmission, Hong Kong collectors can hand cards to Appaw Store at 138 Arena. 138 Arena handles the floor and collects payment; Appaw Store batches the cards for PSA grading submission and provides online progress tracking.',
       ],
     },
   ],
@@ -92,21 +92,21 @@ const guide: GuideContent = {
       a: 'You face physical risk (accidentally damaging the card while breaking the plastic) and grade risk (today’s stricter standards might result in a lower grade than the card originally held).',
     },
     {
-      q: 'Can Hong Kong collectors submit crack-and-resubmit or crossover through a proxy?',
-      a: 'Yes. Drop off at 138 Arena in Causeway Bay. Appaw provides on-site preliminary condition checks and basic cleaning, then batches cards to PSA. Screening before you crack helps you decide whether the EV justifies the downgrade risk.',
+      q: 'Can Hong Kong collectors submit crack-and-resubmit or crossover through Appaw PSA grading submission?',
+      a: 'Yes. Book online, then complete intake at 138 Arena in Causeway Bay. 138 Arena handles the floor and collects payment. Appaw Store completes a preliminary inspection and batches the cards for PSA grading submission. That inspection is a reference only. Screening before you crack helps you decide whether the expected value justifies the downgrade risk.',
     },
   ],
   midCta: {
     afterSectionId: 'expected-value-math',
     title: 'Screen on-site before you crack',
-    body: 'Hong Kong collectors can visit 138 Arena for Appaw’s centering, surface, and corner check—then decide whether crack-and-resubmit is still worth it.',
-    primary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
+    body: 'Hong Kong collectors can visit 138 Arena for Appaw\'s centering, surface, and corner check, then decide whether crack-and-resubmit is still worth it. 138 Arena handles the floor and collects payment; Appaw Store runs the service and follow-up.',
+    primary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
     secondary: { label: 'Free Centering Tool', href: '/tools/card-centering/' },
   },
   cta: {
     title: 'Screen first, then submit in Hong Kong',
-    body: 'PSA 10 now requires a strict 55/45 front centering ratio. Run the free centering tool before you destroy a slab. Hong Kong collectors can also drop off at 138 Arena: Appaw provides professional inspection and basic cleaning, helping you chase the best grade without paying fees on cards that should stay put.',
-    primary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
+    body: 'PSA 10 now requires a 55/45 front centering ratio. Run the free centering tool before you destroy a slab. Hong Kong collectors who want to submit for grading book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. A preliminary inspection on arrival is a reference only; PSA sets the final grade.',
+    primary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
     secondary: { label: 'Free Centering Tool', href: '/tools/card-centering/' },
   },
   relatedSlugs: ['psa-reholder-guide', 'psa-10-centering-requirements', 'hong-kong-tcg-grading-guide'],

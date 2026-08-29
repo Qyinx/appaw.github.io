@@ -28,7 +28,7 @@ export const zh: Translations = {
         { text: '守護評級價值。', accent: false },
       ],
       h1Keyword: '香港 PSA卡殼・鑑定卡殼・35PT PSA卡保護殼專門店',
-      subtitle: '專為標準 35PT PSA/CGC 鑑定卡磚打造的磁吸防 UV 保護殼。',
+      subtitle: '專為標準 35PT PSA/CGC 鑑定卡打造的磁吸防 UV 保護殼。',
       description: '從防 UV 玻璃保護殼到專業的卡牌買賣服務，全方位助您保護珍藏、擴展收藏版圖。',
       cta: '立即選購',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
@@ -69,7 +69,7 @@ export const zh: Translations = {
       featureFocus: {
         uv: '有效阻隔有害光線，完美封存閃卡、全息及復古卡面的絢麗色彩。',
         magnets: '採用 N52 釹磁鐵，防塵密封，開合手感乾脆俐落。',
-        fit: '精準貼合標準 35PT PSA 及 CGC 鑑定卡磚。',
+        fit: '精準貼合標準 35PT PSA 及 CGC 鑑定卡。',
       },
     },
     specs: {
@@ -79,7 +79,7 @@ export const zh: Translations = {
       fullSpecsCta: '查看完整規格與價格',
       cta: '立即選購',
       tiles: {
-        compatibility: { hint: '專為標準 35PT PSA 及 CGC 鑑定卡磚量身打造。' },
+        compatibility: { hint: '專為標準 35PT PSA 及 CGC 鑑定卡量身打造。' },
         material: { hint: '金屬邊框結構，吸震防摔能力遠勝傳統壓克力卡殼。' },
         uvProtection: { hint: '強效阻隔有害光線，長效保護閃卡與全息卡面。' },
         origin: { hint: '香港用心設計，支援全球運送。' },
@@ -88,7 +88,7 @@ export const zh: Translations = {
         product: '產品名稱',
         productValue: '磁吸防 UV 鑑定卡保護殼（磁吸卡夾）',
         compatibility: '適用範圍',
-        compatibilityValue: '標準 35PT PSA 鑑定卡磚',
+        compatibilityValue: '標準 35PT PSA 鑑定卡',
         material: '材質工藝',
         materialValue: '抗 UV 強化玻璃搭配金屬邊框',
         closure: '閉合設計',
@@ -253,7 +253,7 @@ export const zh: Translations = {
     cardProtector: {
       title: '磁吸防 UV 鑑定卡保護殼',
       description:
-        '結合防 UV 強化玻璃與剛性金屬邊框，適用於標準 35PT PSA 及 CGC 鑑定卡磚，搭配 N52 磁吸設計，帶來博物館級的展示與防護效果。',
+        '結合防 UV 強化玻璃與剛性金屬邊框，適用於標準 35PT PSA 及 CGC 鑑定卡，搭配 N52 磁吸設計，帶來博物館級的展示與防護效果。',
       whatsappOrder: '你好！我有興趣訂購磁吸防UV鑑定卡保護殼。',
       teaserLine: '詳細規格、配色選擇及價格資訊，請參閱產品專頁。',
       startingPrice: '建議售價',
@@ -288,8 +288,8 @@ export const zh: Translations = {
         '整體手感：紮實份量，展現高級工藝質感',
       ],
       compatibility: {
-        fits: '標準 35PT PSA 鑑定卡磚（含寶可夢、運動卡、MTG 等）、CGC 卡磚',
-        notFits: '加厚實物卡/球衣卡、BGS 或 TAG 鑑定卡磚',
+        fits: '標準 35PT PSA 鑑定卡（含寶可夢、運動卡、MTG 等）、CGC 卡磚',
+        notFits: '加厚實物卡/球衣卡、BGS 或 TAG 鑑定卡',
         note: '本商品僅為保護殼，不包含圖片展示之 PSA 鑑定卡。',
       },
       cta: '立即選購',
@@ -297,7 +297,7 @@ export const zh: Translations = {
     },
     cardTrading: {
       title: '高階卡牌交易',
-      description: '一個讓您絕對放心的鑑定卡交易平台。無論是想入手夢幻逸品，還是獲利了結您的珍藏，我們都以最高標準的透明度與專業態度為您把關。',
+      description: '一個讓您絕對放心的鑑定卡交易平台。無論是想入手夢幻逸品，還是獲利了結您的珍藏，我們都以最高標準的透明度與專業態度為您把關。寄賣主要於 138 Arena 落地，並同步於市集寄賣。',
       badge: '交易與寄售服務',
       featureTitles: ['買賣撮合', '精準估價', '無憂寄售', '真偽把關'],
       chips: ['免收上架費', '專注 PSA 及 CGC', '香港面交保證', '成功售出才收費'],
@@ -344,8 +344,8 @@ export const zh: Translations = {
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
     badge: '旗艦級保護',
-    seoH1: '35PT 鑑定卡保護殼 、 防UV強化玻璃材質',
-    heroImageAlt: 'Appaw Store 35PT 鑑定卡保護殼，採用防UV強化玻璃與 N52 磁吸技術展示寶可夢 PTCG 鑑定卡磚',
+    seoH1: '35PT 鑑定卡保護殼｜香港 PSA卡殼',
+    heroImageAlt: 'Appaw Store 35PT 鑑定卡保護殼，採用防UV強化玻璃與 N52 磁吸技術展示寶可夢 PTCG 鑑定卡',
     heroCta: '瀏覽配色與售價 ↓',
     centeringCrossLink: {
       badge: '提交鑑定前實用工具',
@@ -355,10 +355,10 @@ export const zh: Translations = {
     },
     hkGuide: {
       badge: '香港藏家實用指南',
-      title: '如何挑選最合適的鑑定卡保護殼？',
+      title: '如何挑選 PSA卡殼／鑑定卡保護殼？',
       body: [
-        '標準的 PSA 及 CGC 鑑定卡磚厚度通常為 35PT。一款優秀的保護殼，應摒棄易碎的壓克力，改用高剛性金屬邊框，並配備防 UV 強化玻璃，以減緩閃卡及全息卡在長期展示下的褪色危機。',
-        'Appaw Store 專為香港 TCG 藏家及寶可夢、運動卡玩家設計了這款磁吸保護殼。不論擺放在家中、卡展還是實體店面都極具質感。歡迎親臨銅鑼灣 138 Arena 實際體驗。其 N52 磁吸設計讓您免鎖螺絲，幾秒鐘即可輕鬆換卡。',
+        '標準 PSA 及 CGC 鑑定卡約 35PT。搜尋PSA卡殼或鑑定卡保護殼時，應揀金屬邊框加防 UV 玻璃，而不是再套一層易碎壓克力，以免閃卡、全息卡長期展示褪色。',
+        'Appaw Store 專為香港 TCG 藏家及寶可夢、運動卡玩家設計了這款磁吸保護殼。不論擺放在家中、卡展還是實體店面都極具質感。歡迎前往銅鑼灣 138 Arena（合作場地）實際體驗。其 N52 磁吸設計讓您免鎖螺絲，幾秒鐘即可輕鬆換卡。',
         '提交鑑定前，建議先用免費的置中量度工具評估 PSA 10 機會；待愛卡獲取佳績後，再用這款保護殼為其提供最完善的防護。',
       ],
       fullGuideLink: '閱讀完整鑑定卡保護殼選購指南',
@@ -375,7 +375,7 @@ export const zh: Translations = {
       badge: '產品亮點',
       title: '旗艦級鑑定卡保護殼',
       body: [
-        '想找磁吸 PSA 卡殼？這款夾標準 35PT PSA 及 CGC 鑑定卡磚，防 UV 強化玻璃加 N52 磁吸，幾秒換卡。第三方保護殼，不是 PSA 官方出品。',
+        '想找香港 PSA卡殼？這款 35PT 鑑定卡保護殼夾標準 PSA 及 CGC 鑑定卡，防 UV 玻璃加 N52 磁吸，幾秒換卡。第三方，不是 PSA 官方產品。單色 HK$60，漸層 HK$80。',
         '具備超過 95% 的抗紫外線及防褪色效能，有效隔絕陽光侵害，大幅減緩閃卡與老卡在長期展示下褪色的狀況。剛硬的金屬邊框取代了脆弱的壓克力，特別適合將鑑定卡視為長期投資的眼光獨到藏家。',
         '強勁的 N52 釹磁鐵閉合系統，讓您幾秒鐘就能完成換卡，同時在攜帶與展示時保持絕佳的密合度。即使結合了玻璃與金屬材質，整體重量依然輕盈（僅 74 克）。完美支援您的寶可夢、運動卡及 MTG 珍藏。',
       ],
@@ -397,7 +397,7 @@ export const zh: Translations = {
       panelTitle: '支援卡磚規格',
       thicknessLabel: '適用厚度',
       thicknessValue: '35PT',
-      thicknessDesc: '標準 PSA / CGC 鑑定卡磚規格',
+      thicknessDesc: '標準 PSA / CGC 鑑定卡規格',
       cavityLabel: '內徑尺寸',
       cavityValue: '8.7 × 14.2 cm',
       verifyLabel: '適配度驗證',
@@ -405,8 +405,8 @@ export const zh: Translations = {
       verdictFail: '規格不符',
       verdictNote: '重點提示',
       passRows: [
-        { id: 'PSA-35PT', label: '標準 PSA 鑑定卡磚' },
-        { id: 'CGC-STD', label: '標準 CGC 鑑定卡磚' },
+        { id: 'PSA-35PT', label: '標準 PSA 鑑定卡' },
+        { id: 'CGC-STD', label: '標準 CGC 鑑定卡' },
       ],
       failRows: [
         { id: 'BGS-*', label: 'BGS 卡磚 (較厚)' },
@@ -504,6 +504,10 @@ export const zh: Translations = {
           q: '我可以從哪裡買到？支援寄送到海外嗎？',
           a: '您可以透過我們的 Etsy 商店（appawstore.etsy.com）、香港 Carousell 平台，或是直接 WhatsApp（+852-9285-1189）聯繫我們下單。目前支援運送至香港、台灣、新加坡、美國及英國等多個地區。',
         },
+        {
+          q: '收貨後如保護殼出現問題，可否退貨？',
+          a: '顧客收貨後十四日內，如鑑定卡保護殼出現任何問題，可以退貨。退貨運費由買方承擔。',
+        },
       ],
     },
   },
@@ -536,7 +540,7 @@ export const zh: Translations = {
         items: [
           {
             q: '請問面交地點通常安排在哪裡？',
-            a: '卡牌面交以銅鑼灣 138 Arena（謝斐道522號1/F）為主據點。請提前透過 WhatsApp（+852-9285-1189）預約時間。',
+            a: '卡牌面交多安排在銅鑼灣 138 Arena（謝斐道522號1/F，合作場地）。請提前透過 WhatsApp（+852-9285-1189）預約時間。',
           },
           {
             q: '支援哪些付款方式？',
@@ -774,7 +778,7 @@ export const zh: Translations = {
     hero: {
       title: '香港 PSA 評級代送',
       definition:
-        '我們與銅鑼灣 138 Arena 合作，提供面交 PSA 評級代送。代您將寶可夢、One Piece、運動卡或 MTG 妥善送交美國 PSA 總部，並協助挑選最具性價比的服務等級。每批訂單均附獨立追蹤編號，線上進度一目了然。當您的愛卡強勢回歸香港，我們第一時間通知取件。最重要的是：收件當下我們會坦誠與您討論卡況，避免您花冤枉錢（請留意，最終評級分數由 PSA 決定，我們無法保證分數）。',
+        '我們與銅鑼灣 138 Arena 合作做 PSA 評級代送：138 Arena 負責場務及收費，Appaw Store 負責服務及跟進。代您將寶可夢、One Piece、運動卡或 MTG 妥善送交美國 PSA 總部，並協助挑選最具性價比的服務等級。每批訂單均附獨立追蹤編號，線上進度一目了然。當您的愛卡強勢回歸香港，我們第一時間通知取件。最重要的是：收件當下我們會坦誠與您討論卡況，避免您花冤枉錢（請留意，最終評級分數由 PSA 決定，我們無法保證分數）。',
       ctaBook: '預約面交時段',
       ctaTrack: '查詢送件進度',
       ctaAdvisor: '了解我們的卡況顧問服務',
@@ -970,7 +974,7 @@ export const zh: Translations = {
           items: [
             {
               q: '香港常見的 TCG 卡牌都能送 PSA 嗎？',
-              a: '沒問題！寶可夢 TCG、One Piece 海賊王、萬智牌（MTG）及各類運動卡（包含裸卡或裝於軟卡套內）均可透過我們的服務於 138 Arena 門市提交代送。',
+              a: '沒問題！寶可夢 TCG、One Piece 海賊王、萬智牌（MTG）及各類運動卡（包含裸卡或裝於軟卡套內）均可透過 Appaw 評級代送，於 138 Arena（合作場地）交卡。',
             },
             {
               q: '我該如何預約送件時間？',
@@ -978,7 +982,7 @@ export const zh: Translations = {
             },
             {
               q: '收件與取件的地點在哪？',
-              a: '統一在銅鑼灣的 138 Arena 進行面交，絕不接受郵寄以保障卡片安全。詳細營業時間請參考他們的官方 Instagram @138arena。',
+              a: '交收均於銅鑼灣 138 Arena 當面進行。138 Arena 為合作場地，負責場務及收費；Appaw Store 負責服務及跟進。本服務不接受以郵寄方式提交裸卡。場地營業時間公布於 Instagram @138arena。',
             },
             {
               q: '有什麼類型的卡牌是不接受提交鑑定的嗎？',
@@ -995,8 +999,8 @@ export const zh: Translations = {
               a: '在「查詢進度」頁面，輸入您留的電話號碼及收據上的「參考編號」。為保護隱私，兩項資訊必須完全吻合才能查詢，我們也不會在電話中透露客戶資料。',
             },
             {
-              q: '我同一次送了不同方案（例如 Value 跟 Express），怎麼查？',
-              a: '不同的服務方案會有不同的處理速度，因此會被分在不同的 BAT 批次中。請使用同一個電話號碼，分別輸入不同的參考編號來查詢各自的進度。',
+              q: '若同一次交卡包含價目表上列明的不同方案（例如 Regular 與 Express），應如何查詢進度？',
+              a: '價目表上列明的各項方案，例如 Regular 與 Express，處理速度並不相同，因此會分入不同的 BAT 批次。請以同一個電話號碼，分別輸入各批次的參考編號，查詢各自進度。',
             },
             {
               q: '系統上的各種狀態代表什麼意思？',
@@ -1009,24 +1013,28 @@ export const zh: Translations = {
           label: '取件與收費相關',
           items: [
             {
-              q: '卡片回來後，我有多久的時間可以去拿？',
-              a: '當系統顯示「可於 138 Arena 取件」，且您收到我們的 WhatsApp 或 Email 通知起算，請在 14 天內撥空前來取回您的愛卡。',
+              q: 'PSA 評級代送的費用由誰收取？',
+              a: 'PSA 評級代送的費用由 138 Arena 收取。138 Arena 作為合作場地，負責場務及收費；Appaw Store 負責服務及跟進。基於雙方的服務安排，Appaw Store 可調整最終應付金額，顧客以調整後的金額繳付。',
             },
             {
-              q: '如果超過 14 天都沒去拿會怎樣？',
-              a: '若逾期 14 天仍未取回，為避免無限期的倉儲保管風險，將視同您主動放棄該卡片之所有權。我們會發送正式的「放棄取回通知」，且無法退還任何已繳納的服務費用，請務必留意時間。',
+              q: '卡片交還後，應於何時取件？',
+              a: '鑑定卡由 PSA 交還後，由 Appaw Store 保管。系統顯示可於 138 Arena 取件後，Appaw Store 會以 WhatsApp 或電郵發出取件通知。十四日取件期限由發出該通知當日起計，並非單純以 PSA 交還日期起算。您須於該十四日內，前往合作場地 138 Arena 取回卡片。',
             },
             {
-              q: '什麼是 PSA 的 Upcharge（超值加價）？',
-              a: '當您的卡片獲得超乎預期的高分（例如 PSA 10），導致其市場價值暴增，超過了您當初選定方案的「最高申報價值」上限時，PSA 就會強制要求補足更高等級方案的差額，這就是 Upcharge。這其實是種「甜蜜的負擔」。',
+              q: '若於十四日內未取回卡片，將如何處理？',
+              a: '若您於 Appaw Store 發出取件通知起計十四日內仍未取回卡片，該批卡片將視作已被放棄。Appaw Store 其後會發出放棄取回通知，已繳費用不予退還。',
             },
             {
-              q: '如果遇到 Upcharge 被加收費用，我有什麼選擇？',
+              q: 'PSA 為何會發出加價（upcharge）？',
+              a: '價目表上每一項方案均設有最高申報價值限制。若卡片評級後獲得高分（例如 PSA 10），或其市值超出該上限，PSA 會按原方案與較高方案之間的收費差額發出加價。Appaw Store 隨後會聯絡您，並說明下一題所述的兩項選擇。',
+            },
+            {
+              q: '若其中一張卡片被加價，應如何處理？',
               a: {
-                intro: '遇到這種情況，我們會立刻聯絡您，並提供以下兩種方案：',
+                intro: '若 PSA 就某張卡片發出加價，Appaw Store 會聯絡您，並提供以下兩項選擇。',
                 options: [
-                  '補足差價：在您來取卡時，補繳升級後方案的差額，將高價值的愛卡帶回家。',
-                  '放棄取回：若您不想補繳，可通知我們放棄取回該卡，我們將退還您當初已繳交金額的 50% 補償給您。',
+                  '於取件時向 138 Arena 補繳原方案與較高方案之間的差額。若涉及調整，則由 Appaw Store 確認最終金額。',
+                  '在取件期限內聲明放棄該卡。Appaw Store 其後會退還該卡已繳金額的百分之五十。',
                 ],
               },
             },
@@ -1045,8 +1053,8 @@ export const zh: Translations = {
               a: '很抱歉，沒有人能 100% 保證。我們能做的是幫您「避雷」，過濾掉那些肉眼可見、注定拿低分的卡片，提高整批送件的投資報酬率。任何分數預估都只是經驗分享，最終裁決仍在 PSA 鑑定師。',
             },
             {
-              q: '順利拿到 PSA 10 後，想賣掉怎麼辦？',
-              a: '除了依約在 138 Arena 取回卡片外，Appaw 更設有專業的卡牌交易平台。如果您想獲利了結，取件時直接告訴我們，我們可以無縫接軌幫您安排寄售事宜。',
+              q: '順利取得 PSA 10 後，如擬出售，應如何處理？',
+              a: '您可依安排於 138 Arena 取回鑑定卡。Appaw Store 另設有卡牌交易平台。寄賣主要於 138 Arena 落地，並同步於市集寄賣。您可於取件時提出，或於卡牌交易頁面查閱。',
             },
           ],
         },
@@ -1244,7 +1252,103 @@ export const zh: Translations = {
     locationValue: '立足香港，服務全球',
     phoneDisplay: 'WhatsApp 客服：+852 9285 1189',
     privacy: '私隱保護政策',
-    brLabel: '合法商業登記',
+    terms: '服務條款',
+    brLabel: 'BR:',
+  },
+
+
+  termsPage: {
+    label: '法律資訊',
+    title: '服務條款',
+    lastUpdatedPrefix: '最後更新日期',
+    lastUpdated: '2026年8月30日',
+    brLabel: '商業登記號碼',
+    hongKong: '香港',
+    intro:
+      '本條款說明 Appaw Store Limited 如何透過網站 appaw.store 提供服務，以及如何與合作場地 138 Arena 分工辦理。條文涵蓋 PSA 評級代送、費用繳付、保管與取件、鑑定卡保護殼，以及卡牌寄賣。顧客在預約交卡、下單或寄賣前，應先閱讀本條款。',
+    sections: [
+      {
+        num: '01',
+        heading: '當事人與分工',
+        body: [
+          'Appaw Store Limited 以 Appaw Store 名義，提供 PSA 評級代送、與顧客的後續跟進，以及相關收藏服務。銅鑼灣 138 Arena 為面交辦理的合作場地。',
+          '138 Arena 負責場務及收費；Appaw Store 負責服務本身及跟進。基於雙方的服務安排，Appaw Store 可調整最終應付金額。',
+        ],
+      },
+      {
+        num: '02',
+        heading: '網站',
+        body: [
+          '網站 appaw.store 由 Appaw Store 營運。使用本網站，即表示同意本條款及私隱政策。網站公布產品與服務資料、接受 PSA 評級代送預約，並提供已提交批次的進度查詢及相關工具。',
+          '網站內容可不時更新。除非另有通知，顧客使用某頁面當時所見的版本，即適用於該次瀏覽。',
+        ],
+      },
+      {
+        num: '03',
+        heading: 'PSA 評級代送',
+        body: [
+          'PSA 評級代送須先於網站預約，並於 138 Arena 當面辦理。本服務不接受以郵寄方式提交裸卡。顧客須親自將卡片帶至合作場地，由現場完成點收、初步檢視，並確認服務方案。',
+          '服務方案僅以 PSA 評級代送頁面公布的價目表為準，包括 Regular、Express、Super Express、Walk-Through 及 Reholder。收費及最高申報價值限制，以預約當時價目表所列為準。',
+          '最終評級由 PSA 決定。Appaw Store 不保證分數。交卡時的初步檢視及任何分數討論，僅供參考，並不構成對 PSA 10 或其他結果的承諾。',
+        ],
+      },
+      {
+        num: '04',
+        heading: '費用及付款',
+        body: [
+          'PSA 評級代送的費用由 138 Arena 收取。基於雙方的服務安排，Appaw Store 可調整最終應付金額。若有調整，由 Appaw Store 確認金額，再由 138 Arena 收取。',
+          '若卡片評級後的市值或分數超出所選方案的最高申報價值，PSA 可能發出加價。顧客有兩項選擇。其一，於取件時向 138 Arena 補繳原方案與較高方案之間的差額；若涉及調整，則由 Appaw Store 確認最終金額。其二，在取件期限內聲明放棄該卡，由 Appaw Store 退還該卡已繳金額的百分之五十。',
+          '價目表上的收費可隨 PSA 調整其收費、服務項目或處理時間而變更。除後來因 PSA 變更或加價而須另計的金額外，以預約當時價目表為準。',
+        ],
+      },
+      {
+        num: '05',
+        heading: '保管及取件',
+        body: [
+          'PSA 交還的鑑定卡由 Appaw Store 保管。十四日取件期限，由 Appaw Store 開始以 WhatsApp 或電郵通知顧客可以取件當日起計，並非單純以 PSA 交還日期起算。',
+          '交還地點為 138 Arena。Appaw Store 保管卡片，並於發出取件通知後十四日內，安排於該合作場地交還。',
+          '若顧客於上述十四日內仍未取回，該批卡片將視作已被放棄。Appaw Store 會發出放棄取回通知，已繳費用不予退還。',
+        ],
+      },
+      {
+        num: '06',
+        heading: '鑑定卡保護殼',
+        body: [
+          '磁吸防 UV 鑑定卡保護殼為第三方保護殼，適用於標準 35PT 的 PSA 及 CGC 鑑定卡，並非由 PSA 製造。購買途徑包括 Etsy、Carousell、WhatsApp，以及於 138 Arena 取貨。',
+          '顧客收貨後十四日內，如保護殼出現任何問題，可以退貨。退貨運費由買方承擔。',
+        ],
+      },
+      {
+        num: '07',
+        heading: '卡牌交易及寄賣',
+        body: [
+          'Appaw Store 設有卡牌交易平台。寄賣主要於 138 Arena 落地，並同步於市集寄賣。面交及交收安排，以卡牌交易頁面所述為準。',
+        ],
+      },
+      {
+        num: '08',
+        heading: '責任範圍',
+        body: [
+          '評級由 PSA 決定，鑑定流程亦由其控制。Appaw Store 不就 PSA 給予的分數，或 PSA 系統內的延誤承擔責任。',
+          '由香港送往 PSA 的付運，屬評級代送的一部分。網站所列周轉時間僅為估計，並不構成保證。計時於 PSA 將訂單輸入其評級系統後方開始。',
+          '138 Arena 的營業時間由場地決定，並公布於 Instagram @138arena。Appaw Store 並不控制該等時間。',
+        ],
+      },
+      {
+        num: '09',
+        heading: '聯絡',
+        body: [
+          '有關本條款、預約或訂單的查詢，可透過 WhatsApp 致電 +852-9285-1189，或電郵至 support@appaw.store 提出。',
+        ],
+      },
+      {
+        num: '10',
+        heading: '變更',
+        body: [
+          'Appaw Store 可不時修訂本條款。本頁頂部日期為最近一次修訂的日期。條款變更後，如繼續使用網站或服務，即視為接受修訂後的條款。本條款最近更新日期為 2026 年 8 月 30 日。',
+        ],
+      },
+    ],
   },
 
   // Cookie Consent
@@ -1259,23 +1363,24 @@ export const zh: Translations = {
   retailPartners: {
     badge: '哪裡買得到？',
     title: '實體與線上購買渠道',
-    subtitle: '主銷售據點為銅鑼灣 138 Arena。亦可線上訂購。',
+    subtitle: '可線上訂購，或前往銅鑼灣 138 Arena（合作場地）取貨。',
     buyNow: '線上馬上買',
     orVisit: '或親臨各大合作據點',
-    visitStore: '造訪門市',
+    visitStore: '前往 138 Arena',
+    visitPartner: '前往 Instagram',
     getDirections: '查看地圖',
     directDesc: '官方品牌直營',
-    retailHint: '主據點前往銅鑼灣 138 Arena',
+    retailHint: '合作場地：銅鑼灣 138 Arena',
     onlineTitle: '官方網上商店',
-    retailTitle: '主店',
+    retailTitle: '合作場地',
     partnerStoresTitle: '精選經銷店舖',
     types: {
       online: '網上購物',
       retail: '實體體驗',
     },
     tags: {
-      authorized: '主銷售據點',
-      main: '主銷售據點',
+      authorized: '合作場地',
+      main: '合作場地',
       fullService: '全服務',
       partner: '經銷商',
       official: '官方直營店',
@@ -1284,12 +1389,12 @@ export const zh: Translations = {
     partners: {
       cardtheland: {
         name: '咭之島 (Card The Land)',
-        description: '紅磡區',
-        location: '紅磡凱旋工商中心2期3樓G1B室',
+        description: '合作經銷商 · 紅磡',
+        location: '紅磡民樂街20-28號凱旋工商中心2期3樓G1B室',
       },
       arena138: {
         name: '138 Arena',
-        description: 'Appaw 香港主銷售據點 — 保護殼、鑑定卡交易，以及 PSA 面交評級代送，盡在銅鑼灣。',
+        description: '合作場地。138 Arena 負責場務及收費；Appaw Store 負責服務及跟進。',
         location: '銅鑼灣謝斐道522號1/F',
       },
       appawstore: {

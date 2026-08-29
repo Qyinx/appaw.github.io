@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     'A scratched or scuffed slab does not mean your card is damaged. The PSA Standard Reholder service costs $14.99 and encapsulates your card in a fresh plastic case with a new label, keeping your grade and cert number intact. However, if PSA detects new damage or fading during the transfer, they can lower the grade, making this process not entirely risk-free.',
   published: '2026-08-09',
-  updated: '2026-08-09',
+  updated: '2026-08-30',
   readTime: '7 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -35,7 +35,7 @@ const guide: GuideContent = {
       paragraphs: [
         'The PSA Reholder service focuses strictly on cosmetic maintenance for the slab itself. Graders remove your card from its old case and seal it in the latest acrylic holder with fresh label stock. Throughout this process, your card’s grade, certification number, and population history are preserved.',
         'This service is perfect for straightforward physical wear: superficial scuffs, clouded plastic, minor edge dulling, or a fading label on an otherwise pristine card. If you are entirely satisfied with the grade but simply want to refresh the presentation or unify older slab styles in your collection, Reholder is the optimal path.',
-        'Keep in mind that the $14.99 Standard Reholder fee does not cover shipping or insurance. To make the economics work—especially for international collectors—you should consolidate multiple scuffed slabs into a single submission batch to dilute the fixed logistics costs. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) in Causeway Bay, where Appaw’s PSA proxy submission service folds Reholder cards into shared batches and removes the hassle of self-shipping overseas.',
+        'Keep in mind that the $14.99 Standard Reholder fee does not cover shipping or insurance. To make the economics work—especially for international collectors—you should consolidate multiple scuffed slabs into a single submission batch to dilute the fixed logistics costs. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) in Causeway Bay, where Appaw’s PSA grading submission service folds Reholder cards into shared batches and removes the hassle of self-shipping overseas.',
       ],
       bridge: 'While Reholder is designed as a simple cosmetic fix, collectors must understand the boundaries and hidden risks involved.',
     },
@@ -87,14 +87,14 @@ const guide: GuideContent = {
       a: 'No. If the error is a clear clerical mistake by PSA (like a typo or missing variation), you can submit a CRC Label Correction request to have it reholdered for free, including shipping.',
     },
     {
-      q: 'Can I submit PSA Reholder through a Hong Kong proxy?',
-      a: 'Yes. Hong Kong collectors can drop off at 138 Arena in Causeway Bay. Appaw’s PSA proxy service batches Reholder submissions for you and can assess whether the slab damage fits a simple Reholder before you ship. See the PSA submission page for details.',
+      q: 'Can I submit PSA Reholder through Appaw PSA grading submission in Hong Kong?',
+      a: 'Yes. Hong Kong collectors book online, then complete intake at 138 Arena in Causeway Bay. 138 Arena handles the floor and collects payment. Appaw Store folds Reholder cards into the PSA grading submission batch and can assess whether the holder damage still fits a simple Reholder. See the PSA grading submission page for details.',
     },
   ],
   cta: {
     title: 'Need a Reholder? Drop off in Hong Kong',
-    body: 'Hong Kong collectors can drop off at 138 Arena. Appaw provides on-site preliminary condition checks and shared-batch PSA Reholder shipping, so you avoid mis-routing a scratched slab into a risky regrade. After the refreshed slab returns, add a magnetic UV-blocking case to guard against daily wear.',
-    primary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
+    body: 'Hong Kong collectors book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs a preliminary inspection and folds Reholder cards into the PSA grading submission batch so a scratched slab is not sent down a regrade path by mistake. Reholder is one of the published tiers. After the refreshed slab returns, add a magnetic ultraviolet-blocking case.',
+    primary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
     secondary: { label: 'Shop PSA Protectors', href: '/products/psa-protectors/' },
   },
   relatedSlugs: ['psa-review-vs-crack', 'hong-kong-tcg-grading-guide', 'grade-or-protect-first'],

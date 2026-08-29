@@ -21,11 +21,11 @@ export function webSiteJsonLd() {
 export function storeJsonLd() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Store',
+    '@type': 'Organization',
     name: 'Appaw Store',
     legalName: 'Appaw Store',
     alternateName: ['Appaw', 'APPAW Store'],
-    description: 'Premium Graded Slab UV Glass Protector and TCG trading & brokerage in Hong Kong',
+    description: 'Hong Kong brand for 35PT PSA/CGC slab protectors and PSA grading submission. Face-to-face work at partner venue 138 Arena: venue and payment by 138 Arena; service and follow-up by Appaw.',
     slogan: 'Protect What Matters. Display What You Love.',
     foundingDate: '2024',
     url: SITE_ORIGIN,
@@ -44,25 +44,18 @@ export function storeJsonLd() {
       'PSA regrade and reholder decisions',
       'Card centering measurement for graded slabs',
       'PSA 10 centering requirements',
-      'PSA submission Hong Kong',
-      'PSA card submission proxy service',
+      'PSA grading submission Hong Kong',
+      'PSA grading submission (Hong Kong, partner venue)',
       'Hong Kong TCG grading submission',
-      'TCG card PSA proxy service',
+      'Hong Kong TCG PSA grading submission',
     ],
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'HK',
       addressLocality: 'Hong Kong',
     },
-    geo: { '@type': 'GeoCoordinates', addressCountry: 'HK' },
     telephone: '+852-9285-1189',
     email: 'support@appaw.store',
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: '10:00',
-      closes: '22:00',
-    },
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+852-9285-1189',
@@ -75,12 +68,10 @@ export function storeJsonLd() {
       SOCIAL_THREADS_URL,
       'https://appawstore.etsy.com/',
       'https://www.carousell.com.hk/u/appaw.store/',
-      'https://maps.app.goo.gl/Gybs958UrANZSM3Z7',
     ],
     makesOffer: [
       { '@type': 'Offer', url: 'https://appaw.store/products/psa-protectors/', name: 'Graded Slab UV Glass Protector' },
-      { '@type': 'Offer', url: 'https://appaw.store/business/card-trading/', name: 'TCG Trading & Brokerage' },
-      { '@type': 'Offer', url: 'https://appaw.store/business/psa-grading/', name: 'PSA Collectibles Submission (Hong Kong)' },
+      { '@type': 'Offer', url: 'https://appaw.store/business/psa-grading/', name: 'PSA grading submission (Hong Kong)' },
     ],
   };
 }

@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: 'PSA 10 Centering Requirements Explained',
   badge: 'Grading Spec',
   lead:
-    'PSA 9 is the most expensive grade. Not because the card is bad. Because centering failed by a few percent and you still paid the full grading fee. Measure first. It is the cheapest filter you have.',
+    'A PSA 9 is often the most expensive grade a collector pays for, not because the cardboard is damaged, but because centering missed by a few percent and the full grading fee was still due. Measuring front and back margins before you submit is the cheapest filter available.',
   published: '2026-06-07',
-  updated: '2026-08-05',
+  updated: '2026-08-30',
   readTime: '10 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -76,7 +76,7 @@ const guide: GuideContent = {
         'Factory cut drift: uneven trim at production. Screen every raw purchase with a centering tool, do not discover it at grading checkout.',
         'Print shift: artwork sits off-center even when border math looks close. Check overall eye appeal from multiple angles.',
         'TCG narrow borders: Pokémon and similar designs leave less margin for error, 55/45 tolerance bites harder.',
-        'Pre-submit checklist: only send copies that pass centering plus strong corners, surface, and edges. Hong Kong collectors drop off at [138 Arena PSA submission](/business/psa-grading/). We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Batch tracking is available online. Save measurements and photos as your paper trail.',
+        'Pre-submit checklist: only send copies that pass centering plus strong corners, surface, and edges. Hong Kong collectors drop off at [138 Arena](/business/psa-grading/). 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. A preliminary inspection on arrival is a reference only. Batch tracking is available online. Save measurements and photos as your paper trail.',
       ],
     },
     {
@@ -118,15 +118,15 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'psa-10-standard',
     title: 'Measure your copy against PSA 10 now',
-    body: 'Upload a flat scan or seller photo and compare front and back margins to the 55/45 and 75/25 thresholds. Hong Kong collectors can drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
+    body: 'Upload a flat scan or seller photo and compare front and back margins to the 55/45 and 75/25 thresholds. Hong Kong collectors can then book online and complete intake at 138 Arena if they decide the fee is worth paying.',
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
-    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },
   cta: {
     title: 'Check your margins in minutes',
-    body: 'Centering passes? Drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
+    body: 'If the margins pass, Hong Kong collectors who want to submit for grading book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. A preliminary inspection on arrival is a reference only; PSA sets the final grade.',
     primary: { label: 'Free Centering Calculator', href: '/tools/card-centering/' },
-    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['grade-or-protect-first', 'psa-review-vs-crack', 'choose-35pt-slab-protector', 'display-graded-cards'],
   sources: [

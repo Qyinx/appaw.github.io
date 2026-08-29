@@ -9,6 +9,7 @@ export const SITEMAP_PUBLIC_PATHS = [
   { path: '/', changeFrequency: 'weekly' as const, priority: 1 },
   { path: '/about/', changeFrequency: 'monthly' as const, priority: 0.8 },
   { path: '/privacy/', changeFrequency: 'yearly' as const, priority: 0.2 },
+  { path: '/terms/', changeFrequency: 'yearly' as const, priority: 0.2 },
   { path: '/products/psa-protectors/', changeFrequency: 'weekly' as const, priority: 0.95 },
   { path: '/business/', changeFrequency: 'weekly' as const, priority: 0.9 },
   { path: '/business/psa-grading/', changeFrequency: 'weekly' as const, priority: 0.85 },

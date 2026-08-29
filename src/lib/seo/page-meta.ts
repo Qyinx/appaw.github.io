@@ -58,6 +58,17 @@ export const PAGE_META: Record<string, LocaleMeta> = {
       description: '了解 Appaw Store 如何收集、使用及保護您的資料。',
     },
   },
+  '/terms': {
+    en: {
+      title: 'Terms of Service | Appaw Store',
+      description:
+        'Terms of service for Appaw Store covering PSA grading submission, payment at 138 Arena, storage and pickup, protectors, and consignment.',
+    },
+    zh: {
+      title: '服務條款 | Appaw Store',
+      description: 'Appaw Store 服務條款，說明 PSA 評級代送、於 138 Arena 繳費、保管與取件、鑑定卡保護殼及卡牌寄賣。',
+    },
+  },
   '/collection': {
     en: {
       title: 'My Collection — Track Graded Cards & Portfolios | Appaw Store',

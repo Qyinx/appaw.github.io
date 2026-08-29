@@ -2,12 +2,12 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'psa-grading-standards',
-  title: 'PSA 10 評級標準拆解：置中 55/45 門檻與門市初步評估',
+  title: 'PSA 10 評級標準拆解：置中 55/45 門檻與現場初步評估',
   badge: '鑑定規格',
   lead:
-    '完整拆解 PSA 10 評級標準，說明 1 至 10 分評分標準、正面 55/45 與背面 75/25 置中門檻、Qualifier（OC、ST、PD）扣分代碼，以及 PSA 10 相對 PSA 9 的價格溢價。香港藏家可親臨銅鑼灣 138 Arena 面交，由 Appaw 提供現場卡況初步評估，再決定是否提交鑑定。',
+    'PSA 10 的官方置中門檻為正面 55/45、背面 75/25。只要正面超出該比例，即使四角銳利，通常亦會降至 PSA 9。本文說明 1 至 10 分評分標準、Qualifier（OC、ST、PD）扣分代碼，以及 PSA 10 相對 PSA 9 的價格溢價。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。',
   published: '2026-06-18',
-  updated: '2026-08-15',
+  updated: '2026-08-30',
   readTime: '14 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -48,7 +48,7 @@ const guide: GuideContent = {
       id: 'grade-scale',
       title: 'PSA 官方 1–10 評分標準',
       paragraphs: [
-        'PSA 以以下五項綜合評分，1 分為品相極差，10 分 Gem Mint 為近乎完美。下表為各等級官方狀態與核心外觀要求。',
+        'PSA 以以下五項綜合評分，1 分為品相極差，10 分 Gem Mint 為量表最高一級。下表為各等級官方狀態與核心外觀要求。',
       ],
       bulletGroups: [
         {
@@ -165,7 +165,7 @@ const guide: GuideContent = {
       id: 'record-sales',
       title: 'PSA 10 天價成交紀錄',
       paragraphs: [
-        'PSA 10 Gem Mint 在拍賣市場常出現數量級溢價。以下三筆公開成交說明市場如何為完美品相定價。',
+        'PSA 10 Gem Mint 在拍賣市場常出現數量級溢價。以下三筆公開成交說明市場如何為最高一級品相定價。',
       ],
       bulletGroups: [
         {
@@ -201,11 +201,11 @@ const guide: GuideContent = {
           items: [
             {
               label: '指南索引',
-              text: '參閱更多 [收藏指南索引](/guides/)，全面掌握鑑定防護知識。',
+              text: '參閱更多 [收藏指南索引](/guides/)，了解鑑定卡保護與提交鑑定的相關步驟。',
             },
             {
-              label: '香港代送鑑定',
-              text: '可親臨銅鑼灣合作門市 138 Arena 面交評估卡況及提交鑑定。現場提供專業驗卡與清潔保養，協助降低扣分風險，詳見 [PSA 收藏卡代送鑑定](/business/psa-grading/)。',
+              label: '香港評級代送',
+              text: '可親臨銅鑼灣合作場地 138 Arena 當面辦理提交鑑定。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視及評級代送跟進。詳見 [PSA 評級代送](/business/psa-grading/)。',
             },
             {
               label: '置中篩選',
@@ -227,7 +227,7 @@ const guide: GuideContent = {
     },
     {
       q: 'PSA 鑑定費用用如何計算？',
-      a: '依服務等級（Value、Regular、Express 等）與申報價值（Declared Value）而定；大量提交鑑定另有批量方案。最新價目與週期請查 psacard.com/services。',
+      a: '香港 PSA 評級代送的公布方案為 Regular、Express、Super Express、Walk-Through 及 Reholder，收費及最高申報價值以預約當時價目表為準，詳見 PSA 評級代送頁面。費用由 138 Arena 收取；若有調整，由 Appaw Store 確認最終金額。PSA 官方價目與週期亦可查 psacard.com/services。',
     },
     {
       q: '收到評級後如何驗證鑑定殼真偽？',
@@ -247,9 +247,9 @@ const guide: GuideContent = {
   },
   cta: {
     title: '提交鑑定前先測量邊距',
-    body: '上傳照片比對正背面置中是否符合 PSA 10 的 55/45 門檻，理性評估提交鑑定的價值。香港藏家亦可親臨 138 Arena 門市，由 Appaw 團隊提供專業驗卡與清潔保養服務，全力協助珍藏爭取最佳評級。',
+    body: '上傳照片比對正背面置中是否符合 PSA 10 的 55/45 門檻，再決定是否支付鑑定費用。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA 評級代送及跟進，並可調整最終應付金額。現場初步檢視僅供參考，最終分數由 PSA 決定。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
-    secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
   },
   relatedSlugs: [
     'psa-10-centering-requirements',

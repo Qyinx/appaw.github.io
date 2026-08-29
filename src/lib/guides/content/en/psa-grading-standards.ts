@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: 'PSA 10 Grading Standards: 55/45 Centering Rules & On-Site Check',
   badge: 'Grading Spec',
   lead:
-    'A PSA 10 card can command a 5x price premium over a PSA 9. Master the 1–10 scale, 55/45 centering thresholds, surface flaw rules, and qualifier codes before submitting.',
+    'A PSA 10 can sell for several times the price of a PSA 9 of the same card. The official Gem Mint front centering threshold is 55/45; the back is 75/25. Read the 1–10 scale, surface-flaw rules, and qualifier codes (OC, ST, PD) before you pay a grading fee.',
   published: '2026-06-18',
-  updated: '2026-08-08',
+  updated: '2026-08-30',
   readTime: '14 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
@@ -123,7 +123,7 @@ const guide: GuideContent = {
       title: 'PSA Qualifier Codes',
       paragraphs: [
         'A card may meet a numeric grade overall but carry a Qualifier when one major flaw is present, shown as "PSA 8 OC" on the label. Many collectors prefer NQ (No Qualifier) grades for cleaner interpretation.',
-        'Surface dirt, wax residue, and light staining often map to ST (Staining) qualifiers. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. Note that this cannot remove factory print defects (PD) or off-center issues (OC).',
+        'Surface dirt, wax residue, and light staining often map to ST (Staining) qualifiers. On arrival, Appaw completes a preliminary inspection and may apply basic surface cleaning. That check is a reference only; PSA sets the final grade. 138 Arena handles the floor and collects payment. Appaw Store may adjust the final amount. Note that this cannot remove factory print defects (PD) or off-center issues (OC).',
       ],
       bulletGroups: [
         {
@@ -205,7 +205,7 @@ const guide: GuideContent = {
             },
             {
               label: 'Hong Kong submission',
-              text: 'Drop off at 138 Arena, Causeway Bay. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection. See [PSA collectibles submission](/business/psa-grading/).',
+              text: 'Drop off at 138 Arena, Causeway Bay. On arrival, Appaw completes a preliminary inspection and may apply basic surface cleaning. That check is a reference only; PSA sets the final grade. 138 Arena handles the floor and collects payment. Appaw Store may adjust the final amount. See [PSA collectibles submission](/business/psa-grading/).',
             },
             {
               label: 'Centering screen',
@@ -227,7 +227,7 @@ const guide: GuideContent = {
     },
     {
       q: 'How are PSA grading fees calculated?',
-      a: 'Fees depend on service tier and declared value; bulk tiers exist for large submissions. Check psacard.com/services for current pricing and turnaround.',
+      a: 'Hong Kong PSA grading submission publishes Regular, Express, Super Express, Walk-Through, and Reholder. Fees and declared-value limits follow the table at booking. Money is collected at 138 Arena; if an adjustment applies, Appaw Store confirms the final amount. PSA\'s own price list is at psacard.com/services.',
     },
     {
       q: 'How do I verify my PSA slab after grading?',
@@ -247,9 +247,9 @@ const guide: GuideContent = {
   },
   cta: {
     title: 'Measure centering before you submit',
-    body: 'Upload raw or seller photos against PSA 10 thresholds. Hong Kong collectors can drop off at 138 Arena. We provide free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we reduce point-deduction risks during grading and strive for the highest possible grade for your collection.',
+    body: 'Upload raw or seller photos against the PSA 10 55/45 and 75/25 thresholds, then decide whether the fee is worth paying. Hong Kong collectors who want to submit for grading book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. A preliminary inspection on arrival is a reference only; PSA sets the final grade.',
     primary: { label: 'Free centering tool', href: '/tools/card-centering/' },
-    secondary: { label: 'PSA submission (HK)', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },
   relatedSlugs: [
     'psa-10-centering-requirements',

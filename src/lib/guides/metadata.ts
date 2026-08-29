@@ -19,8 +19,8 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
     'PSA 置中要求',
     'PSA Qualifier',
     '裸卡送鑑',
-    'PSA 代送鑑定',
-    '香港 PSA 代送',
+    'PSA 評級代送',
+    '香港 PSA 評級代送',
     '寶可夢 PSA 鑑定',
   ],
   'identify-fake-psa-slabs': [
@@ -51,8 +51,8 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
     'PSA 10 對中要求',
     '置中測量',
     '裸卡送鑑',
-    'PSA 代送鑑定',
-    '香港 PSA 代送',
+    'PSA 評級代送',
+    '香港 PSA 評級代送',
   ],
   'grade-or-protect-first': [
     'grade vs protect cards',
@@ -61,8 +61,8 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
     'raw card grading',
     'PSA submit threshold',
     '裸卡送鑑',
-    'PSA 代送鑑定',
-    '香港 PSA 代送',
+    'PSA 評級代送',
+    '香港 PSA 評級代送',
     '鑑定卡保護',
     '先送鑑還是保護',
     'PSA 10 保護殼',
@@ -130,8 +130,8 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
     'TCG 提交鑑定',
     '香港卡牌提交鑑定',
     '寶可夢 TCG 提交鑑定',
-    'PSA 代送鑑定',
-    '香港 PSA 代送',
+    'PSA 評級代送',
+    '香港 PSA 評級代送',
   ],
 };
 

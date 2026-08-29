@@ -168,7 +168,8 @@ export default function RetailPartners() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-accent-link hover:text-accent-brand transition-colors duration-150"
                 >
-                  {t.retailPartners?.visitStore ?? 'Visit Store'}
+                  <FontAwesomeIcon icon={faInstagram} className="w-4 h-4" />
+                  {t.retailPartners?.visitPartner ?? 'Visit on Instagram'}
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>

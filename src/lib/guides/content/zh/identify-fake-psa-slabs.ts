@@ -7,7 +7,7 @@ const guide: GuideContent = {
   lead:
     '在二手市場購入 PSA 鑑定卡時，官方證書查詢通過並不完全等同於收到真品，高仿假卡磚經常盜用公開資料庫中的真實認證編號。藏家須以 psacard.com/cert 核對、UV 黑光燈、外殼觸感、全息標籤與微型小字世代（編號 27xxxxxx、43xxxxxx、5xxxxxxx）進行五步交叉驗證，以免誤購假 PSA 鑑定殼。',
   published: '2026-06-08',
-  updated: '2026-08-15',
+  updated: '2026-08-30',
   readTime: '12 分鐘',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
@@ -209,8 +209,8 @@ const guide: GuideContent = {
       title: '第五步：進階驗證與購買注意',
       paragraphs: [
         '核對卡牌本體品相：外殼結構正常之餘，仍需獨立檢查卡面印刷清晰度、色澤光彩，以及高分數（特別是 PSA 10）的物理品相是否合理。',
-        '識別賣家可疑警訊：若賣家拒絕提供多角度高清影片、拒絕 UV 測試、不接受 PSA 官方複檢，或售價遠低於市場行清且無法提供合理解釋，均屬於高風險警訊。',
-        '買家安全交易建議：優先選擇提供第三方認證保證的平台或信譽良好的卡店。若手中持有高價裸卡計劃提交鑑定，可前往 [138 Arena](/business/psa-grading/) 門市面交交接，Appaw 團隊提供專業驗卡與清潔保養服務，全力協助珍藏爭取最佳評級。進行大額交易時，務必選擇設有爭議申訴機制的平台。',
+        '識別賣家可疑警訊：若賣家拒絕提供多角度高清影片、拒絕 UV 測試、不接受 PSA 官方複檢，或售價遠低於市場行情且無法提供合理解釋，均屬於高風險警訊。',
+        '買家安全交易建議：優先選擇提供第三方認證保證的平台或信譽良好的卡店。若手中持有高價裸卡並計劃提交鑑定，可前往 [138 Arena](/business/psa-grading/)（合作場地）當面辦理。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視及評級代送跟進。進行大額交易時，務必選擇設有爭議申訴機制的平台。',
         '疑遭偽造的處理程序：拍攝標籤細節、證書資訊及接縫並保存對話紀錄；若官方數據庫記錄不符，請立即向交易平台申訴並聯繫 PSA 官方進行查證。',
       ],
     },
@@ -245,15 +245,15 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'uv-blacklight',
     title: '黑光燈驗證通過？上架或展示前加裝防護',
-    body: '通過檢測的鑑定卡磚在日常攜帶、交流或擺放陳列時，壓克力外殼仍可能因摩擦留下刮痕。上架或攜帶前加裝剛性防護硬殼，能有效延長藏品美觀。',
+    body: '通過檢測的鑑定卡在日常攜帶、交流或擺放陳列時，壓克力外殼仍可能因摩擦留下刮痕。上架或攜帶前加裝剛性防護硬殼，能有效延長藏品美觀。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定卡防紫外線指南', href: '/guides/uv-protection-graded-cards/' },
   },
   cta: {
     title: '先查證真偽，再加裝防護',
-    body: '完成五步細節驗證後，建議為鑑定卡加裝抗卡磚刮痕與防 UV 的硬質保護殼。若手頭上持有裸卡並計劃提交鑑定，香港藏家可親臨 138 Arena 門市面交，Appaw 提供專業驗卡與清潔保養服務，全力協助珍藏爭取最佳評級。',
+    body: '完成五步細節驗證後，建議為鑑定卡加裝可減少刮痕並阻隔紫外線的硬質保護殼。若手頭持有裸卡並計劃提交鑑定，香港藏家可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA 評級代送及跟進，並可調整最終應付金額。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
-    secondary: { label: 'PSA 代送鑑定', href: '/business/psa-grading/' },
+    secondary: { label: 'PSA 評級代送', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['psa-reholder-guide', 'grade-or-protect-first', 'psa-10-centering-requirements', 'choose-35pt-slab-protector'],
   sources: [
