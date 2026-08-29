@@ -2,9 +2,6 @@
  * EN search query → ZH equivalent for titles, meta, and on-page copy.
  * @see docs/seo-pillars.md — Keyword mapping (EN ↔ ZH)
  */
-import { getPsaLowestDisplayFee } from '@/lib/grading/psa-pricing';
-
-const psaLowestDisplayFee = getPsaLowestDisplayFee();
 export const SEO_KEYWORD_MAP = {
   'PSA slab case': 'PSA卡殼',
   'graded card case': '鑑定卡殼',
@@ -20,14 +17,15 @@ export const SEO_KEYWORD_MAP = {
   'tempered glass card protector': '強化玻璃卡殼',
   'PSA magnetic case': '磁吸PSA卡殼',
   'magnetic PSA slab case': '磁吸PSA卡殼',
-  'PSA submission Hong Kong': 'PSA代送鑑定',
-  'PSA grading service HK': '香港PSA代送',
+  'PSA grading submission Hong Kong': '香港PSA評級代送',
+  'PSA grading submission HK': '香港PSA評級代送',
+  'Hong Kong PSA grading submission': '香港 PSA 評級代送',
   'PSA card submission': '收藏卡送鑑',
   'HK TCG grading': '香港 TCG 鑑定',
   'Hong Kong TCG card grading': '香港卡牌鑑定',
   'TCG grading submission HK': 'TCG 提交鑑定',
-  '138 Arena PSA submission': '138 Arena PSA 代送',
-  'PSA submission process HK': 'PSA 鑑定香港流程',
+  '138 Arena PSA grading submission': '138 Arena PSA 評級代送',
+  'PSA grading submission process HK': '香港 PSA 評級代送流程',
   'PSA grading fees HK': 'PSA 鑑定費用',
   'PSA grading standards': 'PSA 10 評級標準',
   'PSA slab damage': 'PSA殼損',
@@ -44,7 +42,7 @@ export const PRODUCT_NAME = {
     seoH1: '35PT Graded Card Protector — UV Tempered Glass',
     metaTitle: '35PT UV Glass Graded Card Protector | HK – Appaw Store',
     metaDescription:
-      'Magnetic graded card case for 35PT PSA & CGC slabs. Tempered UV-blocking glass, N52 closure. HK designed. Ships worldwide.',
+      'Magnetic graded card case for 35PT PSA & CGC slabs. Tempered UV-blocking glass, N52 closure. From HK$60 / HK$80. HK designed. Ships worldwide.',
   },
   zh: {
     full: '磁吸防UV鑑定卡保護殼',
@@ -53,7 +51,7 @@ export const PRODUCT_NAME = {
     seoH1: '35PT 鑑定卡保護殼 — 防UV強化玻璃',
     metaTitle: '35PT 防UV鑑定卡保護殼 | Appaw Store 香港',
     metaDescription:
-      '35PT 磁吸防UV鑑定卡保護殼。>95% 抗UV強化玻璃、金屬邊框、N52 磁吸，適用 PSA/CGC 鑑定卡磚。香港設計，全球付運。',
+      '35PT 磁吸防UV鑑定卡保護殼。>95% 抗UV強化玻璃、金屬邊框、N52 磁吸，適用 PSA/CGC 鑑定卡磚。HK$60 / HK$80。香港設計，全球付運。',
   },
   shop: {
     en: '138 Arena, 1/F, 522 Jaffe Road, Causeway Bay, Hong Kong',
@@ -81,7 +79,8 @@ export const HK_SEO_KEYWORDS = [
   '重新評級降級',
   '鑑定卡置中檢查',
   '磁吸PSA卡殼',
-  'PSA代送鑑定',
+  '香港PSA評級代送',
+  '香港 PSA 評級代送',
   '香港 TCG 鑑定',
   'TCG 提交鑑定',
   '香港卡牌提交鑑定',
@@ -99,7 +98,7 @@ export const HOME_SEO = {
   zh: {
     title: 'Appaw Store 香港｜PSA卡殼・鑑定卡殼・PSA卡保護殼',
     description:
-      '香港設計 PSA卡殼、鑑定卡殼及 PSA卡保護殼，以磁吸防UV鑑定卡保護殼守護 PSA 與 CGC 鑑定卡，採用抗UV強化玻璃與 N52 磁吸閉合。另提供鑑定卡交易與免費卡牌置中工具；香港藏家可於銅鑼灣 138 Arena 交收，由 Appaw 提供 PSA 代送鑑定。',
+      '香港設計 PSA卡殼、鑑定卡殼及 PSA卡保護殼，以磁吸防UV鑑定卡保護殼守護 PSA 與 CGC 鑑定卡，採用抗UV強化玻璃與 N52 磁吸閉合。另提供鑑定卡交易與免費卡牌置中工具；香港藏家可於銅鑼灣 138 Arena 交收，由 Appaw 提供 PSA 評級代送。',
   },
 } as const;
 
@@ -136,15 +135,15 @@ export const CENTERING_SEO = {
   },
 } as const;
 
-/** PSA submission hub + track — keep in sync with i18n psaGradingPage / psaGradingTrack */
+/** PSA grading submission hub + track — keep in sync with i18n psaGradingPage / psaGradingTrack */
 export const PSA_GRADING_SEO = {
   en: {
-    title: 'Hong Kong PSA Submission | 138 Arena Drop-off & Batch Tracking | Appaw Store',
+    title: 'Hong Kong PSA Grading Submission | 138 Arena Drop-off | Appaw Store',
     description:
-      `Face-to-face PSA submission at 138 Arena, Causeway Bay. Pokémon, One Piece, MTG, sports cards. On-site preliminary condition check & basic cleaning included. Track batches with phone & reference code. From HKD ${psaLowestDisplayFee}.`,
-    h1Keyword: 'PSA submission in Hong Kong',
-    webAppName: 'PSA Submission Tracker',
-    trackTitle: 'Track PSA Submission | Appaw Store',
+      'Face-to-face PSA grading submission at 138 Arena, Causeway Bay. On-site condition check & basic cleaning. Track batches online. Regular from HK$790; Reholder HK$550.',
+    h1Keyword: 'PSA grading submission in Hong Kong',
+    webAppName: 'PSA Grading Submission Tracker',
+    trackTitle: 'Track PSA Grading Submission | Appaw Store',
     trackDescription:
       'Look up your PSA batch with the phone number and reference code on your 138 Arena receipt.',
     featureList: [
@@ -152,25 +151,25 @@ export const PSA_GRADING_SEO = {
       'Timeline from 138 Arena intake through PSA grading',
       'Other batches from the same drop-off visit',
     ],
-    breadcrumb: 'PSA Submission',
+    breadcrumb: 'PSA Grading Submission',
     trackBreadcrumb: 'Track',
     lastUpdated: '2026-08-08',
   },
   zh: {
-    title: '香港 PSA 代送鑑定｜138 Arena 門市面交・線上進度查詢 | Appaw Store',
+    title: '香港 PSA 評級代送｜138 Arena 門市面交・線上進度查詢 | Appaw Store',
     description:
-      `香港 PSA 代送鑑定服務。銅鑼灣 138 Arena 門市面交，提供現場卡況初步評估與基本清潔保養，降低扣分風險。寶可夢、One Piece、MTG、運動卡服務費由 HKD ${psaLowestDisplayFee} 起；憑收據電話及參考編號全程線上追蹤進度。`,
-    h1Keyword: '香港 PSA 代送鑑定',
-    webAppName: 'PSA 代送進度查詢',
-    trackTitle: '查詢 PSA 代送進度｜線上追蹤 | Appaw Store',
+      '香港 PSA 評級代送。銅鑼灣 138 Arena 門市面交，現場卡況評估與基本清潔。Regular 由 HK$790 起；Reholder HK$550。憑收據電話及參考編號線上追蹤。',
+    h1Keyword: '香港 PSA 評級代送',
+    webAppName: 'PSA 評級代送進度查詢',
+    trackTitle: '查詢 PSA 評級代送進度｜線上追蹤 | Appaw Store',
     trackDescription:
-      '輸入 138 Arena 門市收據上的電話號碼及參考編號，實時查詢 PSA 代送鑑定批次現有進度。',
+      '輸入 138 Arena 門市收據上的電話號碼及參考編號，實時查詢 PSA 評級代送批次現有進度。',
     featureList: [
       '憑電話及參考編號查批次狀態',
-      '由 138 Arena 收件至 PSA 鑑定各階段時間軸',
+      '由 138 Arena 收件至 PSA 評級各階段時間軸',
       '同一次交卡的其他批次',
     ],
-    breadcrumb: 'PSA 代送鑑定',
+    breadcrumb: 'PSA 評級代送',
     trackBreadcrumb: '查詢進度',
     lastUpdated: '2026-08-08',
   },
@@ -181,13 +180,13 @@ export const PSA_GRADING_ADVISOR_SEO = {
   en: {
     title: 'Why Appaw Is a PSA Grading Advisor | Appaw Store',
     description:
-      'High-value PSA submission advice at 138 Arena: condition-first screening mindset, honest pause recommendations, tier guidance, transparent tracking, and post-grade trading options.',
+      'High-value PSA grading submission advice at 138 Arena: condition-first screening mindset, honest pause recommendations, tier guidance, transparent tracking, and post-grade trading options.',
     h1Keyword: 'High-value grading advisor, not a logistics handoff',
     breadcrumb: 'Grading advisor',
     lastUpdated: '2026-08-05',
   },
   zh: {
-    title: '高價值鑑定顧問定位｜PSA 代送鑑定 | Appaw Store',
+    title: '高價值鑑定顧問定位｜PSA 評級代送 | Appaw Store',
     description:
       '說明 Appaw 如何以卡況為先協助判斷是否值得提交鑑定：暫緩建議、服務等級討論、透明進度追蹤，以及鑑定卡磚返港後的交易與寄售選項。',
     h1Keyword: '高價值鑑定顧問，而非單純的物流中介',

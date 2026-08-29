@@ -19,7 +19,7 @@ Sitemap, static params, and index `ItemList` JSON-LD pick up new slugs automatic
 
 - UI/metadata language tag: `zh-HK`
 - Marketing terms: **鑑定卡 / 鑑定卡磚 / 鑑定卡保護殼** — not 評級卡
-- Action: **提交鑑定** for general PSA submission in body copy; **代送鑑定** / **PSA 收藏卡代送鑑定** for Appaw's Hong Kong proxy service (`/business/psa-grading/`) — not 評級 as generic verb
+- Action: **提交鑑定** for the general act of sending cards to PSA. Appaw's Hong Kong service name is **PSA 評級代送** (EN: **PSA grading submission**) at `/business/psa-grading/` — not 代送鑑定 (legacy). Keep 評級 off product words (not 評級卡); 評級 is fine in the service name and for numeric grades.
 - Avoid legacy **送評** and abbreviated **送鑑** in new body copy (meta keywords may keep search variants)
 - Centering: **置中** — not 居中
 - Avoid Simplified variants (保护壳, 鉴定卡, 视频, etc.)
@@ -46,7 +46,7 @@ Sitemap, static params, and index `ItemList` JSON-LD pick up new slugs automatic
 | 展示、攜帶、交易、寄送 | 用於展示、外出攜帶、交易轉售或郵寄運送時 |
 | 值得送 / 不宜送 | 值得支付鑑定費用的情況包括… / 不宜支付鑑定費用的情況包括… |
 
-**UI short labels** (nav/buttons only): `預約交卡`, `查詢進度`, service name `PSA 代送鑑定`.
+**UI short labels** (nav/buttons only): `預約交卡`, `查詢進度`, service name `PSA 評級代送` (EN: `PSA Grading Submission`).
 
 Full glossary: [`seo-pillars.md`](seo-pillars.md) § Terminology policy (ZH).
 
@@ -71,12 +71,12 @@ When evolving `/business/psa-grading/` and similar service hubs:
 
 ### PSA hub vs advisor split
 
-- Hub `/business/psa-grading/`: **submission-first** (H1/title, how-to, batches, book, pricing). Condition advice is a mid-page teaser only.
+- Hub `/business/psa-grading/`: **grading-submission-first** (H1/title, how-to, batches, book, pricing). Condition advice is a mid-page teaser only.
 - Advisor `/business/psa-grading/advisor/`: full advisor / trust / aftercare positioning.
 
 ### Service Value Proposition & Messaging Standard
 
-All PSA proxy submission service copy across guides and i18n should incorporate Appaw's core service value proposition:
+All PSA grading submission service copy across guides and i18n should incorporate Appaw's core service value proposition:
 
 > 我們為客戶提供現場卡況初步評估服務，協助檢測置中比例、表面壓痕與邊角狀況並評估可能的分數。同時附設基本清潔保養，有效降低鑑定過程中的扣分風險，全力為您的珍藏爭取最高評級。
 
@@ -176,9 +176,9 @@ CTR rules above cover SERP; these cover the article chrome once the reader lands
 3. **Do not shorten sentences for brevity** — prefer complete causal clauses over comma-separated keyword lists.
 4. **Specs and table cells** — same rule: full phrases, not telegraphic shorthand.
 
-### Service flow guides (e.g. PSA proxy submission)
+### Service flow guides (e.g. PSA grading submission)
 
-Guides that describe Appaw's Hong Kong PSA proxy workflow should follow **chronological sections**, not a single mixed outline:
+Guides that describe Appaw's Hong Kong PSA grading submission workflow should follow **chronological sections**, not a single mixed outline:
 
 1. **Audience fit** — who should submit vs who should wait (economic + condition gates).
 2. **Service roles** — what the partner venue (138 Arena) vs Appaw each handle.
@@ -194,12 +194,12 @@ Use `midCta` after the pre-submit section when the centering tool is the natural
 | Situation | zh-HK | EN |
 |-----------|-------|-----|
 | Venue / hours | 138 Arena、合作面交場地 | 138 Arena, partner drop-off location |
-| Service provider | Appaw Store、Appaw PSA 代送鑑定服務 | Appaw Store, Appaw PSA proxy submission service |
+| Service provider | Appaw Store、Appaw PSA 評級代送 | Appaw Store, Appaw PSA grading submission |
 | On-site payment | 於 138 Arena 現場支付服務費（收款支援） | pay the service fee on-site at 138 Arena (payment collection support) |
 | Service operations | Appaw 核對清單、分配 BAT、轉送 PSA、發出取件通知 | Appaw verifies your list, assigns BAT references, forwards batches to PSA, sends pickup notices |
 | Avoid | 店員、未指明的「我們」、138 Arena 代送 | unattributed "staff", ambiguous "we", "138 Arena submits to PSA" |
 
-Add a `service-roles` section after audience fit when the guide explains the Hong Kong PSA proxy workflow.
+Add a `service-roles` section after audience fit when the guide explains the Hong Kong PSA grading submission workflow.
 
 **Customer burden:** customer-facing copy should emphasize Appaw on-site help. Do not list tier selection, declared value, sleeving, or written lists as mandatory customer prep — frame as optional self-checks (centering) or on-site assistance. Transport tip: sleeve cards en route to avoid scratches.
 

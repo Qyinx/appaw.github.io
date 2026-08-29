@@ -10,7 +10,7 @@ export const zh: Translations = {
     psaProtector: '鑑定卡保護殼',
     collection: '我的收藏庫',
     cardTrading: '卡牌交易',
-    psaGrading: 'PSA 代送鑑定',
+    psaGrading: 'PSA 評級代送',
     centeringTool: '卡牌置中量度工具',
     guides: '收藏指南',
     products: '精選商品',
@@ -149,8 +149,8 @@ export const zh: Translations = {
         cta: '免費檢測置中',
       },
       psaGrading: {
-        badge: 'PSA 專業代送',
-        title: '香港 PSA 代送鑑定',
+        badge: 'PSA 評級代送',
+        title: '香港 PSA 評級代送',
         description:
           '於銅鑼灣 138 Arena 面交收件，專人代送 PSA。服務費 HKD 790 起，支援線上追蹤進度，交收時更可即場交流卡況意見。',
         cta: '了解代送詳情',
@@ -241,10 +241,10 @@ export const zh: Translations = {
     },
     service01Label: '服務 01 、 實體保護',
     psaGrading: {
-      badge: 'PSA 專業代送',
-      title: '香港 PSA 代送鑑定',
+      badge: 'PSA 評級代送',
+      title: '香港 PSA 評級代送',
       description:
-        '於銅鑼灣 138 Arena 進行面交收件，代您穩妥轉送 PSA。批次進度隨時可於線上查詢，交收時我們亦會提供卡況專業意見，幫您評估提交鑑定效益。',
+        '於銅鑼灣 138 Arena 進行面交收件，代您穩妥轉送 PSA。批次進度隨時可於線上查詢，交收時我們亦會提供卡況專業意見，幫您評估評級效益。',
       chips: ['138 Arena 面交', 'HKD 790 起', '拒絕郵寄風險', '線上進度查詢'],
       cta: '了解代送詳情',
       trackCta: '查詢批次進度',
@@ -358,7 +358,7 @@ export const zh: Translations = {
       title: '如何挑選最合適的鑑定卡保護殼？',
       body: [
         '標準的 PSA 及 CGC 鑑定卡磚厚度通常為 35PT。一款優秀的保護殼，應摒棄易碎的壓克力，改用高剛性金屬邊框，並配備防 UV 強化玻璃，以減緩閃卡及全息卡在長期展示下的褪色危機。',
-        'Appaw Store 專為香港 TCG 藏家及寶可夢、運動卡玩家設計了這款磁吸保護殼。不論擺放在家中、卡展還是實體店面都極具質感。歡迎親臨銅鑼灣 138 Arena，或合作店舖（如：咭之島）實際體驗。其 N52 磁吸設計讓您免鎖螺絲，幾秒鐘即可輕鬆換卡。',
+        'Appaw Store 專為香港 TCG 藏家及寶可夢、運動卡玩家設計了這款磁吸保護殼。不論擺放在家中、卡展還是實體店面都極具質感。歡迎親臨銅鑼灣 138 Arena 實際體驗。其 N52 磁吸設計讓您免鎖螺絲，幾秒鐘即可輕鬆換卡。',
         '提交鑑定前，建議先用免費的置中量度工具評估 PSA 10 機會；待愛卡獲取佳績後，再用這款保護殼為其提供最完善的防護。',
       ],
       fullGuideLink: '閱讀完整鑑定卡保護殼選購指南',
@@ -375,7 +375,7 @@ export const zh: Translations = {
       badge: '產品亮點',
       title: '旗艦級鑑定卡保護殼',
       body: [
-        '如果您正在尋找頂級的磁吸 PSA 卡殼，這款適用於標準 35PT PSA 及 CGC 鑑定卡磚的第三方保護殼絕對是您的首選。結合防 UV 強化玻璃與 N52 磁吸設計（註：本產品非 PSA 官方出品）。',
+        '想找磁吸 PSA 卡殼？這款夾標準 35PT PSA 及 CGC 鑑定卡磚，防 UV 強化玻璃加 N52 磁吸，幾秒換卡。第三方保護殼，不是 PSA 官方出品。',
         '具備超過 95% 的抗紫外線及防褪色效能，有效隔絕陽光侵害，大幅減緩閃卡與老卡在長期展示下褪色的狀況。剛硬的金屬邊框取代了脆弱的壓克力，特別適合將鑑定卡視為長期投資的眼光獨到藏家。',
         '強勁的 N52 釹磁鐵閉合系統，讓您幾秒鐘就能完成換卡，同時在攜帶與展示時保持絕佳的密合度。即使結合了玻璃與金屬材質，整體重量依然輕盈（僅 74 克）。完美支援您的寶可夢、運動卡及 MTG 珍藏。',
       ],
@@ -742,19 +742,19 @@ export const zh: Translations = {
   },
 
   psaGradingPage: {
-    badge: 'PSA 專業代送',
+    badge: 'PSA 評級代送',
     dropOffAddress: '銅鑼灣謝斐道 522 號 1/F (138 Arena 內)',
     lastUpdatedLabel: '資訊最後更新於',
     lastUpdated: '2026-08-05',
     aeo: {
-      title: '在香港要怎麼把 TCG 卡牌送交 PSA 鑑定？',
+      title: '在香港怎樣把 TCG 卡牌送 PSA 評級？',
       answer:
-        '香港的 TCG 玩家可以先線上預約銅鑼灣 138 Arena 的面交時段，親自帶上寶可夢、One Piece、運動卡或 MTG 卡牌（裸卡或含卡套皆可）過來。我們會現場幫您確認適合的 PSA 服務等級，代為穩妥寄送，並提供專屬參考編號讓您隨時上網追蹤進度。收件時，我們更會憑經驗與您討論卡況，評估提交鑑定效益。',
+        '香港的 TCG 玩家可以先線上預約銅鑼灣 138 Arena 的面交時段，親自帶上寶可夢、One Piece、運動卡或 MTG 卡牌（裸卡或含卡套皆可）過來。我們會現場幫您確認適合的 PSA 服務等級，代為穩妥寄送，並提供專屬參考編號讓您隨時上網追蹤進度。收件時，我們更會憑經驗與您討論卡況，評估評級效益。',
     },
     whoThisIsFor: {
       title: '這項服務適合誰？',
       body:
-        '適合身在香港，想將寶可夢 TCG、One Piece、運動卡或 MTG 提交鑑定的收藏家。我們在 138 Arena 提供面交收件服務，幫您省去繁瑣的物流手續並確認最佳服務等級。送件前，建議您先用我們的免費置中工具初步篩選；如果現場發現卡況明顯無法達到您的目標分數，我們也會誠實提醒您其中的降級風險。',
+        '適合身在香港，想將寶可夢 TCG、One Piece、運動卡或 MTG 送 PSA 評級的收藏家。我們在 138 Arena 提供面交收件服務，幫您省去繁瑣的物流手續並確認最佳服務等級。送件前，建議您先用我們的免費置中工具初步篩選；如果現場發現卡況明顯無法達到您的目標分數，我們也會誠實提醒您其中的降級風險。',
     },
     dropOff: {
       title: '面交收件地點',
@@ -772,9 +772,9 @@ export const zh: Translations = {
       protectors: { label: '選購頂級保護殼', href: '/products/psa-protectors/' },
     },
     hero: {
-      title: '香港 PSA 代送鑑定服務',
+      title: '香港 PSA 評級代送',
       definition:
-        '我們與銅鑼灣 138 Arena 合作，提供安全的面交提交鑑定服務。代您將寶可夢、One Piece、運動卡或 MTG 妥善送交美國 PSA 總部，並協助挑選最具性價比的服務等級。每批訂單均附獨立追蹤編號，線上進度一目了然。當您的愛卡強勢回歸香港，我們第一時間通知取件。最重要的是：收件當下我們會坦誠與您討論卡況，避免您花冤枉錢（請留意，最終評級分數由 PSA 決定，我們無法保證分數）。',
+        '我們與銅鑼灣 138 Arena 合作，提供面交 PSA 評級代送。代您將寶可夢、One Piece、運動卡或 MTG 妥善送交美國 PSA 總部，並協助挑選最具性價比的服務等級。每批訂單均附獨立追蹤編號，線上進度一目了然。當您的愛卡強勢回歸香港，我們第一時間通知取件。最重要的是：收件當下我們會坦誠與您討論卡況，避免您花冤枉錢（請留意，最終評級分數由 PSA 決定，我們無法保證分數）。',
       ctaBook: '預約面交時段',
       ctaTrack: '查詢送件進度',
       ctaAdvisor: '了解我們的卡況顧問服務',
@@ -795,7 +795,7 @@ export const zh: Translations = {
       cta: '了解卡況判斷',
     },
     advisorPage: {
-      backToHub: '← 返回代送首頁',
+      backToHub: '← 返回評級代送',
     },
     advisor: {
       badge: '超越一般代送',
@@ -870,7 +870,7 @@ export const zh: Translations = {
       closingSoon: '最後衝刺，即將截單',
       bookCta: '馬上預約交卡',
       trackCta: '查詢進度',
-      emptyTitle: '目前暫無開放中的提交鑑定批次',
+      emptyTitle: '目前暫無開放中的評級代送批次',
       emptyBody: '別擔心，您可以先預約交卡時段、、在您交卡當天，我們就會為您開立全新的批次（BAT）。',
       emptyCta: '預約交卡時段',
       loading: '正在努力載入批次資料中…',
@@ -914,7 +914,7 @@ export const zh: Translations = {
         },
         {
           body: '您的隱私很重要。請務必使用收據上的電話與參考編號才能查詢進度。',
-          attribution: 'PSA 代送服務小組',
+          attribution: 'PSA 評級代送',
         },
         {
           body: '不同 PSA 服務等級的處理速度不同，因此都會分配到獨立的參考編號以便追蹤。',
@@ -954,7 +954,7 @@ export const zh: Translations = {
     },
     faq: {
       badge: '解開疑惑',
-      title: '提交鑑定常見問題 (FAQ)',
+      title: '評級代送常見問題 (FAQ)',
       subtitle: '預約前、查詢進度或對費用有疑問？這裡為您一次解答。',
       statLabel: '個常見問答',
       quickLinks: {
@@ -1037,7 +1037,7 @@ export const zh: Translations = {
           label: '關於我們的顧問角色',
           items: [
             {
-              q: '你們跟一般的「代寄卡牌鑑定服務」有什麼不同？',
+              q: '你們跟一般的「代寄評級服務」有什麼不同？',
               a: '我們不只是負責把卡寄出而已。我們定位為「高價值鑑定顧問」：在收件時，我們會花時間與您討論卡況。如果發現卡片有硬傷拿不到高分，我們會誠實建議您別浪費錢；如果卡況極佳，我們再幫您挑選最有利的方案。當然，最終給分大權仍掌握在 PSA 手上。',
             },
             {
@@ -1064,9 +1064,9 @@ export const zh: Translations = {
     pricing: {
       badge: '透明收費',
       title: 'PSA 服務方案與價目',
-      tableLabel: 'PSA 代送價目表',
+      tableLabel: 'PSA 評級代送價目表',
       colService: '服務方案',
-      colFee: '代送費 (HKD)',
+      colFee: '評級代送費 (HKD)',
       colMaxValue: '最高申報價值限制',
       colTurnaround: '預估等待時間',
       ctaBook: '預約交卡',
@@ -1082,18 +1082,18 @@ export const zh: Translations = {
 
   psaGradingTrack: {
     badge: '遠征紀錄',
-    title: '查詢 PSA 代送最新進度',
+    title: '查詢 PSA 評級代送進度',
     subtitle: '請備妥您在 138 Arena 拿到的收據，輸入電話號碼與參考編號。',
     formPanelLabel: '查找批次',
     formPanelPart: '01',
     formIntro: '輸入電話號碼與參考編號。',
     resultsPanelPart: '02',
     skeletonLabel: '查閱紀錄中',
-    backToHub: '← 返回代送首頁',
+    backToHub: '← 返回評級代送',
     breadcrumb: {
       home: '首頁',
       business: '服務項目',
-      grading: 'PSA 代送',
+      grading: 'PSA 評級代送',
       track: '查詢進度',
     },
     form: {
@@ -1284,12 +1284,12 @@ export const zh: Translations = {
     partners: {
       cardtheland: {
         name: '咭之島 (Card The Land)',
-        description: '人氣合作經銷商 · 紅磡區',
+        description: '紅磡區',
         location: '紅磡凱旋工商中心2期3樓G1B室',
       },
       arena138: {
         name: '138 Arena',
-        description: 'Appaw 香港主銷售據點 — 保護殼、鑑定卡交易，以及 PSA 面交提交鑑定，盡在銅鑼灣。',
+        description: 'Appaw 香港主銷售據點 — 保護殼、鑑定卡交易，以及 PSA 面交評級代送，盡在銅鑼灣。',
         location: '銅鑼灣謝斐道522號1/F',
       },
       appawstore: {

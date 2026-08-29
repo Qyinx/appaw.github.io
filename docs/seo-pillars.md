@@ -8,7 +8,7 @@ Prior batch (2026-07-20) — PSA track page SEO hygiene + humanized EN/ZH copy (
 
 Prior batch (2026-07-13) — HK TCG grading keyword cluster; zh-HK full-phrase copy pass (guides-content.md).
 
-Prior batch (2026-07-12) — PSA submission hub + track SEO: indexable metadata, JSON-LD, sitemap, llms.txt, AEO blocks, homepage/business internal links.
+Prior batch (2026-07-12) — PSA grading submission hub + track SEO: indexable metadata, JSON-LD, sitemap, llms.txt, AEO blocks, homepage/business internal links.
 
 Prior batch (2026-07-02) — Protector recommended prices centralized in `src/lib/products/protector-pricing.ts` (HKD 82 single / 92 gradient).
 
@@ -32,7 +32,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 | 2026-08-08 | GSC Search Intent & CTR | 28-day GSC search data integration: search intent clusters (`psa 換殼`, `138 arena`, `psa 殼損`, `psa 鑑定 香港 流程`), mobile CTR optimization (73% mobile clicks), low-CTR high-impression retargeting (`psa-grading-standards`). |
 | 2026-07-20 | PSA track SEO | `/business/psa-grading/track/` hygiene: single H1, visible subtitle + AEO helpers, form `h2`, humanized EN/ZH meta + UI copy, track keywords/OG alt, `WebPage.speakable` → `.psa-grading-track-aeo-answer`, `llms.txt`/`index.md` soft pass. |
 | 2026-07-13 | HK TCG grading SEO | `SEO_KEYWORD_MAP` + `HK_SEO_KEYWORDS` cluster (香港 TCG 鑑定, TCG 提交鑑定). `PSA_GRADING_SEO` title/description retarget. `knowsAbout`, `llms.txt`, `guides-content.md` full-phrase zh-HK copy rules. |
-| 2026-07-12 | PSA submission SEO | `/business/psa-grading/` + `/track/` indexable (EN+ZH). `PSA_GRADING_SEO`, JSON-LD (Service/HowTo/FAQ/WebApplication), sitemap, llms.txt/index.md, AEO classes, live-service banner, internal links from `/`, `/business/`. |
+| 2026-07-12 | PSA grading submission SEO | `/business/psa-grading/` + `/track/` indexable (EN+ZH). `PSA_GRADING_SEO`, JSON-LD (Service/HowTo/FAQ/WebApplication), sitemap, llms.txt/index.md, AEO classes, live-service banner, internal links from `/`, `/business/`. |
 | 2026-07-02 | Protector pricing | Recommended retail prices centralized in `src/lib/products/protector-pricing.ts`: HKD 82 (single color), HKD 92 (gradient). UI + Product/Service JSON-LD read from single module; price strings removed from i18n. |
 | 2026-07-02 | PSA magnetic case SEO | Added **PSA magnetic case** / **magnetic PSA slab case** (EN) ↔ **磁吸PSA卡殼** (ZH) to `SEO_KEYWORD_MAP`, product metadata keywords, JSON-LD `alternateName`, overview copy + FAQ (EN+ZH), `llms.txt` / `index.md`. Meta description retargeted for magnetic+PSA+case proximity. Official product name unchanged; aluminum still retired. |
 | 2026-06-27 | UV glass product rename | EN: **Graded Slab UV Glass Protector** (H1: UV Tempered Glass). ZH: **磁吸防UV鑑定卡保護殼** (H1: 防UV強化玻璃). Keyword cluster: tempered glass / UV glass slab case (EN), 防UV玻璃 / 強化玻璃卡殼 (ZH). Retired aluminum/CNC from marketing copy; ZH frame **金屬邊框** (not 金屬框架 / 鋁合金). URL unchanged `/products/psa-protectors/`. `PRODUCT_NAME`, i18n, JSON-LD `material`, guides, `llms.txt`, `index.md`, Agent Skills. |
@@ -148,8 +148,8 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | HK TCG grading | 香港 TCG 鑑定 | PSA grading hub |
 | Hong Kong TCG card grading | 香港卡牌鑑定 | PSA grading hub |
 | TCG grading submission HK | TCG 提交鑑定 | PSA grading hub |
-| 138 Arena PSA submission | 138 Arena PSA 代送 | Top GSC query (31.2% CTR); local drop-off venue |
-| PSA submission process HK | PSA 鑑定香港流程 | GSC query; submission step-by-step guide |
+| 138 Arena PSA grading submission | 138 Arena PSA 評級代送 | Top GSC query (31.2% CTR); local drop-off venue |
+| PSA grading submission process HK | 香港 PSA 評級代送流程 | GSC query; grading submission step-by-step guide |
 | PSA grading fees HK | PSA 鑑定費用 / PSA 收費 | GSC query; pricing & tier selection |
 | PSA grading standards | PSA 10 評級標準 | GSC query (2,000+ imp); guide `psa-grading-standards` |
 | Pokémon TCG grading HK | 寶可夢 TCG 提交鑑定 | PSA grading + centering |
@@ -169,7 +169,7 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 |---------|----------------|-------|
 | Graded card / slab | 鑑定卡、鑑定卡牌、鑑定卡磚 | 評級卡、評級卡牌、評級卡磚 |
 | Submit to PSA (general) | 提交鑑定 | 送評、評級（動詞）、送鑑（正文缩略） |
-| Appaw HK proxy service | 代送鑑定、PSA 收藏卡代送鑑定 | 送評服務、收件查詢（作標題） |
+| Appaw HK PSA grading submission | PSA 評級代送 | 代送鑑定（舊稱）、送評服務、收件查詢（作標題） |
 | Protector product | 鑑定卡保護殼、磁吸防UV鑑定卡保護殼、磁吸卡殼、PSA 保護殼 | 評級卡保護殼、保護卡磚、鋁合金、金屬框架 |
 | Frame (specs) | 金屬邊框 | 金屬框架、鋁合金框架 |
 | Grade score UI (PSA 10 etc.) | Keep 評級 for numeric grade labels only | — |
@@ -475,9 +475,9 @@ Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: tex
 
 - **URLs:** `https://appaw.store/business/psa-grading/` (hub), `https://appaw.store/business/psa-grading/track/` (lookup); `/zh/...` mirrors
 - **Metadata:** `PSA_GRADING_SEO` in `src/lib/product-names.ts` → `psaGradingMetadata` / `zhPsaGradingMetadata` / track variants in `src/lib/seo/metadata.ts`
-- **EN title:** Hong Kong TCG Grading Submission | PSA – Appaw Store
-- **ZH title:** 香港 TCG 卡牌 PSA 代送鑑定 | 138 Arena – Appaw Store
-- **Track EN title:** Track PSA Submission | Appaw Store
+- **EN title:** Hong Kong PSA Grading Submission | 138 Arena Drop-off | Appaw Store
+- **ZH title:** 香港 PSA 評級代送｜138 Arena 門市面交・線上進度查詢 | Appaw Store
+- **Track EN title:** Track PSA Grading Submission | Appaw Store
 - **Track description:** Look up PSA batch with phone + BAT on 138 Arena receipt (both required)
 - **Indexing:** `robots: { index: true, follow: true }` on hub + track (EN + ZH)
 - **JSON-LD:** Hub — `Service`, `Offer`×N (from `psa-pricing.ts`), `HowTo`, `FAQPage`, `BreadcrumbList`, `WebPage` with `speakable` → `.psa-grading-aeo-answer`. Track — `WebApplication`, `BreadcrumbList`, `WebPage` with `speakable` → `.psa-grading-track-aeo-answer`
@@ -486,7 +486,7 @@ Fallback without negotiation: `https://appaw.store/index.md` (`Content-Type: tex
 - **Sitemap:** hub priority 0.85, track 0.70 (`sitemap-config.ts`)
 - **GEO:** `llms.txt` + `index.md` pillar rows; HKD tier snippet for agents
 - **Internal links:** Header nav, 4 guides (inbound), hub reciprocal links, `/business/` ItemList #3, BusinessClient section, homepage services panel
-- **Keyword map:** `PSA submission Hong Kong` ↔ `PSA代送鑑定`; `PSA card submission` ↔ `收藏卡送鑑` (see `SEO_KEYWORD_MAP`)
+- **Keyword map:** `PSA grading submission Hong Kong` ↔ `香港PSA評級代送`; `PSA card submission` ↔ `收藏卡送鑑` (see `SEO_KEYWORD_MAP`)
 
 **Post-deploy:** Request indexing for hub + track EN/ZH in GSC.
 

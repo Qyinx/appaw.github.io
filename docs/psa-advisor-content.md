@@ -4,7 +4,7 @@ Trust for high-value card intake is built by showing the process in public, prov
 
 ## Positioning line
 
-Appaw is a high-value card grading advisor coordinating PSA proxy submission at 138 Arena. We help collectors objectively evaluate card condition before submission, provide basic cleaning & prep, and track batch progress transparently online.
+Appaw is a high-value card grading advisor coordinating PSA grading submission at 138 Arena. We help collectors objectively evaluate card condition before submission, provide basic cleaning & prep, and track batch progress transparently online.
 
 ## Core Service Value Proposition (三大核心服務優勢)
 
@@ -25,7 +25,7 @@ Appaw is a high-value card grading advisor coordinating PSA proxy submission at 
 
 ### 2. 138 Arena 門市交卡流程與現場評估 (Local Drop-off & Preliminary Assessment Walk-through)
 - **Target Queries:** `138 arena`, `香港psa鑑定`, `psa 鑑定 香港 流程`, `psa 收費`
-- **Hook:** 「首次代送 PSA 害怕卡牌遺失？帶你直擊 138 Arena 門市交卡全流程！」
+- **Hook:** 「首次做 PSA 評級代送害怕卡牌遺失？帶你直擊 138 Arena 門市交卡全流程！」
   - **Core Concept:** 展示實體門市交卡（銅鑼灣 138 Arena）、現場卡況初步評估（微距顯微鏡 / 強光燈檢測）、基本清潔保養、發放 BAT 門市收據。
 - **Key Message:** 不必自己準備卡套、繁瑣申報或擔心國際郵寄風險。Appaw 團隊全程跟進，專人送鑑。
 - **CTA:** 「預約門市交卡或線上手續，輸入手機與參考編號實時追蹤：`appaw.store/business/psa-grading/track/`」

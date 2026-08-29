@@ -9,7 +9,7 @@ export const en = {
     psaProtector: 'Graded Slab Protector',
     collection: 'My Collection',
     cardTrading: 'Card Trading',
-    psaGrading: 'PSA Submission',
+    psaGrading: 'PSA Grading Submission',
     centeringTool: 'Centering Tool',
     guides: 'Guides',
     products: 'Products',
@@ -148,11 +148,11 @@ export const en = {
         cta: 'Analyze Now',
       },
       psaGrading: {
-        badge: 'PSA Submission',
-        title: 'PSA submission (Hong Kong)',
+        badge: 'PSA Grading Submission',
+        title: 'PSA grading submission (Hong Kong)',
         description:
           'Hong Kong TCG face-to-face PSA intake at 138 Arena, Causeway Bay. Condition advice before you ship, tiers from HKD 790. Track every batch online.',
-        cta: 'View PSA submission',
+        cta: 'View PSA grading submission',
       },
       guidesLink: 'Guides on slab fit, UV storage, centering, and regrade vs reholder',
       guidesCta: 'Read Guides',
@@ -240,12 +240,12 @@ export const en = {
     },
     service01Label: 'Service 01 — Protection',
     psaGrading: {
-      badge: 'PSA Submission',
-      title: 'PSA submission in Hong Kong',
+      badge: 'PSA Grading Submission',
+      title: 'PSA grading submission in Hong Kong',
       description:
-        'Face-to-face PSA submission from 138 Arena, Causeway Bay. We help you decide whether a card should go to PSA, then track every batch online.',
+        'Face-to-face PSA grading submission from 138 Arena, Causeway Bay. We help you decide whether a card should go to PSA, then track every batch online.',
       chips: ['138 Arena', 'From HKD 790', 'Face-to-face only', 'Batch tracking'],
-      cta: 'View PSA submission',
+      cta: 'View PSA grading submission',
       trackCta: 'Track a batch',
       bookCta: 'Book drop-off',
     },
@@ -356,7 +356,7 @@ export const en = {
       title: 'How to choose a 35PT graded card case',
       body: [
         'Standard PSA and CGC slabs measure roughly 35PT thick. A proper PSA slab case should add a rigid metal frame—not just another acrylic shell—plus tempered UV-blocking glass to slow holo and chrome fade over years on display.',
-        'Appaw Store designed this magnetic graded card case in Hong Kong for Hong Kong TCG collectors — Pokémon PTCG, sports cards, and MTG — who display slabs at home, at card shows, or at 138 Arena and partner stores. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
+        'Appaw Store designed this magnetic graded card case in Hong Kong for Hong Kong TCG collectors — Pokémon PTCG, sports cards, and MTG — who display slabs at home, at card shows, or at 138 Arena. The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
         'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a PSA card protector built for long-term display and transport.',
       ],
       fullGuideLink: 'Read the full 35PT slab case guide',
@@ -373,7 +373,7 @@ export const en = {
       badge: 'Product Overview',
       title: 'Premium Graded Card Protector',
       body: [
-        'If you searched for a PSA magnetic graded card protector, this protector is a magnetic graded card protector sized for standard 35PT PSA and CGC holders — tempered UV-blocking glass and N52 closure, not an official PSA product.',
+        'Need a magnetic case for a PSA or CGC slab? This 35PT protector uses tempered UV-blocking glass and an N52 closure, sized for standard holders — third-party, not an official PSA product.',
         'Built for collectors who treat graded cards as long-term assets, the Appaw Store Graded Slab UV Glass Protector is a magnetic graded card protector — exhibition-level presentation with durable protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
         'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the graded card case firmly shut for display and transport. Tempered UV-blocking glass and a rigid metal frame give it a solid, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
       ],
@@ -741,19 +741,19 @@ export const en = {
   },
 
   psaGradingPage: {
-    badge: 'PSA Submission',
+    badge: 'PSA Grading Submission',
     dropOffAddress: '138 Arena, 1/F, 522 Jaffe Road, Causeway Bay',
     lastUpdatedLabel: 'Last updated',
     lastUpdated: '2026-08-05',
     aeo: {
-      title: 'How do I submit cards to PSA in Hong Kong?',
+      title: 'How do I submit cards for PSA grading submission in Hong Kong?',
       answer:
         'Hong Kong TCG collectors book an in-person slot at 138 Arena in Causeway Bay to drop off raw or sleeved cards. Appaw provides free preliminary card inspection, condition evaluation, and grade prediction, alongside basic cleaning & maintenance to reduce point deduction risks. We confirm your PSA service tier, handle proxy submission, and provide a reference code to track batch progress online.',
     },
     whoThisIsFor: {
       title: 'Who this service is for',
       body:
-        'Designed for Hong Kong collectors submitting Pokémon TCG, One Piece, sports cards, or MTG for PSA grading. We provide face-to-face intake at 138 Arena with free preliminary card inspection, grade prediction, and basic cleaning & maintenance to minimize deduction risks before confirming your service tier and proxy submission.',
+        'Designed for Hong Kong collectors submitting Pokémon TCG, One Piece, sports cards, or MTG for PSA grading submission. We provide face-to-face intake at 138 Arena with free preliminary card inspection, grade prediction, and basic cleaning & maintenance to minimize deduction risks before confirming your service tier and proxy submission.',
     },
     dropOff: {
       title: 'Drop-off location',
@@ -771,9 +771,9 @@ export const en = {
       protectors: { label: 'Graded slab protectors', href: '/products/psa-protectors/' },
     },
     hero: {
-      title: 'PSA submission in Hong Kong',
+      title: 'PSA grading submission in Hong Kong',
       definition:
-        'In-person PSA submission at 138 Arena, Causeway Bay. We provide free preliminary card inspection, condition evaluation, predicted grades, and basic cleaning & maintenance to reduce point deduction risks and strive for the highest possible grade. We handle secure batch submission to PSA headquarters, help select the optimal service tier, and provide live online batch tracking until your slabs return for pickup. (Note: final grades are determined solely by PSA; we do not guarantee scores.)',
+        'In-person PSA grading submission at 138 Arena, Causeway Bay. We provide free preliminary card inspection, condition evaluation, predicted grades, and basic cleaning & maintenance to reduce point deduction risks and strive for the highest possible grade. We handle secure batch submission to PSA headquarters, help select the optimal service tier, and provide live online batch tracking until your slabs return for pickup. (Note: final grades are determined solely by PSA; we do not guarantee scores.)',
       ctaBook: 'Book drop-off',
       ctaTrack: 'Track progress',
       ctaAdvisor: 'Condition advice',
@@ -794,7 +794,7 @@ export const en = {
       cta: 'Read condition advice',
     },
     advisorPage: {
-      backToHub: 'Back to PSA submission',
+      backToHub: 'Back to PSA grading submission',
     },
     advisor: {
       badge: 'Not a courier middleman',
@@ -913,7 +913,7 @@ export const en = {
         },
         {
           body: 'Track each batch with your phone number and reference code from the receipt.',
-          attribution: 'PSA submission service',
+          attribution: 'PSA grading submission',
         },
         {
           body: 'Each PSA service tier gets its own reference code.',
@@ -969,7 +969,7 @@ export const en = {
           items: [
             {
               q: 'Can Hong Kong TCG cards be submitted to PSA?',
-              a: 'Yes. Pokémon TCG, One Piece, MTG, and sports cards in raw or sleeved form are accepted at 138 Arena through Appaw proxy submission.',
+              a: 'Yes. Pokémon TCG, One Piece, MTG, and sports cards in raw or sleeved form are accepted at 138 Arena through Appaw PSA grading submission.',
             },
             {
               q: 'How do I book a drop-off?',
@@ -1082,18 +1082,18 @@ export const en = {
 
   psaGradingTrack: {
     badge: 'Expedition ledger',
-    title: 'Track PSA submission',
+    title: 'Track PSA grading submission',
     subtitle: 'Use the phone number and reference code from your 138 Arena receipt.',
     formPanelLabel: 'Locate batch',
     formPanelPart: '01',
     formIntro: 'Use the phone number and reference code.',
     resultsPanelPart: '02',
     skeletonLabel: 'Consulting expedition archives',
-    backToHub: 'Back to PSA submission',
+    backToHub: 'Back to PSA grading submission',
     breadcrumb: {
       home: 'Home',
       business: 'Services',
-      grading: 'PSA submission',
+      grading: 'PSA grading submission',
       track: 'Track',
     },
     form: {
@@ -1268,7 +1268,7 @@ export const en = {
     partners: {
       cardtheland: {
         name: 'Card The Land (咭之島)',
-        description: 'Authorised partner · Hung Hom',
+        description: 'Hung Hom',
         location: 'Unit G1B, 3/F, Kaiser Estate, Phase 2, Hung Hom',
       },
       arena138: {
