@@ -1,8 +1,8 @@
 /** Canonical recommended retail prices — Graded Slab UV Glass Protector */
 export const PROTECTOR_PRICING = {
   currency: 'HKD',
-  single: 120,
-  gradient: 140,
+  single: 60,
+  gradient: 80,
 } as const;
 
 export function formatProtectorPrice(amount: number): string {
