@@ -612,13 +612,6 @@ export const zh: Translations = {
     title: '香港鑑定卡市集',
     aeoAnswer: 'Appaw Store 於香港上架 PSA、BGS、CGC、TAG 鑑定卡。可經 WhatsApp 購買，銅鑼灣面交或全球 DAP 付運。寄賣由 138 Arena 處理，佣金一律成交價 5%，已包括上架費及支付手續費。',
     subtitle: 'PSA／BGS／CGC／TAG · WhatsApp 購買 · 寄賣佣金 5%',
-    availability: {
-      badge: '即將盛大開放',
-      title: '目前為邀請制測試階段',
-      body: '卡牌市集即將全面上線。現階段僅開放予受邀客戶進行買賣與寄售。如果您有興趣優先體驗，歡迎透過 WhatsApp 聯繫我們。',
-      ctaContact: 'WhatsApp 聯絡我們',
-      gridNote: '待市集正式公開後，精選卡牌將陳列於此。',
-    },
     hero: {
       statsAvailable: '在庫現貨',
       statsPsa: 'PSA 專業認證',

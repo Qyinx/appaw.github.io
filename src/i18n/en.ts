@@ -610,13 +610,6 @@ export const en = {
     title: 'HK graded card marketplace',
     aeoAnswer: 'Appaw Store lists PSA, BGS, CGC, and TAG graded trading cards for sale in Hong Kong. Buy over WhatsApp with face-to-face meetup in Causeway Bay or DAP shipping worldwide. Consignment is handled by 138 Arena at a flat 5% of the sale price, including listing and payment-processor fees.',
     subtitle: 'PSA / BGS / CGC / TAG · WhatsApp · consign at 5%',
-    availability: {
-      badge: 'Coming soon',
-      title: 'Currently available to invited customers only',
-      body: 'Our curated trading marketplace is launching soon. Buying, selling, and consignment are open to invited customers for now. WhatsApp us if you would like early access.',
-      ctaContact: 'WhatsApp us',
-      gridNote: 'Listings will appear here when the marketplace opens.',
-    },
     hero: {
       statsAvailable: 'Cards in stock',
       statsPsa: 'PSA graded',

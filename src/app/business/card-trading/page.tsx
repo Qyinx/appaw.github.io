@@ -3,7 +3,6 @@ import { en } from '@/i18n';
 import CardTradingPage from './CardTradingClient';
 import StructuredData from '@/components/StructuredData';
 import { itemListJsonLd, faqJsonLd, howToJsonLd, webPageJsonLd } from '@/lib/seo';
-import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
 import { fetchPublicMarketplaceCardsForBuild } from '@/lib/marketplace/publicCards';
 import { absoluteMarketplaceImageUrl } from '@/lib/marketplace/cardImage';
 import { Suspense } from 'react';
@@ -63,10 +62,13 @@ const sellHowToJsonLd = howToJsonLd({
 });
 
 export default async function Page() {
-  const cards = MARKETPLACE_IN_PROGRESS ? [] : await fetchPublicMarketplaceCardsForBuild();
-  const structuredData = MARKETPLACE_IN_PROGRESS
-    ? [tradingFaqJsonLd, buyHowToJsonLd, sellHowToJsonLd]
-    : [itemListJsonLd('Graded Trading Cards for Sale', buildItems(cards)), tradingFaqJsonLd, buyHowToJsonLd, sellHowToJsonLd];
+  const cards = await fetchPublicMarketplaceCardsForBuild();
+  const structuredData = [
+    itemListJsonLd('Graded Trading Cards for Sale', buildItems(cards)),
+    tradingFaqJsonLd,
+    buyHowToJsonLd,
+    sellHowToJsonLd,
+  ];
 
   const webPage = webPageJsonLd({
     name: 'Graded Trading Card Marketplace | Appaw Store',

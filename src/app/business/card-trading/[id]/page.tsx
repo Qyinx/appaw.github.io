@@ -7,7 +7,6 @@ import LocalLink from '@/components/LocalLink';
 import StructuredData from '@/components/StructuredData';
 import { productJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import { localizedHref } from '@/lib/i18n-routing';
-import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
 import {
   CARD_TRADING_PLACEHOLDER_ID,
   cardTradingGenerateStaticParams,
@@ -93,7 +92,7 @@ export async function CardDetailPageContent(
   { params, language = 'en' }: { params: Promise<{ id: string }>; language?: Language },
 ) {
   const { id } = await params;
-  if (MARKETPLACE_IN_PROGRESS || id === CARD_TRADING_PLACEHOLDER_ID) {
+  if (id === CARD_TRADING_PLACEHOLDER_ID) {
     redirect(localizedHref('/business/card-trading/', language));
   }
 

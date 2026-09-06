@@ -11,9 +11,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { marketplaceImageSrc } from '@/lib/marketplace/cardImage';
 import { usePublicMarketplaceCards } from '@/hooks/usePublicMarketplaceCards';
 import { getGradeColor, getCompanyStyle, formatPrice, formatGrade } from '@/lib/card-helpers';
-import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
 import { useSubHeader } from '@/hooks/useSubHeader';
-import ServiceAvailabilityBanner from '@/components/business/ServiceAvailabilityBanner';
 import type { TradingCard, GradingCompany, GradeTier } from '@/types/trading-card';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
@@ -289,7 +287,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
   const lensSrc = showBack && hasBack ? backSrc : frontSrc;
 
   // Magnifier state — uses pixel offsets for accurate edge/corner viewing
-  const LENS = 180; // lens diameter in px
+  const LENS = 260; // lens diameter in px
   const ZOOM = 3;
   const [magnifier, setMagnifier] = useState<{ active: boolean; pageX: number; pageY: number; bgX: number; bgY: number; bgW: number; bgH: number }>({
     active: false, pageX: 0, pageY: 0, bgX: 0, bgY: 0, bgW: 0, bgH: 0,
@@ -348,7 +346,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
 
   return createPortal(
     <div
-      className="marketplace-detail-modal fixed inset-0 flex items-center justify-center p-3 sm:p-4 md:p-6 overscroll-contain"
+      className="marketplace-detail-modal fixed inset-0 flex items-center justify-center p-1.5 sm:p-2 md:p-3 overscroll-contain"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -364,7 +362,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
 
       {/* Centered popup panel */}
       <div
-        className="relative z-[1] flex w-full max-w-5xl max-h-[min(92dvh,900px)] flex-col overflow-hidden border border-border-strong bg-surface-panel shadow-[0_24px_64px_rgba(0,0,0,0.45)] animate-[fadeUp_0.3s_ease-out]"
+        className="relative z-[1] flex w-full max-w-7xl max-h-[92dvh] md:h-[68dvh] md:max-h-[68dvh] flex-col overflow-hidden border border-border-strong bg-surface-panel shadow-[0_24px_64px_rgba(0,0,0,0.45)] animate-[fadeUp_0.3s_ease-out]"
         onClick={e => e.stopPropagation()}
       >
         {/* Top-right actions */}
@@ -400,7 +398,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
 
         <div className="grid md:grid-cols-2 min-h-0 flex-1 overflow-hidden">
           {/* Left — fit height (no scroll); image shrinks so flip never needs a scrollbar */}
-          <div className="relative bg-surface-raised p-4 md:p-6 flex flex-col min-h-[min(46dvh,480px)] md:min-h-0 overflow-hidden border-b md:border-b-0 md:border-r border-border-default">
+          <div className="relative bg-surface-raised p-3 md:p-4 flex flex-col min-h-[min(56dvh,620px)] md:min-h-0 overflow-hidden border-b md:border-b-0 md:border-r border-border-default">
             {/* Badges — in flow like full page */}
             <div className="relative flex items-center gap-1.5 mb-3 z-10 shrink-0">
               <div
@@ -442,14 +440,14 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                   <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden' }}>
                     {frontSrc && (
                       <Image src={frontSrc} alt={`${activeCard.name} – ${activeCard.company} ${activeCard.grade}${activeCard.isBlackLabel ? ' Black Label' : ''} front`} fill
-                        className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="420px" />
+                        className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="640px" />
                     )}
                   </div>
                   {/* Back */}
                   {hasBack && backSrc && (
                     <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
                       <Image src={backSrc} alt={`${activeCard.name} – ${activeCard.company} ${activeCard.grade}${activeCard.isBlackLabel ? ' Black Label' : ''} back`} fill
-                        className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="420px" />
+                        className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="640px" />
                     </div>
                   )}
                 </div>
@@ -692,24 +690,25 @@ function MarketplaceGridSkeleton({ label, count = 10 }: { label: string; count?:
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="marketplace-skeleton-card panel overflow-hidden"
+          className="marketplace-skeleton-card panel overflow-hidden flex flex-col h-full"
           style={{ animationDelay: `${i * 60}ms` }}
           aria-hidden="true"
         >
-          <div className="marketplace-skeleton-slab relative aspect-[3/4] bg-surface-raised">
+          <div className="marketplace-skeleton-slab relative aspect-[3/4] bg-surface-raised shrink-0">
             <div className="marketplace-skeleton-slab__frame" />
-            <div className="absolute top-2.5 right-2.5 flex flex-col items-end gap-1.5">
-              <div className="collection-skeleton__block h-6 w-11" />
-              <div className="collection-skeleton__block h-8 w-8" />
+            <div className="absolute top-2.5 right-2.5">
+              <div className="collection-skeleton__block h-7 w-[4.75rem]" />
             </div>
             <div className="marketplace-skeleton-slab__window collection-skeleton__block" />
           </div>
-          <div className="px-3.5 pt-2.5 pb-3 space-y-2">
-            <div className="collection-skeleton__block h-3.5 w-[78%]" />
-            <div className="collection-skeleton__block h-2.5 w-[42%]" />
-            <div className="pt-1 flex items-center justify-between gap-2">
-              <div className="collection-skeleton__block h-2.5 w-24" />
-              <div className="collection-skeleton__block h-7 w-7" />
+          <div className="px-3.5 pt-2.5 pb-3 flex flex-1 flex-col min-h-0">
+            <div className="collection-skeleton__block h-[2.625rem] w-[88%] mb-2" />
+            <div className="mt-auto border-t border-border-default pt-2 space-y-2">
+              <div className="collection-skeleton__block h-2.5 w-[48%]" />
+              <div className="flex items-center justify-between gap-2">
+                <div className="collection-skeleton__block h-2.5 w-24" />
+                <div className="collection-skeleton__block h-11 w-11" />
+              </div>
             </div>
           </div>
         </div>
@@ -735,12 +734,7 @@ export default function CardTradingPage() {
     [searchParams],
   );
 
-  const { cards, total, totalPages, loading: cardsLoading, error: cardsError } = usePublicMarketplaceCards(
-    query,
-    !MARKETPLACE_IN_PROGRESS,
-  );
-  const loading = MARKETPLACE_IN_PROGRESS ? false : cardsLoading;
-  const error = MARKETPLACE_IN_PROGRESS ? null : cardsError;
+  const { cards, total, totalPages, loading, error } = usePublicMarketplaceCards(query);
 
   const [searchInput, setSearchInput] = useState(query.q);
   const [showSort, setShowSort] = useState(false);
@@ -890,7 +884,7 @@ export default function CardTradingPage() {
     applyQuery({ ...query, companies: next, page: 1 });
   };
 
-  const filterToolbar = !MARKETPLACE_IN_PROGRESS ? (
+  const filterToolbar = (
     <div className="marketplace-toolbar flex flex-col gap-3">
       <div className="collection-toolbar__head !mb-0">
         <p className="collection-toolbar__count">
@@ -1055,16 +1049,13 @@ export default function CardTradingPage() {
         </div>
       </div>
     </div>
-  ) : null;
+  );
 
-  useSubHeader(filterToolbar ? { content: filterToolbar, contentWidth: 'page' } : null);
+  useSubHeader({ content: filterToolbar, contentWidth: 'page' });
 
 
 return (
     <div className="flex flex-col bg-surface-bg min-h-dvh overflow-x-clip">
-      {MARKETPLACE_IN_PROGRESS ? (
-        <ServiceAvailabilityBanner copy={mp.availability} />
-      ) : null}
 
       {/* ═══════════ HERO ═══════════ */}
       <section className="relative pt-8 pb-4 md:pt-10 md:pb-5 overflow-hidden border-b border-border-default">
@@ -1113,7 +1104,7 @@ return (
       </section>
 
       {/* ═══════════ RESULTS HEADER ═══════════ */}
-      {!MARKETPLACE_IN_PROGRESS && <div className="container-custom pt-4 md:pt-6 pb-2 flex items-center justify-between">
+      <div className="container-custom pt-4 md:pt-6 pb-2 flex items-center justify-between">
         {loading ? (
           <p className="marketplace-toolbar__loading inline-flex items-center gap-2 text-sm text-text-muted" aria-live="polite">
             <span className="marketplace-toolbar__loading-dot" aria-hidden="true" />
@@ -1131,18 +1122,11 @@ return (
             <X className="w-3 h-3" />{mp.emptyState.reset}
           </button>
         )}
-      </div>}
+      </div>
 
       {/* ═══════════ CARD GRID ═══════════ */}
       <section className="container-custom py-6 flex-1">
-        {MARKETPLACE_IN_PROGRESS ? (
-          <div className="panel px-5 py-6 md:px-6 md:py-8 max-w-2xl mx-auto">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-text-secondary mb-2">Status</p>
-            <p className="text-sm text-text-primary leading-relaxed">
-              {mp.availability.gridNote}
-            </p>
-          </div>
-        ) : loading ? (
+        {loading ? (
           <MarketplaceGridSkeleton label={mp.loadingLabel} count={10} />
         ) : error ? (
         /* Error state */
@@ -1166,12 +1150,12 @@ return (
               return (
                 <div
                   key={item.key}
-                  className="group relative panel overflow-hidden cursor-pointer transition-[border-color,box-shadow,transform] duration-300 hover:border-accent-brand/45 min-w-0"
+                  className="group relative panel overflow-hidden cursor-pointer transition-[border-color,box-shadow,transform] duration-300 hover:border-accent-brand/45 min-w-0 flex flex-col h-full"
                   style={{ animation: `fadeUp 0.4s ease-out ${i * 40}ms both` }}
                   onClick={() => setSelectedCard(parentCard)}
                 >
                   {/* Image area */}
-                  <div className="relative aspect-[3/4] overflow-hidden bg-surface-raised">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-surface-raised shrink-0">
                     {tileSrc && (
                       <Image
                         src={tileSrc}
@@ -1182,31 +1166,32 @@ return (
                       />
                     )}
 
-                    {/* RIGHT-SIDE badge column — company + grade stacked */}
-                    <div className="absolute top-2.5 right-2.5 flex flex-col items-end gap-1.5">
-                      {/* Grading company */}
+                    {/* Grade stamp — flat neo-brutalist, no light-theme shadow */}
+                    <div className="absolute top-2.5 right-2.5 z-[1] flex items-stretch overflow-hidden border border-border-strong bg-surface-panel">
                       <div
-                        className="h-6 px-2.5 flex items-center justify-center rounded-none text-sm font-black leading-none tabular-nums border border-border-default"
-                        style={{ background: companyStyle.background, color: companyStyle.color, boxShadow: companyStyle.shadow }}
+                        className="h-7 px-2 flex items-center justify-center font-mono text-xs font-bold leading-none tracking-wider uppercase"
+                        style={{ background: companyStyle.background, color: companyStyle.color }}
+                        translate="no"
                       >
                         {tileCompany}
                       </div>
-                      {/* Grade score */}
-                      <div className={`min-w-[32px] px-2 py-1.5 flex flex-col items-center justify-center rounded-none border ${gradeColor.bg} ${gradeColor.text} ${gradeColor.border}`}>
-                        {tileIsBlackLabel && <span className="text-xs font-black text-accent-brand leading-none mb-0.5">BL</span>}
-                        <span className="text-sm font-black leading-none tabular-nums">{tileGrade}</span>
+                      <div className={`h-7 min-w-[2.25rem] px-2 flex items-center justify-center gap-1 border-l border-border-strong bg-surface-raised ${gradeColor.text}`}>
+                        {tileIsBlackLabel && (
+                          <span className="font-mono text-xs font-bold text-accent-brand leading-none">BL</span>
+                        )}
+                        <span className="font-mono text-sm font-bold leading-none font-tabular" translate="no">{tileGrade}</span>
                       </div>
                     </div>
 
                     {/* Bundle badge — bottom left */}
                     {isBundle && (
                       <div className="absolute bottom-2 left-2 flex items-center gap-1.5 z-10">
-                        <div className="h-6 flex items-center gap-1 px-2 rounded-none bg-accent-cta text-accent-cta-ink border border-border-strong">
-                          <Layers className="w-3 h-3" />
-                          <span className="text-xs font-extrabold uppercase tracking-wider leading-none">{mp.bundle.fullSet}</span>
+                        <div className="h-6 flex items-center gap-1 px-2 border border-border-strong bg-accent-cta text-accent-cta-ink">
+                          <Layers className="w-3 h-3" aria-hidden="true" />
+                          <span className="font-mono text-xs font-bold uppercase tracking-wider leading-none">{mp.bundle.fullSet}</span>
                         </div>
-                        <div className="h-6 flex items-center px-1.5 border border-border-default bg-surface-bg/80">
-                          <span className="text-xs font-bold text-text-primary leading-none">
+                        <div className="h-6 flex items-center px-1.5 border border-border-default bg-surface-panel">
+                          <span className="font-mono text-xs font-bold text-text-primary leading-none font-tabular">
                             {isSubCard
                               ? `${(parentCard.bundleCards?.findIndex(bc => bc.name === tileName) ?? -1) + 2}/${bundleTotal}`
                               : `1/${bundleTotal}`
@@ -1216,45 +1201,53 @@ return (
                       </div>
                     )}
 
-                    {/* Sold overlay — gold to signal "price realized" prestige */}
+                    {/* Sold overlay */}
                     {parentCard.sold && (
-                      <div className="absolute inset-0 bg-black/65 flex items-center justify-center z-10">
-                        <div className="px-4 py-1.5 border border-accent-brand/50 bg-accent-brand/90">
-                          <span className="text-surface-bg text-xs font-bold uppercase tracking-wider">{mp.card.sold}</span>
+                      <div className="absolute inset-0 bg-accent-structural/70 flex items-center justify-center z-10">
+                        <div className="px-4 py-1.5 border border-border-strong bg-surface-panel">
+                          <span className="font-mono text-xs font-bold uppercase tracking-wider text-text-primary">{mp.card.sold}</span>
                         </div>
                       </div>
                     )}
 
-                    {/* Hover overlay — golden CTA pill */}
+                    {/* Hover affordance */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                      <div className="flex items-center gap-1.5 px-4 py-2 bg-accent-cta text-accent-cta-ink rounded-none text-xs font-bold border border-border-strong transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <Eye className="w-3.5 h-3.5" />
+                      <div className="flex items-center gap-1.5 px-4 py-2 bg-accent-cta text-accent-cta-ink border border-border-strong text-xs font-semibold transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                        <Eye className="w-3.5 h-3.5" aria-hidden="true" />
                         {mp.card.viewDetails}
                       </div>
                     </div>
                   </div>
 
-                  {/* Info panel */}
-                  <div className="px-3.5 pt-2.5 pb-3">
-                    <h3 className="text-text-primary font-bold text-sm leading-snug mb-0.5 truncate group-hover:text-accent-brand transition-colors duration-200">
+                  {/* Info — title + compact spec footer */}
+                  <div className="px-3.5 pt-2.5 pb-3 flex flex-1 flex-col min-h-0">
+                    <h3 className="text-text-primary font-semibold text-sm leading-snug line-clamp-2 h-[2.625rem] text-pretty group-hover:text-accent-brand transition-colors duration-200">
                       {tileName}
                     </h3>
-                    <p className="text-text-muted text-xs truncate mb-2 leading-tight">
-                      {tileYear}{tileSet ? ` · ${tileSet}` : ''}
-                    </p>
 
-                    {/* Price + WhatsApp action */}
-                    <div className="flex items-center justify-between gap-2">
-                      {parentCard.sold ? (
-                        <span className="text-xs font-bold text-accent-brand/70 uppercase tracking-wider">{mp.card.sold}</span>
-                      ) : (
-                        <span className="text-text-primary text-sm font-semibold tabular-nums">{formatPrice(parentCard.price, parentCard.currency)}</span>
-                      )}
-                      {!parentCard.sold && (
-                        <div className="min-h-11 min-w-11 rounded-full bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center group-hover:bg-[#25D366]/20 transition-colors duration-200">
-                          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-[#25D366]" />
+                    <div className="mt-auto border-t border-border-default pt-2 space-y-2">
+                      <p className="font-mono text-xs text-text-muted tracking-wide truncate leading-tight">
+                        {tileYear}{tileSet ? ` · ${tileSet}` : ''}
+                      </p>
+
+                      {/* Price + WhatsApp — soft success tint (semantic), slot always reserved */}
+                      <div className="flex items-center justify-between gap-2">
+                        {parentCard.sold ? (
+                          <span className="font-mono text-xs font-bold text-text-muted uppercase tracking-wider">{mp.card.sold}</span>
+                        ) : (
+                          <span className="text-text-primary text-sm font-semibold font-mono font-tabular">{formatPrice(parentCard.price, parentCard.currency)}</span>
+                        )}
+                        <div
+                          className={`min-h-11 min-w-11 rounded-md flex items-center justify-center transition-colors duration-200 ${
+                            parentCard.sold
+                              ? 'invisible'
+                              : 'bg-accent-success/15 border border-accent-success/40 group-hover:bg-accent-success/25 group-hover:border-accent-success/60'
+                          }`}
+                          aria-hidden={parentCard.sold}
+                        >
+                          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-accent-success" aria-hidden="true" />
                         </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1323,7 +1316,7 @@ return (
       </section>
 
       {/* ═══════════ DETAIL MODAL ═══════════ */}
-      {!MARKETPLACE_IN_PROGRESS && selectedCard && (
+      {selectedCard && (
         <CardDetailModal card={selectedCard} labels={mp} onClose={() => setSelectedCard(null)} />
       )}
 
