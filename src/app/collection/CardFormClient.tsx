@@ -15,6 +15,7 @@ import {
   normalizeCard,
   normalizePortfolio,
 } from './types';
+import { dataUrlToBlob } from '@/lib/compress-image';
 import { compressImage, getMemberLevel } from './components/shared';
 import { CardFormView } from './components/CardFormView';
 import { CollectionLoadingSkeleton } from './components/CollectionLoadingSkeleton';
@@ -152,16 +153,24 @@ function CardFormInner({ cardId: cardIdProp }: CardFormClientProps) {
     const isDataUrl = (s?: string) => !!s && s.startsWith('data:');
 
     const uploadImage = async (dataUrl: string, seq: number) => {
-      const blob = await fetch(dataUrl).then(r => r.blob());
+      // Avoid fetch(dataUrl) — prod Cloudflare CSP connect-src blocks data: fetches.
+      const blob = dataUrlToBlob(dataUrl);
+      const type = blob.type && blob.type !== 'application/octet-stream'
+        ? blob.type
+        : 'image/jpeg';
+      const file = new File([blob], `card-${seq}.jpg`, { type });
       const fd = new FormData();
-      fd.append('image', blob, `card-${seq}.jpg`);
+      fd.append('image', file);
       fd.append('seq', String(seq));
       const res = await fetch(joinBackendUrl(`/cards/${savedCardId}/images`), {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: fd,
       });
-      if (!res.ok) throw new Error(`Image upload failed (seq ${seq})`);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        throw new Error(err.error ?? `Image upload failed (seq ${seq})`);
+      }
     };
 
     const deleteImage = async (seq: number) => {
