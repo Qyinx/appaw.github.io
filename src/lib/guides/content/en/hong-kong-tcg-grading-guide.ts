@@ -161,6 +161,10 @@ const guide: GuideContent = {
       label: 'Appaw PSA grading submission page',
       href: 'https://appaw.store/business/psa-grading/',
     },
+    {
+      label: 'Appaw graded card marketplace',
+      href: 'https://appaw.store/business/card-trading/',
+    },
   ],
 };
 

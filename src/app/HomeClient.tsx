@@ -135,7 +135,7 @@ export default function HomeClient() {
                   onClick={service.onClick}
                   className="group bg-surface-panel p-6 md:p-8 flex flex-col h-full hover:bg-surface-raised transition-colors duration-150"
                 >
-                  <span className={`inline-block self-start font-mono text-[10px] uppercase tracking-widest px-2 py-1 border mb-4 ${service.accent}`}>
+                  <span className={`inline-block self-start font-mono text-xs uppercase tracking-widest px-2 py-1 border mb-4 ${service.accent}`}>
                     {service.badge}
                   </span>
                   <h3 className="text-lg font-display font-semibold text-text-primary mb-3 group-hover:text-accent-brand transition-colors duration-150">
@@ -160,7 +160,7 @@ export default function HomeClient() {
               className="panel p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 hover:bg-surface-raised transition-colors duration-150 group"
             >
               <div className="max-w-xl">
-                <span className="inline-block font-mono text-[10px] uppercase tracking-widest px-2 py-1 border border-accent-secondary/40 text-accent-secondary mb-3">
+                <span className="inline-block font-mono text-xs uppercase tracking-widest px-2 py-1 border border-accent-secondary/40 text-accent-secondary mb-3">
                   {t.home.services.psaGrading.badge}
                 </span>
                 <h3 className="text-xl md:text-2xl font-display font-bold text-text-primary mb-2 group-hover:text-accent-brand transition-colors duration-150">
@@ -295,7 +295,7 @@ export default function HomeClient() {
                 delay={i * 40}
                 className="home-spec-tile bg-surface-panel p-6 md:p-8"
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-3">{label}</p>
+                <p className="font-mono text-xs uppercase tracking-[0.14em] text-text-secondary mb-3">{label}</p>
                 <p className="font-display text-lg md:text-xl font-semibold text-text-primary mb-2 text-balance">{value}</p>
                 <p className="text-sm text-text-secondary leading-relaxed">{hint}</p>
               </Reveal>

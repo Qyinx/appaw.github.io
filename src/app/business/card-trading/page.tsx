@@ -1,32 +1,16 @@
-import { promises as fs } from 'fs';
-import path from 'path';
 import type { TradingCard } from '@/types/trading-card';
 import { en } from '@/i18n';
 import CardTradingPage from './CardTradingClient';
 import StructuredData from '@/components/StructuredData';
-import { itemListJsonLd, faqJsonLd, howToJsonLd } from '@/lib/seo';
+import { itemListJsonLd, faqJsonLd, howToJsonLd, webPageJsonLd } from '@/lib/seo';
 import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
+import { fetchPublicMarketplaceCardsForBuild } from '@/lib/marketplace/publicCards';
+import { absoluteMarketplaceImageUrl } from '@/lib/marketplace/cardImage';
+import { Suspense } from 'react';
 
-/* ──────────────────────────────────────────
-   Server Component — Card Trading Page
-   ──────────────────────────────────────────
-   Owns all JSON-LD structured data for /business/card-trading/ only.
-   Schemas are defined here (not in layout) to prevent them bleeding
-   into child routes such as /business/card-trading/[id]/.
-
-   Card data is also read here and forwarded to the interactive
-   client component as `initialCards`.
-   ────────────────────────────────────────── */
-
-async function getCards(): Promise<TradingCard[]> {
-  const filePath = path.join(process.cwd(), 'public', 'data', 'trade-card.json');
-  const raw = await fs.readFile(filePath, 'utf-8');
-  return JSON.parse(raw) as TradingCard[];
-}
+const BASE = 'https://appaw.store';
 
 function buildItems(cards: TradingCard[]) {
-  const BASE = 'https://appaw.store';
-
   return cards.map((card, i) => ({
     '@type': 'ListItem',
     position: i + 1,
@@ -34,27 +18,23 @@ function buildItems(cards: TradingCard[]) {
       '@type': 'Product',
       name: `${card.name} — ${card.company} ${Number.isInteger(card.grade) ? card.grade : card.grade.toFixed(1)}${card.isBlackLabel ? ' Black Label' : ''}`,
       description: `${card.company} ${Number.isInteger(card.grade) ? card.grade : card.grade.toFixed(1)} graded ${card.name}${card.set ? ` from ${card.set}` : ''}${card.language ? `, ${card.language} edition` : ''}`,
-      image: card.image
-        ? `${BASE}${card.image}`
-        : card.bundleCards?.[0]?.image
-          ? `${BASE}${card.bundleCards[0].image}`
-          : undefined,
-      brand: { '@type': 'Brand', name: card.company },
+      image: absoluteMarketplaceImageUrl(card.image || card.bundleCards?.[0]?.image),
+      brand: { '@type': 'Brand', name: card.set || 'Appaw Store' },
       category: 'Graded Trading Cards',
+      ...(card.certNumber ? { mpn: card.certNumber } : {}),
       offers: {
         '@type': 'Offer',
         price: card.price,
         priceCurrency: card.currency,
         availability: card.sold ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/UsedCondition',
         url: `${BASE}/business/card-trading/${card.id}/`,
         seller: { '@type': 'Organization', name: 'Appaw Store' },
       },
-      ...(card.certNumber ? { gtin: card.certNumber } : {}),
     },
   }));
 }
 
-// FAQPage — trading guide Q&As, scoped to /business/card-trading/ only
 const tradingFaqJsonLd = faqJsonLd([
   ...en.tradingGuide.buy.faq.items,
   ...en.tradingGuide.sell.faq.items,
@@ -71,44 +51,44 @@ const buyHowToJsonLd = howToJsonLd({
 });
 
 const sellHowToJsonLd = howToJsonLd({
-  name: 'How to Sell or Consign a Graded Trading Card with Appaw Store in Hong Kong',
-  description: 'Step-by-step guide to selling or consigning your PSA or CGC graded trading card through Appaw Store in Hong Kong.',
+  name: 'How to Consign a Graded Trading Card with 138 Arena in Hong Kong',
+  description: 'Step-by-step guide to consigning a PSA or CGC graded trading card through 138 Arena, Appaw Store’s partner venue.',
   step: [
-    { position: 1, '@type': 'HowToStep', name: 'Contact us and get a quote', text: 'WhatsApp +852-9285-1189 to initiate consignment. Cards undergo authenticity inspection — we may decline where authenticity cannot be confirmed.' },
-    { position: 2, '@type': 'HowToStep', name: 'Deliver your card face-to-face', text: 'Bring the card to an agreed Hong Kong meetup location. No postal submissions accepted.' },
-    { position: 3, '@type': 'HowToStep', name: 'Your card is listed with no upfront fee', text: 'We list your card on the marketplace. No listing fee — commission only on successful sale. Request a price change anytime; updates go live within 48 hours.' },
+    { position: 1, '@type': 'HowToStep', name: 'Contact 138 Arena', text: 'Message 138 Arena on Instagram @138arena. Consignment intake is at 1/F, 522 Jaffe Road, Causeway Bay. Cards undergo authenticity inspection.' },
+    { position: 2, '@type': 'HowToStep', name: 'Deliver your card', text: 'Bring the card to 138 Arena in Causeway Bay. Confirm hours on Instagram @138arena.' },
+    { position: 3, '@type': 'HowToStep', name: 'Listed at a flat 5%', text: 'Your card is listed on the marketplace. Commission is a flat 5% of the sale price, including listing fees and payment-processor fees. Request a price change anytime; updates go live within 48 hours.' },
     { position: 4, '@type': 'HowToStep', name: 'Quarterly stocktake', text: 'Every 3 months we contact you to confirm whether to continue listing. No response within 2 months is treated as transfer of ownership to Appaw Store.' },
-    { position: 5, '@type': 'HowToStep', name: 'Receive payment upon sale', text: 'Once sold, we arrange payment to you after deducting the agreed commission fee.' },
+    { position: 5, '@type': 'HowToStep', name: 'Receive payment upon sale', text: 'Once sold, payment is arranged after deducting the 5% commission.' },
   ],
 });
 
 export default async function Page() {
-  const cards = MARKETPLACE_IN_PROGRESS ? [] : await getCards();
+  const cards = MARKETPLACE_IN_PROGRESS ? [] : await fetchPublicMarketplaceCardsForBuild();
   const structuredData = MARKETPLACE_IN_PROGRESS
     ? [tradingFaqJsonLd, buyHowToJsonLd, sellHowToJsonLd]
     : [itemListJsonLd('Graded Trading Cards for Sale', buildItems(cards)), tradingFaqJsonLd, buyHowToJsonLd, sellHowToJsonLd];
 
+  const webPage = webPageJsonLd({
+    name: 'Graded Trading Card Marketplace | Appaw Store',
+    description: en.cardMarketplace.aeoAnswer,
+    url: `${BASE}/business/card-trading/`,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.marketplace-aeo-answer'],
+    },
+    mainEntity: {
+      '@type': 'CollectionPage',
+      name: 'Graded Trading Cards for Sale',
+      url: `${BASE}/business/card-trading/`,
+    },
+  });
+
   return (
     <>
-      <StructuredData data={structuredData} />
-      {/* Server-rendered copy — crawlable by search engines, styled to blend into hero */}
-      <div className="sr-only">
-        <h1>Buy &amp; Sell PSA Graded Pokémon, Sports &amp; MTG Cards in Hong Kong</h1>
-        <p>
-          Browse Appaw Store&apos;s curated marketplace of PSA, BGS, and TAG graded trading cards available in Hong Kong
-          with international shipping worldwide. We offer zero-fee consignment — list your graded card at no upfront cost
-          and pay commission only on a successful sale. Cards available include rare Pokémon, sports cards, and Magic: The
-          Gathering (MTG) singles graded by PSA (Professional Sports Authenticator) and BGS (Beckett Grading Services).
-          Buy directly via WhatsApp or browse all listings below.
-        </p>
-        <p>
-          Appaw Store specialises in high-value and investment-grade graded cards — from grail Pokémon singles to
-          blue-chip sports cards. Our zero-fee consignment service is trusted by serious collectors and alternative
-          asset investors across Hong Kong and internationally. Face-to-face meetups available in Hong Kong;
-          DAP international shipping accepted worldwide.
-        </p>
-      </div>
-      <CardTradingPage initialCards={cards} />
+      <StructuredData data={[webPage, ...structuredData]} />
+      <Suspense fallback={null}>
+        <CardTradingPage />
+      </Suspense>
     </>
   );
 }

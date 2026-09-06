@@ -164,6 +164,10 @@ const guide: GuideContent = {
       label: 'Appaw PSA評級代送鑑定',
       href: 'https://appaw.store/zh/business/psa-grading/',
     },
+    {
+      label: 'Appaw 鑑定卡市集',
+      href: 'https://appaw.store/zh/business/card-trading/',
+    },
   ],
 };
 

@@ -15,7 +15,7 @@ const service = serviceJsonLd({
     '寶可夢卡牌寄售',
   ],
   description:
-    'Professional Pokémon TCG brokerage and consignment service in Hong Kong. We sell your PSA or CGC graded cards on your behalf — expert valuation, global buyer network, commission on sale only, zero upfront fees.',
+    'Professional Pokémon TCG brokerage and consignment in Hong Kong via 138 Arena. Flat 5% commission on the sale price, including listing and payment-processor fees.',
   serviceType: 'Financial/Trading – Trading Card Brokerage & Consignment',
   url: 'https://appaw.store/business/card-trading/',
   provider: {
@@ -50,7 +50,7 @@ const service = serviceJsonLd({
           '@type': 'Service',
           name: 'Card Consignment',
           description:
-            'We list and sell your PSA/CGC graded Pokémon, sports, and MTG cards. Commission charged on sale only — no upfront listing fees.',
+            'We list and sell your PSA/CGC graded Pokémon, sports, and MTG cards through 138 Arena. Commission is a flat 5% of the sale price, including listing and payment fees.',
         },
       },
       {

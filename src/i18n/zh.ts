@@ -185,7 +185,7 @@ export const zh: Translations = {
     subtitle: '您最可靠的卡牌收藏神隊友',
     story: {
       title: '品牌故事',
-      content: 'Appaw Store 於 2024 年由幾位香港本土資深收藏家共同創立。起因於一個簡單的煩惱：市面上的壓克力卡殼實在不夠理想、、一摔就破、缺乏抗 UV 能力，擺在展示架上也略顯廉價。既然找不到完美的，我們決定自己做。我們的磁吸防 UV 保護殼結合了強化玻璃、堅固金屬邊框與 N52 磁吸技術，讓追求極致的收藏家能同時享有可靠保護與藝術品般的展示效果。除了硬體設備，我們也在香港打造了高誠信的 TCG 面交買賣服務，以完全透明、免收前期費用的模式，為寶可夢、運動卡及 MTG 的買賣雙方建立橋樑。',
+      content: 'Appaw Store 於 2024 年由幾位香港本土資深收藏家共同創立。起因於一個簡單的煩惱：市面上的壓克力卡殼實在不夠理想、、一摔就破、缺乏抗 UV 能力，擺在展示架上也略顯廉價。既然找不到完美的，我們決定自己做。我們的磁吸防 UV 保護殼結合了強化玻璃、堅固金屬邊框與 N52 磁吸技術，讓追求極致的收藏家能同時享有可靠保護與藝術品般的展示效果。除了硬體設備，我們亦與銅鑼灣 138 Arena 合作，在香港提供高誠信的 TCG 面交買賣及寄賣，佣金一律成交價 5%。',
       founderName: 'Appaw Store 團隊',
       founderRole: '創立於 2024 年 · 香港',
     },
@@ -213,17 +213,14 @@ export const zh: Translations = {
       },
     },
     trust: {
+      badge: '我們的做法',
       title: '因為熱愛，所以專注',
       description: '我們經手的每一張卡片、處理的每一筆交易，都傾注了我們對收藏的熱情與專業。',
-      stats: {
-        cardsProtected: '張卡片獲得保護',
-        happyCustomers: '位滿意客戶',
-        satisfaction: '客戶滿意度',
-        yearsOfCraft: '年專注工藝',
-        andCounting: '持續增長中',
-        worldwide: '服務遍及全球',
-        customerVerified: '買家真實驗證',
-        ofExcellence: '追求卓越品質',
+      facts: {
+        hk: { label: '香港', body: '在香港設計與營運，優先服務本地藏家。' },
+        arena: { label: '138 Arena', body: '與合作場地於銅鑼灣面交收件及寄賣。' },
+        protector: { label: '防UV玻璃保護殼', body: '強化防UV玻璃、金屬邊框、N52磁吸，適配標準 35PT PSA/CGC 鑑定卡。' },
+        market: { label: '市集', body: 'Appaw Store 上架來自公開收藏作品集；寄賣佣金一律成交價 5%，由 138 Arena 處理。' },
       },
     },
   },
@@ -300,10 +297,10 @@ export const zh: Translations = {
       description: '一個讓您絕對放心的鑑定卡交易平台。無論是想入手夢幻逸品，還是獲利了結您的珍藏，我們都以最高標準的透明度與專業態度為您把關。寄賣主要於 138 Arena 落地，並同步於市集寄賣。',
       badge: '交易與寄售服務',
       featureTitles: ['買賣撮合', '精準估價', '無憂寄售', '真偽把關'],
-      chips: ['免收上架費', '專注 PSA 及 CGC', '香港面交保證', '成功售出才收費'],
+      chips: ['佣金一律 5%', '專注 PSA 及 CGC', '香港面交保證', '138 Arena 寄賣'],
       features: [
         '專營 PSA/CGC 鑑定的寶可夢、運動卡及 MTG 高價值卡牌',
-        '省心寄售服務 、 我們代為銷售，僅收取合理分階佣金',
+        '於 138 Arena 寄賣 — 佣金一律成交價 5%，已包括上架費及支付手續費',
         '結合即時市場數據，提供專業客觀的資產估價',
         '嚴格把關交易安全，買賣雙方權益皆有保障',
       ],
@@ -514,13 +511,13 @@ export const zh: Translations = {
 
   // Card Trading Guide & FAQ
   tradingGuide: {
-    badge: '收購與寄賣服務',
-    title: '收購與寄賣指南',
-    subtitle: '專為重視資產價值的高端藏家及另類投資者打造的流暢交易流程。',
+    badge: '購買與寄賣',
+    title: '購買與寄賣流程',
+    subtitle: 'WhatsApp 洽購。於 138 Arena 寄賣，佣金一律成交價 5%（已包括上架費及支付手續費）。',
     buyTab: '購買卡牌',
     sellTab: '出售卡牌',
     buy: {
-      title: '如何向我們收購卡牌',
+      title: '如何購買卡牌',
       rules: [
         {
           heading: '1. 透過 WhatsApp 提出報價',
@@ -558,15 +555,15 @@ export const zh: Translations = {
       },
     },
     sell: {
-      title: '如何委託寄賣資產',
+      title: '如何寄賣卡牌',
       rules: [
         {
-          heading: '1. 交付卡牌方式',
-          body: '您可選擇親自面交（高單價資產首選）將卡牌交給我們，或透過國際快遞寄送。若採寄送方式，運費須由寄賣方承擔（DAP 條款）。',
+          heading: '1. 交到 138 Arena',
+          body: '寄賣由 138 Arena 處理，地址：銅鑼灣謝斐道 522 號 1/F。營業時間及最新收件安排見 Instagram @138arena。高單價卡牌建議當面交付。',
         },
         {
-          heading: '2. 零前期費用，成交才收佣',
-          body: '我們不收取任何上架費或預付費用。佣金只會在卡牌確認成功售出後，從貨款中扣除。',
+          heading: '2. 佣金一律 5%',
+          body: '佣金按成交價一律 5%，已包括上架費及支付工具手續費，於成交時從貨款扣除。最新條款請向 138 Arena 確認。',
         },
         {
           heading: '3. 每季庫存點算',
@@ -590,7 +587,7 @@ export const zh: Translations = {
           },
           {
             q: '寄賣的佣金是怎麼計算的？',
-            a: '我們採用分階收費，讓高價卡牌更具優勢：HK$1,000 以下 → 7%（最低 HK$50） | HK$1,000～1,999 → 6% | HK$2,000～9,999 → 5.25% | HK$10,000～49,999 → 4.5% | HK$50,000 以上 → 4.25%。佣金於成交時直接扣除，不收任何前期費用。',
+            a: '佣金一律成交價 5%，已包括上架費及支付手續費，於成交時扣除。最新收費請向 138 Arena 確認（Instagram @138arena，銅鑼灣謝斐道 522 號 1/F）。',
           },
           {
             q: '如果一直賣不掉，可以把卡牌拿回來嗎？',
@@ -611,9 +608,10 @@ export const zh: Translations = {
 
   // Card Trading Marketplace
   cardMarketplace: {
-    badge: '名卡展廳',
-    title: '高端卡牌市集',
-    subtitle: '為您嚴選的投資級鑑定卡牌、、真偽無虞、品相絕佳，隨時歡迎洽詢。',
+    badge: '卡牌市集',
+    title: '香港鑑定卡市集',
+    aeoAnswer: 'Appaw Store 於香港上架 PSA、BGS、CGC、TAG 鑑定卡。可經 WhatsApp 購買，銅鑼灣面交或全球 DAP 付運。寄賣由 138 Arena 處理，佣金一律成交價 5%，已包括上架費及支付手續費。',
+    subtitle: 'PSA／BGS／CGC／TAG · WhatsApp 購買 · 寄賣佣金 5%',
     availability: {
       badge: '即將盛大開放',
       title: '目前為邀請制測試階段',
@@ -632,15 +630,37 @@ export const zh: Translations = {
       linkBuyingGuide: '安心購買指南',
       linkConsign: '我要委託寄售',
     },
-    searchPlaceholder: '輸入卡名或關鍵字搜尋...',
+    searchPlaceholder: '搜尋卡名、系列、編號…',
+    loadingLabel: '載入卡牌中…',
     filters: {
-      allCompanies: '全部鑑定公司',
-      allGrades: '所有評級分數',
+      allCompanies: '全部',
+      allGrades: '全部',
+      more: '更多',
+      price: '價錢（港元）',
+      minPrice: '最低價',
+      maxPrice: '最高價',
+      year: '年份',
+      minYear: '起始年份',
+      maxYear: '結束年份',
+      language: '語言',
+      includeSold: '含已售',
+      blackLabel: '只看 Black Label',
+      clearAll: '清除篩選',
+      clearSearch: '清除搜尋',
+      page: '頁',
+      prev: '上一頁',
+      next: '下一頁',
       gradeRanges: {
-        gem: '完美品相 (10)',
-        high: '高分評級 (8–9.5)',
-        mid: '中等評級 (5–7.5)',
-        low: '入門收藏 (< 5)',
+        gem: '10',
+        high: '8–9.5',
+        mid: '5–7.5',
+        low: '< 5',
+      },
+      gradeRangeHints: {
+        gem: '完美品相 10',
+        high: '高分評級 8–9.5',
+        mid: '中等評級 5–7.5',
+        low: '入門收藏低於 5',
       },
     },
     card: {
@@ -652,7 +672,7 @@ export const zh: Translations = {
       cert: '證書編號',
       language: '卡面語言',
       price: '掛牌價格',
-      inquire: 'WhatsApp 洽詢',
+      inquire: 'WhatsApp 購買',
       viewDetails: '查看詳細資訊',
       sold: '已成功售出',
       soldOut: '已成功售出',
@@ -682,11 +702,11 @@ export const zh: Translations = {
       excellent: '優良品 (EX)',
     },
     emptyState: {
-      title: '暫時找不到符合的卡牌',
-      description: '試試看調整篩選條件，或是換個搜尋關鍵字吧。',
-      reset: '清除所有篩選',
+      title: '沒有符合的卡牌',
+      description: '清除篩選或換個關鍵字再試。',
+      reset: '重設篩選',
     },
-    resultsCount: '件投資級資產',
+    resultsCount: '張卡牌',
     sortBy: '排序方式',
     sortOptions: {
       newest: '最新上架優先',
@@ -697,34 +717,34 @@ export const zh: Translations = {
       nameAZ: '名稱：A 至 Z',
     },
     ctaBanner: {
-      title: '尋找夢幻逸品？私下代尋服務',
-      description: '正在找尋市場上罕見的頂級投資資產嗎？我們能憑藉廣大網絡為您尋找未公開上架的高價值卡牌、、歡迎私下與我們洽談。',
-      button: '私下洽詢代尋',
+      title: '在找特定卡牌？',
+      description: 'WhatsApp 告訴我們需求，我們可協助查庫存與相近卡牌。',
+      button: 'WhatsApp 聯絡',
     },
     whyAppaw: {
-      badge: '為何選擇 Appaw Store？',
-      title: '堅守投資級標準',
-      titleAccent: '我們不只是一個買賣平台。',
-      subtitle: '每一筆收購與寄賣我們都嚴陣以待，因為您的資產值得最專業的對待。',
+      badge: '為何選擇 Appaw',
+      title: '為香港藏家而設',
+      titleAccent: '清楚、可驗證。',
+      subtitle: '寄賣條款清晰、面交驗證、並可搭配鑑定卡保護殼。',
       pillars: [
         {
-          title: '博物館級展示防護',
-          body: '凡經 Appaw Store 處理的高價藏品，均完美適配我們的防 UV 玻璃保護殼，結合 N52 磁吸技術，確保交易前後都安全無虞。',
-          linkText: '了解保護殼設計',
+          title: '防 UV 保護殼',
+          body: '上架卡牌可搭配我們的 35PT 防 UV 玻璃保護殼——>95% 抗 UV 強化玻璃與 N52 磁吸。',
+          linkText: '了解保護殼',
         },
         {
-          title: '安心的面交驗證',
-          body: '在香港進行的所有交易，均於雙方同意的安全地點當面完成。拒絕盲盒式交易，確保買方能親自驗證卡況後再付款。',
+          title: '香港面交驗證',
+          body: '香港交易當面完成，雙方於交接時檢查卡磚——不設匿名交收。',
           linkText: null,
         },
         {
-          title: '無壓力的零預付寄賣',
-          body: '把繁瑣的銷售交給我們！免收前期上架費，僅於成功售出後抽取佣金。高價卡牌佣金更低至 4.25%，為藏家提供極具競爭力的方案。',
-          linkText: '查看詳細佣金表',
+          title: '一律 5% 寄賣',
+          body: '寄賣由 138 Arena 處理。佣金一律成交價 5%，已包括上架費及支付手續費。最新條款見 Instagram @138arena。',
+          linkText: '查看佣金說明',
         },
         {
-          title: '溯源清晰的投資保證',
-          body: '我們嚴格篩選，僅接受 PSA、BGS 及 TAG 權威認證的資產。每件商品均公開認證編號，方便買家在決定前隨時上網查驗。',
+          title: '公開證書編號',
+          body: '我們上架 PSA、BGS、CGC、TAG 鑑定卡，並列出證書編號方便購買前核實。',
           linkText: null,
         },
       ],
@@ -742,6 +762,24 @@ export const zh: Translations = {
       description: '我們正在精心打造一個專屬於頂級投資級鑑定卡的線上畫廊，敬請密切期待。若您急需尋找特定卡牌，隨時歡迎私下聯絡我們。',
       whatsapp: 'WhatsApp 聯絡客服',
       dismiss: '了解',
+    },
+    sellPage: {
+      title: '上架卡牌',
+      signIn: '登入以繼續',
+      deniedTitle: '僅限員工上架',
+      deniedBody:
+        '官方市集只接受 @appaw.store 帳戶上架。公眾寄賣請聯絡 138 Arena，由他們處理寄賣，佣金一律成交價 5%（已包括上架費及支付手續費）。',
+      arenaCta: '138 Arena Instagram',
+      arenaAddress: '銅鑼灣謝斐道 522 號 1/F',
+      loadError: '無法載入你的卡牌。',
+      empty: '收藏庫尚未有卡。',
+      openCollection: '打開收藏庫',
+      listPrice: '掛牌價',
+      listed: '已上架',
+      unlist: '移出市集',
+      list: '上架到市集',
+      saving: '儲存中…',
+      hint: '先設掛牌價再上架。卡會放入公開 Marketplace 組合。後端同樣只准 @appaw.store。',
     },
   },
 
@@ -1261,7 +1299,7 @@ export const zh: Translations = {
     label: '法律資訊',
     title: '服務條款',
     lastUpdatedPrefix: '最後更新日期',
-    lastUpdated: '2026年8月30日',
+    lastUpdated: '2026年9月3日',
     brLabel: '商業登記號碼',
     hongKong: '香港',
     intro:
@@ -1322,7 +1360,7 @@ export const zh: Translations = {
         num: '07',
         heading: '卡牌交易及寄賣',
         body: [
-          'Appaw Store 設有卡牌交易平台。寄賣主要於 138 Arena 落地，並同步於市集寄賣。面交及交收安排，以卡牌交易頁面所述為準。',
+          'Appaw Store 設有卡牌交易平台。寄賣主要於 138 Arena 落地，並同步於本站市集上架。佣金一律成交價 5%，已包括上架費及支付手續費。面交及交收安排，以卡牌交易頁面所述為準。',
         ],
       },
       {
@@ -1345,7 +1383,7 @@ export const zh: Translations = {
         num: '10',
         heading: '變更',
         body: [
-          'Appaw Store 可不時修訂本條款。本頁頂部日期為最近一次修訂的日期。條款變更後，如繼續使用網站或服務，即視為接受修訂後的條款。本條款最近更新日期為 2026 年 8 月 30 日。',
+          'Appaw Store 可不時修訂本條款。本頁頂部日期為最近一次修訂的日期。條款變更後，如繼續使用網站或服務，即視為接受修訂後的條款。本條款最近更新日期為 2026 年 9 月 3 日。',
         ],
       },
     ],
@@ -1540,7 +1578,8 @@ export const zh: Translations = {
       new: '新建',
       makePublic: '把這個組合設為公開分享',
       publicForSale: '開放公開求售',
-      publicForSaleHint: '開啟後，拿到連結的人就能看到這批卡的掛牌價跟證書號碼囉。放心，你當初買多少錢是不會公開的！',
+      publicForSaleHint: '開啟後，拿到連結的人就能看到這批卡的掛牌價跟證書號碼囉。放心，你當初買多少錢是不會公開的！官方市集上架須用 @appaw.store 帳戶。',
+      publicForSaleStaffOnly: '店面公開上架僅限 @appaw.store 帳號。寄賣請經 138 Arena（一律 5%）。',
       create: '確認建立',
       creating: '魔法施展中…',
       shareLink: '拷貝分享連結',

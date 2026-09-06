@@ -1,4 +1,4 @@
-import { generateStaticParams, GuideSlugPageContent } from '../../../guides/[slug]/page';
+import Page, { generateStaticParams } from '../../../guides/[slug]/page';
 import { zhGuideMetadataForSlug } from '@/lib/guides/metadata';
 import type { Metadata } from 'next';
 
@@ -13,6 +13,4 @@ export async function generateMetadata({
   return zhGuideMetadataForSlug(slug) ?? {};
 }
 
-export default async function ZhGuideSlugPage(props: { params: Promise<{ slug: string }> }) {
-  return GuideSlugPageContent({ ...props, locale: 'zh' });
-}
+export default Page;

@@ -331,12 +331,6 @@ const collectionMetadataBase: Metadata = {
 
 export const collectionMetadata = withLocaleAlternates(collectionMetadataBase, '/collection/');
 
-const adminTradeMetadataBase: Metadata = {
-  title: 'Card Admin | Appaw Store',
-  robots: { index: false, follow: false },
-};
-
-export const adminTradeMetadata = withLocaleAlternates(adminTradeMetadataBase, '/admin/trade-cards/');
 
 const collectionListMetadataBase: Metadata = {
   title: 'My Collection | Appaw Store',
@@ -394,16 +388,26 @@ export const zhBusinessMetadata = zhRouteMetadata(businessMetadataBase, '/busine
 const cardTradingMetadataBase: Metadata = {
   title: 'PSA Pokémon Cards Hong Kong | Buy Rare Graded Cards – Appaw Store',
   description:
-    'The premier Hong Kong destination for investment-grade PSA 10 Pokémon cards. Zero-fee consignment, museum-quality verified transactions & private acquisition of blue-chip graded assets.',
-  robots: { index: false, follow: false },
+    'Hong Kong marketplace for investment-grade PSA 10 Pokémon cards. Consignment at 138 Arena with a flat 5% commission covering listing and payment fees. Face-to-face verified transactions.',
+  robots: { index: true, follow: true },
 };
 
 export const cardTradingMetadata = withLocaleAlternates(cardTradingMetadataBase, '/business/card-trading/');
 export const zhCardTradingMetadata = zhRouteMetadata(cardTradingMetadataBase, '/business/card-trading/', {
   title: '香港 PSA 寶可夢鑑定卡 | 購買稀有鑑定卡 – Appaw Store',
   description:
-    '香港投資級 PSA 10 寶可夢鑑定卡平台。零上架費寄售、面交驗證交易及高價值鑑定卡收購服務。',
+    '香港投資級 PSA 10 寶可夢鑑定卡市集。於 138 Arena 寄賣，佣金一律成交價 5%，已包括上架費及支付手續費。面交驗證交易。',
 });
+
+const cardTradingSellMetadataBase: Metadata = {
+  title: 'List a Card | Appaw Store',
+  robots: { index: false, follow: false },
+};
+
+export const cardTradingSellMetadata = withLocaleAlternates(
+  cardTradingSellMetadataBase,
+  '/business/card-trading/sell/',
+);
 
 const psaGradingMetadataBase: Metadata = {
   title: { absolute: PSA_GRADING_SEO.en.title },
@@ -571,9 +575,14 @@ export const zhCollectionSettingsMetadata = zhRouteMetadata(collectionSettingsMe
   description: '更新顯示名稱、電郵、偏好貨幣及買家聯絡方式。',
 });
 
-export const zhAdminTradeMetadata = zhRouteMetadata(adminTradeMetadataBase, '/admin/trade-cards/', {
-  title: '卡牌管理 | Appaw Store',
-});
+
+export const zhCardTradingSellMetadata = zhRouteMetadata(
+  cardTradingSellMetadataBase,
+  '/business/card-trading/sell/',
+  {
+    title: '上架卡牌 | Appaw Store',
+  },
+);
 
 const styleGuideMetadataBase: Metadata = {
   title: { absolute: 'Style Guide | Appaw Store' },

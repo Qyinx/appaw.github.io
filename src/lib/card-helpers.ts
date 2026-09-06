@@ -57,9 +57,18 @@ export function getGradeColor(grade: number, isBlackLabel?: boolean) {
 
 export function getCompanyStyle(company: GradingCompany) {
   switch (company) {
-    case 'PSA': return { background: 'rgb(238, 4, 3)', color: '#ffffff', shadow: '0 2px 8px rgba(238,4,3,0.3)' };
-    case 'BGS': return { background: 'linear-gradient(180deg, #ccb080, #caaf72 41.15%, #e2c489 77.6%, #ccb080)', color: '#1a1a1a', shadow: '0 2px 8px rgba(204,176,128,0.3)' };
-    case 'CGC': return { background: 'rgb(201, 0, 0)', color: '#ffffff', shadow: '0 2px 8px rgba(201,0,0,0.3)' };
+    case 'PSA':
+      return { background: 'rgb(238, 4, 3)', color: '#ffffff', shadow: '0 2px 8px rgba(238,4,3,0.3)' };
+    case 'BGS':
+      return { background: 'linear-gradient(180deg, #ccb080, #caaf72 41.15%, #e2c489 77.6%, #ccb080)', color: '#1a1a1a', shadow: '0 2px 8px rgba(204,176,128,0.3)' };
+    case 'CGC':
+      return { background: 'rgb(201, 0, 0)', color: '#ffffff', shadow: '0 2px 8px rgba(201,0,0,0.3)' };
+    case 'TAG':
+      return { background: '#111111', color: '#f5f5f5', shadow: '0 2px 8px rgba(0,0,0,0.35)' };
+    default: {
+      const _never: never = company;
+      return _never;
+    }
   }
 }
 

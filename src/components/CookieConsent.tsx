@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import LocalLink from '@/components/LocalLink';
 
@@ -9,6 +9,7 @@ const COOKIE_CONSENT_KEY = 'appaw-cookie-consent';
 export function CookieConsent() {
   const { t } = useLanguage();
   const [showBanner, setShowBanner] = useState(false);
+  const noticeRef = useRef<HTMLDivElement>(null);
 
   const copy = t.cookieConsent;
 
@@ -21,6 +22,38 @@ export function CookieConsent() {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+
+    if (!showBanner) {
+      root.classList.remove('cookie-notice-visible');
+      root.style.removeProperty('--cookie-notice-offset');
+      return;
+    }
+
+    root.classList.add('cookie-notice-visible');
+
+    const el = noticeRef.current;
+    if (!el) return;
+
+    const syncOffset = () => {
+      const next = `${el.offsetHeight}px`;
+      if (root.style.getPropertyValue('--cookie-notice-offset') !== next) {
+        root.style.setProperty('--cookie-notice-offset', next);
+      }
+    };
+
+    syncOffset();
+    const observer = new ResizeObserver(syncOffset);
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      root.classList.remove('cookie-notice-visible');
+      root.style.removeProperty('--cookie-notice-offset');
+    };
+  }, [showBanner]);
 
   const handleAccept = () => {
     localStorage.setItem(COOKIE_CONSENT_KEY, 'accepted');
@@ -48,6 +81,7 @@ export function CookieConsent() {
 
   return (
     <div
+      ref={noticeRef}
       className="cookie-notice"
       role="dialog"
       aria-labelledby="cookie-notice-title"

@@ -41,12 +41,12 @@ const services = itemListJsonLd('Appaw Store Services', [
     item: {
       '@type': 'Service',
       name: 'TCG Trading & Brokerage',
-      description: 'Trusted buy, sell, and consignment service for PSA and CGC graded trading cards in Hong Kong. Specialising in Pokémon, sports cards, and MTG. Face-to-face transactions only. Commission charged on successful sale only.',
+      description: 'Trusted buy, sell, and consignment service for PSA and CGC graded trading cards in Hong Kong. Specialising in Pokémon, sports cards, and MTG. Consignment at 138 Arena with a flat 5% commission.',
       provider: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
       serviceType: 'Trading Card Brokerage',
       areaServed: { '@type': 'City', name: 'Hong Kong' },
       url: 'https://appaw.store/business/card-trading/',
-      termsOfService: 'Face-to-face delivery in Hong Kong only. No upfront listing fee. Commission charged on successful sale. Quarterly stocktake every 3 months.',
+      termsOfService: 'Consignment at 138 Arena. Flat 5% of the sale price, including listing and payment fees. Quarterly stocktake every 3 months.',
     },
   },
   {

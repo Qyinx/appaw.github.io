@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const PORTFOLIO_PATH = /^\/(?:zh\/)?collection\/p\/([^/]+)\/?$/;
-const RESERVED = new Set(['view', '_']);
+const CARD_TRADING_PATH = /^\/(?:zh\/)?business\/card-trading\/([^/]+)\/?$/;
+const PORTFOLIO_RESERVED = new Set(['view', '_']);
+const CARD_TRADING_RESERVED = new Set(['view', 'sell', '_']);
 
 /**
  * Restrict /admin/* and /api/admin/* to localhost only.
@@ -16,10 +18,21 @@ export function proxy(req: NextRequest) {
   const portfolioMatch = pathname.match(PORTFOLIO_PATH);
   if (portfolioMatch) {
     const segment = portfolioMatch[1];
-    if (segment && !RESERVED.has(segment)) {
+    if (segment && !PORTFOLIO_RESERVED.has(segment)) {
       const isZh = pathname.startsWith('/zh/');
       const url = req.nextUrl.clone();
       url.pathname = isZh ? '/zh/collection/p/view/' : '/collection/p/view/';
+      return NextResponse.rewrite(url);
+    }
+  }
+
+  const cardMatch = pathname.match(CARD_TRADING_PATH);
+  if (cardMatch) {
+    const segment = cardMatch[1];
+    if (segment && !CARD_TRADING_RESERVED.has(segment)) {
+      const isZh = pathname.startsWith('/zh/');
+      const url = req.nextUrl.clone();
+      url.pathname = isZh ? '/zh/business/card-trading/view/' : '/business/card-trading/view/';
       return NextResponse.rewrite(url);
     }
   }
@@ -43,6 +56,8 @@ export const config = {
   matcher: [
     '/collection/p/:path*',
     '/zh/collection/p/:path*',
+    '/business/card-trading/:path*',
+    '/zh/business/card-trading/:path*',
     '/admin/:path*',
     '/api/admin/:path*',
   ],

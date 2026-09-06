@@ -1,30 +1,29 @@
 'use client';
 
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import LocalLink from '@/components/LocalLink';
-import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, X, MessageCircle, Package, Eye, ExternalLink, Hash, Globe, Tag, ZoomIn, Layers, Loader2, Share2, Check, ShoppingBag, Tag as TagIcon, Shield, Gauge } from 'lucide-react';
+import { Search, ArrowUpDown, ChevronDown, X, Package, Eye, ExternalLink, Hash, Globe, Tag, ZoomIn, Layers, Share2, Check, ShoppingBag, Tag as TagIcon, Shield, Gauge } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
-import { getImagePath } from '@/lib/utils';
-import { useCards } from '@/hooks/useCards';
+import { marketplaceImageSrc } from '@/lib/marketplace/cardImage';
+import { usePublicMarketplaceCards } from '@/hooks/usePublicMarketplaceCards';
 import { getGradeColor, getCompanyStyle, formatPrice, formatGrade } from '@/lib/card-helpers';
 import { MARKETPLACE_IN_PROGRESS } from '@/lib/marketplace-config';
 import { useSubHeader } from '@/hooks/useSubHeader';
 import ServiceAvailabilityBanner from '@/components/business/ServiceAvailabilityBanner';
 import type { TradingCard, GradingCompany, GradeTier } from '@/types/trading-card';
-
-/* ──────────────────────────────────────────
-   Helpers
-   ────────────────────────────────────────── */
-
-function getGradeTier(grade: number): GradeTier {
-  if (grade >= 10) return 'gem';
-  if (grade >= 8)  return 'high';
-  if (grade >= 5)  return 'mid';
-  return 'low';
-}
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  emptyMarketplaceQuery,
+  marketplaceQueryHasFilters,
+  marketplaceQueryToSearchParams,
+  parseMarketplaceSearchParams,
+  type MarketplaceQuery,
+  type MarketplaceSortKey,
+} from '@/lib/marketplace/query';
 
 /* ──────────────────────────────────────────
    Trading Guide + FAQ
@@ -55,14 +54,13 @@ function TradingGuide({ guide, registerActivate }: {
       <div className="container-custom">
 
         {/* Header */}
-        <div className="max-w-2xl mb-16">
-          <p className="section-label mb-6">{guide.badge}</p>
-          <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.1] mb-4">{guide.title}</h2>
-          <p className="text-text-secondary text-base leading-relaxed">{guide.subtitle}</p>
+        <div className="max-w-2xl mb-10 md:mb-14">
+          <h2 className="text-2xl md:text-4xl font-bold font-display text-text-primary leading-[1.1] mb-3">{guide.title}</h2>
+          <p className="text-text-secondary text-sm md:text-base leading-relaxed">{guide.subtitle}</p>
         </div>
 
         {/* Tab switcher */}
-        <div className="flex items-center gap-2 p-1 bg-surface-raised border border-border-default rounded-xl w-fit mb-12">
+        <div className="flex items-center gap-2 p-1 bg-surface-raised border border-border-default rounded-none w-fit mb-12">
           <button
             onClick={() => { setActiveTab('buy'); setOpenFaq(null); }}
             className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300"
@@ -110,7 +108,7 @@ function TradingGuide({ guide, registerActivate }: {
                     {i + 1}
                   </div>
                   <div>
-                    <p className="text-text-primary font-semibold text-sm mb-1.5" style={{ color: 'white' }}>{rule.heading}</p>
+                    <p className="text-text-primary font-semibold text-sm mb-1.5">{rule.heading}</p>
                     <p className="text-text-secondary text-sm leading-relaxed">{rule.body}</p>
                   </div>
                 </div>
@@ -121,14 +119,12 @@ function TradingGuide({ guide, registerActivate }: {
           {/* FAQ accordion */}
           <div>
             <h3 className="text-lg font-bold text-text-primary mb-8 flex items-center gap-3">
-              <span className="w-6 h-px bg-white/20" />
+              <span className="w-6 h-px bg-border-strong" />
               {side.faq.title}
             </h3>
             <div className="space-y-2">
-              {side.faq.items.map((item, i) => {
-                const isCommission = item.a.includes('%');
-                return (
-                  <div key={i} className="border border-white/[0.07] rounded-xl overflow-hidden">
+              {side.faq.items.map((item, i) => (
+                  <div key={i} className="border border-border-default rounded-none overflow-hidden bg-surface-panel">
                     <button
                       className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-surface-raised"
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
@@ -140,66 +136,13 @@ function TradingGuide({ guide, registerActivate }: {
                       />
                     </button>
                     <div
-                      className="overflow-hidden transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300"
-                      style={{ maxHeight: openFaq === i ? (isCommission ? '700px' : '200px') : '0px', opacity: openFaq === i ? 1 : 0 }}
+                      className="overflow-hidden transition-[max-height,opacity] duration-300"
+                      style={{ maxHeight: openFaq === i ? '240px' : '0px', opacity: openFaq === i ? 1 : 0 }}
                     >
-                      <p className="px-5 pt-1 pb-3 text-text-secondary text-sm leading-relaxed">{item.a}</p>
-                      {isCommission && (
-                        <div className="px-5 pb-6">
-                          <p className="text-text-muted text-[9px] uppercase tracking-[0.2em] text-center mb-4">Commission Rate by Sale Price</p>
-                          {/*
-                            Apex (140,8) → Base y=252, half-width=120 → (20,252)–(260,252)
-                            Slope: right_x = 140 + (y−8)×120/244   left_x = mirror
-                            Tiers: y=8–57, 59–108, 110–159, 161–210, 212–252  (1px gap)
-                            Leader dots at right-edge midpoint of each tier
-                          */}
-                          <svg viewBox="0 0 380 272" className="w-full max-w-[380px] mx-auto block">
-                            {/* Pyramid bands */}
-                            <polygon points="140,8 116,57 164,57"                   fill="var(--accent-primary)" fillOpacity="0.42" stroke="var(--accent-primary)" strokeOpacity="0.68" strokeWidth="1" strokeLinejoin="round" />
-                            <polygon points="115,59 165,59 189,108 91,108"          fill="var(--accent-primary)" fillOpacity="0.31" stroke="var(--accent-primary)" strokeOpacity="0.5" strokeWidth="1" />
-                            <polygon points="90,110 190,110 214,159 66,159"         fill="var(--accent-primary)" fillOpacity="0.21" stroke="var(--accent-primary)" strokeOpacity="0.37" strokeWidth="1" />
-                            <polygon points="65,161 215,161 239,210 41,210"         fill="var(--accent-primary)" fillOpacity="0.13" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="1" />
-                            <polygon points="40,212 240,212 260,252 20,252"         fill="var(--accent-primary)" fillOpacity="0.07" stroke="var(--accent-primary)" strokeOpacity="0.16" strokeWidth="1" />
-
-                            {/* T1 — mid_y=32, right_x=152 */}
-                            <circle cx="152" cy="32" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
-                            <line x1="154" y1="32" x2="268" y2="32" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="28" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">4.25%</text>
-                            <text x="272" y="40" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">≥ HK$50,000</text>
-
-                            {/* T2 — mid_y=83, right_x=177 */}
-                            <circle cx="177" cy="83" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
-                            <line x1="179" y1="83" x2="268" y2="83" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="79" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">4.5%</text>
-                            <text x="272" y="91" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">HK$10,000–49,999</text>
-
-                            {/* T3 — mid_y=134, right_x=202 */}
-                            <circle cx="202" cy="134" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
-                            <line x1="204" y1="134" x2="268" y2="134" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="130" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">5.25%</text>
-                            <text x="272" y="142" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">HK$2,000–9,999</text>
-
-                            {/* T4 — mid_y=185, right_x=227 */}
-                            <circle cx="227" cy="185" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
-                            <line x1="229" y1="185" x2="268" y2="185" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="181" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">6%</text>
-                            <text x="272" y="193" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">HK$1,000–1,999</text>
-
-                            {/* T5 — mid_y=232, right_x=250 */}
-                            <circle cx="250" cy="232" r="2.5" fill="var(--accent-primary)" fillOpacity="0.6" />
-                            <line x1="252" y1="232" x2="268" y2="232" stroke="var(--accent-primary)" strokeOpacity="0.25" strokeWidth="0.8" strokeDasharray="3,2.5" />
-                            <text x="272" y="228" fill="var(--accent-primary)" fontSize="11.5" fontWeight="bold" fontFamily="inherit">7%</text>
-                            <text x="272" y="240" fill="var(--accent-primary)" fillOpacity="0.62" fontSize="7.5" fontFamily="inherit">{'< HK$1,000 · min HK$50'}</text>
-
-                            {/* Footnote */}
-                            <text x="140" y="265" textAnchor="middle" fill="rgba(255,255,255,0.17)" fontSize="7" fontFamily="inherit">On final agreed sale price • No upfront fees</text>
-                          </svg>
-                        </div>
-                      )}
+                      <p className="px-5 pt-1 pb-4 text-text-secondary text-sm leading-relaxed">{item.a}</p>
                     </div>
                   </div>
-                );
-              })}
+              ))}
             </div>
           </div>
         </div>
@@ -228,9 +171,8 @@ function WhyAppaw({ labels, onSeeCommission }: {
     <section className="section-padding border-t border-border-default bg-surface-panel overflow-hidden">
       <div className="container-custom">
         {/* Header */}
-        <div className="max-w-2xl mb-14">
-          <p className="section-label mb-5">{wa.badge}</p>
-          <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.1] mb-3">
+        <div className="max-w-2xl mb-10 md:mb-14">
+          <h2 className="text-2xl md:text-4xl font-bold font-display text-text-primary leading-[1.1] mb-3">
             {wa.title} <span className="text-accent-brand">{wa.titleAccent}</span>
           </h2>
           <p className="text-text-secondary text-sm leading-relaxed max-w-lg">
@@ -256,7 +198,7 @@ function WhyAppaw({ labels, onSeeCommission }: {
                 </span>
 
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110"
+                  className="w-12 h-12 rounded-none border border-border-default flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110"
                   style={{ backgroundColor: `${accent}18`, color: accent }}
                 >
                   <Icon className="w-5 h-5" />
@@ -299,9 +241,11 @@ function WhyAppaw({ labels, onSeeCommission }: {
 }
 
 /* ──────────────────────────────────────────
-   Detail Modal
+   Detail Modal — portaled above site chrome
    ────────────────────────────────────────── */
 function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels: ReturnType<typeof useLanguage>['t']['cardMarketplace']; onClose: () => void }) {
+  const [mounted, setMounted] = useState(false);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
   const isBundle = !!(card.bundleCards && card.bundleCards.length > 0);
   const [selectedBundleIdx, setSelectedBundleIdx] = useState(0);
   const [showBack, setShowBack] = useState(false);
@@ -323,7 +267,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
   const allInBundle = useMemo(() => {
     if (!isBundle || !card.bundleCards) return [];
     return [
-      { name: card.name, image: card.image ?? '', imageBack: card.imageBack, company: card.company, grade: card.grade, isBlackLabel: card.isBlackLabel, set: card.set, number: card.number, year: card.year, certNumber: card.certNumber },
+      { name: card.name, image: card.image, imageBack: card.imageBack, company: card.company, grade: card.grade, isBlackLabel: card.isBlackLabel, set: card.set, number: card.number, year: card.year, certNumber: card.certNumber },
       ...card.bundleCards,
     ];
   }, [isBundle, card]);
@@ -332,14 +276,17 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
   const activeCard = useMemo(() => {
     if (isBundle && allInBundle.length > 0) {
       const bc = allInBundle[selectedBundleIdx] ?? allInBundle[0];
-      return { name: bc.name, image: bc.image || '', imageBack: bc.imageBack, company: bc.company, grade: bc.grade, isBlackLabel: bc.isBlackLabel, set: bc.set, number: bc.number, year: bc.year ?? card.year, certNumber: bc.certNumber };
+      return { name: bc.name, image: bc.image, imageBack: bc.imageBack, company: bc.company, grade: bc.grade, isBlackLabel: bc.isBlackLabel, set: bc.set, number: bc.number, year: bc.year ?? card.year, certNumber: bc.certNumber };
     }
-    return { name: card.name, image: card.image || '', imageBack: card.imageBack, company: card.company, grade: card.grade, isBlackLabel: card.isBlackLabel, set: card.set, number: card.number, year: card.year, certNumber: card.certNumber };
+    return { name: card.name, image: card.image, imageBack: card.imageBack, company: card.company, grade: card.grade, isBlackLabel: card.isBlackLabel, set: card.set, number: card.number, year: card.year, certNumber: card.certNumber };
   }, [isBundle, allInBundle, selectedBundleIdx, card]);
 
   const gradeColor = getGradeColor(activeCard.grade, activeCard.isBlackLabel);
   const companyStyle = getCompanyStyle(activeCard.company);
-  const hasBack = !!activeCard.imageBack;
+  const frontSrc = marketplaceImageSrc(activeCard.image);
+  const backSrc = marketplaceImageSrc(activeCard.imageBack);
+  const hasBack = !!backSrc;
+  const lensSrc = showBack && hasBack ? backSrc : frontSrc;
 
   // Magnifier state — uses pixel offsets for accurate edge/corner viewing
   const LENS = 180; // lens diameter in px
@@ -369,10 +316,15 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
     setMagnifier({ active: false, pageX: 0, pageY: 0, bgX: 0, bgY: 0, bgW: 0, bgH: 0 });
   }, []);
 
-  // Lock body scroll
   useEffect(() => {
+    setMounted(true);
+    const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    const t = window.setTimeout(() => closeBtnRef.current?.focus(), 0);
+    return () => {
+      document.body.style.overflow = prev;
+      window.clearTimeout(t);
+    };
   }, []);
 
   // Close on Escape
@@ -392,138 +344,165 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
     ...(activeCard.certNumber ? [{ icon: <Hash className="w-3.5 h-3.5" />, label: labels.card.cert, value: activeCard.certNumber }] : []),
   ];
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8" onClick={onClose}>
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/80 animate-[fadeIn_0.2s_ease-out]" />
+  if (!mounted) return null;
 
-      {/* Panel */}
+  return createPortal(
+    <div
+      className="marketplace-detail-modal fixed inset-0 flex items-center justify-center p-3 sm:p-4 md:p-6 overscroll-contain"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={activeCard.name}
+    >
+      {/* Backdrop — covers header + filters */}
+      <button
+        type="button"
+        className="absolute inset-0 bg-accent-structural/85 cursor-pointer"
+        aria-label={labels.modal.close}
+        onClick={onClose}
+      />
+
+      {/* Centered popup panel */}
       <div
-        className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto panel animate-[fadeUp_0.3s_ease-out]"
+        className="relative z-[1] flex w-full max-w-5xl max-h-[min(92dvh,900px)] flex-col overflow-hidden border border-border-strong bg-surface-panel shadow-[0_24px_64px_rgba(0,0,0,0.45)] animate-[fadeUp_0.3s_ease-out]"
         onClick={e => e.stopPropagation()}
       >
         {/* Top-right actions */}
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5">
           {/* Copy link */}
           <button onClick={handleCopyLink}
+            type="button"
             title={labels.detail?.copyLink ?? 'Copy link'}
-            className={`w-9 h-9 flex items-center justify-center rounded-full transition-[color,background-color,border-color,opacity,transform,box-shadow] ${
+            className={`min-h-11 min-w-11 flex items-center justify-center border border-border-default transition-[color,background-color,border-color,opacity,transform,box-shadow] ${
               copied
                 ? 'bg-emerald-500/20 text-emerald-400'
-                : 'bg-surface-raised hover:bg-white/[0.12] text-text-secondary hover:text-text-primary'
+                : 'bg-surface-raised hover:bg-surface-raised text-text-secondary hover:text-text-primary'
             }`}>
             {copied ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
           </button>
           {/* Open full page — carries ?card=N so the detail page pre-selects the right card */}
           <LocalLink href={`/business/card-trading/${card.id}/${selectedBundleIdx > 0 ? `?card=${selectedBundleIdx}` : ''}`}
             title={labels.detail?.viewPage ?? 'View full page'}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-surface-raised hover:bg-white/[0.12] text-text-secondary hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]">
+            className="min-h-11 min-w-11 flex items-center justify-center border border-border-default bg-surface-raised hover:bg-surface-raised text-text-secondary hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]">
             <ExternalLink className="w-4 h-4" />
           </LocalLink>
           {/* Close */}
-          <button onClick={onClose}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-surface-raised hover:bg-white/[0.12] text-text-secondary hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]">
+          <button
+            ref={closeBtnRef}
+            type="button"
+            onClick={onClose}
+            aria-label={labels.modal.close}
+            className="min-h-11 min-w-11 flex items-center justify-center border border-border-default bg-surface-raised hover:bg-surface-raised text-text-secondary hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]"
+          >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="grid md:grid-cols-2">
-          {/* Left — Image with front/back toggle */}
-          <div className="relative bg-surface-raised p-4 md:p-6 flex flex-col items-center justify-center min-h-[min(70dvh,600px)]">
-            {/* Card image with 3D flip + magnifier */}
-            <div
-              ref={imgContainerRef}
-              className="relative w-full aspect-[3/4] max-w-[480px] md:cursor-crosshair"
-              style={{ perspective: '400px' }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div
-                className="relative w-full h-full"
-                style={{
-                  transformStyle: 'preserve-3d',
-                  transform: showBack ? 'rotateY(180deg)' : 'rotateY(0deg)',
-                  transition: 'transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1)',
-                }}
-              >
-                {/* Front */}
-                <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden' }}>
-                  <Image src={getImagePath(activeCard.image)} alt={`${activeCard.name} – ${activeCard.company} ${activeCard.grade}${activeCard.isBlackLabel ? ' Black Label' : ''} front`} fill
-                    className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="480px" />
-                </div>
-                {/* Back */}
-                {hasBack && (
-                  <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
-                    <Image src={getImagePath(activeCard.imageBack!)} alt={`${activeCard.name} – ${activeCard.company} ${activeCard.grade}${activeCard.isBlackLabel ? ' Black Label' : ''} back`} fill
-                      className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="480px" />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Zoom hint */}
-            <div className="hidden md:flex items-center gap-1.5 mt-3 text-text-muted text-[10px] select-none">
-              <ZoomIn className="w-3 h-3" />
-              <span>Hover to zoom</span>
-            </div>
-
-            {/* Front / Back toggle */}
-            {hasBack && (
-              <div className="relative mt-5 flex items-center bg-surface-raised rounded-full p-0.5">
-                <button
-                  onClick={() => setShowBack(false)}
-                  className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 ${
-                    !showBack ? 'text-surface-bg' : 'text-text-muted hover:text-text-primary/60'
-                  }`}
-                >
-                  {labels.modal.front}
-                </button>
-                <button
-                  onClick={() => setShowBack(true)}
-                  className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 ${
-                    showBack ? 'text-surface-bg' : 'text-text-muted hover:text-text-primary/60'
-                  }`}
-                >
-                  {labels.modal.back}
-                </button>
-                {/* Sliding highlight pill */}
-                <div
-                  className="absolute top-0.5 h-[calc(100%-4px)] rounded-full bg-accent-brand transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300"
-                  style={{
-                    width: 'calc(50% - 2px)',
-                    left: showBack ? 'calc(50% + 2px)' : '2px',
-                  }}
-                />
-              </div>
-            )}
-
-            {/* Badges */}
-            <div className="absolute top-4 left-4 flex items-center gap-1.5">
+        <div className="grid md:grid-cols-2 min-h-0 flex-1 overflow-hidden">
+          {/* Left — fit height (no scroll); image shrinks so flip never needs a scrollbar */}
+          <div className="relative bg-surface-raised p-4 md:p-6 flex flex-col min-h-[min(46dvh,480px)] md:min-h-0 overflow-hidden border-b md:border-b-0 md:border-r border-border-default">
+            {/* Badges — in flow like full page */}
+            <div className="relative flex items-center gap-1.5 mb-3 z-10 shrink-0">
               <div
                 className="h-7 min-w-[40px] flex items-center justify-center px-2.5 rounded-md"
                 style={{ background: companyStyle.background, color: companyStyle.color, boxShadow: companyStyle.shadow }}
               >
-                <span className="text-[11px] font-bold leading-none">{activeCard.company}</span>
+                <span className="text-xs font-bold leading-none">{activeCard.company}</span>
               </div>
-              <div className={`h-7 min-w-[40px] flex items-center justify-center gap-1 px-2.5 rounded-md ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} border ${gradeColor.border}`}>
-                {activeCard.isBlackLabel && <span className="text-[8px] font-bold text-accent-brand leading-none">BL</span>}
-                <span className="text-[11px] font-black leading-none">{activeCard.grade}</span>
+              <div className={`h-7 min-w-[40px] flex items-center justify-center gap-1 px-2.5 rounded-md ${gradeColor.bg} ${gradeColor.text} border ${gradeColor.border}`}>
+                {activeCard.isBlackLabel && <span className="text-xs font-bold text-accent-brand leading-none">BL</span>}
+                <span className="text-sm font-black leading-none tabular-nums">{activeCard.grade}</span>
               </div>
               {isBundle && (
-                <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-accent-brand text-surface-bg">
+                <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-accent-cta text-accent-cta-ink border border-border-strong">
                   <Layers className="w-3 h-3" />
-                  <span className="text-[10px] font-extrabold leading-none">{labels.bundle.fullSet}</span>
+                  <span className="text-xs font-extrabold leading-none">{labels.bundle.fullSet}</span>
                 </div>
               )}
             </div>
 
+            {/* Flex stage: image scales to leftover height → no overflow scrollbar */}
+            <div className="flex-1 min-h-0 w-full flex items-center justify-center px-2">
+              <div
+                ref={imgContainerRef}
+                className="relative aspect-[3/4] h-full max-h-full w-auto max-w-full md:cursor-crosshair"
+                style={{ perspective: '400px' }}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+              >
+                <div
+                  className="relative w-full h-full"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: showBack ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                    transition: 'transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1)',
+                  }}
+                >
+                  {/* Front */}
+                  <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden' }}>
+                    {frontSrc && (
+                      <Image src={frontSrc} alt={`${activeCard.name} – ${activeCard.company} ${activeCard.grade}${activeCard.isBlackLabel ? ' Black Label' : ''} front`} fill
+                        className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="420px" />
+                    )}
+                  </div>
+                  {/* Back */}
+                  {hasBack && backSrc && (
+                    <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                      <Image src={backSrc} alt={`${activeCard.name} – ${activeCard.company} ${activeCard.grade}${activeCard.isBlackLabel ? ' Black Label' : ''} back`} fill
+                        className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="420px" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
 
+            {/* Controls — shrink-0 so always visible; mousedown preventDefault stops focus scroll */}
+            <div className="flex items-center justify-center gap-4 mt-3 shrink-0">
+              <div className="hidden md:flex items-center gap-1.5 text-text-muted text-xs select-none">
+                <ZoomIn className="w-3 h-3" />
+                <span>Hover to zoom</span>
+              </div>
+
+              {hasBack && (
+                <div className="relative flex items-center bg-surface-raised border border-border-default rounded-none p-0.5">
+                  <button
+                    type="button"
+                    aria-pressed={!showBack}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => setShowBack(false)}
+                    className={`relative z-10 px-4 py-1.5 rounded-none text-xs font-medium min-h-11 transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 ${
+                      !showBack ? 'text-surface-bg' : 'text-text-muted hover:text-text-primary/60'
+                    }`}
+                  >
+                    {labels.modal.front}
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={showBack}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => setShowBack(true)}
+                    className={`relative z-10 px-4 py-1.5 rounded-none text-xs font-medium min-h-11 transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 ${
+                      showBack ? 'text-surface-bg' : 'text-text-muted hover:text-text-primary/60'
+                    }`}
+                  >
+                    {labels.modal.back}
+                  </button>
+                  <div
+                    className="absolute top-0.5 h-[calc(100%-4px)] rounded-none bg-accent-structural transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 pointer-events-none"
+                    style={{
+                      width: 'calc(50% - 2px)',
+                      left: showBack ? 'calc(50% + 2px)' : '2px',
+                    }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Right — Info */}
-          <div className="p-6 md:p-8 flex flex-col">
-            <p className="text-accent-brand text-[10px] uppercase tracking-[0.2em] font-medium mb-2">{labels.modal.details}</p>
-            <h2 className="text-2xl font-bold text-text-primary mb-1 font-display">{activeCard.name}</h2>
+          <div className="p-0 flex flex-col min-h-0 overflow-hidden">
+            <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-5 md:p-8">
+            <h2 className="text-2xl font-bold text-text-primary mb-1 font-display pr-28">{activeCard.name}</h2>
             <p className="text-text-muted text-sm mb-4">
               {activeCard.set && <>{activeCard.set}</>}
               {activeCard.number && <> · {activeCard.number}</>}
@@ -532,24 +511,24 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
             {/* Full Set indicator */}
             {isBundle && card.bundleCards && (
               <div className="flex items-center gap-2 mb-5">
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-brand/10 border border-accent-brand/25">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-none bg-surface-raised border border-border-default">
                   <Layers className="w-3.5 h-3.5 text-accent-brand" />
                   <span className="text-accent-brand text-xs font-bold">{labels.bundle.fullSet} · {allInBundle.length} {labels.bundle.cards}</span>
                 </div>
-                <span className="text-text-muted text-[10px] italic">{labels.bundle.setOnly}</span>
+                <span className="text-text-muted text-xs italic">{labels.bundle.setOnly}</span>
               </div>
             )}
 
             {/* Price */}
-            <div className="bg-accent-brand/8 border border-accent-brand/20 rounded-xl p-4 mb-5">
-              <p className="text-text-muted text-[10px] uppercase tracking-[0.2em] mb-1">{isBundle ? labels.bundle.setPrice : labels.card.price}</p>
+            <div className="bg-surface-raised border border-border-default rounded-none p-4 mb-5">
+              <p className="text-text-muted text-xs uppercase tracking-[0.14em] mb-1">{isBundle ? labels.bundle.setPrice : labels.card.price}</p>
               <p className="text-accent-brand text-2xl font-bold font-display">{formatPrice(card.price, card.currency)}</p>
             </div>
 
             {/* Info table */}
             <div className="space-y-0 mb-5">
               {infoRows.map((row, i) => (
-                <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0">
+                <div key={i} className="flex items-center gap-3 py-2.5 border-b border-border-default last:border-0">
                   <span className="text-text-muted">{row.icon}</span>
                   <span className="text-text-muted text-xs flex-shrink-0 w-20">{row.label}</span>
                   <span className="text-text-primary text-sm font-medium">{row.value}</span>
@@ -560,41 +539,45 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
             {/* Bundle card list — uses allInBundle so idx matches thumbnail strip and activeCard */}
             {isBundle && allInBundle.length > 0 && (
               <div className="mb-5">
-                <p className="text-text-muted text-[10px] uppercase tracking-[0.2em] mb-3">{labels.bundle.cardsInSet}</p>
+                <p className="text-text-muted text-xs uppercase tracking-[0.14em] mb-3">{labels.bundle.cardsInSet}</p>
                 <div className="flex flex-col gap-1.5">
                   {allInBundle.map((bc, idx) => {
                     const bcGrade = getGradeColor(bc.grade, bc.isBlackLabel);
                     const bcCompany = getCompanyStyle(bc.company);
                     const isActive = idx === selectedBundleIdx;
+                    const thumbSrc = marketplaceImageSrc(bc.image);
                     return (
                       <button
                         key={idx}
+                        type="button"
                         onClick={() => { setSelectedBundleIdx(idx); setShowBack(false); }}
-                        className={`relative w-full flex items-center gap-3 pl-4 pr-3 py-2.5 rounded-xl transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 text-left overflow-hidden ${
+                        className={`relative w-full flex items-center gap-3 pl-4 pr-3 py-2.5 rounded-none border border-transparent transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 text-left overflow-hidden ${
                           isActive
-                            ? 'bg-accent-brand/[0.07] shadow-[inset_0_0_0_1px_rgba(212,137,154,0.14)]'
-                            : 'bg-white/[0.025] hover:bg-surface-raised'
+                            ? 'bg-surface-raised border-border-strong'
+                            : 'hover:bg-surface-raised'
                         }`}
                       >
                         {/* Left accent bar */}
-                        <div className={`absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-full transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${isActive ? 'bg-accent-brand' : 'bg-transparent'}`} />
+                        <div className={`absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-none transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${isActive ? 'bg-accent-cta' : 'bg-transparent'}`} />
 
                         {/* Thumbnail */}
-                        <div className={`relative flex-shrink-0 w-10 h-[52px] rounded-lg overflow-hidden transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${
+                        <div className={`relative flex-shrink-0 w-10 h-[52px] rounded-none overflow-hidden border transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${
                           isActive
-                            ? 'ring-1 ring-accent-brand/50'
-                            : 'ring-1 ring-white/[0.07]'
+                            ? 'border-border-strong'
+                            : 'border-border-default'
                         }`}>
-                          {bc.image && <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-0.5" sizes="40px" />}
+                          {thumbSrc && (
+                            <Image src={thumbSrc} alt={bc.name} fill className="object-contain p-0.5" sizes="40px" />
+                          )}
                         </div>
 
                         {/* Name + meta */}
                         <div className="flex flex-col flex-1 min-w-0 gap-0.5">
-                          <span className={`text-[11px] font-semibold truncate leading-tight transition-colors ${
+                          <span className={`text-sm font-semibold truncate leading-tight transition-colors ${
                             isActive ? 'text-text-primary' : 'text-text-secondary'
                           }`}>{bc.name}</span>
                           {(bc.set || bc.number) && (
-                            <span className="text-[9px] text-text-muted truncate leading-tight">
+                            <span className="text-xs text-text-muted truncate leading-tight">
                               {[bc.set, bc.number].filter(Boolean).join(' · ')}
                             </span>
                           )}
@@ -603,11 +586,11 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                         {/* Stacked badges */}
                         <div className="flex flex-col items-end gap-[5px] flex-shrink-0">
                           <div
-                            className="h-[15px] px-1.5 flex items-center justify-center rounded text-[7px] font-bold leading-none"
+                            className="h-[15px] px-1.5 flex items-center justify-center rounded text-xs font-bold leading-none"
                             style={{ background: bcCompany.background, color: bcCompany.color }}
                           >{bc.company}</div>
-                          <div className={`h-[15px] px-1.5 flex items-center justify-center gap-0.5 rounded text-[8px] font-black leading-none ${bcGrade.bg} ${bcGrade.text} border ${bcGrade.border}`}>
-                            {bc.isBlackLabel && <span className="text-[5px] font-bold text-accent-brand">BL</span>}
+                          <div className={`h-[15px] px-1.5 flex items-center justify-center gap-0.5 rounded text-xs font-black leading-none ${bcGrade.bg} ${bcGrade.text} border ${bcGrade.border}`}>
+                            {bc.isBlackLabel && <span className="text-xs font-bold text-accent-brand">BL</span>}
                             {bc.grade}
                           </div>
                         </div>
@@ -619,7 +602,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                           title={labels.detail?.viewPage ?? 'View full page'}
                           className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${
                             isActive
-                              ? 'bg-accent-brand/20 text-accent-brand hover:bg-accent-brand/30'
+                              ? 'bg-surface-raised text-text-primary border border-border-strong hover:bg-surface-raised'
                               : 'bg-surface-raised text-text-muted hover:bg-surface-raised hover:text-text-secondary'
                           }`}
                         >
@@ -632,13 +615,15 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
               </div>
             )}
 
-            {/* Inquire CTA */}
+            </div>
+            {/* Inquire CTA — sticky bottom with safe-area */}
+            <div className="shrink-0 border-t border-border-default bg-surface-panel px-5 md:px-8 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]">
             {card.sold ? (
               <div className="mt-auto space-y-3">
-                <div className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-red-500/15 border border-red-500/25 text-red-400 text-sm font-bold uppercase tracking-[0.1em]">
+                <div className="flex items-center justify-center gap-2.5 w-full min-h-11 py-3.5 rounded-none bg-accent-danger/10 border border-accent-danger/30 text-accent-danger text-sm font-bold uppercase tracking-[0.1em]">
                   <span>{labels.card.soldOut}</span>
                 </div>
-                <LocalLink href="/business/card-trading/" className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-surface-raised hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow]">
+                <LocalLink href="/business/card-trading/" className="flex items-center justify-center gap-2 w-full min-h-11 py-2.5 rounded-lg bg-surface-raised text-text-secondary hover:text-text-primary text-sm font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow]">
                   <span>{labels.card.similarItems}</span>
                 </LocalLink>
               </div>
@@ -650,20 +635,21 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                     : `Hi, I'd like to make an offer for: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year})\nListed price: ${formatPrice(card.price, card.currency)}\nCard link: https://appaw.store/business/card-trading/${card.id}/\nMy offer: `
                 )}`}
                 target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-accent-brand hover:brightness-110 text-surface-bg text-sm font-bold uppercase tracking-[0.1em] transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 hover:shadow-[0_0_30px_rgba(212,137,154,0.3)] mt-auto"
+                className="btn btn-primary w-full min-h-11 py-3.5 text-sm font-bold uppercase tracking-[0.1em]"
               >
                 <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
                 <span>{labels.card.inquire}</span>
               </a>
             )}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Fixed magnifier lens — pixel-based positioning for accurate edge/corner viewing */}
-      {magnifier.active && (
+      {magnifier.active && lensSrc && (
         <div
-          className="pointer-events-none fixed rounded-full border-2 border-accent-brand/50 shadow-[0_0_24px_rgba(0,0,0,0.6),inset_0_0_12px_rgba(0,0,0,0.2)] overflow-hidden z-[60]"
+          className="pointer-events-none fixed rounded-full border-2 border-border-strong shadow-[0_0_24px_rgba(0,0,0,0.6),inset_0_0_12px_rgba(0,0,0,0.2)] overflow-hidden z-[210]"
           style={{
             width: LENS,
             height: LENS,
@@ -679,7 +665,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
               height: magnifier.bgH,
               left: magnifier.bgX,
               top: magnifier.bgY,
-              backgroundImage: `url(${getImagePath(showBack && hasBack ? activeCard.imageBack! : activeCard.image)})`,
+              backgroundImage: `url(${lensSrc})`,
               backgroundSize: 'contain',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
@@ -687,6 +673,48 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
           />
         </div>
       )}
+    </div>,
+    document.body,
+  );
+}
+
+/* ──────────────────────────────────────────
+   Loading — slab-shaped gallery skeletons
+   ────────────────────────────────────────── */
+function MarketplaceGridSkeleton({ label, count = 10 }: { label: string; count?: number }) {
+  return (
+    <div
+      className="marketplace-skeleton-grid grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5"
+      aria-live="polite"
+      aria-busy="true"
+      aria-label={label}
+    >
+      {Array.from({ length: count }).map((_, i) => (
+        <div
+          key={i}
+          className="marketplace-skeleton-card panel overflow-hidden"
+          style={{ animationDelay: `${i * 60}ms` }}
+          aria-hidden="true"
+        >
+          <div className="marketplace-skeleton-slab relative aspect-[3/4] bg-surface-raised">
+            <div className="marketplace-skeleton-slab__frame" />
+            <div className="absolute top-2.5 right-2.5 flex flex-col items-end gap-1.5">
+              <div className="collection-skeleton__block h-6 w-11" />
+              <div className="collection-skeleton__block h-8 w-8" />
+            </div>
+            <div className="marketplace-skeleton-slab__window collection-skeleton__block" />
+          </div>
+          <div className="px-3.5 pt-2.5 pb-3 space-y-2">
+            <div className="collection-skeleton__block h-3.5 w-[78%]" />
+            <div className="collection-skeleton__block h-2.5 w-[42%]" />
+            <div className="pt-1 flex items-center justify-between gap-2">
+              <div className="collection-skeleton__block h-2.5 w-24" />
+              <div className="collection-skeleton__block h-7 w-7" />
+            </div>
+          </div>
+        </div>
+      ))}
+      <p className="sr-only">{label}</p>
     </div>
   );
 }
@@ -694,31 +722,60 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
 /* ──────────────────────────────────────────
    Main Component
    ────────────────────────────────────────── */
-export default function CardTradingPage({ initialCards }: { initialCards?: TradingCard[] }) {
+export default function CardTradingPage() {
   const { t } = useLanguage();
   const mp = t.cardMarketplace;
   const guide = t.tradingGuide;
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  // Data — seeded from server at build time, optionally refreshed from API
-  const { cards: fetchedCards, loading: cardsLoading, error: cardsError } = useCards(
-    MARKETPLACE_IN_PROGRESS ? [] : initialCards,
+  const query = useMemo(
+    () => parseMarketplaceSearchParams(new URLSearchParams(searchParams.toString())),
+    [searchParams],
   );
-  const allCards = MARKETPLACE_IN_PROGRESS ? [] : fetchedCards;
+
+  const { cards, total, totalPages, loading: cardsLoading, error: cardsError } = usePublicMarketplaceCards(
+    query,
+    !MARKETPLACE_IN_PROGRESS,
+  );
   const loading = MARKETPLACE_IN_PROGRESS ? false : cardsLoading;
   const error = MARKETPLACE_IN_PROGRESS ? null : cardsError;
 
-  // Filters
-  const [search, setSearch]               = useState('');
-  const [companyFilter, setCompanyFilter] = useState<GradingCompany | null>(null);
-  const [gradeFilter, setGradeFilter]     = useState<GradeTier | null>(null);
-  const [sortBy, setSortBy]               = useState<'newest' | 'gradeHigh' | 'gradeLow' | 'priceHigh' | 'priceLow' | 'nameAZ'>('newest');
-  const [showSort, setShowSort]           = useState(false);
-  const [mobileFilters, setMobileFilters] = useState(false);
+  const [searchInput, setSearchInput] = useState(query.q);
+  const [showSort, setShowSort] = useState(false);
 
-  // Modal
+  const applyQuery = useCallback((next: MarketplaceQuery) => {
+    const params = marketplaceQueryToSearchParams(next);
+    const qs = params.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  }, [pathname, router]);
+
+  useEffect(() => {
+    setSearchInput(query.q);
+  }, [query.q]);
+
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      if (searchInput.trim() === query.q) return;
+      applyQuery({ ...query, q: searchInput.trim(), page: 1 });
+    }, 300);
+    return () => clearTimeout(handle);
+  }, [searchInput, query, applyQuery]);
+
+  const flushSearch = useCallback(() => {
+    const next = searchInput.trim();
+    if (next === query.q) return;
+    applyQuery({ ...query, q: next, page: 1 });
+  }, [applyQuery, query, searchInput]);
+
+  const clearSearch = useCallback(() => {
+    setSearchInput('');
+    if (query.q) applyQuery({ ...query, q: '', page: 1 });
+  }, [applyQuery, query]);
+
   const [selectedCard, setSelectedCard] = useState<TradingCard | null>(null);
 
-  // Scroll reveal
   const [heroVisible, setHeroVisible] = useState(false);
   const ctaRef = useRef<HTMLElement>(null);
   const [ctaVisible, setCtaVisible] = useState(false);
@@ -742,7 +799,6 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
     return () => obs.disconnect();
   }, []);
 
-  // Close sort dropdown
   useEffect(() => {
     if (!showSort) return;
     const handler = () => setShowSort(false);
@@ -750,45 +806,10 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
     return () => document.removeEventListener('click', handler);
   }, [showSort]);
 
-  // Filtered + sorted
-  const filtered = useMemo(() => {
-    let cards = [...allCards];
-
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      cards = cards.filter(c =>
-        c.name.toLowerCase().includes(q) ||
-        (c.set && c.set.toLowerCase().includes(q)) ||
-        (c.number && c.number.toLowerCase().includes(q)) ||
-        c.year.toString().includes(q) ||
-        (c.bundleCards && c.bundleCards.some((bc: { name: string }) => bc.name.toLowerCase().includes(q)))
-      );
-    }
-
-    if (companyFilter) cards = cards.filter(c => c.company === companyFilter);
-
-    if (gradeFilter) {
-      cards = cards.filter(c => getGradeTier(c.grade) === gradeFilter);
-    }
-
-    switch (sortBy) {
-      case 'newest':    cards.sort((a, b) => b.year - a.year || b.grade - a.grade); break;
-      case 'gradeHigh': cards.sort((a, b) => b.grade - a.grade); break;
-      case 'gradeLow':  cards.sort((a, b) => a.grade - b.grade); break;
-      case 'priceHigh': cards.sort((a, b) => b.price - a.price); break;
-      case 'priceLow':  cards.sort((a, b) => a.price - b.price); break;
-      case 'nameAZ':    cards.sort((a, b) => a.name.localeCompare(b.name)); break;
-    }
-
-    return cards;
-  }, [allCards, search, companyFilter, gradeFilter, sortBy]);
-
-  // Flatten bundles — each card in a bundle gets its own grid tile.
-  // Sub-card tiles open the parent card's modal so the buyer sees the full set.
   const displayItems = useMemo(() => {
     type DisplayItem = {
       key: string;
-      tileImage: string;
+      tileImage: string | undefined;
       tileName: string;
       tileCompany: GradingCompany;
       tileGrade: number;
@@ -801,12 +822,11 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       bundleTotal: number;
     };
     const items: DisplayItem[] = [];
-    filtered.forEach(card => {
+    cards.forEach(card => {
       const bundleTotal = card.bundleCards?.length ? card.bundleCards.length + 1 : 1;
-      // Main card tile
       items.push({
         key: card.id,
-        tileImage: card.image || card.bundleCards?.[0]?.image || '',
+        tileImage: card.image || card.bundleCards?.[0]?.image,
         tileName: card.name,
         tileCompany: card.company,
         tileGrade: card.grade,
@@ -818,7 +838,6 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
         isSubCard: false,
         bundleTotal,
       });
-      // Sub-card tiles
       card.bundleCards?.forEach((bc, idx) => {
         items.push({
           key: `${card.id}-bc-${idx}`,
@@ -837,20 +856,24 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       });
     });
     return items;
-  }, [filtered]);
+  }, [cards]);
 
-  const hasActiveFilters = !!search || !!companyFilter || !!gradeFilter;
-  const resetFilters = useCallback(() => { setSearch(''); setCompanyFilter(null); setGradeFilter(null); }, []);
+  const hasActiveFilters = marketplaceQueryHasFilters(query);
 
-  const companies: GradingCompany[] = ['PSA', 'BGS', 'CGC'];
-  const gradeTiers: { key: GradeTier; label: string }[] = [
-    { key: 'gem',  label: mp.filters.gradeRanges.gem },
-    { key: 'high', label: mp.filters.gradeRanges.high },
-    { key: 'mid',  label: mp.filters.gradeRanges.mid },
-    { key: 'low',  label: mp.filters.gradeRanges.low },
+  const resetFilters = useCallback(() => {
+    setSearchInput('');
+    applyQuery(emptyMarketplaceQuery());
+  }, [applyQuery]);
+
+  const companies: GradingCompany[] = ['PSA', 'BGS', 'CGC', 'TAG'];
+  const gradeTiers: { key: GradeTier; label: string; hint: string }[] = [
+    { key: 'gem',  label: mp.filters.gradeRanges.gem,  hint: mp.filters.gradeRangeHints.gem },
+    { key: 'high', label: mp.filters.gradeRanges.high, hint: mp.filters.gradeRangeHints.high },
+    { key: 'mid',  label: mp.filters.gradeRanges.mid,  hint: mp.filters.gradeRangeHints.mid },
+    { key: 'low',  label: mp.filters.gradeRanges.low,  hint: mp.filters.gradeRangeHints.low },
   ];
 
-  const sortOptions: { key: typeof sortBy; label: string }[] = [
+  const sortOptions: { key: MarketplaceSortKey; label: string }[] = [
     { key: 'newest',    label: mp.sortOptions.newest },
     { key: 'gradeHigh', label: mp.sortOptions.gradeHigh },
     { key: 'gradeLow',  label: mp.sortOptions.gradeLow },
@@ -858,199 +881,250 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
     { key: 'priceLow',  label: mp.sortOptions.priceLow },
     { key: 'nameAZ',    label: mp.sortOptions.nameAZ },
   ];
+  const activeSortLabel = sortOptions.find((opt) => opt.key === query.sort)?.label ?? mp.sortBy;
+
+  const toggleCompany = (c: GradingCompany) => {
+    const next = query.companies.includes(c)
+      ? query.companies.filter((x) => x !== c)
+      : [...query.companies, c];
+    applyQuery({ ...query, companies: next, page: 1 });
+  };
 
   const filterToolbar = !MARKETPLACE_IN_PROGRESS ? (
-    <>
-      <div className="hidden md:flex items-center gap-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={mp.searchPlaceholder}
-            className="w-full pl-10 pr-4 py-2.5 min-h-11 bg-surface-raised border border-border-default text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-brand/50 focus:ring-1 focus:ring-accent-brand/20 transition-[color,background-color,border-color,box-shadow]" />
-          {search && (
-            <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary/60">
-              <X className="w-3.5 h-3.5" />
-            </button>
+    <div className="marketplace-toolbar flex flex-col gap-3">
+      <div className="collection-toolbar__head !mb-0">
+        <p className="collection-toolbar__count">
+          {loading ? (
+            <span className="marketplace-toolbar__loading inline-flex items-center gap-2 text-text-muted">
+              <span className="marketplace-toolbar__loading-dot" aria-hidden="true" />
+              {mp.loadingLabel}
+            </span>
+          ) : (
+            <>
+              <strong>{total}</strong>
+              {' '}
+              {mp.resultsCount}
+            </>
           )}
-        </div>
-
-        <div className="w-px h-8 bg-white/[0.08]" />
-
-        <div className="flex items-center gap-2">
-          <button onClick={() => setCompanyFilter(null)}
-            className={`px-3.5 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform,box-shadow] ${!companyFilter ? 'bg-accent-brand/15 text-accent-brand border border-accent-brand/30' : 'text-text-secondary border border-border-strong hover:border-border-strong hover:text-text-primary'}`}
-          >{mp.filters.allCompanies}</button>
-          {companies.map(c => {
-            const style = getCompanyStyle(c);
-            const active = companyFilter === c;
-            return (
-              <button key={c} onClick={() => setCompanyFilter(active ? null : c)}
-                className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-[color,background-color,border-color,opacity,transform,box-shadow] border ${active ? 'border-transparent' : 'text-text-secondary border-border-strong hover:border-border-strong hover:text-text-primary'}`}
-                style={active ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
-              >{c}</button>
-            );
-          })}
-        </div>
-
-        <div className="w-px h-8 bg-white/[0.08]" />
-
-        <div className="flex items-center gap-2">
-          {gradeTiers.map(tier => {
-            const active = gradeFilter === tier.key;
-            return (
-              <button key={tier.key} onClick={() => setGradeFilter(active ? null : tier.key)}
-                className={`px-3 py-2 rounded-lg text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] border whitespace-nowrap ${active ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong hover:border-border-strong hover:text-text-primary'}`}
-              >{tier.label}</button>
-            );
-          })}
-        </div>
-
-        <div className="flex-1" />
-
-        <div className="relative">
-          <button onClick={e => { e.stopPropagation(); setShowSort(v => !v); }}
-            className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-xs text-text-secondary border border-border-strong hover:border-border-strong hover:text-text-primary transition-[color,background-color,border-color,opacity,transform,box-shadow]">
-            <ArrowUpDown className="w-3.5 h-3.5" />
-            <span>{mp.sortBy}</span>
-            <ChevronDown className={`w-3 h-3 transition-transform ${showSort ? 'rotate-180' : ''}`} />
+        </p>
+        {hasActiveFilters ? (
+          <button type="button" onClick={resetFilters} className="collection-action-pill text-xs">
+            <X className="w-3.5 h-3.5" aria-hidden="true" />
+            {mp.filters.clearAll}
           </button>
-          {showSort && (
-            <div className="absolute right-0 mt-2 w-52 bg-surface-panel border border-border-default rounded-xl shadow-2xl overflow-hidden z-50">
-              {sortOptions.map(opt => (
-                <button key={opt.key} onClick={() => { setSortBy(opt.key); setShowSort(false); }}
-                  className={`w-full text-left px-4 py-3 text-xs transition-colors ${sortBy === opt.key ? 'bg-accent-brand/10 text-accent-brand' : 'text-text-secondary hover:bg-surface-raised hover:text-text-primary'}`}
-                >{opt.label}</button>
+        ) : null}
+      </div>
+
+      <div className="flex items-stretch gap-2 min-w-0">
+        <div className="collection-toolbar__search flex-1">
+          <Search className="collection-toolbar__search-icon" aria-hidden="true" />
+          <label htmlFor="marketplace-search" className="sr-only">{mp.searchPlaceholder}</label>
+          <input
+            id="marketplace-search"
+            type="text"
+            inputMode="search"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                flushSearch();
+              }
+            }}
+            onBlur={flushSearch}
+            placeholder={mp.searchPlaceholder}
+            spellCheck={false}
+            autoComplete="off"
+            enterKeyHint="search"
+            className="collection-toolbar__input !pr-11"
+          />
+          {searchInput ? (
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="absolute right-1 top-1/2 -translate-y-1/2 min-h-9 min-w-9 inline-flex items-center justify-center text-text-muted hover:text-text-primary"
+              aria-label={mp.filters.clearSearch}
+            >
+              <X className="w-3.5 h-3.5" aria-hidden="true" />
+            </button>
+          ) : null}
+        </div>
+
+        <div className="relative shrink-0">
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setShowSort((v) => !v); }}
+            className="collection-action-pill"
+            aria-expanded={showSort}
+            aria-haspopup="listbox"
+          >
+            <ArrowUpDown className="w-3.5 h-3.5" aria-hidden="true" />
+            <span className="hidden sm:inline max-w-[9rem] truncate">{activeSortLabel}</span>
+            <ChevronDown className={`w-3 h-3 transition-transform ${showSort ? 'rotate-180' : ''}`} aria-hidden="true" />
+          </button>
+          {showSort ? (
+            <div
+              className="absolute right-0 mt-2 w-52 bg-surface-panel border border-border-default shadow-[2px_2px_0_var(--border-default)] overflow-hidden z-50"
+              role="listbox"
+              aria-label={mp.sortBy}
+            >
+              {sortOptions.map((opt) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  role="option"
+                  aria-selected={query.sort === opt.key}
+                  onClick={() => { applyQuery({ ...query, sort: opt.key, page: 1 }); setShowSort(false); }}
+                  className={`w-full text-left px-4 py-3 min-h-11 text-sm font-mono uppercase tracking-[0.06em] transition-colors ${
+                    query.sort === opt.key
+                      ? 'bg-accent-structural text-surface-bg'
+                      : 'text-text-secondary hover:bg-surface-raised hover:text-text-primary'
+                  }`}
+                >
+                  {opt.label}
+                </button>
               ))}
             </div>
-          )}
+          ) : null}
         </div>
       </div>
 
-      <div className="md:hidden space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-            <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder={mp.searchPlaceholder}
-              className="w-full pl-10 pr-4 py-2.5 bg-surface-raised border border-border-default rounded-lg text-sm text-text-primary placeholder-white/30 focus:outline-none focus:border-accent-brand/50 transition-[color,background-color,border-color,opacity,transform,box-shadow]" />
-          </div>
-          <button onClick={() => setMobileFilters(v => !v)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${mobileFilters || hasActiveFilters ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-default'}`}>
-            <SlidersHorizontal className="w-4 h-4" />
-            {hasActiveFilters && <span className="w-1.5 h-1.5 rounded-full bg-accent-brand" />}
+      <div className="marketplace-filter-row flex flex-nowrap items-stretch gap-2 min-w-0">
+        <div
+          className="collection-filter-pills collection-filter-pills--scroll marketplace-company-pills overflow-x-auto"
+          role="group"
+          aria-label={mp.card.company}
+        >
+          <button
+            type="button"
+            className="collection-filter-pill"
+            aria-pressed={query.companies.length === 0}
+            onClick={() => applyQuery({ ...query, companies: [], page: 1 })}
+          >
+            {mp.filters.allCompanies}
           </button>
+          {companies.map((c) => {
+            const style = getCompanyStyle(c);
+            const active = query.companies.includes(c);
+            return (
+              <button
+                key={c}
+                type="button"
+                className="collection-filter-pill marketplace-company-pill"
+                data-company={c}
+                aria-pressed={active}
+                onClick={() => toggleCompany(c)}
+                style={active ? {
+                  background: style.background,
+                  color: style.color,
+                  boxShadow: style.shadow,
+                } : undefined}
+              >
+                {c}
+              </button>
+            );
+          })}
         </div>
 
-        {mobileFilters && (
-          <div className="space-y-4 pb-2 border-t border-border-default pt-4 animate-[fadeUp_0.3s_ease-out]">
-            <div>
-              <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.company}</p>
-              <div className="flex flex-wrap gap-2">
-                <button onClick={() => setCompanyFilter(null)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${!companyFilter ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
-                >{mp.filters.allCompanies}</button>
-                {companies.map(c => {
-                  const style = getCompanyStyle(c);
-                  return (
-                    <button key={c} onClick={() => setCompanyFilter(companyFilter === c ? null : c)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${companyFilter === c ? 'border-transparent' : 'text-text-secondary border-border-strong'}`}
-                      style={companyFilter === c ? { background: style.background, color: style.color, boxShadow: style.shadow } : undefined}
-                    >{c}</button>
-                  );
-                })}
-              </div>
-            </div>
-            <div>
-              <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.card.grade}</p>
-              <div className="flex flex-wrap gap-2">
-                {gradeTiers.map(tier => (
-                  <button key={tier.key} onClick={() => setGradeFilter(gradeFilter === tier.key ? null : tier.key)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${gradeFilter === tier.key ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
-                  >{tier.label}</button>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="text-text-secondary text-[10px] uppercase tracking-[0.2em] mb-2">{mp.sortBy}</p>
-              <div className="flex flex-wrap gap-2">
-                {sortOptions.map(opt => (
-                  <button key={opt.key} onClick={() => setSortBy(opt.key)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-[color,background-color,border-color,opacity,transform,box-shadow] ${sortBy === opt.key ? 'bg-accent-brand/15 text-accent-brand border-accent-brand/30' : 'text-text-secondary border-border-strong'}`}
-                  >{opt.label}</button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+        <div
+          className="collection-filter-pills collection-filter-pills--scroll overflow-x-auto"
+          role="group"
+          aria-label={mp.card.grade}
+        >
+          <button
+            type="button"
+            className="collection-filter-pill"
+            aria-pressed={query.grade == null}
+            onClick={() => applyQuery({ ...query, grade: null, page: 1 })}
+          >
+            {mp.filters.allGrades}
+          </button>
+          {gradeTiers.map((tier) => (
+            <button
+              key={tier.key}
+              type="button"
+              className="collection-filter-pill"
+              title={tier.hint}
+              aria-label={tier.hint}
+              aria-pressed={query.grade === tier.key}
+              onClick={() => applyQuery({ ...query, grade: query.grade === tier.key ? null : tier.key, page: 1 })}
+            >
+              {tier.label}
+            </button>
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   ) : null;
 
   useSubHeader(filterToolbar ? { content: filterToolbar, contentWidth: 'page' } : null);
 
-  return (
+
+return (
     <div className="flex flex-col bg-surface-bg min-h-dvh overflow-x-clip">
       {MARKETPLACE_IN_PROGRESS ? (
         <ServiceAvailabilityBanner copy={mp.availability} />
       ) : null}
 
       {/* ═══════════ HERO ═══════════ */}
-      <section className="relative pt-24 pb-12 overflow-hidden border-b border-border-default">
+      <section className="relative pt-8 pb-4 md:pt-10 md:pb-5 overflow-hidden border-b border-border-default">
         <div className="relative container-custom z-10">
-          <div className="max-w-4xl transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-1000" style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)' }}>
+          <div className="max-w-3xl transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-1000" style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)' }}>
 
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2.5 border border-accent-brand/40 rounded-full px-4 py-1.5 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent-brand animate-pulse" />
-              <span className="text-accent-brand text-xs uppercase tracking-[0.25em] font-medium">{mp.badge}</span>
-            </div>
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold font-display text-text-primary leading-[1.2] tracking-tight mb-2">{mp.title}</h1>
 
-            {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-text-primary leading-[1.1] tracking-tight mb-4">{mp.title}</h1>
+            {/* Short visible AEO line — full aeoAnswer lives in page JSON-LD */}
+            <p className="marketplace-aeo-answer text-text-secondary text-xs sm:text-sm leading-snug max-w-xl mb-3">
+              {mp.subtitle}
+            </p>
 
-            {/* Subtitle */}
-            <p className="text-[#9ca3af] text-sm md:text-base leading-relaxed max-w-2xl mb-6">{mp.subtitle}</p>
-
-            {/* Quick-nav links */}
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="text-text-muted text-[10px] uppercase tracking-[0.2em] mr-1">{mp.hero.explore}</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href="#consign"
+                className="inline-flex items-center gap-2 min-h-11 px-4 rounded-md bg-surface-raised border border-border-default hover:border-border-strong hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
+              >
+                <TagIcon className="w-3.5 h-3.5" />
+                {mp.hero.linkConsign}
+              </a>
+              <a
+                href="#consign"
+                className="inline-flex items-center gap-2 min-h-11 px-4 rounded-md bg-surface-raised border border-border-default hover:border-border-strong hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
+              >
+                <ShoppingBag className="w-3.5 h-3.5" />
+                {mp.hero.linkBuyingGuide}
+              </a>
               <LocalLink
                 href="/products/psa-protectors"
-                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-border-default hover:border-accent-brand/35 hover:bg-accent-brand/[0.06] text-text-secondary hover:text-accent-brand text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
+                className="hidden sm:inline-flex items-center gap-2 min-h-11 px-4 rounded-md bg-surface-raised border border-border-default hover:border-border-strong hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
               >
                 <Shield className="w-3.5 h-3.5" />
                 {mp.hero.linkProtectors}
               </LocalLink>
               <LocalLink
                 href="/tools/card-centering"
-                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-border-default hover:border-accent-brand/35 hover:bg-accent-brand/[0.06] text-text-secondary hover:text-accent-brand text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
+                className="hidden md:inline-flex items-center gap-2 min-h-11 px-4 rounded-md bg-surface-raised border border-border-default hover:border-border-strong hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
               >
                 <Gauge className="w-3.5 h-3.5" />
                 {mp.hero.linkCentering}
               </LocalLink>
-              <a
-                href="#consign"
-                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-border-default hover:border-accent-brand/35 hover:bg-accent-brand/[0.06] text-text-secondary hover:text-accent-brand text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
-              >
-                <ShoppingBag className="w-3.5 h-3.5" />
-                {mp.hero.linkBuyingGuide}
-              </a>
-              <a
-                href="#consign"
-                className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-border-default hover:border-accent-brand/35 hover:bg-accent-brand/[0.06] text-text-secondary hover:text-accent-brand text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
-              >
-                <TagIcon className="w-3.5 h-3.5" />
-                {mp.hero.linkConsign}
-              </a>
             </div>
           </div>
         </div>
       </section>
 
       {/* ═══════════ RESULTS HEADER ═══════════ */}
-      {!MARKETPLACE_IN_PROGRESS && <div className="container-custom pt-8 pb-2 flex items-center justify-between">
-        {!loading && !error && (
-          <p className="text-text-muted text-sm">
-            <span className="text-accent-brand font-bold">{displayItems.length}</span> {mp.resultsCount}
+      {!MARKETPLACE_IN_PROGRESS && <div className="container-custom pt-4 md:pt-6 pb-2 flex items-center justify-between">
+        {loading ? (
+          <p className="marketplace-toolbar__loading inline-flex items-center gap-2 text-sm text-text-muted" aria-live="polite">
+            <span className="marketplace-toolbar__loading-dot" aria-hidden="true" />
+            {mp.loadingLabel}
           </p>
+        ) : !error ? (
+          <p className="text-text-muted text-sm">
+            <span className="text-accent-brand font-bold">{total}</span> {mp.resultsCount}
+          </p>
+        ) : (
+          <span />
         )}
         {hasActiveFilters && (
           <button onClick={resetFilters} className="text-xs text-text-muted hover:text-accent-brand transition-colors flex items-center gap-1.5">
@@ -1062,43 +1136,32 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       {/* ═══════════ CARD GRID ═══════════ */}
       <section className="container-custom py-6 flex-1">
         {MARKETPLACE_IN_PROGRESS ? (
-          <div className="panel px-6 py-12 md:py-16 text-center">
-            <p className="text-sm text-text-secondary leading-relaxed max-w-xl mx-auto">
+          <div className="panel px-5 py-6 md:px-6 md:py-8 max-w-2xl mx-auto">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-text-secondary mb-2">Status</p>
+            <p className="text-sm text-text-primary leading-relaxed">
               {mp.availability.gridNote}
             </p>
           </div>
         ) : loading ? (
-        /* Loading state */
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-surface-raised border border-border-default rounded-xl overflow-hidden animate-pulse"
-                style={{ animationDelay: `${i * 80}ms` }}>
-                <div className="aspect-[3/4] bg-surface-raised" />
-                <div className="p-3 space-y-2">
-                  <div className="h-3 bg-surface-raised rounded w-3/4" />
-                  <div className="h-2 bg-surface-raised rounded w-1/2" />
-                  <div className="h-4 bg-surface-raised rounded w-1/3 mt-3" />
-                </div>
-              </div>
-            ))}
-          </div>
+          <MarketplaceGridSkeleton label={mp.loadingLabel} count={10} />
         ) : error ? (
         /* Error state */
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6">
-              <X className="w-7 h-7 text-red-400" />
+          <div className="panel max-w-md mx-auto px-5 py-8 text-center">
+            <div className="w-12 h-12 mx-auto rounded-none bg-accent-danger/10 border border-accent-danger/25 flex items-center justify-center mb-4">
+              <X className="w-6 h-6 text-accent-danger" />
             </div>
             <h3 className="text-text-primary text-lg font-semibold mb-2">{t.common.error}</h3>
             <p className="text-text-muted text-sm mb-6 max-w-sm">{error}</p>
           </div>
         ) : displayItems.length > 0 ? (
-        /* Cards */
+          <>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
             {displayItems.map((item, i) => {
               const { tileImage, tileName, tileCompany, tileGrade, tileIsBlackLabel, tileSet, tileNumber, tileYear, parentCard, isSubCard, bundleTotal } = item;
               const gradeColor = getGradeColor(tileGrade, tileIsBlackLabel);
               const companyStyle = getCompanyStyle(tileCompany);
               const isBundle = bundleTotal > 1;
+              const tileSrc = marketplaceImageSrc(tileImage);
 
               return (
                 <div
@@ -1109,9 +1172,9 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                 >
                   {/* Image area */}
                   <div className="relative aspect-[3/4] overflow-hidden bg-surface-raised">
-                    {tileImage && (
+                    {tileSrc && (
                       <Image
-                        src={getImagePath(tileImage)}
+                        src={tileSrc}
                         alt={`${tileName} – ${tileCompany} ${tileGrade}${tileIsBlackLabel ? ' Black Label' : ''} graded card`}
                         fill
                         className="object-contain p-3 group-hover:scale-[1.04] transition-transform duration-700"
@@ -1123,27 +1186,27 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                     <div className="absolute top-2.5 right-2.5 flex flex-col items-end gap-1.5">
                       {/* Grading company */}
                       <div
-                        className="h-6 px-2.5 flex items-center justify-center rounded-lg text-[11px] font-black leading-none shadow-lg"
+                        className="h-6 px-2.5 flex items-center justify-center rounded-none text-sm font-black leading-none tabular-nums border border-border-default"
                         style={{ background: companyStyle.background, color: companyStyle.color, boxShadow: companyStyle.shadow }}
                       >
                         {tileCompany}
                       </div>
                       {/* Grade score */}
-                      <div className={`min-w-[32px] px-2 py-1.5 flex flex-col items-center justify-center rounded-lg border ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} ${gradeColor.border}`}>
-                        {tileIsBlackLabel && <span className="text-[6px] font-black text-accent-brand leading-none mb-0.5">BL</span>}
-                        <span className="text-[11px] font-black leading-none">{tileGrade}</span>
+                      <div className={`min-w-[32px] px-2 py-1.5 flex flex-col items-center justify-center rounded-none border ${gradeColor.bg} ${gradeColor.text} ${gradeColor.border}`}>
+                        {tileIsBlackLabel && <span className="text-xs font-black text-accent-brand leading-none mb-0.5">BL</span>}
+                        <span className="text-sm font-black leading-none tabular-nums">{tileGrade}</span>
                       </div>
                     </div>
 
                     {/* Bundle badge — bottom left */}
                     {isBundle && (
                       <div className="absolute bottom-2 left-2 flex items-center gap-1.5 z-10">
-                        <div className="h-6 flex items-center gap-1 px-2 rounded-md bg-accent-brand text-surface-bg shadow-[0_2px_8px_rgba(212,137,154,0.4)]">
+                        <div className="h-6 flex items-center gap-1 px-2 rounded-none bg-accent-cta text-accent-cta-ink border border-border-strong">
                           <Layers className="w-3 h-3" />
-                          <span className="text-[9px] font-extrabold uppercase tracking-wider leading-none">{mp.bundle.fullSet}</span>
+                          <span className="text-xs font-extrabold uppercase tracking-wider leading-none">{mp.bundle.fullSet}</span>
                         </div>
                         <div className="h-6 flex items-center px-1.5 border border-border-default bg-surface-bg/80">
-                          <span className="text-[9px] font-bold text-text-primary leading-none">
+                          <span className="text-xs font-bold text-text-primary leading-none">
                             {isSubCard
                               ? `${(parentCard.bundleCards?.findIndex(bc => bc.name === tileName) ?? -1) + 2}/${bundleTotal}`
                               : `1/${bundleTotal}`
@@ -1164,7 +1227,7 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
 
                     {/* Hover overlay — golden CTA pill */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                      <div className="flex items-center gap-1.5 px-4 py-2 bg-accent-brand text-surface-bg rounded-full text-[11px] font-bold transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 shadow-[0_4px_20px_rgba(212,137,154,0.45)]">
+                      <div className="flex items-center gap-1.5 px-4 py-2 bg-accent-cta text-accent-cta-ink rounded-none text-xs font-bold border border-border-strong transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                         <Eye className="w-3.5 h-3.5" />
                         {mp.card.viewDetails}
                       </div>
@@ -1176,20 +1239,20 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
                     <h3 className="text-text-primary font-bold text-sm leading-snug mb-0.5 truncate group-hover:text-accent-brand transition-colors duration-200">
                       {tileName}
                     </h3>
-                    <p className="text-text-muted text-[11px] truncate mb-3 leading-tight">
+                    <p className="text-text-muted text-xs truncate mb-2 leading-tight">
                       {tileYear}{tileSet ? ` · ${tileSet}` : ''}
                     </p>
 
                     {/* Price + WhatsApp action */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-2">
                       {parentCard.sold ? (
-                        <span className="text-[10px] font-bold text-accent-brand/60 uppercase tracking-wider">{mp.card.sold}</span>
+                        <span className="text-xs font-bold text-accent-brand/70 uppercase tracking-wider">{mp.card.sold}</span>
                       ) : (
-                        <span className="text-text-secondary text-xs">{mp.card.inquire} →</span>
+                        <span className="text-text-primary text-sm font-semibold tabular-nums">{formatPrice(parentCard.price, parentCard.currency)}</span>
                       )}
                       {!parentCard.sold && (
-                        <div className="w-7 h-7 rounded-full bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center group-hover:bg-[#25D366]/20 transition-colors duration-200">
-                          <FontAwesomeIcon icon={faWhatsapp} className="w-3.5 h-3.5 text-[#25D366]" />
+                        <div className="min-h-11 min-w-11 rounded-full bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center group-hover:bg-[#25D366]/20 transition-colors duration-200">
+                          <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-[#25D366]" />
                         </div>
                       )}
                     </div>
@@ -1198,14 +1261,39 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
               );
             })}
           </div>
+          {totalPages > 1 && (
+            <nav className="flex items-center justify-center gap-3 mt-10" aria-label={mp.filters.page}>
+              <button
+                type="button"
+                disabled={query.page <= 1}
+                onClick={() => applyQuery({ ...query, page: query.page - 1 })}
+                className="min-h-11 px-4 rounded-lg border border-border-default text-sm text-text-secondary disabled:opacity-40"
+              >
+                {mp.filters.prev}
+              </button>
+              <span className="text-sm text-text-muted">
+                {mp.filters.page} {query.page} / {totalPages}
+              </span>
+              <button
+                type="button"
+                disabled={query.page >= totalPages}
+                onClick={() => applyQuery({ ...query, page: query.page + 1 })}
+                className="min-h-11 px-4 rounded-lg border border-border-default text-sm text-text-secondary disabled:opacity-40"
+              >
+                {mp.filters.next}
+              </button>
+            </nav>
+          )}
+        </>
         ) : (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-surface-raised border border-border-default flex items-center justify-center mb-6">
-              <Package className="w-7 h-7 text-text-muted" />
+          <div className="panel max-w-md mx-auto px-5 py-8 text-center">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-text-secondary mb-3">Empty</p>
+            <div className="w-12 h-12 mx-auto rounded-none bg-surface-raised border border-border-default flex items-center justify-center mb-4">
+              <Package className="w-6 h-6 text-text-secondary" />
             </div>
-            <h3 className="text-text-primary text-lg font-semibold mb-2">{mp.emptyState.title}</h3>
-            <p className="text-text-muted text-sm mb-6 max-w-sm">{mp.emptyState.description}</p>
-            <button onClick={resetFilters} className="px-6 py-2.5 rounded-lg bg-accent-brand/15 border border-accent-brand/30 text-accent-brand text-sm font-medium hover:bg-accent-brand/25 transition-[color,background-color,border-color,opacity,transform,box-shadow]">
+            <h3 className="text-text-primary text-base font-semibold mb-2">{mp.emptyState.title}</h3>
+            <p className="text-text-secondary text-sm mb-5 max-w-sm mx-auto">{mp.emptyState.description}</p>
+            <button onClick={resetFilters} className="btn btn-secondary">
               {mp.emptyState.reset}
             </button>
           </div>
@@ -1219,24 +1307,17 @@ export default function CardTradingPage({ initialCards }: { initialCards?: Tradi
       <WhyAppaw labels={mp} onSeeCommission={handleSeeCommission} />
 
       {/* ═══════════ CTA BANNER ═══════════ */}
-      <section ref={ctaRef} className="border-t border-border-default bg-surface-panel section-padding">
-        <div className="container-custom py-20">
-          <div className="relative max-w-3xl mx-auto text-center transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-1000"
+      <section ref={ctaRef} className="border-t border-border-default bg-surface-panel">
+        <div className="container-custom py-12 md:py-16">
+          <div className="panel max-w-3xl mx-auto text-center px-6 py-8 md:py-10 transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-1000"
             style={{ opacity: ctaVisible ? 1 : 0, transform: ctaVisible ? 'translateY(0)' : 'translateY(24px)' }}>
-            <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-32 bg-accent-brand/8 rounded-full blur-3xl pointer-events-none" />
-            <div className="relative">
-              <div className="inline-flex items-center gap-2.5 border border-accent-brand/30 rounded-full px-5 py-2 mb-8">
-                <MessageCircle className="w-3.5 h-3.5 text-accent-brand" />
-                <span className="text-accent-brand text-xs uppercase tracking-[0.2em] font-medium">Get in Touch</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.1] mb-4">{mp.ctaBanner.title}</h2>
-              <p className="text-[#9ca3af] text-base leading-relaxed mb-10 max-w-xl mx-auto">{mp.ctaBanner.description}</p>
+              <h2 className="text-2xl md:text-3xl font-bold font-display text-text-primary leading-[1.1] mb-3">{mp.ctaBanner.title}</h2>
+              <p className="text-text-secondary text-sm md:text-base leading-relaxed mb-6 max-w-xl mx-auto">{mp.ctaBanner.description}</p>
               <a href="https://wa.me/85292851189" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-accent-brand hover:brightness-110 text-surface-bg font-bold text-sm uppercase tracking-[0.15em] px-10 py-4 transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 hover:shadow-[0_0_40px_rgba(212,137,154,0.35)]">
+                className="btn btn-primary inline-flex items-center gap-3 text-sm font-bold uppercase tracking-[0.15em]">
                 <FontAwesomeIcon icon={faWhatsapp} className="w-5 h-5" />
                 {mp.ctaBanner.button}
               </a>
-            </div>
           </div>
         </div>
       </section>

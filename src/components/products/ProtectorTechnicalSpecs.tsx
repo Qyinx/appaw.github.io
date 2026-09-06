@@ -67,7 +67,7 @@ function SpecCard({
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className={`spec-row__label mb-1 ${compact ? 'text-[10px]' : ''}`}>
+          <p className={`spec-row__label mb-1 ${compact ? 'text-xs' : ''}`}>
             {item.label}
           </p>
           <p
@@ -75,7 +75,7 @@ function SpecCard({
           >
             {item.value}
           </p>
-          <p className={`text-text-muted leading-relaxed ${compact ? 'text-[11px] line-clamp-2' : 'text-xs'}`}>
+          <p className={`text-text-muted leading-relaxed ${compact ? 'text-xs line-clamp-2' : 'text-xs'}`}>
             {item.description}
           </p>
         </div>

@@ -12,6 +12,7 @@ export const SITEMAP_PUBLIC_PATHS = [
   { path: '/terms/', changeFrequency: 'yearly' as const, priority: 0.2 },
   { path: '/products/psa-protectors/', changeFrequency: 'weekly' as const, priority: 0.95 },
   { path: '/business/', changeFrequency: 'weekly' as const, priority: 0.9 },
+  { path: '/business/card-trading/', changeFrequency: 'daily' as const, priority: 0.9 },
   { path: '/business/psa-grading/', changeFrequency: 'weekly' as const, priority: 0.85 },
   { path: '/business/psa-grading/track/', changeFrequency: 'weekly' as const, priority: 0.7 },
   { path: '/business/psa-grading/advisor/', changeFrequency: 'monthly' as const, priority: 0.65 },

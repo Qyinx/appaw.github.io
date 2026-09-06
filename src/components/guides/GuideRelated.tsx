@@ -26,7 +26,7 @@ export default function GuideRelated({ guides, title, readLabel = 'Read' }: Guid
               href={`/guides/${guide.slug}/`}
               className="block p-6 h-full hover:bg-surface-raised transition-colors duration-150 group"
             >
-              <p className="font-mono text-[10px] uppercase tracking-widest text-text-muted mb-2">{guide.badge}</p>
+              <p className="font-mono text-xs uppercase tracking-widest text-text-muted mb-2">{guide.badge}</p>
               <p className="text-text-primary font-semibold text-sm leading-snug mb-3 group-hover:text-accent-brand transition-colors duration-150">
                 {guide.title}
               </p>

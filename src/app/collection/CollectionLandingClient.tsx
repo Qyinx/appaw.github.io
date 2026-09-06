@@ -110,13 +110,13 @@ function DashboardPreview({ labels }: { labels: ReturnType<typeof useLanguage>['
             <div className="w-2 h-2 bg-border-strong" />
             <div className="w-2 h-2 bg-border-strong" />
           </div>
-          <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted">{labels.label}</span>
+          <span className="font-mono text-xs uppercase tracking-[0.25em] text-text-muted">{labels.label}</span>
         </div>
 
         <div className="p-4 space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-text-muted mb-1">{labels.portfolio}</p>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted mb-1">{labels.portfolio}</p>
               <p className="text-text-primary font-semibold text-sm">{labels.cardCount.replace('{n}', '12')}</p>
             </div>
             <div className="flex gap-2">
@@ -153,14 +153,14 @@ function DashboardPreview({ labels }: { labels: ReturnType<typeof useLanguage>['
                 <p className="text-text-primary text-xs font-semibold truncate">{labels.sampleCard}</p>
                 <p className="text-text-muted text-xs truncate mb-2">{labels.sampleSet}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="px-1.5 py-0.5 text-[9px] font-bold bg-accent-danger/90 text-text-primary">{labels.sampleGrade.split(' ')[0]}</span>
-                  <span className="px-1.5 py-0.5 text-[9px] font-black bg-accent-link/20 text-accent-link border border-accent-link/30">10</span>
+                  <span className="px-1.5 py-0.5 text-xs font-bold bg-accent-danger/90 text-text-primary">{labels.sampleGrade.split(' ')[0]}</span>
+                  <span className="px-1.5 py-0.5 text-xs font-black bg-accent-link/20 text-accent-link border border-accent-link/30">10</span>
                 </div>
               </div>
               <div className="text-right flex-shrink-0">
-                <p className="font-mono text-[9px] uppercase tracking-wider text-text-muted mb-0.5">{labels.sampleBuyLabel}</p>
+                <p className="font-mono text-xs uppercase tracking-wider text-text-muted mb-0.5">{labels.sampleBuyLabel}</p>
                 <p className="text-accent-link text-xs font-bold font-tabular">{labels.sampleBuy}</p>
-                <p className="text-accent-success/70 text-[9px] mt-1">{labels.sampleStatus}</p>
+                <p className="text-accent-success/70 text-xs mt-1">{labels.sampleStatus}</p>
               </div>
             </div>
           </div>

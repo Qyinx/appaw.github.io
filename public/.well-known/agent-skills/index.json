@@ -6,7 +6,7 @@
       "type": "skill-md",
       "description": "Canonical URLs, product specs, purchase channels, collector guides, and crawl policy for Appaw Store (graded slab protectors, Hong Kong).",
       "url": "https://appaw.store/.well-known/agent-skills/appaw-site-overview/SKILL.md",
-      "digest": "sha256:d77e5555a1971f5eebb04443bf52ed64a7b12960eb32aedf1883fc774b90fb9f"
+      "digest": "sha256:22e62de5347737b36e36e76ec5435fe203e76cf9284c8994ab5d246640a5cd46"
     }
   ]
 }

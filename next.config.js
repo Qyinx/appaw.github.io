@@ -36,6 +36,26 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/admin/trade-cards',
+        destination: '/collection/list/',
+        permanent: false,
+      },
+      {
+        source: '/admin/trade-cards/',
+        destination: '/collection/list/',
+        permanent: false,
+      },
+      {
+        source: '/zh/admin/trade-cards',
+        destination: '/zh/collection/list/',
+        permanent: false,
+      },
+      {
+        source: '/zh/admin/trade-cards/',
+        destination: '/zh/collection/list/',
+        permanent: false,
+      },
+      {
         source: '/guides/regrade-or-reholder',
         destination: '/guides/psa-reholder-guide/',
         permanent: false,
@@ -73,6 +93,14 @@ const nextConfig = {
         {
           source: '/zh/collection/p/:id((?!view|_)[^/]+)/',
           destination: '/zh/collection/p/view/',
+        },
+        {
+          source: '/business/card-trading/:id((?!view|sell|_)[^/]+)/',
+          destination: '/business/card-trading/view/',
+        },
+        {
+          source: '/zh/business/card-trading/:id((?!view|sell|_)[^/]+)/',
+          destination: '/zh/business/card-trading/view/',
         },
         {
           source: '/admin/psa-grading/orders/:orderId((?!view)[^/]+)/',

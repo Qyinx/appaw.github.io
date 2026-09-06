@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { adminTradeMetadata } from '@/lib/seo/metadata';
 import GradingDashboardClient from './GradingDashboardClient';
 
 export const metadata: Metadata = {
-  ...adminTradeMetadata,
   title: 'PSA Grading Admin | Appaw Store',
+  robots: { index: false, follow: false },
 };
 
 export default function PsaGradingAdminPage() {

@@ -20,6 +20,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | Product | https://appaw.store/products/psa-protectors/ | https://appaw.store/zh/products/psa-protectors/ | Full specs, FAQ, JSON-LD Product schema |
 | Centering tool | https://appaw.store/tools/card-centering/ | https://appaw.store/zh/tools/card-centering/ | Free PSA 10 centering calculator; raw + graded slab photos; regrade vs reholder screening |
 | Services | https://appaw.store/business/ | https://appaw.store/zh/business/ | Protector + PSA grading submission + graded card trading overview |
+| Card marketplace | https://appaw.store/business/card-trading/ | https://appaw.store/zh/business/card-trading/ | Live Appaw storefront graded-card listings (@appaw.store sellers); consign at 138 Arena for a flat 5% of sale price |
 | PSA grading submission | https://appaw.store/business/psa-grading/ | https://appaw.store/zh/business/psa-grading/ | Hong Kong TCG PSA grading submission via 138 Arena; face-to-face card intake; BAT batch status lookup; tiers from HKD 790 |
 | Track PSA grading submission | https://appaw.store/business/psa-grading/track/ | https://appaw.store/zh/business/psa-grading/track/ | Phone + BAT reference code from 138 Arena receipt |
 | Collection manager | https://appaw.store/collection/ | https://appaw.store/zh/collection/ | Free graded card inventory dashboard (landing only; sign-in required for app) |
@@ -86,7 +87,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 
 - Sitemap: https://appaw.store/sitemap.xml (includes EN + zh-HK alternates)
 - **Public landing:** `/collection/` (indexable marketing page for the collection manager tool)
-- **Do not index:** `/admin/`, `/zh/admin/`, `/api/`, `/collection/list|auth|card|settings/` (+ `/zh/…`), `/collection/p/` (shared portfolios — meta noindex), `/business/card-trading/` (+ `/zh/…`), `/business/psa-protector/` (legacy redirect), `/style-guide/`
+- **Do not index:** `/admin/`, `/zh/admin/`, `/api/`, `/collection/list|auth|card|settings/` (+ `/zh/…`), `/collection/p/` (shared portfolios — meta noindex), `/business/card-trading/sell/` (+ `/zh/…`), `/business/card-trading/view/` (SPA shell), `/business/psa-protector/` (legacy redirect), `/style-guide/`
 - **Legacy redirects (302, noindex):** `/guides/regrade-or-reholder/` → `/guides/psa-reholder-guide/` (+ `/zh/…`)
 - **Language:** EN routes use `lang=en`; `/zh/*` routes use zh-HK UI and metadata. hreflang `en` ↔ `zh-HK` on all public pillar pages.
 

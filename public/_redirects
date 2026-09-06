@@ -2,6 +2,14 @@
 /collection/p/*  /collection/p/view/  200!
 /zh/collection/p/*  /zh/collection/p/view/  200!
 
+# Marketplace card URLs listed after build — existing SSG files win; unknown ids hit the SPA view shell.
+/business/card-trading/sell  /business/card-trading/sell/  200
+/zh/business/card-trading/sell  /zh/business/card-trading/sell/  200
+/business/card-trading/view  /business/card-trading/view/  200
+/zh/business/card-trading/view  /zh/business/card-trading/view/  200
+/business/card-trading/*  /business/card-trading/view/  200
+/zh/business/card-trading/*  /zh/business/card-trading/view/  200
+
 # PSA grading admin detail pages — static view shell, client reads id from URL path.
 /admin/psa-grading/orders/*  /admin/psa-grading/orders/view/  200!
 /zh/admin/psa-grading/orders/*  /zh/admin/psa-grading/orders/view/  200!
@@ -16,3 +24,9 @@
 # Obsolete guide slug → PSA Reholder guide (temporary redirect)
 /guides/regrade-or-reholder/  /guides/psa-reholder-guide/  302
 /zh/guides/regrade-or-reholder/  /zh/guides/psa-reholder-guide/  302
+
+# Removed: marketplace admin console → collection
+/admin/trade-cards/  /collection/list/  302
+/admin/trade-cards  /collection/list/  302
+/zh/admin/trade-cards/  /zh/collection/list/  302
+/zh/admin/trade-cards  /zh/collection/list/  302

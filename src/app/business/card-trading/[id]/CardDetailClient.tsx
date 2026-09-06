@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useLanguage } from '@/context/LanguageContext';
 import { useSubHeader } from '@/hooks/useSubHeader';
-import { getImagePath } from '@/lib/utils';
+import { marketplaceImageSrc } from '@/lib/marketplace/cardImage';
 import { getGradeColor, getCompanyStyle, formatPrice, formatGrade } from '@/lib/card-helpers';
 import type { TradingCard } from '@/types/trading-card';
 
@@ -43,7 +43,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
     return [
       {
         name: card.name,
-        image: card.image ?? '',
+        image: card.image,
         imageBack: card.imageBack,
         company: card.company,
         grade: card.grade,
@@ -62,7 +62,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
       const bc = allInBundle[selectedBundleIdx] ?? allInBundle[0];
       return {
         name: bc.name,
-        image: bc.image || '',
+        image: bc.image,
         imageBack: bc.imageBack,
         company: bc.company,
         grade: bc.grade,
@@ -71,7 +71,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
     }
     return {
       name: card.name,
-      image: card.image || '',
+      image: card.image,
       imageBack: card.imageBack,
       company: card.company,
       grade: card.grade,
@@ -81,7 +81,10 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
 
   const gradeColor = getGradeColor(activeCard.grade, activeCard.isBlackLabel);
   const companyStyle = getCompanyStyle(activeCard.company);
-  const hasBack = !!activeCard.imageBack;
+  const frontSrc = marketplaceImageSrc(activeCard.image);
+  const backSrc = marketplaceImageSrc(activeCard.imageBack);
+  const hasBack = !!backSrc;
+  const lensSrc = showBack && hasBack ? backSrc : frontSrc;
 
   /* ── Magnifier ── */
   const LENS = 180;
@@ -150,7 +153,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
     trailing: (
       <div className="flex items-center gap-3">
         {card.sold && (
-          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-[10px] font-bold uppercase tracking-wider">
+          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-xs font-bold uppercase tracking-wider">
             <ShieldOff className="w-3 h-3" aria-hidden="true" />
             {mp.card.sold}
           </span>
@@ -189,22 +192,22 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                     className="h-7 min-w-[40px] flex items-center justify-center px-2.5 rounded-md"
                     style={{ background: companyStyle.background, color: companyStyle.color, boxShadow: companyStyle.shadow }}
                   >
-                    <span className="text-[11px] font-bold leading-none">{activeCard.company}</span>
+                    <span className="text-xs font-bold leading-none">{activeCard.company}</span>
                   </div>
                   <div className={`h-7 min-w-[40px] flex items-center justify-center gap-1 px-2.5 rounded-md ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} border ${gradeColor.border}`}>
-                    {activeCard.isBlackLabel && <span className="text-[8px] font-bold text-[#d4a843] leading-none">BL</span>}
-                    <span className="text-[11px] font-black leading-none">{activeCard.grade}</span>
+                    {activeCard.isBlackLabel && <span className="text-xs font-bold text-[#d4a843] leading-none">BL</span>}
+                    <span className="text-xs font-black leading-none">{activeCard.grade}</span>
                   </div>
                   {isBundle && (
                     <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-accent-warn text-[#09090f]">
                       <Layers className="w-3 h-3" />
-                      <span className="text-[10px] font-extrabold leading-none">{mp.bundle.fullSet}</span>
+                      <span className="text-xs font-extrabold leading-none">{mp.bundle.fullSet}</span>
                     </div>
                   )}
                   {/* Sold badge inline with other badges */}
                   {card.sold && (
                     <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-red-500/90 text-white">
-                      <span className="text-[10px] font-extrabold uppercase leading-none">{mp.card.sold}</span>
+                      <span className="text-xs font-extrabold uppercase leading-none">{mp.card.sold}</span>
                     </div>
                   )}
                 </div>
@@ -236,13 +239,15 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                   >
                     {/* Front */}
                     <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden' }}>
-                      <Image src={getImagePath(activeCard.image)} alt={`${activeCard.name} front`} fill
-                        className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="(max-width: 768px) 90vw, 520px" priority />
+                      {frontSrc && (
+                        <Image src={frontSrc} alt={`${activeCard.name} front`} fill
+                          className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="(max-width: 768px) 90vw, 520px" priority />
+                      )}
                     </div>
                     {/* Back */}
-                    {hasBack && (
+                    {hasBack && backSrc && (
                       <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
-                        <Image src={getImagePath(activeCard.imageBack!)} alt={`${activeCard.name} back`} fill
+                        <Image src={backSrc} alt={`${activeCard.name} back`} fill
                           className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)]" sizes="(max-width: 768px) 90vw, 520px" />
                       </div>
                     )}
@@ -252,32 +257,38 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 {/* Controls row — zoom hint + flip toggle */}
                 <div className="flex items-center justify-center gap-4 mt-4">
                   {/* Zoom hint */}
-                  <div className="hidden md:flex items-center gap-1.5 text-text-muted text-[10px] select-none">
+                  <div className="hidden md:flex items-center gap-1.5 text-text-muted text-xs select-none">
                     <ZoomIn className="w-3 h-3" />
                     <span>Hover to zoom</span>
                   </div>
 
-                  {/* Front / Back toggle */}
+                  {/* Front / Back toggle — selected text contrasts pill (same as modal) */}
                   {hasBack && (
-                    <div className="relative flex items-center bg-surface-raised rounded-full p-0.5">
+                    <div className="relative flex items-center bg-surface-raised border border-border-default rounded-none p-0.5">
                       <button
+                        type="button"
+                        aria-pressed={!showBack}
+                        onMouseDown={(e) => e.preventDefault()}
                         onClick={() => setShowBack(false)}
-                        className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-[color,background-color,border-color,opacity,transform] duration-300 ${
-                          !showBack ? 'text-[#09090f]' : 'text-text-muted hover:text-text-primary/60'
+                        className={`relative z-10 px-4 py-1.5 rounded-none text-xs font-medium min-h-11 transition-[color,background-color,border-color,opacity,transform] duration-300 ${
+                          !showBack ? 'text-surface-bg' : 'text-text-muted hover:text-text-primary/60'
                         }`}
                       >
                         {mp.modal.front}
                       </button>
                       <button
+                        type="button"
+                        aria-pressed={showBack}
+                        onMouseDown={(e) => e.preventDefault()}
                         onClick={() => setShowBack(true)}
-                        className={`relative z-10 px-4 py-1.5 rounded-full text-[11px] font-medium transition-[color,background-color,border-color,opacity,transform] duration-300 ${
-                          showBack ? 'text-[#09090f]' : 'text-text-muted hover:text-text-primary/60'
+                        className={`relative z-10 px-4 py-1.5 rounded-none text-xs font-medium min-h-11 transition-[color,background-color,border-color,opacity,transform] duration-300 ${
+                          showBack ? 'text-surface-bg' : 'text-text-muted hover:text-text-primary/60'
                         }`}
                       >
                         {mp.modal.back}
                       </button>
                       <div
-                        className="absolute top-0.5 h-[calc(100%-4px)] rounded-full bg-accent-warn transition-[color,background-color,border-color,opacity,transform] duration-300"
+                        className="absolute top-0.5 h-[calc(100%-4px)] rounded-none bg-accent-structural transition-[color,background-color,border-color,opacity,transform] duration-300 pointer-events-none"
                         style={{ width: 'calc(50% - 2px)', left: showBack ? 'calc(50% + 2px)' : '2px' }}
                       />
                     </div>
@@ -291,30 +302,31 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                   <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                     {allInBundle.map((bc, idx) => {
                       const active = idx === selectedBundleIdx;
+                      const thumbSrc = marketplaceImageSrc(bc.image);
                       return (
                         <button
                           key={idx}
                           onClick={() => { setSelectedBundleIdx(idx); setShowBack(false); }}
-                          className={`relative flex-shrink-0 w-16 h-20 rounded-lg overflow-hidden border-2 transition-[color,background-color,border-color,opacity,transform] duration-200 ${
+                          className={`relative flex-shrink-0 w-16 h-20 rounded-none overflow-hidden border-2 transition-[color,background-color,border-color,opacity,transform] duration-200 ${
                             active
-                              ? 'border-[#d4a843] shadow-[0_0_12px_rgba(212,168,67,0.4)]'
-                              : 'border-white/10 hover:border-white/25 opacity-60 hover:opacity-100'
+                              ? 'border-accent-warn'
+                              : 'border-border-default hover:border-border-strong opacity-60 hover:opacity-100'
                           }`}
                         >
-                          {bc.image && <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-1" sizes="64px" />}
+                          {thumbSrc && <Image src={thumbSrc} alt={bc.name} fill className="object-contain p-1" sizes="64px" />}
                           {active && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-warn" />}
                         </button>
                       );
                     })}
                   </div>
-                  <p className="text-center text-text-muted text-[10px] mt-1.5">{selectedBundleIdx + 1} / {allInBundle.length}</p>
+                  <p className="text-center text-text-muted text-xs mt-1.5">{selectedBundleIdx + 1} / {allInBundle.length}</p>
                 </div>
               )}
             </div>
 
             {/* ── Right: Info panel ── */}
             <div className="flex flex-col md:py-2">
-              <p className="text-[#d4a843] text-[10px] uppercase tracking-[0.2em] font-medium mb-2">{mp.modal.details}</p>
+              <p className="text-[#d4a843] text-xs uppercase tracking-[0.2em] font-medium mb-2">{mp.modal.details}</p>
               <h1 className="text-2xl md:text-3xl font-bold text-text-primary mb-1 font-display">{card.name}</h1>
               <p className="text-text-muted text-sm mb-5">
                 {card.set && <>{card.set}</>}
@@ -328,17 +340,17 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                     <Layers className="w-3.5 h-3.5 text-[#d4a843]" />
                     <span className="text-[#d4a843] text-xs font-bold">{mp.bundle.fullSet} · {allInBundle.length} {mp.bundle.cards}</span>
                   </div>
-                  <span className="text-text-muted text-[10px] italic">{mp.bundle.setOnly}</span>
+                  <span className="text-text-muted text-xs italic">{mp.bundle.setOnly}</span>
                 </div>
               )}
 
               {/* Price */}
-              <div className={`rounded-xl p-4 mb-5 border ${card.sold ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-accent-warn/8 border-[#d4a843]/20'}`}>
-                <p className="text-text-muted text-[10px] uppercase tracking-[0.2em] mb-1">{isBundle ? mp.bundle.setPrice : mp.card.price}</p>
+              <div className={`rounded-none p-4 mb-5 border ${card.sold ? 'bg-surface-raised border-border-default' : 'bg-surface-raised border-accent-warn/30'}`}>
+                <p className="text-text-muted text-xs uppercase tracking-[0.2em] mb-1">{isBundle ? mp.bundle.setPrice : mp.card.price}</p>
                 <div className="flex items-center gap-3">
                   <p className={`text-2xl md:text-3xl font-bold font-display ${card.sold ? 'text-text-muted line-through' : 'text-[#d4a843]'}`}>{formatPrice(card.price, card.currency)}</p>
                   {card.sold && (
-                    <span className="px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-[10px] font-bold uppercase tracking-wider">
+                    <span className="px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-xs font-bold uppercase tracking-wider">
                       {mp.card.sold}
                     </span>
                   )}
@@ -348,7 +360,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
               {/* Info table */}
               <div className="space-y-0 mb-5">
                 {infoRows.map((row, i) => (
-                  <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0">
+                  <div key={i} className="flex items-center gap-3 py-2.5 border-b border-border-default last:border-0">
                     <span className="text-text-muted">{row.icon}</span>
                     <span className="text-text-muted text-xs flex-shrink-0 w-20">{row.label}</span>
                     <span className="text-text-primary text-sm font-medium">{row.value}</span>
@@ -360,7 +372,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
               {(card.createdAt || card.updatedAt) && (
                 <div className="mb-5">
                   {card.createdAt && (
-                    <div className="flex items-center gap-3 py-2.5 border-b border-white/[0.04]">
+                    <div className="flex items-center gap-3 py-2.5 border-b border-border-default">
                       <span className="text-text-muted"><Clock className="w-3.5 h-3.5" /></span>
                       <span className="text-text-muted text-xs flex-shrink-0 w-20">Listed</span>
                       <time dateTime={card.createdAt} className="text-text-primary text-sm font-medium">
@@ -369,7 +381,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                     </div>
                   )}
                   {card.updatedAt && card.updatedAt !== card.createdAt && (
-                    <div className="flex items-center gap-3 py-2.5 border-b border-white/[0.04]">
+                    <div className="flex items-center gap-3 py-2.5 border-b border-border-default">
                       <span className="text-text-muted"><Clock className="w-3.5 h-3.5" /></span>
                       <span className="text-text-muted text-xs flex-shrink-0 w-20">Updated</span>
                       <time dateTime={card.updatedAt} className="text-text-primary text-sm font-medium">
@@ -383,37 +395,38 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
               {/* Bundle card list — uses allInBundle so idx matches thumbnail strip and activeCard */}
               {isBundle && allInBundle.length > 0 && (
                 <div className="mb-5">
-                  <p className="text-text-muted text-[10px] uppercase tracking-[0.2em] mb-2">{mp.bundle.cardsInSet}</p>
-                  <div className="rounded-xl border border-white/[0.06] overflow-hidden">
+                  <p className="text-text-muted text-xs uppercase tracking-[0.2em] mb-2">{mp.bundle.cardsInSet}</p>
+                  <div className="rounded-none border border-border-default overflow-hidden">
                     {allInBundle.map((bc, idx) => {
                       const bcGrade = getGradeColor(bc.grade, bc.isBlackLabel);
                       const bcCompany = getCompanyStyle(bc.company);
                       const isActive = idx === selectedBundleIdx;
+                      const thumbSrc = marketplaceImageSrc(bc.image);
                       return (
                         <button
                           key={idx}
                           onClick={() => { setSelectedBundleIdx(idx); setShowBack(false); }}
-                          className={`w-full flex items-center gap-2.5 px-3 py-2.5 transition-[color,background-color,border-color,opacity,transform] text-left border-b border-white/[0.04] last:border-b-0 ${
-                            isActive ? 'bg-accent-warn/[0.06]' : 'bg-transparent hover:bg-white/[0.03]'
+                          className={`w-full flex items-center gap-2.5 px-3 py-2.5 transition-[color,background-color,border-color,opacity,transform] text-left border-b border-border-default last:border-b-0 ${
+                            isActive ? 'bg-surface-raised' : 'bg-transparent hover:bg-surface-raised'
                           }`}
                         >
-                          <span className={`text-[10px] font-mono w-4 text-center flex-shrink-0 ${isActive ? 'text-[#d4a843]' : 'text-text-muted'}`}>{idx + 1}</span>
-                          <div className={`relative w-7 h-9 flex-shrink-0 rounded overflow-hidden transition-[color,background-color,border-color,opacity,transform] ${isActive ? 'ring-1 ring-accent-warn/40' : 'ring-1 ring-white/[0.06]'}`}>
-                            {bc.image && <Image src={getImagePath(bc.image)} alt={bc.name} fill className="object-contain p-0.5" sizes="28px" />}
+                          <span className={`text-xs font-mono w-4 text-center flex-shrink-0 ${isActive ? 'text-[#d4a843]' : 'text-text-muted'}`}>{idx + 1}</span>
+                          <div className={`relative w-7 h-9 flex-shrink-0 rounded-none overflow-hidden border transition-[color,background-color,border-color,opacity,transform] ${isActive ? 'border-accent-warn' : 'border-border-default'}`}>
+                            {thumbSrc && <Image src={thumbSrc} alt={bc.name} fill className="object-contain p-0.5" sizes="28px" />}
                           </div>
                           <div className="flex flex-col flex-1 min-w-0">
                             <span className={`text-xs font-medium truncate transition-colors ${isActive ? 'text-text-primary' : 'text-text-secondary'}`}>{bc.name}</span>
                             {(bc.set || bc.number) && (
-                              <span className="text-[9px] text-text-muted truncate">
+                              <span className="text-xs text-text-muted truncate">
                                 {[bc.set, bc.number].filter(Boolean).join(' · ')}
                               </span>
                             )}
                           </div>
                           <div className="flex items-center gap-1 flex-shrink-0">
-                            <div className="h-[18px] px-1.5 flex items-center justify-center rounded text-[7px] font-bold leading-none"
+                            <div className="h-[18px] px-1.5 flex items-center justify-center rounded text-xs font-bold leading-none"
                               style={{ background: bcCompany.background, color: bcCompany.color }}>{bc.company}</div>
-                            <div className={`h-[18px] px-1.5 flex items-center justify-center gap-0.5 rounded text-[8px] font-black leading-none ${bcGrade.bg} ${bcGrade.text} border ${bcGrade.border}`}>
-                              {bc.isBlackLabel && <span className="text-[5px] font-bold text-[#d4a843]">BL</span>}
+                            <div className={`h-[18px] px-1.5 flex items-center justify-center gap-0.5 rounded text-xs font-black leading-none ${bcGrade.bg} ${bcGrade.text} border ${bcGrade.border}`}>
+                              {bc.isBlackLabel && <span className="text-xs font-bold text-[#d4a843]">BL</span>}
                               {bc.grade}
                             </div>
                           </div>
@@ -425,11 +438,12 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 </div>
               )}
 
-              {/* CTA */}
+              {/* CTA — sticky bottom with safe-area on mobile */}
+              <div className="sticky bottom-0 -mx-5 md:-mx-8 mt-auto border-t border-border-default bg-surface-panel px-5 md:px-8 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]">
               {card.sold ? (
                 <div className="space-y-3">
                   {/* Sold banner */}
-                  <div className="rounded-xl bg-red-500/[0.08] border border-red-500/20 p-4">
+                  <div className="rounded-none bg-accent-danger/10 border border-accent-danger/25 p-4">
                     <div className="flex items-center gap-2.5 mb-2">
                       <ShieldOff className="w-4 h-4 text-red-400" />
                       <span className="text-red-400 text-sm font-bold">{mp.card.soldOut}</span>
@@ -443,7 +457,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                       `Hi, I see the ${card.name} (${card.company}) is sold. Do you have similar cards available?`
                     )}`}
                     target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-surface-raised hover:bg-surface-raised border border-border-default hover:border-border-strong text-text-primary/70 hover:text-text-primary text-sm font-medium transition-[color,background-color,border-color,opacity,transform] duration-300"
+                    className="btn btn-secondary w-full min-h-11 py-3 text-sm font-medium"
                   >
                     <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-[#25D366]" />
                     <span>{mp.card.askSimilar}</span>
@@ -452,7 +466,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                   {/* Browse marketplace */}
                   <LocalLink
                     href="/business/card-trading/"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-text-muted hover:text-accent-warn text-xs font-medium transition-[color,background-color,border-color,opacity,transform]"
+                    className="flex items-center justify-center gap-2 w-full min-h-11 py-2.5 rounded-lg text-text-muted hover:text-accent-warn text-xs font-medium transition-[color,background-color,border-color,opacity,transform]"
                   >
                     <ArrowLeft className="w-3 h-3" />
                     <span>{mp.card.similarItems}</span>
@@ -466,21 +480,22 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                       : `Hi, I'd like to make an offer for: ${card.name} (${card.company} ${formatGrade(card.grade, card.isBlackLabel)}, ${card.year})\nListed price: ${formatPrice(card.price, card.currency)}\nCard link: https://appaw.store/business/card-trading/${card.id}/\nMy offer: `
                   )}`}
                   target="_blank" rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-accent-brand hover:brightness-110 text-surface-bg text-sm font-bold uppercase tracking-[0.1em] transition-[color,background-color,border-color,opacity,transform] duration-300 hover:shadow-[0_0_30px_rgba(212,168,67,0.3)]"
+                  className="btn btn-primary w-full min-h-11 py-3.5 text-sm font-bold uppercase tracking-[0.1em]"
                 >
                   <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4" />
                   <span>{mp.card.inquire}</span>
                 </a>
               )}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* ═══ Magnifier lens ═══ */}
-      {magnifier.active && (
+      {magnifier.active && lensSrc && (
         <div
-          className="pointer-events-none fixed rounded-full border-2 border-[#d4a843]/50 shadow-[0_0_24px_rgba(0,0,0,0.6),inset_0_0_12px_rgba(0,0,0,0.2)] overflow-hidden z-[60]"
+          className="pointer-events-none fixed rounded-full border-2 border-border-strong shadow-[0_0_24px_rgba(0,0,0,0.6),inset_0_0_12px_rgba(0,0,0,0.2)] overflow-hidden z-[60]"
           style={{
             width: LENS, height: LENS,
             left: magnifier.pageX, top: magnifier.pageY,
@@ -492,7 +507,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
               position: 'absolute',
               width: magnifier.bgW, height: magnifier.bgH,
               left: magnifier.bgX, top: magnifier.bgY,
-              backgroundImage: `url(${getImagePath(showBack && hasBack ? activeCard.imageBack! : activeCard.image)})`,
+              backgroundImage: `url(${lensSrc})`,
               backgroundSize: 'contain',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',

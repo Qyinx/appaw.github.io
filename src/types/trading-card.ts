@@ -3,13 +3,13 @@
    Shared between API layer and UI components
    ────────────────────────────────────────── */
 
-export type GradingCompany = 'PSA' | 'BGS' | 'CGC';
+export type GradingCompany = 'PSA' | 'BGS' | 'CGC' | 'TAG';
 
 export type GradeTier = 'gem' | 'high' | 'mid' | 'low';
 
 export interface BundleCard {
   name: string;
-  image: string;
+  image?: string;
   imageBack?: string;
   company: GradingCompany;
   grade: number;

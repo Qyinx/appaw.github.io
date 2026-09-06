@@ -204,7 +204,7 @@ export default function ColorVariantShowcase({
               >
                 <div className="relative w-full">
                   {isActive && (
-                    <span className="color-swatch-index font-mono text-[10px] text-accent-warn absolute -top-1 left-0 z-10 font-tabular">
+                    <span className="color-swatch-index font-mono text-xs text-accent-warn absolute -top-1 left-0 z-10 font-tabular">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                   )}

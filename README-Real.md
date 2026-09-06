@@ -111,7 +111,6 @@ src/
 │   │   ├── components/         # CollectionListView, CardFormView, shared…
 │   │   └── lib/                # apiCache
 │   ├── admin/
-│   │   └── trade-cards/        # 🔒 Admin card management
 │   ├── api/
 │   │   ├── admin/              # Admin API routes
 │   │   └── graphql/            # GraphQL proxy
@@ -150,7 +149,6 @@ src/
 | `/collection/list`             | 🔒 Auth  | Card list with portfolio tabs           |
 | `/collection/card/new`         | 🔒 Auth  | Add a new card                          |
 | `/collection/card/edit?id=`    | 🔒 Auth  | Edit an existing card                   |
-| `/admin/trade-cards/`          | 🔒 Admin | Admin card management                   |
 | `/style-guide/`                | Dev      | Design system reference                 |
 
 

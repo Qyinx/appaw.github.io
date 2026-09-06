@@ -320,24 +320,24 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border-default bg-surface-panel">
       <div className="max-w-7xl mx-auto px-[var(--space-page-x)]">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between gap-3 min-w-0 h-[var(--site-header-height)]">
 
-          <LocalLink href="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 overflow-hidden border border-border-strong group-hover:border-accent-brand transition-colors duration-150">
+          <LocalLink href="/" className="flex shrink-0 items-center gap-3 group">
+            <div className="w-9 h-9 shrink-0 overflow-hidden border border-border-strong group-hover:border-accent-brand transition-colors duration-150">
               <Image
                 src={getImagePath('/images/logo.png')}
                 alt="Appaw Store Logo"
                 width={36}
                 height={36}
-                className="object-cover"
+                className="h-full w-full object-cover"
               />
             </div>
-            <span className="font-display font-bold text-sm tracking-wide text-text-primary group-hover:text-accent-brand transition-colors duration-150">
+            <span className="font-display font-bold text-sm tracking-wide whitespace-nowrap text-text-primary group-hover:text-accent-brand transition-colors duration-150">
               Appaw Store
             </span>
           </LocalLink>
 
-          <nav className="hidden md:flex items-center gap-0.5" aria-label="Main">
+          <nav className="hidden lg:flex items-center gap-0.5 min-w-0" aria-label="Main">
             {navLinks.map((link) => {
               const isActive = isActivePath(link.href);
               if (link.children) {
@@ -424,7 +424,7 @@ export default function Header() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <HeaderLanguageToggle
               language={language}
               groupLabel={t.nav.language}
@@ -434,7 +434,7 @@ export default function Header() {
             <button
               ref={menuToggleRef}
               type="button"
-              className="header-chrome md:hidden relative min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors duration-150"
+              className="header-chrome lg:hidden relative min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors duration-150"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
@@ -453,7 +453,7 @@ export default function Header() {
 
         <div
           id="site-mobile-nav"
-          className={`md:hidden transition-[max-height,opacity] duration-200 ${
+          className={`lg:hidden transition-[max-height,opacity] duration-200 ${
             isMenuOpen
               ? 'max-h-[min(80dvh,calc(100dvh-var(--site-header-height)))] opacity-100 overflow-y-auto overscroll-contain'
               : 'max-h-0 opacity-0 overflow-hidden'

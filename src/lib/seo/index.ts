@@ -72,6 +72,7 @@ export function storeJsonLd() {
     makesOffer: [
       { '@type': 'Offer', url: 'https://appaw.store/products/psa-protectors/', name: 'Graded Slab UV Glass Protector' },
       { '@type': 'Offer', url: 'https://appaw.store/business/psa-grading/', name: 'PSA grading submission (Hong Kong)' },
+      { '@type': 'Offer', url: 'https://appaw.store/business/card-trading/', name: 'Graded card marketplace (Hong Kong)' },
     ],
   };
 }

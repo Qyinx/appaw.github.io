@@ -6,7 +6,7 @@ import LocalLink from '@/components/LocalLink';
 import {
   Shield, ArrowRight, CheckCircle, XCircle,
   Eye, Lock,
-  Star, Package, TrendingUp, Users, Search, CalendarDays,
+  Package, TrendingUp, Users, Search, CalendarDays,
 } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -35,7 +35,7 @@ function Chip({ label, variant = 'brand' }: { label: string; variant?: 'brand' |
     ? 'border-accent-link/30 text-accent-link'
     : 'border-accent-brand/30 text-accent-brand';
   return (
-    <span className={`px-3.5 py-1.5 text-[10px] uppercase tracking-[0.2em] border font-mono ${cls}`}>
+    <span className={`px-3.5 py-1.5 text-xs uppercase tracking-[0.2em] border font-mono ${cls}`}>
       {label}
     </span>
   );
@@ -73,10 +73,10 @@ export default function BusinessClient() {
       ══════════════════════════════════════════════════════ */}
       <section
         ref={heroRef.ref}
-        className="relative min-h-[70dvh] flex items-center overflow-hidden border-b border-border-default"
+        className="relative flex items-center overflow-hidden border-b border-border-default"
       >
 
-        <div className="container-custom relative z-10 py-24 md:py-32">
+        <div className="container-custom relative z-10 py-14 md:py-20">
           <MotionStagger visible={heroMounted} className="max-w-3xl">
             <p className="section-label mb-8 motion-stagger-item">{t.business.subtitle}</p>
 
@@ -86,7 +86,7 @@ export default function BusinessClient() {
               <span className="text-accent-link">{t.business.hero.line2Trade}</span>
             </h1>
 
-            <p className="motion-stagger-item text-text-muted text-lg max-w-xl leading-relaxed mb-10">
+            <p className="motion-stagger-item text-text-secondary text-base md:text-lg max-w-xl leading-relaxed mb-8">
               {t.home.hero.description}
             </p>
 
@@ -191,13 +191,13 @@ export default function BusinessClient() {
               <Reveal visible={psaRef.visible} dir="right" delay={160}>
                 <div className="panel p-5 flex items-center justify-between gap-4 flex-wrap">
                   <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted mb-1">{t.business.cardProtector.startingPrice}</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.3em] text-text-secondary mb-1">{t.business.cardProtector.startingPrice}</p>
                     <p className="text-text-primary font-display text-2xl font-bold leading-none">
                       {prices.single}
                       <span className="text-text-muted text-lg font-normal mx-2">/</span>
                       {prices.gradient}
                     </p>
-                    <p className="text-text-muted text-[10px] mt-1">
+                    <p className="text-text-muted text-xs mt-1">
                       {t.business.cardProtector.pricing.singleNote} · {t.business.cardProtector.pricing.gradientNote}
                     </p>
                     <p className="text-text-secondary text-xs mt-1">{t.business.cardProtector.shippingInfo}</p>
@@ -215,13 +215,13 @@ export default function BusinessClient() {
               <Reveal visible={psaRef.visible} dir="right" delay={220}>
                 <div className="panel p-0 overflow-hidden">
                   <div className="px-5 py-3 border-b border-border-default bg-surface-raised">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted">{t.business.cardProtector.compatibilityHeading}</span>
+                    <span className="font-mono text-xs uppercase tracking-[0.3em] text-text-secondary">{t.business.cardProtector.compatibilityHeading}</span>
                   </div>
                   <div className="p-5 space-y-4">
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-4 h-4 text-accent-success flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-accent-success text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.fitsLabel}</p>
+                        <p className="text-accent-success text-xs uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.fitsLabel}</p>
                         <p className="text-text-secondary text-sm leading-relaxed">{t.business.cardProtector.compatibility.fits}</p>
                       </div>
                     </div>
@@ -229,7 +229,7 @@ export default function BusinessClient() {
                     <div className="flex items-start gap-3">
                       <XCircle className="w-4 h-4 text-accent-danger/70 flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-accent-danger/70 text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.notFitsLabel}</p>
+                        <p className="text-accent-danger/70 text-xs uppercase tracking-[0.2em] font-semibold mb-1">{t.business.cardProtector.notFitsLabel}</p>
                         <p className="text-text-secondary text-sm leading-relaxed">{t.business.cardProtector.compatibility.notFits}</p>
                       </div>
                     </div>
@@ -269,35 +269,6 @@ export default function BusinessClient() {
           </div>
         </div>
       </section>
-
-      {/* ══════════════════════════════════════════════════════
-           TRUST STRIP
-      ══════════════════════════════════════════════════════ */}
-      {/* <section ref={statsRef.ref} className="border-y border-white/[0.05] bg-[#0b0b10] py-12">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/[0.05]">
-            {[
-              { n: '500+', label: t.business.cardTrading.stats.cardsTraded,  accent: GOLD   },
-              { n: '4.9★', label: t.business.cardTrading.stats.avgRating,    accent: GOLD   },
-              { n: '127',  label: t.business.cardTrading.stats.repeatClients, accent: VIOLET },
-              { n: '5',    label: 'Markets',                                   accent: VIOLET },
-            ].map(({ n, label, accent }, i) => (
-              <div
-                key={label}
-                className="text-center py-6 px-4"
-                style={{
-                  opacity: statsRef.visible ? 1 : 0,
-                  transform: statsRef.visible ? 'none' : 'translateY(16px)',
-                  transition: `opacity 0.7s ease ${i * 80}ms, transform 0.7s ease ${i * 80}ms`,
-                }}
-              >
-                <div className="font-display text-4xl font-bold leading-none mb-2" style={{ color: accent }}>{n}</div>
-                <div className="text-white/40 text-[10px] uppercase tracking-[0.28em]">{label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* ══════════════════════════════════════════════════════
            ①b PSA COLLECTIBLES SUBMISSION
@@ -350,7 +321,7 @@ export default function BusinessClient() {
             </div>
             <Reveal visible={gradingRef.visible} dir="right" delay={80}>
               <div className="panel p-6 md:p-8 space-y-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted">138 Arena · Causeway Bay</p>
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-text-secondary">138 Arena · Causeway Bay</p>
                 <p className="text-text-secondary text-sm leading-relaxed">
                   {t.psaGradingPage.aeo.answer}
                 </p>
@@ -381,7 +352,7 @@ export default function BusinessClient() {
             {/* ── LEFT: card fan (stacked visually) ── */}
             <div className="order-2 lg:order-1">
               <Reveal visible={tradingRef.visible} dir="left" delay={80}>
-                <div className="relative h-72 md:h-96 mb-8">
+                <div className="relative h-56 md:h-72 mb-6">
                   {[
                     { src: CARD_IMAGES[0], r: -16, x: -80, y: 16, sc: 0.82, z: 1 },
                     { src: CARD_IMAGES[1], r: 0,   x: 0,   y: 0,  sc: 1,    z: 3 },
@@ -402,13 +373,7 @@ export default function BusinessClient() {
 
                   <div className="absolute top-2 right-4 md:right-12 panel px-4 py-3 text-center">
                     <div className="text-accent-link text-2xl font-bold font-display leading-none font-tabular">0%</div>
-                    <div className="text-text-muted text-[9px] uppercase tracking-wider mt-1">Listing Fee</div>
-                  </div>
-                  <div className="absolute bottom-4 left-4 md:left-10 panel px-4 py-3">
-                    <div className="flex items-center gap-0.5 text-accent-brand justify-center">
-                      {[0,1,2,3,4].map(n => <Star key={n} className="w-2.5 h-2.5 fill-current" />)}
-                    </div>
-                    <div className="text-text-muted text-[9px] uppercase tracking-wider mt-1 text-center">5.0 Rating</div>
+                    <div className="text-text-secondary text-xs uppercase tracking-wider mt-1">Listing Fee</div>
                   </div>
                 </div>
               </Reveal>
@@ -459,7 +424,7 @@ export default function BusinessClient() {
                 <div className="flex flex-wrap items-center gap-5">
                   <LocalLink
                     href="/business/card-trading"
-                    className="btn btn-primary"
+                    className="btn btn-secondary"
                   >
                     <TrendingUp className="w-3.5 h-3.5" />
                     {t.business.cardTrading.cta}

@@ -6,7 +6,6 @@ import LocalLink from '@/components/LocalLink';
 import { Award, Heart, Users, Zap, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
-import StatsGrid from '@/components/ui/StatsGrid';
 import Reveal, { MotionStagger } from '@/components/ui/Reveal';
 import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
@@ -89,7 +88,7 @@ export default function AboutPage() {
                   />
                 </div>
                 <div className="text-center border-t border-border-default pt-5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted">Established</p>
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted">Established</p>
                   <p className="text-text-primary text-sm font-semibold mt-1">Appaw Store · Hong Kong</p>
                 </div>
               </div>
@@ -159,7 +158,7 @@ export default function AboutPage() {
       <section ref={trustReveal.ref} className="section-padding bg-surface-panel overflow-hidden">
         <div className="container-custom">
           <Reveal visible={trustReveal.visible} dir="up" className="max-w-2xl mx-auto text-center mb-20">
-            <p className="section-label mb-10 justify-center">By The Numbers</p>
+            <p className="section-label mb-10 justify-center">{t.about.trust.badge}</p>
             <h2 className="text-4xl md:text-5xl font-bold font-display text-text-primary leading-[1.1] mb-6">
               {t.about.trust.title}
             </h2>
@@ -168,16 +167,25 @@ export default function AboutPage() {
             </p>
           </Reveal>
 
-          <StatsGrid
-            isVisible={trustReveal.visible}
-            theme="dark"
-            stats={[
-              { value: 1200, suffix: '+', label: t.about.trust.stats.cardsProtected, sub: t.about.trust.stats.andCounting      },
-              { value: 100, suffix: '+', label: t.about.trust.stats.happyCustomers,  sub: t.about.trust.stats.worldwide         },
-              { value: 99,  suffix: '%', label: t.about.trust.stats.satisfaction,    sub: t.about.trust.stats.customerVerified  },
-              { value: 1,   suffix: '+', label: t.about.trust.stats.yearsOfCraft,    sub: t.about.trust.stats.ofExcellence      },
-            ]}
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border-default border border-border-default max-w-3xl mx-auto overflow-hidden">
+            {[
+              { label: t.about.trust.facts.hk.label, body: t.about.trust.facts.hk.body },
+              { label: t.about.trust.facts.arena.label, body: t.about.trust.facts.arena.body },
+              { label: t.about.trust.facts.protector.label, body: t.about.trust.facts.protector.body },
+              { label: t.about.trust.facts.market.label, body: t.about.trust.facts.market.body },
+            ].map((fact, i) => (
+              <Reveal
+                key={fact.label}
+                visible={trustReveal.visible}
+                dir="up"
+                delay={i * 40}
+                className="bg-surface-panel px-6 sm:px-8 py-8"
+              >
+                <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent-brand mb-2">{fact.label}</p>
+                <p className="text-sm text-text-secondary leading-relaxed">{fact.body}</p>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 

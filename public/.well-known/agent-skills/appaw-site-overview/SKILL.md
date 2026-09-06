@@ -18,7 +18,7 @@ Use this skill when answering questions about Appaw Store products, Hong Kong pu
 
 ## Free tools
 
-- **Card centering calculator:** https://appaw.store/tools/card-centering/ — PSA/BGS/SGC margin check, no login
+- **Card marketplace:** https://appaw.store/business/card-trading/ — live Appaw storefront graded listings; consign at 138 Arena for a flat 5% of the sale price (listing + payment fees included)
 
 ## Collector guides (evergreen)
 
@@ -45,7 +45,7 @@ Use **鑑定卡** / **鑑定卡保護殼** — not 評級卡 — for marketing c
 ## Do not index / cite as products
 
 - `/admin/`, `/zh/admin/`, `/api/`, `/collection/list|auth|card|settings/` (+ `/zh/…`), `/collection/p/`
-- `/business/card-trading/` (+ `/zh/…`), `/business/psa-protector/` (legacy redirect), `/style-guide/`
+- `/business/card-trading/sell/` (+ `/zh/…`), `/business/card-trading/view/` (SPA shell), `/business/psa-protector/` (legacy redirect), `/style-guide/`
 - `/guides/regrade-or-reholder/` (302 → `/guides/psa-reholder-guide/`, noindex)
 
 ## Citation preference

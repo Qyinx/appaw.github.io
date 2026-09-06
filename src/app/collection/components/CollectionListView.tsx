@@ -22,6 +22,7 @@ import { CollectionAnimeStagger } from './CollectionAnimeStagger';
 import { CollectionChromeDots } from './CollectionChromeDots';
 import { useSubHeader } from '@/hooks/useSubHeader';
 import { getMembershipLimits } from '@/lib/collection/membership';
+import { isMarketplaceSellerEmail } from '@/lib/marketplace-seller';
 import {
   CardMetaBlock,
   CardPriceBlock,
@@ -59,7 +60,7 @@ const navActive =
 const navIdle =
   'border-l-[3px] border-transparent text-text-secondary hover:text-text-primary hover:bg-surface-raised font-medium';
 const portfolioIconBtn =
-  'inline-flex items-center justify-center w-7 h-7 border border-border-default transition-[background-color,color,opacity,filter] focus-visible:outline-none focus-visible:border-accent-secondary focus-visible:shadow-[0_0_0_2px_color-mix(in_srgb,var(--accent-secondary)_25%,transparent)]';
+  'inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-9 sm:min-w-9 border border-border-default transition-[background-color,color,opacity,filter] focus-visible:outline-none focus-visible:border-accent-secondary focus-visible:shadow-[0_0_0_2px_color-mix(in_srgb,var(--accent-secondary)_25%,transparent)]';
 const portfolioIconBtnConfirm = `${portfolioIconBtn} bg-accent-cta text-accent-cta-ink hover:brightness-110 disabled:opacity-40`;
 const portfolioIconBtnNeutral = `${portfolioIconBtn} bg-surface-raised text-text-muted hover:text-text-primary`;
 const portfolioIconBtnDanger = `${portfolioIconBtn} bg-surface-raised text-text-muted hover:border-accent-danger/30 hover:bg-accent-danger/10 hover:text-accent-danger`;
@@ -78,6 +79,7 @@ export function CollectionListView({
 
   /* ── Card list state ─────────────────────────────────────────────────────── */
   const [displayMode, setDisplayMode] = useState<'list' | 'grid'>('list');
+  const canListPublic = isMarketplaceSellerEmail(user?.email);
   const [search, setSearch] = useState('');
   const [filterSold, setFilterSold] = useState<'all' | 'active' | 'sold'>('all');
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -194,7 +196,7 @@ export function CollectionListView({
     if (!newPortfolioName.trim()) return;
     setPortfolioActionLoading(true);
     try {
-      await onCreatePortfolio(newPortfolioName.trim(), newPortfolioForSale);
+      await onCreatePortfolio(newPortfolioName.trim(), canListPublic && newPortfolioForSale);
       setNewPortfolioName('');
       setNewPortfolioForSale(false);
       setCreatingPortfolio(false);
@@ -205,7 +207,7 @@ export function CollectionListView({
     if (!editingPortfolioId || !editingName.trim()) return;
     setPortfolioActionLoading(true);
     try {
-      await onUpdatePortfolio(editingPortfolioId, editingName.trim(), editingForSale);
+      await onUpdatePortfolio(editingPortfolioId, editingName.trim(), canListPublic && editingForSale);
       setEditingPortfolioId(null);
     } finally { setPortfolioActionLoading(false); }
   };
@@ -242,17 +244,25 @@ export function CollectionListView({
             onKeyDown={e => { if (e.key === 'Enter') handleUpdatePortfolio(); if (e.key === 'Escape') setEditingPortfolioId(null); }}
             className="w-full bg-transparent text-text-primary text-xs font-medium mb-2 placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-1 rounded-sm"
           />
+          {(canListPublic || editingForSale) && (
           <label className="flex items-center gap-1.5 text-text-muted text-xs cursor-pointer select-none mb-2">
             <input
               type="checkbox"
               checked={editingForSale}
-              onChange={e => setEditingForSale(e.target.checked)}
+              onChange={e => {
+                if (e.target.checked && !canListPublic) return;
+                setEditingForSale(e.target.checked);
+              }}
               className="w-3 h-3 accent-accent-secondary"
             />
             {t.collection.portfolio.publicForSale}
           </label>
+          )}
           {editingForSale && (
             <p className="text-text-muted text-xs leading-snug mb-2">{t.collection.portfolio.publicForSaleHint}</p>
+          )}
+          {!canListPublic && (
+            <p className="text-text-muted text-xs leading-snug mb-2 opacity-90">{t.collection.portfolio.publicForSaleStaffOnly}</p>
           )}
           <div className="flex items-center justify-end gap-1">
             <button type="button" onClick={handleUpdatePortfolio} disabled={portfolioActionLoading} aria-label={t.collection.actions.confirm} className={portfolioIconBtnConfirm}>
@@ -268,7 +278,7 @@ export function CollectionListView({
         <button
           type="button"
           onClick={() => selectPortfolio(p.id)}
-          className={`flex-1 min-w-0 flex items-center gap-2 px-3 py-2 transition-[color,background-color,border-color] duration-150 text-left ${isActive ? navActive : navIdle}`}
+          className={`flex-1 min-w-0 flex items-center gap-2 px-3 py-3 min-h-11 transition-[color,background-color,border-color] duration-150 text-left ${isActive ? navActive : navIdle}`}
         >
           {isActive ? <FolderOpen className="w-3.5 h-3.5 text-accent-primary flex-shrink-0" aria-hidden="true" /> : <Folder className="w-3.5 h-3.5 flex-shrink-0 text-text-muted" aria-hidden="true" />}
           <span className="flex-1 text-sm font-medium truncate">{p.name}</span>
@@ -317,7 +327,7 @@ export function CollectionListView({
 
   const DeleteConfirmRow = ({ className = '' }: { className?: string }) => (
     <div className={`collection-ledger__confirm ${className}`}>
-      <p className="text-accent-danger text-xs flex-1">{t.collection.actions.confirmDeleteCard}</p>
+      <p className="text-accent-danger text-sm flex-1">{t.collection.actions.confirmDeleteCard}</p>
       <div className="collection-action-pills flex-shrink-0">
         <button type="button" onClick={handleDelete} disabled={deleting} className="collection-action-pill collection-action-pill--primary disabled:opacity-40">{deleting ? '…' : t.collection.actions.confirm}</button>
         <button type="button" onClick={() => setDeleteId(null)} className="collection-action-pill">{t.common.cancel}</button>
@@ -333,7 +343,7 @@ export function CollectionListView({
     leading: (
       <>
         <CollectionChromeDots />
-        <h1 className="text-text-primary font-semibold text-xs sm:text-sm flex items-center gap-1 min-w-0">
+        <h1 className="text-text-primary font-semibold text-sm flex items-center gap-1 min-w-0">
           {activePortfolio ? (
             <>
               <button type="button" onClick={() => selectPortfolio(null)} className="text-text-muted font-normal hover:text-text-primary transition-colors whitespace-nowrap">{t.collection.title}</button>
@@ -540,6 +550,7 @@ export function CollectionListView({
                   placeholder={t.collection.portfolio.namePlaceholder}
                   className="w-full bg-transparent text-text-primary text-xs font-medium mb-2 placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-1 rounded-sm"
                 />
+                {canListPublic && (
                 <div className="flex items-center justify-between gap-2">
                   <label className="flex items-center gap-1.5 text-text-muted text-xs cursor-pointer select-none min-w-0">
                     <input type="checkbox" checked={newPortfolioForSale} onChange={e => setNewPortfolioForSale(e.target.checked)} className="w-3 h-3 accent-accent-secondary flex-shrink-0" />
@@ -552,6 +563,15 @@ export function CollectionListView({
                     <button type="button" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); setNewPortfolioForSale(false); }} aria-label={t.common.cancel} className={portfolioIconBtnNeutral}><X className="w-3 h-3" aria-hidden="true" /></button>
                   </div>
                 </div>
+                )}
+                {!canListPublic && (
+                  <div className="flex items-center justify-end gap-1">
+                    <button type="button" onClick={handleCreatePortfolio} disabled={portfolioActionLoading || !newPortfolioName.trim()} aria-label={t.collection.actions.confirm} className={portfolioIconBtnConfirm}>
+                      {portfolioActionLoading ? <Loader2 className="w-3 h-3 animate-spin" aria-hidden="true" /> : <Check className="w-3 h-3" aria-hidden="true" />}
+                    </button>
+                    <button type="button" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); setNewPortfolioForSale(false); }} aria-label={t.common.cancel} className={portfolioIconBtnNeutral}><X className="w-3 h-3" aria-hidden="true" /></button>
+                  </div>
+                )}
                 {newPortfolioForSale && (
                   <p className="text-text-muted text-xs mt-2 leading-snug">{t.collection.portfolio.publicForSaleHint}</p>
                 )}
@@ -706,10 +726,10 @@ export function CollectionListView({
               ) : (
                 <div className="divide-y divide-border-default max-h-52 overflow-y-auto overscroll-contain">
                   {pickerCards.map(card => (
-                    <div key={card.id} className="flex items-center gap-3 px-4 py-2.5 hover:bg-surface-raised transition-[background-color]">
+                    <div key={card.id} className="flex items-center gap-3 px-4 py-3 min-h-11 hover:bg-surface-raised transition-[background-color]">
                       <GradePill company={card.company} grade={card.grade} isBlackLabel={card.isBlackLabel} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-text-primary text-xs font-medium truncate">{card.name}</p>
+                        <p className="text-text-primary text-sm font-medium truncate">{card.name}</p>
                         <p className="text-text-muted text-xs font-mono">{[card.year, card.set].filter(Boolean).join(' · ')}</p>
                       </div>
                       <button
@@ -753,12 +773,12 @@ export function CollectionListView({
             >
           {/* Empty state */}
           {filtered.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-20 text-center panel">
+            <div className="flex flex-col items-center justify-center py-16 md:py-20 text-center panel px-4">
               <div className="w-14 h-14 border border-border-strong flex items-center justify-center mb-4 bg-surface-raised">
                 {activePortfolio ? <Folder className="w-6 h-6 text-text-muted" aria-hidden="true" /> : <Package className="w-6 h-6 text-text-muted" aria-hidden="true" />}
               </div>
-              <p className="text-text-secondary text-sm mb-1">{search ? t.collection.empty.noCardsFound : activePortfolio ? t.collection.empty.portfolioEmpty.replace('{name}', activePortfolio.name) : t.collection.empty.noCardsYet}</p>
-              <p className="text-text-muted text-xs mb-6">{search ? t.collection.empty.tryDifferentSearch : activePortfolio ? t.collection.empty.addCardsUsingButton : t.collection.empty.addYourFirstCard}</p>
+              <p className="text-text-primary text-sm font-semibold mb-2">{search ? t.collection.empty.noCardsFound : activePortfolio ? t.collection.empty.portfolioEmpty.replace('{name}', activePortfolio.name) : t.collection.empty.noCardsYet}</p>
+              <p className="text-text-secondary text-sm mb-6 max-w-sm">{search ? t.collection.empty.tryDifferentSearch : activePortfolio ? t.collection.empty.addCardsUsingButton : t.collection.empty.addYourFirstCard}</p>
               {!search && !activePortfolio && (
                 <button type="button" onClick={onOpenNew} className="collection-action-pill collection-action-pill--primary">
                   <Plus className="w-4 h-4" aria-hidden="true" />
@@ -952,12 +972,17 @@ export function CollectionListView({
               placeholder={t.collection.portfolio.namePlaceholder}
               className="w-full bg-surface-raised border border-border-default px-4 py-3 min-h-11 text-text-primary text-sm placeholder-text-muted focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg mb-3"
             />
+            {canListPublic && (
             <label className="flex items-center gap-2 text-text-secondary text-sm cursor-pointer mb-3 select-none">
               <input type="checkbox" checked={newPortfolioForSale} onChange={e => setNewPortfolioForSale(e.target.checked)} className="w-4 h-4 accent-accent-secondary" />
               {t.collection.portfolio.publicForSale}
             </label>
-            {newPortfolioForSale && (
+            )}
+            {canListPublic && newPortfolioForSale && (
               <p className="text-text-muted text-xs mb-5 leading-snug">{t.collection.portfolio.publicForSaleHint}</p>
+            )}
+            {!canListPublic && (
+              <p className="text-text-muted text-xs mb-5 leading-snug opacity-90">{t.collection.portfolio.publicForSaleStaffOnly}</p>
             )}
             <div className="flex gap-2">
               <button type="button" onClick={() => { setCreatingPortfolio(false); setNewPortfolioName(''); }} className="collection-action-pill flex-1 justify-center">{t.common.cancel}</button>

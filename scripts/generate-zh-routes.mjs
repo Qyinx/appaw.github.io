@@ -7,6 +7,7 @@ const routes = [
   { slug: 'products/psa-protectors', layout: true, meta: 'zhPsaProtectorsMetadata' },
   { slug: 'business', layout: true, meta: 'zhBusinessMetadata' },
   { slug: 'business/card-trading', layout: true, meta: 'zhCardTradingMetadata' },
+  { slug: 'business/card-trading/sell', layout: false, meta: 'zhCardTradingSellMetadata' },
   { slug: 'business/psa-protector', redirect: '/zh/products/psa-protectors/' },
   { slug: 'tools/card-centering', layout: false, meta: 'zhCenteringMetadata' },
   { slug: 'guides', layout: true, meta: 'zhGuidesIndexMetadata' },
@@ -16,7 +17,6 @@ const routes = [
   { slug: 'collection/card/new', layout: false, meta: 'zhNewCardMetadata' },
   { slug: 'collection/card/edit', layout: false, meta: 'zhEditCardMetadata' },
   { slug: 'style-guide', layout: false, meta: 'zhStyleGuideMetadata' },
-  { slug: 'admin/trade-cards', layout: false, meta: 'zhAdminTradeMetadata' },
 ];
 
 const root = 'src/app';
@@ -75,6 +75,24 @@ export async function generateMetadata(
 }
 
 export default Page;
+`,
+);
+
+const cardTradingViewDir = path.join(root, 'zh/business/card-trading/view');
+fs.mkdirSync(cardTradingViewDir, { recursive: true });
+fs.writeFileSync(
+  path.join(cardTradingViewDir, 'page.tsx'),
+  `import type { Metadata } from 'next';
+import { CardTradingViewClient } from '@/app/business/card-trading/view/CardTradingViewClient';
+
+export const metadata: Metadata = {
+  title: '卡牌 | Appaw Store',
+  robots: { index: false, follow: false },
+};
+
+export default function ZhCardTradingViewPage() {
+  return <CardTradingViewClient />;
+}
 `,
 );
 

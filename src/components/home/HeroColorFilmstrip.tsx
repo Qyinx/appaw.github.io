@@ -74,10 +74,10 @@ export default function HeroColorFilmstrip({
     <div className="home-hero-filmstrip" aria-live="polite">
       <div className="home-hero-filmstrip__header">
         <div className="home-hero-filmstrip__identity">
-          <p className="home-hero-filmstrip__header-label font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1">
+          <p className="home-hero-filmstrip__header-label font-mono text-xs uppercase tracking-[0.14em] text-text-secondary mb-1">
             {pickColorLabel}
           </p>
-          <p className="home-hero-filmstrip__header-label font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted">
+          <p className="home-hero-filmstrip__header-label font-mono text-xs uppercase tracking-[0.14em] text-text-muted">
             {headerLabel}
           </p>
           <p
@@ -86,7 +86,7 @@ export default function HeroColorFilmstrip({
           >
             {active.name}
           </p>
-          <p className="home-hero-filmstrip__terminal font-mono text-[11px] text-text-secondary" aria-hidden="true">
+          <p className="home-hero-filmstrip__terminal font-mono text-xs text-text-secondary" aria-hidden="true">
             <span className="text-text-muted">&gt;</span>{' '}
             load_finish{' '}
             <span className="text-accent-warn font-tabular">{variantId}</span>
@@ -155,7 +155,7 @@ export default function HeroColorFilmstrip({
                 }}
               />
               <span
-                className={`home-hero-filmstrip__slot-index font-mono font-tabular text-[10px] ${
+                className={`home-hero-filmstrip__slot-index font-mono font-tabular text-xs ${
                   isActive ? 'text-accent-warn' : 'text-text-muted'
                 }`}
                 aria-hidden="true"
@@ -163,7 +163,7 @@ export default function HeroColorFilmstrip({
                 {String(i + 1).padStart(2, '0')}
               </span>
               <span
-                className={`home-hero-filmstrip__slot-name spec-row__label !text-[9px] !tracking-[0.1em] line-clamp-1 w-full text-center ${
+                className={`home-hero-filmstrip__slot-name spec-row__label text-xs tracking-[0.1em] line-clamp-1 w-full text-center ${
                   isActive ? 'text-text-primary' : ''
                 }`}
               >

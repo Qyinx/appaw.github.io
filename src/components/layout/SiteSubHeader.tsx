@@ -11,7 +11,7 @@ function SubHeaderBody({ config }: { config: SubHeaderConfig }) {
   if (config.content) {
     const widthClass = config.contentWidth === 'tool' ? 'container-tool' : 'container-custom';
     return (
-      <div className={`${widthClass} site-subheader__content py-3 md:py-4`}>
+      <div className={`${widthClass} site-subheader__content py-2 md:py-2.5`}>
         {config.content}
       </div>
     );

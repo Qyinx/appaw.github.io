@@ -37,11 +37,11 @@ export const PAGE_META: Record<string, LocaleMeta> = {
     en: {
       title: 'PSA Pokémon Cards Hong Kong | Buy Rare Graded Cards – Appaw Store',
       description:
-        'The premier Hong Kong destination for investment-grade PSA 10 Pokémon cards. Zero-fee consignment and verified transactions.',
+        'Hong Kong marketplace for investment-grade PSA 10 Pokémon cards. Consignment at 138 Arena with a flat 5% commission covering listing and payment fees.',
     },
     zh: {
       title: '香港 PSA 寶可夢鑑定卡 | 購買稀有鑑定卡 – Appaw Store',
-      description: '香港投資級 PSA 10 寶可夢鑑定卡平台。零上架費寄售及面交驗證交易。',
+      description: '香港投資級 PSA 10 寶可夢鑑定卡市集。於 138 Arena 寄賣，佣金一律成交價 5%，已包括上架費及支付手續費。',
     },
   },
   '/tools/card-centering': {

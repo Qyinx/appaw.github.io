@@ -29,6 +29,7 @@ if((m=p.match(/^\\/(?:zh\\/)?admin\\/psa-grading\\/batches\\/(?!view|new)([^/]+)
 }
 var d=null;
 if(/^\\/(?:zh\\/)?collection\\/p\\/(?!view|_)[^/]+\\/?$/.test(p))d=(p.indexOf('/zh/')===0?'/zh/collection/p/view/':'/collection/p/view/');
+if(!d && /^\\/(?:zh\\/)?business\\/card-trading\\/(?!view|sell|_)[^/]+\\/?$/.test(p))d=(p.indexOf('/zh/')===0?'/zh/business/card-trading/view/':'/business/card-trading/view/');
 if(!d)return;
 document.documentElement.style.visibility='hidden';
 fetch(d).then(function(r){if(!r.ok)throw new Error(r.status);return r.text()}).then(function(html){

@@ -1,13 +1,11 @@
 import Page, {
+  generateStaticParams,
   generateMetadata as enGenerateMetadata,
 } from '../../../../business/card-trading/[id]/page';
-import { cardTradingGenerateStaticParams } from '@/lib/marketplace-card-trading-static';
 import { zhRouteMetadata } from '@/lib/seo/locale-metadata';
 import type { Metadata } from 'next';
 
-export async function generateStaticParams() {
-  return cardTradingGenerateStaticParams();
-}
+export { generateStaticParams };
 
 export async function generateMetadata(
   props: Parameters<typeof enGenerateMetadata>[0],

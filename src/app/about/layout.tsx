@@ -68,7 +68,7 @@ const aboutFaqJsonLd = faqJsonLd([
   },
   {
     q: 'What is your card consignment and trading policy?',
-    a: 'All card transactions are conducted face-to-face in Hong Kong. For consignment, there are no upfront listing fees — commission is charged only upon successful sale. We accept PSA and CGC graded cards. A quarterly stocktake is conducted every 3 months to confirm listing continuation. Full trading rules are published at appaw.store/business/card-trading.',
+    a: 'Card trading meetups are face-to-face in Hong Kong. Consignment is handled by 138 Arena at a flat 5% of the sale price, including listing and payment fees. We accept PSA, BGS, CGC, and TAG graded cards. A quarterly stocktake is conducted every 3 months. Full trading rules: appaw.store/business/card-trading.',
   },
 ]);
 

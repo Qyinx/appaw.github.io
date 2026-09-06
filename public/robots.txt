@@ -1,5 +1,5 @@
 # robots.txt — Appaw Store
-# Last updated: 2026-08-27
+# Last updated: 2026-09-03
 # GEO / LLM context: https://appaw.store/llms.txt
 #
 # `/collection/` landing = Allow. Private app routes = Disallow (EN + /zh).
@@ -12,6 +12,8 @@ Allow: /
 
 Disallow: /admin/
 Disallow: /zh/admin/
+Disallow: /admin/trade-cards/
+Disallow: /zh/admin/trade-cards/
 Disallow: /api/
 Disallow: /graphql/
 
@@ -27,8 +29,10 @@ Disallow: /zh/collection/auth/
 Disallow: /zh/collection/card/
 Disallow: /zh/collection/settings/
 
-Disallow: /business/card-trading/
-Disallow: /zh/business/card-trading/
+Disallow: /business/card-trading/sell/
+Disallow: /zh/business/card-trading/sell/
+Disallow: /business/card-trading/view/
+Disallow: /zh/business/card-trading/view/
 Disallow: /business/psa-protector/
 Disallow: /zh/business/psa-protector/
 
@@ -41,6 +45,8 @@ User-agent: Bingbot
 Allow: /
 Disallow: /admin/
 Disallow: /zh/admin/
+Disallow: /admin/trade-cards/
+Disallow: /zh/admin/trade-cards/
 Disallow: /api/
 Disallow: /graphql/
 Disallow: /style-guide/
@@ -53,8 +59,10 @@ Disallow: /zh/collection/list/
 Disallow: /zh/collection/auth/
 Disallow: /zh/collection/card/
 Disallow: /zh/collection/settings/
-Disallow: /business/card-trading/
-Disallow: /zh/business/card-trading/
+Disallow: /business/card-trading/sell/
+Disallow: /zh/business/card-trading/sell/
+Disallow: /business/card-trading/view/
+Disallow: /zh/business/card-trading/view/
 Disallow: /business/psa-protector/
 Disallow: /zh/business/psa-protector/
 Crawl-delay: 1

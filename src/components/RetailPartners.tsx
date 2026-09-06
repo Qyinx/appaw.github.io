@@ -95,11 +95,11 @@ export default function RetailPartners() {
             <div className="relative z-[1] grid lg:grid-cols-[1fr_auto] gap-6 p-6 md:p-8 lg:p-10">
               <div className="flex flex-col min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-5">
-                  <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-brand/30 text-accent-brand bg-accent-brand/10">
+                  <span className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-brand/30 text-accent-brand bg-accent-brand/10">
                     <Store className="w-3 h-3" />
                     {t.retailPartners?.tags?.main ?? t.retailPartners?.tags?.authorized ?? 'Main location'}
                   </span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted">
+                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted">
                     {t.retailPartners?.tags?.fullService ?? 'Full service'}
                   </span>
                 </div>
@@ -151,7 +151,7 @@ export default function RetailPartners() {
 
         {partner && (
           <div className="border border-border-default bg-surface-panel mb-px p-6 md:p-7 flex flex-col">
-            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-link/30 text-accent-link bg-accent-link/10 mb-4 w-fit">
+            <span className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-link/30 text-accent-link bg-accent-link/10 mb-4 w-fit">
               <FontAwesomeIcon icon={faInstagram} className="w-3 h-3" />
               {t.retailPartners?.tags?.partner ?? 'Partner'}
             </span>
@@ -189,7 +189,7 @@ export default function RetailPartners() {
         {online && (
           <div className="border border-border-default bg-border-default">
             <div className="bg-surface-panel px-6 md:px-8 py-5 border-b border-border-default">
-              <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-success/30 text-accent-success bg-accent-success/10 mb-3">
+              <span className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-success/30 text-accent-success bg-accent-success/10 mb-3">
                 <Globe className="w-3 h-3" />
                 {t.retailPartners?.types?.online ?? 'Online'}
               </span>
@@ -212,7 +212,7 @@ export default function RetailPartners() {
                     {link.icon}
                   </span>
                   <span className="text-sm font-bold text-text-primary mb-1 leading-snug">{link.label}</span>
-                  <span className="text-[11px] text-text-muted leading-relaxed flex-1">{link.desc}</span>
+                  <span className="text-xs text-text-secondary leading-relaxed flex-1">{link.desc}</span>
                   <ArrowRight
                     className="w-4 h-4 mt-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-[opacity,transform] duration-300"
                     style={{ color: link.color }}

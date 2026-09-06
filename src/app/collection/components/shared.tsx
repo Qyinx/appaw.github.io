@@ -64,10 +64,10 @@ export function GradePill({ company, grade, isBlackLabel }: { company: GradingCo
     : /* TAG */           { backgroundColor: '#1E1F1F', color: '#ffffff', border: '1px solid #ffffff' };
   return (
     <div className="flex items-center gap-1">
-      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={coStyle}>{company}</span>
-      <span className={`text-[10px] font-black px-1.5 py-0.5 rounded border ${gradeColor}`}>{grade}</span>
+      <span className="text-xs font-bold px-2 py-0.5 rounded-none" style={coStyle}>{company}</span>
+      <span className={`text-xs font-black px-2 py-0.5 rounded-none border ${gradeColor}`}>{grade}</span>
       {isBlackLabel && (
-        <span className="text-[9px] font-black px-1 py-0.5 rounded bg-black border border-white/30 text-white/90 tracking-tight">BL</span>
+        <span className="text-xs font-black px-1.5 py-0.5 rounded-none bg-black border border-white/30 text-white/90 tracking-tight">BL</span>
       )}
     </div>
   );
