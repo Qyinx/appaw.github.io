@@ -55,6 +55,10 @@ export default function RootLayout({
                 tp('register', 'KfnAawX7R5VW7x8N');
           `}
         </Script>
+        <Script
+          src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+          strategy="afterInteractive"
+        />
         {/* Structured Data for Search Engines & AI */}
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
         <AgentDiscoveryLinks />

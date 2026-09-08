@@ -466,6 +466,11 @@ export const en = {
     },
     ctaTitle: 'Ready to Protect Your Collection?',
     ctaSubtitle: 'Give your prized cards the premium protection they deserve',
+    trustpilotReview: {
+      badge: 'Reviews',
+      title: 'Share your experience',
+      body: 'Bought a protector or used our service? Leave a Trustpilot review for other collectors.',
+    },
     faq: {
       badge: 'FAQs',
       title: 'Frequently Asked Questions',
@@ -1187,6 +1192,10 @@ export const en = {
       trackPackage: 'Track on carrier site',
       notesTitle: 'Notifications',
       lastSynced: 'Last updated: {date}',
+      trustpilotReview: {
+        title: 'How was your PSA grading experience?',
+        body: 'Leave a quick Trustpilot review — it helps other Hong Kong collectors.',
+      },
       relatedSubmissions: {
         title: 'Other batches from this drop-off',
         switch: 'View this submission',

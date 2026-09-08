@@ -468,6 +468,11 @@ export const zh: Translations = {
     },
     ctaTitle: '準備好為珍藏升級裝備了嗎？',
     ctaSubtitle: '給您最心愛的卡片，它應得的最高級別保護。',
+    trustpilotReview: {
+      badge: '評價',
+      title: '分享你的體驗',
+      body: '買過保護殼或用過我們的服務？在 Trustpilot 留下評價，幫助其他藏家。',
+    },
     faq: {
       badge: '常見問題',
       title: '客戶常見問題解答',
@@ -1187,6 +1192,10 @@ export const zh: Translations = {
       trackPackage: '前往快遞官網追蹤',
       notesTitle: '最新通知',
       lastSynced: '最後更新時間：{date}',
+      trustpilotReview: {
+        title: '這次 PSA 代送體驗如何？',
+        body: '花一分鐘在 Trustpilot 留下評價，幫助其他香港藏家。',
+      },
       relatedSubmissions: {
         title: '您同天提交的其他批次',
         switch: '點擊切換查看',

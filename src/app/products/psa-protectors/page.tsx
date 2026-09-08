@@ -6,6 +6,7 @@ import { ChevronRight, ChevronDown, Palette, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { en } from '@/i18n';
 import RetailPartners from '@/components/RetailPartners';
+import TrustpilotReviewCollector from '@/components/TrustpilotReviewCollector';
 import ShopNowButton from '@/components/ui/ShopNowButton';
 import ProtectorTechnicalSpecs from '@/components/products/ProtectorTechnicalSpecs';
 import ProductSpecPanel from '@/components/products/ProductSpecPanel';
@@ -336,6 +337,26 @@ export default function PSAProtectorPage() {
            RETAIL PARTNERS
       ══════════════════════════════════════════ */}
       <RetailPartners />
+
+      {/* ══════════════════════════════════════════
+           TRUSTPILOT — service review collector (not hero)
+      ══════════════════════════════════════════ */}
+      <section className="py-16 md:py-20 bg-surface-bg border-t border-border-default">
+        <div className="container-custom">
+          <div className="max-w-xl mx-auto text-center">
+            <p className="section-label mb-5 justify-center">
+              {t.psaProtectorPage.trustpilotReview.badge}
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-[1.15] mb-4">
+              {t.psaProtectorPage.trustpilotReview.title}
+            </h2>
+            <p className="text-text-secondary text-base leading-relaxed mb-8">
+              {t.psaProtectorPage.trustpilotReview.body}
+            </p>
+            <TrustpilotReviewCollector />
+          </div>
+        </div>
+      </section>
 
       {/* ══════════════════════════════════════════
            CENTERING CROSS-LINK — internal link to tool pillar

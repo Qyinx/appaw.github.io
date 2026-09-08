@@ -10,6 +10,7 @@ import SubmissionItemsTable from '../components/SubmissionItemsTable';
 import SubmissionNotesMessage from '../components/SubmissionNotesMessage';
 import SubmissionStatusBadges from '../components/SubmissionStatusBadges';
 import RelatedSubmissionsStrip from './RelatedSubmissionsStrip';
+import TrustpilotReviewCollector from '@/components/TrustpilotReviewCollector';
 import {
   animateButtonPress,
   animateReferenceSigil,
@@ -299,6 +300,16 @@ export default function TrackResultsPanel({
         </div>
 
         <div className="grading-track-results__body space-y-4">
+          {submission.gradesReady && (
+            <div className="panel border border-border-default p-4 sm:p-5">
+              <p className="font-display font-semibold text-text-primary mb-1">
+                {copy.trustpilotReview.title}
+              </p>
+              <p className="text-sm text-text-secondary mb-4">{copy.trustpilotReview.body}</p>
+              <TrustpilotReviewCollector />
+            </div>
+          )}
+
           {relatedSubmissions &&
             relatedSubmissions.length > 0 &&
             onSelectReference && (
