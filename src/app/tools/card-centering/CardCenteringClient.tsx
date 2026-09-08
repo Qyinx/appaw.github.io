@@ -25,6 +25,7 @@ import {
   type QualityTier,
 } from '@/lib/centering';
 import styles from './card-centering.module.css';
+import TrustpilotReviewCollector from '@/components/TrustpilotReviewCollector';
 import { useCenteringGuide, useCenteringGuideRef } from './CenteringGuideContext';
 import { isInnerHandle, isOuterHandle, centeringHowToSteps } from './centering-guide';
 import { useCenteringToolMotion } from './useCenteringToolMotion';
@@ -55,6 +56,12 @@ const ICON_PROPS = {
   strokeLinecap: 'round' as const,
   strokeLinejoin: 'round' as const,
 };
+
+/** Avoid Chrome Intervention: cancel touchmove only when the event is cancelable. */
+function safePreventDefault(e: { cancelable?: boolean; preventDefault: () => void }) {
+  if (e.cancelable === false) return;
+  e.preventDefault();
+}
 
 const UploadImageIcon = () => (
   <svg {...ICON_PROPS} width={18} height={18}>
@@ -1659,7 +1666,7 @@ export default function CardCenteringClient() {
     }
 
     function beginHandleDrag(handleHit: string, e: any, mouseX: number, mouseY: number) {
-      if (e.touches) e.preventDefault();
+      if (e.touches) safePreventDefault(e);
       dismissChromeRef.current();
       pendingTouch = null;
       dragging = handleHit;
@@ -2276,7 +2283,7 @@ export default function CardCenteringClient() {
 
     function pointerDown(e: any) {
       if (e.touches && e.touches.length === 2) {
-        e.preventDefault();
+        safePreventDefault(e);
         pendingTouch = null;
         beginPinch(e.touches);
         return;
@@ -2312,7 +2319,7 @@ export default function CardCenteringClient() {
 
     function pointerMove(e: any) {
       if (e.touches && e.touches.length === 2) {
-        e.preventDefault();
+        safePreventDefault(e);
         pendingTouch = null;
         if (dragging !== 'pinch') beginPinch(e.touches);
         schedulePinchFrame(e.touches[0], e.touches[1]);
@@ -2337,7 +2344,7 @@ export default function CardCenteringClient() {
             return;
           }
 
-          e.preventDefault();
+          safePreventDefault(e);
           pendingTouch = null;
           dragging = 'image';
           overlayEl.style.cursor = 'grabbing';
@@ -2347,7 +2354,7 @@ export default function CardCenteringClient() {
       }
 
       if (!dragging) return;
-      e.preventDefault();
+      safePreventDefault(e);
 
       const pos = getPointerPos(e);
 
@@ -2424,7 +2431,7 @@ export default function CardCenteringClient() {
 
     const workspaceTouchCapture = (e: TouchEvent) => {
       if (isInteractiveTarget(e.target)) return;
-      if (e.touches.length >= 2) e.preventDefault();
+      if (e.touches.length >= 2) safePreventDefault(e);
     };
 
     const clearToolSelection = () => {
@@ -2493,7 +2500,11 @@ export default function CardCenteringClient() {
       loupeBindings.push({ el, type: 'dblclick', fn: dbl });
       loupeBindings.push({ el, type: 'wheel', fn: wheel });
     });
-    const loupeMoveGlobal = (e: any) => { if (!loupeDrag) return; e.preventDefault(); setRefFromEvent(loupeDrag, e); };
+    const loupeMoveGlobal = (e: any) => {
+      if (!loupeDrag) return;
+      safePreventDefault(e);
+      setRefFromEvent(loupeDrag, e);
+    };
     const loupeUpGlobal = () => { loupeDrag = null; };
     window.addEventListener('mousemove', loupeMoveGlobal, { passive: false });
     window.addEventListener('mouseup', loupeUpGlobal);
@@ -3060,6 +3071,11 @@ export default function CardCenteringClient() {
                 <SlidersIcon />
                 {tool.adjustImage}
               </span>
+              <TrustpilotReviewCollector
+                variant="compact"
+                className={styles.adjustHeaderRate}
+                compactLabel={tool.trustpilotRateShort}
+              />
               <button
                 type="button"
                 className={styles.chromeSheetClose}

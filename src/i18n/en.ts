@@ -1863,6 +1863,8 @@ export const en = {
       guideModeEdge: 'Edge',
       guideModeBorder: 'Border',
       guideModeBoth: 'Both',
+      trustpilotReviewLabel: 'Rate Appaw Store',
+      trustpilotRateShort: 'Rate',
       imageFilterLabel: 'Blemish filter',
       imageFilterOff: 'Normal',
       imageFilterContrast: 'High contrast',

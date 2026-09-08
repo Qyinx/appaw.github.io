@@ -890,6 +890,37 @@
   flex-shrink: 0;
 }
 
+.adjustHeaderRate {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: var(--border-width, 1px) solid var(--tool-border);
+  background: transparent;
+  color: var(--tool-text-muted);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  touch-action: manipulation;
+}
+
+.adjustHeaderRate:hover {
+  color: var(--tool-text);
+  border-color: color-mix(in srgb, var(--accent-warn) 45%, var(--tool-border));
+  background: var(--tool-overlay-hover);
+}
+
+.adjustHeaderRate:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 2px;
+}
+
 .chromeSheetTitle {
   display: inline-flex;
   align-items: center;
@@ -900,6 +931,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--tool-text);
+  min-width: 0;
 }
 
 .chromeSheetTitle svg {
@@ -2330,27 +2362,52 @@
   }
 
   .controlRow {
-    padding: 8px 10px;
-    gap: 6px;
+    padding: 6px 8px;
+    gap: 4px;
   }
 
   .controlHeader {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
   }
 
-  /* Touch-friendly range thumbs */
+  .controlLabel svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .sliderValue {
+    padding: 1px 6px;
+    font-size: 0.6875rem;
+  }
+
+  /* Compact thumbs — 44px made zoom/rotate/tilt rows feel oversized */
   .rangeSlider {
-    height: 10px;
+    height: 6px;
   }
 
   .rangeSlider::-webkit-slider-thumb {
-    width: 44px;
-    height: 44px;
+    width: 22px;
+    height: 22px;
   }
 
   .rangeSlider::-moz-range-thumb {
-    width: 44px;
-    height: 44px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .adjustSheet .sliderStack {
+    gap: 4px;
+  }
+
+  .adjustSheet .controlRow {
+    gap: 2px;
+    padding: 4px 8px;
+  }
+
+  .adjustHeaderRate {
+    min-height: 26px;
+    padding: 0 8px;
+    font-size: 0.5625rem;
   }
 
   .emptyState {

@@ -20,14 +20,26 @@ declare global {
 
 type Props = {
   className?: string;
+  /** When false, skip load (e.g. closed sheet). Default true. */
+  active?: boolean;
+  /** Full TrustBox widget, or compact header link. */
+  variant?: 'widget' | 'compact';
+  /** Label for compact link (required for compact). */
+  compactLabel?: string;
 };
 
-export default function TrustpilotReviewCollector({ className }: Props) {
+export default function TrustpilotReviewCollector({
+  className,
+  active = true,
+  variant = 'widget',
+  compactLabel = 'Trustpilot',
+}: Props) {
   const { language } = useLanguage();
   const widgetRef = useRef<HTMLDivElement>(null);
   const locale = language === 'zh' ? 'zh-CN' : 'en-US';
 
   useEffect(() => {
+    if (variant !== 'widget' || !active) return;
     const el = widgetRef.current;
     if (!el) return;
 
@@ -50,7 +62,20 @@ export default function TrustpilotReviewCollector({ className }: Props) {
       window.clearInterval(id);
       window.clearTimeout(timeout);
     };
-  }, [locale]);
+  }, [locale, active, variant]);
+
+  if (variant === 'compact') {
+    return (
+      <a
+        href={TRUSTPILOT_REVIEW_URL}
+        className={className}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {compactLabel}
+      </a>
+    );
+  }
 
   return (
     <div className={className}>

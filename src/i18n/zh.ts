@@ -1861,6 +1861,8 @@ export const zh: Translations = {
       guideModeEdge: '藍線',
       guideModeBorder: '粉線',
       guideModeBoth: '顯示全部',
+      trustpilotReviewLabel: '評價 Appaw Store',
+      trustpilotRateShort: '評價',
       imageFilterLabel: '濾鏡 (檢查瑕疵)',
       imageFilterOff: '原汁原味',
       imageFilterContrast: '高對比',
