@@ -47,6 +47,14 @@ export default function RootLayout({
         <Script id="locale-bootstrap" strategy="beforeInteractive">
           {LOCALE_BOOTSTRAP_SCRIPT}
         </Script>
+        <Script id="trustpilot-invite" strategy="afterInteractive">
+          {`
+            (function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
+                a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
+                f.parentNode.insertBefore(a,f)})(window,document,'script', 'https://invitejs.trustpilot.com/tp.min.js', 'tp');
+                tp('register', 'KfnAawX7R5VW7x8N');
+          `}
+        </Script>
         {/* Structured Data for Search Engines & AI */}
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
         <AgentDiscoveryLinks />
