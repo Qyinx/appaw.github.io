@@ -227,7 +227,7 @@ const guide: GuideContent = {
     },
     {
       q: 'How are PSA grading fees calculated?',
-      a: 'Hong Kong PSA grading submission publishes Regular, Express, Super Express, Walk-Through, and Reholder. Fees and declared-value limits follow the table at booking. Money is collected at 138 Arena; if an adjustment applies, Appaw Store confirms the final amount. PSA\'s own price list is at psacard.com/services.',
+      a: 'Hong Kong PSA grading submission publishes Standard, Priority, Express, Super Express, Walk-Through, and Reholder. Fees and declared-value limits follow the table at booking. Money is collected at 138 Arena; if an adjustment applies, Appaw Store confirms the final amount. PSA\'s own price list is at psacard.com/services.',
     },
     {
       q: 'How do I verify my PSA slab after grading?',

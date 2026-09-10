@@ -152,7 +152,7 @@ export const zh: Translations = {
         badge: 'PSA評級代送鑑定',
         title: '香港PSA評級代送鑑定',
         description:
-          '於銅鑼灣 138 Arena 面交收件，專人代送 PSA。服務費 HKD 790 起，支援線上追蹤進度，交收時更可即場交流卡況意見。',
+          '於銅鑼灣 138 Arena 面交收件，專人代送 PSA。服務費 HKD 550 起，支援線上追蹤進度，交收時更可即場交流卡況意見。',
         cta: '了解代送詳情',
       },
       guidesLink: '鑑定卡保護、防 UV、置中檢測與重新評級實用指南',
@@ -242,7 +242,7 @@ export const zh: Translations = {
       title: '香港PSA評級代送鑑定',
       description:
         '於銅鑼灣 138 Arena 進行面交收件，代您穩妥轉送 PSA。批次進度隨時可於線上查詢，交收時我們亦會提供卡況專業意見，幫您評估評級效益。',
-      chips: ['138 Arena 面交', 'HKD 790 起', '拒絕郵寄風險', '線上進度查詢'],
+      chips: ['138 Arena 面交', 'HKD 550 起', '拒絕郵寄風險', '線上進度查詢'],
       cta: '了解代送詳情',
       trackCta: '查詢批次進度',
       bookCta: '預約面交時段',
@@ -785,7 +785,7 @@ export const zh: Translations = {
     badge: 'PSA評級代送鑑定',
     dropOffAddress: '銅鑼灣謝斐道 522 號 1/F (138 Arena 內)',
     lastUpdatedLabel: '資訊最後更新於',
-    lastUpdated: '2026-08-05',
+    lastUpdated: '2026-09-11',
     aeo: {
       title: '在香港怎樣把 TCG 卡牌送 PSA 評級？',
       answer:
@@ -853,7 +853,7 @@ export const zh: Translations = {
         },
         {
           title: '挑選最聰明的提交鑑定方案',
-          body: '當您的愛卡真有實力挑戰 PSA 10 時，我們會根據卡片市值與您的時間成本，為您在 Regular、Express 等不同方案中做出最划算的選擇。錢要花在刀口上，值得加急的我們才會建議升級。若殼有磨損但評級仍合適，亦可選 Reholder（換殼）。',
+          body: '當您的愛卡真有實力挑戰 PSA 10 時，我們會根據卡片市值與您的時間成本，為您在 Standard、Priority、Express 等不同方案中做出最划算的選擇。錢要花在刀口上，值得加急的我們才會建議升級。若殼有磨損但評級仍合適，亦可選 Reholder（換殼）。',
         },
       ],
     },
@@ -1035,8 +1035,8 @@ export const zh: Translations = {
               a: '在「查詢進度」頁面，輸入您留的電話號碼及收據上的「參考編號」。為保護隱私，兩項資訊必須完全吻合才能查詢，我們也不會在電話中透露客戶資料。',
             },
             {
-              q: '若同一次交卡包含價目表上列明的不同方案（例如 Regular 與 Express），應如何查詢進度？',
-              a: '價目表上列明的各項方案，例如 Regular 與 Express，處理速度並不相同，因此會分入不同的 BAT 批次。請以同一個電話號碼，分別輸入各批次的參考編號，查詢各自進度。',
+              q: '若同一次交卡包含價目表上列明的不同方案（例如 Priority 與 Express），應如何查詢進度？',
+              a: '價目表上列明的各項方案，例如 Standard、Priority 與 Express，處理速度並不相同，因此會分入不同的 BAT 批次。請以同一個電話號碼，分別輸入各批次的參考編號，查詢各自進度。',
             },
             {
               q: '系統上的各種狀態代表什麼意思？',
@@ -1116,6 +1116,8 @@ export const zh: Translations = {
       ctaBook: '預約交卡',
       bookFooter: '準備好將愛卡送上世界舞台了嗎？',
       listPriceLabel: '原價 {price}',
+      feeTier1to4: '{price} · 1–4 張',
+      feeTier5plus: '{price} · 5 張或以上',
       days: '約 {days} 個工作天',
       footnote1: '※ 價格可能會隨 PSA 官方政策變動而調整，恕不另行公告，請以現場報價為準。',
       footnote2: '※ 請注意：若卡片評估後市值飆升，超過了您選擇方案的上限，PSA 有權強制升級方案並向您收取差額 (Upcharge)。',
@@ -1169,7 +1171,8 @@ export const zh: Translations = {
       valueBulk: '超值量大方案 (Value Bulk)',
       valuePlus: '超值進階方案 (Value Plus)',
       valueMax: '超值頂級方案 (Value Max)',
-      regular: '標準方案 (Regular)',
+      standard: '標準方案 (Standard)',
+      priority: '優先方案 (Priority)',
       express: '特快方案 (Express)',
       superExpress: '極速方案 (Super Express)',
       walkThrough: 'VIP 專人方案 (Walk-Through)',
@@ -1328,7 +1331,7 @@ export const zh: Translations = {
         heading: 'PSA評級代送鑑定',
         body: [
           'PSA評級代送鑑定須先於網站預約，並於 138 Arena 當面辦理。本服務不接受以郵寄方式提交裸卡。顧客須親自將卡片帶至合作場地，由現場完成點收、初步檢視，並確認服務方案。',
-          '服務方案僅以 PSA評級代送鑑定頁面公布的價目表為準，包括 Regular、Express、Super Express、Walk-Through 及 Reholder。收費及最高申報價值限制，以預約當時價目表所列為準。',
+          '服務方案僅以 PSA評級代送鑑定頁面公布的價目表為準，包括 Standard、Priority、Express、Super Express、Walk-Through 及 Reholder。收費及最高申報價值限制，以預約當時價目表所列為準。',
           '最終評級由 PSA 決定。Appaw Store 不保證分數。交卡時的初步檢視及任何分數討論，僅供參考，並不構成對 PSA 10 或其他結果的承諾。',
         ],
       },

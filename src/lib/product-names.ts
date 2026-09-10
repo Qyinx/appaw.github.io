@@ -145,7 +145,7 @@ export const PSA_GRADING_SEO = {
   en: {
     title: 'Hong Kong PSA Grading Submission | 138 Arena (Partner Venue) | Appaw Store',
     description:
-      'PSA grading submission with Appaw at 138 Arena, Causeway Bay (partner venue). 138 Arena: venue and payment. Appaw: service and follow-up. Regular from HK$790; Reholder HK$550.',
+      'PSA grading submission with Appaw at 138 Arena, Causeway Bay (partner venue). 138 Arena: venue and payment. Appaw: service and follow-up. Standard from HK$550; Reholder HK$550.',
     h1Keyword: 'PSA grading submission in Hong Kong',
     webAppName: 'PSA Grading Submission Tracker',
     trackTitle: 'Track PSA Grading Submission | Appaw Store',
@@ -158,12 +158,12 @@ export const PSA_GRADING_SEO = {
     ],
     breadcrumb: 'PSA Grading Submission',
     trackBreadcrumb: 'Track',
-    lastUpdated: '2026-08-08',
+    lastUpdated: '2026-09-11',
   },
   zh: {
     title: '香港PSA評級代送鑑定｜138 Arena 合作場地面交 | Appaw Store',
     description:
-      '香港PSA評級代送鑑定。於銅鑼灣 138 Arena（合作場地）面交：138 Arena 負責場務及收費，Appaw 負責服務及跟進。Regular 由 HK$790 起；Reholder HK$550。',
+      '香港PSA評級代送鑑定。於銅鑼灣 138 Arena（合作場地）面交：138 Arena 負責場務及收費，Appaw 負責服務及跟進。Standard 由 HK$550 起；Reholder HK$550。',
     h1Keyword: '香港PSA評級代送鑑定',
     webAppName: 'PSA評級代送鑑定進度查詢',
     trackTitle: '查詢 PSA評級代送鑑定進度｜線上追蹤 | Appaw Store',
@@ -176,7 +176,7 @@ export const PSA_GRADING_SEO = {
     ],
     breadcrumb: 'PSA評級代送鑑定',
     trackBreadcrumb: '查詢進度',
-    lastUpdated: '2026-08-08',
+    lastUpdated: '2026-09-11',
   },
 } as const;
 

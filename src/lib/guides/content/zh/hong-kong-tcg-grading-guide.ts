@@ -5,7 +5,7 @@ const guide: GuideContent = {
   title: '香港 TCG 卡牌提交鑑定：138 Arena PSA評級代送鑑定',
   badge: '香港',
   lead:
-    '香港 TCG 收藏家如欲將寶可夢、One Piece、Magic: The Gathering 或運動卡交 PSA 鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。Regular 方案服務費由 HKD 790 起，於 138 Arena 現場支付；基於雙方的服務安排，Appaw Store 可調整最終應付金額。憑收據上的電話號碼及參考編號，可於網上查看批次現有進度。',
+    '香港 TCG 收藏家如欲將寶可夢、One Piece、Magic: The Gathering 或運動卡交 PSA 鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。Standard 方案服務費由 HKD 550 起，於 138 Arena 現場支付；基於雙方的服務安排，Appaw Store 可調整最終應付金額。憑收據上的電話號碼及參考編號，可於網上查看批次現有進度。',
   published: '2026-07-13',
   updated: '2026-08-30',
   readTime: '9 分鐘',
@@ -19,7 +19,7 @@ const guide: GuideContent = {
     {
       label: '服務費',
       value:
-        'Regular 方案由 HKD 790 起，由 138 Arena 現場收取；若有調整，由 Appaw Store 確認最終金額。完整價目見 PSA評級代送鑑定頁面',
+        'Standard 方案由 HKD 550 起，由 138 Arena 現場收取；若有調整，由 Appaw Store 確認最終金額。完整價目見 PSA評級代送鑑定頁面',
     },
     {
       label: '進度查詢',
@@ -57,7 +57,7 @@ const guide: GuideContent = {
       title: '面交提交流程',
       paragraphs: [
         '辦理提交鑑定的第一步，是透過 Appaw 網站預約銅鑼灣 138 Arena 的面交時段，並攜帶待鑑定的卡牌前往。運送途中請使用卡套或硬卡夾保護，以免途中刮傷。到達後，Appaw 會完成點收與初步檢視，核對置中、邊角及表面狀況，並可作基本表面清潔。該檢視僅供參考，最終分數仍由 PSA 決定。',
-        '完成點收後，Appaw 會協助確認 PSA 服務方案與申報價值，整理套袋與書面清單，並依服務方案分配參考編號及開立收據。服務方案僅以 PSA評級代送鑑定頁面公布的價目表為準，包括 Regular、Express、Super Express、Walk-Through 及 Reholder。費用由 138 Arena 現場收取；若有調整，由 Appaw Store 確認最終金額。收費及最高申報價值限制，以預約當時價目表所列為準，詳見 [PSA評級代送鑑定](/business/psa-grading/) 頁面。',
+        '完成點收後，Appaw 會協助確認 PSA 服務方案與申報價值，整理套袋與書面清單，並依服務方案分配參考編號及開立收據。服務方案僅以 PSA評級代送鑑定頁面公布的價目表為準，包括 Standard、Priority、Express、Super Express、Walk-Through 及 Reholder。費用由 138 Arena 現場收取；若有調整，由 Appaw Store 確認最終金額。收費及最高申報價值限制，以預約當時價目表所列為準，詳見 [PSA評級代送鑑定](/business/psa-grading/) 頁面。',
         '收件封批後，Appaw 會將卡牌合併轉送至 PSA，由 PSA 進行研究、評分、封裝與品質控制。各階段動態會同步至 Appaw [PSA評級代送鑑定進度查詢](/business/psa-grading/track/) 頁面。顧客須同時輸入收據上的電話號碼及參考編號，方可查看批次現有進度。',
       ],
       bridge:
@@ -109,7 +109,7 @@ const guide: GuideContent = {
     },
     {
       q: 'PSA評級代送鑑定服務費由多少起？',
-      a: 'Regular 方案服務費由 HKD 790 起，由 138 Arena 現場收取；若有調整，由 Appaw Store 確認最終金額。公布方案為 Regular、Express、Super Express、Walk-Through 及 Reholder，各方案服務費與最高申報價值不同。完整價目、預計週轉時間及條款，請參閱 PSA評級代送鑑定頁面；收費以預約當時價目表為準。',
+      a: 'Standard 方案服務費由 HKD 550 起，由 138 Arena 現場收取；若有調整，由 Appaw Store 確認最終金額。公布方案為 Standard、Priority、Express、Super Express、Walk-Through 及 Reholder，各方案服務費與最高申報價值不同。完整價目、預計週轉時間及條款，請參閱 PSA評級代送鑑定頁面；收費以預約當時價目表為準。',
     },
     {
       q: '如何查看批次現有進度？',

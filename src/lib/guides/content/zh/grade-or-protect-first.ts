@@ -46,7 +46,7 @@ const guide: GuideContent = {
         '裸卡是否值得提交鑑定，取決於品相能否達到 Gem Mint（PSA 10）範圍，以及預期溢價能否覆蓋鑑定費用；若品相不足或經濟空間過窄，您將白白付出成本，或取得拉低轉售價的較低分數標籤。',
         '值得支付鑑定費用的情況包括：置中、表面與邊角整體接近 PSA 10 水準，裸卡行情約 25 美元以上，且 PSA 10 預期售價至少為裸卡價格的 2 至 4 倍；熱門新秀卡或稀缺 TCG（如寶可夢、魔法風雲會等）在高分市場需求較強，eBay Authenticity Guarantee 或 PSA 優惠期間提交鑑定的風險亦相對較低。',
         '不宜支付鑑定費用的情況包括：裸卡低於 20 至 25 美元，鑑定費用將耗盡全部溢價空間；邊角磨損或表面刮痕明顯，多半只能取得 PSA 8 以下分數；PSA 積壓嚴重或暫停服務，等待週期過長；純粹長期收藏且無轉售打算，鑑定標籤對您並無實質價值。',
-        '提交鑑定前的準備工作應依序完成：以分幣護套與半硬卡夾妥善包裝；查閱 PSA Pop Report 了解該卡 PSA 10 的存世數量；核算鑑定費用並選擇合適服務方案（Regular、Express、Super Express、Walk-Through、Reholder）；使用免費 [卡牌置中工具](/tools/card-centering/) 測量置中，並對照 [PSA 10 置中標準](/guides/psa-10-centering-requirements/) 確認正面與背面邊距是否達標。香港藏家亦可親臨 138 Arena（合作場地），由 Appaw 完成點收與初步檢視，並可作基本表面清潔。該檢視僅供參考，最終分數由 PSA 決定。',
+        '提交鑑定前的準備工作應依序完成：以分幣護套與半硬卡夾妥善包裝；查閱 PSA Pop Report 了解該卡 PSA 10 的存世數量；核算鑑定費用並選擇合適服務方案（Standard、Priority、Express、Super Express、Walk-Through、Reholder）；使用免費 [卡牌置中工具](/tools/card-centering/) 測量置中，並對照 [PSA 10 置中標準](/guides/psa-10-centering-requirements/) 確認正面與背面邊距是否達標。香港藏家亦可親臨 138 Arena（合作場地），由 Appaw 完成點收與初步檢視，並可作基本表面清潔。該檢視僅供參考，最終分數由 PSA 決定。',
       ],
       specs: [
         { label: 'PSA 10 正面（2025 年起）', value: '55/45 或更佳' },

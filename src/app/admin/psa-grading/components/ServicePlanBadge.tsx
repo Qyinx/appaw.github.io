@@ -9,6 +9,7 @@ const PLAN_BADGE_CLASS: Record<PlanOrUnknown, string> = {
   VPLS: 'border-accent-link/40 bg-accent-link/10 text-accent-link',
   VMAX: 'border-accent-success/40 bg-accent-success/10 text-accent-success',
   /** Raw-card grading family — brand pink (matches hub board + pricing). */
+  STD: 'border-accent-brand/35 bg-accent-brand/8 text-accent-brand',
   REG: 'border-accent-brand/40 bg-accent-brand/10 text-accent-brand',
   EXP: 'border-accent-brand/45 bg-accent-brand/12 text-accent-brand',
   SPX: 'border-accent-brand/50 bg-accent-brand/15 text-accent-brand',

@@ -151,7 +151,7 @@ export const en = {
         badge: 'PSA Grading Submission',
         title: 'PSA grading submission (Hong Kong)',
         description:
-          'Hong Kong TCG face-to-face PSA intake at 138 Arena, Causeway Bay. Condition advice before you ship, tiers from HKD 790. Track every batch online.',
+          'Hong Kong TCG face-to-face PSA intake at 138 Arena, Causeway Bay. Condition advice before you ship, tiers from HKD 550. Track every batch online.',
         cta: 'View PSA grading submission',
       },
       guidesLink: 'Guides on slab fit, UV storage, centering, and regrade vs reholder',
@@ -241,7 +241,7 @@ export const en = {
       title: 'PSA grading submission in Hong Kong',
       description:
         'Face-to-face PSA grading submission from 138 Arena, Causeway Bay. We help you decide whether a card should go to PSA, then track every batch online.',
-      chips: ['138 Arena', 'From HKD 790', 'Face-to-face only', 'Batch tracking'],
+      chips: ['138 Arena', 'From HKD 550', 'Face-to-face only', 'Batch tracking'],
       cta: 'View PSA grading submission',
       trackCta: 'Track a batch',
       bookCta: 'Book drop-off',
@@ -784,7 +784,7 @@ export const en = {
     badge: 'PSA Grading Submission',
     dropOffAddress: '138 Arena, 1/F, 522 Jaffe Road, Causeway Bay',
     lastUpdatedLabel: 'Last updated',
-    lastUpdated: '2026-08-05',
+    lastUpdated: '2026-09-11',
     aeo: {
       title: 'How do I submit cards for PSA grading submission in Hong Kong?',
       answer:
@@ -852,7 +852,7 @@ export const en = {
         },
         {
           title: 'Tier advice when the card is strong',
-          body: 'When condition supports a serious PSA 10 attempt, we help match Regular, Express, Super Express, or Walk-Through to your time and declared-value stake. Faster tiers cost more; we only push them when the card justifies it. For scuffed holders that still grade right, we also offer Reholder.',
+          body: 'When condition supports a serious PSA 10 attempt, we help match Standard, Priority, Express, Super Express, or Walk-Through to your time and declared-value stake. Faster tiers cost more; we only push them when the card justifies it. For scuffed holders that still grade right, we also offer Reholder.',
         },
       ],
     },
@@ -1034,8 +1034,8 @@ export const en = {
               a: 'Use the Track page with the phone number and reference code from your receipt. Both are required. We never expose submissions by phone alone.',
             },
             {
-              q: 'If one visit includes more than one service tier from the published pricing table, such as Regular and Express, how do I track them?',
-              a: 'Each service tier on the published pricing table, including Regular and Express, is processed as its own BAT batch because turnaround differs by plan. Use the same phone number and the reference code printed for each batch to check progress separately.',
+              q: 'If one visit includes more than one service tier from the published pricing table, such as Priority and Express, how do I track them?',
+              a: 'Each service tier on the published pricing table, including Standard, Priority, and Express, is processed as its own BAT batch because turnaround differs by plan. Use the same phone number and the reference code printed for each batch to check progress separately.',
             },
             {
               q: 'What do the timeline steps mean?',
@@ -1115,6 +1115,8 @@ export const en = {
       ctaBook: 'Book appointment',
       bookFooter: 'Ready to drop off?',
       listPriceLabel: 'List price {price}',
+      feeTier1to4: '{price} · 1–4 cards',
+      feeTier5plus: '{price} · 5+ cards',
       days: '{days} business days',
       footnote1: 'Fees may change without notice.',
       footnote2:
@@ -1169,7 +1171,8 @@ export const en = {
       valueBulk: 'Value Bulk',
       valuePlus: 'Value Plus',
       valueMax: 'Value Max',
-      regular: 'Regular',
+      standard: 'Standard',
+      priority: 'Priority',
       express: 'Express',
       superExpress: 'Super Express',
       walkThrough: 'Walk-Through',
@@ -1329,7 +1332,7 @@ export const en = {
         heading: 'PSA grading submission',
         body: [
           'PSA grading submission is booked through the website and completed face to face at 138 Arena. Raw cards are not accepted by mail. The customer brings the cards to the partner venue, where intake, a preliminary inspection, and confirmation of the service tier take place.',
-          'Service tiers follow only the pricing table published on the PSA grading submission page: Regular, Express, Super Express, Walk-Through, and Reholder. Fees and declared-value limits are those shown on that table at the time of booking.',
+          'Service tiers follow only the pricing table published on the PSA grading submission page: Standard, Priority, Express, Super Express, Walk-Through, and Reholder. Fees and declared-value limits are those shown on that table at the time of booking.',
           'Final grades are set by PSA. Appaw Store does not guarantee a score. A preliminary inspection and any grade discussion at intake are references only. They are not a promise of a PSA 10 or of any other result.',
         ],
       },

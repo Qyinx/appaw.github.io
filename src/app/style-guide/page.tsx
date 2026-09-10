@@ -337,7 +337,7 @@ export default function StyleGuidePage() {
             <ScrollChapter id="sg-chapter-a" part="01" title="PSA service tiers" compact className="!border-t-0">
               <div className="panel p-5">
                 <div className="spec-row px-0">
-                  <span className="spec-row__label">Regular</span>
+                  <span className="spec-row__label">Priority</span>
                   <span className="spec-row__value">HKD 350</span>
                 </div>
                 <div className="spec-row px-0">

@@ -3,6 +3,7 @@ export type GradingServicePlan =
   | 'VBLK'
   | 'VPLS'
   | 'VMAX'
+  | 'STD'
   | 'REG'
   | 'EXP'
   | 'SPX'
@@ -17,6 +18,7 @@ export const GRADING_SERVICE_PLAN_CODES: GradingServicePlan[] = [
   'VBLK',
   'VPLS',
   'VMAX',
+  'STD',
   'REG',
   'EXP',
   'SPX',
@@ -31,7 +33,8 @@ export const GRADING_SERVICE_PLAN_LABELS: Record<GradingServicePlan, string> = {
   VBLK: 'Value Bulk',
   VPLS: 'Value Plus',
   VMAX: 'Value Max',
-  REG: 'Regular',
+  STD: 'Standard',
+  REG: 'Priority',
   EXP: 'Express',
   SPX: 'Super Express',
   WALK: 'Walk-Through',

@@ -45,32 +45,57 @@ export function buildPsaGradingHubStructuredData(locale: PsaGradingLocale) {
     provider: { '@type': 'Organization', name: 'Appaw Store', url: SITE_ORIGIN },
     serviceType: locale === 'zh' ? '香港PSA評級代送鑑定' : 'Hong Kong PSA grading submission',
     areaServed: { '@type': 'City', name: 'Hong Kong' },
-    offers: PSA_PRICING_ROWS.filter((row) => row.feeHkd != null).map((row) => {
+    offers: PSA_PRICING_ROWS.filter((row) => row.feeHkd != null).flatMap((row) => {
       const listFee = row.feeHkd!;
+      const urlHash = `${url}#pricing`;
+
+      if (row.feeTiers && row.feeTiers.length > 0) {
+        return row.feeTiers.map((tier) => {
+          const rangeLabel =
+            tier.maxCards == null
+              ? locale === 'zh'
+                ? '5 張或以上'
+                : '5+ cards'
+              : locale === 'zh'
+                ? '1–4 張'
+                : '1–4 cards';
+          return {
+            '@type': 'Offer' as const,
+            name: `PSA ${GRADING_SERVICE_PLAN_LABELS[row.plan]} (${rangeLabel})`,
+            price: String(tier.feeHkd),
+            priceCurrency: 'HKD',
+            url: urlHash,
+            availability: 'https://schema.org/InStock',
+          };
+        });
+      }
+
       const displayFee = getPsaDisplayFee(row);
       const hasDiscount =
         row.discountedFeeHkd != null &&
         row.discountedFeeHkd > 0 &&
         row.discountedFeeHkd < listFee;
 
-      return {
-        '@type': 'Offer',
-        name: `PSA ${GRADING_SERVICE_PLAN_LABELS[row.plan]}`,
-        price: String(displayFee),
-        priceCurrency: 'HKD',
-        url: `${url}#pricing`,
-        availability: 'https://schema.org/InStock',
-        ...(hasDiscount
-          ? {
-              priceSpecification: {
-                '@type': 'UnitPriceSpecification',
-                price: String(listFee),
-                priceCurrency: 'HKD',
-                priceType: 'https://schema.org/ListPrice',
-              },
-            }
-          : {}),
-      };
+      return [
+        {
+          '@type': 'Offer' as const,
+          name: `PSA ${GRADING_SERVICE_PLAN_LABELS[row.plan]}`,
+          price: String(displayFee),
+          priceCurrency: 'HKD',
+          url: urlHash,
+          availability: 'https://schema.org/InStock',
+          ...(hasDiscount
+            ? {
+                priceSpecification: {
+                  '@type': 'UnitPriceSpecification',
+                  price: String(listFee),
+                  priceCurrency: 'HKD',
+                  priceType: 'https://schema.org/ListPrice',
+                },
+              }
+            : {}),
+        },
+      ];
     }),
     potentialAction: {
       '@type': 'ReserveAction',

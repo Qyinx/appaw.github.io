@@ -227,7 +227,7 @@ const guide: GuideContent = {
     },
     {
       q: 'PSA 鑑定費用用如何計算？',
-      a: '香港PSA評級代送鑑定的公布方案為 Regular、Express、Super Express、Walk-Through 及 Reholder，收費及最高申報價值以預約當時價目表為準，詳見 PSA評級代送鑑定頁面。費用由 138 Arena 收取；若有調整，由 Appaw Store 確認最終金額。PSA 官方價目與週期亦可查 psacard.com/services。',
+      a: '香港PSA評級代送鑑定的公布方案為 Standard、Priority、Express、Super Express、Walk-Through 及 Reholder，收費及最高申報價值以預約當時價目表為準，詳見 PSA評級代送鑑定頁面。費用由 138 Arena 收取；若有調整，由 Appaw Store 確認最終金額。PSA 官方價目與週期亦可查 psacard.com/services。',
     },
     {
       q: '收到評級後如何驗證鑑定殼真偽？',

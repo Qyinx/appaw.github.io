@@ -5,7 +5,7 @@ const guide: GuideContent = {
   title: 'Hong Kong TCG Grading Submission: PSA at 138 Arena',
   badge: 'Hong Kong',
   lead:
-    'Hong Kong TCG collectors who want Pokémon, One Piece, Magic: The Gathering, or sports cards graded by PSA can book online, then complete intake face to face at 138 Arena in Causeway Bay. Regular-tier service fees start at HKD 790, collected on site at 138 Arena. Because of the service relationship between the parties, Appaw Store may adjust the final amount. Every batch carries a reference code so you can view status on Appaw.',
+    'Hong Kong TCG collectors who want Pokémon, One Piece, Magic: The Gathering, or sports cards graded by PSA can book online, then complete intake face to face at 138 Arena in Causeway Bay. Standard-tier service fees start at HKD 550, collected on site at 138 Arena. Because of the service relationship between the parties, Appaw Store may adjust the final amount. Every batch carries a reference code so you can view status on Appaw.',
   published: '2026-07-13',
   updated: '2026-08-30',
   readTime: '9 min',
@@ -19,7 +19,7 @@ const guide: GuideContent = {
     {
       label: 'Service from',
       value:
-        'HKD 790 on the Regular tier, collected at 138 Arena; if an adjustment applies, Appaw Store confirms the final amount. Full pricing is on the PSA grading submission page',
+        'HKD 550 on the Standard tier, collected at 138 Arena; if an adjustment applies, Appaw Store confirms the final amount. Full pricing is on the PSA grading submission page',
     },
     {
       label: 'Tracking',
@@ -56,7 +56,7 @@ const guide: GuideContent = {
       title: 'Face-to-face drop-off flow',
       paragraphs: [
         'First, book a face-to-face slot at 138 Arena, Causeway Bay, through the Appaw website. Bring the cards and a contact phone number. Sleeve or hard-case the cards for travel so they do not pick up scratches on the way. On arrival, Appaw completes intake and a preliminary inspection, checking centering, corners, and surface, and may apply basic surface cleaning. That inspection is a reference only. PSA still sets the grade.',
-        'After intake, Appaw helps confirm the PSA service tier and declared value, prepares sleeving and a written list, assigns a reference code per service level, and issues a receipt. Service tiers follow only the pricing table published on the PSA grading submission page: Regular, Express, Super Express, Walk-Through, and Reholder. Money is collected at 138 Arena. If an adjustment applies, Appaw Store confirms the final amount. Fees and declared-value limits are those shown on the table at the time of booking; see the [PSA grading submission page](/business/psa-grading/).',
+        'After intake, Appaw helps confirm the PSA service tier and declared value, prepares sleeving and a written list, assigns a reference code per service level, and issues a receipt. Service tiers follow only the pricing table published on the PSA grading submission page: Standard, Priority, Express, Super Express, Walk-Through, and Reholder. Money is collected at 138 Arena. If an adjustment applies, Appaw Store confirms the final amount. Fees and declared-value limits are those shown on the table at the time of booking; see the [PSA grading submission page](/business/psa-grading/).',
         'After intake, Appaw consolidates batches by PSA tier and forwards them for research, grading, encapsulation, and quality control. Timeline steps sync to the Appaw [PSA grading submission tracker](/business/psa-grading/track/). You need both the phone number and the reference code from your receipt to view batch status. Appaw does not expose submissions by phone number alone.',
       ],
       bridge: 'With drop-off clear, optional self-checks can help you decide whether the fee is worth paying.',
@@ -106,7 +106,7 @@ const guide: GuideContent = {
     },
     {
       q: 'How much does PSA grading submission cost?',
-      a: 'Regular-tier service fees start at HKD 790, collected at 138 Arena. If an adjustment applies, Appaw Store confirms the final amount. Published tiers are Regular, Express, Super Express, Walk-Through, and Reholder; fees and max declared values differ by tier. Full pricing, turnaround estimates, and terms are on the PSA grading submission page. The figures on the table at booking apply.',
+      a: 'Standard-tier service fees start at HKD 550, collected at 138 Arena. If an adjustment applies, Appaw Store confirms the final amount. Published tiers are Standard, Priority, Express, Super Express, Walk-Through, and Reholder; fees and max declared values differ by tier. Full pricing, turnaround estimates, and terms are on the PSA grading submission page. The figures on the table at booking apply.',
     },
     {
       q: 'How do I track my batch?',

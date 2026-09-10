@@ -4,7 +4,7 @@ import React from 'react';
 import { CalendarDays } from 'lucide-react';
 import { formatHkd } from '@/lib/grading/admin-format';
 import { planPricingAccent } from '@/lib/grading/plan-accent';
-import { PSA_PRICING_ROWS } from '@/lib/grading/psa-pricing';
+import { PSA_PRICING_ROWS, type PsaPricingRow } from '@/lib/grading/psa-pricing';
 import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 import { GRADING_SERVICE_PLAN_LABELS } from '@/lib/grading/reference-code';
 import type { Translations } from '@/i18n/en';
@@ -16,14 +16,40 @@ type Props = {
 };
 
 function PsaPricingFeeCell({
-  listFeeHkd,
-  discountedFeeHkd,
-  listLabel,
+  row,
+  copy,
 }: {
-  listFeeHkd: number;
-  discountedFeeHkd: number | null;
-  listLabel: string;
+  row: PsaPricingRow;
+  copy: PricingCopy;
 }) {
+  if (row.feeHkd == null) {
+    return <span className="text-text-muted">—</span>;
+  }
+
+  if (row.feeTiers && row.feeTiers.length > 0) {
+    return (
+      <div className="flex flex-col gap-0.5">
+        {row.feeTiers.map((tier) => {
+          const price = formatHkd(tier.feeHkd);
+          const label =
+            tier.maxCards == null
+              ? copy.feeTier5plus.replace('{price}', price)
+              : copy.feeTier1to4.replace('{price}', price);
+          return (
+            <span
+              key={`${tier.minCards}-${tier.maxCards ?? 'plus'}`}
+              className="font-mono font-tabular text-text-primary text-sm"
+            >
+              {label}
+            </span>
+          );
+        })}
+      </div>
+    );
+  }
+
+  const listFeeHkd = row.feeHkd;
+  const discountedFeeHkd = row.discountedFeeHkd;
   const showDiscount =
     discountedFeeHkd != null && discountedFeeHkd > 0 && discountedFeeHkd < listFeeHkd;
 
@@ -34,7 +60,10 @@ function PsaPricingFeeCell({
   return (
     <div className="flex flex-col gap-0.5">
       <span className="font-mono font-tabular text-text-primary font-medium">{formatHkd(discountedFeeHkd)}</span>
-      <span className="font-mono font-tabular text-xs text-text-muted line-through" aria-label={listLabel}>
+      <span
+        className="font-mono font-tabular text-xs text-text-muted line-through"
+        aria-label={copy.listPriceLabel.replace('{price}', formatHkd(listFeeHkd))}
+      >
         {formatHkd(listFeeHkd)}
       </span>
     </div>
@@ -84,15 +113,7 @@ export default function PsaPricingTable({ copy }: Props) {
                     </div>
                   </th>
                   <td className="px-5 py-3">
-                    {row.feeHkd != null ? (
-                      <PsaPricingFeeCell
-                        listFeeHkd={row.feeHkd}
-                        discountedFeeHkd={row.discountedFeeHkd}
-                        listLabel={copy.listPriceLabel.replace('{price}', formatHkd(row.feeHkd))}
-                      />
-                    ) : (
-                      <span className="text-text-muted">—</span>
-                    )}
+                    <PsaPricingFeeCell row={row} copy={copy} />
                   </td>
                   <td className="px-5 py-3 font-mono font-tabular text-text-secondary">
                     USD {row.maxDeclaredValueUsd.toLocaleString('en-US')}
