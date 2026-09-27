@@ -1069,7 +1069,7 @@ export const en = {
                 intro: 'When PSA issues an upcharge, Appaw Store contacts you with two options.',
                 options: [
                   'Pay the difference between the original tier fee and the higher tier that now applies. That difference is paid to 138 Arena at pickup. If an adjustment is involved, Appaw Store confirms the final amount.',
-                  'Within the pickup window that runs from Appaw Store\'s notice, waive the card. Appaw Store then refunds 50% of what you paid for that card.',
+                  'Within the pickup window that runs from Appaw Store\'s notice, waive the card.',
                 ],
               },
             },
@@ -1341,7 +1341,7 @@ export const en = {
         heading: 'Fees and payment',
         body: [
           'Money for PSA grading submission is collected at 138 Arena. Appaw Store may adjust the final price because of the service relationship between the parties. Where an adjustment applies, Appaw Store confirms the amount and 138 Arena collects it.',
-          'If PSA issues an upcharge because a card grades above the declared-value limit of the chosen tier, two options are available. The customer may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window the customer may waive the card. In that case Appaw Store refunds 50% of what the customer paid for that card.',
+          'If PSA issues an upcharge because a card grades above the declared-value limit of the chosen tier, two options are available. The customer may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window the customer may waive the card.',
           'Published fees can change when PSA changes its own charges, service list, or processing times. The figures on the pricing table at booking apply unless a later PSA change or an upcharge requires a different amount.',
         ],
       },

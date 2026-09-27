@@ -80,7 +80,7 @@ const guide: GuideContent = {
       paragraphs: [
         'While PSA grades your cards, use the Appaw [PSA grading submission tracker](/business/psa-grading/track/) with your receipt phone number and reference code. On the timeline, "Card Recorded at 138 Arena" means local intake is complete; "Submitted to PSA Hong Kong" means Appaw forwarded the batch; middle steps sync from PSA; "Ready for Pickup at 138 Arena" means the slabs have been returned.',
         'Returned PSA slabs are stored by Appaw Store. The fourteen-day pickup window starts when Appaw Store begins notifying the customer, by WhatsApp or email, that the cards are ready. It does not start from the PSA return date alone. Handover is arranged at 138 Arena. Collect within fourteen days of that notice. At pickup, Appaw verifies the reference code, card list, and grades against your receipt before handover. If the cards are not collected within those fourteen days, they are treated as abandoned. Appaw Store sends an abandonment notice. Fees already paid are not refunded.',
-        'If PSA issues an upcharge because a card grades above the declared-value limit of the chosen tier, two options are available. You may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window you may waive the card. In that case Appaw Store refunds 50% of what you paid for that card. Full terms are on the [PSA grading submission page](/business/psa-grading/) and in the terms of service.',
+        'If PSA issues an upcharge because a card grades above the declared-value limit of the chosen tier, two options are available. You may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window you may waive the card. Full terms are on the [PSA grading submission page](/business/psa-grading/) and in the terms of service.',
       ],
       bridge:
         'After pickup, cert verification and an outer protector are the last steps that protect label value.',
@@ -126,7 +126,7 @@ const guide: GuideContent = {
     },
     {
       q: 'What happens if PSA issues an upcharge?',
-      a: 'Two options are available. You may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window you may waive the card. In that case Appaw Store refunds 50% of what you paid for that card.',
+      a: 'Two options are available. You may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window you may waive the card.',
     },
   ],
   midCta: {
