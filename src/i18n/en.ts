@@ -857,22 +857,22 @@ export const en = {
       ],
     },
     trust: {
-      badge: 'Transparency is the storefront',
+      badge: 'What you can verify',
       title: 'You see the process before you leave the cards',
       lead:
-        'We partner with 138 Arena for face-to-face intake. Trust comes from what you can verify: the venue, the receipt credentials, live batch status, and a public process we are willing to show.',
+        'Before you hand over cards, check three things: the face-to-face venue at 138 Arena, 1/F, 522 Jaffe Road, Causeway Bay; the reference code on your receipt; and live batch status online. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up.',
       items: [
         {
           title: 'Face-to-face only',
-          body: 'Drop-off and pickup happen at 138 Arena in Causeway Bay. We do not accept mailed raw-card submissions for this service.',
+          body: 'Drop-off and pickup both take place at 138 Arena, 1/F, 522 Jaffe Road, Causeway Bay. Mailed raw-card submissions are not accepted, so cards are not left to open-mail loss or damage risk.',
         },
         {
-          title: 'Live batch tracking',
-          body: 'Each service tier gets a reference code. Look up status with the phone number and reference code on your receipt. We never expose submissions by phone alone.',
+          title: 'Track with your reference code',
+          body: 'Each PSA service tier gets its own reference code. Look up status with both the phone number and the reference code on your receipt. A phone number alone never opens someone else\'s batch.',
         },
         {
           title: 'Process you can follow',
-          body: 'From intake through outbound shipping to PSA return, stages stay visible on the Track page. Venue hours and location context are on Instagram @138arena.',
+          body: 'From local intake through outbound shipping to the United States and PSA return, each stage stays visible on the Track page. Venue hours and the latest intake notes are on Instagram @138arena.',
         },
       ],
       igLabel: '138 Arena on Instagram',
@@ -1834,6 +1834,7 @@ export const en = {
       cornerMagnifiersToggle: 'Toggle corner magnifiers',
       uploadImage: 'Upload image',
       uploadCardImage: 'Upload card image',
+      uploadNewImage: 'Upload new image',
       fitToView: 'Fit to view',
       reset: 'Reset',
       adjustImage: 'Adjust image',
@@ -1867,7 +1868,7 @@ export const en = {
       guideModeBorder: 'Border',
       guideModeBoth: 'Both',
       trustpilotReviewLabel: 'Rate Appaw Store',
-      trustpilotRateShort: 'Rate',
+      trustpilotRateShort: 'Satisfied? Share your experience on Trustpilot!',
       imageFilterLabel: 'Blemish filter',
       imageFilterOff: 'Normal',
       imageFilterContrast: 'High contrast',
@@ -1887,6 +1888,7 @@ export const en = {
       loupeZoomOut: 'Decrease loupe zoom',
       toolbarFit: 'Fit',
       toolbarReset: 'Reset',
+      toolbarNewImage: 'New',
       toolbarPhotoRaw: 'Raw',
       toolbarPhotoSlab: 'Slab',
       guideLiveStatus: 'Step {current} of {total}: {title}',

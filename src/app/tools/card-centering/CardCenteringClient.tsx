@@ -573,19 +573,22 @@ export default function CardCenteringClient() {
     }
 
     function rebuildBgCache() {
+      const w = overlayEl.width;
+      const h = overlayEl.height;
+      // drawImage throws if source canvas is 0×0
+      if (w < 1 || h < 1) return;
+
       if (!bgCache) bgCache = document.createElement('canvas');
-      bgCache.width = overlayEl.width;
-      bgCache.height = overlayEl.height;
-      bgCacheW = overlayEl.width;
-      bgCacheH = overlayEl.height;
+      bgCache.width = w;
+      bgCache.height = h;
+      bgCacheW = w;
+      bgCacheH = h;
 
       const bctx = bgCache.getContext('2d');
       if (!bctx) return;
 
       const cx = centerX;
       const cy = centerY;
-      const w = overlayEl.width;
-      const h = overlayEl.height;
       const compact = w < 768 || isCoarsePointer;
 
       bctx.clearRect(0, 0, w, h);
@@ -673,6 +676,8 @@ export default function CardCenteringClient() {
     function resizeCanvas() {
       const w = workspaceEl.clientWidth;
       const h = workspaceEl.clientHeight;
+      // Skip collapsed layout (sheet open / mid-reflow) — keep last good bitmap
+      if (w < 1 || h < 1) return;
       if (Math.abs(w - lastWorkspaceW) < 1 && Math.abs(h - lastWorkspaceH) < 1) return;
       lastWorkspaceW = w;
       lastWorkspaceH = h;
@@ -720,6 +725,7 @@ export default function CardCenteringClient() {
           ctrl.value = ctrl.defaultValue;
         });
         fitToImage();
+        setGrade(null);
         cb.setFileName(file.name);
         cb.setImageReady(true);
         cb.setOuterAligned(false);
@@ -1192,9 +1198,12 @@ export default function CardCenteringClient() {
     }
 
     function drawOverlay() {
+      if (overlayEl.width < 1 || overlayEl.height < 1) return;
       if (bgCacheW !== overlayEl.width || bgCacheH !== overlayEl.height) rebuildBgCache();
       ctx.clearRect(0, 0, overlayEl.width, overlayEl.height);
-      if (bgCache) ctx.drawImage(bgCache, 0, 0);
+      if (bgCache && bgCache.width > 0 && bgCache.height > 0) {
+        ctx.drawImage(bgCache, 0, 0);
+      }
 
       const oxL = centerX + outerGuides.left;
       const oxR = centerX + outerGuides.right;
@@ -2784,7 +2793,7 @@ export default function CardCenteringClient() {
         <canvas id="loupe-bl" width={116} height={116} className={`${styles.loupe} ${styles.loupeBL} ${loupesOn ? '' : styles.loupeHidden}`} />
         <canvas id="loupe-br" width={116} height={116} className={`${styles.loupe} ${styles.loupeBR} ${loupesOn ? '' : styles.loupeHidden}`} />
 
-        {!imageReady && uploadState === 'loading' && (
+        {uploadState === 'loading' && (
           <div className={styles.uploadOverlay} role="status" aria-live="polite" aria-busy="true">
             <div className={styles.uploadOverlayPlate}>
               <span className={styles.uploadSpinner} aria-hidden="true" />
@@ -2879,80 +2888,121 @@ export default function CardCenteringClient() {
           </button>
         </div>
 
+        {/* Trustpilot CTA — top-right (room for longer copy; keeps adjust header clean) */}
+        {imageReady ? (
+          <div className={styles.rateChip}>
+            <TrustpilotReviewCollector
+              variant="compact"
+              className={styles.rateChipLink}
+              compactLabel={tool.trustpilotRateShort}
+            />
+          </div>
+        ) : null}
+
         {/* Pan sliders stay in workspace; file input lives outside (see below). */}
         <input aria-hidden="true" type="range" id="panX" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         <input aria-hidden="true" type="range" id="panY" min="-1500" max="1500" step="1" defaultValue="0" className={styles.srOnly} />
         </div>
 
-        {/* Bottom action bar — always visible; actions enable after upload */}
+        {/* Bottom action bar — empty: upload CTA in thumb zone; ready: tool controls */}
         <div className={styles.actionBar} role="toolbar" aria-label={tool.workspaceTitle}>
-          <div className={styles.actionBarLoupeGroup}>
-            {imageReady && loupesOn && !adjustOpen && !setupOpen ? (
-              <div className={styles.loupeMagChip} role="group" aria-label={tool.loupeZoomLabel}>
-                <button
-                  type="button"
-                  className={styles.loupeMagBtn}
-                  aria-label={tool.loupeZoomOut}
-                  title={tool.loupeZoomOut}
-                  disabled={loupeMagUi <= LOUPE_MAG_MIN}
-                  onClick={() => applyLoupeMag(loupeMagRef.current - LOUPE_MAG_STEP)}
-                >
-                  −
-                </button>
-                <span className={styles.loupeMagValue} aria-live="polite">
-                  {loupeMagUi.toFixed(1)}×
-                </span>
-                <button
-                  type="button"
-                  className={styles.loupeMagBtn}
-                  aria-label={tool.loupeZoomIn}
-                  title={tool.loupeZoomIn}
-                  disabled={loupeMagUi >= LOUPE_MAG_MAX}
-                  onClick={() => applyLoupeMag(loupeMagRef.current + LOUPE_MAG_STEP)}
-                >
-                  +
-                </button>
-              </div>
-            ) : null}
+          {!imageReady ? (
             <button
               type="button"
-              className={styles.actionBarBtn}
-              data-active={loupesOn ? 'true' : 'false'}
-              aria-pressed={loupesOn}
-              aria-label={tool.cornerMagnifiersToggle}
-              title={tool.cornerMagnifiersToggle}
-              disabled={!imageReady}
-              onClick={() => setLoupesOn((v) => !v)}
+              className={`${styles.actionBarBtn} ${styles.actionBarUploadPrimary}`}
+              aria-label={tool.chooseImage}
+              title={tool.chooseImage}
+              disabled={uploadState === 'loading'}
+              onClick={openUploadPicker}
             >
-              <CornerLoupeIcon />
-              <span className={styles.actionBarBtnLabel}>{tool.toolbarLoupe}</span>
+              <UploadImageIcon />
+              <span className={styles.actionBarBtnLabel}>
+                {uploadState === 'loading' ? tool.processingPhoto : tool.chooseImage}
+              </span>
             </button>
-          </div>
-          <button
-            type="button"
-            className={`${styles.actionBarBtn} ${styles.actionBarAdjust}${guideActive && guide.activeStep === 1 ? ` ${styles.actionBarAdjustGuide}` : ''}`}
-            data-active={adjustOpen ? 'true' : 'false'}
-            aria-expanded={adjustOpen}
-            aria-controls="adjust-sheet"
-            aria-label={tool.adjustImage}
-            title={tool.adjustImage}
-            disabled={!imageReady}
-            onClick={toggleAdjustSheet}
-          >
-            <SlidersIcon />
-            <span className={styles.actionBarBtnLabel}>{tool.adjustImage}</span>
-          </button>
-          <button
-            type="button"
-            className={styles.actionBarBtn}
-            aria-label={tool.reset}
-            title={tool.reset}
-            disabled={!imageReady}
-            onClick={() => resetRef.current?.()}
-          >
-            <ResetViewIcon />
-            <span className={styles.actionBarBtnLabel}>{tool.toolbarReset}</span>
-          </button>
+          ) : (
+            <>
+              <div className={styles.actionBarLoupeGroup}>
+                {loupesOn && !adjustOpen && !setupOpen ? (
+                  <div className={styles.loupeMagChip} role="group" aria-label={tool.loupeZoomLabel}>
+                    <button
+                      type="button"
+                      className={styles.loupeMagBtn}
+                      aria-label={tool.loupeZoomOut}
+                      title={tool.loupeZoomOut}
+                      disabled={loupeMagUi <= LOUPE_MAG_MIN}
+                      onClick={() => applyLoupeMag(loupeMagRef.current - LOUPE_MAG_STEP)}
+                    >
+                      −
+                    </button>
+                    <span className={styles.loupeMagValue} aria-live="polite">
+                      {loupeMagUi.toFixed(1)}×
+                    </span>
+                    <button
+                      type="button"
+                      className={styles.loupeMagBtn}
+                      aria-label={tool.loupeZoomIn}
+                      title={tool.loupeZoomIn}
+                      disabled={loupeMagUi >= LOUPE_MAG_MAX}
+                      onClick={() => applyLoupeMag(loupeMagRef.current + LOUPE_MAG_STEP)}
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : null}
+                <button
+                  type="button"
+                  className={styles.actionBarBtn}
+                  data-active={loupesOn ? 'true' : 'false'}
+                  aria-pressed={loupesOn}
+                  aria-label={tool.cornerMagnifiersToggle}
+                  title={tool.cornerMagnifiersToggle}
+                  onClick={() => setLoupesOn((v) => !v)}
+                >
+                  <CornerLoupeIcon />
+                  <span className={styles.actionBarBtnLabel}>{tool.toolbarLoupe}</span>
+                </button>
+              </div>
+              <button
+                type="button"
+                className={`${styles.actionBarBtn} ${styles.actionBarAdjust}${guideActive && guide.activeStep === 1 ? ` ${styles.actionBarAdjustGuide}` : ''}`}
+                data-active={adjustOpen ? 'true' : 'false'}
+                aria-expanded={adjustOpen}
+                aria-controls="adjust-sheet"
+                aria-label={tool.adjustImage}
+                title={tool.adjustImage}
+                onClick={toggleAdjustSheet}
+              >
+                <SlidersIcon />
+                <span className={styles.actionBarBtnLabel}>{tool.adjustImage}</span>
+              </button>
+              <button
+                type="button"
+                className={styles.actionBarBtn}
+                aria-label={tool.reset}
+                title={tool.reset}
+                onClick={() => resetRef.current?.()}
+              >
+                <ResetViewIcon />
+                <span className={styles.actionBarBtnLabel}>{tool.toolbarReset}</span>
+              </button>
+              <button
+                type="button"
+                className={styles.actionBarBtn}
+                aria-label={tool.uploadNewImage}
+                title={tool.uploadNewImage}
+                disabled={uploadState === 'loading'}
+                onClick={(e) => {
+                  setAdjustOpen(false);
+                  setSetupOpen(false);
+                  openUploadPicker(e);
+                }}
+              >
+                <UploadImageIcon />
+                <span className={styles.actionBarBtnLabel}>{tool.toolbarNewImage}</span>
+              </button>
+            </>
+          )}
         </div>
 
         {/* Shared scrim for setup / adjust sheets */}
@@ -3071,11 +3121,6 @@ export default function CardCenteringClient() {
                 <SlidersIcon />
                 {tool.adjustImage}
               </span>
-              <TrustpilotReviewCollector
-                variant="compact"
-                className={styles.adjustHeaderRate}
-                compactLabel={tool.trustpilotRateShort}
-              />
               <button
                 type="button"
                 className={styles.chromeSheetClose}

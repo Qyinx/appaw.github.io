@@ -10,7 +10,9 @@ Appaw is a high-value card grading advisor coordinating PSA grading submission a
 
 1. **現場卡況初步評估 (On-site Preliminary Check):** 現場協助檢查置中比例、表面壓痕、邊角完整度，評估 PSA 10 成功率，避免白白付出鑑定成本。
 2. **基本清潔保養 (Basic Cleaning & Prep):** 提交前進行基本表面除塵與清潔保養，有效降低鑑定過程中的扣分風險。
-3. **合作場地與透明追蹤 (Physical Venue & Reference Tracking):** 銅鑼灣 138 Arena 合作場地面交，配合 Appaw 專屬參考編號（`BAT-XXXX`），於 `/business/psa-grading/track/` 全程追蹤批次進度。
+3. **銅鑼灣當面交收與批次追蹤 (Causeway Bay Face-to-Face & Batch Tracking):**
+   - **ZH:** 預約後親臨銅鑼灣謝斐道 138 Arena 當面辦理提交鑑定與取件，不接受以郵寄方式提交裸卡。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定與跟進。每批獲參考編號，可於 `/business/psa-grading/track/` 查看批次現有進度。
+   - **EN:** Book online, then drop off and collect in person at 138 Arena, 1/F, 522 Jaffe Road, Causeway Bay. Mailed raw cards are not accepted. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up. Each batch receives a reference code so status can be viewed at `/business/psa-grading/track/`.
 
 ---
 
