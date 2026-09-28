@@ -21,6 +21,7 @@ import {
   PUBLIC_BOARD_STATUS_OPTIONS,
   type PublicBoardStatus,
 } from '@/lib/grading/public-board';
+import AdminCutoffPicker, { cutoffLocalToIso } from '../../components/AdminCutoffPicker';
 
 function parseNumericInput(value: string): number | null {
   const trimmed = value.trim();
@@ -32,15 +33,6 @@ function parseNumericInput(value: string): number | null {
 function currentDateParts() {
   const now = new Date();
   return { year: now.getFullYear(), month: now.getMonth() + 1 };
-}
-
-/** datetime-local value → ISO, or null if empty/invalid */
-function cutoffLocalToIso(local: string): string | null {
-  const trimmed = local.trim();
-  if (!trimmed) return null;
-  const ms = Date.parse(trimmed);
-  if (Number.isNaN(ms)) return null;
-  return new Date(ms).toISOString();
 }
 
 export default function GradingBatchNewClient() {
@@ -282,17 +274,15 @@ export default function GradingBatchNewClient() {
             <p className="text-xs text-text-muted mt-1">Shown on /business/psa-grading/. Manual — not synced from PSA.</p>
           </div>
           <div>
-            <label htmlFor="new-intake-cutoff" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+            <label htmlFor="new-intake-cutoff-date" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
               Intake cutoff
             </label>
-            <input
+            <AdminCutoffPicker
               id="new-intake-cutoff"
-              type="datetime-local"
               value={intakeCutoffLocal}
-              onChange={(e) => setIntakeCutoffLocal(e.target.value)}
-              className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
+              onChange={setIntakeCutoffLocal}
+              hint="Countdown on the hub board when status is Intake open. Local time."
             />
-            <p className="text-xs text-text-muted mt-1">Countdown on the hub board when status is Intake open.</p>
           </div>
         </div>
 

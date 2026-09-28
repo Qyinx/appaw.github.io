@@ -8,6 +8,10 @@ import AdminCustomerOrdersTable from '../../components/AdminCustomerOrdersTable'
 import BatchNotesEditor, { normalizeBatchNotesHtml } from '../../components/BatchNotesEditor';
 import PsaGradesCsvImport from '../../components/PsaGradesCsvImport';
 import ServicePlanBadge from '../../components/ServicePlanBadge';
+import AdminCutoffPicker, {
+  cutoffLocalToIso,
+  isoToDatetimeLocal,
+} from '../../components/AdminCutoffPicker';
 import { replaceBrowserSearchParams, useBrowserSearch } from '@/hooks/useBrowserSearch';
 import {
   deleteBatch,
@@ -54,23 +58,6 @@ function parseNumericInput(value: string): number | null {
   if (!trimmed) return null;
   if (!/^\d+$/.test(trimmed)) return null;
   return Number(trimmed);
-}
-
-function isoToDatetimeLocal(iso: string | null | undefined): string {
-  if (!iso) return '';
-  const ms = Date.parse(iso);
-  if (Number.isNaN(ms)) return '';
-  const d = new Date(ms);
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
-
-function cutoffLocalToIso(local: string): string | null {
-  const trimmed = local.trim();
-  if (!trimmed) return null;
-  const ms = Date.parse(trimmed);
-  if (Number.isNaN(ms)) return null;
-  return new Date(ms).toISOString();
 }
 
 function applyBatchFields(
@@ -658,16 +645,15 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
               <p className="text-xs text-text-muted mt-1">Shown on /business/psa-grading/. Manual.</p>
             </div>
             <div>
-              <label htmlFor="batch-intake-cutoff" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
+              <label htmlFor="batch-intake-cutoff-date" className="text-xs text-text-secondary uppercase tracking-wide block mb-1">
                 Intake cutoff
               </label>
-              <input
+              <AdminCutoffPicker
                 id="batch-intake-cutoff"
-                type="datetime-local"
                 value={intakeCutoffLocal}
-                onChange={(e) => setIntakeCutoffLocal(e.target.value)}
+                onChange={setIntakeCutoffLocal}
                 disabled={saving}
-                className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
+                hint="Local time. Used for the hub board countdown."
               />
             </div>
             <div className="sm:col-span-1 lg:col-span-2">
