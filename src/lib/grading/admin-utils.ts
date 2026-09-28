@@ -1,9 +1,19 @@
+import type { AdminBatch } from './admin-types';
 import { buildFullStepList } from './step-labels';
 
 export function completedStepLabel(index: number): string {
   const steps = buildFullStepList(index);
   const current = steps.find((s) => s.index === index);
   return current?.label ?? `Step ${index}`;
+}
+
+/** Intake / picker list: earlier pipeline stage first, then reference code. */
+export function sortBatchesByStage(batches: AdminBatch[]): AdminBatch[] {
+  return [...batches].sort((a, b) => {
+    const stage = a.completedStepIndex - b.completedStepIndex;
+    if (stage !== 0) return stage;
+    return a.referenceCode.localeCompare(b.referenceCode);
+  });
 }
 
 export function stepSelectOptions(): Array<{ value: number; label: string }> {

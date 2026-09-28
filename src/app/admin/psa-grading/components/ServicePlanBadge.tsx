@@ -4,22 +4,21 @@ import { GRADING_SERVICE_PLAN_LABELS } from '@/lib/grading/reference-code';
 
 type PlanOrUnknown = GradingServicePlan | '—';
 
-const PLAN_BADGE_CLASS: Record<PlanOrUnknown, string> = {
-  VBLK: 'border-text-secondary/40 bg-surface-raised text-text-primary',
-  VPLS: 'border-accent-link/40 bg-accent-link/10 text-accent-link',
-  VMAX: 'border-accent-success/40 bg-accent-success/10 text-accent-success',
-  /** Raw-card grading family — brand pink (matches hub board + pricing). */
-  STD: 'border-accent-brand/35 bg-accent-brand/8 text-accent-brand',
-  REG: 'border-accent-brand/40 bg-accent-brand/10 text-accent-brand',
-  EXP: 'border-accent-brand/45 bg-accent-brand/12 text-accent-brand',
-  SPX: 'border-accent-brand/50 bg-accent-brand/15 text-accent-brand',
-  WALK: 'border-accent-brand/55 bg-accent-brand/18 text-accent-brand',
-  /** Reholder — link blue (matches hub board + pricing). */
-  RHLD: 'border-accent-link/50 bg-accent-link/15 text-accent-link',
-  PRE1: 'border-accent-brand/30 bg-accent-brand/10 text-accent-brand',
-  PRE2: 'border-accent-brand/45 bg-accent-brand/15 text-accent-brand',
-  PRE3: 'border-accent-brand/60 bg-accent-brand/25 text-accent-brand font-semibold',
-  '—': 'border-border-default bg-surface-bg text-text-muted',
+/** Distinct hue per plan — admin tables need glanceable differentiation. */
+const PLAN_HUE: Record<PlanOrUnknown, string> = {
+  VBLK: '#64748b', // slate — bulk
+  VPLS: '#0ea5e9', // sky
+  VMAX: '#16a34a', // green
+  STD: '#E85D6F', // brand pink
+  REG: '#7c3aed', // violet — priority
+  EXP: '#d97706', // amber — express
+  SPX: '#ea580c', // orange — super express
+  WALK: '#c026d3', // fuchsia — walk-through
+  RHLD: '#5B6FD6', // indigo/link — reholder
+  PRE1: '#0d9488', // teal
+  PRE2: '#0891b2', // cyan
+  PRE3: '#ca8a04', // gold
+  '—': '#94a3b8',
 };
 
 type Props = {
@@ -30,12 +29,21 @@ type Props = {
 export default function ServicePlanBadge({ plan, className = '' }: Props) {
   const label = plan === '—' ? '—' : GRADING_SERVICE_PLAN_LABELS[plan];
   const title = plan === '—' ? 'Unknown plan' : `${label} (${plan})`;
+  const hue = PLAN_HUE[plan];
 
   return (
     <span
       title={title}
       aria-label={title}
-      className={`inline-flex items-center text-xs font-medium px-1.5 py-0.5 border whitespace-nowrap ${PLAN_BADGE_CLASS[plan]} ${className}`}
+      data-plan={plan}
+      className={`inline-flex items-center text-xs font-medium px-1.5 py-0.5 border whitespace-nowrap ${
+        plan === 'PRE3' ? 'font-semibold' : ''
+      } ${className}`}
+      style={{
+        color: hue,
+        borderColor: `color-mix(in srgb, ${hue} 50%, transparent)`,
+        backgroundColor: `color-mix(in srgb, ${hue} 14%, transparent)`,
+      }}
     >
       {label}
     </span>

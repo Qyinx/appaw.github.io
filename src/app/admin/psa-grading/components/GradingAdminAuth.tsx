@@ -35,7 +35,6 @@ export default function GradingAdminAuth({ onUnlock }: Props) {
     setLoading(true);
     try {
       await verifyGradingAdminAuth(password, turnstileToken);
-      sessionStorage.setItem('aaw-adm', '1');
       onUnlock();
       setPassword('');
       resetTurnstile();

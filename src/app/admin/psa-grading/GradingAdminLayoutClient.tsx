@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { clearOpsSession, hasOpsSession } from '@/lib/grading/admin-api';
+import { hasOpsSession } from '@/lib/grading/admin-api';
 import GradingAdminAuth from './components/GradingAdminAuth';
 import GradingAdminShell from './components/GradingAdminShell';
 
@@ -10,12 +10,7 @@ export default function GradingAdminLayoutClient({ children }: { children: React
   const [sessionChecked, setSessionChecked] = useState(false);
 
   useEffect(() => {
-    const admFlag = sessionStorage.getItem('aaw-adm') === '1';
-    if (admFlag && hasOpsSession()) {
-      setUnlocked(true);
-    } else if (admFlag && !hasOpsSession()) {
-      clearOpsSession();
-    }
+    setUnlocked(hasOpsSession());
     setSessionChecked(true);
   }, []);
 

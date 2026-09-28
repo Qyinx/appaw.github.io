@@ -4667,7 +4667,9 @@ html.cookie-notice-visible body {
 
 .collection-filter-pills--scroll .collection-filter-pill {
   flex: 0 0 auto;
-  min-width: 6.5rem;
+  min-width: 0;
+  width: max-content;
+  max-width: none;
   scroll-snap-align: start;
 }
 

@@ -1,6 +1,6 @@
 /**
  * Grading admin API client — direct calls to the Cloudflare Worker.
- * Auth: POST /grading/auth → JWT in sessionStorage → X-Ops-Key on ops routes.
+ * Auth: POST /grading/auth → JWT in localStorage (6h client TTL) → X-Ops-Key on ops routes.
  * @see appaw.store.backend/docs/API-ADMIN.md
  */
 import { joinBackendUrl } from '@/lib/collection/backendUrl';
@@ -24,31 +24,79 @@ import type {
 } from './admin-types';
 
 const OPS_TOKEN_KEY = 'aaw-grading-ops-token';
+const OPS_EXPIRES_KEY = 'aaw-grading-ops-expires';
+const OPS_FLAG_KEY = 'aaw-adm';
+/** Client-side session lifetime (JWT backend TTL is 8h; we expire earlier). */
+const OPS_SESSION_TTL_MS = 6 * 60 * 60 * 1000;
+
+function opsStorage(): Storage | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
+/** Drop legacy tab-scoped session keys from the old sessionStorage flow. */
+function clearLegacySessionStorage(): void {
+  if (typeof sessionStorage === 'undefined') return;
+  try {
+    sessionStorage.removeItem(OPS_TOKEN_KEY);
+    sessionStorage.removeItem(OPS_FLAG_KEY);
+  } catch {
+    /* private mode / blocked */
+  }
+}
+
+export function setOpsToken(token: string): void {
+  const store = opsStorage();
+  if (!store) return;
+  const expiresAt = String(Date.now() + OPS_SESSION_TTL_MS);
+  store.setItem(OPS_TOKEN_KEY, token);
+  store.setItem(OPS_EXPIRES_KEY, expiresAt);
+  store.setItem(OPS_FLAG_KEY, '1');
+  clearLegacySessionStorage();
+}
+
+export function getOpsToken(): string | null {
+  const store = opsStorage();
+  if (!store) return null;
+
+  const token = store.getItem(OPS_TOKEN_KEY);
+  const expiresRaw = store.getItem(OPS_EXPIRES_KEY);
+  if (!token) {
+    if (store.getItem(OPS_FLAG_KEY) || expiresRaw) clearOpsSession();
+    return null;
+  }
+
+  const expiresAt = expiresRaw ? Number(expiresRaw) : NaN;
+  if (!Number.isFinite(expiresAt) || Date.now() >= expiresAt) {
+    clearOpsSession();
+    return null;
+  }
+
+  return token;
+}
+
+export function clearOpsSession(): void {
+  const store = opsStorage();
+  if (store) {
+    store.removeItem(OPS_TOKEN_KEY);
+    store.removeItem(OPS_EXPIRES_KEY);
+    store.removeItem(OPS_FLAG_KEY);
+  }
+  clearLegacySessionStorage();
+}
+
+export function hasOpsSession(): boolean {
+  return Boolean(getOpsToken());
+}
 
 /** e.g. gradingPath('/batches') → {BACKEND}/grading/batches */
 function gradingPath(segment: string): string {
   const normalized = segment.replace(/^\/+/, '');
   return joinBackendUrl(normalized ? `/grading/${normalized}` : '/grading');
-}
-
-export function setOpsToken(token: string): void {
-  if (typeof sessionStorage === 'undefined') return;
-  sessionStorage.setItem(OPS_TOKEN_KEY, token);
-}
-
-export function getOpsToken(): string | null {
-  if (typeof sessionStorage === 'undefined') return null;
-  return sessionStorage.getItem(OPS_TOKEN_KEY);
-}
-
-export function clearOpsSession(): void {
-  if (typeof sessionStorage === 'undefined') return;
-  sessionStorage.removeItem(OPS_TOKEN_KEY);
-  sessionStorage.removeItem('aaw-adm');
-}
-
-export function hasOpsSession(): boolean {
-  return Boolean(getOpsToken());
 }
 
 function errorFromPayload(payload: unknown, fallback: string): string {

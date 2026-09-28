@@ -2,9 +2,11 @@
 
 import React from 'react';
 import type { AdminCustomerOrder, AdminPaymentSummary } from '@/lib/grading/admin-types';
+import { parseServicePlanLabel } from '@/lib/grading/admin-types';
 import { formatHkd } from '@/lib/grading/admin-format';
 import BatchReferenceLink from './BatchReferenceLink';
 import CustomerOrderLink from './CustomerOrderLink';
+import ServicePlanBadge from './ServicePlanBadge';
 
 type Props = {
   orders: AdminCustomerOrder[];
@@ -39,14 +41,14 @@ export default function AdminCustomerOrdersTable({
   showBatchColumn = true,
   showPaymentColumn = true,
 }: Props) {
-  const colCount = 5 + (showBatchColumn ? 1 : 0) + (showPaymentColumn ? 1 : 0);
+  const colCount = 6 + (showBatchColumn ? 1 : 0) + (showPaymentColumn ? 1 : 0);
   const minWidth = showBatchColumn
     ? showPaymentColumn
-      ? '960px'
-      : '840px'
+      ? '1040px'
+      : '920px'
     : showPaymentColumn
-      ? '760px'
-      : '640px';
+      ? '840px'
+      : '720px';
 
   return (
     <div className="overflow-x-auto max-h-[70vh] overflow-y-auto">
@@ -57,6 +59,7 @@ export default function AdminCustomerOrdersTable({
             {showBatchColumn && (
               <th className="sticky top-0 z-[1] py-2 pr-2 w-44 bg-surface-panel">Batch ref</th>
             )}
+            <th className="sticky top-0 z-[1] py-2 pr-2 w-28 bg-surface-panel">Plan</th>
             <th className="sticky top-0 z-[1] py-2 pr-2 min-w-0 bg-surface-panel">Customer</th>
             <th className="sticky top-0 z-[1] py-2 pr-2 w-32 bg-surface-panel">Phone</th>
             <th className="sticky top-0 z-[1] py-2 pr-2 w-16 bg-surface-panel">Cards</th>
@@ -77,6 +80,9 @@ export default function AdminCustomerOrdersTable({
                   <BatchReferenceLink referenceCode={order.batchReferenceCode} />
                 </td>
               )}
+              <td className="py-2 pr-2">
+                <ServicePlanBadge plan={parseServicePlanLabel(order.batchReferenceCode)} />
+              </td>
               <td className="py-2 pr-2 min-w-0 truncate" title={order.customerName}>
                 {order.customerName}
               </td>

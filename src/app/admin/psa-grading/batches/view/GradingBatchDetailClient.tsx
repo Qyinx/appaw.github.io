@@ -542,7 +542,10 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
               Refresh
             </button>
             {activeTab === 'orders' && (
-              <Link href="/admin/psa-grading/intake" className="btn btn-secondary">
+              <Link
+                href={`/admin/psa-grading/intake?batch=${encodeURIComponent(batch.referenceCode)}`}
+                className="btn btn-secondary"
+              >
                 Add customer order
               </Link>
             )}
@@ -745,7 +748,10 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
           ) : (
             <p className="text-sm text-text-muted">
               No customer orders yet.{' '}
-              <Link href="/admin/psa-grading/intake" className="text-accent-link hover:underline">
+              <Link
+                href={`/admin/psa-grading/intake?batch=${encodeURIComponent(batch.referenceCode)}`}
+                className="text-accent-link hover:underline"
+              >
                 Add via intake
               </Link>
             </p>

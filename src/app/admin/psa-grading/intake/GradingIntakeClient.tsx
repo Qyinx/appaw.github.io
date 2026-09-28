@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   createIntake,
@@ -16,6 +16,7 @@ import {
 } from '@/lib/grading/admin-draft-utils';
 import type { AdminBatch, AdminGradingCustomer, AdminIntakeItemDraft } from '@/lib/grading/admin-types';
 import { parseServicePlanLabel } from '@/lib/grading/admin-types';
+import { sortBatchesByStage } from '@/lib/grading/admin-utils';
 import { isValidBatchReferenceCode } from '@/lib/grading/batch-reference-code';
 import { getPsaDefaultTotalCost } from '@/lib/grading/psa-pricing';
 import { isReholderPlan } from '@/lib/grading/plan-accent';
@@ -52,7 +53,9 @@ function settleIntakeCards(items: IntakeCardDraft[]): IntakeCardDraft[] {
 
 export default function GradingIntakeClient() {
   const router = useRouter();
-  const [batchReferenceCode, setBatchReferenceCode] = useState('');
+  const searchParams = useSearchParams();
+  const batchFromQuery = (searchParams.get('batch') ?? '').trim().toUpperCase();
+  const [batchReferenceCode, setBatchReferenceCode] = useState(batchFromQuery);
   const [batchOptions, setBatchOptions] = useState<AdminBatch[]>([]);
   const [batchesLoading, setBatchesLoading] = useState(true);
   const [customerName, setCustomerName] = useState('');
@@ -92,7 +95,7 @@ export default function GradingIntakeClient() {
   useEffect(() => {
     setBatchesLoading(true);
     void listBatches()
-      .then(setBatchOptions)
+      .then((batches) => setBatchOptions(sortBatchesByStage(batches)))
       .catch(() => setBatchOptions([]))
       .finally(() => setBatchesLoading(false));
   }, []);

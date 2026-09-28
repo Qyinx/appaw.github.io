@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import GradingIntakeClient from './GradingIntakeClient';
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function PsaGradingIntakePage() {
-  return <GradingIntakeClient />;
+  return (
+    <Suspense fallback={<p className="text-text-muted text-sm">Loading…</p>}>
+      <GradingIntakeClient />
+    </Suspense>
+  );
 }

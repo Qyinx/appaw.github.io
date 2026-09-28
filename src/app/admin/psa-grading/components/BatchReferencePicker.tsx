@@ -3,7 +3,7 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { AdminBatch } from '@/lib/grading/admin-types';
 import { parseServicePlanLabel } from '@/lib/grading/admin-types';
-import { completedStepLabel } from '@/lib/grading/admin-utils';
+import { completedStepLabel, sortBatchesByStage } from '@/lib/grading/admin-utils';
 import { isValidBatchReferenceCode } from '@/lib/grading/batch-reference-code';
 import BatchReferenceLink from './BatchReferenceLink';
 import ServicePlanBadge from './ServicePlanBadge';
@@ -24,16 +24,18 @@ export default function BatchReferencePicker({ batches, value, onChange, loading
 
   const query = value.trim().toLowerCase();
 
+  const sortedBatches = useMemo(() => sortBatchesByStage(batches), [batches]);
+
   const filteredBatches = useMemo(() => {
-    if (!query) return batches;
-    return batches.filter((batch) => {
+    if (!query) return sortedBatches;
+    return sortedBatches.filter((batch) => {
       return (
         batch.referenceCode.toLowerCase().includes(query) ||
         String(batch.psaSubmissionNumber ?? '').includes(query) ||
         String(batch.psaOrderNumber ?? '').includes(query)
       );
     });
-  }, [batches, query]);
+  }, [sortedBatches, query]);
 
   const matchedBatch = useMemo(
     () =>
