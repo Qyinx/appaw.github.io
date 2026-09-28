@@ -10,6 +10,7 @@ import SubmissionItemsTable from '../components/SubmissionItemsTable';
 import SubmissionNotesMessage from '../components/SubmissionNotesMessage';
 import SubmissionStatusBadges from '../components/SubmissionStatusBadges';
 import RelatedSubmissionsStrip from './RelatedSubmissionsStrip';
+import ServicePlanBadge from '@/components/grading/ServicePlanBadge';
 import TrustpilotReviewCollector from '@/components/TrustpilotReviewCollector';
 import {
   animateButtonPress,
@@ -122,7 +123,6 @@ export default function TrackResultsPanel({
   const prevTabRef = useRef<ResultsTab | null>(null);
   const [internalTab, setInternalTab] = useState<ResultsTab>(() => defaultTab(submission));
   const [copiedTracking, setCopiedTracking] = useState(false);
-  const [copiedReference, setCopiedReference] = useState(false);
 
   const activeTab = controlledTab ?? internalTab;
   const setActiveTab = onTabChange ?? setInternalTab;
@@ -217,17 +217,6 @@ export default function TrackResultsPanel({
     }
   };
 
-  const copyReference = async (btn: HTMLElement | null) => {
-    animateButtonPress(btn);
-    try {
-      await navigator.clipboard.writeText(submission.referenceCode);
-      setCopiedReference(true);
-      setTimeout(() => setCopiedReference(false), 2000);
-    } catch {
-      /* clipboard unavailable */
-    }
-  };
-
   const trackingUrl =
     submission.shipCarrier && submission.shipTrackingNumber
       ? carrierTrackingUrl(submission.shipCarrier, submission.shipTrackingNumber)
@@ -240,56 +229,46 @@ export default function TrackResultsPanel({
         className="grading-track-results grading-track-dossier border border-border-strong bg-surface-panel min-w-0"
       >
         <div className="grading-track-results__header grading-track-dossier-header">
-          <p className="chapter-label mb-2" data-part={resultsPanelPart}>
-            <span className="sr-only">Part {resultsPanelPart}</span>
+          <p className="sr-only" data-part={resultsPanelPart}>
+            Part {resultsPanelPart}
           </p>
 
           <div ref={headerRef} className="grading-track-results__identity">
             <div className="grading-track-results__ref min-w-0 flex-1">
               <span className="spec-row__label">{copy.refLabel}</span>
-              <div className="flex flex-wrap items-center gap-2 mt-1">
-                <p
-                  ref={codeRef}
-                  className="grading-track-results__sigil font-mono text-lg md:text-xl text-accent-brand tabular-nums tracking-[0.08em] uppercase break-all"
-                >
-                  {submission.referenceCode}
-                </p>
-                <button
-                  type="button"
-                  onClick={(e) => copyReference(e.currentTarget)}
-                  className="btn btn-secondary btn-icon shrink-0"
-                  aria-label={copiedReference ? copy.copiedReference : copy.copyReference}
-                >
-                  {copiedReference ? (
-                    <Check className="w-4 h-4 text-accent-success" aria-hidden="true" />
-                  ) : (
-                    <Copy className="w-4 h-4" aria-hidden="true" />
-                  )}
-                </button>
-              </div>
+              <p
+                ref={codeRef}
+                className="grading-track-results__sigil font-mono text-sm text-accent-brand tabular-nums tracking-[0.06em] uppercase break-all mt-0.5"
+              >
+                {submission.referenceCode}
+              </p>
             </div>
-            <button
-              type="button"
-              onClick={onNewLookup}
-              className="btn btn-secondary min-h-[44px] inline-flex items-center justify-center gap-2 shrink-0 px-4 text-sm self-start"
-            >
-              <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
-              {summaryCopy.newLookup}
-            </button>
-          </div>
 
-          <dl className="grading-track-results__meta">
-            <div className="grading-track-results__meta-item">
-              <dt>{summaryCopy.phoneLabel}</dt>
-              <dd className="font-mono tabular-nums">{maskPhone(phone)}</dd>
+            <div className="grading-track-results__aside">
+              <dl className="grading-track-results__meta">
+                <div className="grading-track-results__meta-item">
+                  <dt>{summaryCopy.phoneLabel}</dt>
+                  <dd className="font-mono tabular-nums">{maskPhone(phone)}</dd>
+                </div>
+                {submission.servicePlan && planLabel && (
+                  <div className="grading-track-results__meta-item">
+                    <dt>{copy.servicePlanLabel}</dt>
+                    <dd>
+                      <ServicePlanBadge plan={submission.servicePlan} label={planLabel} />
+                    </dd>
+                  </div>
+                )}
+              </dl>
+              <button
+                type="button"
+                onClick={onNewLookup}
+                className="btn btn-secondary min-h-[44px] inline-flex items-center justify-center gap-2 shrink-0 px-3 text-sm"
+              >
+                <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
+                {summaryCopy.newLookup}
+              </button>
             </div>
-            {planLabel && (
-              <div className="grading-track-results__meta-item">
-                <dt>{copy.servicePlanLabel}</dt>
-                <dd>{planLabel}</dd>
-              </div>
-            )}
-          </dl>
+          </div>
 
           <div className="grading-track-results__badges">
             <SubmissionStatusBadges
@@ -301,6 +280,8 @@ export default function TrackResultsPanel({
         </div>
 
         <div className="grading-track-results__body space-y-4">
+          <SubmissionNotesMessage title={copy.notesTitle} html={submission.notes} />
+
           {submission.gradesReady && (
             <div className="panel border border-border-default p-4 sm:p-5">
               <p className="font-display font-semibold text-text-primary mb-1">
@@ -311,40 +292,27 @@ export default function TrackResultsPanel({
             </div>
           )}
 
-          {relatedSubmissions &&
-            relatedSubmissions.length > 0 &&
-            onSelectReference && (
-              <div className="panel border border-accent-warn/30 p-0 overflow-hidden">
-                <RelatedSubmissionsStrip
-                  currentReferenceCode={submission.referenceCode}
-                  related={relatedSubmissions}
-                  copy={copy.relatedSubmissions!}
-                  servicePlanCopy={servicePlanCopy}
-                  onSelectReference={onSelectReference}
-                  switchDisabled={relatedSwitchDisabled}
-                />
-              </div>
-            )}
-
-          <SubmissionNotesMessage title={copy.notesTitle} html={submission.notes} />
-
-          <div className="collection-filter-pills w-full sm:w-fit" role="group" aria-label={copy.tabsLabel}>
+          <div
+            className="grading-track-results__tabs"
+            role="group"
+            aria-label={copy.tabsLabel}
+          >
             <button
               type="button"
-              className="collection-filter-pill flex-1 sm:flex-none"
+              className="grading-track-results__tab"
               aria-pressed={activeTab === 'status'}
               onClick={() => setActiveTab('status')}
             >
-              <Route className="w-4 h-4 shrink-0 inline mr-1.5" aria-hidden="true" />
+              <Route className="w-4 h-4 shrink-0" aria-hidden="true" />
               {copy.tabs.status}
             </button>
             <button
               type="button"
-              className="collection-filter-pill flex-1 sm:flex-none"
+              className="grading-track-results__tab"
               aria-pressed={activeTab === 'cards'}
               onClick={() => setActiveTab('cards')}
             >
-              <List className="w-4 h-4 shrink-0 inline mr-1.5" aria-hidden="true" />
+              <List className="w-4 h-4 shrink-0" aria-hidden="true" />
               {cardsTabLabel}
             </button>
           </div>
@@ -416,6 +384,21 @@ export default function TrackResultsPanel({
               </div>
             </div>
           </div>
+
+          {relatedSubmissions &&
+            relatedSubmissions.length > 0 &&
+            onSelectReference && (
+              <div className="panel border border-accent-warn/30 p-0 overflow-hidden">
+                <RelatedSubmissionsStrip
+                  currentReferenceCode={submission.referenceCode}
+                  related={relatedSubmissions}
+                  copy={copy.relatedSubmissions!}
+                  servicePlanCopy={servicePlanCopy}
+                  onSelectReference={onSelectReference}
+                  switchDisabled={relatedSwitchDisabled}
+                />
+              </div>
+            )}
         </div>
       </div>
 

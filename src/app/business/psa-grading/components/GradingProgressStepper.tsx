@@ -1,6 +1,19 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import {
+  Award,
+  BadgeCheck,
+  ClipboardList,
+  FileStack,
+  Layers,
+  Package,
+  PackageCheck,
+  PackageOpen,
+  ScanSearch,
+  Send,
+  ShieldCheck,
+} from 'lucide-react';
 import type { GradingProgressStep, GradingSubmission } from '@/lib/grading/types';
 import { submissionProgressPercent } from '@/lib/grading/mock-data';
 import Stepper, { type StepperItem, type StepperPhase } from '@/components/ui/Stepper';
@@ -22,6 +35,20 @@ type Props = {
   badgeRefs: React.MutableRefObject<HTMLSpanElement[]>;
 };
 
+const STEP_ICONS: Record<string, React.ReactNode> = {
+  'appaw-recorded': <ClipboardList className="w-4 h-4" aria-hidden="true" />,
+  'appaw-sent-psa': <Send className="w-4 h-4" aria-hidden="true" />,
+  'psa-1': <Package className="w-4 h-4" aria-hidden="true" />,
+  'psa-2': <FileStack className="w-4 h-4" aria-hidden="true" />,
+  'psa-3': <ScanSearch className="w-4 h-4" aria-hidden="true" />,
+  'psa-4': <Award className="w-4 h-4" aria-hidden="true" />,
+  'psa-5': <Layers className="w-4 h-4" aria-hidden="true" />,
+  'psa-6': <ShieldCheck className="w-4 h-4" aria-hidden="true" />,
+  'psa-7': <BadgeCheck className="w-4 h-4" aria-hidden="true" />,
+  'psa-8': <PackageCheck className="w-4 h-4" aria-hidden="true" />,
+  'appaw-pickup': <PackageOpen className="w-4 h-4" aria-hidden="true" />,
+};
+
 function stepPhase(step: GradingProgressStep): StepperPhase {
   if (step.id === 'appaw-pickup') return 'pickup';
   if (step.kind === 'appaw') return 'intake';
@@ -29,9 +56,7 @@ function stepPhase(step: GradingProgressStep): StepperPhase {
 }
 
 export default function GradingProgressStepper({ submission, copy, badgeRefs }: Props) {
-  const progressBarRef = useRef<HTMLDivElement>(null);
   const verticalFillRef = useRef<HTMLDivElement>(null);
-  const phaseBarRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<HTMLElement[]>([]);
   const activeIconRef = useRef<HTMLSpanElement>(null);
 
@@ -47,9 +72,9 @@ export default function GradingProgressStepper({ submission, copy, badgeRefs }: 
     const stepEls = itemRefs.current.filter(Boolean);
 
     const cleanup = animateStepperSequence({
-      barEl: progressBarRef.current,
+      barEl: null,
       verticalFillEl: verticalFillRef.current,
-      phaseBarEl: phaseBarRef.current,
+      phaseBarEl: null,
       stepEls,
       badgeEls: badgeRefs.current.filter(Boolean),
       activeIconEl: activeIconRef.current,
@@ -76,6 +101,7 @@ export default function GradingProgressStepper({ submission, copy, badgeRefs }: 
       state: step.completed ? 'complete' : isActive ? 'active' : 'pending',
       phase: stepPhase(step),
       appaw: step.kind === 'appaw',
+      icon: STEP_ICONS[step.id],
     };
   });
 
@@ -98,9 +124,7 @@ export default function GradingProgressStepper({ submission, copy, badgeRefs }: 
         active: copy.stepper.currentStep,
         pending: copy.stepper.pending,
       }}
-      progressBarRef={progressBarRef}
       verticalFillRef={verticalFillRef}
-      phaseBarRef={phaseBarRef}
       getItemRef={(index) => (el) => {
         if (el) itemRefs.current[index] = el;
       }}

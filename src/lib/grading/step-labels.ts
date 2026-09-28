@@ -14,7 +14,7 @@ export const PSA_STEP_LABELS: Record<PsaProgressStepId, string> = {
 
 export const APPAW_STEP_LABELS = {
   recorded: 'Card Recorded at 138 Arena',
-  sentToPsa: 'Submitted to PSA Hong Kong',
+  sentToPsa: 'Submitted to PSA',
   pickup: 'Ready for Pickup at 138 Arena',
 } as const;
 
@@ -35,7 +35,7 @@ export const FULL_STEP_COUNT = 11;
 /**
  * Build 11-step pipeline (indices 0–10).
  * `currentStepIndex` is the **current** stage: steps before it are done,
- * this index is in progress (track UI "NOW"), later steps are pending.
+ * this index is in progress (track UI "IN PROGRESS"), later steps are pending.
  * Index 0–1 Appaw, 2–9 PSA, 10 Appaw pickup.
  */
 export function buildFullStepList(

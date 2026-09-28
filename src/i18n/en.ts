@@ -1039,7 +1039,7 @@ export const en = {
             },
             {
               q: 'What do the timeline steps mean?',
-              a: '"Card Recorded at 138 Arena" is intake. "Submitted to PSA Hong Kong" means your batch left for PSA. Middle steps sync from PSA. "Ready for Pickup at 138 Arena" means slabs are back.',
+              a: '"Card Recorded at 138 Arena" is intake. "Submitted to PSA" means your batch left for PSA. Middle steps sync from PSA. "Ready for Pickup at 138 Arena" means slabs are back.',
             },
           ],
         },
@@ -1147,8 +1147,8 @@ export const en = {
       phonePlaceholder: '+852 9123 4567',
       phoneHelper: 'HK numbers: +852, 852, or local 8-digit.',
       refLabel: 'Reference code',
-      refPlaceholder: '2026-07-EXP-99',
-      refHelper: 'Starts with BAT-. Enter the rest as printed on your intake receipt.',
+      refPlaceholder: 'BAT-XXXX-XX-XXX-N',
+      refHelper: 'BAT- is fixed. Type or paste the rest (e.g. 2026-07-EXP-99), or paste the full code.',
       submit: 'Look up submission',
       submitting: 'Looking up…',
       fillDemo: 'Fill demo credentials',
@@ -1200,12 +1200,12 @@ export const en = {
         body: 'Leave a quick Trustpilot review — it helps other Hong Kong collectors.',
       },
       relatedSubmissions: {
-        title: 'Other batches from this drop-off',
+        title: 'Other batches for this phone number',
         switch: 'View this submission',
       },
       stepper: {
         // Current stage only — not "batch is somewhere in this phase vaguely"
-        currentStep: 'NOW',
+        currentStep: 'IN PROGRESS',
         completed: 'DONE',
         pending: 'NEXT',
         progress: 'STEP {current} / {total}',
@@ -1236,7 +1236,7 @@ export const en = {
       tabsLabel: 'Results view',
       steps: {
         appawRecorded: 'Card recorded at 138 Arena',
-        appawSentToPsa: 'Submitted to PSA Hong Kong',
+        appawSentToPsa: 'Submitted to PSA',
         appawPickup: 'Ready for pickup at 138 Arena',
       },
       status: {

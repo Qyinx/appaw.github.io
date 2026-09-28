@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { DEMO_LOOKUP } from '@/lib/grading/mock-data';
 import { mockLookup, parseDemoVariant } from '@/lib/grading/mock-lookup';
 import { lookupGradingSubmission } from '@/lib/grading/grading-api';
-import type { GradingSubmission } from '@/lib/grading/types';
+import type { GradingRelatedSubmission, GradingSubmission } from '@/lib/grading/types';
 import LocalLink from '@/components/LocalLink';
 import { useSubHeader } from '@/hooks/useSubHeader';
 import TrackLookupForm, { type TrackLookupFormHandle } from './TrackLookupForm';
@@ -18,6 +18,11 @@ import {
   useTrackLoadingState,
   useTrackResultsEnter,
 } from './useGradingTrackAnime';
+import {
+  clearTrackLookupSession,
+  readTrackLookupSession,
+  writeTrackLookupSession,
+} from '@/lib/grading/track-session';
 
 type LookupState = 'idle' | 'loading' | 'success' | 'not_found';
 
@@ -41,11 +46,17 @@ export default function PsaGradingTrackClient() {
   const skeletonRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const sessionRestoredRef = useRef(false);
 
   const [phone, setPhone] = useState('');
   const [referenceCode, setReferenceCode] = useState('BAT-');
   const [state, setState] = useState<LookupState>('idle');
   const [submission, setSubmission] = useState<GradingSubmission | null>(null);
+  const [relatedSubmissions, setRelatedSubmissions] = useState<GradingRelatedSubmission[]>(
+    [],
+  );
+  const [relatedSwitching, setRelatedSwitching] = useState(false);
+  const [pendingAutoLookup, setPendingAutoLookup] = useState(false);
   const [resultsTab, setResultsTab] = useState<ResultsTab>(
     searchParams.get('view') === 'cards' ? 'cards' : 'status',
   );
@@ -53,10 +64,30 @@ export default function PsaGradingTrackClient() {
   const [turnstileToken, setTurnstileToken] = useState('');
   const [resetSignal, setResetSignal] = useState(0);
   const [securityError, setSecurityError] = useState('');
+  const [sessionReady, setSessionReady] = useState(false);
 
   useTrackGridEnter(gridRef);
   useTrackLoadingState(formHandleRef, skeletonRef, state === 'loading');
   useTrackResultsEnter(resultsRef, state === 'success' && submission != null);
+
+  const persistSession = useCallback(
+    (
+      nextPhone: string,
+      nextRef: string,
+      nextSubmission: GradingSubmission,
+      nextRelated: GradingRelatedSubmission[],
+      nextTab: ResultsTab,
+    ) => {
+      writeTrackLookupSession({
+        phone: nextPhone,
+        referenceCode: nextRef,
+        submission: nextSubmission,
+        relatedSubmissions: nextRelated,
+        resultsTab: nextTab,
+      });
+    },
+    [],
+  );
 
   const resetTurnstile = useCallback(() => {
     setTurnstileToken('');
@@ -74,6 +105,54 @@ export default function PsaGradingTrackClient() {
     },
     [demoParam, focusParam, isDev, pathname, router],
   );
+
+  // Restore last successful lookup (survives F5).
+  useEffect(() => {
+    if (sessionRestoredRef.current) {
+      setSessionReady(true);
+      return;
+    }
+    sessionRestoredRef.current = true;
+
+    if (focusParam === 'lookup') {
+      setSessionReady(true);
+      return;
+    }
+
+    const saved = readTrackLookupSession();
+    if (saved) {
+      setPhone(saved.phone);
+      setReferenceCode(saved.referenceCode);
+      setSubmission(saved.submission);
+      setRelatedSubmissions(saved.relatedSubmissions);
+      const urlView = searchParams.get('view');
+      const tab =
+        urlView === 'cards' || urlView === 'status' ? urlView : saved.resultsTab;
+      setResultsTab(tab);
+      setState('success');
+      setLiveMessage(`${copy.results.refLabel}: ${saved.submission.referenceCode}`);
+      if (tab === 'cards' && urlView !== 'cards') {
+        syncUrl(tab);
+      }
+    }
+    setSessionReady(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- mount restore only
+  }, []);
+
+  // Keep storage in sync whenever results are showing (covers related switch + tab).
+  useEffect(() => {
+    if (!sessionReady || state !== 'success' || !submission) return;
+    persistSession(phone, referenceCode, submission, relatedSubmissions, resultsTab);
+  }, [
+    sessionReady,
+    state,
+    submission,
+    phone,
+    referenceCode,
+    relatedSubmissions,
+    resultsTab,
+    persistSession,
+  ]);
 
   const fillDemo = useCallback(() => {
     setPhone(DEMO_LOOKUP.phoneNumber);
@@ -131,6 +210,8 @@ export default function PsaGradingTrackClient() {
           ) {
             setSecurityError(mapLookupError(message));
             setState('idle');
+            setRelatedSwitching(false);
+            setPendingAutoLookup(false);
             resetTurnstile();
             return;
           }
@@ -142,6 +223,8 @@ export default function PsaGradingTrackClient() {
       }
 
       resetTurnstile();
+      setRelatedSwitching(false);
+      setPendingAutoLookup(false);
 
       if (!result) {
         if (errored) {
@@ -149,14 +232,26 @@ export default function PsaGradingTrackClient() {
           setState('idle');
           return;
         }
+        setRelatedSubmissions([]);
         setState('not_found');
         setLiveMessage(copy.form.notFoundTitle);
+        clearTrackLookupSession();
         syncUrl();
         return;
       }
+      const related = result.relatedSubmissions ?? [];
       setSubmission(result.submission);
+      setReferenceCode(result.submission.referenceCode);
+      setRelatedSubmissions(related);
       setState('success');
       setLiveMessage(`${copy.results.refLabel}: ${result.submission.referenceCode}`);
+      persistSession(
+        lookupPhone,
+        result.submission.referenceCode,
+        result.submission,
+        related,
+        resultsTab,
+      );
       syncUrl(resultsTab);
     },
     [
@@ -168,6 +263,7 @@ export default function PsaGradingTrackClient() {
       demoVariant,
       forceDemoMode,
       mapLookupError,
+      persistSession,
       requireTurnstile,
       resetTurnstile,
       resultsTab,
@@ -202,19 +298,69 @@ export default function PsaGradingTrackClient() {
   const handleNewLookup = useCallback(() => {
     setState('idle');
     setSubmission(null);
+    setRelatedSubmissions([]);
+    setRelatedSwitching(false);
+    setPendingAutoLookup(false);
     setLiveMessage('');
     setSecurityError('');
     setReferenceCode('BAT-');
+    clearTrackLookupSession();
     resetTurnstile();
     syncUrl();
   }, [resetTurnstile, syncUrl]);
+
+  const handleSelectRelated = useCallback(
+    (nextRef: string) => {
+      if (relatedSwitching || state === 'loading') return;
+      setReferenceCode(nextRef);
+      setSecurityError('');
+
+      if (!requireTurnstile) {
+        setRelatedSwitching(true);
+        void runLookup(phone, nextRef, '');
+        return;
+      }
+
+      if (turnstileToken) {
+        setRelatedSwitching(true);
+        void runLookup(phone, nextRef, turnstileToken);
+        return;
+      }
+
+      // Phone + ref already set — show form only for Turnstile, then auto-submit.
+      setRelatedSwitching(false);
+      setSubmission(null);
+      setState('idle');
+      setPendingAutoLookup(true);
+      resetTurnstile();
+    },
+    [
+      phone,
+      relatedSwitching,
+      requireTurnstile,
+      resetTurnstile,
+      runLookup,
+      state,
+      turnstileToken,
+    ],
+  );
+
+  useEffect(() => {
+    if (!pendingAutoLookup || !turnstileToken) return;
+    setPendingAutoLookup(false);
+    setRelatedSwitching(true);
+    void runLookup(phone, referenceCode, turnstileToken);
+  }, [pendingAutoLookup, turnstileToken, phone, referenceCode, runLookup]);
 
   const handleTabChange = useCallback(
     (tab: ResultsTab) => {
       setResultsTab(tab);
       syncUrl(tab);
+      if (submission) {
+        persistSession(phone, referenceCode, submission, relatedSubmissions, tab);
+      }
     },
-    [syncUrl],
+    [phone, referenceCode, relatedSubmissions, persistSession, submission, syncUrl],
   );
 
   const onTurnstileError = useCallback(() => {
@@ -262,70 +408,85 @@ export default function PsaGradingTrackClient() {
           {liveMessage}
         </div>
 
-        <div
-          ref={gridRef}
-          className={`grading-track-grid${state === 'success' ? ' grading-track-grid--results' : ' grading-track-grid--idle'}`}
-        >
-          {showForm && (
-            <div className="grading-track-form-panel">
-              <TrackLookupForm
-                ref={formHandleRef}
-                copy={copy.form}
-                panelLabel={copy.formPanelLabel}
-                panelPart={copy.formPanelPart}
-                formIntro={copy.formIntro}
-                phone={phone}
-                referenceCode={referenceCode}
-                onPhoneChange={setPhone}
-                onReferenceCodeChange={setReferenceCode}
-                onSubmit={handleSubmit}
-                onFillDemo={fillDemo}
-                state={state}
-                compact={state !== 'idle'}
-                showDemoButton={showDemoButton}
-                initialFocus={initialFocus}
-                siteKey={SITE_KEY}
-                turnstileToken={turnstileToken}
-                onTurnstileToken={setTurnstileToken}
-                onTurnstileExpire={() => setTurnstileToken('')}
-                onTurnstileError={onTurnstileError}
-                resetSignal={resetSignal}
-                securityError={securityError}
-                requireTurnstile={requireTurnstile}
-              />
-            </div>
-          )}
+        {!sessionReady ? (
+          <div
+            className="grading-track-skeleton min-w-0 min-h-[12rem]"
+            aria-busy="true"
+            aria-label={copy.skeletonLabel}
+          >
+            <div data-skeleton-item className="grading-track-skeleton__row h-5 w-40" />
+            <div data-skeleton-item className="grading-track-skeleton__panel h-28" />
+            <div data-skeleton-item className="grading-track-skeleton__panel h-44" />
+          </div>
+        ) : (
+          <div
+            ref={gridRef}
+            className={`grading-track-grid${state === 'success' ? ' grading-track-grid--results' : ' grading-track-grid--idle'}`}
+          >
+            {showForm && (
+              <div className="grading-track-form-panel">
+                <TrackLookupForm
+                  ref={formHandleRef}
+                  copy={copy.form}
+                  panelLabel={copy.formPanelLabel}
+                  panelPart={copy.formPanelPart}
+                  formIntro={copy.formIntro}
+                  phone={phone}
+                  referenceCode={referenceCode}
+                  onPhoneChange={setPhone}
+                  onReferenceCodeChange={setReferenceCode}
+                  onSubmit={handleSubmit}
+                  onFillDemo={fillDemo}
+                  state={state}
+                  compact={state !== 'idle'}
+                  showDemoButton={showDemoButton}
+                  initialFocus={initialFocus}
+                  siteKey={SITE_KEY}
+                  turnstileToken={turnstileToken}
+                  onTurnstileToken={setTurnstileToken}
+                  onTurnstileExpire={() => setTurnstileToken('')}
+                  onTurnstileError={onTurnstileError}
+                  resetSignal={resetSignal}
+                  securityError={securityError}
+                  requireTurnstile={requireTurnstile}
+                />
+              </div>
+            )}
 
-          {state === 'loading' && (
-            <div
-              ref={skeletonRef}
-              className="grading-track-skeleton min-w-0 min-h-[12rem]"
-              aria-live="polite"
-              aria-busy="true"
-              aria-label={copy.skeletonLabel}
-            >
-              <div data-skeleton-item className="grading-track-skeleton__row h-5 w-40" />
-              <div data-skeleton-item className="grading-track-skeleton__panel h-28" />
-              <div data-skeleton-item className="grading-track-skeleton__panel h-44" />
-            </div>
-          )}
+            {state === 'loading' && (
+              <div
+                ref={skeletonRef}
+                className="grading-track-skeleton min-w-0 min-h-[12rem]"
+                aria-live="polite"
+                aria-busy="true"
+                aria-label={copy.skeletonLabel}
+              >
+                <div data-skeleton-item className="grading-track-skeleton__row h-5 w-40" />
+                <div data-skeleton-item className="grading-track-skeleton__panel h-28" />
+                <div data-skeleton-item className="grading-track-skeleton__panel h-44" />
+              </div>
+            )}
 
-          {state === 'success' && submission && (
-            <div ref={resultsRef} className="min-w-0">
-              <TrackResultsPanel
-                submission={submission}
-                copy={copy.results}
-                summaryCopy={copy.summaryBar}
-                servicePlanCopy={copy.servicePlan}
-                resultsPanelPart={copy.resultsPanelPart}
-                phone={phone}
-                onNewLookup={handleNewLookup}
-                activeTab={resultsTab}
-                onTabChange={handleTabChange}
-              />
-            </div>
-          )}
-        </div>
+            {state === 'success' && submission && (
+              <div ref={resultsRef} className="min-w-0">
+                <TrackResultsPanel
+                  submission={submission}
+                  copy={copy.results}
+                  summaryCopy={copy.summaryBar}
+                  servicePlanCopy={copy.servicePlan}
+                  resultsPanelPart={copy.resultsPanelPart}
+                  phone={phone}
+                  onNewLookup={handleNewLookup}
+                  relatedSubmissions={relatedSubmissions}
+                  onSelectReference={handleSelectRelated}
+                  relatedSwitchDisabled={relatedSwitching}
+                  activeTab={resultsTab}
+                  onTabChange={handleTabChange}
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

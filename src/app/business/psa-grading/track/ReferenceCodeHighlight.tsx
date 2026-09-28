@@ -32,7 +32,10 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-/** Reference code input — sigil ticket field for lookup form */
+/**
+ * Single reference field — BAT- locked as prefix chrome.
+ * Full paste of BAT-YYYY-MM-PLAN-N (or body only) works in one shot.
+ */
 export default function ReferenceCodeHighlight({
   id,
   label,
@@ -45,19 +48,26 @@ export default function ReferenceCodeHighlight({
   const wrapRef = useRef<HTMLDivElement>(null);
   const focusCleanupRef = useRef<(() => void) | null>(null);
 
-  const handleChange = (next: string) => {
-    onChange(ensureBatReferencePrefix(next));
+  const bodyValue = value.startsWith(BAT_REFERENCE_PREFIX)
+    ? value.slice(BAT_REFERENCE_PREFIX.length)
+    : value.replace(/^BAT-?/i, '');
+
+  const handleChange = (nextBody: string) => {
+    onChange(ensureBatReferencePrefix(`${BAT_REFERENCE_PREFIX}${nextBody}`));
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const text = e.clipboardData.getData('text');
+    if (!text.trim()) return;
+    e.preventDefault();
+    onChange(ensureBatReferencePrefix(text));
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    const el = e.currentTarget;
-    const start = el.selectionStart ?? 0;
-    if (el.value.startsWith(BAT_REFERENCE_PREFIX) && start < BAT_REFERENCE_PREFIX.length) {
-      requestAnimationFrame(() => {
-        const len = el.value.length;
-        el.setSelectionRange(len, len);
-      });
-    }
+    // Select body so Ctrl/Cmd+V replaces in one paste.
+    requestAnimationFrame(() => {
+      e.target.select();
+    });
     focusCleanupRef.current?.();
     focusCleanupRef.current = animateSigilFocus(wrapRef.current);
   };
@@ -77,31 +87,38 @@ export default function ReferenceCodeHighlight({
         </span>
       </label>
       <div className="grading-track-sigil-field group relative border border-border-default transition-[border-color,box-shadow] duration-150 focus-within:border-accent-brand focus-within:shadow-[inset_3px_0_0_0_var(--accent-brand)]">
-        <div className="relative flex items-center gap-3 px-4 py-2.5 min-h-[44px]">
-          <Hash
-            className="w-4 h-4 shrink-0 text-accent-brand"
+        <div className="relative flex items-center gap-2 px-4 py-2.5 min-h-[44px]">
+          <Hash className="w-4 h-4 shrink-0 text-accent-brand" aria-hidden="true" />
+          <span
+            className="font-mono text-base md:text-lg text-accent-brand tracking-[0.12em] shrink-0 select-none"
             aria-hidden="true"
-          />
+          >
+            BAT-
+          </span>
           <input
             ref={inputRef}
             id={id}
             type="text"
             autoComplete="off"
             required
-            value={value}
+            value={bodyValue}
             onChange={(e) => handleChange(e.target.value)}
+            onPaste={handlePaste}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            pattern={`BAT-\\d{4}-\\d{1,2}-(${GRADING_SERVICE_PLAN_SUFFIX_PATTERN})-\\d+`}
+            pattern={`\\d{4}-\\d{1,2}-(${GRADING_SERVICE_PLAN_SUFFIX_PATTERN})-\\d+`}
             title={placeholder}
-            className="w-full min-w-0 bg-transparent border-0 p-0 text-text-primary font-mono text-base md:text-lg uppercase tracking-[0.12em] focus:outline-none focus-visible:ring-0 placeholder:text-text-muted/70 placeholder:tracking-normal placeholder:normal-case"
-            placeholder={placeholder}
+            className="w-full min-w-0 bg-transparent border-0 p-0 text-text-primary font-mono text-base md:text-lg uppercase tracking-[0.12em] focus:outline-none focus-visible:ring-0 placeholder:text-text-muted/45 placeholder:tracking-[0.12em]"
+            placeholder="XXXX-XX-XXX-N"
             spellCheck={false}
+            aria-describedby={helper.trim() ? `${id}-helper` : undefined}
           />
         </div>
       </div>
       {helper.trim() ? (
-        <p className="mt-2 text-sm text-text-muted psa-grading-track-aeo-answer">{helper}</p>
+        <p id={`${id}-helper`} className="mt-2 text-sm text-text-muted psa-grading-track-aeo-answer">
+          {helper}
+        </p>
       ) : null}
     </div>
   );

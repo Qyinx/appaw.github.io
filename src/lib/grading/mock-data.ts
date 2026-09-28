@@ -294,6 +294,11 @@ export function getRelatedSubmissions(
 
   const siblings: GradingRelatedSubmission[] = [
     {
+      referenceCode: DEMO_REFERENCES.EXP,
+      servicePlan: 'EXP',
+      statusSummary: 'Grading in progress',
+    },
+    {
       referenceCode: DEMO_REFERENCES.REG,
       servicePlan: 'REG',
       statusSummary: 'Card recorded — awaiting PSA batch',
@@ -307,11 +312,6 @@ export function getRelatedSubmissions(
       referenceCode: DEMO_REFERENCES.WALK,
       servicePlan: 'WALK',
       statusSummary: 'Quality review at PSA',
-    },
-    {
-      referenceCode: DEMO_REFERENCES.RHLD,
-      servicePlan: 'RHLD',
-      statusSummary: 'Submitted to PSA — Reholder in progress',
     },
   ];
 
