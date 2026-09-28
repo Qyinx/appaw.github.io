@@ -1205,7 +1205,7 @@ export const en = {
       },
       stepper: {
         // Current stage only — not "batch is somewhere in this phase vaguely"
-        currentStep: 'IN PROGRESS',
+        currentStep: 'CURRENT',
         completed: 'DONE',
         pending: 'NEXT',
         progress: 'STEP {current} / {total}',

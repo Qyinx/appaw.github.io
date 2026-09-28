@@ -71,7 +71,7 @@ export default function Stepper({
   progressLabel = 'PROGRESS',
   phaseLabels,
   phaseCodes = DEFAULT_PHASE_CODES,
-  statusWords = { complete: 'DONE', active: 'IN PROGRESS', pending: 'NEXT' },
+  statusWords = { complete: 'DONE', active: 'CURRENT', pending: 'NEXT' },
   progressBarRef: _progressBarRef,
   verticalFillRef,
   phaseBarRef: _phaseBarRef,

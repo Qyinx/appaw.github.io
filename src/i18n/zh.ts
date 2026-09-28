@@ -1248,7 +1248,7 @@ export const zh: Translations = {
       items: {
         title: '本次委託的愛卡陣容',
         description: '卡牌清單',
-        certNumber: 'PSA 專屬證書號',
+        certNumber: 'Cert #',
         grade: '最終評級',
         pending: '等待開獎中',
         image: '掃描圖檔',
