@@ -13,6 +13,16 @@ import { CARD_TRADING_PLACEHOLDER_ID } from '@/lib/marketplace-card-trading-stat
 
 const COMPANIES: GradingCompany[] = ['PSA', 'BGS', 'CGC', 'TAG'];
 
+/** Avoid hung `next build` when NEXT_PUBLIC_BACKEND_URL is down / unreachable. */
+const MARKETPLACE_FETCH_TIMEOUT_MS = 5_000;
+
+function marketplaceFetchInit(init: RequestInit = {}): RequestInit {
+  return {
+    ...init,
+    signal: init.signal ?? AbortSignal.timeout(MARKETPLACE_FETCH_TIMEOUT_MS),
+  };
+}
+
 export interface PublicMarketplaceList {
   cards: TradingCard[];
   total: number;
@@ -99,9 +109,10 @@ export async function fetchPublicMarketplaceCards(
   query: MarketplaceQuery = emptyMarketplaceQuery(),
 ): Promise<PublicMarketplaceList> {
   const params = buildPublicCardsSearchParams(query);
-  const res = await fetch(`${joinBackendUrl('/cards/public')}?${params.toString()}`, {
-    cache: 'no-store',
-  });
+  const res = await fetch(
+    `${joinBackendUrl('/cards/public')}?${params.toString()}`,
+    marketplaceFetchInit({ cache: 'no-store' }),
+  );
   if (!res.ok) throw new Error(`Marketplace API error: ${res.status}`);
   const raw = await res.json();
   const payload = unwrapPayload(raw);
@@ -117,7 +128,10 @@ export async function fetchPublicMarketplaceCards(
 
 export async function fetchPublicMarketplaceCardIds(): Promise<string[]> {
   try {
-    const res = await fetch(joinBackendUrl('/cards/public/ids'), { cache: 'no-store' });
+    const res = await fetch(
+      joinBackendUrl('/cards/public/ids'),
+      marketplaceFetchInit({ cache: 'no-store' }),
+    );
     if (!res.ok) return [];
     const raw = await res.json();
     const payload = unwrapPayload(raw);
@@ -131,9 +145,10 @@ export async function fetchPublicMarketplaceCardIds(): Promise<string[]> {
 export async function fetchPublicMarketplaceCard(id: string): Promise<TradingCard | null> {
   if (!id || id === CARD_TRADING_PLACEHOLDER_ID) return null;
   try {
-    const res = await fetch(joinBackendUrl(`/cards/public/${encodeURIComponent(id)}`), {
-      cache: 'no-store',
-    });
+    const res = await fetch(
+      joinBackendUrl(`/cards/public/${encodeURIComponent(id)}`),
+      marketplaceFetchInit({ cache: 'no-store' }),
+    );
     if (res.status === 404 || res.status === 403) return null;
     if (!res.ok) return null;
     const raw = await res.json();

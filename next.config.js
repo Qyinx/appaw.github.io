@@ -10,6 +10,9 @@ const nextConfig = {
   // Hashed /_next/static/css/*.css files are deleted on each GitHub Pages deploy;
   // Clarity refetches those URLs at replay time and otherwise shows unstyled HTML.
   experimental: {
+    // Cap collect workers — default (cpus-1) thrashs Windows when RAM is tight.
+    cpus: 4,
+    staticGenerationMaxConcurrency: 4,
     inlineCss: true,
     optimizePackageImports: ['lucide-react'],
   },
