@@ -784,7 +784,7 @@ export const en = {
     badge: 'PSA Grading Submission',
     dropOffAddress: '138 Arena, 1/F, 522 Jaffe Road, Causeway Bay',
     lastUpdatedLabel: 'Last updated',
-    lastUpdated: '2026-09-11',
+    lastUpdated: '2026-10-01',
     aeo: {
       title: 'How do I submit cards for PSA grading submission in Hong Kong?',
       answer:
@@ -830,7 +830,7 @@ export const en = {
       badge: 'Also at intake',
       title: 'Condition check before you commit',
       body:
-        'We provide customers with free preliminary card inspection to evaluate condition and predict potential grades. Coupled with basic cleaning & maintenance, we effectively reduce point deduction risks during grading and strive for the highest possible grade for your collection.',
+        'At intake we offer a preliminary condition check for centering and obvious flaws, plus basic surface cleaning when useful. That discussion is a reference only — not a grade promise. If a card is a poor fit for submission, we say so.',
       cta: 'Read condition advice',
     },
     advisorPage: {
@@ -888,7 +888,8 @@ export const en = {
     },
     batchBoard: {
       title: 'Current progress of PSA grading batches',
-      lead: 'Intake cutoff and where each BAT round sits.',
+      lead:
+        'Intake cutoff and where each BAT round sits. Drop-off is face-to-face only at 138 Arena in Causeway Bay — mailed raw cards are not accepted. Track any batch with the phone number and reference code from your receipt.',
       phases: {
         intake: 'Intake open',
         atPsa: 'Intake Closed',
@@ -1009,15 +1010,19 @@ export const en = {
           items: [
             {
               q: 'Can Hong Kong TCG cards be submitted to PSA?',
-              a: 'Yes. Pokémon TCG, One Piece, MTG, and sports cards in raw or sleeved form are accepted at 138 Arena through Appaw PSA grading submission.',
+              a: 'Yes. Pokémon TCG (PTCG), One Piece, MTG, and sports cards in raw or sleeved form are accepted at 138 Arena through Appaw PSA grading submission.',
             },
             {
               q: 'How do I book a drop-off?',
               a: 'Use the Book appointment button to pick a time at 138 Arena, Causeway Bay. Face-to-face only — no mailed submissions. Bring your cards; Appaw confirms tier and intake on-site.',
             },
             {
-              q: 'Where do I drop off and pick up?',
-              a: 'Drop-off and pickup both take place at 138 Arena in Causeway Bay, the partner venue. 138 Arena handles venue operations and charging; Appaw Store handles the service and follow-up. Raw cards are not accepted by mail. Venue hours are published on Instagram @138arena.',
+              q: 'Where is Causeway Bay PSA / 138 Arena PSA drop-off and pickup?',
+              a: 'Drop-off and pickup both take place at 138 Arena, 1/F, 522 Jaffe Road, Causeway Bay — the partner venue. 138 Arena handles venue operations and charging; Appaw Store handles the service and follow-up. Venue hours are published on Instagram @138arena.',
+            },
+            {
+              q: 'Is face-to-face PSA submission required? Can I mail raw cards?',
+              a: 'Face-to-face only. Drop-off and pickup are at 138 Arena in Causeway Bay. Mailed raw-card submissions are not accepted, so cards are not left to open-mail loss or damage risk.',
             },
             {
               q: 'Are any types of cards NOT accepted for submission?',
@@ -1047,6 +1052,10 @@ export const en = {
           id: 'fees',
           label: 'Pickup & fees',
           items: [
+            {
+              q: 'What does PTCG / PSA Standard grading submission cost in Hong Kong?',
+              a: 'Full fees are on the pricing table on this page. Standard is HKD 560 for 1–4 cards and HKD 550 for 5+ through 3 Oct 2026; from 4 Oct 2026 it is HKD 580 for 1–4 and HKD 570 for 5+. Fees are collected at 138 Arena. The table on the booking date applies.',
+            },
             {
               q: 'Where is payment collected for PSA grading submission?',
               a: 'Fees for PSA grading submission are collected at 138 Arena, which operates the venue and handles charging. Appaw Store provides the service and the follow-up. Because of that service arrangement, Appaw Store may adjust the final price, and the adjusted figure is the amount payable.',
@@ -1081,11 +1090,19 @@ export const en = {
           items: [
             {
               q: 'Are you just a PSA courier?',
-              a: 'No. Beyond coordinating batch submissions to PSA, we serve as high-value grading advisors. We provide free preliminary card inspection, condition evaluation, and grade prediction, along with basic cleaning & maintenance to reduce deduction risks and strive for the highest possible grade for your collection.',
+              a: 'No. Beyond coordinating batch submissions to PSA, we serve as high-value grading advisors. At intake we discuss condition and whether a card is worth the fee. If a hard flaw makes a strong grade unrealistic, we advise against submitting. Final grades are set by PSA.',
+            },
+            {
+              q: 'When do you advise against submitting?',
+              a: 'When intake shows an obvious crease, tear, severe whitening, metal or jumbo cards, unofficial fan-made cards, or non-card memorabilia, we advise pause or decline. Intake comments are a reference only — not a PSA grade.',
+            },
+            {
+              q: 'Is Appaw a PSA Authorized Dealer?',
+              a: 'No. Appaw Store is not a PSA Authorized Dealer and is not an official PSA partner. 138 Arena is the partner venue for floor and payment. Appaw Store provides PSA grading submission and follow-up. Final grades are set by PSA.',
             },
             {
               q: 'Do you guarantee a PSA 10?',
-              a: 'No. Final grades are determined exclusively by PSA graders. Our free preliminary inspection, grade prediction, and basic cleaning & maintenance help minimize avoidable risks and lower submission failure rates, but grade estimates are references and not guarantees.',
+              a: 'No. Final grades are determined exclusively by PSA graders. Our preliminary inspection and basic cleaning help filter avoidable risks before you pay the tier fee, but any grade discussion is a reference and not a guarantee.',
             },
             {
               q: 'What happens after I get a PSA 10 back?',
@@ -1096,8 +1113,8 @@ export const en = {
       ],
     },
     cta: {
-      title: 'Ready to strive for the highest grade for your collection?',
-      body: 'Book your drop-off slot at 138 Arena to enjoy free preliminary card inspection, condition evaluation, grade prediction, and basic cleaning & maintenance.',
+      title: 'Ready to book a drop-off?',
+      body: 'Book your face-to-face slot at 138 Arena. After intake, track every batch with the phone number and reference code on your receipt.',
       book: 'Book appointment',
       track: 'Track submission',
       guide: 'PSA grading standards',

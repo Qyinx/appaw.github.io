@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { SITEMAP_ICON_URLS, SITEMAP_PUBLIC_PATHS, enUrl, zhUrl } from '@/lib/seo/sitemap-config';
 import { GUIDE_SLUGS } from '@/lib/guides/registry';
 import { CARD_TRADING_PLACEHOLDER_ID } from '@/lib/marketplace-card-trading-static';
-import { fetchPublicMarketplaceCardIds } from '@/lib/marketplace/publicCards';
+import { fetchPublicMarketplaceCardIdsForSitemap } from '@/lib/marketplace/publicCards';
 
 export const dynamic = 'force-static';
 
@@ -20,9 +20,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ];
 
-  const cardIds = (await fetchPublicMarketplaceCardIds()).filter(
-    (id) => id !== CARD_TRADING_PLACEHOLDER_ID,
-  );
+  let cardIds: string[] = [];
+  try {
+    cardIds = (await fetchPublicMarketplaceCardIdsForSitemap()).filter(
+      (id) => id !== CARD_TRADING_PLACEHOLDER_ID,
+    );
+  } catch {
+    cardIds = [];
+  }
 
   const cardPaths = cardIds.map((id) => ({
     path: `/business/card-trading/${id}/`,

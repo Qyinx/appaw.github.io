@@ -126,11 +126,13 @@ export async function fetchPublicMarketplaceCards(
   };
 }
 
-export async function fetchPublicMarketplaceCardIds(): Promise<string[]> {
+async function fetchPublicMarketplaceCardIdsWithCache(
+  cache: RequestCache,
+): Promise<string[]> {
   try {
     const res = await fetch(
       joinBackendUrl('/cards/public/ids'),
-      marketplaceFetchInit({ cache: 'no-store' }),
+      marketplaceFetchInit({ cache }),
     );
     if (!res.ok) return [];
     const raw = await res.json();
@@ -140,6 +142,18 @@ export async function fetchPublicMarketplaceCardIds(): Promise<string[]> {
   } catch {
     return [];
   }
+}
+
+export async function fetchPublicMarketplaceCardIds(): Promise<string[]> {
+  return fetchPublicMarketplaceCardIdsWithCache('no-store');
+}
+
+/**
+ * Sitemap-only: force-cache so static export does not mark sitemap.xml dynamic
+ * when the marketplace API is down. Always returns [] on failure.
+ */
+export async function fetchPublicMarketplaceCardIdsForSitemap(): Promise<string[]> {
+  return fetchPublicMarketplaceCardIdsWithCache('force-cache');
 }
 
 export async function fetchPublicMarketplaceCard(id: string): Promise<TradingCard | null> {
