@@ -104,6 +104,8 @@ export type GuideContent = {
   title: string;
   badge: string;
   lead: string;
+  /** Optional SERP / OG description; falls back to `lead` when omitted. Keep ~150–160 chars. */
+  metaDescription?: string;
   published: string;
   updated: string;
   readTime: string;

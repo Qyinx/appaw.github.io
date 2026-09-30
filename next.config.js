@@ -80,22 +80,22 @@ const nextConfig = {
       {
         source: '/guides/regrade-or-reholder',
         destination: '/guides/psa-reholder-guide/',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/guides/regrade-or-reholder/',
         destination: '/guides/psa-reholder-guide/',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/zh/guides/regrade-or-reholder',
         destination: '/zh/guides/psa-reholder-guide/',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/zh/guides/regrade-or-reholder/',
         destination: '/zh/guides/psa-reholder-guide/',
-        permanent: false,
+        permanent: true,
       },
     ];
   },

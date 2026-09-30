@@ -6,8 +6,10 @@ const guide: GuideContent = {
   badge: 'Advanced Strategy',
   lead:
     'For collectors sitting on a high-value PSA 9, moving the same card to a PSA 10 can multiply the resale price. Sending the card still in its holder for a PSA Review is often blocked by anchoring: the grader already sees the existing 9. Cracking the slab and submitting it raw removes that bias, but it also opens a path to a lower grade. Run the expected-value math before you break the plastic.',
+  metaDescription:
+    'PSA Review rarely upgrades a 9 — graders already see the label. Crack and resubmit removes bias but can drop the grade. Run EV math before you break plastic.',
   published: '2026-08-09',
-  updated: '2026-08-30',
+  updated: '2026-10-01',
   readTime: '10 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [

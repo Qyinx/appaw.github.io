@@ -114,7 +114,7 @@ Use the following real rewrite pairs as references when adjusting tone or genera
 
 ### Decision Matrix & Math Framework Standards (決策矩陣與期望值分析規範)
 
-For decision-based guides (such as `regrade-or-reholder`, `grade-or-protect-first`, `psa-10-centering-requirements`), articles MUST include a structured comparison table and an Expected Value (EV) calculation framework to help collectors make financially rational decisions:
+For decision-based guides (such as `psa-reholder-guide`, `psa-review-vs-crack`, `grade-or-protect-first`, `psa-10-centering-requirements`), articles MUST include a structured comparison table and an Expected Value (EV) calculation framework to help collectors make financially rational decisions:
 
 #### 1. Standard Comparison Matrix (Reholder vs Regrade)
 

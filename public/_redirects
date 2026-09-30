@@ -21,9 +21,13 @@
 # Legacy centering OG asset (pre-2026-06-13)
 /images/og-centering.png  /images-optimized/og/og-centering.png  301
 
-# Obsolete guide slug → PSA Reholder guide (temporary redirect)
-/guides/regrade-or-reholder/  /guides/psa-reholder-guide/  302
-/zh/guides/regrade-or-reholder/  /zh/guides/psa-reholder-guide/  302
+# Obsolete guide slug → PSA Reholder guide.
+# GitHub Pages ignores this file — production 301s must be Cloudflare Redirect Rules
+# (see docs/cloudflare-redirects-regrade.md). Kept for Netlify / local tooling parity.
+/guides/regrade-or-reholder  /guides/psa-reholder-guide/  301
+/guides/regrade-or-reholder/  /guides/psa-reholder-guide/  301
+/zh/guides/regrade-or-reholder  /zh/guides/psa-reholder-guide/  301
+/zh/guides/regrade-or-reholder/  /zh/guides/psa-reholder-guide/  301
 
 # Removed: marketplace admin console → collection
 /admin/trade-cards/  /collection/list/  302

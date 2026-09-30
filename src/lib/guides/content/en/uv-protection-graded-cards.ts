@@ -2,12 +2,14 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'uv-protection-graded-cards',
-  title: 'UV Protection for Graded Cards',
+  title: 'Why Graded Cards Need UV Protection',
   badge: 'Preservation',
   lead:
     'A factory slab seals the card, but the clear acrylic does not stop ultraviolet. In Hong Kong, indoor relative humidity often sits at 70–80%. Two summers of window sun on that mix can dull a holo, a chrome layer, or a label enough for the eye to notice.',
+  metaDescription:
+    'A PSA slab seals the card, but clear acrylic still lets UV through. Sun and humidity dull holos and labels. Read why here; shop UV glass on the product page.',
   published: '2026-06-07',
-  updated: '2026-08-30',
+  updated: '2026-10-01',
   readTime: '7 min',
   heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
@@ -81,14 +83,14 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'why-uv-matters',
     title: 'Displaying by a window? Add >95% UV glass',
-    body: 'The outer case filters ultraviolet first, so the inner label and holo receive less radiation. Hong Kong collectors who still hold raw cards can book online and complete intake at [138 Arena](/business/psa-grading/). 138 Arena handles the floor and collects payment; Appaw Store runs PSA grading submission and follow-up.',
-    primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
+    body: 'This guide explains the UV and humidity risk. Ready to buy? The outer case filters ultraviolet first, so the inner label and holo receive less radiation. Collectors who still hold raw cards can book online and complete intake at [138 Arena](/business/psa-grading/). 138 Arena handles the floor and collects payment; Appaw Store runs PSA grading submission and follow-up.',
+    primary: { label: 'Shop UV glass protector', href: '/products/psa-protectors/' },
     secondary: { label: 'Display graded cards', href: '/guides/display-graded-cards/' },
   },
   cta: {
     title: 'Display without sun damage',
-    body: 'The graded slab UV glass protector uses glass that blocks more than 95% of ultraviolet below 400 nm, and is sized for standard 35PT PSA and CGC holders. Once a slab is collected at 138 Arena after PSA returns it, fit the outer case before display. Hong Kong collectors who still hold raw cards book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. If any problem arises within fourteen days after the customer receives the protector, the customer may return it. The buyer pays the shipping cost of the return.',
-    primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
+    body: 'You have the why. The product page is where you buy: the graded slab UV glass protector blocks more than 95% of ultraviolet below 400 nm and fits standard 35PT PSA and CGC holders. Once a slab is collected at 138 Arena after PSA returns it, fit the outer case before display. Collectors who still hold raw cards book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. If any problem arises within fourteen days after the customer receives the protector, the customer may return it. The buyer pays the shipping cost of the return.',
+    primary: { label: 'Shop UV glass protector', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],

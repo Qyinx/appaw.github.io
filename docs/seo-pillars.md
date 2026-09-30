@@ -16,7 +16,7 @@ Prior batch (2026-07-02) — **PSA magnetic case** keyword cluster: `SEO_KEYWORD
 
 Prior batch (2026-06-17) — `identify-fake-psa-slabs` content + SEO refresh: cert-era meta (#43 UV, #27/#5xxxxxxx label), slug keywords, guide hero OG images, `llms.txt` / Agent Skills citation hints.
 
-Prior batch (2026-06-13) — Regrade/reholder cluster: centering tool slab mode + verdict UI, `regrade-or-reholder` guide (EN+ZH), expanded `SEO_KEYWORD_MAP`, `WebApplication.featureList`, AEO blocks on centering pillar, Explore internal links, `llms.txt` / `index.md` GEO refresh.
+Prior batch (2026-06-13) — Regrade/reholder cluster: centering tool slab mode + verdict UI, later split into `psa-reholder-guide` + `psa-review-vs-crack` (EN+ZH; obsolete slug `regrade-or-reholder` → Cloudflare 301), expanded `SEO_KEYWORD_MAP`, `WebApplication.featureList`, AEO blocks on centering pillar, Explore internal links, `llms.txt` / `index.md` GEO refresh.
 
 Prior batch (2026-06-09): Keyword retargeting for slab-case cluster: product/home titles, H1s, JSON-LD `alternateName`, and EN↔ZH search-term map (`SEO_KEYWORD_MAP` in `src/lib/product-names.ts`).
 
@@ -37,7 +37,7 @@ Prior batch (2026-06-05): Full-site i18n routing (`/zh/...` mirrors), homepage H
 | 2026-07-02 | PSA magnetic case SEO | Added **PSA magnetic case** / **magnetic PSA slab case** (EN) ↔ **磁吸PSA卡殼** (ZH) to `SEO_KEYWORD_MAP`, product metadata keywords, JSON-LD `alternateName`, overview copy + FAQ (EN+ZH), `llms.txt` / `index.md`. Meta description retargeted for magnetic+PSA+case proximity. Official product name unchanged; aluminum still retired. |
 | 2026-06-27 | UV glass product rename | EN: **Graded Slab UV Glass Protector** (H1: UV Tempered Glass). ZH: **磁吸防UV鑑定卡保護殼** (H1: 防UV強化玻璃). Keyword cluster: tempered glass / UV glass slab case (EN), 防UV玻璃 / 強化玻璃卡殼 (ZH). Retired aluminum/CNC from marketing copy; ZH frame **金屬邊框** (not 金屬框架 / 鋁合金). URL unchanged `/products/psa-protectors/`. `PRODUCT_NAME`, i18n, JSON-LD `material`, guides, `llms.txt`, `index.md`, Agent Skills. |
 | 2026-06-17 | Fake PSA guide SEO | `identify-fake-psa-slabs` meta descriptions + leads + heroSpecs (cert #43/#27/#5xxxxxxx). `GUIDE_KEYWORDS` + per-guide `og:image` from `heroImage` in `guides/metadata.ts`. `llms.txt` + Agent Skills topic/citation refresh. Guide media: UV/label video + old-label photo refs. |
-| 2026-06-13 | Regrade cluster | Centering tool: Graded slab photo mode, regrade/reholder verdict strip, slab workflow H2, PAA H2 + `.centering-aeo-answer`, +3 FAQs (8 total). Guide `regrade-or-reholder` (EN+ZH). `SEO_KEYWORD_MAP` + `CENTERING_SEO` + `centeringMetadata` keywords. `WebApplication.featureList`. Card trading Explore → centering link. `storeJsonLd.knowsAbout` expanded. |
+| 2026-06-13 | Regrade cluster | Centering tool: Graded slab photo mode, regrade/reholder verdict strip, slab workflow H2, PAA H2 + `.centering-aeo-answer`, +3 FAQs (8 total). Original guide slug `regrade-or-reholder` later split to `psa-reholder-guide` + `psa-review-vs-crack` (Cloudflare 301). `SEO_KEYWORD_MAP` + `CENTERING_SEO` + `centeringMetadata` keywords. `WebApplication.featureList`. Card trading Explore → centering link. `storeJsonLd.knowsAbout` expanded. |
 | 2026-06-09 | AEO pass | Guide `Article` + `speakable` (`.guide-lead`, `.guide-aeo-answer`). PAA question H2s on `psa-10-centering-requirements`, `display-graded-cards`. `storeJsonLd.sameAs` + Google Maps. See `FULL-AUDIT-REPORT.md` AEO section. |
 | 2026-06-09 | Guides batch 2 | `display-graded-cards` (EN + ZH) — desk/shelf/wall display, graded card display case intent. |
 | 2026-06-09 | Keyword retargeting | Product + home titles/H1s retargeted to **PSA slab case / graded card case / PSA card protector** cluster (EN) and **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼** (ZH). `SEO_KEYWORD_MAP` in `product-names.ts`. JSON-LD `alternateName` expanded. Guide `choose-35pt-slab-protector` titles updated. |
@@ -69,7 +69,7 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
 
 **Top High-Performing Pages:**
 1. `/zh/tools/card-centering/`: 84 clicks, 516 impressions, **16.28% CTR** (Top conversion engine for raw card & slab pre-grading).
-2. `/zh/guides/regrade-or-reholder/`: 70 clicks, 1,255 impressions, **5.58% CTR** (High intent for slab damage & regrade decision).
+2. `/zh/guides/psa-reholder-guide/` (historical GSC winner was obsolete `/zh/guides/regrade-or-reholder/` before the 2026-08 split): 70 clicks, 1,255 impressions, **5.58% CTR** (High intent for slab damage & regrade decision).
 3. `/zh/products/psa-protectors/`: 24 clicks, 331 impressions, **7.25% CTR**.
 4. `/zh/business/psa-grading/`: 21 clicks, 460 impressions, **4.57% CTR**.
 
@@ -82,7 +82,7 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
 
 1. **Slab Damage & Regrade Decision (`psa 換殼`, `psa 換 殼 費用`, `psa 殼損`, `reholder`)**:
    - *User Need*: Broken/scratched slab or candidate for PSA score upgrade. Needs cost ($25-35 reholder vs $80+ regrade), risk, and turnaround comparison.
-   - *Target URL*: `/guides/regrade-or-reholder/` & `/tools/card-centering/` (slab mode).
+   - *Target URL*: `/guides/psa-reholder-guide/`, `/guides/psa-review-vs-crack/` & `/tools/card-centering/` (slab mode).
 2. **HK Local Submission & Trust (`138 arena`, `香港psa鑑定`, `psa 鑑定 香港 流程`, `psa 收費`)**:
    - *User Need*: Local HK drop-off (138 Arena), clear HKD tiers, on-site preliminary condition assessment, and BAT reference tracking.
    - *Target URL*: `/business/psa-grading/` & `/business/psa-grading/track/`.
@@ -135,8 +135,8 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | PSA card protector | PSA卡保護殼 | Protector intent; secondary in ZH title |
 | slab case | 卡殼 | Short form; body copy only unless space allows |
 | graded card display case | 鑑定卡展示殼 | Display guide (`display-graded-cards`) |
-| PSA regrade | PSA重新評級 | Guide `regrade-or-reholder` + centering slab mode |
-| PSA reholder | PSA換殼 | Top GSC query (23.8% CTR); guide `regrade-or-reholder` |
+| PSA regrade | PSA重新評級 | Guide `psa-review-vs-crack` + centering slab mode |
+| PSA reholder | PSA換殼 | Top GSC query (23.8% CTR); guide `psa-reholder-guide` |
 | PSA slab damage | PSA殼損 | GSC query; slab damage decision guide |
 | regrade downgrade risk | 重新評級降級風險 | Centering FAQ + guide H2 |
 | graded slab centering | 鑑定卡置中 | Centering slab workflow H2 |
@@ -249,7 +249,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 3) Card Centering Tool / PSA 10 Analyzer (/tools/card-centering/)
 
-> Updated 2026-06-13 — **Post-grade cluster:** Graded slab photo mode, regrade/reholder verdict strip, slab workflow H2, PAA block "Should you regrade or reholder?", guide `/guides/regrade-or-reholder/`. Head term **"card centering tool"** unchanged in title/H1.
+> Updated 2026-06-13 — **Post-grade cluster:** Graded slab photo mode, regrade/reholder verdict strip, slab workflow H2, PAA block "Should you regrade or reholder?", guides `/guides/psa-reholder-guide/` + `/guides/psa-review-vs-crack/` (obsolete `/guides/regrade-or-reholder/` → Cloudflare 301). Head term **"card centering tool"** unchanged in title/H1.
 
 > Updated 2026-06-09 — Title/H1 retargeted to lead with **"card centering tool"** (5K/mo). Canonical strings in `CENTERING_SEO` (`src/lib/product-names.ts`).
 
@@ -272,7 +272,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 - 4-step HowTo (raw card) — mirrors `HowTo` JSON-LD.
 - **Slab photo workflow** (5 steps) — H2 `How to measure centering on a graded slab photo`; covers tilt, corner loupe, guide layers, verdict.
-- **PAA block** — H2 `Should you regrade or reholder your PSA slab?` + `.centering-aeo-answer` speakable paragraph; link to `/guides/regrade-or-reholder/`.
+- **PAA block** — H2 `Should you regrade or reholder your PSA slab?` + `.centering-aeo-answer` speakable paragraph; link to `/guides/psa-review-vs-crack/`.
 - PSA / BGS / SGC / CGC tolerance table (55/45 front for PSA 10).
 - Why centering matters + product/trading internal links.
 - **FAQ (8)** — includes regrade vs reholder, downgrade risk, slab photo measurement; `FAQPage` JSON-LD.
@@ -296,7 +296,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 - Homepage services bento → centering card
 - `/products/psa-protectors/` cross-link before FAQ
 - Card trading hero **Explore** → `linkCentering` (2026-06-13)
-- Guide hub: `regrade-or-reholder` ↔ `psa-10-centering-requirements`, `identify-fake-psa-slabs`
+- Guide hub: `psa-reholder-guide` / `psa-review-vs-crack` ↔ `psa-10-centering-requirements`, `identify-fake-psa-slabs`
 
 **Terminology (regrade cluster)**
 
@@ -312,7 +312,7 @@ Notes: Include clear CTAs and screenshots; add structured data for `BreadcrumbLi
 
 - ~~Replace placeholder `og-centering.png`~~ **Done (2026-06-13):** `public/images/og/og-centering.png` → `images-optimized/og/og-centering.png` via `npm run optimize-images`; wired in `CENTERING_OG_IMAGE` + `centeringMetadata`.
 - Worked examples (well-centred vs off-centre) on pillar page.
-- GSC: request indexing for `/guides/regrade-or-reholder/` + `/zh/...` after deploy.
+- GSC: request indexing for `/guides/psa-reholder-guide/` + `/zh/...` after deploy; confirm Cloudflare 301 on obsolete `/guides/regrade-or-reholder/`.
 
 ---
 

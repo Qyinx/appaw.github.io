@@ -6,8 +6,10 @@ const guide: GuideContent = {
   badge: 'Grading Workflow',
   lead:
     'A scratched or scuffed slab does not mean your card is damaged. The PSA Standard Reholder service costs $14.99 and encapsulates your card in a fresh plastic case with a new label, keeping your grade and cert number intact. However, if PSA detects new damage or fading during the transfer, they can lower the grade, making this process not entirely risk-free.',
+  metaDescription:
+    'A scratched PSA case is not a damaged card. Standard Reholder is $14.99 and usually keeps grade and cert. PSA may downgrade if they find new damage inside.',
   published: '2026-08-09',
-  updated: '2026-08-30',
+  updated: '2026-10-01',
   readTime: '7 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [

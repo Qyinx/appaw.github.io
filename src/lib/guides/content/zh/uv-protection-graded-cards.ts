@@ -2,12 +2,12 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'uv-protection-graded-cards',
-  title: '鑑定卡防紫外線指南',
+  title: '鑑定卡為什麼要防紫外線',
   badge: '保存',
   lead:
     '原廠鑑定殼雖然能固定卡面，但透明壓克力外殼並無法完全阻擋紫外線，長時間光照會導致全息閃卡、鍍鉻層及官方標籤逐漸褪色失真。香港室內相對濕度高達 70–80%，若鑑定卡同時曝露於窗邊日光下，只需兩個夏季，卡面光澤與彩度便可能出現肉眼可見的衰退。',
   published: '2026-06-07',
-  updated: '2026-08-30',
+  updated: '2026-10-01',
   readTime: '7 分鐘',
   heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
@@ -109,14 +109,14 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'why-uv-matters',
     title: '窗邊或層架展示？加裝外層抗 UV 保護殼',
-    body: '外層 400 nm 以下超過 95% 的紫外線阻隔面板先承受照射，內層鑑定標籤與全息閃卡收到的輻射量因而降低。',
-    primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
+    body: '本篇說明紫外線與濕度風險。準備選購時，外層 400 nm 以下超過 95% 的紫外線阻隔面板先承受照射，內層鑑定標籤與全息閃卡收到的輻射量因而降低。',
+    primary: { label: '選購防UV鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定卡展示指南', href: '/guides/display-graded-cards/' },
   },
   cta: {
     title: '展示鑑定卡，同時減緩紫外線與濕氣影響',
-    body: '磁吸防 UV 鑑定卡保護殼採用 400 nm 以下超過 95% 紫外線阻隔玻璃，貼合標準 35PT PSA 及 CGC 鑑定卡，適用於桌面陳列與展覽展示。鑑定卡由 PSA 交還、於 138 Arena 取回後，建議儘快加裝外層保護殼。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。顧客收貨後十四日內，如保護殼出現任何問題，可以退貨；退貨運費由買方承擔。',
-    primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
+    body: '風險說明到此；購買請到產品頁。磁吸防 UV 鑑定卡保護殼採用 400 nm 以下超過 95% 紫外線阻隔玻璃，貼合標準 35PT PSA 及 CGC 鑑定卡，適用於桌面陳列與展覽展示。鑑定卡由 PSA 交還、於 138 Arena 取回後，建議儘快加裝外層保護殼。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。顧客收貨後十四日內，如保護殼出現任何問題，可以退貨；退貨運費由買方承擔。',
+    primary: { label: '選購防UV鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['choose-35pt-slab-protector', 'grade-or-protect-first', 'display-graded-cards'],
