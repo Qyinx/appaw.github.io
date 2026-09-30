@@ -1,5 +1,4 @@
 import type { Viewport } from 'next';
-import Script from 'next/script';
 import {
   IBM_Plex_Mono,
   IBM_Plex_Sans,
@@ -17,7 +16,6 @@ import AgentDiscoveryLinks from '@/components/AgentDiscoveryLinks';
 import StructuredData from '@/components/StructuredData';
 import { webSiteJsonLd, storeJsonLd } from '@/lib/seo';
 import { rootMetadata } from '@/lib/seo/metadata';
-import { LOCALE_BOOTSTRAP_SCRIPT } from '@/lib/locale-preference';
 import '@/styles/globals.css';
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -72,10 +70,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
-        {/* First-visit locale detect before hydrate (static export — no middleware). */}
-        <Script id="locale-bootstrap" strategy="beforeInteractive">
-          {LOCALE_BOOTSTRAP_SCRIPT}
-        </Script>
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
         <AgentDiscoveryLinks />
       </head>

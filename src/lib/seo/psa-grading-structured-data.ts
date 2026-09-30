@@ -2,7 +2,7 @@ import { flattenPsaFaqItems } from '@/lib/grading/psa-faq-types';
 import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
 import { en, zh } from '@/i18n';
 import { GRADING_SERVICE_PLAN_LABELS } from '@/lib/grading/reference-code';
-import { PSA_PRICING_ROWS, getPsaDisplayFee } from '@/lib/grading/psa-pricing';
+import { getActivePsaPricingSchedule, getPsaDisplayFee, getPsaPricingRows } from '@/lib/grading/psa-pricing';
 import { PSA_GRADING_ADVISOR_SEO, PSA_GRADING_SEO } from '@/lib/product-names';
 import { SITE_ORIGIN } from '@/lib/seo/brand';
 import {
@@ -45,7 +45,7 @@ export function buildPsaGradingHubStructuredData(locale: PsaGradingLocale) {
     provider: { '@type': 'Organization', name: 'Appaw Store', url: SITE_ORIGIN },
     serviceType: locale === 'zh' ? '香港PSA評級代送鑑定' : 'Hong Kong PSA grading submission',
     areaServed: { '@type': 'City', name: 'Hong Kong' },
-    offers: PSA_PRICING_ROWS.filter((row) => row.feeHkd != null).flatMap((row) => {
+    offers: getPsaPricingRows(getActivePsaPricingSchedule()).filter((row) => row.feeHkd != null).flatMap((row) => {
       const listFee = row.feeHkd!;
       const urlHash = `${url}#pricing`;
 

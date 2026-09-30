@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, useLayoutEffect, ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { en, zh } from '@/i18n';
 import { routeLanguage, toggleLocalePath } from '@/lib/i18n-routing';
@@ -24,8 +24,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLanguageState(urlLanguage);
   }, [urlLanguage]);
 
-  // First-visit safety net if bootstrap script did not run.
-  useEffect(() => {
+  // First-visit locale detect + EN→ZH redirect (static export — no middleware / no layout <script>).
+  useLayoutEffect(() => {
     if (readLocalePreference() !== null) return;
     const preferred = ensureLocalePreference();
     if (preferred === 'zh' && urlLanguage === 'en' && pathname) {

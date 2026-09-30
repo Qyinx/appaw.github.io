@@ -37,7 +37,7 @@ export const GRADING_SERVICE_PLAN_LABELS: Record<GradingServicePlan, string> = {
   REG: 'Priority',
   EXP: 'Express',
   SPX: 'Super Express',
-  WALK: 'Walk-Through',
+  WALK: 'Premier',
   RHLD: 'Reholder',
   PRE1: 'Premium 1',
   PRE2: 'Premium 2',

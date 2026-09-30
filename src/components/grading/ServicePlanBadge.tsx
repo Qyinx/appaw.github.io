@@ -13,7 +13,7 @@ export const SERVICE_PLAN_HUE: Record<PlanOrUnknown, string> = {
   REG: '#7c3aed', // violet — priority
   EXP: '#d97706', // amber — express
   SPX: '#ea580c', // orange — super express
-  WALK: '#c026d3', // fuchsia — walk-through
+  WALK: '#c026d3', // fuchsia — Premier
   RHLD: '#5B6FD6', // indigo/link — reholder
   PRE1: '#0d9488', // teal
   PRE2: '#0891b2', // cyan
