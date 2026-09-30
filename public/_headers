@@ -1,5 +1,12 @@
 # Cloudflare Pages / Netlify — applied when CDN serves static export.
 # GitHub Pages alone ignores this file; configure Transform Rules in Cloudflare instead.
+# See docs/cloudflare-cache-headers.md for Cache Rules that apply in production.
+
+/images-optimized/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
 
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains

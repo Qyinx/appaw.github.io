@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import TrustpilotScripts from '@/components/TrustpilotScripts';
 
 const TRUSTPILOT_REVIEW_URL = 'https://www.trustpilot.com/review/appaw.store';
 const TEMPLATE_ID = '56278e9abfbbba0bdcd568bc';
@@ -79,6 +80,7 @@ export default function TrustpilotReviewCollector({
 
   return (
     <div className={className}>
+      <TrustpilotScripts />
       <div
         ref={widgetRef}
         className="trustpilot-widget"

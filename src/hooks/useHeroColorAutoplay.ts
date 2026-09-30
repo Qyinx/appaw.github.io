@@ -44,8 +44,19 @@ export function useHeroColorAutoplay(
       selectColor(next);
     };
 
-    const id = window.setInterval(tick, intervalMs);
-    return () => window.clearInterval(id);
+    // Delay first advance so LCP can paint the initial hero image.
+    const startId = window.setTimeout(() => {
+      tick();
+      const id = window.setInterval(tick, intervalMs);
+      cleanupInterval = () => window.clearInterval(id);
+    }, Math.max(intervalMs, 5000));
+
+    let cleanupInterval: (() => void) | undefined;
+
+    return () => {
+      window.clearTimeout(startId);
+      cleanupInterval?.();
+    };
   }, [colorCount, selectColor, intervalMs, enabled, hoverPaused]);
 
   return { pause };

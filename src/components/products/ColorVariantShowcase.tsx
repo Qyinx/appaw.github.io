@@ -99,6 +99,11 @@ export default function ColorVariantShowcase({
               data-scanning={isScanning ? 'true' : 'false'}
             >
               {colors.map((color, i) => {
+                const mounted =
+                  i === selectedColor ||
+                  (colorSlideAnimated && i === previousColorIndex);
+                if (!mounted) return null;
+
                 let slideState: 'active' | 'exit' | 'idle' = 'idle';
                 if (i === selectedColor) slideState = 'active';
                 else if (colorSlideAnimated && i === previousColorIndex) slideState = 'exit';
@@ -117,6 +122,7 @@ export default function ColorVariantShowcase({
                       className="object-contain p-4"
                       sizes="(max-width: 1024px) 80vw, 480px"
                       priority={i === 0}
+                      fetchPriority={i === 0 || i === selectedColor ? 'high' : 'auto'}
                     />
                   </div>
                 );

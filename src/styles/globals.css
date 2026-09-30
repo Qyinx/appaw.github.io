@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Playfair+Display:wght@400;600&family=Syne:wght@600;700&display=swap');
 @import "tailwindcss";
 
 /* ── Semantic theme tokens (light-first) ── */
@@ -214,10 +213,11 @@
   --color-accent-danger: var(--accent-danger);
   --color-accent-structural: var(--accent-structural);
 
-  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
-  --font-display: 'Syne', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  /* next/font sets --font-ibm-plex-sans etc. on <html>; fall back to system stacks */
+  --font-sans: var(--font-ibm-plex-sans), 'IBM Plex Sans', system-ui, sans-serif;
+  --font-display: var(--font-syne), 'Syne', system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), 'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+  --font-serif: var(--font-playfair), 'Playfair Display', Georgia, serif;
 
   --animate-fade-in: fade-in 0.5s ease-out;
   --animate-slide-up: slide-up 0.5s ease-out;
@@ -407,7 +407,7 @@ select option {
   pointer-events: none;
   z-index: 0;
   background-color: var(--surface-bg);
-  background-image: url('/images-optimized/background/bg-main-atmosphere.png');
+  background-image: url('/images-optimized/background/bg-main-atmosphere.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

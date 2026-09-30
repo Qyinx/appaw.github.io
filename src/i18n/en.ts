@@ -1145,7 +1145,7 @@ export const en = {
     form: {
       phoneLabel: 'Phone number',
       phonePlaceholder: '+852 9123 4567',
-      phoneHelper: 'HK numbers: +852, 852, or local 8-digit.',
+      phoneHelper: 'Enter your registered phone number. For non-local numbers, include the country code (e.g. +81xxxxxxxx).',
       refLabel: 'Reference code',
       refPlaceholder: 'BAT-XXXX-XX-XXX-N',
       refHelper: 'BAT- is fixed. Type or paste the rest (e.g. 2026-07-EXP-99), or paste the full code.',

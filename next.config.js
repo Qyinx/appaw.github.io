@@ -11,6 +11,7 @@ const nextConfig = {
   // Clarity refetches those URLs at replay time and otherwise shows unstyled HTML.
   experimental: {
     inlineCss: true,
+    optimizePackageImports: ['lucide-react'],
   },
   images: {
     unoptimized: true,
@@ -27,6 +28,24 @@ const nextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
           { key: 'Link', value: AGENT_LINK_HEADER },
+        ],
+      },
+      {
+        source: '/images-optimized/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
         ],
       },
     ];

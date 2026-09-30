@@ -1,5 +1,11 @@
-import type { Metadata, Viewport } from 'next';
+import type { Viewport } from 'next';
 import Script from 'next/script';
+import {
+  IBM_Plex_Mono,
+  IBM_Plex_Sans,
+  Playfair_Display,
+  Syne,
+} from 'next/font/google';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { SiteShell, Footer } from '@/components/layout';
 import { CookieConsent } from '@/components/CookieConsent';
@@ -14,6 +20,34 @@ import { rootMetadata } from '@/lib/seo/metadata';
 import { LOCALE_BOOTSTRAP_SCRIPT } from '@/lib/locale-preference';
 import '@/styles/globals.css';
 
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-ibm-plex-sans',
+  display: 'swap',
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-ibm-plex-mono',
+  display: 'swap',
+});
+
+const syne = Syne({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-syne',
+  display: 'swap',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
+
 export const metadata = rootMetadata;
 
 export const viewport: Viewport = {
@@ -23,16 +57,12 @@ export const viewport: Viewport = {
   colorScheme: 'light dark',
 };
 
-// Site-level structured data is rendered via `src/lib/seo` factories and the
-// `StructuredData` server component to centralize schema handling.
-
-// FAQ Schema intentionally omitted from root layout.
-// Each page owns its FAQPage as a single source:
-//   /                    → no FAQ (covered by WebSite + Store schemas)
-//   /about/              → aboutFaqJsonLd  (brand Q&As)
-//   /business/           → businessFaqJsonLd  (service Q&As)
-//   /products/psa-protectors/ → psaFaqJsonLd  (product Q&As, single-sourced from i18n)
-//   /business/card-trading/   → tradingFaqJsonLd  (trading Q&As, single-sourced from i18n)
+const fontVariables = [
+  ibmPlexSans.variable,
+  ibmPlexMono.variable,
+  syne.variable,
+  playfair.variable,
+].join(' ');
 
 export default function RootLayout({
   children,
@@ -40,58 +70,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      {/* Note: Consider making lang dynamic based on user's language selection in future */}
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
         {/* First-visit locale detect before hydrate (static export — no middleware). */}
         <Script id="locale-bootstrap" strategy="beforeInteractive">
           {LOCALE_BOOTSTRAP_SCRIPT}
         </Script>
-        <Script id="trustpilot-invite" strategy="afterInteractive">
-          {`
-            (function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
-                a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
-                f.parentNode.insertBefore(a,f)})(window,document,'script', 'https://invitejs.trustpilot.com/tp.min.js', 'tp');
-                tp('register', 'KfnAawX7R5VW7x8N');
-          `}
-        </Script>
-        <Script
-          src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
-          strategy="afterInteractive"
-        />
-        {/* Structured Data for Search Engines & AI */}
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
         <AgentDiscoveryLinks />
-        {/* Language declared via <html lang> and hreflang <link> tags (generated from alternates.languages above) */}
       </head>
       <body className="bg-surface-bg text-text-primary antialiased">
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-MTFS1VS5S4"
-          strategy="afterInteractive"
-        />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-
-              // Default consent to denied (GDPR compliance)
-              gtag('consent', 'default', {
-                'analytics_storage': 'denied'
-              });
-
-              gtag('config', 'G-MTFS1VS5S4');
-            `}
-        </Script>
-        <Script id="ms-clarity" strategy="afterInteractive">
-          {`
-              (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-              })(window, document, "clarity", "script", "sm2b2ujusi");
-            `}
-        </Script>
+        {/* GA + Clarity load only after cookie accept (see CookieConsent). */}
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>

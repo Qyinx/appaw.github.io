@@ -1,17 +1,22 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import LocalLink from '@/components/LocalLink';
 import { ArrowRight, Check, Eye, Lock, Shield, TrendingUp } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import RetailPartners from '@/components/RetailPartners';
 import ShopNowButton from '@/components/ui/ShopNowButton';
 import HomeHero from '@/components/home/HomeHero';
 import Reveal from '@/components/ui/Reveal';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import trackEvent from '@/lib/analytics';
 import { getImagePath } from '@/lib/utils';
+
+const RetailPartners = dynamic(() => import('@/components/RetailPartners'), {
+  ssr: true,
+  loading: () => null,
+});
 
 export default function HomeClient() {
   const { t } = useLanguage();

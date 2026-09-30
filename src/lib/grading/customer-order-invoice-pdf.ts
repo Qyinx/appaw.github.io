@@ -85,7 +85,8 @@ function setCompanyNameFont(doc: JsPdfDoc, hasSyne: boolean): void {
 }
 
 async function loadLogoDataUrl(): Promise<string | null> {
-  const src = getImagePath('/images/logo.png');
+  // Keep PNG for jsPDF (WebP data-URLs are unreliable across PDF engines).
+  const src = getImagePath('/images/logo.png', { skipWebp: true });
   try {
     const res = await fetch(src);
     if (!res.ok) return null;

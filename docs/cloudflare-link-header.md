@@ -41,6 +41,7 @@ Re-scan: [isitagentready.com](https://isitagentready.com/appaw.store) → `check
 ## Related
 
 - [Markdown for Agents](cloudflare-markdown-negotiation.md) — `Accept: text/markdown` on HTML URLs
+- [Cache headers for images / `_next/static`](cloudflare-cache-headers.md) — long TTL for static assets
 
 ## Resources
 

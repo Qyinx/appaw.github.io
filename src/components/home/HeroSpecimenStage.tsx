@@ -26,6 +26,12 @@ export default function HeroSpecimenStage({
 }: HeroSpecimenStageProps) {
   const active = colors[selectedColor];
 
+  // Mount only active + exiting slides so idle variants do not contend for LCP bandwidth.
+  const mountedIndexes = new Set<number>([selectedColor]);
+  if (colorSlideAnimated && previousColorIndex !== selectedColor) {
+    mountedIndexes.add(previousColorIndex);
+  }
+
   return (
     <div
       className="home-hero-stage"
@@ -55,6 +61,8 @@ export default function HeroSpecimenStage({
           data-scanning={isScanning ? 'true' : 'false'}
         >
           {colors.map((color, i) => {
+            if (!mountedIndexes.has(i)) return null;
+
             let slideState: 'active' | 'exit' | 'idle' = 'idle';
             if (i === selectedColor) slideState = 'active';
             else if (colorSlideAnimated && i === previousColorIndex) slideState = 'exit';
@@ -72,7 +80,9 @@ export default function HeroSpecimenStage({
                   fill
                   className="object-contain p-3 sm:p-5"
                   sizes="(max-width: 768px) 70vw, 360px"
+                  // Index 0 is the LCP candidate — keep priority even after autoplay advances.
                   priority={i === 0}
+                  fetchPriority={i === 0 || i === selectedColor ? 'high' : 'auto'}
                 />
               </div>
             );

@@ -20,10 +20,12 @@ export default function SectionHeroBackground({
       <img
         src={getImagePath(src)}
         alt=""
-        width={1920}
-        height={1080}
+        width={1600}
+        height={900}
         className="hero-bg-slab-art__img"
         decoding="async"
+        loading="lazy"
+        fetchPriority="low"
       />
     </div>
   );

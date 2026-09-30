@@ -2,10 +2,24 @@
 // Custom domain (appaw.store) - no basePath needed
 export const basePath = '';
 
-export function getImagePath(path: string): string {
-  // Ensure path starts with /
+/**
+ * Resolve a public image path to the optimized WebP asset.
+ * Sources live under /images/; runtime serves /images-optimized/*.webp.
+ * OG / social assets keep PNG/JPEG (crawlers); pass skipWebp for those.
+ */
+export function getImagePath(path: string, options?: { skipWebp?: boolean }): string {
+  if (/^https?:\/\//i.test(path)) return path;
+
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  // Point to optimized images folder
-  const optimizedPath = normalizedPath.replace('/images/', '/images-optimized/');
+  let optimizedPath = normalizedPath.replace('/images/', '/images-optimized/');
+
+  const isOg =
+    optimizedPath.includes('/og/') ||
+    /\/og-image\.(png|jpe?g|webp)$/i.test(optimizedPath);
+
+  if (!options?.skipWebp && !isOg) {
+    optimizedPath = optimizedPath.replace(/\.(png|jpe?g)$/i, '.webp');
+  }
+
   return `${basePath}${optimizedPath}`;
 }

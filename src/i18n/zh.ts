@@ -1145,8 +1145,8 @@ export const zh: Translations = {
     form: {
       phoneLabel: '聯絡電話',
       phonePlaceholder: '例如: +852 9123 4567',
-      phoneHelper: '支援格式：+852、852 或是直接輸入本地 8 碼數字。',
-      refLabel: '專屬參考編號',
+      phoneHelper: '輸入已登記的電話號碼，非本地號碼請加上區號 (例如+81xxxxxxxx)。',
+      refLabel: '參考編號',
       refPlaceholder: 'BAT-XXXX-XX-XXX-N',
       refHelper: 'BAT- 已固定。可輸入或整段貼上其餘部分（例如 2026-07-EXP-99），亦可貼上完整編號。',
       submit: '立即查詢',
