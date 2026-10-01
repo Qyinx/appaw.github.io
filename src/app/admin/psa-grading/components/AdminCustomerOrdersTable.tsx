@@ -6,6 +6,7 @@ import { parseServicePlanLabel } from '@/lib/grading/admin-types';
 import { formatHkd } from '@/lib/grading/admin-format';
 import BatchReferenceLink from './BatchReferenceLink';
 import CustomerOrderLink from './CustomerOrderLink';
+import OrderPickedUpButton from './OrderPickedUpButton';
 import ServicePlanBadge from './ServicePlanBadge';
 
 type Props = {
@@ -15,6 +16,9 @@ type Props = {
   emptyMessage?: string;
   showBatchColumn?: boolean;
   showPaymentColumn?: boolean;
+  showPickedUpColumn?: boolean;
+  /** Persist via setOrderPickedUp — parent owns state update. */
+  onTogglePickedUp?: (orderId: number, pickedUp: boolean) => Promise<void> | void;
 };
 
 function PaymentCell({ summary }: { summary: AdminPaymentSummary | undefined }) {
@@ -40,15 +44,21 @@ export default function AdminCustomerOrdersTable({
   emptyMessage = 'No customer orders match.',
   showBatchColumn = true,
   showPaymentColumn = true,
+  showPickedUpColumn = true,
+  onTogglePickedUp,
 }: Props) {
-  const colCount = 6 + (showBatchColumn ? 1 : 0) + (showPaymentColumn ? 1 : 0);
+  const colCount =
+    6 +
+    (showBatchColumn ? 1 : 0) +
+    (showPaymentColumn ? 1 : 0) +
+    (showPickedUpColumn ? 1 : 0);
   const minWidth = showBatchColumn
     ? showPaymentColumn
-      ? '1040px'
-      : '920px'
+      ? '1180px'
+      : '1060px'
     : showPaymentColumn
-      ? '840px'
-      : '720px';
+      ? '980px'
+      : '860px';
 
   return (
     <div className="overflow-x-auto max-h-[70vh] overflow-y-auto">
@@ -65,6 +75,9 @@ export default function AdminCustomerOrdersTable({
             <th className="sticky top-0 z-[1] py-2 pr-2 w-16 bg-surface-panel">Cards</th>
             {showPaymentColumn && (
               <th className="sticky top-0 z-[1] py-2 pr-2 w-36 bg-surface-panel">Payment</th>
+            )}
+            {showPickedUpColumn && (
+              <th className="sticky top-0 z-[1] py-2 pr-2 w-32 bg-surface-panel">Pickup</th>
             )}
             <th className="sticky top-0 z-[1] py-2 pr-2 w-36 bg-surface-panel">Updated</th>
           </tr>
@@ -91,6 +104,26 @@ export default function AdminCustomerOrdersTable({
               {showPaymentColumn && (
                 <td className="py-2 pr-2">
                   <PaymentCell summary={paymentMap?.[order.id]} />
+                </td>
+              )}
+              {showPickedUpColumn && (
+                <td className="py-2 pr-2">
+                  {onTogglePickedUp ? (
+                    <OrderPickedUpButton
+                      size="compact"
+                      pickedUp={Boolean(order.pickedUp)}
+                      pickedUpAt={order.pickedUpAt}
+                      onToggle={(next) => onTogglePickedUp(order.id, next)}
+                    />
+                  ) : (
+                    <span
+                      className={
+                        order.pickedUp ? 'text-accent-success text-sm' : 'text-text-muted text-sm'
+                      }
+                    >
+                      {order.pickedUp ? 'Picked up' : 'Awaiting'}
+                    </span>
+                  )}
                 </td>
               )}
               <td className="py-2 pr-2 text-text-muted text-xs">

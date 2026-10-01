@@ -7,16 +7,18 @@ import {
   invalidateGradingListCache,
   loadGradingDashboard,
 } from '@/lib/grading/admin-api';
+import { setOrderPickedUp } from '@/lib/grading/set-order-picked-up';
 import type { AdminBatch, AdminCustomerOrder, AdminPaymentSummary } from '@/lib/grading/admin-types';
 import { EMPTY_PAYMENT_SUMMARY, parseServicePlanLabel } from '@/lib/grading/admin-types';
 import { completedStepLabel, stepSelectOptions } from '@/lib/grading/admin-utils';
 import AdminCustomerOrdersTable from './components/AdminCustomerOrdersTable';
 import BatchReferenceLink from './components/BatchReferenceLink';
+import PlanProgressRails from './components/PlanProgressRails';
 import PsaSyncPanel from './components/PsaSyncPanel';
 import ServicePlanBadge from './components/ServicePlanBadge';
 
-/** Primary dashboard views — stage-focused work queues + full filtered list. */
-type DashboardTab = 'recording' | 'pickup' | 'all';
+/** Primary dashboard views — plan rails + stage queues + full filtered list. */
+type DashboardTab = 'plans' | 'recording' | 'pickup' | 'all';
 type AllView = 'batches' | 'orders';
 type PaymentFilter = 'all' | 'full' | 'partial' | 'unpaid';
 
@@ -28,10 +30,10 @@ function paymentStatus(summary: AdminPaymentSummary): PaymentFilter {
 }
 
 function parseDashboardTab(raw: string | null): DashboardTab {
-  if (raw === 'pickup' || raw === 'recording' || raw === 'all') return raw;
+  if (raw === 'pickup' || raw === 'recording' || raw === 'all' || raw === 'plans') return raw;
   // Legacy Batches / Orders tabs → All
   if (raw === 'batches' || raw === 'orders') return 'all';
-  return 'recording';
+  return 'plans';
 }
 
 function parseAllView(tabRaw: string | null, viewRaw: string | null): AllView {
@@ -137,8 +139,8 @@ export default function GradingDashboardClient() {
           next.set(key, value);
         }
       }
-      // Default tab is recording — keep URL clean
-      if (next.get('tab') === 'recording') next.delete('tab');
+        // Default tab is plans — keep URL clean
+      if (next.get('tab') === 'plans') next.delete('tab');
       const qs = next.toString();
       router.replace(qs ? `?${qs}` : '?', { scroll: false });
     },
@@ -147,8 +149,12 @@ export default function GradingDashboardClient() {
 
   const setTab = useCallback(
     (tab: DashboardTab) => {
-      if (tab === 'recording') {
+      if (tab === 'plans') {
         updateParams({ tab: null, view: null });
+        return;
+      }
+      if (tab === 'recording') {
+        updateParams({ tab: 'recording', view: null });
         return;
       }
       if (tab === 'pickup') {
@@ -196,6 +202,38 @@ export default function GradingDashboardClient() {
   const pickupBatches = useMemo(
     () => batches.filter((b) => b.completedStepIndex === 9 || b.completedStepIndex === 10),
     [batches],
+  );
+
+  const pickupBatchRefs = useMemo(
+    () => new Set(pickupBatches.map((b) => b.referenceCode)),
+    [pickupBatches],
+  );
+
+  const pickupOrders = useMemo(
+    () =>
+      customerOrders
+        .filter((o) => pickupBatchRefs.has(o.batchReferenceCode))
+        .sort((a, b) => {
+          const byBatch = a.batchReferenceCode.localeCompare(b.batchReferenceCode);
+          if (byBatch !== 0) return byBatch;
+          if (Boolean(a.pickedUp) !== Boolean(b.pickedUp)) return a.pickedUp ? 1 : -1;
+          return b.id - a.id;
+        }),
+    [customerOrders, pickupBatchRefs],
+  );
+
+  const handleTogglePickedUp = useCallback(
+    async (orderId: number, pickedUp: boolean) => {
+      try {
+        const updated = await setOrderPickedUp(orderId, pickedUp);
+        setCustomerOrders((prev) =>
+          prev.map((order) => (order.id === orderId ? { ...order, ...updated } : order)),
+        );
+      } catch (e) {
+        setError(e instanceof Error ? e.message : String(e));
+      }
+    },
+    [],
   );
 
   const filteredBatches = useMemo(
@@ -257,6 +295,17 @@ export default function GradingDashboardClient() {
               type="button"
               role="tab"
               className="collection-filter-pill"
+              aria-selected={activeTab === 'plans'}
+              aria-pressed={activeTab === 'plans'}
+              onClick={() => setTab('plans')}
+            >
+              Plans
+              <span className="ml-1.5 font-mono tabular-nums opacity-70">{batches.length}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              className="collection-filter-pill"
               aria-selected={activeTab === 'recording'}
               aria-pressed={activeTab === 'recording'}
               onClick={() => setTab('recording')}
@@ -292,6 +341,13 @@ export default function GradingDashboardClient() {
           </button>
         </div>
 
+        {activeTab === 'plans' && (
+          <p className="text-sm text-text-muted">
+            One rail per active service plan. Batch chips sit on their pipeline step; pickup chips
+            show picked-up order counts.
+          </p>
+        )}
+
         {activeTab === 'recording' && (
           <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
             <p className="text-sm text-text-muted flex-1 min-w-0">
@@ -308,7 +364,8 @@ export default function GradingDashboardClient() {
 
         {activeTab === 'pickup' && (
           <p className="text-sm text-text-muted">
-            Batches at stage 9 ({completedStepLabel(9)}) or 10 ({completedStepLabel(10)}).
+            Batches at stage 9 ({completedStepLabel(9)}) or 10 ({completedStepLabel(10)}). Mark
+            which customer orders have been collected below.
           </p>
         )}
 
@@ -438,6 +495,10 @@ export default function GradingDashboardClient() {
       {loading && <p className="text-text-muted text-sm">Loading…</p>}
       {error && <p className="text-accent-danger text-sm">{error}</p>}
 
+      {activeTab === 'plans' && (
+        <PlanProgressRails batches={batches} orders={customerOrders} loading={loading} />
+      )}
+
       {activeTab === 'recording' && (
         <BatchTable
           batches={recordingBatches}
@@ -447,11 +508,23 @@ export default function GradingDashboardClient() {
       )}
 
       {activeTab === 'pickup' && (
-        <BatchTable
-          batches={pickupBatches}
-          loading={loading}
-          emptyMessage="No batches at stage 9 or 10."
-        />
+        <div className="space-y-4">
+          <BatchTable
+            batches={pickupBatches}
+            loading={loading}
+            emptyMessage="No batches at stage 9 or 10."
+          />
+          <section className="panel p-4 space-y-3">
+            <h3 className="text-sm font-semibold text-text-primary">Orders in pickup batches</h3>
+            <AdminCustomerOrdersTable
+              orders={pickupOrders}
+              paymentMap={paymentMap}
+              loading={loading}
+              emptyMessage="No customer orders in pickup-stage batches."
+              onTogglePickedUp={handleTogglePickedUp}
+            />
+          </section>
+        </div>
       )}
 
       {activeTab === 'all' && allView === 'batches' && (
@@ -468,6 +541,7 @@ export default function GradingDashboardClient() {
             orders={filteredOrders}
             paymentMap={paymentMap}
             loading={loading}
+            onTogglePickedUp={handleTogglePickedUp}
           />
         </section>
       )}

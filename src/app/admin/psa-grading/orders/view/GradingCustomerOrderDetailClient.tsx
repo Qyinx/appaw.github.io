@@ -6,6 +6,7 @@ import AdminCardComposer, { type CardComposerValue } from '../../components/Admi
 import AdminCardsTable from '../../components/AdminCardsTable';
 import AdminPendingCards from '../../components/AdminPendingCards';
 import BatchReferenceLink from '../../components/BatchReferenceLink';
+import OrderPickedUpButton from '../../components/OrderPickedUpButton';
 import ServicePlanBadge from '../../components/ServicePlanBadge';
 import {
   createCustomerOrderItem,
@@ -14,6 +15,7 @@ import {
   reorderCustomerOrderItems,
   updateItem,
 } from '@/lib/grading/admin-api';
+import { setOrderPickedUp } from '@/lib/grading/set-order-picked-up';
 import {
   anyItemFieldsDirty,
   cloneAdminItems,
@@ -175,6 +177,25 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
     setDraftItems(settleItemsByCardName(cloneAdminItems(detail.items)));
     setError('');
     setMessage('');
+  };
+
+  const handleTogglePickedUp = async (pickedUp: boolean) => {
+    if (!detail) return;
+    setError('');
+    try {
+      const updated = await setOrderPickedUp(detail.customerOrder.id, pickedUp);
+      setDetail((prev) =>
+        prev
+          ? {
+              ...prev,
+              customerOrder: { ...prev.customerOrder, ...updated },
+            }
+          : prev,
+      );
+      setMessage(pickedUp ? 'Marked picked up.' : 'Cleared picked up.');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    }
   };
 
   const exportInvoice = async () => {
@@ -390,6 +411,15 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
           <div>
             <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Phone</p>
             <p className="font-mono text-sm">{customerOrder.phoneNumber}</p>
+          </div>
+          <div>
+            <p className="text-xs text-text-secondary uppercase tracking-wide mb-1">Pickup</p>
+            <OrderPickedUpButton
+              pickedUp={Boolean(customerOrder.pickedUp)}
+              pickedUpAt={customerOrder.pickedUpAt}
+              disabled={saving || exporting}
+              onToggle={(next) => handleTogglePickedUp(next)}
+            />
           </div>
         </div>
       </section>

@@ -22,6 +22,7 @@ import {
   updateBatch,
   updateItem,
 } from '@/lib/grading/admin-api';
+import { setOrderPickedUp } from '@/lib/grading/set-order-picked-up';
 import {
   anyItemFieldsDirty,
   cloneAdminItems,
@@ -184,6 +185,18 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
     },
     [],
   );
+
+  const handleTogglePickedUp = useCallback(async (orderId: number, pickedUp: boolean) => {
+    try {
+      const updated = await setOrderPickedUp(orderId, pickedUp);
+      setCustomerOrders((prev) =>
+        prev.map((order) => (order.id === orderId ? { ...order, ...updated } : order)),
+      );
+      setOrdersError('');
+    } catch (e) {
+      setOrdersError(e instanceof Error ? e.message : String(e));
+    }
+  }, []);
 
   const loadItems = useCallback(
     async (ref: string, force = false) => {
@@ -730,6 +743,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
               paymentMap={paymentMap}
               showBatchColumn={false}
               emptyMessage="No customer orders yet."
+              onTogglePickedUp={handleTogglePickedUp}
             />
           ) : (
             <p className="text-sm text-text-muted">

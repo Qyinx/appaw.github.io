@@ -34,6 +34,10 @@ export interface AdminCustomerOrder {
   customerName: string;
   phoneNumber: string;
   itemCount: number;
+  /** Customer collected cards at 138 Arena. */
+  pickedUp?: boolean;
+  /** ISO datetime when marked picked up; null when not. */
+  pickedUpAt?: string | null;
   createdAt?: string;
   updatedAt: string;
   paymentSummary?: AdminPaymentSummary;
@@ -173,6 +177,10 @@ export interface AdminCreateOrderItemPayload {
 
 /** Batch step index while cards may still be added/removed on an order. */
 export const BATCH_CARD_EDIT_STEP = 0;
+
+export interface AdminUpdateCustomerOrderPayload {
+  pickedUp?: boolean;
+}
 
 export interface AdminUpdateBatchPayload {
   psaSubmissionNumber?: number | null;
