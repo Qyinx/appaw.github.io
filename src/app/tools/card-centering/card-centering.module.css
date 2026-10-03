@@ -1,13 +1,13 @@
 .wrapper {
   width: 100%;
-  max-width: 1320px;
+  max-width: min(1320px, 100%);
   margin: 0 auto;
   padding: var(--space-page-x, clamp(16px, 4vw, 24px));
   padding-top: clamp(20px, 3vw, 28px);
   padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   box-sizing: border-box;
   color: var(--text-primary);
-  overflow-x: clip;
+  overflow-x: hidden;
   min-width: 0;
 }
 
@@ -18,6 +18,9 @@
   background: var(--tool-bg);
   border-radius: 0;
   overflow: hidden;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
   box-shadow: none;
   color-scheme: dark;
   -webkit-user-select: none;
@@ -95,6 +98,9 @@
 .workspaceShell {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
   height: calc(
     100svh - var(--site-header-height) - var(--site-subheader-height, 0px) - 3.5rem
   );
@@ -106,6 +112,7 @@
   position: absolute;
   inset: 0;
   width: 100%;
+  max-width: 100%;
   height: 100%;
   background: var(--tool-bg);
   border: none;
@@ -116,8 +123,7 @@
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
+  /* 3D lives on .imageWrapper — preserve-3d here disables overflow clip on iOS. */
   isolation: isolate;
   --loupe-edge-x: 8px;
   --loupe-edge-top: 56px;
@@ -219,6 +225,7 @@
   position: absolute;
   inset: 0;
   width: 100%;
+  max-width: 100%;
   height: 100%;
   box-sizing: border-box;
   z-index: 10;
@@ -1509,7 +1516,8 @@
 .verdictStripStandalone {
   border-top: none;
   padding: 8px 12px;
-  min-width: min(100%, 420px);
+  min-width: 0;
+  max-width: 100%;
 }
 .verdictLabel {
   font-weight: 700;
@@ -2255,9 +2263,10 @@
 
   .workspaceShell {
     height: calc(
-      100svh - var(--site-header-height) - var(--site-subheader-height, 0px)
+      100dvh - var(--site-frame) * 2 - var(--site-header-height)
+        - var(--site-subheader-height, 0px)
     );
-    min-height: 300px;
+    min-height: 280px;
     max-height: none;
   }
 
@@ -2564,7 +2573,8 @@
 
   .workspaceShell {
     height: calc(
-      100svh - var(--site-header-height) - var(--site-subheader-height, 0px)
+      100dvh - var(--site-frame) * 2 - var(--site-header-height)
+        - var(--site-subheader-height, 0px)
     );
     min-height: 280px;
     max-height: none;
@@ -2598,7 +2608,8 @@
 @media (max-width: 375px) {
   .workspaceShell {
     height: calc(
-      100svh - var(--site-header-height) - var(--site-subheader-height, 0px)
+      100dvh - var(--site-frame) * 2 - var(--site-header-height)
+        - var(--site-subheader-height, 0px)
     );
     min-height: 260px;
   }
@@ -3526,6 +3537,8 @@
 /* Grade table — Hermes spec-sheet rows */
 .tableScroll {
   overflow-x: auto;
+  min-width: 0;
+  max-width: 100%;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-panel, 0);
   background: var(--surface-panel);

@@ -259,7 +259,7 @@ export default function Header() {
       data-chrome="sheet"
     >
       <div className="max-w-7xl mx-auto px-[var(--space-page-x)]">
-        <div className="flex items-center justify-between gap-2 min-w-0 h-[var(--site-header-height)]">
+        <div className="flex items-center justify-between gap-2 min-w-0 h-[var(--site-header-height)] relative z-10">
 
           <LocalLink href="/" className="flex shrink-0 items-center gap-2 sm:gap-3 group min-w-0">
             <div className="w-9 h-9 shrink-0 overflow-hidden border-2 border-border-strong">
@@ -351,7 +351,7 @@ export default function Header() {
             </div>
             <LocalLink
               href="/products/psa-protectors"
-              className="btn btn-primary header-bar-cta"
+              className="btn btn-primary header-bar-cta hidden sm:inline-flex"
             >
               {t.home.hero.cta}
             </LocalLink>
@@ -359,7 +359,7 @@ export default function Header() {
             <button
               ref={menuToggleRef}
               type="button"
-              className="lg:hidden relative min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border-2 border-border-strong text-text-primary"
+              className="lg:hidden relative z-10 min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border-2 border-border-strong text-text-primary touch-manipulation"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
@@ -378,8 +378,8 @@ export default function Header() {
           id="site-mobile-nav"
           className={`lg:hidden transition-[max-height,opacity] duration-200 ${
             isMenuOpen
-              ? 'max-h-[min(80dvh,calc(100dvh-var(--site-header-height)))] opacity-100 overflow-y-auto overscroll-contain'
-              : 'max-h-0 opacity-0 overflow-hidden'
+              ? 'max-h-[min(80dvh,calc(100dvh-var(--site-header-height)))] opacity-100 overflow-y-auto overscroll-contain pointer-events-auto visible'
+              : 'max-h-0 opacity-0 overflow-hidden pointer-events-none invisible'
           }`}
         >
           <div className="py-4 border-t-2 border-border-strong pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
