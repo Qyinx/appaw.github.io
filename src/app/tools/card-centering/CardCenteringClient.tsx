@@ -522,10 +522,10 @@ export default function CardCenteringClient() {
       };
     }
 
-    // Pull colors from semantic site tokens (style.md §2)
+    // Overlay guides use instrument tokens — --accent-secondary is ink-black and vanishes on --tool-bg.
     const rootStyles = typeof window !== 'undefined' ? getComputedStyle(document.documentElement) : null;
-    const colorOuter = (rootStyles?.getPropertyValue('--accent-secondary') || '#5B6FD6').trim();
-    const colorInner = (rootStyles?.getPropertyValue('--accent-primary') || '#E85D6F').trim();
+    const colorOuter = (rootStyles?.getPropertyValue('--tool-guide-edge') || '#E8E0D0').trim();
+    const colorInner = (rootStyles?.getPropertyValue('--tool-guide-border') || '#C44536').trim();
     const outerRgb = colorOuter.match(/^#([0-9a-f]{6})$/i);
     const colorOuterFill = outerRgb
       ? `rgba(${parseInt(outerRgb[1].slice(0, 2), 16)}, ${parseInt(outerRgb[1].slice(2, 4), 16)}, ${parseInt(outerRgb[1].slice(4, 6), 16)}, 0.07)`
@@ -1275,23 +1275,31 @@ export default function CardCenteringClient() {
     function drawModernFrame(x: number, y: number, w: number, h: number, color: string, alpha: number, emphasized: boolean, lite = false) {
       if (w < 4 || h < 4) return;
       const radius = Math.min(10, w * 0.022, h * 0.016);
+      const lineW = lite ? 1.25 : emphasized ? 1.75 : 1.25;
 
       ctx.save();
       ctx.globalAlpha = alpha;
+
+      // Dark halo so cream/red guides stay readable on light card faces.
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = 'rgba(10, 8, 6, 0.55)';
+      ctx.lineWidth = lineW + 2.25;
+      roundRectPath(x, y, w, h, radius);
+      ctx.stroke();
 
       if (!lite) {
         ctx.shadowColor = color;
         ctx.shadowBlur = emphasized ? 20 : 12;
       }
       ctx.strokeStyle = color;
-      ctx.lineWidth = lite ? 1.25 : emphasized ? 1.75 : 1.25;
+      ctx.lineWidth = lineW;
       roundRectPath(x, y, w, h, radius);
       ctx.stroke();
 
       if (!lite) {
         ctx.shadowBlur = 0;
-        ctx.globalAlpha = alpha * 0.3;
-        ctx.strokeStyle = '#ffffff';
+        ctx.globalAlpha = alpha * 0.35;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)';
         ctx.lineWidth = 0.5;
         roundRectPath(x + 0.5, y + 0.5, Math.max(0, w - 1), Math.max(0, h - 1), Math.max(0, radius - 0.5));
         ctx.stroke();
@@ -1326,15 +1334,18 @@ export default function CardCenteringClient() {
       }
 
       ctx.save();
-      ctx.shadowColor = color;
-      ctx.shadowBlur = 18;
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 3;
       ctx.lineCap = 'round';
       ctx.globalAlpha = 0.95;
       ctx.beginPath();
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
+      ctx.strokeStyle = 'rgba(10, 8, 6, 0.55)';
+      ctx.lineWidth = 5;
+      ctx.stroke();
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 18;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
       ctx.stroke();
       ctx.restore();
     }
@@ -2147,12 +2158,12 @@ export default function CardCenteringClient() {
         plotCtx.fillStyle = z.color;
         plotCtx.fillRect(x, y, w, h);
         plotCtx.lineWidth = 1.2;
-        plotCtx.strokeStyle = 'rgba(0,0,0,0.18)';
+        plotCtx.strokeStyle = 'rgba(243,235,218,0.22)';
         plotCtx.strokeRect(x, y, w, h);
       });
 
       // Draw center crosshair
-      plotCtx.strokeStyle = 'rgba(0,0,0,0.5)';
+      plotCtx.strokeStyle = 'rgba(243,235,218,0.55)';
       plotCtx.lineWidth = 2;
       plotCtx.beginPath();
       plotCtx.moveTo(cx - 10, cy);
@@ -2174,7 +2185,7 @@ export default function CardCenteringClient() {
       plotCtx.beginPath();
       const dotR = 6;
       // Glow
-      plotCtx.fillStyle = 'rgba(0,0,0,0.25)';
+      plotCtx.fillStyle = 'rgba(243,235,218,0.22)';
       plotCtx.beginPath();
       plotCtx.arc(px, py, dotR + 6, 0, Math.PI * 2);
       plotCtx.fill();

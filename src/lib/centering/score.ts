@@ -86,7 +86,7 @@ export function getPlotZoneRects(company: GradingCompany, face: CardFace) {
     poor: 'rgba(255,255,255,0.08)',
   };
   const tierColors: Record<string, string> = {
-    BGS10Black: 'rgba(28,28,32,0.92)',
+    BGS10Black: 'rgba(232,224,208,0.88)',
     BGS10Gold: 'rgba(201,162,39,0.72)',
   };
 

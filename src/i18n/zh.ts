@@ -1869,8 +1869,8 @@ export const zh: Translations = {
       vTilt: '上下傾斜校正',
       horizontalTilt: '拉直左右透視',
       verticalTilt: '拉直上下透視',
-      mapLegendEdge: '藍線 = 卡片的實體邊緣',
-      mapLegendBorder: '粉紅線 = 卡面的印刷圖框',
+      mapLegendEdge: '米白線 = 卡片的實體邊緣',
+      mapLegendBorder: '紅線 = 卡面的印刷圖框',
       canvasEdge: '實體外緣',
       canvasBorder: '印刷圖框',
       noImage: '畫面空空如也',
@@ -1883,8 +1883,8 @@ export const zh: Translations = {
       lrLabel: '左右比例',
       tbLabel: '上下比例',
       guideModeLabel: '顯示對齊線',
-      guideModeEdge: '藍線',
-      guideModeBorder: '粉線',
+      guideModeEdge: '外緣',
+      guideModeBorder: '圖框',
       guideModeBoth: '顯示全部',
       trustpilotReviewLabel: '評價 Appaw Store',
       trustpilotRateShort: '覺得滿意？誠邀您在 Trustpilot 給我們留下評價！',
@@ -1967,7 +1967,7 @@ export const zh: Translations = {
         },
         {
           title: '第三步：框出外緣與圖框',
-          body: '拖拉畫面上藍色的點去貼齊「卡片的實體邊緣」，再拉粉紅色的點去貼齊「裡面的印刷圖框」。建議打開「細節放大鏡」會對得更準。每個點都要拉過一遍系統才會算喔！',
+          body: '拖拉畫面上米白的點去貼齊「卡片的實體邊緣」，再拉紅色的點去貼齊「裡面的印刷圖框」。建議打開「細節放大鏡」會對得更準。每個點都要拉過一遍系統才會算喔！',
         },
         {
           title: '第四步：驗收殘酷的百分比',
@@ -2028,11 +2028,11 @@ export const zh: Translations = {
         },
         {
           title: '對準圓角的弧線',
-          body: '鑑定殼邊緣常常會有反光干擾。打開放大鏡，仔細把藍線拉到「塑膠殼裡面，那張卡片真正的圓角」上。這招對付邊緣破爛的復古老卡特別管用。',
+          body: '鑑定殼邊緣常常會有反光干擾。打開放大鏡，仔細把外緣線拉到「塑膠殼裡面，那張卡片真正的圓角」上。這招對付邊緣破爛的復古老卡特別管用。',
         },
         {
-          title: '藍線切邊，粉線切框',
-          body: '藍線一定要貼齊卡片的裁切邊，粉線貼齊裡面的圖框。如果覺得線黏在一起很難拉，可以用上面按鈕切換「只顯示一組線」來單獨處理。',
+          title: '米白線切邊，紅線切框',
+          body: '米白線一定要貼齊卡片的裁切邊，紅線貼齊裡面的圖框。如果覺得線黏在一起很難拉，可以用上面按鈕切換「只顯示一組線」來單獨處理。',
         },
         {
           title: '一秒看穿有沒有重新評級(Regrade)的價值',

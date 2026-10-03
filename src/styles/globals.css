@@ -89,6 +89,7 @@
   --tool-text-muted: #B5A995;
   --tool-guide-edge: #E8E0D0;
   --tool-guide-border: var(--accent-cta);
+  --tool-success: #5FD68A;
   --zone-psa8: #D97706;
 
   /* Atmosphere off by default (style.md §4) */
@@ -3907,6 +3908,9 @@ main {
   box-shadow: none;
   font-family: var(--font-mono, ui-monospace, monospace);
   color-scheme: dark;
+  /* Grade pill portals here — forest --accent-success (#1F7A45) vanishes on charcoal. */
+  --accent-success: var(--tool-success, #5FD68A);
+  --accent-secondary: var(--tool-text);
 }
 
 .site-subheader--tool .collection-workspace-chrome__inner {

@@ -1871,8 +1871,8 @@ export const en = {
       vTilt: 'V-Tilt',
       horizontalTilt: 'Horizontal tilt',
       verticalTilt: 'Vertical tilt',
-      mapLegendEdge: 'Blue = card edge',
-      mapLegendBorder: 'Pink = art border',
+      mapLegendEdge: 'Cream = card edge',
+      mapLegendBorder: 'Red = art border',
       canvasEdge: 'EDGE',
       canvasBorder: 'BORDER',
       noImage: 'No image',
@@ -1969,7 +1969,7 @@ export const en = {
         },
         {
           title: 'Align edge and border guides',
-          body: 'Drag blue lines to the outer cut edge. Drag pink lines to the inner art border on all four sides. Move every handle once. Corner loupes help on tight margins.',
+          body: 'Drag cream lines to the outer cut edge. Drag red lines to the inner art border on all four sides. Move every handle once. Corner loupes help on tight margins.',
         },
         {
           title: 'Read your centering percentage',
@@ -2027,7 +2027,7 @@ export const en = {
         },
         {
           title: 'Open Adjust image',
-          body: 'Tap Adjust in the bottom center. Correct keystone with zoom, rotate, and H/V tilt. The mini plot shows blue edge and pink border alignment. Dragging guides dismisses the sheet.',
+          body: 'Tap Adjust in the bottom center. Correct keystone with zoom, rotate, and H/V tilt. The mini plot shows cream edge and red border alignment. Dragging guides dismisses the sheet.',
         },
         {
           title: 'Match corner curves',
@@ -2035,7 +2035,7 @@ export const en = {
         },
         {
           title: 'Align guides on the card face',
-          body: 'Blue guides on the cut edge. Pink guides on the inner art border. Toggle Edge, Border, or Both to focus one layer.',
+          body: 'Cream guides on the cut edge. Red guides on the inner art border. Toggle Edge, Border, or Both to focus one layer.',
         },
         {
           title: 'Read the slab verdict',
