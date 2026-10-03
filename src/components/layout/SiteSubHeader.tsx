@@ -104,7 +104,7 @@ export default function SiteSubHeader() {
   return (
     <div
       ref={rootRef}
-      className={`site-subheader workspace-chrome fixed inset-x-0 top-[var(--site-header-height)] z-40 border-b border-border-default bg-surface-panel shadow-[0_1px_0_var(--border-default)] overflow-visible${variantClass}`}
+      className={`site-subheader workspace-chrome${variantClass}`}
       aria-label="Section navigation"
     >
       <SubHeaderBody config={config} />

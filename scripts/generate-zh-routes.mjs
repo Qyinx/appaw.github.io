@@ -34,8 +34,47 @@ for (const r of routes) {
   if (r.redirect) {
     fs.writeFileSync(
       path.join(zhDir, 'page.tsx'),
-      `'use client';\n\nimport { redirect } from 'next/navigation';\n\nexport default function ZhRedirect() {\n  redirect('${r.redirect}');\n}\n`,
+      `import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: { absolute: 'Redirecting… | Appaw Store' },
+  robots: { index: false, follow: true },
+  alternates: { canonical: '${r.redirect}' },
+};
+
+export default function ZhRedirect() {
+  redirect('${r.redirect}');
+}
+`,
     );
+    continue;
+  }
+
+  if (r.slug === 'products/psa-protectors') {
+    fs.writeFileSync(
+      path.join(zhDir, 'layout.tsx'),
+      `import type { ReactNode } from 'react';
+import { PsaProtectorsSeo } from '@/app/products/psa-protectors/PsaProtectorsSeo';
+import { zhPsaProtectorsMetadata } from '@/lib/seo/metadata';
+
+export const metadata = zhPsaProtectorsMetadata;
+
+export default function ZhPsaProtectorLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <>
+      <PsaProtectorsSeo locale="zh" />
+      {children}
+    </>
+  );
+}
+`,
+    );
+    fs.writeFileSync(path.join(zhDir, 'page.tsx'), `export { default } from '${enImport}/page';\n`);
     continue;
   }
 

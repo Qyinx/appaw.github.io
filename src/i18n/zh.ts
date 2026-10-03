@@ -1446,7 +1446,6 @@ export const zh: Translations = {
     tags: {
       authorized: '合作場地',
       main: '合作場地',
-      fullService: '全服務',
       partner: '經銷商',
       official: '官方直營店',
       inStock: '熱銷現貨中',
@@ -1459,7 +1458,7 @@ export const zh: Translations = {
       },
       arena138: {
         name: '138 Arena',
-        description: '合作場地。138 Arena 負責場務及收費；Appaw Store 負責服務及跟進。',
+        description: '',
         location: '銅鑼灣謝斐道522號1/F',
       },
       appawstore: {

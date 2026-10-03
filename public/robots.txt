@@ -1,9 +1,10 @@
 # robots.txt — Appaw Store
-# Last updated: 2026-09-03
+# Last updated: 2026-10-03
 # GEO / LLM context: https://appaw.store/llms.txt
 #
 # `/collection/` landing = Allow. Private app routes = Disallow (EN + /zh).
-# `/collection/p/` public portfolios = crawlable but noindex via page meta.
+# `/collection/p/` public portfolios = crawlable but noindex via page meta (not in sitemap).
+# Legacy `/business/psa-protector/` is crawlable so Cloudflare/Next 301 can pass equity.
 # AI crawlers without their own block follow User-agent: * below.
 
 User-agent: *
@@ -33,10 +34,6 @@ Disallow: /business/card-trading/sell/
 Disallow: /zh/business/card-trading/sell/
 Disallow: /business/card-trading/view/
 Disallow: /zh/business/card-trading/view/
-Disallow: /business/psa-protector/
-Disallow: /zh/business/psa-protector/
-
-Disallow: /_next/
 Disallow: /404
 Disallow: /500
 
@@ -63,8 +60,6 @@ Disallow: /business/card-trading/sell/
 Disallow: /zh/business/card-trading/sell/
 Disallow: /business/card-trading/view/
 Disallow: /zh/business/card-trading/view/
-Disallow: /business/psa-protector/
-Disallow: /zh/business/psa-protector/
 Crawl-delay: 1
 
 Sitemap: https://appaw.store/sitemap.xml

@@ -87,7 +87,8 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 
 - Sitemap: https://appaw.store/sitemap.xml (includes EN + zh-HK alternates)
 - **Public landing:** `/collection/` (indexable marketing page for the collection manager tool)
-- **Do not index:** `/admin/`, `/zh/admin/`, `/api/`, `/collection/list|auth|card|settings/` (+ `/zh/…`), `/collection/p/` (shared portfolios — meta noindex), `/business/card-trading/sell/` (+ `/zh/…`), `/business/card-trading/view/` (SPA shell), `/business/psa-protector/` (legacy redirect), `/style-guide/`
+- **Do not index:** `/admin/`, `/zh/admin/`, `/api/`, `/collection/list|auth|card|settings/` (+ `/zh/…`), `/collection/p/` (shared portfolios — meta noindex, not in sitemap), `/business/card-trading/sell/` (+ `/zh/…`), `/business/card-trading/view/` (SPA shell), `/style-guide/`
+- **Legacy 301:** `/business/psa-protector/` → `/products/psa-protectors/` (+ `/zh/…`). Cloudflare Redirect Rule required on GitHub Pages — see `docs/cloudflare-redirects-psa-protector.md`. Path is crawlable so the 301 can be followed.
 - **Legacy redirects (301 via Cloudflare):** `/guides/regrade-or-reholder/` → `/guides/psa-reholder-guide/` (+ `/zh/…`). See `docs/cloudflare-redirects-regrade.md`.
 - **Language:** EN routes use `lang=en`; `/zh/*` routes use zh-HK UI and metadata. hreflang `en` ↔ `zh-HK` on all public pillar pages.
 

@@ -1,148 +1,59 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import LocalLink from '@/components/LocalLink';
-import HeaderScrambleText, { useHeaderScrambleTrigger } from '@/components/layout/HeaderScrambleText';
 import { useLanguage } from '@/context/LanguageContext';
 import { COMPANY } from '@/lib/company';
-
-function FooterScrambleLink({
-  href,
-  label,
-  segmentIndex,
-  external = false,
-  className = '',
-  target,
-  rel,
-}: {
-  href: string;
-  label: string;
-  segmentIndex: number;
-  external?: boolean;
-  className?: string;
-  target?: string;
-  rel?: string;
-}) {
-  const { scrambleRef, onPointerEnter, onPointerLeave, onFocus, onBlur } = useHeaderScrambleTrigger();
-  const segmentStyle = { '--footer-segment-i': segmentIndex } as React.CSSProperties;
-  const scramble = (
-    <HeaderScrambleText ref={scrambleRef} text={label} className="site-footer__scramble" />
-  );
-  const linkClass = `site-footer__link site-footer__segment${className ? ` ${className}` : ''}`;
-
-  if (external) {
-    return (
-      <a
-        href={href}
-        className={linkClass}
-        style={segmentStyle}
-        target={target}
-        rel={rel}
-        onPointerEnter={onPointerEnter}
-        onPointerLeave={onPointerLeave}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      >
-        {scramble}
-      </a>
-    );
-  }
-
-  return (
-    <LocalLink
-      href={href}
-      className={linkClass}
-      style={segmentStyle}
-      onPointerEnter={onPointerEnter}
-      onPointerLeave={onPointerLeave}
-      onFocus={onFocus}
-      onBlur={onBlur}
-    >
-      {scramble}
-    </LocalLink>
-  );
-}
 
 export default function Footer() {
   const { t } = useLanguage();
   const year = new Date().getFullYear();
-  const footerRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = footerRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.setAttribute('data-visible', '');
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.35 },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   return (
-    <footer ref={footerRef} className="site-footer">
+    <footer className="site-footer">
       <div className="container-custom site-footer__inner">
-        <div className="site-footer__panel panel">
-          <p className="site-footer__line">
-            <span className="site-footer__prompt" aria-hidden="true">
-              &gt;
-            </span>
-            <span className="site-footer__segment" style={{ '--footer-segment-i': 0 } as React.CSSProperties}>
-              <span translate="no">© {year} Appaw Store</span>
-            </span>
-            <span className="site-footer__sep" aria-hidden="true">
-              {' · '}
-            </span>
-            <span className="site-footer__segment" style={{ '--footer-segment-i': 1 } as React.CSSProperties}>
-              {t.footer.locationValue}
-            </span>
-            <span className="site-footer__sep" aria-hidden="true">
-              {' · '}
-            </span>
-            <span className="site-footer__segment" style={{ '--footer-segment-i': 2 } as React.CSSProperties}>
-              <span translate="no">
-                {COMPANY.legalName} · {t.footer.brLabel} {COMPANY.brNumber}
-              </span>
-            </span>
-            <span className="site-footer__sep" aria-hidden="true">
-              {' · '}
-            </span>
-            <FooterScrambleLink
-              href="mailto:support@appaw.store"
-              label="support@appaw.store"
-              segmentIndex={3}
-              external
-            />
-            <span className="site-footer__sep" aria-hidden="true">
-              {' · '}
-            </span>
-            <FooterScrambleLink
-              href="https://wa.me/85292851189"
-              label={t.footer.phoneDisplay}
-              segmentIndex={4}
-              className="font-tabular"
-              external
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-            <span className="site-footer__sep" aria-hidden="true">
-              {' · '}
-            </span>
-            <FooterScrambleLink href="/privacy" label={t.footer.privacy} segmentIndex={5} />
-            <span className="site-footer__sep" aria-hidden="true">
-              {' · '}
-            </span>
-            <FooterScrambleLink href="/terms" label={t.footer.terms} segmentIndex={6} />
-            <span className="site-footer__cursor" aria-hidden="true" />
-          </p>
-        </div>
+        <p className="site-footer__line">
+          <span translate="no">© {year} Appaw Store</span>
+          <span className="site-footer__sep" aria-hidden="true">
+            {' · '}
+          </span>
+          <span>{t.footer.locationValue}</span>
+          <span className="site-footer__sep" aria-hidden="true">
+            {' · '}
+          </span>
+          <span translate="no">
+            {COMPANY.legalName} · {t.footer.brLabel} {COMPANY.brNumber}
+          </span>
+          <span className="site-footer__sep" aria-hidden="true">
+            {' · '}
+          </span>
+          <a href="mailto:support@appaw.store" className="site-footer__link">
+            support@appaw.store
+          </a>
+          <span className="site-footer__sep" aria-hidden="true">
+            {' · '}
+          </span>
+          <a
+            href="https://wa.me/85292851189"
+            className="site-footer__link font-tabular"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t.footer.phoneDisplay}
+          </a>
+          <span className="site-footer__sep" aria-hidden="true">
+            {' · '}
+          </span>
+          <LocalLink href="/privacy" className="site-footer__link">
+            {t.footer.privacy}
+          </LocalLink>
+          <span className="site-footer__sep" aria-hidden="true">
+            {' · '}
+          </span>
+          <LocalLink href="/terms" className="site-footer__link">
+            {t.footer.terms}
+          </LocalLink>
+        </p>
       </div>
     </footer>
   );

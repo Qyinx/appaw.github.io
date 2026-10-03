@@ -97,6 +97,26 @@ const nextConfig = {
         destination: '/zh/guides/psa-reholder-guide/',
         permanent: true,
       },
+      {
+        source: '/business/psa-protector',
+        destination: '/products/psa-protectors/',
+        permanent: true,
+      },
+      {
+        source: '/business/psa-protector/',
+        destination: '/products/psa-protectors/',
+        permanent: true,
+      },
+      {
+        source: '/zh/business/psa-protector',
+        destination: '/zh/products/psa-protectors/',
+        permanent: true,
+      },
+      {
+        source: '/zh/business/psa-protector/',
+        destination: '/zh/products/psa-protectors/',
+        permanent: true,
+      },
     ];
   },
   // Proxy image requests through Next.js in dev to avoid CORS issues.

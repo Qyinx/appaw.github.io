@@ -49,7 +49,7 @@ export function ensureLocalePreference(): LocalePreference {
 }
 
 /**
- * Inline bootstrap: first visit only — detect, persist, redirect EN→ZH if needed.
- * Preferring en never redirects away from an explicit /zh URL.
+ * Inline bootstrap: first visit only — detect and persist.
+ * Does not redirect. Language change is URL-only via the header toggle (hreflang).
  */
-export const LOCALE_BOOTSTRAP_SCRIPT = `(function(){try{var K=${JSON.stringify(LOCALE_STORAGE_KEY)};var p=null;try{p=localStorage.getItem(K)}catch(e){}if(p!=='en'&&p!=='zh'){p='en';try{var langs=(navigator.languages&&navigator.languages.length)?navigator.languages:[navigator.language];for(var i=0;i<langs.length;i++){if(langs[i]&&String(langs[i]).toLowerCase().indexOf('zh')===0){p='zh';break}}}catch(e){p='en'}try{localStorage.setItem(K,p)}catch(e){}}else{return}var path=location.pathname||'/';var isZh=path==='/zh'||path==='/zh/'||path.indexOf('/zh/')===0;if(p==='zh'&&!isZh){var clean=path.replace(/\\/$/,'')||'/';var target=clean==='/'?'/zh/':'/zh'+clean+'/';location.replace(target+(location.search||'')+(location.hash||''))}}catch(e){}})();`;
+export const LOCALE_BOOTSTRAP_SCRIPT = `(function(){try{var K=${JSON.stringify(LOCALE_STORAGE_KEY)};var p=null;try{p=localStorage.getItem(K)}catch(e){}if(p==='en'||p==='zh')return;p='en';try{var langs=(navigator.languages&&navigator.languages.length)?navigator.languages:[navigator.language];for(var i=0;i<langs.length;i++){if(langs[i]&&String(langs[i]).toLowerCase().indexOf('zh')===0){p='zh';break}}}catch(e){}try{localStorage.setItem(K,p)}catch(e){}}catch(e){}})();`;

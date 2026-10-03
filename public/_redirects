@@ -29,6 +29,14 @@
 /zh/guides/regrade-or-reholder  /zh/guides/psa-reholder-guide/  301
 /zh/guides/regrade-or-reholder/  /zh/guides/psa-reholder-guide/  301
 
+# Legacy product URL → current product pillar.
+# GitHub Pages ignores this file — production 301s must be Cloudflare Redirect Rules
+# (see docs/cloudflare-redirects-psa-protector.md).
+/business/psa-protector  /products/psa-protectors/  301
+/business/psa-protector/  /products/psa-protectors/  301
+/zh/business/psa-protector  /zh/products/psa-protectors/  301
+/zh/business/psa-protector/  /zh/products/psa-protectors/  301
+
 # Removed: marketplace admin console → collection
 /admin/trade-cards/  /collection/list/  302
 /admin/trade-cards  /collection/list/  302

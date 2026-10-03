@@ -1,2 +1,18 @@
-export { default } from '../../../products/psa-protectors/layout';
-export { zhPsaProtectorsMetadata as metadata } from '@/lib/seo/metadata';
+import type { ReactNode } from 'react';
+import { PsaProtectorsSeo } from '@/app/products/psa-protectors/PsaProtectorsSeo';
+import { zhPsaProtectorsMetadata } from '@/lib/seo/metadata';
+
+export const metadata = zhPsaProtectorsMetadata;
+
+export default function ZhPsaProtectorLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <>
+      <PsaProtectorsSeo locale="zh" />
+      {children}
+    </>
+  );
+}

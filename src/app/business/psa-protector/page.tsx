@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: { absolute: 'Redirecting… | Appaw Store' },
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: true },
   alternates: { canonical: '/products/psa-protectors/' },
 };
 

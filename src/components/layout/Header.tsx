@@ -9,7 +9,6 @@ import { writeLocalePreference } from '@/lib/locale-preference';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
-import HeaderScrambleText, { useHeaderScrambleTrigger } from '@/components/layout/HeaderScrambleText';
 
 type UserProfile = {
   id?: string;
@@ -18,69 +17,6 @@ type UserProfile = {
 };
 
 let cachedProfile: UserProfile | null = null;
-
-function HeaderChrome({
-  children,
-  showCursor = true,
-  accent = 'brand',
-}: {
-  children: React.ReactNode;
-  showCursor?: boolean;
-  accent?: 'brand' | 'warn';
-}) {
-  return (
-    <>
-      <span className="header-chrome__content header-chrome__label">
-        {children}
-        {showCursor ? <span className="header-chrome__cursor" aria-hidden="true" /> : null}
-      </span>
-      <span
-        className={`header-chrome__fill${accent === 'warn' ? ' header-chrome__fill--warn' : ''}`}
-        aria-hidden="true"
-      />
-    </>
-  );
-}
-
-function HeaderScrambleLink({
-  href,
-  label,
-  className = '',
-  uppercase,
-  accent = 'brand',
-  children,
-  onClick,
-  ...rest
-}: {
-  href: string;
-  label: string;
-  className?: string;
-  uppercase: boolean;
-  accent?: 'brand' | 'warn';
-  children?: React.ReactNode;
-  onClick?: () => void;
-} & Omit<React.ComponentProps<typeof LocalLink>, 'href' | 'children' | 'className' | 'onClick'>) {
-  const { scrambleRef, onPointerEnter, onPointerLeave, onFocus, onBlur } = useHeaderScrambleTrigger();
-
-  return (
-    <LocalLink
-      href={href}
-      className={`header-chrome ${className}`}
-      aria-label={label}
-      onPointerEnter={onPointerEnter}
-      onPointerLeave={onPointerLeave}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      onClick={onClick}
-      {...rest}
-    >
-      <HeaderChrome accent={accent}>
-        <HeaderScrambleText ref={scrambleRef} text={label} uppercase={uppercase} />
-      </HeaderChrome>
-      {children}
-    </LocalLink>
-  );
-}
 
 function HeaderLanguageToggle({
   language,
@@ -234,7 +170,7 @@ function getProfileFromLocalStorage(): UserProfile | null {
 }
 
 const linkBase =
-  'header-chrome relative px-3 py-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-150';
+  'relative px-3 py-2 text-[15px] font-semibold text-text-secondary hover:text-text-primary underline-offset-4 hover:underline';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -318,12 +254,15 @@ export default function Header() {
       : pathWithoutLocale === href || pathWithoutLocale.startsWith(href + '/');
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border-default bg-surface-panel">
+    <header
+      className="site-header"
+      data-chrome="sheet"
+    >
       <div className="max-w-7xl mx-auto px-[var(--space-page-x)]">
-        <div className="flex items-center justify-between gap-3 min-w-0 h-[var(--site-header-height)]">
+        <div className="flex items-center justify-between gap-2 min-w-0 h-[var(--site-header-height)]">
 
-          <LocalLink href="/" className="flex shrink-0 items-center gap-3 group">
-            <div className="w-9 h-9 shrink-0 overflow-hidden border border-border-strong group-hover:border-accent-brand transition-colors duration-150">
+          <LocalLink href="/" className="flex shrink-0 items-center gap-2 sm:gap-3 group min-w-0">
+            <div className="w-9 h-9 shrink-0 overflow-hidden border-2 border-border-strong">
               <Image
                 src={getImagePath('/images/logo.png')}
                 alt="Appaw Store Logo"
@@ -332,12 +271,12 @@ export default function Header() {
                 className="h-full w-full object-cover"
               />
             </div>
-            <span className="font-display font-bold text-sm tracking-wide whitespace-nowrap text-text-primary group-hover:text-accent-brand transition-colors duration-150">
+            <span className="hidden sm:inline font-serif italic text-[16px] sm:text-[17px] font-medium tracking-normal whitespace-nowrap text-text-primary">
               Appaw Store
             </span>
           </LocalLink>
 
-          <nav className="hidden lg:flex items-center gap-0.5 min-w-0" aria-label="Main">
+          <nav className="hidden lg:flex items-center justify-center gap-0 min-w-0 flex-1 overflow-visible" aria-label="Main">
             {navLinks.map((link) => {
               const isActive = isActivePath(link.href);
               if (link.children) {
@@ -354,35 +293,34 @@ export default function Header() {
                       }
                     }}
                   >
-                    <HeaderScrambleLink
+                    <LocalLink
                       href={link.href}
-                      label={link.label}
-                      uppercase={language === 'en'}
-                      className={`${linkBase} flex items-center gap-1 ${isActive ? 'text-accent-brand' : ''}`}
+                      className={`${linkBase} flex items-center gap-1 ${isActive ? 'text-text-primary underline' : ''}`}
                       aria-expanded={isBusinessOpen}
                       aria-haspopup="true"
                     >
+                      {link.label}
                       <ChevronDown
-                        className="w-3.5 h-3.5 shrink-0 transition-transform duration-150"
+                        className="w-3.5 h-3.5 shrink-0"
                         style={{ transform: isBusinessOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
                         aria-hidden="true"
                       />
-                    </HeaderScrambleLink>
+                    </LocalLink>
                     <div
-                      className={`absolute top-full left-0 pt-1 transition-opacity duration-150 ${isBusinessOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+                      className={`absolute top-full left-0 z-[60] pt-1 ${isBusinessOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
                     >
-                      <div className="min-w-[200px] panel py-1 border border-border-strong">
+                      <div className="min-w-[220px] panel border-2 border-border-strong bg-surface-panel py-1 shadow-[var(--shadow-press)]">
                         {link.children.map((child) => {
                           const isChildActive = isActivePath(child.href);
                           return (
-                            <HeaderScrambleLink
+                            <LocalLink
                               key={child.href}
                               href={child.href}
-                              label={child.label}
-                              uppercase={language === 'en'}
-                              className={`relative block px-4 py-2.5 text-sm text-text-secondary ${isChildActive ? 'text-accent-brand' : ''}`}
+                              className={`relative block px-4 py-2.5 text-[15px] font-semibold text-text-secondary hover:bg-surface-raised hover:text-text-primary ${isChildActive ? 'text-text-primary' : ''}`}
                               onClick={() => setIsBusinessOpen(false)}
-                            />
+                            >
+                              {child.label}
+                            </LocalLink>
                           );
                         })}
                       </div>
@@ -391,62 +329,47 @@ export default function Header() {
                 );
               }
 
-              if ('highlight' in link && link.highlight) {
-                return (
-                  <HeaderScrambleLink
-                    key={link.href}
-                    href={link.href}
-                    label={link.label}
-                    uppercase={language === 'en'}
-                    accent="warn"
-                    className={`header-chrome--tool relative ml-2 px-3 py-1.5 text-xs border transition-colors duration-150 ${
-                      isActive
-                        ? 'bg-accent-warn text-surface-bg border-accent-warn'
-                        : 'border-accent-warn/50 text-accent-warn hover:bg-accent-warn/10'
-                    }`}
-                  />
-                );
-              }
-
               return (
-                <HeaderScrambleLink
+                <LocalLink
                   key={link.href}
                   href={link.href}
-                  label={link.label}
-                  uppercase={language === 'en'}
-                  className={`${linkBase} ${isActive ? 'text-accent-brand' : ''}`}
+                  className={`${linkBase} ${isActive ? 'text-text-primary underline' : ''}`}
                 >
-                  {isActive && (
-                    <span className="absolute bottom-0 left-3 right-3 h-px bg-accent-brand z-[2]" aria-hidden="true" />
-                  )}
-                </HeaderScrambleLink>
+                  {link.label}
+                </LocalLink>
               );
             })}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-2">
-            <HeaderLanguageToggle
-              language={language}
-              groupLabel={t.nav.language}
-              onSelect={selectLanguage}
-            />
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+            <div className="hidden lg:block">
+              <HeaderLanguageToggle
+                language={language}
+                groupLabel={t.nav.language}
+                onSelect={selectLanguage}
+              />
+            </div>
+            <LocalLink
+              href="/products/psa-protectors"
+              className="btn btn-primary header-bar-cta"
+            >
+              {t.home.hero.cta}
+            </LocalLink>
 
             <button
               ref={menuToggleRef}
               type="button"
-              className="header-chrome lg:hidden relative min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors duration-150"
+              className="lg:hidden relative min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border-2 border-border-strong text-text-primary"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
               aria-controls="site-mobile-nav"
             >
-              <HeaderChrome showCursor={false}>
-                {isMenuOpen ? (
-                  <X className="w-4 h-4" aria-hidden="true" />
-                ) : (
-                  <Menu className="w-4 h-4" aria-hidden="true" />
-                )}
-              </HeaderChrome>
+              {isMenuOpen ? (
+                <X className="w-4 h-4" aria-hidden="true" />
+              ) : (
+                <Menu className="w-4 h-4" aria-hidden="true" />
+              )}
             </button>
           </div>
         </div>
@@ -459,14 +382,20 @@ export default function Header() {
               : 'max-h-0 opacity-0 overflow-hidden'
           }`}
         >
-          <div className="py-4 border-t border-border-default pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
+          <div className="py-4 border-t-2 border-border-strong pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
             {profile && (
               <div className="px-4 py-3 mb-2 flex items-center gap-2 panel-raised">
-                <span className="w-1.5 h-1.5 bg-accent-brand" aria-hidden="true" />
-                <span className="text-text-secondary text-sm font-medium">{profile.name}</span>
+                <span className="text-text-secondary text-[15px] font-medium">{profile.name}</span>
               </div>
             )}
             <nav className="flex flex-col" aria-label="Mobile">
+              <div className="px-4 py-3">
+                <HeaderLanguageToggle
+                  language={language}
+                  groupLabel={t.nav.language}
+                  onSelect={selectLanguage}
+                />
+              </div>
               {navLinks.map((link) => {
                 const isActive = isActivePath(link.href);
                 if (link.children) {
@@ -474,23 +403,21 @@ export default function Header() {
                     <div key={link.href}>
                       <button
                         type="button"
-                        className={`header-chrome relative w-full text-left px-4 py-3 text-sm font-medium min-h-11 ${isActive ? 'text-accent-brand' : 'text-text-secondary'}`}
+                        className={`relative w-full text-left px-4 py-3 text-[15px] font-semibold min-h-11 ${isActive ? 'text-text-primary' : 'text-text-secondary'}`}
                         onClick={() => setIsMobileBusinessOpen(!isMobileBusinessOpen)}
                         aria-expanded={isMobileBusinessOpen}
                       >
-                        <HeaderChrome>
-                          <span className="flex w-full items-center justify-between gap-2">
-                            {link.label}
-                            <ChevronDown
-                              className="w-4 h-4 shrink-0 transition-transform duration-150"
-                              style={{ transform: isMobileBusinessOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </HeaderChrome>
+                        <span className="flex w-full items-center justify-between gap-2">
+                          {link.label}
+                          <ChevronDown
+                            className="w-4 h-4 shrink-0"
+                            style={{ transform: isMobileBusinessOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                            aria-hidden="true"
+                          />
+                        </span>
                       </button>
                       <div
-                        className={`overflow-hidden transition-[max-height,opacity] duration-200 ${
+                        className={`overflow-hidden ${
                           isMobileBusinessOpen
                             ? 'max-h-[min(50dvh,20rem)] opacity-100 overflow-y-auto'
                             : 'max-h-0 opacity-0'
@@ -502,10 +429,10 @@ export default function Header() {
                             <LocalLink
                               key={child.href}
                               href={child.href}
-                              className={`header-chrome relative block pl-8 pr-4 py-3 text-sm min-h-11 ${isChildActive ? 'text-accent-brand' : 'text-text-secondary'}`}
+                              className={`relative block pl-8 pr-4 py-3 text-[15px] min-h-11 ${isChildActive ? 'text-text-primary font-semibold' : 'text-text-secondary'}`}
                               onClick={() => setIsMenuOpen(false)}
                             >
-                              <HeaderChrome>{child.label}</HeaderChrome>
+                              {child.label}
                             </LocalLink>
                           );
                         })}
@@ -517,10 +444,10 @@ export default function Header() {
                   <LocalLink
                     key={link.href}
                     href={link.href}
-                    className={`header-chrome relative block px-4 py-3 text-sm font-medium min-h-11 ${isActive ? 'text-accent-brand' : 'text-text-secondary'}`}
+                    className={`relative block px-4 py-3 text-[15px] font-semibold min-h-11 ${isActive ? 'text-text-primary' : 'text-text-secondary'}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <HeaderChrome>{link.label}</HeaderChrome>
+                    {link.label}
                   </LocalLink>
                 );
               })}

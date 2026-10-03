@@ -99,9 +99,6 @@ export default function RetailPartners() {
                     <Store className="w-3 h-3" />
                     {t.retailPartners?.tags?.main ?? t.retailPartners?.tags?.authorized ?? 'Main location'}
                   </span>
-                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted">
-                    {t.retailPartners?.tags?.fullService ?? 'Full service'}
-                  </span>
                 </div>
                 <h3 className="text-2xl md:text-4xl font-bold text-text-primary mb-2 font-display">
                   {arena.name}

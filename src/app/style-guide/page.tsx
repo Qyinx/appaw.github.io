@@ -3,28 +3,20 @@
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import Button from '@/components/ui/Button';
-import HeroStamp from '@/components/ui/HeroStamp';
-import ScrollChapter from '@/components/motion/ScrollChapter';
-import ChapterNav from '@/components/motion/ChapterNav';
-import QuoteCarousel from '@/components/motion/QuoteCarousel';
-import PsaGradingWorkflowTimeline from '@/app/business/psa-grading/components/PsaGradingWorkflowTimeline';
 import { MemberBadge, MEMBER_LEVELS, type MemberLevel } from '@/app/collection/components/shared';
 import { ArrowRight, Sun, Moon } from 'lucide-react';
 
 const semanticTokens = [
-  { name: 'surface-bg', var: '--surface-bg', use: 'Page canvas' },
+  { name: 'surface-frame', var: '--surface-frame', use: 'Coral viewport frame' },
+  { name: 'surface-bg', var: '--surface-bg', use: 'Sheet canvas' },
   { name: 'surface-panel', var: '--surface-panel', use: 'Cards, panels' },
   { name: 'surface-raised', var: '--surface-raised', use: 'Nested panels, inputs' },
-  { name: 'border-default', var: '--border-default', use: 'Panel edges' },
-  { name: 'border-strong', var: '--border-strong', use: 'Emphasis borders' },
+  { name: 'border-strong', var: '--border-strong', use: '2px ink edges' },
   { name: 'text-primary', var: '--text-primary', use: 'Body text' },
   { name: 'text-secondary', var: '--text-secondary', use: 'Labels, hints' },
-  { name: 'accent-primary', var: '--accent-primary', use: 'Rails, active, tints' },
+  { name: 'accent-primary', var: '--accent-primary', use: 'Coral action' },
   { name: 'accent-cta', var: '--accent-cta', use: 'Solid primary buttons' },
-  { name: 'accent-cta-ink', var: '--accent-cta-ink', use: 'Ink on solid CTAs' },
-  { name: 'accent-secondary', var: '--accent-secondary', use: 'Links, focus' },
-  { name: 'accent-structural', var: '--accent-structural', use: 'Brutalist chrome fills' },
-  { name: 'accent-warn', var: '--accent-warn', use: 'Tool highlights' },
+  { name: 'accent-mark', var: '--accent-mark', use: 'Display circles only' },
   { name: 'accent-success', var: '--accent-success', use: 'Pass states' },
   { name: 'accent-danger', var: '--accent-danger', use: 'Errors' },
 ];
@@ -37,26 +29,26 @@ export default function StyleGuidePage() {
     document.documentElement.classList.toggle('dark', theme === 'dark');
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
-      meta.setAttribute('content', theme === 'dark' ? '#0B0C0D' : '#FBFAF6');
+      meta.setAttribute('content', theme === 'dark' ? '#121212' : '#F3EBDA');
     }
     return () => {
       document.documentElement.classList.remove('dark');
-      if (meta) meta.setAttribute('content', '#FBFAF6');
+      if (meta) meta.setAttribute('content', '#F3EBDA');
     };
   }, [theme]);
 
   return (
     <div className="bg-surface-bg">
-      <section className="section-padding border-b border-border-default">
+      <section className="section-padding border-b-2 border-border-strong">
         <div className="container-custom">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 mb-10">
             <div>
-              <p className="section-label mb-4">Design System</p>
-              <h1 className="text-3xl md:text-4xl font-display font-bold text-text-primary mb-3">
+              <p className="home-hero-kicker">Design system</p>
+              <h1 className="text-3xl md:text-4xl font-display font-extrabold text-text-primary mb-3">
                 {t.styleGuide?.title ?? 'Style Guide'}
               </h1>
-              <p className="text-text-secondary max-w-xl">
-                {t.styleGuide?.subtitle ?? 'Neo-brutalist engineering UI for Appaw Store — Hermes-inspired structure with blush, indigo, and gold brand tokens.'}
+              <p className="text-text-secondary max-w-[65ch] text-[17px] leading-relaxed">
+                Soft neubrutalism: cream sheet, coral frame, 2px ink, calm Inter body, Syne display.
               </p>
             </div>
             <button
@@ -66,191 +58,132 @@ export default function StyleGuidePage() {
               aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
             >
               {theme === 'light' ? <Moon className="w-4 h-4" aria-hidden="true" /> : <Sun className="w-4 h-4" aria-hidden="true" />}
-              {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+              {theme === 'light' ? 'Dark mode' : 'Light mode'}
             </button>
-          </div>
-
-          <HeroStamp className="mb-8" />
-
-          <div className="terminal-block max-w-2xl">
-            <div><span className="prompt">&gt; </span>appaw design-system --version 2026.06</div>
-            <div><span className="prompt">&gt; </span>tokens loaded: semantic + brand scales</div>
-            <div>
-              <span className="prompt">&gt; </span>theme: {theme}
-              <span className="cursor" aria-hidden="true" />
-            </div>
           </div>
         </div>
       </section>
 
-      <section className="section-padding border-b border-border-default">
+      <section className="section-padding border-b-2 border-border-strong">
         <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-8">{t.styleGuide?.sections?.colors ?? 'Colors'}</h2>
+          <h2 className="text-2xl font-display font-extrabold mb-8">{t.styleGuide?.sections?.colors ?? 'Colors'}</h2>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
             {semanticTokens.map((token) => (
               <div key={token.name} className="panel p-4">
                 <div
-                  className="h-12 border border-border-default mb-3"
+                  className="h-12 border-2 border-border-strong mb-3"
                   style={{ background: `var(${token.var})` }}
                 />
-                <p className="font-mono text-xs text-text-muted">{token.var}</p>
-                <p className="text-sm font-medium text-text-primary mt-1">{token.name}</p>
-                <p className="text-xs text-text-secondary mt-0.5">{token.use}</p>
-              </div>
-            ))}
-          </div>
-
-          <h3 className="text-lg font-display font-semibold mb-4">Brand Scales</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {(['primary', 'secondary', 'accent'] as const).map((scale) => (
-              <div key={scale} className="panel p-4">
-                <p className="font-mono text-xs uppercase tracking-wider text-text-muted mb-3">{scale}</p>
-                <div className="flex flex-col gap-1">
-                  {[50, 200, 400, 500, 600, 800].map((step) => (
-                    <div key={step} className="flex items-center gap-2">
-                      <div className={`w-8 h-6 bg-${scale}-${step} border border-border-default`} style={{ background: `var(--color-${scale}-${step})` }} />
-                      <span className="font-mono text-xs text-text-muted">{step}</span>
-                    </div>
-                  ))}
-                </div>
+                <p className="font-mono text-sm text-text-muted">{token.var}</p>
+                <p className="text-[15px] font-semibold text-text-primary mt-1">{token.name}</p>
+                <p className="text-sm text-text-secondary mt-0.5">{token.use}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-padding border-b border-border-default bg-surface-panel">
+      <section className="section-padding border-b-2 border-border-strong bg-surface-panel">
         <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-8">{t.styleGuide?.sections?.typography ?? 'Typography'}</h2>
+          <h2 className="text-2xl font-display font-extrabold mb-8">{t.styleGuide?.sections?.typography ?? 'Typography'}</h2>
 
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="panel p-6">
-              <p className="font-mono text-xs text-text-muted mb-2">font-display · Syne</p>
-              <p className="font-display text-3xl font-bold text-text-primary">Precision Hardware</p>
+              <p className="text-sm text-text-muted mb-2">Display · Syne 800</p>
+              <p className="font-display text-3xl font-extrabold text-text-primary tracking-tight">Precision hardware</p>
             </div>
             <div className="panel p-6">
-              <p className="font-mono text-xs text-text-muted mb-2">font-sans · IBM Plex Sans</p>
-              <p className="font-sans text-lg text-text-secondary">Graded slab protectors and engineering-grade centering tools.</p>
+              <p className="text-sm text-text-muted mb-2">Kicker · Newsreader italic</p>
+              <p className="font-serif italic text-xl text-text-primary">One kicker per view</p>
             </div>
             <div className="panel p-6">
-              <p className="font-mono text-xs text-text-muted mb-2">font-mono · IBM Plex Mono</p>
-              <p className="font-mono text-sm text-accent-warn font-tabular">L/R 52.3% · T/B 48.1% · PSA 10</p>
-            </div>
-            <div className="panel p-6 lg:col-span-2">
-              <p className="font-mono text-xs text-text-muted mb-4">Hero stamp (responsive)</p>
-              <p className="text-sm text-text-secondary mb-4 max-w-xl">
-                Replaces fixed-width ASCII box art. Scales 320px–1440px without overflow or ch-based clipping.
-                Use <code className="font-mono text-xs">HeroStamp</code> with decorative English lines or pass custom lines for i18n.
+              <p className="text-sm text-text-muted mb-2">Body · Inter 17px</p>
+              <p className="font-sans text-[17px] leading-relaxed text-text-secondary">
+                Graded slab protectors and centering tools. Sentence case. Max 65ch.
               </p>
-              <HeroStamp />
             </div>
             <div className="panel p-6">
-              <p className="font-mono text-xs text-text-muted mb-2">font-serif · Playfair Display</p>
-              <p className="font-serif text-xl text-text-primary">Product storytelling — sparse use only.</p>
+              <p className="text-sm text-text-muted mb-2">Mono · measurements</p>
+              <p className="font-mono text-base text-text-primary font-tabular">L/R 52.3% · T/B 48.1% · PSA 10</p>
             </div>
           </div>
 
           <div className="mt-8 space-y-4">
-            <h1 className="text-4xl font-display font-bold">Heading One</h1>
-            <h2 className="text-2xl font-display font-semibold">Heading Two</h2>
-            <h3 className="text-xl font-display font-semibold">Heading Three</h3>
-            <p className="text-base text-text-secondary">Body copy at 16px with 1.6 line-height. Use … not three dots.</p>
-            <p className="text-xs text-text-muted">Minimum size — text-xs (12px)</p>
+            <p className="text-4xl font-display font-extrabold">Heading one</p>
+            <p className="text-2xl font-display font-bold">Heading two</p>
+            <p className="text-xl font-display font-bold">Heading three</p>
+            <p className="text-[17px] leading-relaxed text-text-secondary max-w-[65ch]">
+              Body copy at 17px with 1.65 line-height. Use … not three dots.
+            </p>
+            <p className="text-sm text-text-muted">Type floor 14px for anything a person must read or tap.</p>
           </div>
         </div>
       </section>
 
-      <section className="section-padding border-b border-border-default">
+      <section className="section-padding border-b-2 border-border-strong">
         <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-2">{t.styleGuide?.sections?.buttons ?? 'Buttons'}</h2>
-          <p className="text-text-secondary text-sm mb-8 max-w-2xl">
-            Neo-brutalist pill controls — monospace uppercase, 44px min height, square corners. Segmented groups use <code className="font-mono text-xs">collection-filter-pills</code>; standalone actions use <code className="font-mono text-xs">btn</code> or <code className="font-mono text-xs">collection-action-pill</code>.
+          <h2 className="text-2xl font-display font-extrabold mb-2">{t.styleGuide?.sections?.buttons ?? 'Buttons'}</h2>
+          <p className="text-text-secondary text-[15px] mb-8 max-w-[65ch]">
+            Sentence case, 15px, 44px min height, 2px ink. Primary gets a press shadow. Secondary is outline only.
           </p>
 
-          <p className="section-label mb-3">Segmented filter group</p>
-          <div className="collection-filter-pills w-fit mb-8" role="group" aria-label="Filter demo">
-            <button type="button" className="collection-filter-pill" aria-pressed="true">All</button>
-            <button type="button" className="collection-filter-pill" aria-pressed="false">Active</button>
-            <button type="button" className="collection-filter-pill" aria-pressed="false">Sold</button>
-          </div>
-
-          <p className="section-label mb-3">Standalone variants</p>
           <div className="flex flex-wrap gap-4 mb-8">
-            <Button variant="primary">Shop Protectors</Button>
-            <Button variant="secondary">View Specs</Button>
+            <Button variant="primary">Shop now</Button>
+            <Button variant="secondary">View specs</Button>
             <Button variant="ghost">Cancel</Button>
-            <Button variant="destructive">Delete Collection</Button>
+            <Button variant="destructive">Delete collection</Button>
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <Button size="sm">Small</Button>
             <Button size="md">Medium</Button>
             <Button size="lg">Large</Button>
             <Button>
-              With Icon
+              With icon
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Button>
           </div>
         </div>
       </section>
 
-      <section className="section-padding border-b border-border-default bg-surface-panel">
+      <section className="section-padding border-b-2 border-border-strong bg-surface-panel">
         <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-2">{t.styleGuide?.sections?.membership ?? 'Membership Badges'}</h2>
-          <p className="text-text-secondary text-sm mb-8 max-w-2xl">
+          <h2 className="text-2xl font-display font-extrabold mb-2">{t.styleGuide?.sections?.membership ?? 'Membership Badges'}</h2>
+          <p className="text-text-secondary text-[15px] mb-8 max-w-[65ch]">
             {t.styleGuide?.membership?.subtitle ?? 'Tier labels for collector workspace chrome.'}
           </p>
 
-          <div className="grid lg:grid-cols-3 gap-4 mb-8">
+          <div className="grid lg:grid-cols-3 gap-4">
             {MEMBER_LEVELS.map((level) => (
               <div key={level} className="panel p-5 flex flex-col gap-4">
                 <MemberBadge level={level} />
-                <p className="text-sm text-text-secondary leading-relaxed">
+                <p className="text-[15px] text-text-secondary leading-relaxed">
                   {t.styleGuide?.membership?.tiers?.[level as MemberLevel] ?? level}
                 </p>
               </div>
             ))}
           </div>
-
-          <div className="panel p-5">
-            <p className="section-label mb-4">In context</p>
-            <p className="text-xs text-text-muted mb-4 max-w-xl">
-              Hover badges on desktop for tier feedback (shimmer, brighten). Touch and reduced-motion users get static chips.
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              {MEMBER_LEVELS.map((level) => (
-                <div
-                  key={level}
-                  className="flex items-center gap-2 px-3 py-2 border border-border-default bg-surface-raised min-h-11"
-                >
-                  <span className="text-sm text-text-primary font-medium">Collector</span>
-                  <MemberBadge level={level} />
-                </div>
-              ))}
-            </div>
-            <p className="text-xs text-text-muted mt-4 font-mono">
-              {t.styleGuide?.membership?.usage ?? 'Workspace topbar, account dropdown, and collection settings.'}
-            </p>
-          </div>
         </div>
       </section>
 
-      <section className="section-padding border-b border-border-default">
+      <section className="section-padding border-b-2 border-border-strong">
         <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-8">Panels &amp; Spec Rows</h2>
+          <h2 className="text-2xl font-display font-extrabold mb-8">Panels and spec rows</h2>
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="panel p-6">
-              <p className="section-label mb-4">Panel</p>
-              <p className="text-sm text-text-secondary">Neo-brutalist panel with 1px border. Shadow on dark surfaces only.</p>
+              <p className="text-[15px] font-semibold mb-4">Panel</p>
+              <p className="text-[15px] text-text-secondary leading-relaxed">
+                2px ink border, radius 0, no blur shadow.
+              </p>
             </div>
             <div className="panel p-6">
-              <p className="section-label mb-4">Spec Sheet</p>
+              <p className="text-[15px] font-semibold mb-4">Spec sheet</p>
               <div className="spec-row">
-                <span className="spec-row__label">35PT Compatibility</span>
-                <span className="spec-row__value">PSA ✓</span>
+                <span className="spec-row__label">35PT compatibility</span>
+                <span className="spec-row__value">PSA</span>
               </div>
               <div className="spec-row">
-                <span className="spec-row__label">UV Protection</span>
+                <span className="spec-row__label">UV protection</span>
                 <span className="spec-row__value">&gt;95%</span>
               </div>
               <div className="spec-row">
@@ -262,12 +195,12 @@ export default function StyleGuidePage() {
         </div>
       </section>
 
-      <section className="section-padding border-b border-border-default">
+      <section className="section-padding border-b-2 border-border-strong">
         <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-8">Forms</h2>
+          <h2 className="text-2xl font-display font-extrabold mb-8">Forms</h2>
           <form className="panel p-6 max-w-md space-y-4" onSubmit={(e) => e.preventDefault()}>
             <div>
-              <label htmlFor="sg-email" className="block text-sm font-medium text-text-primary mb-1.5">
+              <label htmlFor="sg-email" className="block text-[15px] font-semibold text-text-primary mb-1.5">
                 Email
               </label>
               <input
@@ -277,11 +210,11 @@ export default function StyleGuidePage() {
                 autoComplete="email"
                 spellCheck={false}
                 placeholder="you@example.com…"
-                className="w-full px-3 py-2 bg-surface-raised border border-border-default text-text-primary text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-link"
+                className="w-full px-3 py-2 min-h-11 bg-surface-raised border-2 border-border-strong text-text-primary text-base"
               />
             </div>
             <div>
-              <label htmlFor="sg-sku" className="block text-sm font-medium text-text-primary mb-1.5">
+              <label htmlFor="sg-sku" className="block text-[15px] font-semibold text-text-primary mb-1.5">
                 SKU
               </label>
               <input
@@ -290,166 +223,32 @@ export default function StyleGuidePage() {
                 type="text"
                 spellCheck={false}
                 placeholder="PSA-MAG-35…"
-                className="w-full px-3 py-2 bg-surface-raised border border-border-default text-text-primary font-mono text-sm focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg"
+                className="w-full px-3 py-2 min-h-11 bg-surface-raised border-2 border-border-strong text-text-primary font-mono text-base"
               />
             </div>
-            <div>
-              <label htmlFor="sg-grade" className="block text-sm font-medium text-text-primary mb-1.5">
-                Grade
-              </label>
-              <select
-                id="sg-grade"
-                name="grade"
-                autoComplete="off"
-                className="w-full px-3 py-2 border border-border-default text-sm focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-surface-bg"
-                defaultValue=""
-              >
-                <option value="" disabled>Select grade…</option>
-                <option value="10">PSA 10</option>
-                <option value="9">PSA 9</option>
-              </select>
-            </div>
-            <Button type="submit">Save Settings</Button>
+            <Button type="submit">Save settings</Button>
           </form>
-        </div>
-      </section>
-
-      <section className="section-padding border-b border-border-default bg-surface-panel">
-        <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-2">Scroll Chapters</h2>
-          <p className="text-text-secondary text-sm mb-8 max-w-2xl">
-            Editorial marketing tier — AngelList-inspired chapter labels, sticky nav, quote carousel.
-            Scrub pin is demo-only on PSA hub; patterns below are static previews.
-          </p>
-
-          <div className="chapter-nav-shell mb-8">
-            <ChapterNav
-              items={[
-                { id: 'sg-chapter-a', label: 'Pricing' },
-                { id: 'sg-chapter-b', label: 'How it works' },
-                { id: 'sg-chapter-c', label: 'FAQ' },
-              ]}
-              ariaLabel="Style guide chapter demo"
-            />
-          </div>
-
-          <div className="space-y-0 border border-border-default">
-            <ScrollChapter id="sg-chapter-a" part="01" title="PSA service tiers" compact className="!border-t-0">
-              <div className="panel p-5">
-                <div className="spec-row px-0">
-                  <span className="spec-row__label">Priority</span>
-                  <span className="spec-row__value">HKD 350</span>
-                </div>
-                <div className="spec-row px-0">
-                  <span className="spec-row__label">Express</span>
-                  <span className="spec-row__value">HKD 550</span>
-                </div>
-              </div>
-            </ScrollChapter>
-
-            <ScrollChapter id="sg-chapter-b" part="02" title="From drop-off to slab" compact>
-              <PsaGradingWorkflowTimeline copy={t.psaGradingPage.howTo} />
-            </ScrollChapter>
-
-            <ScrollChapter id="sg-chapter-c" part="03" title="Common questions" compact className="!min-h-0">
-              <QuoteCarousel
-                items={[
-                  { body: 'Face-to-face only at 138 Arena.', attribution: '138 Arena team' },
-                  { body: 'Phone + reference code required to track.', attribution: 'PSA submission service' },
-                ]}
-              />
-            </ScrollChapter>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-padding border-b border-border-default bg-surface-panel">
-        <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-8">Layout Patterns</h2>
-          <div className="grid lg:grid-cols-2 gap-6">
-            <div className="panel p-0 overflow-hidden">
-              <div className="border-b border-border-default px-4 py-2 bg-surface-raised flex justify-between">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-text-muted">Hero · φ 0.382 / 0.618</span>
-                <span className="font-mono text-[10px] text-accent-warn">Product-led</span>
-              </div>
-              <div className="p-4 grid grid-cols-[minmax(0,1fr)_minmax(0,1.618fr)] gap-4">
-                <div>
-                  <p className="section-label mb-2">Copy · 0.382</p>
-                  <p className="font-display font-bold text-lg">Asymmetric headline</p>
-                  <p className="text-sm text-text-secondary mt-2">Masthead + CTA dock</p>
-                </div>
-                <div className="panel-raised p-3 flex flex-col justify-center">
-                  <p className="section-label mb-2">Specimen · 0.618</p>
-                  <div className="spec-row py-2">
-                    <span className="spec-row__label">Split</span>
-                    <span className="spec-row__value">1fr / 1.618fr</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="panel p-0 overflow-hidden">
-              <div className="border-b border-border-default px-4 py-2 bg-surface-raised">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-text-muted">Section · alternating bands</span>
-              </div>
-              <div className="divide-y divide-border-default">
-                <div className="px-4 py-3 bg-surface-bg text-xs text-text-muted font-mono">surface-bg</div>
-                <div className="px-4 py-3 bg-surface-panel text-xs text-text-muted font-mono">surface-panel</div>
-                <div className="px-4 py-3 bg-surface-bg text-xs text-text-muted font-mono">surface-bg</div>
-              </div>
-            </div>
-          </div>
-          <p className="mt-6 text-sm text-text-secondary max-w-2xl">
-            Site atmosphere uses three tiers: main paper-grid image on <code className="font-mono text-xs">site-main-atmosphere</code> (fixed, all pages), optional secondary illustration on marketing heroes via <code className="font-mono text-xs">hero-bg-slab</code>, and film grain from <code className="font-mono text-xs">page-noise</code> on <code className="font-mono text-xs">main</code>. Use <code className="font-mono text-xs">page-blueprint</code> only on sections with <code className="font-mono text-xs">hero-bg-slab-art</code> for z-index stacking. <code className="font-mono text-xs">prefers-reduced-motion</code> falls back main bg to scroll attachment.
-            Home hero uses Fibonacci product-led split (copy 0.382 / specimen 0.618). See Spacing &amp; alignment for ratio tokens.
-            Tools use full-width workspace + spec-row control strip. Mobile: single column, 44px touch targets, <code className="font-mono text-xs">min-w-0</code>.
-          </p>
         </div>
       </section>
 
       <section className="section-padding">
         <div className="container-custom">
-          <h2 className="text-2xl font-display font-bold mb-8">{t.styleGuide?.sections?.spacing ?? 'Spacing & alignment'}</h2>
-          <p className="text-sm text-text-secondary max-w-2xl mb-6">
-            Use <code className="font-mono text-xs">--ratio-fib-*</code> for column/width splits. Use <code className="font-mono text-xs">--space-align-*</code> for intra-section stack gaps (retracement of <code className="font-mono text-xs">--space-section-y</code>).
+          <h2 className="text-2xl font-display font-extrabold mb-4">Layout</h2>
+          <p className="text-[15px] text-text-secondary max-w-[65ch] mb-6 leading-relaxed">
+            Store sheet: type about 60% / specimen 40% from md up, stack under md. Tools: charcoal instrument cards.
+            Mobile: one column, 12px coral frame, 44px targets.
           </p>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="panel p-6 space-y-3 font-mono text-xs text-text-muted">
-              <p className="text-text-secondary uppercase tracking-wider">Page gutters</p>
+            <div className="panel p-6 space-y-2 text-[15px] text-text-secondary">
+              <p className="text-text-primary font-semibold">Page gutters</p>
+              <p>--site-frame: 12px / 20px / 28px</p>
               <p>--space-page-x: clamp(16px, 4vw, 24px)</p>
-              <p>--space-section-y: clamp(48px, 8vw, 96px)</p>
-              <p>--radius-panel: 0 · --radius-control: 6px</p>
-              <p>Max width: 1280px marketing · 1080px tools</p>
+              <p>--radius-panel: 0 · --border-width: 2px</p>
             </div>
-            <div className="panel p-6 space-y-3 font-mono text-xs text-text-muted">
-              <p className="text-text-secondary uppercase tracking-wider">Fibonacci ratios</p>
-              <p>--ratio-fib-236 · --ratio-fib-382 · --ratio-fib-500</p>
-              <p>--ratio-fib-618 · --ratio-fib-786 · --ratio-phi (1.618)</p>
+            <div className="panel p-6 space-y-2 text-[15px] text-text-secondary">
+              <p className="text-text-primary font-semibold">Retired</p>
+              <p>Chapters, Fibonacci tokens, HeroStamp marketing hero, scramble nav, indigo chrome.</p>
             </div>
-          </div>
-          <div className="panel p-6 mt-6 space-y-4">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-text-muted">Alignment scale · section-y retracement</p>
-            {(
-              [
-                { token: '--space-align-xs', ratio: '0.236', width: '23.6%' },
-                { token: '--space-align-sm', ratio: '0.382', width: '38.2%' },
-                { token: '--space-align-md', ratio: '0.500', width: '50%' },
-                { token: '--space-align-lg', ratio: '0.618', width: '61.8%' },
-              ] as const
-            ).map((row) => (
-              <div key={row.token} className="space-y-1">
-                <div className="flex justify-between font-mono text-xs text-text-muted">
-                  <span>{row.token}</span>
-                  <span>× {row.ratio}</span>
-                </div>
-                <div className="h-2 bg-surface-raised border border-border-default">
-                  <div
-                    className="h-full bg-accent-brand/70"
-                    style={{ width: row.width }}
-                    aria-hidden="true"
-                  />
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>

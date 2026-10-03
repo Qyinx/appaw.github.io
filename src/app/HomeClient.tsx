@@ -7,7 +7,7 @@ import LocalLink from '@/components/LocalLink';
 import { ArrowRight, Check, Eye, Lock, Shield, TrendingUp } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import ShopNowButton from '@/components/ui/ShopNowButton';
-import HomeHero from '@/components/home/HomeHero';
+import HomeHero from '@/components/home/HomeExhibit';
 import Reveal from '@/components/ui/Reveal';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import trackEvent from '@/lib/analytics';
@@ -119,7 +119,7 @@ export default function HomeClient() {
 
       <section ref={servicesReveal.ref} className="section-padding border-b border-border-default bg-surface-panel scroll-mt-20">
         <div className="container-custom">
-          <Reveal visible={servicesReveal.visible} dir="up" className="mb-[length:var(--space-align-sm)] max-w-2xl">
+          <Reveal visible={servicesReveal.visible} dir="up" className="mb-8 max-w-2xl">
             <p className="section-label mb-4">{t.home.services.badge}</p>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary text-balance">
               {t.home.services.title}
@@ -158,7 +158,7 @@ export default function HomeClient() {
             ))}
           </div>
 
-          <Reveal visible={servicesReveal.visible} dir="up" delay={60} className="mt-[length:var(--space-align-sm)]">
+          <Reveal visible={servicesReveal.visible} dir="up" delay={60} className="mt-8">
             <LocalLink
               href="/business/psa-grading"
               onClick={handlePsaGradingClick}
@@ -182,7 +182,7 @@ export default function HomeClient() {
             </LocalLink>
           </Reveal>
 
-          <Reveal visible={servicesReveal.visible} dir="up" delay={80} className="mt-[length:var(--space-align-xs)]">
+          <Reveal visible={servicesReveal.visible} dir="up" delay={80} className="mt-6">
             <div className="panel p-6 md:p-8 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
               <div className="max-w-xl">
                 <h3 className="text-xl md:text-2xl font-display font-bold text-text-primary mb-2 text-balance">
@@ -211,7 +211,7 @@ export default function HomeClient() {
             </div>
           </Reveal>
 
-          <Reveal visible={servicesReveal.visible} dir="up" delay={120} className="mt-[length:var(--space-align-xs)]">
+          <Reveal visible={servicesReveal.visible} dir="up" delay={120} className="mt-6">
             <LocalLink
               href="/guides"
               className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent-brand transition-colors duration-150"
@@ -226,7 +226,7 @@ export default function HomeClient() {
 
       <section ref={featuresReveal.ref} className="section-padding border-b border-border-default">
         <div className="container-custom">
-          <Reveal visible={featuresReveal.visible} dir="up" className="mb-[length:var(--space-align-sm)] max-w-[65ch]">
+          <Reveal visible={featuresReveal.visible} dir="up" className="mb-8 max-w-[65ch]">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary mb-3 text-balance">
               {t.home.features.title}
             </h2>

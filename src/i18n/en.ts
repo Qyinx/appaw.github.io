@@ -1443,7 +1443,7 @@ export const en = {
       },
       arena138: {
         name: '138 Arena',
-        description: 'Partner venue. 138 Arena handles the floor and payment; Appaw Store handles the service and follow-up.',
+        description: '',
         location: '1/F, 522 Jaffe Road, Causeway Bay, Hong Kong',
       },
       appawstore: {
@@ -1463,7 +1463,6 @@ export const en = {
     tags: {
       authorized: 'Primary',
       main: 'Main location',
-      fullService: 'Full service',
       partner: 'Partner',
       official: 'Online Shop',
       inStock: 'In Stock',

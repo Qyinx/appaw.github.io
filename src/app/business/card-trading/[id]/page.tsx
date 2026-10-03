@@ -6,6 +6,7 @@ import CardDetailClient from './CardDetailClient';
 import LocalLink from '@/components/LocalLink';
 import StructuredData from '@/components/StructuredData';
 import { productJsonLd, breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
+import { withLocaleAlternates } from '@/lib/seo/locale-metadata';
 import { localizedHref } from '@/lib/i18n-routing';
 import {
   CARD_TRADING_PLACEHOLDER_ID,
@@ -68,24 +69,26 @@ export async function generateMetadata(
   const description = buildSeoDescription(card);
   const image = absoluteMarketplaceImageUrl(card.image || card.bundleCards?.[0]?.image) || '/images/og-image.png';
 
-  return {
-    title,
-    description,
-    alternates: { canonical: `/business/card-trading/${id}/` },
-    openGraph: {
+  return withLocaleAlternates(
+    {
       title,
       description,
-      url: `https://appaw.store/business/card-trading/${id}/`,
-      type: 'website',
-      images: [{ url: image, width: 600, height: 800, alt: card.name }],
+      openGraph: {
+        title,
+        description,
+        url: `https://appaw.store/business/card-trading/${id}/`,
+        type: 'website',
+        images: [{ url: image, width: 600, height: 800, alt: card.name }],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${card.name} — ${card.company} ${grade}${bl}`,
+        description,
+        images: [image],
+      },
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${card.name} — ${card.company} ${grade}${bl}`,
-      description,
-      images: [image],
-    },
-  };
+    `/business/card-trading/${id}/`,
+  );
 }
 
 export async function CardDetailPageContent(

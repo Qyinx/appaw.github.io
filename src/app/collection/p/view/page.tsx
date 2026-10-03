@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-/** Static shell — dev rewrites + GitHub Pages 404 fallback map pretty URLs here; client reads id from URL. */
+/** Static shell — pretty `/collection/p/:id/` URLs rewrite here. Meta noindex; not in sitemap. */
 export default function PublicPortfolioViewPage() {
   return <PublicPortfolioPageClient />;
 }

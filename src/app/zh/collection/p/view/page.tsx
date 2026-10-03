@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+/** Static shell — pretty `/zh/collection/p/:id/` URLs rewrite here. Meta noindex; not in sitemap. */
+
 export default function ZhPublicPortfolioViewPage() {
   return <PublicPortfolioPageClient />;
 }

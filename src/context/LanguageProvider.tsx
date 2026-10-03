@@ -1,20 +1,16 @@
 'use client';
 
-import React, { useState, useEffect, useLayoutEffect, ReactNode } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import React, { useState, useEffect, ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import { en, zh } from '@/i18n';
-import { routeLanguage, toggleLocalePath } from '@/lib/i18n-routing';
-import {
-  ensureLocalePreference,
-  readLocalePreference,
-} from '@/lib/locale-preference';
+import { routeLanguage } from '@/lib/i18n-routing';
+import { ensureLocalePreference } from '@/lib/locale-preference';
 import { LanguageContext, type Language } from './language-context';
 
 const translations = { en, zh } as const;
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
   const urlLanguage = routeLanguage(pathname);
   const [language, setLanguageState] = useState<Language>(urlLanguage);
   const [mounted, setMounted] = useState(false);
@@ -24,15 +20,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLanguageState(urlLanguage);
   }, [urlLanguage]);
 
-  // First-visit locale detect + EN→ZH redirect (static export — no middleware / no layout <script>).
-  useLayoutEffect(() => {
-    if (readLocalePreference() !== null) return;
-    const preferred = ensureLocalePreference();
-    if (preferred === 'zh' && urlLanguage === 'en' && pathname) {
-      router.replace(toggleLocalePath(pathname, preferred));
-    }
-    // Only on initial mount — first visit detect once.
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional mount-once
+  useEffect(() => {
+    ensureLocalePreference();
   }, []);
 
   const setLanguage = (lang: Language) => {

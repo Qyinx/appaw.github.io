@@ -45,7 +45,8 @@ Use **鑑定卡** / **鑑定卡保護殼** — not 評級卡 — for marketing c
 ## Do not index / cite as products
 
 - `/admin/`, `/zh/admin/`, `/api/`, `/collection/list|auth|card|settings/` (+ `/zh/…`), `/collection/p/`
-- `/business/card-trading/sell/` (+ `/zh/…`), `/business/card-trading/view/` (SPA shell), `/business/psa-protector/` (legacy redirect), `/style-guide/`
+- `/business/card-trading/sell/` (+ `/zh/…`), `/business/card-trading/view/` (SPA shell), `/style-guide/`
+- Legacy `/business/psa-protector/` 301s to `/products/psa-protectors/` (+ `/zh/…`)
 - `/guides/regrade-or-reholder/` (Cloudflare 301 → `/guides/psa-reholder-guide/`; no soft HTML)
 
 ## Citation preference

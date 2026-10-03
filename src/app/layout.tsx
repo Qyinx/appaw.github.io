@@ -1,8 +1,8 @@
 import type { Viewport } from 'next';
 import {
   IBM_Plex_Mono,
-  IBM_Plex_Sans,
-  Playfair_Display,
+  Inter,
+  Newsreader,
   Syne,
 } from 'next/font/google';
 import { LanguageProvider } from '@/context/LanguageContext';
@@ -18,10 +18,10 @@ import { webSiteJsonLd, storeJsonLd } from '@/lib/seo';
 import { rootMetadata } from '@/lib/seo/metadata';
 import '@/styles/globals.css';
 
-const ibmPlexSans = IBM_Plex_Sans({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-ibm-plex-sans',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
   display: 'swap',
 });
 
@@ -34,15 +34,16 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 const syne = Syne({
   subsets: ['latin'],
-  weight: ['600', '700'],
+  weight: ['700', '800'],
   variable: '--font-syne',
   display: 'swap',
 });
 
-const playfair = Playfair_Display({
+const newsreader = Newsreader({
   subsets: ['latin'],
-  weight: ['400', '600'],
-  variable: '--font-playfair',
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-newsreader',
   display: 'swap',
 });
 
@@ -51,15 +52,15 @@ export const metadata = rootMetadata;
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FBFAF6',
+  themeColor: '#F3EBDA',
   colorScheme: 'light dark',
 };
 
 const fontVariables = [
-  ibmPlexSans.variable,
+  inter.variable,
   ibmPlexMono.variable,
   syne.variable,
-  playfair.variable,
+  newsreader.variable,
 ].join(' ');
 
 export default function RootLayout({
@@ -73,7 +74,7 @@ export default function RootLayout({
         <StructuredData data={[webSiteJsonLd(), storeJsonLd()]} />
         <AgentDiscoveryLinks />
       </head>
-      <body className="bg-surface-bg text-text-primary antialiased">
+      <body className="bg-surface-frame text-text-primary antialiased">
         {/* GA + Clarity load only after cookie accept (see CookieConsent). */}
         <a href="#main-content" className="skip-link">
           Skip to main content
