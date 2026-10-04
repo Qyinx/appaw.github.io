@@ -27,7 +27,7 @@ export const en = {
         { text: 'Protect Your Investment.', accent: false },
       ],
       h1Keyword: 'Graded Card Protectors & Trading Card Supplies in Hong Kong',
-      subtitle: 'Magnetic UV glass graded card case, suitable for standard 35PT PSA/CGC graded slabs.',
+      subtitle: 'UV glass, N52 magnets, 35PT PSA and CGC fit. Designed in Hong Kong.',
       description: 'From our signature UV glass protectors to our professional card brokerage, we help collectors protect and grow their collections.',
       cta: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
@@ -352,9 +352,7 @@ export const en = {
       badge: 'Collector Guide',
       title: 'How to choose a 35PT graded card case',
       body: [
-        'Standard PSA and CGC slabs measure roughly 35PT thick. A proper PSA slab case should add a rigid metal frame—not just another acrylic shell—plus tempered UV-blocking glass to slow holo and chrome fade over years on display.',
-        'Appaw Store designed this magnetic graded card case in Hong Kong for Hong Kong TCG collectors — Pokémon PTCG, sports cards, and MTG — who display slabs at home, at card shows, or at 138 Arena (partner venue). The N52 magnetic closure lets you swap cards in seconds without screws or clips.',
-        'Before you submit a raw card for grading, use our free Centering Analyzer to check PSA 10 margins—then protect the returned slab with a PSA card protector built for long-term display and transport.',
+        'Designed in Hong Kong for TCG collectors who display slabs at home, shows, or 138 Arena. N52 magnetic closure — swap cards in seconds, no screws. Check centering before you grade, then protect the returned slab for long-term display.',
       ],
       fullGuideLink: 'Read the full 35PT slab case guide',
       guideLinks: [
@@ -367,12 +365,10 @@ export const en = {
       guideLinksTitle: 'Related collector guides',
     },
     overview: {
-      badge: 'Product Overview',
+      badge: 'Collector Notes',
       title: 'Premium Graded Card Protector',
       body: [
-        'Looking for a 35PT PSA slab protector in Hong Kong? UV-blocking glass, metal frame, N52 magnets, sized for standard PSA and CGC holders. HK$60 single, HK$80 gradient. Third-party, not made by PSA.',
-        'Built for collectors who treat graded cards as long-term assets, the Appaw Store Graded Slab UV Glass Protector is a magnetic graded card protector — exhibition-level presentation with durable protection. Engineered for standard 35PT PSA and CGC graded slabs, it features over 95% UV resistance and anti-fade technology — keeping chrome, holographic, and vintage cards safe from sun damage and gradual colour fading.',
-        'The secure enclosure uses powerful N52 neodymium magnets — the strongest grade commercially available — letting you swap cards in seconds while keeping the graded card case firmly shut for display and transport. Tempered UV-blocking glass and a rigid metal frame give it a solid, gallery-worthy feel, yet at just 74g it stays sleek and portable. Compatible with PSA- and CGC-graded Pokémon, sports, and Magic: The Gathering cards, it is the upgrade serious collectors choose over cracked, cheap acrylic cases.',
+        '35PT PSA slab protector for Hong Kong collectors: tempered UV-blocking glass (>95%), metal frame, N52 magnets. Fits standard PSA and CGC holders. HK$60 single / HK$80 gradient. Third-party — not made by PSA.',
       ],
     },
     featuresBadge: 'Details',
@@ -1313,7 +1309,7 @@ export const en = {
     },
   },
 
-  // Footer — single factual line (style.md §1)
+  // Footer — two-tier factual footer (style.md §1)
   footer: {
     locationValue: 'Hong Kong',
     phoneDisplay: '+852 9285 1189',
@@ -1482,6 +1478,7 @@ export const en = {
   // Common
   common: {
     loading: 'Loading...',
+    switching: 'Switching',
     error: 'An error occurred',
     back: 'Back',
     next: 'Next',

@@ -28,7 +28,7 @@ export const zh: Translations = {
         { text: '守護評級價值。', accent: false },
       ],
       h1Keyword: '香港 PSA卡殼・鑑定卡殼・35PT PSA卡保護殼專門店',
-      subtitle: '專為標準 35PT PSA/CGC 鑑定卡打造的磁吸防 UV 保護殼。',
+      subtitle: '磁吸防 UV 保護殼，專為 35PT PSA 與 CGC 鑑定卡而設。',
       description: '從防 UV 玻璃保護殼到專業的卡牌買賣服務，全方位助您保護珍藏、擴展收藏版圖。',
       cta: '立即選購',
       shopUrl: 'https://www.carousell.com.hk/u/appaw.store/',
@@ -354,9 +354,7 @@ export const zh: Translations = {
       badge: '香港藏家實用指南',
       title: '如何挑選 PSA卡殼／鑑定卡保護殼？',
       body: [
-        '標準 PSA 及 CGC 鑑定卡約 35PT。搜尋PSA卡殼或鑑定卡保護殼時，應揀金屬邊框加防 UV 玻璃，而不是再套一層易碎壓克力，以免閃卡、全息卡長期展示褪色。',
-        'Appaw Store 專為香港 TCG 藏家及寶可夢、運動卡玩家設計了這款磁吸保護殼。不論擺放在家中、卡展還是實體店面都極具質感。歡迎前往銅鑼灣 138 Arena（合作場地）實際體驗。其 N52 磁吸設計讓您免鎖螺絲，幾秒鐘即可輕鬆換卡。',
-        '提交鑑定前，建議先用免費的置中量度工具評估 PSA 10 機會；待愛卡獲取佳績後，再用這款保護殼為其提供最完善的防護。',
+        '香港設計，適合在家、卡展或銅鑼灣 138 Arena 展示。N52 磁吸免鎖螺絲，幾秒換卡。提交鑑定前可先測置中，獲分後再以保護殼長期封存。',
       ],
       fullGuideLink: '閱讀完整鑑定卡保護殼選購指南',
       guideLinks: [
@@ -369,12 +367,10 @@ export const zh: Translations = {
       guideLinksTitle: '進階收藏必讀指南',
     },
     overview: {
-      badge: '產品亮點',
+      badge: '藏家筆記',
       title: '旗艦級鑑定卡保護殼',
       body: [
-        '想找香港 PSA卡殼？這款 35PT 鑑定卡保護殼夾標準 PSA 及 CGC 鑑定卡，防 UV 玻璃加 N52 磁吸，幾秒換卡。第三方，不是 PSA 官方產品。單色 HK$60，漸層 HK$80。',
-        '具備超過 95% 的抗紫外線及防褪色效能，有效隔絕陽光侵害，大幅減緩閃卡與老卡在長期展示下褪色的狀況。剛硬的金屬邊框取代了脆弱的壓克力，特別適合將鑑定卡視為長期投資的眼光獨到藏家。',
-        '強勁的 N52 釹磁鐵閉合系統，讓您幾秒鐘就能完成換卡，同時在攜帶與展示時保持絕佳的密合度。即使結合了玻璃與金屬材質，整體重量依然輕盈（僅 74 克）。完美支援您的寶可夢、運動卡及 MTG 珍藏。',
+        '香港 35PT PSA卡殼：防 UV 強化玻璃（>95%）、金屬邊框、N52 磁吸，適配標準 PSA／CGC 鑑定卡。單色 HK$60、漸層 HK$80。第三方產品，非 PSA 官方。',
       ],
     },
     featuresBadge: '功能解析',
@@ -1312,7 +1308,7 @@ export const zh: Translations = {
     },
   },
 
-  // Footer
+  // Footer — two-tier factual footer
   footer: {
     locationValue: '立足香港，服務全球',
     phoneDisplay: 'WhatsApp 客服：+852 9285 1189',
@@ -1481,6 +1477,7 @@ export const zh: Translations = {
   // Common
   common: {
     loading: '努力載入中...',
+    switching: '切換中',
     error: '糟糕，好像哪裡出錯了！',
     back: '返回上一頁',
     next: '繼續下一步',

@@ -210,7 +210,7 @@ Two-column row: label left (muted, ≥ 14px), value right (primary, 16px, tabula
 │  │  One short sentence                     │ │
 │  │  [Primary]  [Secondary]                 │ │
 │  │  01 spec group     02 spec group        │ │
-│  │  one factual footer line                │ │
+│  │  two-tier factual footer                │ │
 │  └─────────────────────────────────────────┘ │
 └──────────────────────────────────────────────┘
 ```

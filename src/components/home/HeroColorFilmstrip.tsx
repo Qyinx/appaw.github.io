@@ -18,15 +18,27 @@ interface HeroColorFilmstripProps {
   finishGradientLabel: string;
   cycleDurationMs?: number;
   isAutoplayActive?: boolean;
+  layout?: 'strip' | 'rail';
   onSelectColor: (index: number) => void;
   onUserInteract?: () => void;
 }
 
 function scrollTrackToIndex(track: HTMLElement, index: number, smooth: boolean) {
-  if (track.scrollWidth <= track.clientWidth + 1) return;
-
   const active = track.querySelector<HTMLElement>(`[data-color-index="${index}"]`);
   if (!active) return;
+
+  const vertical = track.scrollHeight > track.clientHeight + 1;
+  if (vertical) {
+    const targetTop =
+      active.offsetTop - track.clientHeight / 2 + active.offsetHeight / 2;
+    track.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: smooth ? 'smooth' : 'instant',
+    });
+    return;
+  }
+
+  if (track.scrollWidth <= track.clientWidth + 1) return;
 
   const targetLeft =
     active.offsetLeft - track.clientWidth / 2 + active.offsetWidth / 2;
@@ -48,6 +60,7 @@ export default function HeroColorFilmstrip({
   finishGradientLabel,
   cycleDurationMs = 4200,
   isAutoplayActive = true,
+  layout = 'strip',
   onSelectColor,
   onUserInteract,
 }: HeroColorFilmstripProps) {
@@ -71,7 +84,10 @@ export default function HeroColorFilmstrip({
   };
 
   return (
-    <div className="home-hero-filmstrip" aria-live="polite">
+    <div
+      className={`home-hero-filmstrip${layout === 'rail' ? ' home-hero-filmstrip--rail' : ''}`}
+      aria-live="polite"
+    >
       <div className="home-hero-filmstrip__header">
         <div className="home-hero-filmstrip__identity">
           <p className="home-hero-filmstrip__header-label font-mono text-xs uppercase tracking-[0.14em] text-text-secondary mb-1">

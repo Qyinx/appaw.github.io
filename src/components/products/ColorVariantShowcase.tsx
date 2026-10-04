@@ -35,6 +35,13 @@ interface ColorVariantShowcaseProps {
   shopOptions: ShopOptionsLabels;
   whatsappMessage: string;
   onSelectColor: (index: number) => void;
+  /** Optional hero copy rendered in the controls column (keeps first viewport shorter). */
+  hero?: {
+    badge: string;
+    seoH1: string;
+    title: string;
+    subtitle?: string;
+  };
 }
 
 function padSlot(n: number, total: number) {
@@ -64,20 +71,21 @@ export default function ColorVariantShowcase({
   shopOptions,
   whatsappMessage,
   onSelectColor,
+  hero,
 }: ColorVariantShowcaseProps) {
   const active = colors[selectedColor];
   const slotLabel = padSlot(selectedColor, colors.length);
 
   return (
-    <div className="grid lg:grid-cols-2 gap-12 items-start">
-      {/* Instrument viewport — neo-brutalist + retro-tech */}
+    <div className="grid lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-6 lg:gap-8 items-start">
+      {/* Instrument viewport */}
       <div
         className="color-instrument panel p-0 overflow-hidden"
-        style={{ boxShadow: `0 0 0 1px var(--border-default), 0 16px 40px ${active.glow}` }}
+        style={{ boxShadow: `0 0 0 1px var(--border-default), 0 12px 28px ${active.glow}` }}
         aria-live="polite"
         aria-atomic="true"
       >
-        <div className="color-instrument__header border-b border-border-default px-4 py-2.5 flex items-center justify-between gap-3 bg-surface-raised">
+        <div className="color-instrument__header border-b border-border-default px-3 py-2 flex items-center justify-between gap-3 bg-surface-raised">
           <span className="font-mono text-xs text-text-muted uppercase tracking-wider">Color Spec</span>
           <span className="font-mono text-xs text-text-secondary font-tabular tracking-widest">{slotLabel}</span>
           <span
@@ -87,13 +95,13 @@ export default function ColorVariantShowcase({
           </span>
         </div>
 
-        <div className="p-5">
+        <div className="p-3">
           <div
             className="color-instrument__viewport relative border border-border-strong bg-surface-bg"
             style={{ borderLeftColor: active.accent, borderLeftWidth: '3px' }}
           >
             <div
-              className="color-variant-stage relative w-full aspect-square"
+              className="color-variant-stage relative mx-auto h-[min(40dvh,300px)] aspect-[4/5] max-w-full"
               data-animated={colorSlideAnimated ? 'true' : 'false'}
               data-dir={slideDir}
               data-scanning={isScanning ? 'true' : 'false'}
@@ -119,8 +127,8 @@ export default function ColorVariantShowcase({
                       src={getImagePath(color.image)}
                       alt={`${productTitle} – ${color.name}`}
                       fill
-                      className="object-contain p-4"
-                      sizes="(max-width: 1024px) 80vw, 480px"
+                      className="object-contain p-2.5"
+                      sizes="(max-width: 1024px) 70vw, 360px"
                       priority={i === 0}
                       fetchPriority={i === 0 || i === selectedColor ? 'high' : 'auto'}
                     />
@@ -128,74 +136,66 @@ export default function ColorVariantShowcase({
                 );
               })}
               <div className="color-grid-overlay pointer-events-none absolute inset-0 z-[3]" aria-hidden="true" />
-              <div className="color-scanlines pointer-events-none absolute inset-0 z-[4]" aria-hidden="true" />
               <div className="color-scan-beam pointer-events-none absolute inset-x-0 z-[5]" aria-hidden="true" />
               <div className="color-viewport-corners pointer-events-none absolute inset-0 z-[6]" aria-hidden="true" />
             </div>
           </div>
 
-          <div className="mt-4 divide-y divide-border-default border border-border-default bg-surface-panel">
-            <div className="spec-row px-4">
-              <span className="spec-row__label">Variant ID</span>
-              <span className="spec-row__value font-tabular">{variantId(selectedColor)}</span>
-            </div>
-            <div className="spec-row px-4">
-              <span className="spec-row__label">Hex Primary</span>
-              <span className="spec-row__value font-tabular">{active.hex.toUpperCase()}</span>
-            </div>
-            {active.hex2 && (
-              <div className="spec-row px-4">
-                <span className="spec-row__label">Hex Secondary</span>
-                <span className="spec-row__value font-tabular">{active.hex2.toUpperCase()}</span>
-              </div>
-            )}
-            <div className="spec-row px-4">
-              <span className="spec-row__label">Finish</span>
-              <span className="spec-row__value">{active.hex2 ? gradientBadge : 'Solid'}</span>
-            </div>
+          <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 border border-border-default bg-surface-panel px-3 py-2 font-mono text-xs">
+            <span className="text-text-muted">{variantId(selectedColor)}</span>
+            <span className="text-text-secondary font-tabular">{active.hex.toUpperCase()}</span>
+            {active.hex2 ? (
+              <span className="text-text-secondary font-tabular">{active.hex2.toUpperCase()}</span>
+            ) : null}
+            <span className="ml-auto text-text-muted uppercase tracking-wider">
+              {active.hex2 ? gradientBadge : 'Solid'}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Controls + terminal readout */}
-      <div>
-        <div className="mb-8">
-          <p className="section-label mb-3">{pickColorLabel}</p>
-          <div className="flex items-center gap-3 flex-wrap min-h-[44px]">
+      {/* Controls */}
+      <div className="min-w-0 flex flex-col">
+        {hero ? (
+          <div className="mb-4">
+            <p className="section-label mb-2">{hero.badge}</p>
+            <h1 className="text-sm md:text-base font-display font-bold text-text-secondary leading-snug mb-1.5">
+              {hero.seoH1}
+            </h1>
+            <p className="font-display text-2xl md:text-3xl font-bold text-text-primary leading-tight">
+              {hero.title}
+            </p>
+            {hero.subtitle ? (
+              <p className="mt-1.5 text-text-secondary text-sm leading-relaxed line-clamp-2">
+                {hero.subtitle}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className="mb-4">
+          <p className="section-label mb-2">{pickColorLabel}</p>
+          <div className="flex items-center gap-2.5 flex-wrap min-h-[2rem]">
             <span
               key={selectedColor}
-              className="color-variant-name font-display text-4xl md:text-5xl font-bold text-text-primary leading-none tracking-tight"
+              className="color-variant-name font-display text-2xl md:text-3xl font-bold text-text-primary leading-none tracking-tight"
               data-animated={colorSlideAnimated ? 'true' : 'false'}
             >
               {active.name}
             </span>
             {active.hex2 && (
-              <span className="px-2.5 py-1 text-xs uppercase tracking-[0.18em] font-bold border border-border-strong text-text-secondary bg-surface-raised font-mono">
+              <span className="px-2 py-0.5 text-xs uppercase tracking-[0.14em] font-bold border border-border-strong text-text-secondary bg-surface-raised font-mono">
                 {gradientBadge}
               </span>
             )}
           </div>
-
-          <div className="color-terminal-readout terminal-block mt-5 py-3 px-4 text-xs" aria-live="polite">
-            <p>
-              <span className="prompt">&gt;</span>{' '}
-              load_finish{' '}
-              <span className="text-accent-warn font-tabular">{variantId(selectedColor)}</span>
-            </p>
-            <p className="mt-1 text-text-secondary font-tabular">
-              <span className="prompt">&gt;</span>{' '}
-              buffer {active.hex.replace('#', '')}
-              {active.hex2 ? `..${active.hex2.replace('#', '')}` : ''}
-            </p>
-            <p className="mt-1">
-              <span className="prompt">&gt;</span>{' '}
-              status {isScanning ? 'sync…' : 'locked'}
-              {!isScanning && <span className="cursor" aria-hidden="true" />}
-            </p>
-          </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8" role="radiogroup" aria-label={pickColorLabel}>
+        <div
+          className="grid grid-cols-4 gap-2 mb-4"
+          role="radiogroup"
+          aria-label={pickColorLabel}
+        >
           {colors.map((color, i) => {
             const isActive = selectedColor === i;
             return (
@@ -206,28 +206,30 @@ export default function ColorVariantShowcase({
                 onClick={() => onSelectColor(i)}
                 aria-label={color.name}
                 aria-checked={isActive}
-                className="color-swatch-btn group flex flex-col items-center gap-2 w-full"
+                className="color-swatch-btn group flex flex-col items-center gap-1 w-full"
               >
                 <div className="relative w-full">
                   {isActive && (
-                    <span className="color-swatch-index font-mono text-xs text-accent-warn absolute -top-1 left-0 z-10 font-tabular">
+                    <span className="color-swatch-index font-mono text-[0.6rem] text-accent-warn absolute -top-1 left-0 z-10 font-tabular">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                   )}
                   <div
-                    className="color-swatch-chip w-full h-9 border border-border-default"
+                    className="color-swatch-chip w-full h-7 border border-border-default"
                     style={{
                       background: color.hex2
                         ? `linear-gradient(135deg, ${color.hex} 0%, ${color.hex2} 100%)`
                         : color.hex,
                       outline: isActive ? `2px solid ${color.ring}` : '2px solid transparent',
                       outlineOffset: '2px',
-                      boxShadow: isActive ? `0 4px 14px ${color.glow}, inset 0 0 0 1px rgba(255,255,255,0.12)` : undefined,
+                      boxShadow: isActive
+                        ? `0 3px 10px ${color.glow}, inset 0 0 0 1px rgba(255,255,255,0.12)`
+                        : undefined,
                     }}
                   />
                 </div>
                 <span
-                  className={`color-swatch-label text-xs uppercase tracking-[0.12em] leading-tight text-center line-clamp-1 w-full ${
+                  className={`color-swatch-label text-[0.65rem] uppercase tracking-[0.1em] leading-tight text-center line-clamp-1 w-full ${
                     isActive ? 'text-text-primary font-medium' : 'text-text-muted'
                   }`}
                 >
@@ -238,16 +240,16 @@ export default function ColorVariantShowcase({
           })}
         </div>
 
-        <div className="panel p-5 flex items-center justify-between gap-4 flex-wrap border-l-[3px] border-l-accent-primary">
+        <div className="panel p-3.5 flex items-center justify-between gap-3 flex-wrap border-l-[3px] border-l-accent-primary mt-auto">
           <div className="flex-1 min-w-0">
-            <p className="spec-row__label mb-1">{startingPriceLabel}</p>
+            <p className="spec-row__label mb-0.5">{startingPriceLabel}</p>
             <div
               aria-live="polite"
-              className={`color-variant-price text-2xl md:text-3xl font-display font-bold leading-tight text-text-primary font-tabular${priceAnimating ? ' is-swapping' : ''}`}
+              className={`color-variant-price text-xl md:text-2xl font-display font-bold leading-tight text-text-primary font-tabular${priceAnimating ? ' is-swapping' : ''}`}
             >
               {active.hex2 ? gradientPrice : singlePrice}
             </div>
-            <p className="text-text-muted text-xs mt-2">{shippingInfo}</p>
+            <p className="text-text-muted text-xs mt-1">{shippingInfo}</p>
           </div>
 
           <ShopNowButton
