@@ -153,7 +153,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
     trailing: (
       <div className="flex items-center gap-3">
         {card.sold && (
-          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-xs font-bold uppercase tracking-wider">
+          <span className="flex items-center gap-1.5 px-2.5 py-1 border-2 border-accent-danger text-accent-danger text-xs font-bold uppercase tracking-wider">
             <ShieldOff className="w-3 h-3" aria-hidden="true" />
             {mp.card.sold}
           </span>
@@ -161,10 +161,10 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
         <button
           type="button"
           onClick={handleCopyLink}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-[color,background-color,border-color,opacity,transform] min-h-[44px] ${
+          className={`btn min-h-11 text-xs ${
             copied
-              ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-              : 'bg-surface-raised text-text-secondary hover:text-text-primary border border-border-default hover:border-border-strong'
+              ? 'btn-secondary text-accent-success border-accent-success'
+              : 'btn-secondary'
           }`}
         >
           {copied ? <Check className="w-3.5 h-3.5" aria-hidden="true" /> : <Share2 className="w-3.5 h-3.5" aria-hidden="true" />}
@@ -189,24 +189,24 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 {/* Badges — inside padded container */}
                 <div className="relative flex items-center gap-1.5 mb-4 z-10">
                   <div
-                    className="h-7 min-w-[40px] flex items-center justify-center px-2.5 rounded-md"
+                    className="h-7 min-w-[40px] flex items-center justify-center px-2.5 border border-border-strong"
                     style={{ background: companyStyle.background, color: companyStyle.color, boxShadow: companyStyle.shadow }}
                   >
                     <span className="text-xs font-bold leading-none">{activeCard.company}</span>
                   </div>
-                  <div className={`h-7 min-w-[40px] flex items-center justify-center gap-1 px-2.5 rounded-md ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} border ${gradeColor.border}`}>
-                    {activeCard.isBlackLabel && <span className="text-xs font-bold text-[#d4a843] leading-none">BL</span>}
+                  <div className={`h-7 min-w-[40px] flex items-center justify-center gap-1 px-2.5 ${gradeColor.bg} ${gradeColor.text} ${gradeColor.glow} border ${gradeColor.border}`}>
+                    {activeCard.isBlackLabel && <span className="text-xs font-bold text-accent-brand leading-none">BL</span>}
                     <span className="text-xs font-black leading-none">{activeCard.grade}</span>
                   </div>
                   {isBundle && (
-                    <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-accent-warn text-[#09090f]">
+                    <div className="flex items-center gap-1 px-2.5 h-7 bg-accent-cta text-accent-cta-ink border border-border-strong">
                       <Layers className="w-3 h-3" />
                       <span className="text-xs font-extrabold leading-none">{mp.bundle.fullSet}</span>
                     </div>
                   )}
                   {/* Sold badge inline with other badges */}
                   {card.sold && (
-                    <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-red-500/90 text-white">
+                    <div className="flex items-center gap-1 px-2.5 h-7 bg-accent-danger text-surface-bg border border-border-strong">
                       <span className="text-xs font-extrabold uppercase leading-none">{mp.card.sold}</span>
                     </div>
                   )}
@@ -222,8 +222,8 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                 >
                   {/* Sold diagonal ribbon */}
                   {card.sold && (
-                    <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-lg">
-                      <div className="absolute top-[40px] -right-[60px] w-[260px] bg-red-500/90 text-white text-xs font-black uppercase tracking-[0.25em] text-center py-2 rotate-45 shadow-[0_2px_12px_rgba(239,68,68,0.5)]">
+                    <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
+                      <div className="absolute top-[40px] -right-[60px] w-[260px] bg-accent-danger text-surface-bg text-xs font-black uppercase tracking-[0.25em] text-center py-2 rotate-45 border-y-2 border-border-strong">
                         {mp.card.sold}
                       </div>
                       <div className="absolute inset-0 bg-black/20" />
@@ -336,21 +336,21 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
               {/* Full Set indicator */}
               {isBundle && card.bundleCards && (
                 <div className="flex flex-wrap items-center gap-2 mb-5">
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-warn/10 border border-[#d4a843]/25">
-                    <Layers className="w-3.5 h-3.5 text-[#d4a843]" />
-                    <span className="text-[#d4a843] text-xs font-bold">{mp.bundle.fullSet} · {allInBundle.length} {mp.bundle.cards}</span>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-surface-raised border-2 border-border-strong">
+                    <Layers className="w-3.5 h-3.5 text-accent-brand" />
+                    <span className="text-accent-brand text-xs font-bold">{mp.bundle.fullSet} · {allInBundle.length} {mp.bundle.cards}</span>
                   </div>
                   <span className="text-text-muted text-xs italic">{mp.bundle.setOnly}</span>
                 </div>
               )}
 
               {/* Price */}
-              <div className={`rounded-none p-4 mb-5 border ${card.sold ? 'bg-surface-raised border-border-default' : 'bg-surface-raised border-accent-warn/30'}`}>
+              <div className={`p-4 mb-5 border-2 ${card.sold ? 'bg-surface-raised border-border-default' : 'bg-surface-raised border-border-strong'}`}>
                 <p className="text-text-muted text-xs uppercase tracking-[0.2em] mb-1">{isBundle ? mp.bundle.setPrice : mp.card.price}</p>
                 <div className="flex items-center gap-3">
-                  <p className={`text-2xl md:text-3xl font-bold font-display ${card.sold ? 'text-text-muted line-through' : 'text-[#d4a843]'}`}>{formatPrice(card.price, card.currency)}</p>
+                  <p className={`text-2xl md:text-3xl font-bold font-display ${card.sold ? 'text-text-muted line-through' : 'text-accent-brand'}`}>{formatPrice(card.price, card.currency)}</p>
                   {card.sold && (
-                    <span className="px-2.5 py-1 rounded-md bg-red-500/15 border border-red-500/25 text-red-400 text-xs font-bold uppercase tracking-wider">
+                    <span className="px-2.5 py-1 border-2 border-accent-danger text-accent-danger text-xs font-bold uppercase tracking-wider">
                       {mp.card.sold}
                     </span>
                   )}
@@ -425,12 +425,12 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                           <div className="flex items-center gap-1 flex-shrink-0">
                             <div className="h-[18px] px-1.5 flex items-center justify-center rounded text-xs font-bold leading-none"
                               style={{ background: bcCompany.background, color: bcCompany.color }}>{bc.company}</div>
-                            <div className={`h-[18px] px-1.5 flex items-center justify-center gap-0.5 rounded text-xs font-black leading-none ${bcGrade.bg} ${bcGrade.text} border ${bcGrade.border}`}>
-                              {bc.isBlackLabel && <span className="text-xs font-bold text-[#d4a843]">BL</span>}
+                            <div className={`h-[18px] px-1.5 flex items-center justify-center gap-0.5 text-xs font-black leading-none ${bcGrade.bg} ${bcGrade.text} border ${bcGrade.border}`}>
+                              {bc.isBlackLabel && <span className="text-xs font-bold text-accent-brand">BL</span>}
                               {bc.grade}
                             </div>
                           </div>
-                          {isActive && <div className="w-1 h-4 rounded-full bg-accent-warn flex-shrink-0" />}
+                          {isActive && <div className="w-1 h-4 bg-accent-brand flex-shrink-0" />}
                         </button>
                       );
                     })}
@@ -466,7 +466,7 @@ export default function CardDetailClient({ card }: { card: TradingCard }) {
                   {/* Browse marketplace */}
                   <LocalLink
                     href="/business/card-trading/"
-                    className="flex items-center justify-center gap-2 w-full min-h-11 py-2.5 rounded-lg text-text-muted hover:text-accent-warn text-xs font-medium transition-[color,background-color,border-color,opacity,transform]"
+                    className="btn btn-secondary w-full"
                   >
                     <ArrowLeft className="w-3 h-3" />
                     <span>{mp.card.similarItems}</span>

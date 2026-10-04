@@ -8,6 +8,7 @@ import { faInstagram, faEtsy, faWhatsapp } from '@fortawesome/free-brands-svg-ic
 import { useLanguage } from '@/context/LanguageContext';
 import { getImagePath } from '@/lib/utils';
 import { PSA_DROP_OFF_MAPS_URL } from '@/lib/grading/psa-booking';
+import ArenaMap from '@/components/ArenaMap';
 import CarousellIcon from '@/components/ui/CarousellIcon';
 
 const ETSY_URL = 'https://appawstore.etsy.com/';
@@ -17,7 +18,7 @@ const ARENA_IG = 'https://www.instagram.com/138arena/';
 const CARDTHELAND_IG = 'https://www.instagram.com/cardtheland_tcg/';
 
 export default function RetailPartners() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -92,7 +93,7 @@ export default function RetailPartners() {
               className="absolute inset-0 bg-gradient-to-br from-accent-brand/12 via-transparent to-accent-secondary/8"
               aria-hidden="true"
             />
-            <div className="relative z-[1] grid lg:grid-cols-[1fr_auto] gap-6 p-6 md:p-8 lg:p-10">
+            <div className="relative z-[1] grid lg:grid-cols-[minmax(0,1fr)_minmax(16rem,1.05fr)] gap-6 p-6 md:p-8 lg:p-10">
               <div className="flex flex-col min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-5">
                   <span className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.22em] font-bold px-3 py-1 border border-accent-brand/30 text-accent-brand bg-accent-brand/10">
@@ -131,17 +132,11 @@ export default function RetailPartners() {
                   </a>
                 </div>
               </div>
-              <div className="hidden lg:flex items-center justify-center w-36 shrink-0">
-                <div className="w-28 h-28 border border-border-default bg-surface-raised flex items-center justify-center p-3">
-                  <Image
-                    src={getImagePath('/images/partners/138arena.png')}
-                    alt=""
-                    width={88}
-                    height={64}
-                    className="object-contain max-h-full w-auto"
-                  />
-                </div>
-              </div>
+              <ArenaMap
+                language={language}
+                title={t.retailPartners.mapIframeTitle}
+                className="arena-map--venue"
+              />
             </div>
           </div>
         )}

@@ -255,7 +255,7 @@ export default function SellClient() {
                       type="button"
                       disabled={busyId === card.id}
                       onClick={() => void handleUnlist(card)}
-                      className="min-h-11 px-4 rounded-lg border border-border-default text-sm text-text-secondary"
+                      className="btn btn-secondary min-h-11 text-sm disabled:opacity-40"
                     >
                       {busyId === card.id ? copy.saving : copy.unlist}
                     </button>

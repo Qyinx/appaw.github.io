@@ -7470,3 +7470,53 @@ html.cookie-notice-visible body {
     font-size: 1rem;
   }
 }
+
+.arena-map {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  border: 2px solid var(--border-strong);
+  background: var(--surface-panel);
+  color-scheme: light;
+}
+
+.arena-map__frame {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 16rem;
+  background: var(--surface-raised);
+  overflow: hidden;
+}
+
+.arena-map__frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 16rem;
+  border: 0;
+}
+
+@media (min-width: 1024px) {
+  .arena-map--venue .arena-map__frame {
+    min-height: 22rem;
+  }
+
+  .arena-map--venue .arena-map__frame iframe {
+    min-height: 22rem;
+    height: 100%;
+  }
+}
+
+.arena-map--book .arena-map__frame,
+.arena-map--book .arena-map__frame iframe {
+  min-height: 18rem;
+}
+
+@media (min-width: 768px) {
+  .arena-map--book .arena-map__frame,
+  .arena-map--book .arena-map__frame iframe {
+    min-height: 22rem;
+  }
+}

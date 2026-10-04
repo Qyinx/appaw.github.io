@@ -864,7 +864,7 @@ export const en = {
         },
         {
           title: 'Track with your reference code',
-          body: 'Each PSA service tier gets its own reference code. Look up status with both the phone number and the reference code on your receipt. A phone number alone never opens someone else\'s batch.',
+          body: 'Each PSA service tier gets its own reference code. Look up status with both the registered phone number and the reference number. A phone number alone never opens someone else\'s batch.',
         },
         {
           title: 'Process you can follow',
@@ -885,7 +885,7 @@ export const en = {
     batchBoard: {
       title: 'Current progress of PSA grading batches',
       lead:
-        'Intake cutoff and where each BAT round sits. Drop-off is face-to-face only at 138 Arena in Causeway Bay — mailed raw cards are not accepted. Track any batch with the phone number and reference code from your receipt.',
+        'Intake cutoff and where each BAT round sits. Drop-off is face-to-face only at 138 Arena in Causeway Bay — mailed raw cards are not accepted. Track any batch with the registered phone number and reference number.',
       phases: {
         intake: 'Intake open',
         atPsa: 'Intake Closed',
@@ -931,6 +931,7 @@ export const en = {
       ],
       locationTitle: '138 Arena',
       directionsLink: 'Get directions',
+      mapIframeTitle: 'Map of 138 Arena drop-off in Causeway Bay',
       ctaBook: 'Book appointment',
       questionsPrefix: 'Questions?',
       questionsWhatsApp: 'WhatsApp us',
@@ -949,7 +950,7 @@ export const en = {
           attribution: '138 Arena team',
         },
         {
-          body: 'Track each batch with your phone number and reference code from the receipt.',
+          body: 'Track each batch with your registered phone number and reference number.',
           attribution: 'PSA grading submission',
         },
         {
@@ -1040,7 +1041,7 @@ export const en = {
             },
             {
               q: 'How do I track my submission?',
-              a: 'Use the Track page with the phone number and reference code from your receipt. Both are required. We never expose submissions by phone alone.',
+              a: 'Use the Track page with the registered phone number and reference number. Both are required. We never expose submissions by phone alone.',
             },
             {
               q: 'If one visit includes more than one service tier from the published pricing table, such as Priority and Express, how do I track them?',
@@ -1126,7 +1127,7 @@ export const en = {
     },
     cta: {
       title: 'Hand your cards in at 138 Arena',
-      body: '138 Arena in Causeway Bay is the drop-off point. We handle submission and follow-up. After that, track the batch with the phone number and reference code on your receipt. PSA decides the grade.',
+      body: '138 Arena in Causeway Bay is the drop-off point. We handle submission and follow-up. After that, track the batch with the registered phone number and reference number. PSA decides the grade.',
       book: 'Book appointment',
       track: 'Track submission',
       guide: 'PSA grading standards',
@@ -1163,7 +1164,7 @@ export const en = {
   psaGradingTrack: {
     badge: 'Expedition ledger',
     title: 'Track PSA grading submission',
-    subtitle: 'Use the phone number and reference code from your 138 Arena receipt.',
+    subtitle: 'Enter the registered phone number and reference number.',
     formPanelLabel: 'Locate batch',
     formPanelPart: '01',
     formIntro: 'Use the phone number and reference code.',
@@ -1188,7 +1189,7 @@ export const en = {
       fillDemo: 'Fill demo credentials',
       fillDemoShort: 'Use demo',
       notFoundTitle: 'No submission found',
-      notFoundBody: 'Phone and reference code must match your receipt exactly. WhatsApp us if something looks wrong.',
+      notFoundBody: 'The phone number and reference number must match what you registered. WhatsApp us if something looks wrong.',
       pricingLink: 'PSA service tiers & fees',
       turnstileMissingKey: 'Security check is not configured. Try again later.',
       turnstileRequired: 'Complete the security check first.',
@@ -1447,6 +1448,7 @@ export const en = {
     visitStore: 'Visit 138 Arena',
     visitPartner: 'Visit on Instagram',
     getDirections: 'Get Directions',
+    mapIframeTitle: 'Map of 138 Arena, Causeway Bay',
     partners: {
       cardtheland: {
         name: 'Card The Land (咭之島)',

@@ -865,7 +865,7 @@ export const zh: Translations = {
         },
         {
           title: '憑參考編號查看進度',
-          body: '每個 PSA 服務方案均獲獨立參考編號。查詢時須同時輸入收據上的電話號碼與參考編號；單憑電話無法查看他人批次，以保障隱私。',
+          body: '每個 PSA 服務方案均獲獨立參考編號。查詢時須同時輸入登記的電話號碼與參考編號；單憑電話無法查看他人批次，以保障隱私。',
         },
         {
           title: '每一步都清清楚楚',
@@ -886,7 +886,7 @@ export const zh: Translations = {
     batchBoard: {
       title: '現有 PSA 鑑定團進度',
       lead:
-        '目前各批次的收件與處理進度。提交鑑定只接受銅鑼灣 138 Arena 面交，不接受郵寄裸卡；憑收據電話與參考編號可於進度查詢頁查看批次狀態。',
+        '目前各批次的收件與處理進度。提交鑑定只接受銅鑼灣 138 Arena 面交，不接受郵寄裸卡；憑登記的電話號碼與參考編號可於進度查詢頁查看批次狀態。',
       phases: {
         intake: '開放收件中',
         atPsa: '本輪已截單',
@@ -928,10 +928,11 @@ export const zh: Translations = {
       checklistItems: [
         '攜帶您的愛卡與聯絡電話過來；運送途中請務必先用卡套/卡磚保護好，避免刮傷跌損。',
         '我們會現場幫您確認適合的 PSA 方案與申報價值（可先參考下方的收費表）；如有需要，我們也很樂意幫您看看卡況。',
-        '請妥善保管收據！上面的電話號碼與參考編號是您日後上網查看現有進度的唯一憑證。',
+        '請妥善保管收據。上網查看進度時，請輸入登記的電話號碼與參考編號。',
       ],
       locationTitle: '收件地點：138 Arena',
       directionsLink: '查看 Google 路線圖',
+      mapIframeTitle: '銅鑼灣 138 Arena 交卡地點地圖',
       ctaBook: '立刻預約',
       questionsPrefix: '還有其他疑問嗎？',
       questionsWhatsApp: '聯絡我們 WhatsApp',
@@ -950,7 +951,7 @@ export const zh: Translations = {
           attribution: '138 Arena 營運團隊',
         },
         {
-          body: '您的隱私很重要。請務必使用收據上的電話與參考編號才能查詢進度。',
+          body: '您的隱私很重要。請務必使用登記的電話號碼與參考編號才能查詢進度。',
           attribution: 'PSA評級代送鑑定',
         },
         {
@@ -1041,7 +1042,7 @@ export const zh: Translations = {
             },
             {
               q: '我要怎麼看我的卡片現在到哪了？',
-              a: '在「查詢進度」頁面，輸入您留的電話號碼及收據上的「參考編號」。為保護隱私，兩項資訊必須完全吻合才能查詢，我們也不會在電話中透露客戶資料。',
+              a: '在「查詢進度」頁面，輸入登記的電話號碼及參考編號。為保護隱私，兩項資訊必須完全吻合才能查詢，我們也不會在電話中透露客戶資料。',
             },
             {
               q: '若同一次交卡包含價目表上列明的不同方案（例如 Priority 與 Express），應如何查詢進度？',
@@ -1127,7 +1128,7 @@ export const zh: Translations = {
     },
     cta: {
       title: '可到銅鑼灣 138 Arena 當面交卡',
-      body: '138 Arena 為交收點，送評與跟進由我們負責。交卡後可憑收據上的電話與參考編號查看進度。最終分數由 PSA 決定。',
+      body: '138 Arena 為交收點，送評與跟進由我們負責。交卡後可憑登記的電話號碼與參考編號查看進度。最終分數由 PSA 決定。',
       book: '馬上預約',
       track: '查看現有進度',
       guide: '複習 PSA 評分標準',
@@ -1163,7 +1164,7 @@ export const zh: Translations = {
   psaGradingTrack: {
     badge: '遠征紀錄',
     title: '查詢 PSA評級代送鑑定進度',
-    subtitle: '請備妥您在 138 Arena 拿到的收據，輸入電話號碼與參考編號。',
+    subtitle: '輸入登記的電話號碼與參考編號。',
     formPanelLabel: '查找批次',
     formPanelPart: '01',
     formIntro: '輸入電話號碼與參考編號。',
@@ -1188,7 +1189,7 @@ export const zh: Translations = {
       fillDemo: '試試看示範帳號',
       fillDemoShort: '套用示範',
       notFoundTitle: '哎呀！找不到這筆紀錄',
-      notFoundBody: '請確認電話號碼與參考編號是否與收據上「完全一致」。如果還是不行，趕快 WhatsApp 找我們幫忙！',
+      notFoundBody: '請確認電話號碼與參考編號是否與登記資料完全一致。如果還是不行，趕快 WhatsApp 找我們幫忙！',
       pricingLink: '複習 PSA 服務方案與收費',
       turnstileMissingKey: '安全系統驗證異常，請稍後重試。',
       turnstileRequired: '為保護資料安全，請先勾選我是人類。',
@@ -1446,6 +1447,7 @@ export const zh: Translations = {
     visitStore: '前往 138 Arena',
     visitPartner: '前往 Instagram',
     getDirections: '查看地圖',
+    mapIframeTitle: '銅鑼灣 138 Arena 地圖',
     directDesc: '官方品牌直營',
     retailHint: '合作場地：銅鑼灣 138 Arena',
     onlineTitle: '官方網上商店',

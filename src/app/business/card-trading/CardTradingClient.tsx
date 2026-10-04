@@ -11,7 +11,6 @@ import { useLanguage } from '@/context/LanguageContext';
 import { marketplaceImageSrc } from '@/lib/marketplace/cardImage';
 import { usePublicMarketplaceCards } from '@/hooks/usePublicMarketplaceCards';
 import { getGradeColor, getCompanyStyle, formatPrice, formatGrade } from '@/lib/card-helpers';
-import { useSubHeader } from '@/hooks/useSubHeader';
 import type { TradingCard, GradingCompany, GradeTier } from '@/types/trading-card';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
@@ -44,10 +43,9 @@ function TradingGuide({ guide, registerActivate }: {
 
   const side = activeTab === 'buy' ? guide.buy : guide.sell;
   const tabAccent = activeTab === 'buy' ? 'var(--accent-primary)' : 'var(--accent-secondary)';
-  const tabAccentRgb = activeTab === 'buy' ? '255,154,166' : '139,152,251';
 
   return (
-    <section id="consign" className="section-padding bg-surface-bg relative overflow-x-clip border-t border-border-default">
+    <section id="consign" className="section-padding bg-surface-bg relative overflow-x-clip border-t border-border-strong scroll-mt-[calc(var(--site-sticky-below-header)+0.5rem)]">
 
       <div className="container-custom">
 
@@ -58,25 +56,27 @@ function TradingGuide({ guide, registerActivate }: {
         </div>
 
         {/* Tab switcher */}
-        <div className="flex items-center gap-2 p-1 bg-surface-raised border border-border-default rounded-none w-fit mb-12">
+        <div className="flex items-stretch border-2 border-border-strong w-fit mb-12">
           <button
+            type="button"
             onClick={() => { setActiveTab('buy'); setOpenFaq(null); }}
-            className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300"
-            style={activeTab === 'buy'
-              ? { background: 'color-mix(in srgb, var(--accent-primary) 15%, transparent)', color: 'var(--accent-primary)', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--accent-primary) 30%, transparent)' }
-              : { color: 'var(--text-muted)' }
-            }
+            className={`flex items-center gap-2.5 px-6 py-2.5 text-sm font-semibold min-h-11 transition-colors ${
+              activeTab === 'buy'
+                ? 'bg-accent-structural text-surface-bg'
+                : 'bg-surface-panel text-text-muted hover:text-text-primary hover:bg-surface-raised'
+            }`}
           >
             <ShoppingBag className="w-4 h-4" />
             {guide.buyTab}
           </button>
           <button
+            type="button"
             onClick={() => { setActiveTab('sell'); setOpenFaq(null); }}
-            className="flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300"
-            style={activeTab === 'sell'
-              ? { background: 'color-mix(in srgb, var(--accent-secondary) 12%, transparent)', color: 'var(--accent-secondary)', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--accent-secondary) 25%, transparent)' }
-              : { color: 'var(--text-muted)' }
-            }
+            className={`flex items-center gap-2.5 px-6 py-2.5 text-sm font-semibold min-h-11 border-l-2 border-border-strong transition-colors ${
+              activeTab === 'sell'
+                ? 'bg-accent-structural text-surface-bg'
+                : 'bg-surface-panel text-text-muted hover:text-text-primary hover:bg-surface-raised'
+            }`}
           >
             <TagIcon className="w-4 h-4" />
             {guide.sellTab}
@@ -96,12 +96,12 @@ function TradingGuide({ guide, registerActivate }: {
                 <div
                   key={i}
                   className="group flex gap-5 p-5 panel transition-[border-color,background-color] duration-300"
-                  style={{ borderColor: `rgba(${tabAccentRgb},0.12)`, background: `rgba(${tabAccentRgb},0.03)` }}
+                  style={{ borderColor: `color-mix(in srgb, ${tabAccent} 35%, var(--border-default))` }}
                 >
                   {/* Step number */}
                   <div
-                    className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-black"
-                    style={{ background: `rgba(${tabAccentRgb},0.12)`, color: tabAccent }}
+                    className="flex-shrink-0 w-8 h-8 border-2 border-border-strong flex items-center justify-center font-mono text-xs font-bold"
+                    style={{ color: tabAccent, borderColor: tabAccent }}
                   >
                     {i + 1}
                   </div>
@@ -166,7 +166,7 @@ function WhyAppaw({ labels, onSeeCommission }: {
   ];
 
   return (
-    <section className="section-padding border-t border-border-default bg-surface-panel overflow-hidden">
+    <section className="section-padding border-t border-border-strong bg-surface-panel overflow-hidden">
       <div className="container-custom">
         {/* Header */}
         <div className="max-w-2xl mb-10 md:mb-14">
@@ -402,17 +402,17 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
             {/* Badges — in flow like full page */}
             <div className="relative flex items-center gap-1.5 mb-3 z-10 shrink-0">
               <div
-                className="h-7 min-w-[40px] flex items-center justify-center px-2.5 rounded-md"
+                className="h-7 min-w-[40px] flex items-center justify-center px-2.5 border border-border-strong"
                 style={{ background: companyStyle.background, color: companyStyle.color, boxShadow: companyStyle.shadow }}
               >
                 <span className="text-xs font-bold leading-none">{activeCard.company}</span>
               </div>
-              <div className={`h-7 min-w-[40px] flex items-center justify-center gap-1 px-2.5 rounded-md ${gradeColor.bg} ${gradeColor.text} border ${gradeColor.border}`}>
+              <div className={`h-7 min-w-[40px] flex items-center justify-center gap-1 px-2.5 ${gradeColor.bg} ${gradeColor.text} border ${gradeColor.border}`}>
                 {activeCard.isBlackLabel && <span className="text-xs font-bold text-accent-brand leading-none">BL</span>}
                 <span className="text-sm font-black leading-none tabular-nums">{activeCard.grade}</span>
               </div>
               {isBundle && (
-                <div className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-accent-cta text-accent-cta-ink border border-border-strong">
+                <div className="flex items-center gap-1 px-2.5 h-7 bg-accent-cta text-accent-cta-ink border border-border-strong">
                   <Layers className="w-3 h-3" />
                   <span className="text-xs font-extrabold leading-none">{labels.bundle.fullSet}</span>
                 </div>
@@ -598,7 +598,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                           href={`/business/card-trading/${card.id}/${idx > 0 ? `?card=${idx}` : ''}`}
                           onClick={e => e.stopPropagation()}
                           title={labels.detail?.viewPage ?? 'View full page'}
-                          className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${
+                          className={`flex-shrink-0 w-6 h-6 flex items-center justify-center transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200 ${
                             isActive
                               ? 'bg-surface-raised text-text-primary border border-border-strong hover:bg-surface-raised'
                               : 'bg-surface-raised text-text-muted hover:bg-surface-raised hover:text-text-secondary'
@@ -621,7 +621,7 @@ function CardDetailModal({ card, labels, onClose }: { card: TradingCard; labels:
                 <div className="flex items-center justify-center gap-2.5 w-full min-h-11 py-3.5 rounded-none bg-accent-danger/10 border border-accent-danger/30 text-accent-danger text-sm font-bold uppercase tracking-[0.1em]">
                   <span>{labels.card.soldOut}</span>
                 </div>
-                <LocalLink href="/business/card-trading/" className="flex items-center justify-center gap-2 w-full min-h-11 py-2.5 rounded-lg bg-surface-raised text-text-secondary hover:text-text-primary text-sm font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow]">
+                <LocalLink href="/business/card-trading/" className="btn btn-secondary w-full">
                   <span>{labels.card.similarItems}</span>
                 </LocalLink>
               </div>
@@ -1051,51 +1051,38 @@ export default function CardTradingPage() {
     </div>
   );
 
-  useSubHeader({ content: filterToolbar, contentWidth: 'page' });
-
-
 return (
     <div className="flex flex-col bg-surface-bg min-h-dvh overflow-x-clip">
 
       {/* ═══════════ HERO ═══════════ */}
-      <section className="relative pt-8 pb-4 md:pt-10 md:pb-5 overflow-hidden border-b border-border-default">
-        <div className="relative container-custom z-10">
-          <div className="max-w-3xl transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-1000" style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)' }}>
-
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold font-display text-text-primary leading-[1.2] tracking-tight mb-2">{mp.title}</h1>
-
-            {/* Short visible AEO line — full aeoAnswer lives in page JSON-LD */}
-            <p className="marketplace-aeo-answer text-text-secondary text-xs sm:text-sm leading-snug max-w-xl mb-3">
+      <section className="relative overflow-hidden border-b border-border-strong">
+        <div className="relative container-custom z-10 py-14 md:py-20">
+          <div
+            className="max-w-3xl transition-[opacity,transform] duration-700"
+            style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)' }}
+          >
+            <p className="section-label mb-6">{mp.badge}</p>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary leading-[1.06] tracking-tight mb-4">
+              {mp.title}
+            </h1>
+            <p className="marketplace-aeo-answer text-text-secondary text-base md:text-lg leading-relaxed max-w-xl mb-8">
               {mp.subtitle}
             </p>
-
-            <div className="flex flex-wrap items-center gap-2">
-              <a
-                href="#consign"
-                className="inline-flex items-center gap-2 min-h-11 px-4 rounded-md bg-surface-raised border border-border-default hover:border-border-strong hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
-              >
-                <TagIcon className="w-3.5 h-3.5" />
+            <div className="flex flex-wrap items-center gap-3">
+              <button type="button" onClick={handleSeeCommission} className="btn btn-primary">
+                <TagIcon className="w-4 h-4" aria-hidden="true" />
                 {mp.hero.linkConsign}
-              </a>
-              <a
-                href="#consign"
-                className="inline-flex items-center gap-2 min-h-11 px-4 rounded-md bg-surface-raised border border-border-default hover:border-border-strong hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
-              >
-                <ShoppingBag className="w-3.5 h-3.5" />
+              </button>
+              <a href="#consign" className="btn btn-secondary">
+                <ShoppingBag className="w-4 h-4" aria-hidden="true" />
                 {mp.hero.linkBuyingGuide}
               </a>
-              <LocalLink
-                href="/products/psa-protectors"
-                className="hidden sm:inline-flex items-center gap-2 min-h-11 px-4 rounded-md bg-surface-raised border border-border-default hover:border-border-strong hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
-              >
-                <Shield className="w-3.5 h-3.5" />
+              <LocalLink href="/products/psa-protectors" className="hidden sm:inline-flex btn btn-secondary">
+                <Shield className="w-4 h-4" aria-hidden="true" />
                 {mp.hero.linkProtectors}
               </LocalLink>
-              <LocalLink
-                href="/tools/card-centering"
-                className="hidden md:inline-flex items-center gap-2 min-h-11 px-4 rounded-md bg-surface-raised border border-border-default hover:border-border-strong hover:bg-surface-raised text-text-secondary hover:text-text-primary text-xs font-medium transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-200"
-              >
-                <Gauge className="w-3.5 h-3.5" />
+              <LocalLink href="/tools/card-centering" className="hidden md:inline-flex btn btn-secondary">
+                <Gauge className="w-4 h-4" aria-hidden="true" />
                 {mp.hero.linkCentering}
               </LocalLink>
             </div>
@@ -1103,29 +1090,18 @@ return (
         </div>
       </section>
 
-      {/* ═══════════ RESULTS HEADER ═══════════ */}
-      <div className="container-custom pt-4 md:pt-6 pb-2 flex items-center justify-between">
-        {loading ? (
-          <p className="marketplace-toolbar__loading inline-flex items-center gap-2 text-sm text-text-muted" aria-live="polite">
-            <span className="marketplace-toolbar__loading-dot" aria-hidden="true" />
-            {mp.loadingLabel}
-          </p>
-        ) : !error ? (
-          <p className="text-text-muted text-sm">
-            <span className="text-accent-brand font-bold">{total}</span> {mp.resultsCount}
-          </p>
-        ) : (
-          <span />
-        )}
-        {hasActiveFilters && (
-          <button onClick={resetFilters} className="text-xs text-text-muted hover:text-accent-brand transition-colors flex items-center gap-1.5">
-            <X className="w-3 h-3" />{mp.emptyState.reset}
-          </button>
-        )}
+      {/* ═══════════ FILTERS ═══════════ */}
+      <div
+        className="sticky z-30 border-b-2 border-border-strong bg-surface-bg"
+        style={{ top: 'var(--site-sticky-below-header)' }}
+      >
+        <div className="container-custom py-3 md:py-3.5">
+          {filterToolbar}
+        </div>
       </div>
 
       {/* ═══════════ CARD GRID ═══════════ */}
-      <section className="container-custom py-6 flex-1">
+      <section className="container-custom py-6 flex-1 relative z-0 isolate">
         {loading ? (
           <MarketplaceGridSkeleton label={mp.loadingLabel} count={10} />
         ) : error ? (
@@ -1238,10 +1214,10 @@ return (
                           <span className="text-text-primary text-sm font-semibold font-mono font-tabular">{formatPrice(parentCard.price, parentCard.currency)}</span>
                         )}
                         <div
-                          className={`min-h-11 min-w-11 rounded-md flex items-center justify-center transition-colors duration-200 ${
+                          className={`min-h-11 min-w-11 flex items-center justify-center transition-colors duration-200 ${
                             parentCard.sold
                               ? 'invisible'
-                              : 'bg-accent-success/15 border border-accent-success/40 group-hover:bg-accent-success/25 group-hover:border-accent-success/60'
+                              : 'bg-accent-success/15 border-2 border-accent-success/40 group-hover:bg-accent-success/25 group-hover:border-accent-success/60'
                           }`}
                           aria-hidden={parentCard.sold}
                         >
@@ -1260,7 +1236,7 @@ return (
                 type="button"
                 disabled={query.page <= 1}
                 onClick={() => applyQuery({ ...query, page: query.page - 1 })}
-                className="min-h-11 px-4 rounded-lg border border-border-default text-sm text-text-secondary disabled:opacity-40"
+                className="btn btn-secondary disabled:opacity-40"
               >
                 {mp.filters.prev}
               </button>
@@ -1271,7 +1247,7 @@ return (
                 type="button"
                 disabled={query.page >= totalPages}
                 onClick={() => applyQuery({ ...query, page: query.page + 1 })}
-                className="min-h-11 px-4 rounded-lg border border-border-default text-sm text-text-secondary disabled:opacity-40"
+                className="btn btn-secondary disabled:opacity-40"
               >
                 {mp.filters.next}
               </button>
@@ -1300,7 +1276,7 @@ return (
       <WhyAppaw labels={mp} onSeeCommission={handleSeeCommission} />
 
       {/* ═══════════ CTA BANNER ═══════════ */}
-      <section ref={ctaRef} className="border-t border-border-default bg-surface-panel">
+      <section ref={ctaRef} className="border-t border-border-strong bg-surface-panel">
         <div className="container-custom py-12 md:py-16">
           <div className="panel max-w-3xl mx-auto text-center px-6 py-8 md:py-10 transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-1000"
             style={{ opacity: ctaVisible ? 1 : 0, transform: ctaVisible ? 'translateY(0)' : 'translateY(24px)' }}>

@@ -5,7 +5,7 @@ const guide: GuideContent = {
   title: '香港 TCG 卡牌提交鑑定（HKTCG）：138 Arena PSA鑑定',
   badge: '香港',
   lead:
-    '香港 TCG 收藏家如欲將寶可夢、One Piece、Magic: The Gathering 或運動卡交 PSA 鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。Standard 方案服務費由 HKD 550 起，於 138 Arena 現場支付；基於雙方的服務安排，Appaw Store 可調整最終應付金額。憑收據上的電話號碼及參考編號，可於網上查看批次現有進度。',
+    '香港 TCG 收藏家如欲將寶可夢、One Piece、Magic: The Gathering 或運動卡交 PSA 鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。Standard 方案服務費由 HKD 550 起，於 138 Arena 現場支付；基於雙方的服務安排，Appaw Store 可調整最終應付金額。憑登記的電話號碼及參考編號，可於網上查看批次現有進度。',
   published: '2026-07-13',
   updated: '2026-08-30',
   readTime: '9 分鐘',
@@ -24,7 +24,7 @@ const guide: GuideContent = {
     {
       label: '進度查詢',
       value:
-        '於 Appaw PSA評級代送鑑定進度查詢頁面輸入收據上的電話號碼及參考編號，方可查看批次現有進度',
+        '於 Appaw PSA評級代送鑑定進度查詢頁面輸入登記的電話號碼及參考編號，方可查看批次現有進度',
     },
     {
       label: '接受卡牌',
@@ -58,7 +58,7 @@ const guide: GuideContent = {
       paragraphs: [
         '辦理提交鑑定的第一步，是透過 Appaw 網站預約銅鑼灣 138 Arena 的面交時段，並攜帶待鑑定的卡牌前往。運送途中請使用卡套或硬卡夾保護，以免途中刮傷。到達後，Appaw 會完成點收與初步檢視，核對置中、邊角及表面狀況，並可作基本表面清潔。該檢視僅供參考，最終分數仍由 PSA 決定。',
         '完成點收後，Appaw 會協助確認 PSA 服務方案與申報價值，整理套袋與書面清單，並依服務方案分配參考編號及開立收據。服務方案僅以 PSA評級代送鑑定頁面公布的價目表為準，包括 Standard、Priority、Express、Super Express、Premier 及 Reholder。費用由 138 Arena 現場收取；若有調整，由 Appaw Store 確認最終金額。收費及最高申報價值限制，以預約當時價目表所列為準，詳見 [PSA評級代送鑑定](/business/psa-grading/) 頁面。',
-        '收件封批後，Appaw 會將卡牌合併轉送至 PSA，由 PSA 進行研究、評分、封裝與品質控制。各階段動態會同步至 Appaw [PSA評級代送鑑定進度查詢](/business/psa-grading/track/) 頁面。顧客須同時輸入收據上的電話號碼及參考編號，方可查看批次現有進度。',
+        '收件封批後，Appaw 會將卡牌合併轉送至 PSA，由 PSA 進行研究、評分、封裝與品質控制。各階段動態會同步至 Appaw [PSA評級代送鑑定進度查詢](/business/psa-grading/track/) 頁面。顧客須同時輸入登記的電話號碼及參考編號，方可查看批次現有進度。',
       ],
       bridge:
         '掌握面交步驟後，顧客在前往 138 Arena 前亦可自行先做預先檢視，以減少不必要的鑑定開支。',
@@ -113,7 +113,7 @@ const guide: GuideContent = {
     },
     {
       q: '如何查看批次現有進度？',
-      a: '於 Appaw PSA評級代送鑑定進度查詢頁面輸入收據上的電話號碼及參考編號，兩者缺一不可。若一次提交多個 PSA 服務方案，每個方案有獨立的參考編號，可用相同電話號碼分別查看各批現有進度。',
+      a: '於 Appaw PSA評級代送鑑定進度查詢頁面輸入登記的電話號碼及參考編號，兩者缺一不可。若一次提交多個 PSA 服務方案，每個方案有獨立的參考編號，可用相同電話號碼分別查看各批現有進度。',
     },
     {
       q: '接受郵寄提交嗎？',
@@ -141,7 +141,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: '預約香港PSA評級代送鑑定',
-    body: '於網站預約後，前往 138 Arena 當面辦理提交鑑定。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。憑收據上的電話號碼及參考編號，可於 Appaw 查看每批現有進度。鑑定卡由 PSA 交還後，由 Appaw Store 保管；十四日取件期限由發出 WhatsApp 或電郵通知當日起計，於 138 Arena 取回。',
+    body: '於網站預約後，前往 138 Arena 當面辦理提交鑑定。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。憑登記的電話號碼及參考編號，可於 Appaw 查看每批現有進度。鑑定卡由 PSA 交還後，由 Appaw Store 保管；十四日取件期限由發出 WhatsApp 或電郵通知當日起計，於 138 Arena 取回。',
     primary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
     secondary: { label: '免費置中工具', href: '/tools/card-centering/' },
   },

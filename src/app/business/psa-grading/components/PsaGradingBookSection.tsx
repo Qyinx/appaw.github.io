@@ -3,6 +3,8 @@
 import React from 'react';
 import { CalendarDays, ExternalLink, MapPin } from 'lucide-react';
 import Reveal from '@/components/ui/Reveal';
+import ArenaMap from '@/components/ArenaMap';
+import { useLanguage } from '@/context/LanguageContext';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import {
   PSA_DROP_OFF_MAPS_URL,
@@ -19,6 +21,7 @@ type Props = {
 
 export default function PsaGradingBookSection({ copy, dropOffAddress, hoursNote }: Props) {
   const sectionRef = useRevealOnScroll<HTMLElement>({ threshold: 0.08 });
+  const { language } = useLanguage();
 
   return (
     <section
@@ -87,6 +90,12 @@ export default function PsaGradingBookSection({ copy, dropOffAddress, hoursNote 
                 </p>
               </div>
             </div>
+
+            <ArenaMap
+              language={language}
+              title={copy.mapIframeTitle}
+              className="arena-map--book mt-6"
+            />
         </Reveal>
       </div>
     </section>

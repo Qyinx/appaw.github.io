@@ -24,7 +24,7 @@ const guide: GuideContent = {
     {
       label: 'Tracking',
       value:
-        'Enter the receipt phone number and reference code on the Appaw PSA grading submission tracker to view batch status',
+        'Enter the registered phone number and reference number on the Appaw PSA grading submission tracker to view batch status',
     },
     {
       label: 'Categories',
@@ -57,7 +57,7 @@ const guide: GuideContent = {
       paragraphs: [
         'First, book a face-to-face slot at 138 Arena, Causeway Bay, through the Appaw website. Bring the cards and a contact phone number. Sleeve or hard-case the cards for travel so they do not pick up scratches on the way. On arrival, Appaw completes intake and a preliminary inspection, checking centering, corners, and surface, and may apply basic surface cleaning. That inspection is a reference only. PSA still sets the grade.',
         'After intake, Appaw helps confirm the PSA service tier and declared value, prepares sleeving and a written list, assigns a reference code per service level, and issues a receipt. Service tiers follow only the pricing table published on the PSA grading submission page: Standard, Priority, Express, Super Express, Premier, and Reholder. Money is collected at 138 Arena. If an adjustment applies, Appaw Store confirms the final amount. Fees and declared-value limits are those shown on the table at the time of booking; see the [PSA grading submission page](/business/psa-grading/).',
-        'After intake, Appaw consolidates batches by PSA tier and forwards them for research, grading, encapsulation, and quality control. Timeline steps sync to the Appaw [PSA grading submission tracker](/business/psa-grading/track/). You need both the phone number and the reference code from your receipt to view batch status. Appaw does not expose submissions by phone number alone.',
+        'After intake, Appaw consolidates batches by PSA tier and forwards them for research, grading, encapsulation, and quality control. Timeline steps sync to the Appaw [PSA grading submission tracker](/business/psa-grading/track/). You need both the registered phone number and reference number to view batch status. Appaw does not expose submissions by phone number alone.',
       ],
       bridge: 'With drop-off clear, optional self-checks can help you decide whether the fee is worth paying.',
     },
@@ -78,7 +78,7 @@ const guide: GuideContent = {
       id: 'tracking-and-pickup',
       title: 'Track batch status and pick up in Hong Kong',
       paragraphs: [
-        'While PSA grades your cards, use the Appaw [PSA grading submission tracker](/business/psa-grading/track/) with your receipt phone number and reference code. On the timeline, "Card Recorded at 138 Arena" means local intake is complete; "Submitted to PSA" means Appaw forwarded the batch; middle steps sync from PSA; "Ready for Pickup at 138 Arena" means the slabs have been returned.',
+        'While PSA grades your cards, use the Appaw [PSA grading submission tracker](/business/psa-grading/track/) with your registered phone number and reference number. On the timeline, "Card Recorded at 138 Arena" means local intake is complete; "Submitted to PSA" means Appaw forwarded the batch; middle steps sync from PSA; "Ready for Pickup at 138 Arena" means the slabs have been returned.',
         'Returned PSA slabs are stored by Appaw Store. The fourteen-day pickup window starts when Appaw Store begins notifying the customer, by WhatsApp or email, that the cards are ready. It does not start from the PSA return date alone. Handover is arranged at 138 Arena. Collect within fourteen days of that notice. At pickup, Appaw verifies the reference code, card list, and grades against your receipt before handover. If the cards are not collected within those fourteen days, they are treated as abandoned. Appaw Store sends an abandonment notice. Fees already paid are not refunded.',
         'If PSA issues an upcharge because a card grades above the declared-value limit of the chosen tier, two options are available. You may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window you may waive the card. Full terms are on the [PSA grading submission page](/business/psa-grading/) and in the terms of service.',
       ],
@@ -110,7 +110,7 @@ const guide: GuideContent = {
     },
     {
       q: 'How do I track my batch?',
-      a: 'Use the Appaw PSA grading submission tracker with your receipt phone number and reference code. Both are required. Multiple tiers get separate reference codes under the same phone number.',
+      a: 'Use the Appaw PSA grading submission tracker with your registered phone number and reference number. Both are required. Multiple tiers get separate reference codes under the same phone number.',
     },
     {
       q: 'Do you accept mailed submissions?',
@@ -138,7 +138,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: 'Book PSA grading submission in Hong Kong',
-    body: 'Book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. Track every batch on Appaw with the phone number and reference code from your receipt. After PSA returns the slabs, Appaw Store stores them. The fourteen-day pickup window starts when the WhatsApp or email notice is issued. Collect at 138 Arena.',
+    body: 'Book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. Track every batch on Appaw with the registered phone number and reference number. After PSA returns the slabs, Appaw Store stores them. The fourteen-day pickup window starts when the WhatsApp or email notice is issued. Collect at 138 Arena.',
     primary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
     secondary: { label: 'Free centering tool', href: '/tools/card-centering/' },
   },

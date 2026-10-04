@@ -150,9 +150,9 @@ export const PSA_GRADING_SEO = {
     webAppName: 'PSA Grading Submission Tracker',
     trackTitle: 'Track PSA Grading Submission | Appaw Store',
     trackDescription:
-      'Look up your batch with the phone and reference code on the 138 Arena receipt. Appaw follows up; 138 Arena handles venue and payment.',
+      'Look up your batch with the registered phone number and reference number. Appaw follows up; 138 Arena handles venue and payment.',
     featureList: [
-      'Status lookup by phone and reference code',
+      'Status lookup by registered phone number and reference number',
       'Timeline from 138 Arena intake through PSA grading',
       'Other batches from the same drop-off visit',
     ],
@@ -168,9 +168,9 @@ export const PSA_GRADING_SEO = {
     webAppName: 'PSA評級代送鑑定進度查詢',
     trackTitle: '查詢 PSA評級代送鑑定進度｜線上追蹤 | Appaw Store',
     trackDescription:
-      '輸入 138 Arena 收據上的電話號碼及參考編號，查詢 PSA評級代送鑑定進度。',
+      '輸入登記的電話號碼及參考編號，查看批次狀態，以及由收件到 PSA 評級各階段的時間軸。',
     featureList: [
-      '憑電話及參考編號查批次狀態',
+      '憑登記的電話號碼及參考編號查批次狀態',
       '由 138 Arena 收件至 PSA 評級各階段時間軸',
       '同一次交卡的其他批次',
     ],
