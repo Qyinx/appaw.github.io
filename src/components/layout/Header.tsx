@@ -32,13 +32,13 @@ function HeaderLanguageToggle({
   return (
     <button
       type="button"
-      className="header-lang-toggle"
+      className="header-lang-toggle cursor-pointer touch-manipulation"
       aria-pressed={isZh}
       aria-label={groupLabel}
       title={isZh ? 'Switch to English' : 'Switch to 中文'}
       onClick={() => onSelect(isZh ? 'en' : 'zh')}
     >
-      <span className="header-lang-toggle__scene" aria-hidden="true">
+      <span className="header-lang-toggle__scene pointer-events-none" aria-hidden="true">
         <span className="header-lang-toggle__motif header-lang-toggle__motif--west">
           <svg
             className="header-lang-toggle__svg"
@@ -128,8 +128,8 @@ function HeaderLanguageToggle({
           </svg>
         </span>
       </span>
-      <span className="header-lang-toggle__thumb" aria-hidden="true" />
-      <span className="header-lang-toggle__labels" aria-hidden="true">
+      <span className="header-lang-toggle__thumb pointer-events-none" aria-hidden="true" />
+      <span className="header-lang-toggle__labels pointer-events-none" aria-hidden="true">
         <span
           className={`header-lang-toggle__label${language === 'en' ? ' is-active' : ''}`}
         >
@@ -359,16 +359,16 @@ export default function Header() {
             <button
               ref={menuToggleRef}
               type="button"
-              className="lg:hidden relative z-10 min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border-2 border-border-strong text-text-primary touch-manipulation"
+              className="lg:hidden relative z-10 min-w-11 min-h-11 w-11 h-11 flex items-center justify-center border-2 border-border-strong text-text-primary cursor-pointer touch-manipulation"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
               aria-controls="site-mobile-nav"
             >
               {isMenuOpen ? (
-                <X className="w-4 h-4" aria-hidden="true" />
+                <X className="w-4 h-4 pointer-events-none" aria-hidden="true" />
               ) : (
-                <Menu className="w-4 h-4" aria-hidden="true" />
+                <Menu className="w-4 h-4 pointer-events-none" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -389,7 +389,7 @@ export default function Header() {
               </div>
             )}
             <nav className="flex flex-col" aria-label="Mobile">
-              <div className="px-4 py-3">
+              <div className="px-4 py-3 flex items-center">
                 <HeaderLanguageToggle
                   language={language}
                   groupLabel={t.nav.language}
@@ -403,7 +403,7 @@ export default function Header() {
                     <div key={link.href}>
                       <button
                         type="button"
-                        className={`relative w-full text-left px-4 py-3 text-[15px] font-semibold min-h-11 ${isActive ? 'text-text-primary' : 'text-text-secondary'}`}
+                        className={`relative w-full text-left px-4 py-3 text-[15px] font-semibold min-h-11 cursor-pointer touch-manipulation ${isActive ? 'text-text-primary' : 'text-text-secondary'}`}
                         onClick={() => setIsMobileBusinessOpen(!isMobileBusinessOpen)}
                         aria-expanded={isMobileBusinessOpen}
                       >

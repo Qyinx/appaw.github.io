@@ -2,28 +2,24 @@
 
 import { useEffect, useLayoutEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import gsap from 'gsap';
 
-const FAILSAFE_MS = 8000;
+const FAILSAFE_MS = 2500;
 
 /**
- * CodePen Transition Lab slice:
- * direction=up bands=6 stagger=0.05 hold=0 duration=0.35 ease=power2.inOut
+ * CodePen slice: direction=up bands=6 stagger=0.05 hold=0 duration=0.35
+ * ease=power2.inOut (CSS cubic-bezier). CSS @keyframes so Safari compositor
+ * keeps the ease; GSAP ticks die on WebKit during router.push.
  */
 const DURATION = 0.35;
 const STAGGER = 0.05;
-const EASE = 'power2.inOut';
 const BAND_COUNT = 6;
 
 const BAND_COLORS = [
-  '#C44536', // accent-primary
-  '#1A140E', // ink
-  '#F3EBDA', // cream
+  '#C94B3E',
+  '#3F3832',
+  '#F3EBDA',
 ] as const;
 
-/** DIRECTIONS.up — vertical columns, sweep from bottom. */
-const VERTICAL = true;
-const SIGN = -1;
 const REVERSE = true;
 
 type Phase = 'idle' | 'covering' | 'hold' | 'revealing';
@@ -35,17 +31,43 @@ let routeAtStart = '';
 let pendingHref: string | null = null;
 let navigateTo: ((href: string) => void) | null = null;
 let bands: HTMLDivElement[] = [];
-let coverTl: gsap.core.Timeline | null = null;
-let revealTl: gsap.core.Timeline | null = null;
 let failsafeTimer: ReturnType<typeof setTimeout> | null = null;
+let sliceDoneTimer: ReturnType<typeof setTimeout> | null = null;
+let sliceGen = 0;
 let clickBound = false;
+let viewportBound = false;
+let tapStart: { x: number; y: number; anchor: HTMLAnchorElement } | null = null;
 
-function sliceProp(): 'yPercent' | 'xPercent' {
-  return VERTICAL ? 'yPercent' : 'xPercent';
+function syncHostToViewport() {
+  if (!hostEl) return;
+  hostEl.style.position = 'fixed';
+  hostEl.style.left = '0';
+  hostEl.style.top = '0';
+  hostEl.style.right = '0';
+  hostEl.style.bottom = '0';
+  hostEl.style.width = 'auto';
+  hostEl.style.height = 'auto';
+  hostEl.style.margin = '0';
+  hostEl.style.inset = '0';
 }
 
-function sliceFrom(): number {
-  return SIGN < 0 ? 100 : -100;
+function onViewportChange() {
+  if (phase === 'idle') return;
+  syncHostToViewport();
+}
+
+function bindViewport() {
+  if (viewportBound) return;
+  viewportBound = true;
+  window.visualViewport?.addEventListener('resize', onViewportChange);
+  window.visualViewport?.addEventListener('scroll', onViewportChange);
+  window.addEventListener('orientationchange', onViewportChange);
+}
+
+function eventElement(target: EventTarget | null): Element | null {
+  if (target instanceof Element) return target;
+  if (target instanceof Node) return target.parentElement;
+  return null;
 }
 
 function ensureHost(): HTMLDivElement {
@@ -53,6 +75,7 @@ function ensureHost(): HTMLDivElement {
   if (existing instanceof HTMLDivElement) {
     hostEl = existing;
     trackEl = existing.querySelector('.page-switch__track');
+    bindViewport();
     return existing;
   }
 
@@ -60,28 +83,16 @@ function ensureHost(): HTMLDivElement {
   host.id = 'page-switch-slice';
   host.className = 'page-switch';
   host.setAttribute('aria-hidden', 'true');
-  Object.assign(host.style, {
-    position: 'fixed',
-    inset: '0',
-    zIndex: '2147483000',
-    display: 'none',
-    overflow: 'hidden',
-    pointerEvents: 'none',
-  });
+  host.style.pointerEvents = 'none';
 
   const track = document.createElement('div');
   track.className = 'page-switch__track';
-  Object.assign(track.style, {
-    position: 'absolute',
-    inset: '0',
-    display: 'flex',
-    flexDirection: VERTICAL ? 'row' : 'column',
-  });
   host.appendChild(track);
 
-  document.body.appendChild(host);
+  document.documentElement.appendChild(host);
   hostEl = host;
   trackEl = track;
+  bindViewport();
   return host;
 }
 
@@ -89,9 +100,7 @@ function currentRouteKey(): string {
   return `${window.location.pathname}${window.location.search}`;
 }
 
-function internalNavHref(anchor: HTMLAnchorElement, event: MouseEvent): string | null {
-  if (event.button !== 0) return null;
-  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return null;
+function hrefFromAnchor(anchor: HTMLAnchorElement): string | null {
   if (anchor.target && anchor.target !== '_self') return null;
   if (anchor.hasAttribute('download')) return null;
 
@@ -119,11 +128,12 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-/**
- * Freeze scroll WITHOUT hiding the scrollbar.
- * overflow:hidden removes the bar for a frame and changes page width —
- * block wheel/touch/keys instead so layout width stays constant.
- */
+function afterPaint(fn: () => void) {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(fn);
+  });
+}
+
 function blockScrollEvent(event: Event) {
   event.preventDefault();
 }
@@ -142,26 +152,38 @@ function blockScrollKey(event: KeyboardEvent) {
   if (keys.includes(event.key)) event.preventDefault();
 }
 
+function isFinePointer(): boolean {
+  return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+}
+
 function lockScroll() {
   document.documentElement.classList.add('page-switching');
+  if (!isFinePointer()) return;
   window.addEventListener('wheel', blockScrollEvent, { passive: false, capture: true });
-  window.addEventListener('touchmove', blockScrollEvent, { passive: false, capture: true });
   window.addEventListener('keydown', blockScrollKey, { capture: true });
 }
 
 function unlockScroll() {
   document.documentElement.classList.remove('page-switching');
   window.removeEventListener('wheel', blockScrollEvent, { capture: true } as EventListenerOptions);
-  window.removeEventListener('touchmove', blockScrollEvent, { capture: true } as EventListenerOptions);
   window.removeEventListener('keydown', blockScrollKey, { capture: true } as EventListenerOptions);
 }
 
-function hideHost() {
-  if (hostEl) {
-    hostEl.style.display = 'none';
-    hostEl.style.pointerEvents = 'none';
+function cancelSlice() {
+  sliceGen += 1;
+  if (sliceDoneTimer) {
+    clearTimeout(sliceDoneTimer);
+    sliceDoneTimer = null;
   }
-  if (trackEl) trackEl.innerHTML = '';
+}
+
+function hideHost() {
+  cancelSlice();
+  if (hostEl?.parentNode) {
+    hostEl.parentNode.removeChild(hostEl);
+  }
+  hostEl = null;
+  trackEl = null;
   bands = [];
   unlockScroll();
 }
@@ -172,35 +194,92 @@ function resetIdle() {
   pendingHref = null;
 }
 
+function clearBandAnimation(band: HTMLDivElement) {
+  band.style.removeProperty('animation');
+  band.style.removeProperty('animation-delay');
+  band.style.removeProperty('-webkit-animation');
+  band.style.removeProperty('-webkit-animation-delay');
+}
+
+function playSlice(mode: 'cover' | 'reveal', onDone: () => void) {
+  const host = hostEl;
+  if (!host || !bands.length) {
+    onDone();
+    return;
+  }
+
+  const gen = ++sliceGen;
+  host.classList.remove('is-cover', 'is-reveal');
+  for (const band of bands) {
+    clearBandAnimation(band);
+  }
+  void host.offsetWidth;
+
+  bands.forEach((band, i) => {
+    const delay = `${i * STAGGER}s`;
+    band.style.animationDelay = delay;
+    band.style.setProperty('-webkit-animation-delay', delay);
+  });
+
+  const finished = new Set<EventTarget>();
+  const totalMs = (DURATION + STAGGER * (BAND_COUNT - 1)) * 1000 + 80;
+  let settled = false;
+
+  const finish = () => {
+    if (gen !== sliceGen || settled) return;
+    settled = true;
+    host.removeEventListener('animationend', onAnim);
+    host.removeEventListener('webkitAnimationEnd', onAnim);
+    if (sliceDoneTimer) {
+      clearTimeout(sliceDoneTimer);
+      sliceDoneTimer = null;
+    }
+    onDone();
+  };
+
+  const onAnim = (event: Event) => {
+    const target = event.target;
+    if (!(target instanceof Element) || !target.classList.contains('page-switch__band')) {
+      return;
+    }
+    finished.add(target);
+    if (finished.size >= bands.length) finish();
+  };
+
+  host.addEventListener('animationend', onAnim);
+  host.addEventListener('webkitAnimationEnd', onAnim);
+
+  if (sliceDoneTimer) clearTimeout(sliceDoneTimer);
+  sliceDoneTimer = setTimeout(finish, totalMs);
+
+  host.classList.add(mode === 'cover' ? 'is-cover' : 'is-reveal');
+}
+
 function buildBands(): HTMLDivElement[] {
   const host = ensureHost();
   const track = trackEl ?? host;
-  const from = sliceFrom();
 
+  host.classList.remove('is-cover', 'is-reveal');
   track.innerHTML = '';
-  track.style.flexDirection = VERTICAL ? 'row' : 'column';
+  track.style.flexDirection = 'row';
 
   const els: HTMLDivElement[] = [];
   for (let i = 0; i < BAND_COUNT; i++) {
     const band = document.createElement('div');
     band.className = 'page-switch__band';
     band.style.background = BAND_COLORS[i % BAND_COLORS.length];
-    band.style.flex = '1 1 0';
-    band.style.minWidth = '0';
-    band.style.minHeight = '0';
-    band.style.willChange = 'transform';
     track.appendChild(band);
     els.push(band);
   }
 
   const ordered = REVERSE ? [...els].reverse() : els;
-  gsap.set(ordered, { [sliceProp()]: from });
 
-  // Freeze scroll but keep scrollbar painted — no width jump at start/end.
   lockScroll();
+  syncHostToViewport();
   host.style.display = 'block';
-  host.style.pointerEvents = 'auto';
-  void host.offsetWidth;
+  host.style.visibility = 'visible';
+  host.style.pointerEvents = 'none';
+  void host.offsetHeight;
 
   bands = ordered;
   return ordered;
@@ -222,31 +301,22 @@ function beginReveal() {
   }
 
   phase = 'revealing';
-  const from = sliceFrom();
 
   if (prefersReducedMotion()) {
     resetIdle();
     return;
   }
 
-  revealTl?.kill();
-  revealTl = gsap.timeline({
-    onComplete: () => {
-      revealTl = null;
+  afterPaint(() => {
+    if (phase !== 'revealing') return;
+    syncHostToViewport();
+    playSlice('reveal', () => {
       resetIdle();
-    },
-  });
-
-  revealTl.to(bands, {
-    [sliceProp()]: -from,
-    duration: DURATION,
-    ease: EASE,
-    stagger: STAGGER,
+    });
   });
 }
 
 function onCoverComplete() {
-  coverTl = null;
   if (phase !== 'covering') return;
 
   phase = 'hold';
@@ -260,8 +330,7 @@ function onCoverComplete() {
 function beginCover() {
   if (phase !== 'idle') return;
 
-  coverTl?.kill();
-  revealTl?.kill();
+  cancelSlice();
   if (failsafeTimer) clearTimeout(failsafeTimer);
 
   phase = 'covering';
@@ -275,24 +344,18 @@ function beginCover() {
   }
 
   if (prefersReducedMotion()) {
-    gsap.set(nextBands, { [sliceProp()]: 0 });
     onCoverComplete();
     return;
   }
 
-  coverTl = gsap.timeline({ onComplete: onCoverComplete });
-  coverTl.to(nextBands, {
-    [sliceProp()]: 0,
-    duration: DURATION,
-    ease: EASE,
-    stagger: STAGGER,
+  afterPaint(() => {
+    if (phase !== 'covering') return;
+    syncHostToViewport();
+    playSlice('cover', onCoverComplete);
   });
 
   failsafeTimer = setTimeout(() => {
-    if (phase === 'covering') {
-      coverTl?.kill();
-      onCoverComplete();
-    }
+    if (phase === 'covering') onCoverComplete();
     if (phase === 'hold') beginReveal();
   }, FAILSAFE_MS);
 }
@@ -303,14 +366,7 @@ function onRouteMaybeChanged() {
   beginReveal();
 }
 
-function onDocumentClick(event: MouseEvent) {
-  const target = event.target;
-  if (!(target instanceof Element)) return;
-  const anchor = target.closest('a');
-  if (!(anchor instanceof HTMLAnchorElement)) return;
-  const href = internalNavHref(anchor, event);
-  if (!href) return;
-
+function interceptNav(href: string, event: Event) {
   event.preventDefault();
   event.stopPropagation();
   event.stopImmediatePropagation();
@@ -321,16 +377,75 @@ function onDocumentClick(event: MouseEvent) {
   beginCover();
 }
 
+function onDocumentClick(event: MouseEvent) {
+  if (event.button !== 0) return;
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const target = eventElement(event.target);
+  if (!target) return;
+  const anchor = target.closest('a');
+  if (!(anchor instanceof HTMLAnchorElement)) return;
+  const href = hrefFromAnchor(anchor);
+  if (!href) return;
+  interceptNav(href, event);
+}
+
+function onTouchStart(event: TouchEvent) {
+  if (event.touches.length !== 1) {
+    tapStart = null;
+    return;
+  }
+  const target = eventElement(event.target);
+  const anchor = target?.closest('a');
+  if (!(anchor instanceof HTMLAnchorElement)) {
+    tapStart = null;
+    return;
+  }
+  const touch = event.touches[0];
+  tapStart = { x: touch.clientX, y: touch.clientY, anchor };
+}
+
+function onTouchEnd(event: TouchEvent) {
+  if (!tapStart) return;
+  if (event.touches.length > 0) {
+    tapStart = null;
+    return;
+  }
+  const touch = event.changedTouches[0];
+  const dx = touch.clientX - tapStart.x;
+  const dy = touch.clientY - tapStart.y;
+  const anchor = tapStart.anchor;
+  tapStart = null;
+  if (dx * dx + dy * dy > 16 * 16) return;
+  const href = hrefFromAnchor(anchor);
+  if (!href) return;
+  interceptNav(href, event);
+}
+
+function onTouchCancel() {
+  tapStart = null;
+}
+
+function onPopOrPageShow() {
+  if (phase === 'idle') return;
+  if (failsafeTimer) clearTimeout(failsafeTimer);
+  resetIdle();
+}
+
 function bindClick() {
   if (clickBound) return;
-  window.addEventListener('click', onDocumentClick, true);
+  const leftover = document.getElementById('page-switch-slice');
+  if (leftover) leftover.remove();
+  hostEl = null;
+  trackEl = null;
+  document.addEventListener('click', onDocumentClick, true);
+  document.addEventListener('touchstart', onTouchStart, { capture: true, passive: true });
+  document.addEventListener('touchend', onTouchEnd, { capture: true, passive: false });
+  document.addEventListener('touchcancel', onTouchCancel, { capture: true, passive: true });
+  window.addEventListener('popstate', onPopOrPageShow);
+  window.addEventListener('pageshow', onPopOrPageShow);
   clickBound = true;
 }
 
-/**
- * Slice wipe: cover current page with bands, then push route, then uncover.
- * Overlay lives on document.body so App Router remounts cannot hide it.
- */
 export default function PageSwitch() {
   const pathname = usePathname();
   const router = useRouter();
@@ -339,7 +454,6 @@ export default function PageSwitch() {
     navigateTo = (href: string) => {
       router.push(href);
     };
-    ensureHost();
     bindClick();
     return () => {
       navigateTo = (href: string) => {

@@ -4,24 +4,24 @@
 :root {
   color-scheme: light;
 
-  --surface-frame: #D85A45;
+  --surface-frame: #E06B58;
   --surface-bg: #F3EBDA;
   --surface-panel: #FBF7EE;
   --surface-raised: #EFE6D4;
-  --border-default: rgba(26, 20, 14, 0.18);
-  --border-strong: #1A140E;
+  --border-default: rgba(26, 20, 14, 0.12);
+  --border-strong: #3F3832;
   --text-primary: #1A140E;
   --text-secondary: #4A4036;
   --text-muted: #6B5F52;
-  --accent-primary: #C44536;
-  --accent-cta: #C44536;
+  --accent-primary: #C94B3E;
+  --accent-cta: #C94B3E;
   --accent-cta-ink: #ffffff;
   --accent-secondary: #1A140E;
-  --accent-structural: #1A140E;
+  --accent-structural: #3F3832;
   --accent-mark: #E7C63A;
   --accent-warn: #C9A227;
   --accent-success: #1F7A45;
-  --accent-danger: #C44536;
+  --accent-danger: #C94B3E;
 
   --space-page-x: clamp(16px, 4vw, 24px);
   --space-section-y: clamp(48px, 8vw, 96px);
@@ -45,7 +45,7 @@
   --radius-control: 0;
   --border-width: 2px;
   --shadow-panel: none;
-  --shadow-press: 3px 3px 0 0 var(--text-primary);
+  --shadow-press: 3px 3px 0 0 var(--border-strong);
 
   --theme-color: var(--surface-bg);
 
@@ -127,12 +127,12 @@
   --surface-panel: #262626;
   --surface-raised: #303030;
   --border-default: rgba(255, 255, 255, 0.22);
-  --border-strong: rgba(255, 255, 255, 0.38);
+  --border-strong: rgba(255, 255, 255, 0.28);
   --text-primary: #F4F1EA;
   --text-secondary: #C8C2B8;
   --text-muted: #A39C92;
-  --accent-primary: #C44536;
-  --accent-cta: #C44536;
+  --accent-primary: #C94B3E;
+  --accent-cta: #C94B3E;
   --accent-cta-ink: #ffffff;
   --accent-secondary: #F4F1EA;
   --accent-structural: #F4F1EA;
@@ -142,7 +142,7 @@
   --accent-danger: #f87171;
 
   --shadow-panel: none;
-  --shadow-press: 3px 3px 0 0 var(--text-primary);
+  --shadow-press: 3px 3px 0 0 var(--border-strong);
 
   --atmosphere-grid-line: 244, 241, 234;
   --atmosphere-grid-minor-opacity: 0;
@@ -164,8 +164,8 @@
   --color-primary-100: #f8e0db;
   --color-primary-200: #f0c0b6;
   --color-primary-300: #e39285;
-  --color-primary-400: #d85a45;
-  --color-primary-500: #C44536;
+  --color-primary-400: #e06b58;
+  --color-primary-500: #C94B3E;
   --color-primary-600: #A8382C;
   --color-primary-700: #862C23;
   --color-primary-800: #67231C;
@@ -276,6 +276,10 @@ html {
   html {
     scroll-behavior: auto;
   }
+
+  body {
+    transition: none;
+  }
 }
 
 body {
@@ -284,6 +288,10 @@ body {
   line-height: 1.65;
   color: var(--text-primary);
   background-color: var(--surface-frame);
+  background-image: var(--surface-frame-image, none);
+  transition:
+    background-color var(--color-slide-dur) var(--color-slide-ease),
+    background-image var(--color-slide-dur) var(--color-slide-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: grid;
@@ -601,7 +609,7 @@ select option {
   border-color: var(--border-strong);
   color: var(--accent-cta-ink);
   transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 0 var(--text-primary);
+  box-shadow: 5px 5px 0 0 var(--border-strong);
 }
 
 .btn-primary:active:not(:disabled) {
@@ -1827,24 +1835,27 @@ select option {
 }
 
 /* Header language pill toggle — flat west column / east lantern + bounce slide */
+/* Header language toggle — same control box as .btn / hamburger (44px) */
 .header-lang-toggle {
-  --lang-toggle-pad: 0.1875rem;
-  --lang-toggle-speed: 0.5s;
-  --lang-toggle-ease: cubic-bezier(0.4, -0.3, 0.6, 1.3);
+  --lang-toggle-pad: 3px;
+  --lang-toggle-speed: 0.35s;
+  --lang-toggle-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --lang-east: 0;
-  /* EN indigo / ZH blush — same lightness via brand tokens (not flat grey) */
-  --lang-west-sky: color-mix(in srgb, var(--accent-secondary) 52%, var(--surface-raised));
-  --lang-east-sky: color-mix(in srgb, var(--accent-primary) 52%, var(--surface-raised));
-  --lang-motif: rgb(255 255 255 / 0.78);
+  --lang-west-sky: color-mix(in srgb, var(--accent-secondary) 40%, var(--surface-raised));
+  --lang-east-sky: color-mix(in srgb, var(--accent-primary) 42%, var(--surface-raised));
+  --lang-motif: rgb(255 255 255 / 0.72);
   --lang-thumb: var(--surface-panel);
 
   position: relative;
   display: inline-grid;
   flex-shrink: 0;
+  box-sizing: border-box;
   grid-template-columns: 1fr 1fr;
   align-items: stretch;
-  min-width: 5.5rem;
-  min-height: 2.25rem;
+  width: 7.25rem;
+  height: 2.75rem;
+  min-width: 7.25rem;
+  min-height: 2.75rem;
   padding: var(--lang-toggle-pad);
   border: var(--border-width) solid var(--border-strong);
   border-radius: 0;
@@ -1855,13 +1866,14 @@ select option {
   );
   color: inherit;
   cursor: pointer;
+  touch-action: manipulation;
   appearance: none;
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
   isolation: isolate;
   transition:
-    transform 120ms ease,
-    background var(--lang-toggle-speed) var(--lang-toggle-ease);
+    background var(--lang-toggle-speed) var(--lang-toggle-ease),
+    transform 0.1s ease;
 }
 
 .header-lang-toggle[aria-pressed='true'] {
@@ -1869,7 +1881,7 @@ select option {
 }
 
 .header-lang-toggle:active {
-  transform: scale(0.97);
+  transform: translate(2px, 2px);
 }
 
 .header-lang-toggle:focus-visible {
@@ -1955,15 +1967,16 @@ select option {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem; /* 12px type floor */
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  padding: 0 0.55rem;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: none;
   color: var(--text-secondary);
   text-shadow: none;
-  transition: color calc(var(--lang-toggle-speed) * 0.6) ease, text-shadow calc(var(--lang-toggle-speed) * 0.6) ease;
+  transition: color calc(var(--lang-toggle-speed) * 0.6) ease;
   user-select: none;
 }
 
@@ -4740,9 +4753,20 @@ html.page-switching {
   overscroll-behavior: none;
 }
 
+@media (hover: none) {
+  html.page-switching,
+  html.page-switching body {
+    overflow: hidden;
+  }
+}
+
 .page-switch {
   position: fixed;
   inset: 0;
+  width: auto;
+  height: auto;
+  max-width: none;
+  margin: 0;
   z-index: 2147483000;
   pointer-events: none;
   display: none;
@@ -4754,6 +4778,7 @@ html.page-switching {
   position: absolute;
   inset: 0;
   display: flex;
+  flex-direction: row;
 }
 
 .page-switch__band {
@@ -4761,6 +4786,72 @@ html.page-switching {
   min-width: 0;
   min-height: 0;
   will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 100%, 0);
+  -webkit-transform: translate3d(0, 100%, 0);
+}
+
+@keyframes page-switch-cover {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@-webkit-keyframes page-switch-cover {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes page-switch-reveal {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@-webkit-keyframes page-switch-reveal {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+.page-switch.is-cover .page-switch__band {
+  -webkit-animation-name: page-switch-cover;
+  animation-name: page-switch-cover;
+  -webkit-animation-duration: 0.35s;
+  animation-duration: 0.35s;
+  -webkit-animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.page-switch.is-reveal .page-switch__band {
+  -webkit-animation-name: page-switch-reveal;
+  animation-name: page-switch-reveal;
+  -webkit-animation-duration: 0.35s;
+  animation-duration: 0.35s;
+  -webkit-animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 
 /* Cookie consent — compact floating bar (style.md §3.1) */

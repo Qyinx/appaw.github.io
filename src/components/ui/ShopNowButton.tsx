@@ -79,17 +79,24 @@ export default function ShopNowButton({
 
   useEffect(() => {
     if (!open) return;
-    const onMouse = (e: MouseEvent) => {
-      if (
-        rootRef.current && !rootRef.current.contains(e.target as Node) &&
-        !(e.target as Element).closest('[data-shopnow-panel]')
-      ) setOpen(false);
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target;
+      const node = target instanceof Node ? target : null;
+      if (!node) return;
+      if (rootRef.current?.contains(node)) return;
+      if (node instanceof Element && node.closest('[data-shopnow-panel]')) return;
+      setOpen(false);
     };
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
-    document.addEventListener('mousedown', onMouse);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    const timer = window.setTimeout(() => {
+      document.addEventListener('pointerdown', onPointerDown);
+    }, 0);
     document.addEventListener('keydown', onKey);
     return () => {
-      document.removeEventListener('mousedown', onMouse);
+      window.clearTimeout(timer);
+      document.removeEventListener('pointerdown', onPointerDown);
       document.removeEventListener('keydown', onKey);
     };
   }, [open]);
@@ -175,7 +182,7 @@ export default function ShopNowButton({
           if (typeof onClick === 'function') onClick();
           setOpen(o => !o);
         }}
-        className={buttonClassName}
+        className={`${buttonClassName} cursor-pointer touch-manipulation`}
       >
         <span>{label}</span>
         <ChevronDown

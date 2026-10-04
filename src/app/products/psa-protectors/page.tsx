@@ -14,6 +14,7 @@ import CompatibilityFitGuide from '@/components/products/CompatibilityFitGuide';
 import Reveal from '@/components/ui/Reveal';
 import { useHeroMount, useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import { useProtectorColorState } from '@/hooks/useProtectorColorState';
+import { useSiteFrameColor } from '@/hooks/useSiteFrameColor';
 import { buildProtectorColors } from '@/lib/products/protector-colors';
 import { protectorPriceLabels } from '@/lib/products/protector-pricing';
 
@@ -100,6 +101,9 @@ export default function PSAProtectorPage() {
   } = useProtectorColorState({
     trackPrice: true,
   });
+
+  const activeFinish = colors[selectedColor];
+  useSiteFrameColor(activeFinish?.hex, activeFinish?.hex2);
 
   const notesReveal = useRevealOnScroll<HTMLElement>();
   const featuresReveal = useRevealOnScroll<HTMLElement>();

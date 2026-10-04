@@ -44,28 +44,28 @@ Source of truth: `src/styles/globals.css` `@theme` plus `:root` / `.dark`.
 
 ### 2.1 Color — semantic
 
-One structural ink. One coral for action. Yellow is a **graphic mark** only (circles behind display type). Yellow never carries text on cream. Indigo is not a brand color. Green/red are semantic status only.
+One structural ink. One coral for action — **lighter on the frame, still chromatic**, not a dusty mute. Yellow is a **graphic mark** only (circles behind display type). Yellow never carries text on cream. Indigo is not a brand color. Green/red are semantic status only.
 
 | Token | Light | Dark / tools | Use |
 |-------|-------|--------------|-----|
-| `--surface-frame` | `#D85A45` | `#D85A45` | Viewport frame around the sheet |
+| `--surface-frame` | `#E06B58` | `#E06B58` | Viewport frame around the sheet |
 | `--surface-bg` | `#F3EBDA` | `#121212` | Page / sheet canvas |
 | `--surface-panel` | `#FBF7EE` | `#262626` | Cards, panels |
 | `--surface-raised` | `#EFE6D4` | `#303030` | Nested panels, inputs |
-| `--border-default` | `rgba(26,20,14,0.18)` | `rgba(255,255,255,0.22)` | Hairline / default edge |
-| `--border-strong` | `#1A140E` | `rgba(255,255,255,0.38)` | Neo-brutalist 2px ink |
+| `--border-default` | `rgba(26,20,14,0.12)` | `rgba(255,255,255,0.22)` | Hairline / default edge |
+| `--border-strong` | `#3F3832` | `rgba(255,255,255,0.28)` | Neo-brutalist 2px edge (warm, not jet) |
 | `--text-primary` | `#1A140E` | `#F4F1EA` | Body |
 | `--text-secondary` | `#4A4036` | `#C8C2B8` | Labels, hints (~7:1 on sheet) |
 | `--text-muted` | `#6B5F52` | `#A39C92` | Spec labels |
-| `--accent-primary` | `#C44536` | `#C44536` | Brand coral — rails, tints |
-| `--accent-cta` | `#C44536` | `#C44536` | Solid primary buttons |
+| `--accent-primary` | `#C94B3E` | `#C94B3E` | Brand coral — rails, tints |
+| `--accent-cta` | `#C94B3E` | `#C94B3E` | Solid primary buttons |
 | `--accent-cta-ink` | `#ffffff` | `#ffffff` | Label on solid CTAs |
 | `--accent-secondary` | `#1A140E` | `#F4F1EA` | Links and focus (ink, not indigo) |
-| `--accent-structural` | `#1A140E` | `#F4F1EA` | Chrome fills / strong borders |
+| `--accent-structural` | `#3F3832` | `#F4F1EA` | Chrome fills / strong borders |
 | `--accent-mark` | `#E7C63A` | `#E7C63A` | Display circles only — never text |
 | `--accent-warn` | `#C9A227` | `#E7C63A` | Tool metrics, not chrome |
 | `--accent-success` | `#1F7A45` | `#4ade80` | Pass states |
-| `--accent-danger` | `#C44536` | `#f87171` | Errors, destructive |
+| `--accent-danger` | `#C94B3E` | `#f87171` | Errors, destructive |
 
 Links: ink color plus underline. Focus: `2px solid` ink, `2px` offset. No colored glow.
 
@@ -105,7 +105,7 @@ Rules:
 | `--radius-control` | `0` | Buttons, inputs |
 | `--border-width` | `2px` | Default stroke. Hairlines 1px for row dividers only |
 | `--shadow-panel` | `none` | No blur shadows |
-| `--shadow-press` | `3px 3px 0 0 var(--text-primary)` | Marketing `.btn-primary` only |
+| `--shadow-press` | `3px 3px 0 0 var(--border-strong)` | Marketing `.btn-primary` only |
 
 Marketing split: type ~60% / specimen ~40% from `md` up. Stack under `md`. No Fibonacci tokens in new work.
 

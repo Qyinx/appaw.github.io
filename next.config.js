@@ -1,10 +1,29 @@
+const os = require('os');
+
 /** @type {import('next').NextConfig} */
 const AGENT_LINK_HEADER =
   '<https://appaw.store/.well-known/api-catalog>; rel="api-catalog", <https://appaw.store/llms.txt>; rel="describedby"; type="text/plain", <https://appaw.store/.well-known/agent-skills/index.json>; rel="describedby"; type="application/json", </sitemap.xml>; rel="sitemap"';
 
+function lanDevOrigins() {
+  const hosts = new Set();
+  for (const addrs of Object.values(os.networkInterfaces())) {
+    for (const addr of addrs || []) {
+      const family = addr.family === 4 || addr.family === 'IPv4';
+      if (family && !addr.internal) hosts.add(addr.address);
+    }
+  }
+  return [...hosts];
+}
+
+const isProd = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
+  // Phone/LAN testing: `next dev --hostname 0.0.0.0` does not allow 192.168.x.x
+  // unless listed. Without this, Safari loads HTML but /_next JS is blocked —
+  // hamburger and buttons never hydrate.
+  allowedDevOrigins: lanDevOrigins(),
   // Static export for production deploy only. Dev needs API routes (/api/admin/*).
-  ...(process.env.NODE_ENV === 'production' ? { output: 'export' } : {}),
+  ...(isProd ? { output: 'export' } : {}),
   trailingSlash: true,
   // Inline CSS into HTML so Clarity (and similar) capture styles in the DOM snapshot.
   // Hashed /_next/static/css/*.css files are deleted on each GitHub Pages deploy;
@@ -25,7 +44,14 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: [
-          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+          ...(isProd
+            ? [
+                {
+                  key: 'Strict-Transport-Security',
+                  value: 'max-age=31536000; includeSubDomains',
+                },
+              ]
+            : []),
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
