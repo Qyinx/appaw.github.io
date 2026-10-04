@@ -807,7 +807,7 @@ export const en = {
       protectors: { label: 'Graded slab protectors', href: '/products/psa-protectors/' },
     },
     hero: {
-      title: 'PSA grading submission in Hong Kong',
+      title: 'PSA Grading in Hong Kong',
       definition:
         'In-person PSA grading submission at 138 Arena, Causeway Bay (partner venue). 138 Arena handles the floor and payment; Appaw Store handles the service and follow-up — condition check, tier, shipping to PSA, and tracking. Final grades are set by PSA; we do not guarantee scores.',
       ctaBook: 'Book drop-off',
@@ -1005,6 +1005,10 @@ export const en = {
           label: 'Booking & drop-off',
           items: [
             {
+              q: 'How do I hand in my cards?',
+              a: 'Do not ship them to the United States yourself. Bring them to 138 Arena in Causeway Bay. 138 Arena is the drop-off point. Appaw handles submission and follow-up.',
+            },
+            {
               q: 'Can Hong Kong TCG cards be submitted to PSA?',
               a: 'Yes. Pokémon TCG (PTCG), One Piece, MTG, and sports cards in raw or sleeved form are accepted at 138 Arena through Appaw PSA grading submission.',
             },
@@ -1031,6 +1035,10 @@ export const en = {
           label: 'Tracking your batch',
           items: [
             {
+              q: 'How long does grading take?',
+              a: 'It depends on the level and how quickly PSA is working. The page shows an estimate, not a promised date.',
+            },
+            {
               q: 'How do I track my submission?',
               a: 'Use the Track page with the phone number and reference code from your receipt. Both are required. We never expose submissions by phone alone.',
             },
@@ -1048,6 +1056,14 @@ export const en = {
           id: 'fees',
           label: 'Pickup & fees',
           items: [
+            {
+              q: 'How much does PSA grading cost in Hong Kong?',
+              a: 'The fee depends on the service level and how many cards. The price table lists each level. Check it before handing the card over.',
+            },
+            {
+              q: 'Will a reholder change the grade?',
+              a: 'It is for a scuffed or cracked slab, or a label problem. It usually replaces the case only. Grading again is separate. PSA decides the grade.',
+            },
             {
               q: 'What does PTCG / PSA Standard grading submission cost in Hong Kong?',
               a: 'Full fees are on the pricing table on this page. Standard is HKD 560 for 1–4 cards and HKD 550 for 5+ through 3 Oct 2026; from 4 Oct 2026 it is HKD 580 for 1–4 and HKD 570 for 5+. Fees are collected at 138 Arena. The table on the booking date applies.',
@@ -1109,8 +1125,8 @@ export const en = {
       ],
     },
     cta: {
-      title: 'Ready to book a drop-off?',
-      body: 'Book your face-to-face slot at 138 Arena. After intake, track every batch with the phone number and reference code on your receipt.',
+      title: 'Hand your cards in at 138 Arena',
+      body: '138 Arena in Causeway Bay is the drop-off point. We handle submission and follow-up. After that, track the batch with the phone number and reference code on your receipt. PSA decides the grade.',
       book: 'Book appointment',
       track: 'Track submission',
       guide: 'PSA grading standards',

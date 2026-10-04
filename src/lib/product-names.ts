@@ -143,10 +143,10 @@ export const CENTERING_SEO = {
 /** PSA grading submission hub + track — keep in sync with i18n psaGradingPage / psaGradingTrack */
 export const PSA_GRADING_SEO = {
   en: {
-    title: 'Hong Kong PSA Grading Submission | 138 Arena (Partner Venue) | Appaw Store',
+    title: 'PSA Grading in Hong Kong | HKTCG | Appaw Store',
     description:
-      'PSA grading submission with Appaw at 138 Arena, Causeway Bay (partner venue). 138 Arena: venue and payment. Appaw: service and follow-up. Fees on the pricing table (price change from 4 Oct 2026).',
-    h1Keyword: 'PSA grading submission in Hong Kong',
+      'The price table on this page lists each PSA grading level in Hong Kong, with a time estimate. Hand cards in at 138 Arena in Causeway Bay, and we follow the submission from there. 138 Arena handles the floor and payment. PSA decides the grade.',
+    h1Keyword: 'PSA Grading in Hong Kong',
     webAppName: 'PSA Grading Submission Tracker',
     trackTitle: 'Track PSA Grading Submission | Appaw Store',
     trackDescription:
@@ -161,10 +161,10 @@ export const PSA_GRADING_SEO = {
     lastUpdated: '2026-10-01',
   },
   zh: {
-    title: '香港PSA評級代送鑑定｜138 Arena 合作場地面交 | Appaw Store',
+    title: '香港PSA鑑定｜HKTCG | Appaw Store',
     description:
-      '香港PSA評級代送鑑定。於銅鑼灣 138 Arena（合作場地）面交：138 Arena 負責場務及收費，Appaw 負責服務及跟進。收費見價目表（2026 年 10 月 4 日起調整）。',
-    h1Keyword: '香港PSA評級代送鑑定',
+      '本頁價目列出各檔收費與預計時間。可到銅鑼灣 138 Arena 當面交卡，其後進度由我們跟進。138 Arena 負責場務及收費，最終分數由 PSA 決定。',
+    h1Keyword: '香港PSA鑑定',
     webAppName: 'PSA評級代送鑑定進度查詢',
     trackTitle: '查詢 PSA評級代送鑑定進度｜線上追蹤 | Appaw Store',
     trackDescription:

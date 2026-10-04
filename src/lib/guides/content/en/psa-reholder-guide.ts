@@ -2,12 +2,12 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'psa-reholder-guide',
-  title: 'PSA Reholder Guide: Costs, Hidden Risks, and When to Use It',
+  title: 'PSA Reholder Service and Cost',
   badge: 'Grading Workflow',
   lead:
     'A scratched or scuffed slab does not mean your card is damaged. The PSA Standard Reholder service costs $14.99 and encapsulates your card in a fresh plastic case with a new label, keeping your grade and cert number intact. However, if PSA detects new damage or fading during the transfer, they can lower the grade, making this process not entirely risk-free.',
   metaDescription:
-    'A scratched PSA case is not a damaged card. Standard Reholder is $14.99 and usually keeps grade and cert. PSA may downgrade if they find new damage inside.',
+    'A reholder is for a scuffed or cracked slab, or a problem with the label. It usually replaces the case only and does not change the existing grade. Grading the card again is a separate submission. In Hong Kong, hand the card in at 138 Arena in Causeway Bay.',
   published: '2026-08-09',
   updated: '2026-10-01',
   readTime: '7 min',
@@ -94,9 +94,9 @@ const guide: GuideContent = {
     },
   ],
   cta: {
-    title: 'Need a Reholder? Drop off in Hong Kong',
-    body: 'Hong Kong collectors book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs a preliminary inspection and folds Reholder cards into the PSA grading submission batch so a scratched slab is not sent down a regrade path by mistake. Reholder is one of the published tiers. After the refreshed slab returns, add a magnetic ultraviolet-blocking case.',
-    primary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
+    title: 'A sound slab does not need a reholder',
+    body: 'If the slab is still sound and you are hoping for a higher grade, you do not need a reholder. You can hand the card in at 138 Arena in Causeway Bay for a new submission. We will talk through what suits the card first, and PSA still decides the grade.',
+    primary: { label: 'Hand in the card', href: '/business/psa-grading/' },
     secondary: { label: 'Shop PSA Protectors', href: '/products/psa-protectors/' },
   },
   relatedSlugs: ['psa-review-vs-crack', 'hong-kong-tcg-grading-guide', 'grade-or-protect-first'],

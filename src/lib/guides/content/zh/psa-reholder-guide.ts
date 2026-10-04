@@ -2,8 +2,10 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'psa-reholder-guide',
-  title: 'PSA 換殼（Reholder）完全指南：費用、風險與適用情境',
+  title: 'PSA 換殼費用與流程｜會否影響分數',
   badge: '鑑定卡流程',
+  metaDescription:
+    '外殼刮花、破裂，或標籤出現問題，才需要考慮換殼。換殼一般只更換保護殼，不會改動原有分數；如果希望重新評級，則要另外安排送評。',
   lead:
     '鑑定外殼出現刮痕或霧化失亮，並不代表卡片本體品相受損。PSA Standard Reholder 服務費用為 $14.99 美元，專注於更換塑料壓克力與標籤耗材，大多數情況下會保留原有的等級與認證編號。然而，若 PSA 在檢查外殼完整性時發現卡片出現新損傷或受潮退色，案件仍可能轉為重新評級甚至退回裸卡，並非絕對零風險。',
   published: '2026-08-09',
@@ -92,9 +94,9 @@ const guide: GuideContent = {
     },
   ],
   cta: {
-    title: '需要換殼？可透過香港PSA評級代送鑑定辦理',
-    body: '香港藏家可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責現場初步檢視，並將換殼卡牌併入 PSA評級代送鑑定批次，分攤跨境運費。Reholder 為公布方案之一。現場初步檢視僅供參考，最終處理路徑仍以 PSA 決定為準。換殼取回後，建議加裝磁吸防紫外線保護殼。',
-    primary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
+    title: '外殼完好便不必換殼',
+    body: '如果外殼仍然完好，只是希望爭取更高分數，便不必以換殼處理。重新送評可以到銅鑼灣 138 Arena 當面交卡。我們會先按卡況說明適合的做法，最終分數仍由 PSA 決定。',
+    primary: { label: '當面交卡', href: '/business/psa-grading/' },
     secondary: { label: '選購 PSA 鑑定卡保護殼', href: '/products/psa-protectors/' },
   },
   relatedSlugs: ['psa-review-vs-crack', 'grade-or-protect-first'],

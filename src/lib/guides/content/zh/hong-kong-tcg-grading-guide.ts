@@ -2,7 +2,7 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'hong-kong-tcg-grading-guide',
-  title: '香港 TCG 卡牌提交鑑定：138 Arena PSA評級代送鑑定',
+  title: '香港 TCG 卡牌提交鑑定（HKTCG）：138 Arena PSA鑑定',
   badge: '香港',
   lead:
     '香港 TCG 收藏家如欲將寶可夢、One Piece、Magic: The Gathering 或運動卡交 PSA 鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。Standard 方案服務費由 HKD 550 起，於 138 Arena 現場支付；基於雙方的服務安排，Appaw Store 可調整最終應付金額。憑收據上的電話號碼及參考編號，可於網上查看批次現有進度。',

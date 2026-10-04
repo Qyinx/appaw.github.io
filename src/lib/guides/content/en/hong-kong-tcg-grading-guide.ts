@@ -2,7 +2,7 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'hong-kong-tcg-grading-guide',
-  title: 'Hong Kong TCG Grading Submission: PSA at 138 Arena',
+  title: 'Hong Kong TCG Grading (HKTCG): PSA at 138 Arena',
   badge: 'Hong Kong',
   lead:
     'Hong Kong TCG collectors who want Pokémon, One Piece, Magic: The Gathering, or sports cards graded by PSA can book online, then complete intake face to face at 138 Arena in Causeway Bay. Standard-tier service fees start at HKD 550, collected on site at 138 Arena. Because of the service relationship between the parties, Appaw Store may adjust the final amount. Every batch carries a reference code so you can view status on Appaw.',
