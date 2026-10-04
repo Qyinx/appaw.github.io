@@ -16,9 +16,18 @@ export function ScrollProgressBar() {
 
   return (
     <div
-      className="fixed top-0 left-0 z-[100] h-[2px] bg-accent-brand pointer-events-none motion-reduce:hidden"
-      style={{ width: `${progress}%`, transition: 'width 80ms linear' }}
+      className="fixed z-[110] h-[2px] pointer-events-none motion-reduce:hidden"
+      style={{
+        top: 'var(--site-frame)',
+        left: 'var(--site-frame)',
+        right: 'var(--site-frame)',
+      }}
       aria-hidden="true"
-    />
+    >
+      <div
+        className="h-full bg-accent-brand"
+        style={{ width: `${progress}%`, transition: 'width 80ms linear' }}
+      />
+    </div>
   );
 }

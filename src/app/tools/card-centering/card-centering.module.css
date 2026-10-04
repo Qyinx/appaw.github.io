@@ -96,6 +96,28 @@
   opacity: 0.55;
 }
 
+:global(.site-subheader:not(.site-subheader--tool)) .toolInstrumentLabel {
+  color: var(--text-secondary);
+  border-right-color: var(--border-default);
+}
+
+:global(.site-subheader:not(.site-subheader--tool)) .toolInstrumentBrand::before {
+  color: var(--text-muted);
+}
+
+:global(.site-subheader:not(.site-subheader--tool)) .gradePillSub {
+  color: var(--text-muted);
+}
+
+:global(.site-subheader:not(.site-subheader--tool)) .gradePillMain {
+  border-right-color: var(--border-default);
+}
+
+:global(.site-subheader:not(.site-subheader--tool)) .gradePillRatios span {
+  color: var(--text-primary);
+  border-bottom-color: var(--border-default);
+}
+
 /* ---------- Workspace (dark engineering surface — style.md §4) ---------- */
 /* Fill remaining viewport under fixed header + site-subheader (not raw vh). */
 .workspaceShell {

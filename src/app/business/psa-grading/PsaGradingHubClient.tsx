@@ -16,6 +16,7 @@ import PsaGradingFaqSection from './components/PsaGradingFaqSection';
 import PsaAdvisorTeaser from './components/PsaAdvisorTeaser';
 import { PSA_HOW_TO_SCENES } from '@/lib/grading/how-to-scenes';
 import { PSA_SUBMISSION_APPOINTMENT_URL } from '@/lib/grading/psa-booking';
+import { useSubHeader } from '@/hooks/useSubHeader';
 
 export default function PsaGradingHubClient() {
   const { t } = useLanguage();
@@ -37,14 +38,12 @@ export default function PsaGradingHubClient() {
     [copy.chapters],
   );
 
+  useSubHeader({
+    content: <ChapterNav items={chapterNavItems} />,
+  });
+
   return (
     <div ref={pageRef} className="psa-grading-hub flex flex-col bg-surface-bg sticky-bottom-bar-spacer">
-      <div className="chapter-nav-shell">
-        <div className="container-custom">
-          <ChapterNav items={chapterNavItems} />
-        </div>
-      </div>
-
       <PsaGradingHowToSection badge={copy.badge} hero={copy.hero} howTo={copy.howTo} aeo={copy.aeo} />
 
       <PsaAdvisorTeaser copy={copy.advisorTeaser} />

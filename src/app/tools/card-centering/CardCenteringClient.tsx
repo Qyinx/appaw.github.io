@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect } from 'react';
-import { ArrowLeft } from 'lucide-react';
-import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
 import { useSubHeader } from '@/hooks/useSubHeader';
 import { compressImage } from '@/lib/compress-image';
@@ -196,7 +194,6 @@ function BlemishFilterBar({
 export default function CardCenteringClient() {
   const { t } = useLanguage();
   const tool = t.centeringPage.tool;
-  const seo = t.centeringPage.seo;
   const howToSteps = centeringHowToSteps(t.centeringPage.content.steps);
   const guide = useCenteringGuide();
   const guideRef = useCenteringGuideRef();
@@ -2658,66 +2655,58 @@ export default function CardCenteringClient() {
   };
 
   useSubHeader({
-    variant: 'tool',
-    layout: 'bar',
-    width: 'wide',
-    leading: (
-      <div className="flex items-stretch min-w-0">
-        <LocalLink
-          href="/"
-          className="hidden md:inline-flex items-center gap-2 px-3 sm:px-3.5 text-xs uppercase tracking-[0.12em] text-[var(--tool-text-muted)] hover:text-[var(--tool-text)] transition-colors min-h-[44px] shrink-0 border-r border-[var(--tool-border)]"
+    content: (
+      <div className="centering-subheader">
+        <p className="centering-subheader__title">{tool.workspaceHeading}</p>
+        <div
+          ref={gradePillRef}
+          className="centering-subheader__status"
+          aria-live="polite"
+          aria-atomic="true"
+          role="status"
         >
-          <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
-          <span className="hidden sm:inline">{seo.breadcrumbHome}</span>
-        </LocalLink>
-        <span className={styles.toolInstrumentLabel}>
-          <span className={styles.toolInstrumentTitle}>{tool.workspaceTitle}</span>
-          <span className={styles.toolInstrumentBrand} translate="no">
-            {tool.workspaceBrand}
-          </span>
-        </span>
-      </div>
-    ),
-    trailing: (
-      <div ref={gradePillRef} className={styles.gradePillStack}>
-        {photoMode === 'raw' ? (
-          <div
-            className={`${styles.gradePill} ${styles.gradePillHeader}`}
-            data-quality={displayScore?.quality ?? undefined}
-            data-tier={displayScore?.overall ?? undefined}
-            aria-live="polite"
-            aria-atomic="true"
-            role="status"
-          >
-            <div className={styles.gradePillMain}>
-              <span className={styles.gradePillLabel}>{zoneCopy?.label ?? '—'}</span>
-              <span className={styles.gradePillSub}>{gradePillSub}</span>
+          {photoMode === 'raw' ? (
+            <div className="centering-subheader__readout">
+              <div
+                className="centering-subheader__grade-block"
+                data-quality={displayScore?.quality ?? undefined}
+              >
+                <span className="centering-subheader__kicker">{tool.gradeReadout}</span>
+                <span className="centering-subheader__grade-value">{zoneCopy?.label ?? '—'}</span>
+              </div>
+              <div className="centering-subheader__axes">
+                <div className="centering-subheader__axis">
+                  <span className="centering-subheader__axis-key">{tool.lrLabel}</span>
+                  <span className="centering-subheader__axis-val">
+                    {fmt(displayScore?.lr)}
+                    <span className="centering-subheader__slash">/</span>
+                    {fmt(displayScore ? 100 - displayScore.lr : undefined)}
+                  </span>
+                </div>
+                <div className="centering-subheader__axis">
+                  <span className="centering-subheader__axis-key">{tool.tbLabel}</span>
+                  <span className="centering-subheader__axis-val">
+                    {fmt(displayScore?.tb)}
+                    <span className="centering-subheader__slash">/</span>
+                    {fmt(displayScore ? 100 - displayScore.tb : undefined)}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className={styles.gradePillRatios}>
-              <span data-quality={displayScore ? axisQuality(gradingCompany, displayScore.lrZone) : undefined}>
-                {tool.lrLabel} {fmt(displayScore?.lr)}/{fmt(displayScore ? 100 - displayScore.lr : undefined)}
-              </span>
-              <span data-quality={displayScore ? axisQuality(gradingCompany, displayScore.tbZone) : undefined}>
-                {tool.tbLabel} {fmt(displayScore?.tb)}/{fmt(displayScore ? 100 - displayScore.tb : undefined)}
-              </span>
+          ) : null}
+          {photoMode === 'slab' && verdictCopy ? (
+            <div className="centering-subheader__readout">
+              <div className="centering-subheader__grade-block">
+                <span className="centering-subheader__kicker">{tool.gradeReadout}</span>
+                <span className="centering-subheader__grade-value">{verdictCopy.label}</span>
+              </div>
+              <span className="centering-subheader__hint">{verdictCopy.hint}</span>
             </div>
-          </div>
-        ) : null}
-        {photoMode === 'slab' && verdictCopy ? (
-          <div
-            className={`${styles.verdictStrip} ${styles.verdictStripStandalone}`}
-            data-verdict={verdictKey ?? undefined}
-            aria-live="polite"
-            aria-atomic="true"
-            role="status"
-          >
-            <span className={styles.verdictLabel}>{verdictCopy.label}</span>
-            <span className={styles.verdictHint}>{verdictCopy.hint}</span>
-          </div>
-        ) : null}
-        {photoMode === 'slab' && !grade ? (
-          <p className={styles.reholderNote}>{tool.reholderNote}</p>
-        ) : null}
+          ) : null}
+          {photoMode === 'slab' && !grade ? (
+            <span className="centering-subheader__hint">{tool.reholderNote}</span>
+          ) : null}
+        </div>
       </div>
     ),
   });

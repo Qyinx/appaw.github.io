@@ -258,6 +258,7 @@ export default function Header() {
       className="site-header"
       data-chrome="sheet"
     >
+      <div className="site-header__sheet">
       <div className="max-w-7xl mx-auto px-[var(--space-page-x)]">
         <div className="flex items-center justify-between gap-2 min-w-0 h-[var(--site-header-height)] relative z-10">
 
@@ -454,6 +455,7 @@ export default function Header() {
             </nav>
           </div>
         </div>
+      </div>
       </div>
     </header>
   );

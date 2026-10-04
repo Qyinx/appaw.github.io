@@ -1328,7 +1328,7 @@ export const zh: Translations = {
   // Footer — two-tier factual footer
   footer: {
     locationValue: '立足香港，服務全球',
-    phoneDisplay: 'WhatsApp 客服：+852 9285 1189',
+    phoneDisplay: 'WhatsApp: +852 9285 1189',
     privacy: '私隱保護政策',
     terms: '服務條款',
     brLabel: 'BR:',
@@ -1895,8 +1895,9 @@ export const zh: Translations = {
         PSA8: 'PSA 8 警戒區',
         below: '跌破 PSA 8',
       },
-      lrLabel: '左右比例',
-      tbLabel: '上下比例',
+      lrLabel: '左右',
+      tbLabel: '上下',
+      gradeReadout: '評級',
       guideModeLabel: '顯示對齊線',
       guideModeEdge: '外緣',
       guideModeBorder: '圖框',
@@ -1938,6 +1939,7 @@ export const zh: Translations = {
       guideRestart: '重新看一次教學',
       guideStatusCompleted: '大功告成！',
       workspaceTitle: '置中檢測雷達',
+      workspaceHeading: 'Appaw Store 置中檢測雷達',
       workspaceBrand: 'Powered by Appaw Store',
       workspaceStatusIdle: '等待指令中',
       photoModeLabel: '你上傳的是？',
