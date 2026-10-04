@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
-import { ChevronDown } from 'lucide-react';
+import React, { useState } from 'react';
 import { renderGuideParagraph } from '@/lib/guides/parseParagraphLinks';
+import GuideFaqItem, { toggleExclusiveId } from './GuideFaqItem';
 
 type GuideFaqProps = {
   items: { q: string; a: string }[];
@@ -13,6 +13,8 @@ type GuideFaqProps = {
 };
 
 export default function GuideFaq({ items, title, badge, id = 'guide-faq', countLabel }: GuideFaqProps) {
+  const [openId, setOpenId] = useState<string | null>(items[0]?.q ?? null);
+
   if (!items.length) return null;
 
   const statLabel = countLabel?.replace('{n}', String(items.length));
@@ -34,23 +36,19 @@ export default function GuideFaq({ items, title, badge, id = 'guide-faq', countL
 
       <div className="guide-faq__list divide-y divide-border-default border border-border-default">
         {items.map((item, i) => (
-          <details key={item.q} className="guide-faq__item group bg-surface-panel" open={i === 0}>
-            <summary className="guide-faq__summary">
-              <span className="guide-faq__index">{String(i + 1).padStart(2, '0')}</span>
-              <span className="guide-faq__question">{item.q}</span>
-              <span className="guide-faq__chevron-wrap" aria-hidden="true">
-                <ChevronDown className="guide-faq__chevron" strokeWidth={2.5} />
-              </span>
-            </summary>
-            <div className="guide-faq__answer-wrap">
-              <div className="guide-faq__answer-inner">
-                <div className="guide-faq__answer-rail" aria-hidden="true" />
-                <div className={`guide-faq__answer text-text-secondary text-base leading-relaxed${i === 0 ? ' guide-aeo-answer' : ''}`}>
-                  {renderGuideParagraph(item.a)}
-                </div>
-              </div>
+          <GuideFaqItem
+            key={item.q}
+            itemId={item.q}
+            indexLabel={String(i + 1).padStart(2, '0')}
+            question={item.q}
+            open={openId === item.q}
+            onToggle={(nextId) => setOpenId((current) => toggleExclusiveId(current, nextId))}
+          >
+            <div className="guide-faq__answer-rail" aria-hidden="true" />
+            <div className={`guide-faq__answer text-text-secondary text-base leading-relaxed${i === 0 ? ' guide-aeo-answer' : ''}`}>
+              {renderGuideParagraph(item.a)}
             </div>
-          </details>
+          </GuideFaqItem>
         ))}
       </div>
     </section>

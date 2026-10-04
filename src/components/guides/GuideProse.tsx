@@ -68,12 +68,12 @@ export default function GuideProse({ sections, midCta, midCtaLabel }: GuideProse
           {section.videos?.map((video, i) => (
             <GuideVideo key={`${video.src}-${i}`} src={video.src} caption={video.caption} />
           ))}
+          {section.subsections?.map((sub, i) => renderSubsection(sub, `${section.id}-sub-${i}`))}
           {section.callout ? (
             <blockquote className="my-6 border-l-4 border-accent-link/60 bg-surface-raised/50 px-5 py-4 text-text-secondary text-base leading-relaxed">
               {renderGuideParagraph(section.callout)}
             </blockquote>
           ) : null}
-          {section.subsections?.map((sub, i) => renderSubsection(sub, `${section.id}-sub-${i}`))}
           {section.table ? (
             <GuideTable table={section.table} />
           ) : section.specs && section.specs.length > 0 ? (

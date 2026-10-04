@@ -14,7 +14,7 @@ export type SubHeaderConfig = {
   trailing?: React.ReactNode;
   /** Full-width panel (e.g. marketplace filters). Replaces leading/center/trailing when set. */
   content?: React.ReactNode;
-  contentWidth?: 'page' | 'tool';
+  contentWidth?: 'page' | 'tool' | 'guide';
 };
 
 function hasSubHeaderContent(config: SubHeaderConfig): boolean {

@@ -54,17 +54,18 @@ export default function GuideArticle({ slug }: GuideArticleProps) {
   const ui = UI[locale];
 
   useSubHeader({
-    leading: (
-      <LocalLink
-        href="/guides"
-        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors duration-150 min-h-[44px]"
-      >
-        <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
-        <span>{ui.backToGuides}</span>
-      </LocalLink>
-    ),
-    center: (
-      <h1 className="text-text-primary font-semibold text-xs sm:text-sm truncate">{guide.title}</h1>
+    contentWidth: 'guide',
+    content: (
+      <div className="flex min-w-0 items-center gap-3">
+        <LocalLink
+          href="/guides"
+          className="inline-flex shrink-0 items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors duration-150 min-h-[44px]"
+        >
+          <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
+          <span>{ui.backToGuides}</span>
+        </LocalLink>
+        <h1 className="min-w-0 truncate text-xs font-semibold text-text-primary sm:text-sm">{guide.title}</h1>
+      </div>
     ),
   });
 

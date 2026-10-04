@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import LocalLink from '@/components/LocalLink';
-import { CalendarDays, ChevronDown } from 'lucide-react';
+import { CalendarDays } from 'lucide-react';
 import Reveal from '@/components/ui/Reveal';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@/lib/grading/psa-booking';
 import { countPsaFaqItems } from '@/lib/grading/psa-faq-types';
 import type { Translations } from '@/i18n/en';
+import GuideFaqItem, { toggleExclusiveId } from '@/components/guides/GuideFaqItem';
 import PsaFaqAnswer from './PsaFaqAnswer';
 
 type Props = {
@@ -20,6 +21,10 @@ type Props = {
 export default function PsaGradingFaqSection({ copy }: Props) {
   const sectionRef = useRevealOnScroll<HTMLDivElement>({ threshold: 0.08 });
   const faqCount = countPsaFaqItems(copy.faq.groups);
+  const firstKey = copy.faq.groups[0]?.items[0]
+    ? `${copy.faq.groups[0].id}:${copy.faq.groups[0].items[0].q}`
+    : null;
+  const [openKey, setOpenKey] = useState<string | null>(firstKey);
 
   const globalIndexByKey = useMemo(() => {
     const map = new Map<string, number>();
@@ -107,34 +112,27 @@ export default function PsaGradingFaqSection({ copy }: Props) {
                   <p className="psa-grading-faq__group-label">{group.label}</p>
                   <div className="guide-faq__list divide-y divide-border-default border border-border-default">
                     {group.items.map((item) => {
-                      const globalIndex = globalIndexByKey.get(`${group.id}:${item.q}`) ?? 0;
+                      const itemKey = `${group.id}:${item.q}`;
+                      const globalIndex = globalIndexByKey.get(itemKey) ?? 0;
                       const isFirst = globalIndex === 0;
                       const withProtectorLink = group.id === 'fees' && typeof item.a !== 'string';
 
                       return (
-                        <details
+                        <GuideFaqItem
                           key={item.q}
-                          className="guide-faq__item group bg-surface-panel"
-                          open={isFirst}
+                          itemId={itemKey}
+                          indexLabel={String(globalIndex + 1).padStart(2, '0')}
+                          question={item.q}
+                          open={openKey === itemKey}
+                          onToggle={(nextId) => setOpenKey((current) => toggleExclusiveId(current, nextId))}
                         >
-                          <summary className="guide-faq__summary">
-                            <span className="guide-faq__index">{String(globalIndex + 1).padStart(2, '0')}</span>
-                            <span className="guide-faq__question">{item.q}</span>
-                            <span className="guide-faq__chevron-wrap" aria-hidden="true">
-                              <ChevronDown className="guide-faq__chevron" strokeWidth={2.5} />
-                            </span>
-                          </summary>
-                          <div className="guide-faq__answer-wrap">
-                            <div className="guide-faq__answer-inner">
-                              <div className="guide-faq__answer-rail" aria-hidden="true" />
-                              <PsaFaqAnswer
-                                answer={item.a}
-                                isAeo={isFirst}
-                                withProtectorLink={withProtectorLink}
-                              />
-                            </div>
-                          </div>
-                        </details>
+                          <div className="guide-faq__answer-rail" aria-hidden="true" />
+                          <PsaFaqAnswer
+                            answer={item.a}
+                            isAeo={isFirst}
+                            withProtectorLink={withProtectorLink}
+                          />
+                        </GuideFaqItem>
                       );
                     })}
                   </div>

@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { SubHeaderContext, type SubHeaderConfig } from '@/context/sub-header-context';
 
 export function SubHeaderProvider({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
   const configRef = useRef<SubHeaderConfig | null>(null);
   const versionRef = useRef(0);
   const listenersRef = useRef(new Set<() => void>());
@@ -30,11 +28,6 @@ export function SubHeaderProvider({ children }: { children: React.ReactNode }) {
     configRef.current = next;
     notify();
   }, [notify]);
-
-  useEffect(() => {
-    configRef.current = null;
-    notify();
-  }, [pathname, notify]);
 
   const value = useMemo(
     () => ({ getConfig, setConfig, subscribe, getVersion }),

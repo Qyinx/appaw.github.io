@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: 'PSA Slab Authentication Guide',
   badge: 'Authentication',
   lead:
-    'A clean result on the official cert lookup does not prove the slab in your hand is genuine. Forgers copy real PSA cert numbers from the public database every week. After the registry says the number is valid, five physical checks still have to match the holder, the label generation, and the ultraviolet reaction.',
+    'A cert lookup only means that number is in the database. It does not mean the slab in your hand is that card. Open the official lookup page yourself, then use a blacklight, feel the shell, and magnify the label. If any step misses, do not pay.',
   published: '2026-06-08',
-  updated: '2026-08-30',
+  updated: '2026-10-05',
   readTime: '12 min',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
@@ -46,40 +46,53 @@ const guide: GuideContent = {
       title: 'Step 2: UV blacklight test',
       paragraphs: [
         'A UV blacklight is one of the most practical quick tools for spotting fake PSA slabs, cheap to buy, easy to keep on a desk. If you handle graded cards regularly, own one.',
+        'Every card in the videos below is genuine. The side with no reaction is a real slab from an earlier generation, not a fake.',
       ],
-      bulletGroups: [
+      subsections: [
         {
-          label: 'Label front',
-          items: [
+          title: 'Label front',
+          bulletGroups: [
             {
-              label: 'Before cert #43:',
-              text: 'No visible hidden text under UV.',
+              label: '',
+              items: [
+                {
+                  label: 'Before cert #43:',
+                  text: 'No visible hidden text under UV.',
+                },
+                {
+                  label: 'After cert #43:',
+                  text: 'Hidden "PSA" text or patterns appear in specific zones, even, sharp glow.',
+                },
+              ],
             },
+          ],
+          videos: [
             {
-              label: 'After cert #43:',
-              text: 'Hidden "PSA" text or patterns appear in specific zones, even, sharp glow.',
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-front.mp4',
+              caption:
+                'Every card in this video is genuine. Front label UV comparison (left: post-#43xxxxxx, hidden text visible / right: pre-#43xxxxxx, no reaction)',
             },
           ],
         },
         {
-          label: 'Label back',
-          items: [
+          title: 'Label back',
+          bulletGroups: [
             {
-              label: 'All eras:',
-              text: 'Six small glowing PSA logos should appear evenly around the main PSA logo (same before and after cert #43).',
+              label: '',
+              items: [
+                {
+                  label: 'All eras:',
+                  text: 'Six small glowing PSA logos should appear evenly around the main PSA logo (same before and after cert #43).',
+                },
+              ],
             },
           ],
-        },
-      ],
-      videos: [
-        {
-          src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-front.mp4',
-          caption:
-            'Front label UV comparison (left: post-#43xxxxxx, hidden text visible / right: pre-#43xxxxxx, no reaction)',
-        },
-        {
-          src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-back.mp4',
-          caption: 'Back label UV comparison (both sides show 6 micro logos)',
+          videos: [
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-back.mp4',
+              caption: 'Every card in this video is genuine. Back label UV comparison (both sides show 6 micro logos)',
+            },
+          ],
         },
       ],
       callout:
@@ -96,13 +109,13 @@ const guide: GuideContent = {
       title: 'Step 3: Shell Feel and Build',
       paragraphs: [
         'Authentic PSA plastic follows tight manufacturing specs. You can run these tactile checks in minutes.',
-        'Raised PSA logo: bottom-right on the holder (or back on some eras), you should feel a raised logo under your finger. Fakes often use flat print or stiff, wrong texture.',
+        'The PSA logo should be raised. It sits on the bottom right, or on the back, depending on the generation. A logo on the back is normal. Flat print, or a logo that feels flat, is the problem.',
         '"21" stamp: most modern slabs carry a clear "21" imprint on the bottom-left.',
         'Plastic quality: rigid, clear, moderate weight. Welded edges stay flat, no wide haze bands, gaps, or glue lines. The inner card well should show sharp 90° corners, not rounded pockets.',
         'Profile and seal: genuine edges run thinner with a solid, settled feel. Holders that flex easily or show repack/open marks need serious doubt.',
       ],
       specs: [
-        { label: 'Logo', value: 'Raised, bottom-right (era varies)' },
+        { label: 'Logo', value: 'Raised. Bottom right or the back, by generation. Flat is the fail' },
         { label: '"21"', value: 'Modern slabs, bottom-left' },
         { label: 'Inner corners', value: '90° square, not rounded' },
         { label: 'Seam', value: 'Flat weld, no adhesive' },
@@ -113,6 +126,7 @@ const guide: GuideContent = {
       title: 'Step 4: Label Under Magnification',
       paragraphs: [
         'Labels expose fakes fastest. PSA has revised label design and security features several times across its history. Use a loupe (10× minimum) or phone macro mode to study these era-specific traits, you can filter out low-grade counterfeits quickly.',
+        'Every card in the videos below is genuine. CLCT and PSA are both real label stock, not a real-versus-fake pair.',
       ],
       subsections: [
         {
@@ -130,11 +144,11 @@ const guide: GuideContent = {
                   images: [
                     {
                       src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-front-old-label.jpg',
-                      caption: 'Pre-#27xxxxxx front label (no rectangular hologram sticker along the bottom)',
+                      caption: 'The card in this photo is genuine. Pre-#27xxxxxx front label (no rectangular hologram sticker along the bottom)',
                     },
                     {
                       src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-back-old-label.jpg',
-                      caption: 'Pre-#27xxxxxx back label appearance',
+                      caption: 'The card in this photo is genuine. Pre-#27xxxxxx back label appearance',
                     },
                   ],
                 },
@@ -165,11 +179,11 @@ const guide: GuideContent = {
           videos: [
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-old-version.mp4',
-              caption: 'Pre-#4xxxxxxx front label tilt (microtext reads NASDAQ : CLCT)',
+              caption: 'Every card in this video is genuine. Pre-#4xxxxxxx front label tilt (microtext reads NASDAQ : CLCT)',
             },
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-old-version.mp4',
-              caption: 'Pre-#4xxxxxxx back label tilt (microtext reads NASDAQ : CLCT)',
+              caption: 'Every card in this video is genuine. Pre-#4xxxxxxx back label tilt (microtext reads NASDAQ : CLCT)',
             },
           ],
         },
@@ -189,11 +203,11 @@ const guide: GuideContent = {
           videos: [
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-new-version.mp4',
-              caption: 'Post-#5xxxxxxx front label tilt (microtext reads PSA)',
+              caption: 'Every card in this video is genuine. Post-#5xxxxxxx front label tilt (microtext reads PSA)',
             },
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-new-version.mp4',
-              caption: 'Post-#5xxxxxxx back label tilt (microtext reads PSA)',
+              caption: 'Every card in this video is genuine. Post-#5xxxxxxx back label tilt (microtext reads PSA)',
             },
           ],
         },
@@ -218,11 +232,37 @@ const guide: GuideContent = {
     },
     {
       id: 'practice-habit',
-      title: 'Verification Beats Regret',
+      title: 'Check this before you pay',
       paragraphs: [
-        'Fake slab craft keeps moving. Stack cert lookup, UV, physical inspection, and seller diligence, that is how you cut risk.',
-        'New collectors should practice on lower-value slabs before chasing grail prices. Protect your budget and your hobby: a safe collection starts with verification.',
-        'Once a slab checks out, add a [protective case](/products/psa-protectors/) before daily carry or display. Authentication confirms the label; a rigid outer case keeps that label scratch-free and UV-safe for resale.',
+        'Every item below has to match. If one misses, do not pay.',
+        'Practice these five steps on an ordinary slab before you touch an expensive one.',
+      ],
+      bulletGroups: [
+        {
+          label: '',
+          items: [
+            {
+              label: 'Cert:',
+              text: 'Open psacard.com/cert yourself. The photo, year, name, and grade have to match. A seller link or QR code does not count.',
+            },
+            {
+              label: 'Blacklight:',
+              text: 'Hidden PSA on the front only after certs starting with 43. The back, in every era, shows 6 small logos around the main logo. Wrong place, too bright, blurry, or no reaction: do not pay.',
+            },
+            {
+              label: 'Shell:',
+              text: 'The logo has to be raised. Bottom right or the back are both normal, depending on the generation. Flat is a fail. Inner corners are square. A wide frosted seam is a fail.',
+            },
+            {
+              label: 'Label:',
+              text: 'Tilt and magnify the microtext. Certs starting with 4 or 5 have no fixed cutoff. Both CLCT and PSA show up. Read the slab in your hand. Do not guess from the number.',
+            },
+            {
+              label: 'After it matches:',
+              text: 'Then add a [protective case](/products/psa-protectors/). Check first, case second.',
+            },
+          ],
+        },
       ],
     },
   ],
@@ -245,9 +285,9 @@ const guide: GuideContent = {
     },
   ],
   midCta: {
-    afterSectionId: 'uv-blacklight',
-    title: 'Passed the blacklight? Protect before display',
-    body: 'A verified slab still picks up holder scratches and UV fade on a windowsill. Add a rigid outer case before you shelf it or take it to a show.',
+    afterSectionId: 'advanced-buying',
+    title: 'All five steps match? Then add a case',
+    body: 'Only after all five steps match should you list it or carry it. The acrylic still scratches. A rigid case cuts that down.',
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'UV storage guide', href: '/guides/uv-protection-graded-cards/' },
   },

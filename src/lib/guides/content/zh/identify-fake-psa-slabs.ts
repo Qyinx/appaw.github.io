@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: 'PSA 鑑定殼真偽驗證指南',
   badge: '真偽',
   lead:
-    '在二手市場購入 PSA 鑑定卡時，官方證書查詢通過並不完全等同於收到真品，高仿假卡磚經常盜用公開資料庫中的真實認證編號。藏家須以 psacard.com/cert 核對、UV 黑光燈、外殼觸感、全息標籤與微型小字世代（編號 27xxxxxx、43xxxxxx、5xxxxxxx）進行五步交叉驗證，以免誤購假 PSA 鑑定殼。',
+    '查到證書編號，只代表資料庫裡有這張卡，不代表手上的殼就是那張。請自己打開官方查詢頁，再照黑光燈、摸外殼、放大標籤。任何一步對不上，就不要付款。',
   published: '2026-06-08',
-  updated: '2026-08-30',
+  updated: '2026-10-05',
   readTime: '12 分鐘',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
@@ -21,8 +21,8 @@ const guide: GuideContent = {
       id: 'why-cross-check',
       title: '為什麼不能只靠一種方法',
       paragraphs: [
-        '由於高分 PSA 鑑定卡具備顯著的市場溢價，市面上相繼出現偽造標籤、仿冒外殼、盜用真品編號甚至架設假查詢網頁等手段。現時二手市場仍不時有高仿假卡磚流傳。',
-        '單一維度的防偽特徵均不足以單獨定論。線上查詢通過僅代表第一關驗證，因為造假者能輕易複製真實號碼。藏家必須將線上數據查詢與實物細節測試疊加比對，從多個角度綜合判斷。',
+        '高分殼有價差，所以有人偽造標籤、仿殼、盜用真編號，甚至做假查詢頁。',
+        '查詢通過只是第一關。編號可以抄。黑光燈、手感、放大要跟查詢疊在一起。任何一步對不上，不要付款。',
       ],
     },
     {
@@ -46,40 +46,53 @@ const guide: GuideContent = {
       title: '第二步：UV 黑光燈測試',
       paragraphs: [
         '手持式波長 365nm 或 395nm 的 UV 黑光燈，是辨識假殼與偽造標籤成本最低且極為有效的物理檢測工具。對於經常進行二手交易或收藏高價鑑定卡的藏家而言，隨身配備一支黑光燈能即時過濾絕大多數低劣高仿。',
+        '下面影片裡的卡都是真卡，用來對照真品。沒有反應的那一邊也是真卡，只是世代不同。',
       ],
-      bulletGroups: [
+      subsections: [
         {
-          label: '標籤正面',
-          items: [
+          title: '標籤正面',
+          bulletGroups: [
             {
-              label: '編號 43 開頭前：',
-              text: '在 UV 燈照射下無明顯螢光隱藏字樣。',
+              label: '',
+              items: [
+                {
+                  label: '編號 43 開頭前：',
+                  text: '在 UV 燈照射下無明顯螢光隱藏字樣。',
+                },
+                {
+                  label: '編號 43 開頭後：',
+                  text: '特定區域會顯現螢光隱藏的「PSA」字樣或官方圖案，發光均勻且邊緣清晰。',
+                },
+              ],
             },
+          ],
+          videos: [
             {
-              label: '編號 43 開頭後：',
-              text: '特定區域會顯現螢光隱藏的「PSA」字樣或官方圖案，發光均勻且邊緣清晰。',
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-front.mp4',
+              caption:
+                '片內的卡都是真卡。PSA 標籤正面 UV 反光對比（左：編號 43xxxxxx 後顯現隱藏文字 / 右：編號 43xxxxxx 前無反應）',
             },
           ],
         },
         {
-          label: '標籤背面',
-          items: [
+          title: '標籤背面',
+          bulletGroups: [
             {
-              label: '全時期：',
-              text: '核心大 PSA Logo 周圍應均勻出現 6 個小型發光的 PSA Logo 圖案（編號 #43 前後版本皆然）。',
+              label: '',
+              items: [
+                {
+                  label: '全時期：',
+                  text: '核心大 PSA Logo 周圍應均勻出現 6 個小型發光的 PSA Logo 圖案（編號 #43 前後版本皆然）。',
+                },
+              ],
             },
           ],
-        },
-      ],
-      videos: [
-        {
-          src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-front.mp4',
-          caption:
-            'PSA 標籤正面 UV 反光對比（左：編號 43xxxxxx 後顯現隱藏文字 / 右：編號 43xxxxxx 前無反應）',
-        },
-        {
-          src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-back.mp4',
-          caption: 'PSA 標籤背面 UV 反光對比（左右均顯現 6 個微型 Logo）',
+          videos: [
+            {
+              src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-back.mp4',
+              caption: '片內的卡都是真卡。PSA 標籤背面 UV 反光對比（左右均顯現 6 個微型 Logo）',
+            },
+          ],
         },
       ],
       callout:
@@ -95,12 +108,12 @@ const guide: GuideContent = {
       id: 'holder-physical',
       title: '第三步：外殼物理與觸感',
       paragraphs: [
-        '真品 PSA 壓克力鑑定外殼具備極嚴格的專利開模規格與超音波焊接工藝。透過檢視外殼結構與立體觸感，能在數分鐘內辨識出外殼是否屬真品或曾被二次拆封。',
-        '首先，真品外殼底部右側（或背面，視標籤世代而定）設有清晰的凸起 PSA Logo，手指撫過能感受到細緻的立體雕刻質感，假貨則多為平印或觸感生硬。多數現代 PSA 鑑定殼底部左側亦刻有清晰的「21」數字標記。',
-        '其次，真品採用高清澈度的硬質壓克力，邊緣焊接超音波接縫極為平整且不含膠水痕跡；內部固定卡片的內槽四角應呈完美的 90 度直角，而非圓角。若外殼壓克力質地偏軟、容易彎曲，或超音波接縫出現不規則撬痕與大面積霧化，均屬高度可疑的撬殼重封特徵。',
+        '摸外殼。真品 Logo 是凸起的。位置在底部右側，或在背面，視世代而定。在背面不是問題。平印，或摸起來是平的，才是問題。',
+        '多數現代殼底部左側刻有「21」。舊殼不一定有。沒有「21」不能單獨當假。',
+        '內槽四角是直角，不是圓角。超音波接縫平整，沒有膠水。殼偏軟、能彎、接縫有撬痕或大片霧化，不要付款。',
       ],
       specs: [
-        { label: '官方 Logo 觸感', value: '外殼底部右側設有立體凸起的 PSA Logo' },
+        { label: '官方 Logo 觸感', value: '底部右側或背面，視世代而定。要凸起，平的就不要' },
         { label: '模具標記', value: '多數現代外殼底部左側刻有清晰「21」數字' },
         { label: '卡槽幾何結構', value: '內部固定卡片的內槽四角為 90 度直角，非圓角' },
         { label: '超音波焊接接縫', value: '壓克力邊緣接縫平整焊接，無撬痕或殘留膠痕' },
@@ -111,6 +124,7 @@ const guide: GuideContent = {
       title: '第四步：標籤細節放大檢查',
       paragraphs: [
         '官方標籤印刷細節是假貨最難完美複製的核心防偽環節。利用 10× 珠寶放大鏡或手機微距鏡頭，按證書編號段檢查全息防偽貼紙與微型印刷小字，能輕易揪出印製瑕疵。',
+        '下面影片裡的卡都是真卡。CLCT 和 PSA 都是真品標籤，不是真假對照。',
       ],
       subsections: [
         {
@@ -128,11 +142,11 @@ const guide: GuideContent = {
                   images: [
                     {
                       src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-front-old-label.jpg',
-                      caption: '27xxxxxx 號前舊版標籤正面（正下方無長方形全息防偽貼紙）',
+                      caption: '圖內的卡都是真卡。27xxxxxx 號前舊版標籤正面（正下方無長方形全息防偽貼紙）',
                     },
                     {
                       src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-back-old-label.jpg',
-                      caption: '27xxxxxx 號前舊版標籤背面外觀',
+                      caption: '圖內的卡都是真卡。27xxxxxx 號前舊版標籤背面外觀',
                     },
                   ],
                 },
@@ -163,11 +177,11 @@ const guide: GuideContent = {
           videos: [
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-old-version.mp4',
-              caption: '4xxxxxxx 號前標籤正面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
+              caption: '片內的卡都是真卡。4xxxxxxx 號前標籤正面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
             },
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-old-version.mp4',
-              caption: '4xxxxxxx 號前標籤背面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
+              caption: '片內的卡都是真卡。4xxxxxxx 號前標籤背面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
             },
           ],
         },
@@ -187,11 +201,11 @@ const guide: GuideContent = {
           videos: [
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-new-version.mp4',
-              caption: '5xxxxxxx 後標籤正面反光情況（放大可見隱藏小字為 PSA）',
+              caption: '片內的卡都是真卡。5xxxxxxx 後標籤正面反光情況（放大可見隱藏小字為 PSA）',
             },
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-new-version.mp4',
-              caption: '5xxxxxxx 後標籤背面反光情況（放大可見隱藏小字為 PSA）',
+              caption: '片內的卡都是真卡。5xxxxxxx 後標籤背面反光情況（放大可見隱藏小字為 PSA）',
             },
           ],
         },
@@ -216,11 +230,37 @@ const guide: GuideContent = {
     },
     {
       id: 'practice-habit',
-      title: '五步疊加，風險才降',
+      title: '付款前對一次',
       paragraphs: [
-        '偽造技術不斷演變，單一防偽特徵難免被破譯。唯有將官方數據庫查詢、UV 黑光燈測試、外殼物理觸感、標籤放大檢查與賣家背景進行多重疊加驗證，方能將交易風險降至最低。',
-        '初入門藏家建議先以常規卡牌練習驗證流程，熟練後再處理高價值珍藏。驗證確認真偽無誤後，再加裝外層防護硬殼，順序切勿顛倒。',
-        '確認 PSA 鑑定卡為真品後，於日常攜帶或陳列時加裝 [鑑定卡保護殼](/products/psa-protectors/)，能防止壓克力外殼受損並阻隔紫外線，全方位守護珍藏的市場價值。',
+        '下面每一項都要對上。對不上，不要付款。',
+        '先用普通卡練這五步，再碰高價卡。',
+      ],
+      bulletGroups: [
+        {
+          label: '',
+          items: [
+            {
+              label: '證書：',
+              text: '自己打開 psacard.com/cert。卡面、年份、名字、分數要對上。賣家的連結和 QR 碼不算。',
+            },
+            {
+              label: '黑光燈：',
+              text: '43 開頭之後，正面才有隱藏 PSA。背面各時期都是主 Logo 旁 6 個小 Logo。錯位、過亮、模糊或完全沒反應，不要。',
+            },
+            {
+              label: '外殼：',
+              text: 'Logo 要凸起。在底部右側或背面都正常，視世代而定。平的就不要。內槽四角要直角。接縫大片霧化不要。',
+            },
+            {
+              label: '標籤：',
+              text: '傾斜放大看小字。4 與 5 開頭沒有固定切點，CLCT 和 PSA 都出現過。看手上這張，不要用編號猜。',
+            },
+            {
+              label: '對上之後：',
+              text: '再加裝 [鑑定卡保護殼](/products/psa-protectors/)。先查，再加殼。順序不要反。',
+            },
+          ],
+        },
       ],
     },
   ],
@@ -239,13 +279,13 @@ const guide: GuideContent = {
     },
     {
       q: '需要多少倍率的放大鏡方能清晰檢視標籤微型小字？',
-      a: '建議使用至少 10× 倍率的珠寶放大鏡或手機微距拍攝模式。在自然光或強光下稍微傾斜標籤角度，即可清楚辨識微型印刷小字為「NASDAQ : CLCT」還是「PSA」。',
+      a: '建議使用至少 10× 倍率的珠寶放大鏡或手機微距拍攝模式。在自然光或強光下稍微傾斜標籤角度，可以辨識微型印刷小字是「NASDAQ : CLCT」還是「PSA」。',
     },
   ],
   midCta: {
-    afterSectionId: 'uv-blacklight',
-    title: '黑光燈驗證通過？上架或展示前加裝防護',
-    body: '通過檢測的鑑定卡在日常攜帶、交流或擺放陳列時，壓克力外殼仍可能因摩擦留下刮痕。上架或攜帶前加裝剛性防護硬殼，能有效延長藏品美觀。',
+    afterSectionId: 'advanced-buying',
+    title: '五步都對上，再加裝防護',
+    body: '五步都對上之後，才適合上架或攜帶。壓克力外殼仍會被刮。加裝硬殼，減少刮痕。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定卡防紫外線指南', href: '/guides/uv-protection-graded-cards/' },
   },

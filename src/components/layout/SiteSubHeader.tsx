@@ -1,18 +1,53 @@
 'use client';
 
 import React, { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
+import { usePathname } from 'next/navigation';
 import { useSubHeaderContext, type SubHeaderConfig } from '@/context/sub-header-context';
+import { stripZhPrefix } from '@/lib/i18n-routing';
 
 function hasSubHeaderContent(config: SubHeaderConfig): boolean {
   return Boolean(config.content ?? config.leading ?? config.center ?? config.trailing);
 }
 
-function SubHeaderBody({ config }: { config: SubHeaderConfig }) {
+function subHeaderContentWidthClass(width: SubHeaderConfig['contentWidth']): string {
+  switch (width) {
+    case 'tool':
+      return 'container-tool';
+    case 'guide':
+      return 'container-custom max-w-[1080px]';
+    case 'page':
+    case undefined:
+      return 'container-custom';
+    default: {
+      const _exhaustive: never = width;
+      throw new Error(`Unhandled subheader width: ${_exhaustive}`);
+    }
+  }
+}
+
+function isGuideArticlePath(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return /^\/guides\/[^/]+/.test(stripZhPrefix(pathname));
+}
+
+function SubHeaderBody({ config, guideAlign }: { config: SubHeaderConfig; guideAlign: boolean }) {
   if (config.content) {
-    const widthClass = config.contentWidth === 'tool' ? 'container-tool' : 'container-custom';
+    const widthClass = subHeaderContentWidthClass(guideAlign ? 'guide' : config.contentWidth);
     return (
       <div className={`${widthClass} site-subheader__content py-2 md:py-2.5`}>
         {config.content}
+      </div>
+    );
+  }
+
+  if (guideAlign) {
+    return (
+      <div className="container-custom max-w-[1080px] site-subheader__content py-2 md:py-2.5">
+        <div className="flex min-w-0 items-center gap-3">
+          {config.leading}
+          {config.center}
+          {config.trailing}
+        </div>
       </div>
     );
   }
@@ -64,6 +99,8 @@ export default function SiteSubHeader() {
   const { getConfig, subscribe, getVersion } = useSubHeaderContext();
   useSyncExternalStore(subscribe, getVersion, getVersion);
   const config = getConfig();
+  const pathname = usePathname();
+  const guideAlign = isGuideArticlePath(pathname);
   const rootRef = useRef<HTMLDivElement>(null);
 
   const visible = config != null && hasSubHeaderContent(config);
@@ -107,7 +144,7 @@ export default function SiteSubHeader() {
       className={`site-subheader workspace-chrome${variantClass}`}
       aria-label="Section navigation"
     >
-      <SubHeaderBody config={config} />
+      <SubHeaderBody config={config} guideAlign={guideAlign} />
     </div>
   );
 }
