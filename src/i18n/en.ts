@@ -79,7 +79,7 @@ export const en = {
       cta: 'Shop Now',
       tiles: {
         compatibility: { hint: 'Standard 35PT PSA and CGC slab compatibility.' },
-        material: { hint: 'Metal frame absorbs shock better than acrylic slab cases.' },
+        material: { hint: 'Metal frame helps absorb shock on impact.' },
         uvProtection: { hint: 'Blocks harmful light to preserve holo and chrome.' },
         origin: { hint: 'Designed in Hong Kong. Ships worldwide.' },
       },
@@ -112,7 +112,7 @@ export const en = {
       },
       trust: {
         title: 'True Drop Protection',
-        description: 'Unlike acrylic slab cases that crack on impact, our metal frame absorbs shock and keeps your PSA slab safe.',
+        description: 'A rigid metal frame absorbs shock and helps keep your PSA slab safe.',
       },
       support: {
         title: 'Magnetic Closure',
@@ -268,7 +268,7 @@ export const en = {
         },
         {
           title: 'True Drop Protection',
-          description: 'Unlike acrylic cases that can crack upon impact, our metal frame acts as a rigid bumper, absorbing shock and keeping your slab safe.',
+          description: 'A rigid metal frame acts as a bumper, absorbing shock and helping keep your slab safe.',
         },
         {
           title: 'The "Click" of Quality',
@@ -368,7 +368,7 @@ export const en = {
       badge: 'Collector Notes',
       title: 'Premium Graded Card Protector',
       body: [
-        '35PT PSA slab protector for Hong Kong collectors: tempered UV-blocking glass (>95%), metal frame, N52 magnets. Fits standard PSA and CGC holders. HK$60 single / HK$80 gradient. Third-party — not made by PSA.',
+        '35PT PSA slab protector for Hong Kong collectors: tempered UV-blocking glass (>95%), metal frame, N52 magnets. Fits standard PSA and CGC holders. HK$60 single / HK$80 gradient. Third-party — not made by PSA. The outer case takes display scratches so the factory PSA slab does not.',
       ],
     },
     featuresBadge: 'Details',
@@ -389,7 +389,7 @@ export const en = {
       thicknessLabel: 'Target thickness',
       thicknessValue: '35PT',
       thicknessDesc: 'Standard PSA / CGC graded slab',
-      cavityLabel: 'Cavity opening',
+      cavityLabel: 'Outer dimensions',
       cavityValue: '8.7 × 14.2 cm',
       verifyLabel: 'Fit verification',
       verdictPass: 'PASS',
@@ -482,7 +482,7 @@ export const en = {
         },
         {
           q: 'How does the magnetic closure work?',
-          a: 'N52 neodymium magnets — the strongest grade commercially available — snap the case shut without any screws, tools, or latches. Firm enough for display and transport, yet easy to open by hand.',
+          a: 'N52 neodymium magnets snap the case shut without any screws, tools, or latches. Firm enough for display and transport, yet easy to open by hand.',
         },
         {
           q: 'What level of UV protection does the glass provide?',
@@ -927,7 +927,7 @@ export const en = {
       checklistItems: [
         'Bring your cards and a contact number. Sleeve cards for travel to avoid scratches.',
         'We provide free on-site card inspection, grade prediction, and basic cleaning & maintenance to help you confirm the optimal PSA service tier and declared value.',
-        'Receipt phone number and reference code for batch status lookup.',
+        'Registered phone number and reference number for batch status lookup.',
       ],
       locationTitle: '138 Arena',
       directionsLink: 'Get directions',
@@ -985,7 +985,7 @@ export const en = {
         {
           title: 'Pick up in Causeway Bay',
           tagline: 'Ready for pickup',
-          body: 'Graded slabs return to 138 Arena for pickup or arranged delivery.',
+          body: 'Graded slabs return to 138 Arena for pickup.',
         },
       ],
     },
@@ -1045,7 +1045,7 @@ export const en = {
             },
             {
               q: 'If one visit includes more than one service tier from the published pricing table, such as Priority and Express, how do I track them?',
-              a: 'Each service tier on the published pricing table, including Standard, Priority, and Express, is processed as its own BAT batch because turnaround differs by plan. Use the same phone number and the reference code printed for each batch to check progress separately.',
+              a: 'Each service tier on the published pricing table, including Standard, Priority, and Express, is processed as its own BAT batch because turnaround differs by plan. Use the same registered phone number and the reference number for each batch to check progress separately.',
             },
             {
               q: 'What do the timeline steps mean?',

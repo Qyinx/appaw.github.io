@@ -58,7 +58,7 @@ export function buildPsaProtectorsStructuredData(locale: PsaProtectorsLocale) {
     ],
     brand: { '@type': 'Brand', name: 'Appaw Store' },
     sku: PROTECTOR_SKU,
-    identifier: PROTECTOR_SKU_LEGACY,
+    identifier: PROTECTOR_SKU,
     material:
       locale === 'zh'
         ? ['防UV強化玻璃', '金屬邊框']
@@ -98,6 +98,11 @@ export function buildPsaProtectorsStructuredData(locale: PsaProtectorsLocale) {
       },
     ],
     additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: locale === 'zh' ? '舊版 SKU' : 'Legacy SKU',
+        value: PROTECTOR_SKU_LEGACY,
+      },
       {
         '@type': 'PropertyValue',
         name: locale === 'zh' ? 'UV 防護' : 'UV Protection',

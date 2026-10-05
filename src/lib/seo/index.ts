@@ -23,7 +23,7 @@ export function storeJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Appaw Store',
-    legalName: 'Appaw Store',
+    legalName: 'Appaw Store Limited',
     alternateName: ['Appaw', 'APPAW Store'],
     description: 'Hong Kong brand for 35PT PSA/CGC slab protectors and PSA grading submission. Face-to-face work at partner venue 138 Arena: venue and payment by 138 Arena; service and follow-up by Appaw.',
     slogan: 'Protect What Matters. Display What You Love.',

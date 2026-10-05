@@ -42,7 +42,7 @@ export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
   { slug: 'grade-or-protect-first', published: '2026-06-07', updated: '2026-07-13' },
   { slug: 'identify-fake-psa-slabs', published: '2026-06-08', updated: '2026-07-12' },
   { slug: 'display-graded-cards', published: '2026-06-09', updated: '2026-07-12' },
-  { slug: 'psa-reholder-guide', published: '2026-08-09', updated: '2026-10-01' },
+  { slug: 'psa-reholder-guide', published: '2026-08-09', updated: '2026-10-05' },
   { slug: 'psa-review-vs-crack', published: '2026-08-09', updated: '2026-10-01' },
   { slug: 'psa-grading-standards', published: '2026-06-18', updated: '2026-07-12' },
   { slug: 'hong-kong-tcg-grading-guide', published: '2026-07-13', updated: '2026-07-14' },

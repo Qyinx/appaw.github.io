@@ -9,10 +9,28 @@ type GuideHeroProps = {
   lead: string;
   readTime: string;
   updated: string;
+  published?: string;
+  author?: string;
+  updatedLabel?: string;
   heroImage?: string;
 };
 
-export default function GuideHero({ badge, title, lead, readTime, updated, heroImage }: GuideHeroProps) {
+export default function GuideHero({
+  badge,
+  title,
+  lead,
+  readTime,
+  updated,
+  published,
+  author,
+  updatedLabel = 'Updated',
+  heroImage,
+}: GuideHeroProps) {
+  const metaParts = [readTime];
+  if (author) metaParts.push(author);
+  if (published) metaParts.push(`Published ${published}`);
+  metaParts.push(`${updatedLabel} ${updated}`);
+
   return (
     <section
       className={`relative bg-surface-bg pt-20 pb-12 overflow-hidden border-b border-border-default page-blueprint${heroImage ? ' hero-bg-slab' : ''}`}
@@ -26,7 +44,7 @@ export default function GuideHero({ badge, title, lead, readTime, updated, heroI
         <div className="w-12 h-px bg-accent-brand mb-7" aria-hidden="true" />
         <p className="guide-lead text-text-secondary text-lg md:text-xl leading-relaxed max-w-2xl mb-6">{lead}</p>
         <p className="font-mono text-xs text-text-muted uppercase tracking-wider">
-          {readTime} · Updated {updated}
+          {metaParts.join(' · ')}
         </p>
       </div>
     </section>

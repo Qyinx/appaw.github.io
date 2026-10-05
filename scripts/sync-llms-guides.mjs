@@ -24,7 +24,7 @@ const TOPICS = {
   'display-graded-cards':
     'Graded slab display — binder, magnetic case, wall/cabinet setup, UV protection table',
   'psa-reholder-guide':
-    'PSA Reholder guide — $14.99 standard fee, cosmetic plastic replacement, hidden risks of new damage or fading',
+    'PSA Reholder guide — $12.99 standard fee, cosmetic plastic replacement, hidden risks of new damage or fading',
   'psa-review-vs-crack':
     'PSA Regrade Strategy — Review (in-slab) anchoring bias vs Crack & Resubmit raw, downgrade risks, and Expected Value (EV) math',
   'psa-grading-standards':

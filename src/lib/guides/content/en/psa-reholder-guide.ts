@@ -5,17 +5,17 @@ const guide: GuideContent = {
   title: 'PSA Reholder Service and Cost',
   badge: 'Grading Workflow',
   lead:
-    'A scratched or scuffed slab does not mean your card is damaged. The PSA Standard Reholder service costs $14.99 and encapsulates your card in a fresh plastic case with a new label, keeping your grade and cert number intact. However, if PSA detects new damage or fading during the transfer, they can lower the grade, making this process not entirely risk-free.',
+    'A scratched or scuffed slab does not mean your card is damaged. The PSA Standard Reholder service costs $12.99 as Standard (as of 2026-10-05, per PSA official site; actual fee depends on insured/rehold value—higher value tiers cost more) and encapsulates your card in a fresh plastic case with a new label, keeping your grade and cert number intact. However, if PSA detects new damage or fading during the transfer, they can lower the grade, making this process not entirely risk-free.',
   metaDescription:
     'A reholder is for a scuffed or cracked slab, or a problem with the label. It usually replaces the case only and does not change the existing grade. Grading the card again is a separate submission. In Hong Kong, hand the card in at 138 Arena in Causeway Bay.',
   published: '2026-08-09',
-  updated: '2026-10-01',
+  updated: '2026-10-05',
   readTime: '7 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
     {
       label: 'Standard Cost',
-      value: 'Standard Reholder fee is $14.99 per card (excluding shipping)',
+      value: 'Standard Reholder fee is $12.99 per card (excluding shipping; as of 2026-10-05, per PSA official site). Actual fee depends on insured/rehold value; higher value tiers cost more',
     },
     {
       label: 'Grade & Cert Number',
@@ -37,7 +37,7 @@ const guide: GuideContent = {
       paragraphs: [
         'The PSA Reholder service focuses strictly on cosmetic maintenance for the slab itself. Graders remove your card from its old case and seal it in the latest acrylic holder with fresh label stock. Throughout this process, your card’s grade, certification number, and population history are preserved.',
         'This service is perfect for straightforward physical wear: superficial scuffs, clouded plastic, minor edge dulling, or a fading label on an otherwise pristine card. If you are entirely satisfied with the grade but simply want to refresh the presentation or unify older slab styles in your collection, Reholder is the optimal path.',
-        'Keep in mind that the $14.99 Standard Reholder fee does not cover shipping or insurance. To make the economics work—especially for international collectors—you should consolidate multiple scuffed slabs into a single submission batch to dilute the fixed logistics costs. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) in Causeway Bay, where Appaw’s PSA grading submission service folds Reholder cards into shared batches and removes the hassle of self-shipping overseas.',
+        'Keep in mind that the $12.99 Standard Reholder fee (as of 2026-10-05, per PSA official site) does not cover shipping or insurance. Actual fee depends on insured/rehold value; higher value tiers cost more. To make the economics work—especially for international collectors—you should consolidate multiple scuffed slabs into a single submission batch to dilute the fixed logistics costs. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) in Causeway Bay, where Appaw’s PSA grading submission service folds Reholder cards into shared batches and removes the hassle of self-shipping overseas.',
       ],
       bridge: 'While Reholder is designed as a simple cosmetic fix, collectors must understand the boundaries and hidden risks involved.',
     },
@@ -74,7 +74,7 @@ const guide: GuideContent = {
   faq: [
     {
       q: 'How much does it cost to Reholder a PSA card?',
-      a: 'The Standard Reholder service currently costs $14.99 per card. Note that this base fee does not include return shipping or insurance, which will add to your total cost.',
+      a: 'The Standard Reholder service costs $12.99 per card as of 2026-10-05, per the PSA official site. Actual fee depends on the insured/rehold value; higher value tiers cost more. Note that this base fee does not include return shipping or insurance, which will add to your total cost.',
     },
     {
       q: 'Will a Reholder change my PSA grade?',

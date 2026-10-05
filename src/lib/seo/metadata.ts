@@ -30,7 +30,7 @@ const psaProtectorsMetadataBase: Metadata = {
     'PSA precision encapsulation',
     'investment-grade card protection',
     'high-value card protection',
-    'museum-grade UV filtration',
+    'UV filtration for graded slabs',
     'graded slab protector',
     'graded slab UV glass case',
     '鑑定卡保護殼',

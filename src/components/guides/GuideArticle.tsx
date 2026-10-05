@@ -77,6 +77,9 @@ export default function GuideArticle({ slug }: GuideArticleProps) {
         lead={guide.lead}
         readTime={guide.readTime}
         updated={guide.updated}
+        published={guide.published}
+        author={locale === 'zh' ? 'Appaw Store 團隊' : 'Appaw Store'}
+        updatedLabel={locale === 'zh' ? '最後更新' : 'Updated'}
         heroImage={guide.heroImage}
       />
 

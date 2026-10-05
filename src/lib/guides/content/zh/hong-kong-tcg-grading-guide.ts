@@ -81,7 +81,7 @@ const guide: GuideContent = {
       id: 'tracking-and-pickup',
       title: '查看批次現有進度與返港取件',
       paragraphs: [
-        '在 PSA 鑑定期間，顧客可隨時於 Appaw [PSA評級代送鑑定進度查詢](/business/psa-grading/track/) 頁面輸入電話號碼與參考編號，查看最新動態。進度時間軸中，「卡牌已於 138 Arena 登記」代表本地收件完成；「已提交至 PSA 香港」代表 Appaw 已安排出口；其後鑑定階段由 PSA 官方數據同步；顯示「可於 138 Arena 取件」則代表鑑定卡已交還。',
+        '在 PSA 鑑定期間，顧客可隨時於 Appaw [PSA評級代送鑑定進度查詢](/business/psa-grading/track/) 頁面輸入電話號碼與參考編號，查看最新動態。進度時間軸中，「卡牌已於 138 Arena 登記」代表本地收件完成；「已提交至 PSA」代表 Appaw 已轉送批次；其後鑑定階段由 PSA 官方數據同步；顯示「可於 138 Arena 取件」則代表鑑定卡已交還。',
         'PSA 交還的鑑定卡由 Appaw Store 保管。十四日取件期限，由 Appaw Store 開始以 WhatsApp 或電郵通知顧客可以取件當日起計，並非單純以 PSA 交還日期起算。交還地點為 138 Arena。顧客請於發出通知日起十四日內，前往 138 Arena 當面取回。取件時，Appaw 會核對參考編號、卡牌清單及鑑定結果，確認無誤後完成交接。若顧客於上述十四日內仍未取回，該批卡片將視作已被放棄。Appaw Store 會發出放棄取回通知，已繳費用不予退還。',
         '若卡片評級後的市值或分數超出所選方案的最高申報價值，PSA 可能發出加價。顧客有兩項選擇。其一，於取件時向 138 Arena 補繳原方案與較高方案之間的差額；若涉及調整，則由 Appaw Store 確認最終金額。其二，在取件期限內聲明放棄該卡。詳細說明可參閱 [PSA評級代送鑑定](/business/psa-grading/) 頁面及服務條款。',
       ],

@@ -43,7 +43,7 @@ export default function PrivacyPage() {
           <h1 className="text-4xl md:text-5xl font-bold font-display text-text-primary leading-tight mb-4">
             Privacy Policy
           </h1>
-          <p className="text-text-secondary text-sm">Last updated: {LAST_UPDATED}</p>
+          <p className="text-text-secondary text-sm">Last updated: 5 October 2026</p>
         </div>
       </section>
 
@@ -71,8 +71,10 @@ export default function PrivacyPage() {
               <li>Referral source (how you found us)</li>
             </ul>
             <p className="text-text-secondary text-sm leading-relaxed mb-6">
-              This data is aggregated and anonymised. We do <strong className="text-text-primary">not</strong> collect
-              your name, email, or contact details through the website itself.
+              This analytics data is aggregated and anonymised. Separately, some site features collect limited
+              details you choose to submit — for example a registered phone number and reference number on the
+              PSA grading track page, and appointment details when you book a drop-off. We do not use analytics
+              tools to harvest your name or email from ordinary browsing.
             </p>
 
             <h3 className="text-base font-semibold text-text-primary mb-2">Automatically collected data (Microsoft Clarity)</h3>
@@ -100,8 +102,10 @@ export default function PrivacyPage() {
             <h3 className="text-base font-semibold text-text-primary mb-2">Data you provide voluntarily</h3>
             <p className="text-text-secondary text-sm leading-relaxed mb-6">
               If you contact us via WhatsApp (+852-9285-1189) or email (support@appaw.store), we receive
-              the contact details and message content you choose to share. This information is used solely
-              to respond to your enquiry or facilitate a transaction.
+              the contact details and message content you choose to share. If you use the PSA grading track
+              page, you submit a registered phone number and reference number to look up your batch. If you
+              book a drop-off appointment, we receive the booking details you enter. This information is used
+              solely to respond to your enquiry, provide tracking, or facilitate a transaction.
             </p>
 
             <h3 className="text-base font-semibold text-text-primary mb-2">Purchase data</h3>

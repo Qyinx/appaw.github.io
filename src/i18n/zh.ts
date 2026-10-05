@@ -80,7 +80,7 @@ export const zh: Translations = {
       cta: '立即選購',
       tiles: {
         compatibility: { hint: '專為標準 35PT PSA 及 CGC 鑑定卡量身打造。' },
-        material: { hint: '金屬邊框結構，吸震防摔能力遠勝傳統壓克力卡殼。' },
+        material: { hint: '金屬邊框結構，有助吸收衝擊。' },
         uvProtection: { hint: '強效阻隔有害光線，長效保護閃卡與全息卡面。' },
         origin: { hint: '香港用心設計，支援全球運送。' },
       },
@@ -113,7 +113,7 @@ export const zh: Translations = {
       },
       trust: {
         title: '硬派防摔保護',
-        description: '有別於一摔就裂的壓克力材質，金屬邊框能有效吸收衝擊，為卡磚提供真正的安全防護。',
+        description: '金屬邊框能有效吸收衝擊，為卡磚提供防護。',
       },
       support: {
         title: '俐落磁吸開合',
@@ -132,7 +132,7 @@ export const zh: Translations = {
       subtitle: '從頂級硬體保護到值得信賴的卡牌交易，全方位守護您的收藏旅程。',
       protector: {
         badge: '頂級保護',
-        subtitle: '博物館級的防 UV 強化玻璃保護殼，為您珍貴的 PSA 及 CGC 卡磚提供最佳展示舞台。',
+        subtitle: '防 UV 強化玻璃保護殼，為您珍貴的 PSA 及 CGC 卡磚提供展示與防護。',
         cta: '瀏覽產品',
         chips: ['>95% 抗 UV', 'N52 磁吸', '防褪色', '僅重 74 克'],
       },
@@ -185,7 +185,7 @@ export const zh: Translations = {
     subtitle: '您最可靠的卡牌收藏神隊友',
     story: {
       title: '品牌故事',
-      content: 'Appaw Store 於 2024 年由幾位香港本土資深收藏家共同創立。起因於一個簡單的煩惱：市面上的壓克力卡殼實在不夠理想、、一摔就破、缺乏抗 UV 能力，擺在展示架上也略顯廉價。既然找不到完美的，我們決定自己做。我們的磁吸防 UV 保護殼結合了強化玻璃、堅固金屬邊框與 N52 磁吸技術，讓追求極致的收藏家能同時享有可靠保護與藝術品般的展示效果。除了硬體設備，我們亦與銅鑼灣 138 Arena 合作，在香港提供高誠信的 TCG 面交買賣及寄賣，佣金一律成交價 5%。',
+      content: 'Appaw Store 於 2024 年由幾位香港本土資深收藏家共同創立。起因於一個簡單的煩惱：市面上的壓克力卡殼實在不夠理想、一摔就破、缺乏抗 UV 能力，擺在展示架上也略顯廉價。既然找不到完美的，我們決定自己做。我們的磁吸防 UV 保護殼結合了強化玻璃、堅固金屬邊框與 N52 磁吸技術，讓追求極致的收藏家能同時享有可靠保護與藝術品般的展示效果。除了硬體設備，我們亦與銅鑼灣 138 Arena 合作，在香港提供高誠信的 TCG 面交買賣及寄賣，佣金一律成交價 5%。',
       founderName: 'Appaw Store 團隊',
       founderRole: '創立於 2024 年 · 香港',
     },
@@ -250,7 +250,7 @@ export const zh: Translations = {
     cardProtector: {
       title: '磁吸防 UV 鑑定卡保護殼',
       description:
-        '結合防 UV 強化玻璃與剛性金屬邊框，適用於標準 35PT PSA 及 CGC 鑑定卡，搭配 N52 磁吸設計，帶來博物館級的展示與防護效果。',
+        '結合防 UV 強化玻璃與剛性金屬邊框，適用於標準 35PT PSA 及 CGC 鑑定卡，搭配 N52 磁吸設計，提供穩妥的展示與防護。',
       whatsappOrder: '你好！我有興趣訂購磁吸防UV鑑定卡保護殼。',
       teaserLine: '詳細規格、配色選擇及價格資訊，請參閱產品專頁。',
       startingPrice: '建議售價',
@@ -270,7 +270,7 @@ export const zh: Translations = {
         },
         {
           title: '實打實的防撞力',
-          description: '徹底告別易碎的壓克力材質！金屬邊框猶如堅固的保險桿，強效吸收衝擊力，給予卡磚最高級別的安全感。',
+          description: '金屬邊框猶如保險桿，吸收衝擊力，為卡磚提供防護。',
         },
         {
           title: '療癒的「咔嗒」聲',
@@ -370,7 +370,7 @@ export const zh: Translations = {
       badge: '藏家筆記',
       title: '旗艦級鑑定卡保護殼',
       body: [
-        '香港 35PT PSA卡殼：防 UV 強化玻璃（>95%）、金屬邊框、N52 磁吸，適配標準 PSA／CGC 鑑定卡。單色 HK$60、漸層 HK$80。第三方產品，非 PSA 官方。',
+        '香港 35PT PSA卡殼：防 UV 強化玻璃（>95%）、金屬邊框、N52 磁吸，適配標準 PSA／CGC 鑑定卡。單色 HK$60、漸層 HK$80。第三方產品，非 PSA 官方。外層保護殼承受展示刮痕，減少原廠 PSA 卡磚磨損。',
       ],
     },
     featuresBadge: '功能解析',
@@ -391,7 +391,7 @@ export const zh: Translations = {
       thicknessLabel: '適用厚度',
       thicknessValue: '35PT',
       thicknessDesc: '標準 PSA / CGC 鑑定卡規格',
-      cavityLabel: '內徑尺寸',
+      cavityLabel: '外徑尺寸',
       cavityValue: '8.7 × 14.2 cm',
       verifyLabel: '適配度驗證',
       verdictPass: '通過驗證',
@@ -908,7 +908,7 @@ export const zh: Translations = {
       bookCta: '馬上預約交卡',
       trackCta: '查詢進度',
       emptyTitle: '目前暫無開放中的評級代送鑑定批次',
-      emptyBody: '別擔心，您可以先預約交卡時段、、在您交卡當天，我們就會為您開立全新的批次（BAT）。',
+      emptyBody: '別擔心，您可以先預約交卡時段、在您交卡當天，我們就會為您開立全新的批次（BAT）。',
       emptyCta: '預約交卡時段',
       loading: '正在努力載入批次資料中…',
       error: '哎呀！無法順利載入批次看板。',
@@ -976,7 +976,7 @@ export const zh: Translations = {
         {
           title: '寄去PSA',
           tagline: 'Submitted to PSA',
-          body: '將大家的卡片穩妥包裝後發往PSA。您的參考編號將直接對應到 PSA 的官方訂單系統。',
+          body: '將大家的卡片穩妥包裝後發往PSA。您的參考編號會連結到 PSA 訂單。',
         },
         {
           title: 'PSA 鑑定中',
@@ -1050,7 +1050,7 @@ export const zh: Translations = {
             },
             {
               q: '系統上的各種狀態代表什麼意思？',
-              a: '「卡牌已於 138 Arena 登記」表示我們已經收妥；「已提交至 PSA 香港」代表已經上了飛機；中間的鑑定過程由 PSA 即時同步；看到「可於 138 Arena 取件」，就代表您可以來帶寶貝回家了！',
+              a: '「卡牌已於 138 Arena 登記」表示我們已經收妥；「已提交至 PSA」代表批次已轉送 PSA；中間的鑑定過程由 PSA 同步；看到「可於 138 Arena 取件」，就代表您可以來帶寶貝回家了！',
             },
           ],
         },

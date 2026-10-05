@@ -13,7 +13,7 @@ const breadcrumb = breadcrumbJsonLd([
 
 const org = organizationJsonLd({
   name: 'Appaw Store',
-  legalName: 'Appaw Store',
+  legalName: 'Appaw Store Limited',
   alternateName: 'APPAW',
   url: 'https://appaw.store',
   logo: brandLogoImageObject,
