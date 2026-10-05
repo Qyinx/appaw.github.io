@@ -5,7 +5,7 @@ const guide: GuideContent = {
   title: 'PSA Regrade Strategy: Review vs Crack & Resubmit',
   badge: 'Advanced Strategy',
   lead:
-    'For collectors sitting on a high-value PSA 9, moving the same card to a PSA 10 can multiply the resale price. Sending the card still in its holder for a PSA Review is often blocked by anchoring: the grader already sees the existing 9. Cracking the slab and submitting it raw removes that bias, but it also opens a path to a lower grade. Run the expected-value math before you break the plastic.',
+    'Collectors holding a high-value PSA 9 often weigh whether a PSA 10 is realistic. An in-slab PSA Review is frequently held back by anchoring — the grader already sees the existing 9. Cracking the slab and submitting raw removes that bias, but it also opens a path to a lower grade. Run the expected-value math before you break the plastic.',
   metaDescription:
     'PSA Review rarely upgrades a 9 — graders already see the label. Crack and resubmit removes bias but can drop the grade. Run EV math before you break plastic.',
   published: '2026-08-09',
@@ -47,7 +47,7 @@ const guide: GuideContent = {
       paragraphs: [
         'Cracking and resubmitting means physically breaking the PSA slab, removing the card, and submitting it as a raw, unassessed item. This entirely removes the anchoring bias, forcing the grader to evaluate the card strictly on its current merits without any historical context.',
         'While the upside of securing a fresh PSA 10 is massive, the risks are equally steep. First is the physical danger: cracking a sonic-welded slab requires precision, and one slip of a tool can dent a corner or scratch the surface, destroying the card’s value instantly. Second is the downgrade risk. PSA tightened its Gem Mint 10 centering standards to a strict 55/45 ratio in 2025. A card that squeaked by as a 9 years ago might legitimately be an 8 under today’s microscope.',
-        'This is a one-way street. Once the plastic is broken, the price floor of the PSA 9 is gone. If the card comes back an 8, you have paid grading fees twice to actively destroy your own equity.',
+        'Once cracked, there is no going back. Main risks: (1) damaging the surface or corners while opening the holder; (2) losing the PSA 9 label as a price floor; (3) if the new grade is lower than expected, paying grading fees twice while the card’s market value falls.',
       ],
       bridge: 'To navigate these high-stakes decisions rationally, collectors must rely on probability math rather than gut feeling.',
     },
@@ -57,7 +57,7 @@ const guide: GuideContent = {
       paragraphs: [
         'Never crack a slab based on intuition. Use an Expected Value (EV) check first to see whether the upside covers the downside and fees.',
         'Consider a card worth $200 in a PSA 9, $800 in a PSA 10, and $50 in a PSA 8. If you are highly confident (60% chance of a 10, 40% chance of an 8), and grading costs $50, your EV is ($800 × 0.6) + ($50 × 0.4) - $50 = $450. Because $450 is significantly higher than your current $200 baseline, cracking makes mathematical sense.',
-        'Rule of thumb: Only attempt a crack and resubmit if the calculated EV is at least 1.5x to 2x the value of your current slab, and only if you have rigorously pre-screened the card yourself. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) before cracking. Appaw completes a preliminary inspection of centering, surface dents, and corners. That check is a reference only; PSA sets the final grade. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up.',
+        'Rule of thumb: Only attempt a crack and resubmit if the calculated EV is at least 1.5x to 2x the value of your current slab, and only if you have screened the card against current PSA centering and surface standards. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) before cracking. Appaw completes a preliminary inspection of centering, surface dents, and corners as a decision aid; that check is a reference only, and PSA sets the final grade. Basic surface cleaning may be available on request and does not guarantee a higher grade. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up.',
       ],
       formula: {
         result: 'Expected Value (EV)',
@@ -76,7 +76,7 @@ const guide: GuideContent = {
       paragraphs: [
         'If you want to move a BGS or CGC slab into a PSA holder, you can use PSA’s Crossover service. This allows you to submit the card in its competitor slab while specifying a "Minimum Grade" on your submission form.',
         'For example, you can submit a BGS 9.5 and set the Minimum Grade to PSA 10. The grader evaluates the card through the BGS plastic. If they believe it meets the PSA 10 standard, they break it out and reslab it. If they feel it falls short of your minimum, they return it untouched in the BGS slab (though you still pay the grading fee).',
-        'While this sounds ideal, it suffers from the same anchoring bias and visibility issues as a Review. Graders are naturally conservative when evaluating surface condition through thick, scuffed competitor plastic. Consequently, many high-end collectors still prefer cracking BGS slabs themselves to ensure a fair, raw evaluation by PSA. Once you commit to a raw resubmission, Hong Kong collectors can hand cards to Appaw Store at 138 Arena. 138 Arena handles the floor and collects payment; Appaw Store batches the cards for PSA grading submission and provides online progress tracking.',
+        'A minimum grade reduces surprise downgrades, but the same anchoring and through-plastic visibility limits still apply. Graders are naturally conservative when evaluating surface condition through thick, scuffed competitor plastic. Consequently, many advanced collectors still prefer cracking BGS slabs themselves before a raw PSA submission. Once you commit to a raw resubmission, Hong Kong collectors can hand cards to Appaw Store at 138 Arena. 138 Arena handles the floor and collects payment; Appaw Store batches the cards for PSA grading submission and provides online progress tracking.',
       ],
     },
   ],

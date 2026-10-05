@@ -37,7 +37,7 @@ const guide: GuideContent = {
       paragraphs: [
         'The PSA Reholder service focuses strictly on cosmetic maintenance for the slab itself. Graders remove your card from its old case and seal it in the latest acrylic holder with fresh label stock. Throughout this process, your card’s grade, certification number, and population history are preserved.',
         'This service is perfect for straightforward physical wear: superficial scuffs, clouded plastic, minor edge dulling, or a fading label on an otherwise pristine card. If you are entirely satisfied with the grade but simply want to refresh the presentation or unify older slab styles in your collection, Reholder is the optimal path.',
-        'Keep in mind that the $12.99 Standard Reholder fee (as of 2026-10-05, per PSA official site) does not cover shipping or insurance. Actual fee depends on insured/rehold value; higher value tiers cost more. To make the economics work—especially for international collectors—you should consolidate multiple scuffed slabs into a single submission batch to dilute the fixed logistics costs. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) in Causeway Bay, where Appaw’s PSA grading submission service folds Reholder cards into shared batches and removes the hassle of self-shipping overseas.',
+        'Keep in mind that the $12.99 Standard Reholder fee (as of 2026-10-05, per PSA official site) does not cover shipping or declared shipping insurance. Actual fee depends on insured/rehold value; higher value tiers cost more. To make the economics work—especially for international collectors—you should consolidate multiple scuffed slabs into a single submission batch to dilute the fixed logistics costs. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) in Causeway Bay, where Appaw’s PSA grading submission service folds Reholder cards into shared batches and removes the hassle of self-shipping overseas.',
       ],
       bridge: 'While Reholder is designed as a simple cosmetic fix, collectors must understand the boundaries and hidden risks involved.',
     },
@@ -57,7 +57,7 @@ const guide: GuideContent = {
       paragraphs: [
         'If your slab contains a clerical error made by PSA—such as an incorrect year, a misspelled player name, or a missing variation callout (e.g., omitting "Japanese" or "Tiffany")—you do not have to pay the standard fee.',
         'You can submit a Label Correction inquiry through the PSA Customer Request Center (CRC). If approved, PSA covers the reholder fee and provides a shipping label to handle the transit costs both ways.',
-        'However, if the correction reveals that the card is fundamentally a different, less valuable version than originally labeled (such as a Base card mistakenly labeled as Tiffany), PSA will correct the label downward. This type of correction is often excluded from their Financial Guarantee payouts.',
+        'However, if the correction reveals that the card is fundamentally a different, less valuable version than originally labeled (such as a Base card mistakenly labeled as Tiffany), PSA will correct the label downward. This type of correction is often excluded from PSA’s Financial Guarantee payouts; that guarantee is PSA’s own term, not insurance or compensation from Appaw.',
       ],
       bridge: 'Once you understand the limits of Reholder, you must decide if you are merely fixing plastic or chasing a higher grade.',
     },
@@ -74,7 +74,7 @@ const guide: GuideContent = {
   faq: [
     {
       q: 'How much does it cost to Reholder a PSA card?',
-      a: 'The Standard Reholder service costs $12.99 per card as of 2026-10-05, per the PSA official site. Actual fee depends on the insured/rehold value; higher value tiers cost more. Note that this base fee does not include return shipping or insurance, which will add to your total cost.',
+      a: 'The Standard Reholder service costs $12.99 per card as of 2026-10-05, per the PSA official site. Actual fee depends on the insured/rehold value; higher value tiers cost more. Note that this base fee does not include return shipping or declared shipping insurance, which will add to your total cost.',
     },
     {
       q: 'Will a Reholder change my PSA grade?',

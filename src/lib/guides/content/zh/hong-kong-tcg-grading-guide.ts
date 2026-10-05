@@ -14,7 +14,7 @@ const guide: GuideContent = {
     {
       label: '交收地點',
       value:
-        '銅鑼灣謝斐道 138 Arena 一樓。138 Arena 為合作場地，負責場務；提交鑑定及取件均須當面辦理，不接受郵寄',
+        '銅鑼灣謝斐道 522 號 1/F（138 Arena）。138 Arena 為合作場地，負責場務；提交鑑定及取件均須當面辦理，不接受郵寄',
     },
     {
       label: '服務費',
@@ -75,7 +75,7 @@ const guide: GuideContent = {
         { label: 'PSA 10 背面', value: '75/25 或更佳' },
       ],
       bridge:
-        '批次送交 PSA 後，顧客即可憑專屬參考編號查看批次現有進度。',
+        '批次送交 PSA 後，顧客可憑專屬參考編號查看批次現有進度。',
     },
     {
       id: 'tracking-and-pickup',

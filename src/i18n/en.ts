@@ -181,40 +181,40 @@ export const en = {
   // About Page
   about: {
     title: 'About Us',
-    subtitle: 'Your Trusted Partner in Card Collection',
+    subtitle: 'Graded slab protectors, PSA submission, and consignment in Hong Kong',
     story: {
       title: 'Our Story',
-      content: 'Founded in 2024 by a team of passionate collectors in Hong Kong, Appaw Store grew out of a simple frustration: the acrylic cases on the market for graded slabs just weren\'t good enough. They cracked on impact, offered no UV protection, and looked cheap on the shelf. So we built our own. Our Graded Slab UV Glass Protector combines tempered UV-blocking glass, a rigid metal frame, and N52 magnetic closure — giving serious collectors durable protection with gallery-worthy display. Alongside the protector, we operate a trusted face-to-face TCG brokerage and consignment service in Hong Kong with 138 Arena, connecting buyers and sellers of PSA and CGC graded Pokémon, sports, and MTG cards at a flat 5% commission.',
+      content: 'Appaw Store opened in Hong Kong in 2024. We sell magnetic UV glass graded-slab protectors (tempered glass, metal frame, N52 magnets) sized for standard 35PT PSA and CGC holders. For grading, drop-off is face to face at 1/F, 522 Jaffe Road, Causeway Bay (138 Arena): 138 Arena handles the floor and payment; Appaw Store handles intake, preliminary inspection, forwarding to PSA, and tracking. Consignment commission is a flat 5% of the sale price, handled by 138 Arena.',
       founderName: 'Appaw Store',
       founderRole: 'Founded 2024 · Hong Kong',
     },
     mission: {
       title: 'Our Mission',
-      content: 'To provide collectors with the best UV glass protection for their graded cards, and a trusted marketplace for buying and selling premium trading cards.',
+      content: 'Supply UV glass graded-slab protectors, and run PSA grading submission plus face-to-face consignment drop-off at 138 Arena.',
     },
     values: {
       title: 'Our Values',
       quality: {
         title: 'Quality First',
-        description: 'We never compromise on the quality of our products and services.',
+        description: 'Protector specs and submission steps stay tied to public, checkable facts — no inflated claims.',
       },
       integrity: {
-        title: 'Integrity',
-        description: 'Honest and transparent dealings with all our customers.',
+        title: 'Checkable Facts',
+        description: 'Consign commission, submission pricing, and venue address are published for verification.',
       },
       passion: {
-        title: 'Passion',
-        description: 'We share your love for collecting and treat your cards like our own.',
+        title: 'Collector-run',
+        description: 'The team collects too; intake and consignment steps stay checkable.',
       },
       service: {
-        title: 'Service Excellence',
-        description: 'Dedicated to providing exceptional customer experience.',
+        title: 'Clear Roles',
+        description: 'Protectors, PSA submission, and 138 Arena floor duties are spelled out separately.',
       },
     },
     trust: {
       badge: 'How we work',
-      title: 'We Love What We Do',
-      description: 'Every card we protect and every transaction we handle is done with the same care and attention as if it were our own collection.',
+      title: 'Three things, kept distinct',
+      description: 'Protectors, PSA grading submission, and 138 Arena consignment each have a defined scope.',
       facts: {
         hk: { label: 'Hong Kong', body: 'Designed and operated in Hong Kong for local collectors first.' },
         arena: { label: '138 Arena', body: 'Face-to-face intake and consignment at Causeway Bay with our partner venue.' },
@@ -345,7 +345,7 @@ export const en = {
     centeringCrossLink: {
       badge: 'Pre-Grade Tool',
       title: 'Check centering before you grade',
-      body: 'Use our free Card Centering Calculator to measure front and back margins against PSA 10 standards. Then protect your slab with our UV glass case.',
+      body: 'Use the free Card Centering Calculator to measure margins against PSA 10 standards. After grading, a UV glass protector can help with long-term storage.',
       cta: 'Free Centering Calculator',
     },
     hkGuide: {
@@ -407,7 +407,7 @@ export const en = {
     },
     techBadge: 'Technical Details',
     techTitle: 'Technical Specifications',
-    techSubtitle: 'Premium materials and precise engineering for ultimate protection',
+    techSubtitle: 'UV glass, metal frame, and N52 magnetic closure',
     specs: {
       size: 'Size',
       sizeValue: '8.7 × 14.2 × 0.98 cm',
@@ -452,7 +452,7 @@ export const en = {
         note: 'Prices are recommended retail prices in HKD. Taxes and shipping may apply.'
       },
     },
-    ctaBadge: 'Shop Now',
+    ctaBadge: 'Shop protectors',
     faqStats: {
       questionsAnswered: 'questions answered',
       uvBlocked: 'UV Blocked',
@@ -460,8 +460,8 @@ export const en = {
       weight: 'Weight',
       colors: 'Colors',
     },
-    ctaTitle: 'Ready to Protect Your Collection?',
-    ctaSubtitle: 'Give your prized cards the premium protection they deserve',
+    ctaTitle: 'Add a protector for your slab',
+    ctaSubtitle: 'UV glass and N52 magnets for standard 35PT PSA / CGC slabs',
     trustpilotReview: {
       badge: 'Reviews',
       title: 'Share your experience',
@@ -875,10 +875,10 @@ export const en = {
       igHref: 'https://www.instagram.com/138arena/',
     },
     aftercare: {
-      badge: 'After the slab returns',
-      title: 'PSA 10 is not the end of the story',
+      badge: 'After pickup',
+      title: 'Optional consignment after pickup',
       body:
-        'When a high grade lands, many collectors want liquidity. Appaw also runs graded-card trading and consignment in Hong Kong. If you want help turning a returned slab into a sale or a buy offer, start on the card trading desk after pickup.',
+        'After pickup, if you want to sell or consign a graded card, raise it at handover or see the card trading page. Consignment is mainly handled at 138 Arena.',
       cta: 'Browse card trading',
       ctaHref: '/business/card-trading/',
     },
@@ -1162,14 +1162,14 @@ export const en = {
   },
 
   psaGradingTrack: {
-    badge: 'Expedition ledger',
+    badge: 'Progress lookup',
     title: 'Track PSA grading submission',
     subtitle: 'Enter the registered phone number and reference number.',
     formPanelLabel: 'Locate batch',
     formPanelPart: '01',
     formIntro: 'Use the phone number and reference code.',
     resultsPanelPart: '02',
-    skeletonLabel: 'Consulting expedition archives',
+    skeletonLabel: 'Looking up progress',
     backToHub: 'Back to PSA grading submission',
     breadcrumb: {
       home: 'Home',

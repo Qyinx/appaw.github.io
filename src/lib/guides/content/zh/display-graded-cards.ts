@@ -24,7 +24,7 @@ const guide: GuideContent = {
         '原廠鑑定殼雖然封裝了卡片本體，但塑膠外殼本身仍極易受到微刮痕、指紋油脂、紫外線照射與灰塵侵蝕。展示防護若做得不夠，外殼外觀變差會直接降低買家的購置意願與溢價空間。',
         '最佳的展示方案，是讓 PSA 或 CGC 的官方標籤與卡面藝術細節清晰呈現，同時全方位守護內層鑑定磚免受磨損、擠壓及紫外線褪色。陳列賞玩有別於長期暗所封存：必須能在展示架上穩固立放、方便拍攝記錄，且不對卡磚造成任何物理負擔。',
       ],
-      bridge: '釐清展示與防護的雙重目標後，藏家即可依據卡牌價值與收藏規模，選擇最合適的陳列配置。',
+      bridge: '釐清展示與防護的雙重目標後，藏家可依據卡牌價值與收藏規模，選擇合適的陳列配置。',
     },
     {
       id: 'basic-display',
@@ -104,7 +104,7 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'basic-display',
     title: '重點卡牌上磁吸硬殼，其餘進活頁夾',
-    body: '高價單張用 >95% UV 玻璃硬殼展示；大量收藏以活頁夾防刮防塵即可。',
+    body: '高價單張用 >95% UV 玻璃硬殼展示；大量收藏以活頁夾防刮防塵便足夠。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: '鑑定卡防紫外線指南', href: '/guides/uv-protection-graded-cards/' },
   },
