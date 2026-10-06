@@ -372,32 +372,32 @@ export default function PsaGradingTrackClient() {
   const showForm = state === 'idle' || state === 'loading' || state === 'not_found';
 
   useSubHeader({
-    width: 'narrow',
-    leading: (
-      <LocalLink
-        href="/business/psa-grading"
-        className="inline-flex items-center gap-2 text-xs sm:text-sm text-text-secondary hover:text-text-primary transition-colors duration-150 min-h-[44px] min-w-0"
-      >
-        <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
-        <span className="truncate">{copy.backToHub}</span>
-      </LocalLink>
-    ),
-    trailing: (
-      <nav aria-label="Breadcrumb" className="hidden md:flex items-center gap-1.5 text-[0.6875rem] font-mono text-text-muted uppercase tracking-[0.08em] min-w-0">
-        <LocalLink href="/" className="hover:text-text-secondary transition-colors duration-150 shrink-0">
-          {copy.breadcrumb.home}
+    contentWidth: 'page',
+    content: (
+      <div className="flex min-w-0 items-center justify-between gap-3">
+        <LocalLink
+          href="/business/psa-grading"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm text-text-secondary hover:text-text-primary transition-colors duration-150 min-h-[44px] min-w-0"
+        >
+          <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
+          <span className="truncate">{copy.backToHub}</span>
         </LocalLink>
-        <span aria-hidden="true" className="text-border-strong">/</span>
-        <LocalLink href="/business" className="hover:text-text-secondary transition-colors duration-150 shrink-0">
-          {copy.breadcrumb.business}
-        </LocalLink>
-        <span aria-hidden="true" className="text-border-strong">/</span>
-        <LocalLink href="/business/psa-grading" className="hover:text-text-secondary transition-colors duration-150 shrink-0">
-          {copy.breadcrumb.grading}
-        </LocalLink>
-        <span aria-hidden="true" className="text-border-strong">/</span>
-        <span className="text-text-secondary truncate">{copy.breadcrumb.track}</span>
-      </nav>
+        <nav aria-label="Breadcrumb" className="hidden md:flex items-center gap-1.5 text-[0.6875rem] font-mono text-text-muted uppercase tracking-[0.08em] min-w-0">
+          <LocalLink href="/" className="hover:text-text-secondary transition-colors duration-150 shrink-0">
+            {copy.breadcrumb.home}
+          </LocalLink>
+          <span aria-hidden="true" className="text-border-strong">/</span>
+          <LocalLink href="/business" className="hover:text-text-secondary transition-colors duration-150 shrink-0">
+            {copy.breadcrumb.business}
+          </LocalLink>
+          <span aria-hidden="true" className="text-border-strong">/</span>
+          <LocalLink href="/business/psa-grading" className="hover:text-text-secondary transition-colors duration-150 shrink-0">
+            {copy.breadcrumb.grading}
+          </LocalLink>
+          <span aria-hidden="true" className="text-border-strong">/</span>
+          <span className="text-text-secondary truncate">{copy.breadcrumb.track}</span>
+        </nav>
+      </div>
     ),
   });
 

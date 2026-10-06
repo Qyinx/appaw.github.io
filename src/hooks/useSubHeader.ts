@@ -9,7 +9,7 @@ function hasSubHeaderContent(config: SubHeaderConfig): boolean {
 
 /**
  * Register global sub-header chrome for the current page.
- * Clears on unmount and on route change (provider resets pathname).
+ * Updates in place; clears only on unmount.
  */
 export function useSubHeader(config: SubHeaderConfig | null) {
   const { setConfig } = useSubHeaderContext();
@@ -20,9 +20,12 @@ export function useSubHeader(config: SubHeaderConfig | null) {
     const next = configRef.current;
     if (!next || !hasSubHeaderContent(next)) {
       setConfig(null);
-      return () => setConfig(null);
+      return;
     }
     setConfig(next);
-    return () => setConfig(null);
   });
+
+  useLayoutEffect(() => {
+    return () => setConfig(null);
+  }, [setConfig]);
 }

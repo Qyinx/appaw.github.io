@@ -39,6 +39,7 @@ export default function PsaGradingHubClient() {
   );
 
   useSubHeader({
+    contentWidth: 'page',
     content: <ChapterNav items={chapterNavItems} />,
   });
 

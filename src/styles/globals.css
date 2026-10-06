@@ -4012,7 +4012,8 @@ main {
   border-bottom: none;
 }
 
-.site-subheader > * {
+.site-subheader__sheet {
+  width: 100%;
   background: var(--surface-panel);
   border-bottom: var(--border-width) solid var(--border-strong);
 }

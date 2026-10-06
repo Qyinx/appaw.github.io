@@ -144,7 +144,9 @@ export default function SiteSubHeader() {
       className={`site-subheader workspace-chrome${variantClass}`}
       aria-label="Section navigation"
     >
-      <SubHeaderBody config={config} guideAlign={guideAlign} />
+      <div className="site-subheader__sheet">
+        <SubHeaderBody config={config} guideAlign={guideAlign} />
+      </div>
     </div>
   );
 }

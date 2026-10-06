@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
-import { useSubHeader } from '@/hooks/useSubHeader';
 import { compressImage } from '@/lib/compress-image';
 import {
   BELOW_TIER_ID,
@@ -27,6 +26,7 @@ import TrustpilotReviewCollector from '@/components/TrustpilotReviewCollector';
 import { useCenteringGuide, useCenteringGuideRef } from './CenteringGuideContext';
 import { isInnerHandle, isOuterHandle, centeringHowToSteps } from './centering-guide';
 import { useCenteringToolMotion } from './useCenteringToolMotion';
+import { setCenteringSubHeaderLive } from './centering-subheader-live';
 
 type PhotoMode = 'raw' | 'slab';
 type VerdictKey = 'regradeCandidate' | 'borderlineRegrade' | 'holdGrade' | 'downgradeRisk';
@@ -2619,6 +2619,19 @@ export default function CardCenteringClient() {
     showEmpty: showEmptyPlate,
   });
 
+  React.useLayoutEffect(() => {
+    setCenteringSubHeaderLive({
+      photoMode,
+      lr: displayScore?.lr,
+      tb: displayScore?.tb,
+      zoneLabel: zoneCopy?.label ?? null,
+      quality: displayScore?.quality,
+      verdictLabel: verdictCopy?.label ?? null,
+      verdictHint: verdictCopy?.hint ?? null,
+      hasGrade: Boolean(grade),
+    });
+  }, [photoMode, displayScore, zoneCopy, verdictCopy, grade]);
+
   /**
    * Native label activation flakes after cancel on mobile (1st tap = blur only).
    * preventDefault + same-gesture input.click() + cleared value reopens every time.
@@ -2653,63 +2666,6 @@ export default function CardCenteringClient() {
     setAdjustOpen(false);
     setSetupOpen(false);
   };
-
-  useSubHeader({
-    content: (
-      <div className="centering-subheader">
-        <p className="centering-subheader__title">{tool.workspaceHeading}</p>
-        <div
-          ref={gradePillRef}
-          className="centering-subheader__status"
-          aria-live="polite"
-          aria-atomic="true"
-          role="status"
-        >
-          {photoMode === 'raw' ? (
-            <div className="centering-subheader__readout">
-              <div
-                className="centering-subheader__grade-block"
-                data-quality={displayScore?.quality ?? undefined}
-              >
-                <span className="centering-subheader__kicker">{tool.gradeReadout}</span>
-                <span className="centering-subheader__grade-value">{zoneCopy?.label ?? '—'}</span>
-              </div>
-              <div className="centering-subheader__axes">
-                <div className="centering-subheader__axis">
-                  <span className="centering-subheader__axis-key">{tool.lrLabel}</span>
-                  <span className="centering-subheader__axis-val">
-                    {fmt(displayScore?.lr)}
-                    <span className="centering-subheader__slash">/</span>
-                    {fmt(displayScore ? 100 - displayScore.lr : undefined)}
-                  </span>
-                </div>
-                <div className="centering-subheader__axis">
-                  <span className="centering-subheader__axis-key">{tool.tbLabel}</span>
-                  <span className="centering-subheader__axis-val">
-                    {fmt(displayScore?.tb)}
-                    <span className="centering-subheader__slash">/</span>
-                    {fmt(displayScore ? 100 - displayScore.tb : undefined)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ) : null}
-          {photoMode === 'slab' && verdictCopy ? (
-            <div className="centering-subheader__readout">
-              <div className="centering-subheader__grade-block">
-                <span className="centering-subheader__kicker">{tool.gradeReadout}</span>
-                <span className="centering-subheader__grade-value">{verdictCopy.label}</span>
-              </div>
-              <span className="centering-subheader__hint">{verdictCopy.hint}</span>
-            </div>
-          ) : null}
-          {photoMode === 'slab' && !grade ? (
-            <span className="centering-subheader__hint">{tool.reholderNote}</span>
-          ) : null}
-        </div>
-      </div>
-    ),
-  });
 
   return (
     <div className={styles.wrapper}>
