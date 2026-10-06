@@ -319,6 +319,13 @@ export default function CenteringContent() {
             </LocalLink>
           </p>
         ) : null}
+        <p className={styles.contentP}>
+          {c.gradingServiceBefore}
+          <LocalLink href="/business/psa-grading/" className={styles.contentLink}>
+            {c.gradingServiceLink}
+          </LocalLink>
+          {c.gradingServiceAfter}
+        </p>
         </div>
       </section>
 

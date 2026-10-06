@@ -1170,7 +1170,15 @@ export const zh: Translations = {
     formIntro: '輸入電話號碼與參考編號。',
     resultsPanelPart: '02',
     skeletonLabel: '查詢進度中',
-    backToHub: '← 返回評級代送鑑定',
+    backToHub: '返回評級代送鑑定',
+    certNote: {
+      certTitle: 'PSA 官方證書查詢',
+      certBody: '如需核對 PSA 證書編號，請前往 PSA 官方證書查詢。此頁追蹤的是 Appaw 代送進度，不是 PSA.com 的證書紀錄。',
+      certLink: 'PSA 官方證書查詢',
+      authenticityTitle: '證書查得到，不代表外殼必然真確',
+      authenticityBody: '假殼常常複製真實編號。網上查到證書，本身不足以證明外殼真確。',
+      authenticityLink: '辨別假 PSA 外殼指南',
+    },
     breadcrumb: {
       home: '首頁',
       business: '服務項目',
@@ -2014,6 +2022,9 @@ export const zh: Translations = {
       gradeTableNote:
         '※ 上面這表是根據 PSA、BGS 官方公佈的指引整理的，但他們隨時可能會改規則。別忘了，就算置中是 50/50，如果四角爛掉一樣拿不到高分！置中只是第一關，過關了才有拚 10 分的資格。',
       centeringGuideLink: '想深入了解？看這篇：PSA 10 置中標準究極解析',
+      gradingServiceBefore: '想正式送評，可參閱 ',
+      gradingServiceLink: 'PSA 送評服務',
+      gradingServiceAfter: '。',
       whyMattersTitle: '為什麼量置中這麼重要？不量不行嗎？',
       whyMattersP1:
         '提交鑑定就是在考四科：四角、邊緣、表面、置中。這四科裡面，唯一一個你在家光看照片就能「精準算出幾分」的，就只有置中！很多新手以為卡剛開出來、四角超尖就穩拿 10 分，結果送出去被置中拖累只拿 9 分。要知道，熱門卡的 9 分跟 10 分，價格可是差了兩三倍啊！與其盲送當韭菜，不如送前自己先量一量。',

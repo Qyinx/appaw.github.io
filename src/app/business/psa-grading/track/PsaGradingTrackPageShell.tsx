@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 import StructuredData from '@/components/StructuredData';
+import LocalLink from '@/components/LocalLink';
+import { en, zh } from '@/i18n';
 import {
   buildPsaGradingTrackStructuredData,
   type PsaGradingLocale,
 } from '@/lib/seo/psa-grading-structured-data';
-import PsaGradingTrackClient from './PsaGradingTrackClient';
+import TrackWorkspaceClient from './TrackWorkspaceClient';
 
 type Props = {
   locale?: PsaGradingLocale;
@@ -18,62 +20,88 @@ const PSA_CERT_URL = 'https://www.psacard.com/cert';
  * Kept outside the Suspense boundary so it is in the exported HTML.
  */
 function CertLookupNote({ locale }: { locale: PsaGradingLocale }) {
-  const linkClass = 'text-accent-secondary hover:underline';
-  if (locale === 'zh') {
-    return (
-      <div className="space-y-1">
-        <p>
-          如需核對 PSA 證書編號，請前往{' '}
-          <a href={PSA_CERT_URL} target="_blank" rel="noopener noreferrer" className={linkClass}>
-            PSA 官方證書查詢
-          </a>
-          。
-        </p>
-        <p>
-          證書編號查得到，不代表外殼必然真確，因為假殼常常複製真實編號。詳情可參閱
-          <Link href="/zh/guides/identify-fake-psa-slabs/" className={linkClass}>
-            辨別假 PSA 外殼指南
-          </Link>
-          。
-        </p>
-      </div>
-    );
-  }
+  const copy = (locale === 'zh' ? zh : en).psaGradingTrack.certNote;
+  const fakeGuideHref =
+    locale === 'zh' ? '/zh/guides/identify-fake-psa-slabs/' : '/guides/identify-fake-psa-slabs/';
+
   return (
-    <div className="space-y-1">
-      <p>
-        To check a PSA certificate number, go to{' '}
-        <a href={PSA_CERT_URL} target="_blank" rel="noopener noreferrer" className={linkClass}>
-          PSA official Cert Verification
+    <div className="grading-track-notes">
+      <article className="panel p-5 grading-track-note grading-track-note--cert">
+        <h2 className="grading-track-note__title font-display text-lg font-bold text-text-primary mb-2">
+          {copy.certTitle}
+        </h2>
+        <p className="grading-track-note__body text-sm text-text-secondary leading-relaxed mb-3">
+          {copy.certBody}
+        </p>
+        <a
+          href={PSA_CERT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="grading-track-note__link text-sm font-semibold text-accent-secondary underline underline-offset-2"
+        >
+          {copy.certLink}
         </a>
-        .
-      </p>
-      <p>
-        A certificate number that checks out does not mean the slab is genuine, because fake slabs
-        often copy real certificate numbers. See our{' '}
-        <Link href="/guides/identify-fake-psa-slabs/" className={linkClass}>
-          guide to spotting fake PSA slabs
+      </article>
+      <article className="panel p-5 grading-track-note grading-track-note--warn">
+        <h2 className="grading-track-note__title font-display text-lg font-bold text-text-primary mb-2">
+          {copy.authenticityTitle}
+        </h2>
+        <p className="grading-track-note__body text-sm text-text-secondary leading-relaxed mb-3">
+          {copy.authenticityBody}
+        </p>
+        <Link
+          href={fakeGuideHref}
+          className="grading-track-note__link text-sm font-semibold text-accent-secondary underline underline-offset-2"
+        >
+          {copy.authenticityLink}
         </Link>
-        .
-      </p>
+      </article>
     </div>
   );
 }
 
 export default function PsaGradingTrackPageShell({ locale = 'en' }: Props) {
   const structuredData = buildPsaGradingTrackStructuredData(locale);
+  const copy = (locale === 'zh' ? zh : en).psaGradingTrack;
 
   return (
     <>
       <StructuredData data={structuredData} />
-      <aside className="bg-surface-bg">
-        <div className="container-tool pt-4 text-sm text-text-secondary">
-          <CertLookupNote locale={locale} />
+      <div className="bg-surface-bg grading-track-page">
+        <div className="container-tool pt-10 md:pt-14 pb-10 md:pb-14">
+          <header className="grading-track-hero mb-8 md:mb-10 flex flex-col items-start">
+            <LocalLink
+              href="/business/psa-grading"
+              className="grading-track-hero__back inline-flex items-center text-sm text-text-secondary hover:text-text-primary transition-colors min-h-11 mb-6"
+            >
+              {copy.backToHub}
+            </LocalLink>
+            <p className="section-label mb-4">{copy.badge}</p>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary leading-[1.06] tracking-tight text-balance">
+              {copy.title}
+            </h1>
+            <p className="mt-4 text-base md:text-lg text-text-secondary leading-relaxed max-w-xl psa-grading-track-aeo-answer">
+              {copy.subtitle}
+            </p>
+          </header>
+
+          <div className="grading-track-lookup">
+            <Suspense
+              fallback={
+                <div
+                  className="grading-track-lookup__form grading-track-skeleton min-h-[12rem]"
+                  aria-hidden="true"
+                />
+              }
+            >
+              <TrackWorkspaceClient />
+            </Suspense>
+            <aside className="grading-track-lookup__aside">
+              <CertLookupNote locale={locale} />
+            </aside>
+          </div>
         </div>
-      </aside>
-      <Suspense fallback={null}>
-        <PsaGradingTrackClient />
-      </Suspense>
+      </div>
     </>
   );
 }

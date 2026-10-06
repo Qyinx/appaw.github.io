@@ -1171,6 +1171,14 @@ export const en = {
     resultsPanelPart: '02',
     skeletonLabel: 'Looking up progress',
     backToHub: 'Back to PSA grading submission',
+    certNote: {
+      certTitle: 'Official PSA cert lookup',
+      certBody: 'To check a PSA certificate number, use PSA’s official Cert Verification. This page tracks Appaw submission progress, not PSA.com cert records.',
+      certLink: 'PSA Cert Verification',
+      authenticityTitle: 'A matching cert does not prove the slab',
+      authenticityBody: 'Fake slabs often copy real certificate numbers. A cert that checks out online is not enough on its own.',
+      authenticityLink: 'Guide to spotting fake PSA slabs',
+    },
     breadcrumb: {
       home: 'Home',
       business: 'Services',
@@ -2016,6 +2024,9 @@ export const en = {
       gradeTableNote:
         'Tolerances follow PSA, Beckett (BGS), and SGC published guidelines and may change. Corners, edges, and surface still count. Centering alone does not guarantee a grade.',
       centeringGuideLink: 'PSA 10 centering requirements explained',
+      gradingServiceBefore: 'To submit your card to PSA, see our ',
+      gradingServiceLink: 'PSA grading submission service',
+      gradingServiceAfter: '.',
       whyMattersTitle: 'Why card centering matters',
       whyMattersP1:
         'Graders score corners, edges, surface, and centering. Only centering is measurable from a photo before you pay submission fees. Sharp corners and a clean surface still cap at PSA 8 or 9 when borders sit off. PSA 9 to PSA 10 can double or triple resale. Measure margins first. Cheapest check before you submit.',

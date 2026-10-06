@@ -1,13 +1,11 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { DEMO_LOOKUP } from '@/lib/grading/mock-data';
 import { mockLookup, parseDemoVariant } from '@/lib/grading/mock-lookup';
 import { lookupGradingSubmission } from '@/lib/grading/grading-api';
 import type { GradingRelatedSubmission, GradingSubmission } from '@/lib/grading/types';
-import LocalLink from '@/components/LocalLink';
 import { useSubHeader } from '@/hooks/useSubHeader';
 import TrackLookupForm, { type TrackLookupFormHandle } from './TrackLookupForm';
 import TrackResultsPanel, { type ResultsTab } from './TrackResultsPanel';
@@ -28,7 +26,7 @@ type LookupState = 'idle' | 'loading' | 'success' | 'not_found';
 
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 
-export default function PsaGradingTrackClient() {
+export default function TrackWorkspaceClient() {
   const { t } = useLanguage();
   const copy = t.psaGradingTrack;
   const router = useRouter();
@@ -369,125 +367,93 @@ export default function PsaGradingTrackClient() {
   }, [copy.form.turnstileLoadError]);
 
   const showDemoButton = isDev && state !== 'success';
-  const showForm = state === 'idle' || state === 'loading' || state === 'not_found';
 
-  useSubHeader({
-    contentWidth: 'page',
-    content: (
-      <div className="flex min-w-0 items-center justify-between gap-3">
-        <LocalLink
-          href="/business/psa-grading"
-          className="inline-flex items-center gap-2 text-xs sm:text-sm text-text-secondary hover:text-text-primary transition-colors duration-150 min-h-[44px] min-w-0"
-        >
-          <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
-          <span className="truncate">{copy.backToHub}</span>
-        </LocalLink>
-        <nav aria-label="Breadcrumb" className="hidden md:flex items-center gap-1.5 text-[0.6875rem] font-mono text-text-muted uppercase tracking-[0.08em] min-w-0">
-          <LocalLink href="/" className="hover:text-text-secondary transition-colors duration-150 shrink-0">
-            {copy.breadcrumb.home}
-          </LocalLink>
-          <span aria-hidden="true" className="text-border-strong">/</span>
-          <LocalLink href="/business" className="hover:text-text-secondary transition-colors duration-150 shrink-0">
-            {copy.breadcrumb.business}
-          </LocalLink>
-          <span aria-hidden="true" className="text-border-strong">/</span>
-          <LocalLink href="/business/psa-grading" className="hover:text-text-secondary transition-colors duration-150 shrink-0">
-            {copy.breadcrumb.grading}
-          </LocalLink>
-          <span aria-hidden="true" className="text-border-strong">/</span>
-          <span className="text-text-secondary truncate">{copy.breadcrumb.track}</span>
-        </nav>
-      </div>
-    ),
-  });
+  useSubHeader(null);
 
   return (
-    <div className="min-h-dvh bg-surface-bg grading-track-workspace collection-workspace page-blueprint overflow-x-clip">
-      <div className="workspace-canvas container-tool grading-track-canvas pb-10 md:pb-14">
-        <div aria-live="polite" aria-atomic="true" className="sr-only">
-          {liveMessage}
-        </div>
-
-        {!sessionReady ? (
-          <div
-            className="grading-track-skeleton min-w-0 min-h-[12rem]"
-            aria-busy="true"
-            aria-label={copy.skeletonLabel}
-          >
-            <div data-skeleton-item className="grading-track-skeleton__row h-5 w-40" />
-            <div data-skeleton-item className="grading-track-skeleton__panel h-28" />
-            <div data-skeleton-item className="grading-track-skeleton__panel h-44" />
-          </div>
-        ) : (
-          <div
-            ref={gridRef}
-            className={`grading-track-grid${state === 'success' ? ' grading-track-grid--results' : ' grading-track-grid--idle'}`}
-          >
-            {showForm && (
-              <div className="grading-track-form-panel">
-                <TrackLookupForm
-                  ref={formHandleRef}
-                  copy={copy.form}
-                  panelLabel={copy.formPanelLabel}
-                  panelPart={copy.formPanelPart}
-                  formIntro={copy.formIntro}
-                  phone={phone}
-                  referenceCode={referenceCode}
-                  onPhoneChange={setPhone}
-                  onReferenceCodeChange={setReferenceCode}
-                  onSubmit={handleSubmit}
-                  onFillDemo={fillDemo}
-                  state={state}
-                  compact={state !== 'idle'}
-                  showDemoButton={showDemoButton}
-                  initialFocus={initialFocus}
-                  siteKey={SITE_KEY}
-                  turnstileToken={turnstileToken}
-                  onTurnstileToken={setTurnstileToken}
-                  onTurnstileExpire={() => setTurnstileToken('')}
-                  onTurnstileError={onTurnstileError}
-                  resetSignal={resetSignal}
-                  securityError={securityError}
-                  requireTurnstile={requireTurnstile}
-                />
-              </div>
-            )}
-
-            {state === 'loading' && (
-              <div
-                ref={skeletonRef}
-                className="grading-track-skeleton min-w-0 min-h-[12rem]"
-                aria-live="polite"
-                aria-busy="true"
-                aria-label={copy.skeletonLabel}
-              >
-                <div data-skeleton-item className="grading-track-skeleton__row h-5 w-40" />
-                <div data-skeleton-item className="grading-track-skeleton__panel h-28" />
-                <div data-skeleton-item className="grading-track-skeleton__panel h-44" />
-              </div>
-            )}
-
-            {state === 'success' && submission && (
-              <div ref={resultsRef} className="min-w-0">
-                <TrackResultsPanel
-                  submission={submission}
-                  copy={copy.results}
-                  summaryCopy={copy.summaryBar}
-                  servicePlanCopy={copy.servicePlan}
-                  resultsPanelPart={copy.resultsPanelPart}
-                  phone={phone}
-                  onNewLookup={handleNewLookup}
-                  relatedSubmissions={relatedSubmissions}
-                  onSelectReference={handleSelectRelated}
-                  relatedSwitchDisabled={relatedSwitching}
-                  activeTab={resultsTab}
-                  onTabChange={handleTabChange}
-                />
-              </div>
-            )}
-          </div>
-        )}
+    <div
+      className="grading-track-lookup__form grading-track-workspace"
+      data-lookup={state}
+    >
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {liveMessage}
       </div>
+
+      {!sessionReady ? (
+        <div
+          className="grading-track-lookup__form grading-track-skeleton min-w-0 min-h-[12rem]"
+          aria-busy="true"
+          aria-label={copy.skeletonLabel}
+        >
+          <div data-skeleton-item className="grading-track-skeleton__row h-5 w-40" />
+          <div data-skeleton-item className="grading-track-skeleton__panel h-28" />
+          <div data-skeleton-item className="grading-track-skeleton__panel h-44" />
+        </div>
+      ) : (
+        <>
+          {state !== 'success' && (
+            <div ref={gridRef}>
+              <TrackLookupForm
+                ref={formHandleRef}
+                copy={copy.form}
+                panelLabel={copy.formPanelLabel}
+                panelPart={copy.formPanelPart}
+                formIntro={copy.formIntro}
+                phone={phone}
+                referenceCode={referenceCode}
+                onPhoneChange={setPhone}
+                onReferenceCodeChange={setReferenceCode}
+                onSubmit={handleSubmit}
+                onFillDemo={fillDemo}
+                state={state}
+                showDemoButton={showDemoButton}
+                initialFocus={initialFocus}
+                siteKey={SITE_KEY}
+                turnstileToken={turnstileToken}
+                onTurnstileToken={setTurnstileToken}
+                onTurnstileExpire={() => setTurnstileToken('')}
+                onTurnstileError={onTurnstileError}
+                resetSignal={resetSignal}
+                securityError={securityError}
+                requireTurnstile={requireTurnstile}
+              />
+            </div>
+          )}
+
+          {state === 'loading' && (
+            <div
+              ref={skeletonRef}
+              className="grading-track-skeleton min-w-0 min-h-[12rem] mt-6"
+              aria-live="polite"
+              aria-busy="true"
+              aria-label={copy.skeletonLabel}
+            >
+              <div data-skeleton-item className="grading-track-skeleton__row h-5 w-40" />
+              <div data-skeleton-item className="grading-track-skeleton__panel h-28" />
+              <div data-skeleton-item className="grading-track-skeleton__panel h-44" />
+            </div>
+          )}
+
+          {state === 'success' && submission && (
+            <div ref={resultsRef} className="min-w-0">
+              <TrackResultsPanel
+                submission={submission}
+                copy={copy.results}
+                summaryCopy={copy.summaryBar}
+                servicePlanCopy={copy.servicePlan}
+                resultsPanelPart={copy.resultsPanelPart}
+                phone={phone}
+                onNewLookup={handleNewLookup}
+                relatedSubmissions={relatedSubmissions}
+                onSelectReference={handleSelectRelated}
+                relatedSwitchDisabled={relatedSwitching}
+                activeTab={resultsTab}
+                onTabChange={handleTabChange}
+              />
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
