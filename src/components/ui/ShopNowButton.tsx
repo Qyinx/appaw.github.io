@@ -2,16 +2,21 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Store } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp, faEtsy } from '@fortawesome/free-brands-svg-icons';
+import { PSA_DROP_OFF_MAPS_URL } from '@/lib/grading/psa-booking';
 import CarousellIcon from './CarousellIcon';
 
-const ETSY_URL      = 'https://appawstore.etsy.com/';
+const ETSY_URL = 'https://appawstore.etsy.com/';
 const CAROUSELL_URL = 'https://www.carousell.com.hk/u/appaw.store/';
-const WA_BASE       = 'https://wa.me/85292851189';
+const WA_BASE = 'https://wa.me/85292851189';
 
 export interface ShopOptionsLabels {
+  chooseWhereToBuy: string;
+  localGroup: string;
+  buyInStore: string;
+  buyInStoreDesc: string;
   buyOnEtsy: string;
   buyOnEtsyDesc: string;
   buyOnCarousell: string;
@@ -33,8 +38,7 @@ interface ShopNowButtonProps {
   onClick?: () => void;
 }
 
-const DEFAULT_BUTTON_CLASS =
-  'btn btn-primary inline-flex items-center gap-2';
+const DEFAULT_BUTTON_CLASS = 'btn btn-primary inline-flex items-center gap-2';
 
 export default function ShopNowButton({
   label,
@@ -109,25 +113,29 @@ export default function ShopNowButton({
     >
       <div className="px-5 pt-4 pb-2 border-b border-border-default">
         <p className="text-text-muted text-xs uppercase tracking-[0.2em] font-mono">
-          Choose where to buy
+          {shopOptions.chooseWhereToBuy}
         </p>
       </div>
 
+      <p className="px-5 pt-3 pb-1 text-text-muted text-[0.625rem] uppercase tracking-[0.18em] font-mono">
+        {shopOptions.localGroup}
+      </p>
+
       <a
-        href={ETSY_URL}
+        href={PSA_DROP_OFF_MAPS_URL}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => setOpen(false)}
         className="flex items-center gap-4 px-5 py-3.5 min-h-11 hover:bg-surface-raised transition-colors group touch-manipulation"
       >
-        <div className="w-9 h-9 border border-[#F1641E]/30 bg-[#F1641E]/10 flex items-center justify-center flex-shrink-0">
-          <FontAwesomeIcon icon={faEtsy} className="w-4 h-4 text-[#F1641E]" aria-hidden="true" />
+        <div className="w-9 h-9 border border-accent-brand/30 bg-accent-brand/10 flex items-center justify-center flex-shrink-0">
+          <Store className="w-4 h-4 text-accent-brand" aria-hidden="true" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-text-primary text-sm font-semibold leading-tight group-hover:text-accent-brand transition-colors">
-            {shopOptions.buyOnEtsy}
+            {shopOptions.buyInStore}
           </p>
-          <p className="text-text-muted text-xs mt-0.5">{shopOptions.buyOnEtsyDesc}</p>
+          <p className="text-text-muted text-xs mt-0.5">{shopOptions.buyInStoreDesc}</p>
         </div>
       </a>
 
@@ -149,14 +157,12 @@ export default function ShopNowButton({
         </div>
       </a>
 
-      <div className="mx-5 border-t border-border-default my-1" />
-
       <a
         href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => setOpen(false)}
-        className="flex items-center gap-4 px-5 py-3.5 mb-1 min-h-11 hover:bg-[#25D366]/[0.08] transition-colors group touch-manipulation"
+        className="flex items-center gap-4 px-5 py-3.5 min-h-11 hover:bg-[#25D366]/[0.08] transition-colors group touch-manipulation"
       >
         <div className="w-9 h-9 border border-[#25D366]/30 bg-[#25D366]/10 flex items-center justify-center flex-shrink-0">
           <FontAwesomeIcon icon={faWhatsapp} className="w-4 h-4 text-[#25D366]" aria-hidden="true" />
@@ -166,6 +172,26 @@ export default function ShopNowButton({
             {shopOptions.orderWhatsApp}
           </p>
           <p className="text-text-muted text-xs mt-0.5">{shopOptions.orderWhatsAppDesc}</p>
+        </div>
+      </a>
+
+      <div className="mx-5 border-t border-border-default my-1" role="separator" />
+
+      <a
+        href={ETSY_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => setOpen(false)}
+        className="flex items-center gap-4 px-5 py-3.5 mb-1 min-h-11 hover:bg-surface-raised transition-colors group touch-manipulation"
+      >
+        <div className="w-9 h-9 border border-[#F1641E]/30 bg-[#F1641E]/10 flex items-center justify-center flex-shrink-0">
+          <FontAwesomeIcon icon={faEtsy} className="w-4 h-4 text-[#F1641E]" aria-hidden="true" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-text-primary text-sm font-semibold leading-tight group-hover:text-accent-brand transition-colors">
+            {shopOptions.buyOnEtsy}
+          </p>
+          <p className="text-text-muted text-xs mt-0.5">{shopOptions.buyOnEtsyDesc}</p>
         </div>
       </a>
     </div>
@@ -180,7 +206,7 @@ export default function ShopNowButton({
         aria-haspopup="menu"
         onClick={() => {
           if (typeof onClick === 'function') onClick();
-          setOpen(o => !o);
+          setOpen((o) => !o);
         }}
         className={`${buttonClassName} cursor-pointer touch-manipulation`}
       >

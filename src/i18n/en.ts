@@ -1450,7 +1450,7 @@ export const en = {
   retailPartners: {
     badge: 'Where to Buy',
     title: 'Purchase Channels',
-    subtitle: 'Shop online, or collect at 138 Arena in Causeway Bay (partner venue).',
+    subtitle: 'In-store stock is available for purchase.\n1/F, 522 Jaffe Road, Causeway Bay (138 Arena).',
     buyNow: 'Shop Now',
     orVisit: 'or visit 138 Arena (partner venue)',
     visitStore: 'Visit 138 Arena',
@@ -1493,12 +1493,16 @@ export const en = {
 
   // Shop options dropdown
   shopOptions: {
+    chooseWhereToBuy: 'Choose where to buy',
+    localGroup: 'Local',
+    buyInStore: 'Buy in store at 138 Arena',
+    buyInStoreDesc: '1/F, 522 Jaffe Road, Causeway Bay',
     buyOnEtsy: 'Buy on Etsy',
     buyOnEtsyDesc: 'International · Ships worldwide',
     buyOnCarousell: 'Buy on Carousell',
-    buyOnCarousellDesc: 'Hong Kong · Best for local buyers',
+    buyOnCarousellDesc: 'Order on Carousell for Hong Kong delivery',
     orderWhatsApp: 'Order via WhatsApp',
-    orderWhatsAppDesc: 'Direct order · Fastest response',
+    orderWhatsAppDesc: 'Message to ask about colours or place an order',
   },
 
   // Common

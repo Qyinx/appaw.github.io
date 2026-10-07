@@ -69,6 +69,16 @@ export function buildPsaProtectorsStructuredData(locale: PsaProtectorsLocale) {
     depth: { '@type': 'QuantitativeValue', value: '0.98', unitCode: 'CMT' },
     category: 'Trading Card Accessories > Card Protectors',
     url,
+    availableAtOrFrom: {
+      '@type': 'Place',
+      name: '138 Arena',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '1/F, 522 Jaffe Road',
+        addressLocality: 'Causeway Bay',
+        addressCountry: 'HK',
+      },
+    },
     offers: [
       {
         '@type': 'Offer',

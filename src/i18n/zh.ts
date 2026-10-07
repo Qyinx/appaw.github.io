@@ -1449,7 +1449,7 @@ export const zh: Translations = {
   retailPartners: {
     badge: '哪裡買得到？',
     title: '實體與線上購買渠道',
-    subtitle: '可線上訂購，或前往銅鑼灣 138 Arena（合作場地）取貨。',
+    subtitle: '到場可選購現貨。\n銅鑼灣謝斐道 522 號 1/F（138 Arena）。',
     buyNow: '線上馬上買',
     orVisit: '或親臨各大合作據點',
     visitStore: '前往 138 Arena',
@@ -1481,7 +1481,7 @@ export const zh: Translations = {
       arena138: {
         name: '138 Arena',
         description: '',
-        location: '銅鑼灣謝斐道522號1/F',
+        location: '銅鑼灣謝斐道 522 號 1/F',
       },
       appawstore: {
         name: 'Appaw Store 官方網店',
@@ -1492,12 +1492,16 @@ export const zh: Translations = {
 
   // Shop options dropdown
   shopOptions: {
+    chooseWhereToBuy: '選擇購買方式',
+    localGroup: '本地',
+    buyInStore: '到 138 Arena 選購現貨',
+    buyInStoreDesc: '銅鑼灣謝斐道 522 號 1/F',
     buyOnEtsy: '前往 Etsy 結帳',
     buyOnEtsyDesc: '適合海外買家，支援全球寄送',
     buyOnCarousell: '在 Carousell 拍賣購買',
-    buyOnCarousellDesc: '香港本地買家最愛，介面熟悉',
+    buyOnCarousellDesc: '經 Carousell 下單，適合香港寄送',
     orderWhatsApp: '直接用 WhatsApp 找我們訂',
-    orderWhatsAppDesc: '免註冊，真人客服秒速回覆',
+    orderWhatsAppDesc: '直接留言問色或落單',
   },
 
   // Common

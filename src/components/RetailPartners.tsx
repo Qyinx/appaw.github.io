@@ -81,7 +81,7 @@ export default function RetailPartners() {
           <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary leading-tight mb-3 text-balance">
             {t.retailPartners?.title ?? 'Purchase Channels'}
           </h2>
-          <p className="text-text-secondary text-sm md:text-base leading-relaxed">
+          <p className="text-text-secondary text-sm md:text-base leading-relaxed whitespace-pre-line">
             {t.retailPartners?.subtitle ?? 'Choose your preferred way to shop'}
           </p>
         </div>
