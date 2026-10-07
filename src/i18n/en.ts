@@ -497,8 +497,12 @@ export const en = {
           a: '8.7 cm wide × 14.2 cm tall × 0.98 cm deep, weight 74 g. Tempered UV-blocking glass lens with a rigid metal frame.',
         },
         {
-          q: 'Where can I buy it and does it ship internationally?',
-          a: 'Order via our Etsy shop (appawstore.etsy.com), Carousell Hong Kong, or directly through WhatsApp at +852-9285-1189. Worldwide shipping to the USA, UK, HK, SG, and TW.',
+          q: 'Where can I buy it?',
+          a: 'Order via our Etsy shop (appawstore.etsy.com), Carousell Hong Kong, or WhatsApp at +852-9285-1189.',
+        },
+        {
+          q: 'Who pays shipping and import duties?',
+          a: 'The buyer pays shipping. For destinations outside Hong Kong, the buyer is responsible for import duties and taxes.',
         },
         {
           q: 'What is the return policy after I receive a protector?',
