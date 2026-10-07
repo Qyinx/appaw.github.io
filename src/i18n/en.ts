@@ -502,7 +502,7 @@ export const en = {
         },
         {
           q: 'Who pays shipping and import duties?',
-          a: 'The buyer pays shipping. For destinations outside Hong Kong, the buyer is responsible for import duties and taxes.',
+          a: 'The buyer pays shipping. For Hong Kong delivery, shipping is HK$40 under HK$600 and free at HK$600 or above (Hong Kong only). For destinations outside Hong Kong, the buyer is responsible for import duties and taxes.',
         },
         {
           q: 'What is the return policy after I receive a protector?',
