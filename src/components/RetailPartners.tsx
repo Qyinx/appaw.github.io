@@ -44,7 +44,7 @@ export default function RetailPartners() {
     {
       href: ETSY_URL,
       label: t.shopOptions?.buyOnEtsy ?? 'Buy on Etsy',
-      desc: t.shopOptions?.buyOnEtsyDesc ?? 'International · Ships worldwide',
+      desc: t.shopOptions?.buyOnEtsyDesc ?? 'Overseas orders via Etsy',
       color: '#F1641E',
       icon: <FontAwesomeIcon icon={faEtsy} className="w-5 h-5" />,
     },

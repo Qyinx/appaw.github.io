@@ -50,7 +50,7 @@ export const en = {
         { value: '>95%', label: 'UV Block' },
         { value: 'N52', label: 'Magnetic Closure' },
         { value: '35PT', label: 'PSA / CGC Fit' },
-        { value: 'Worldwide', label: 'Shipping' },
+        { value: 'HK / Etsy', label: 'Shipping' },
       ],
       instrument: {
         headerLabel: 'Slab Spec',
@@ -81,7 +81,7 @@ export const en = {
         compatibility: { hint: 'Standard 35PT PSA and CGC slab compatibility.' },
         material: { hint: 'Metal frame helps absorb shock on impact.' },
         uvProtection: { hint: 'Blocks harmful light to preserve holo and chrome.' },
-        origin: { hint: 'Designed in Hong Kong. Ships worldwide.' },
+        origin: { hint: 'Designed in Hong Kong. Overseas orders via Etsy.' },
       },
       rows: {
         product: 'Product',
@@ -99,7 +99,7 @@ export const en = {
         dimensions: 'Dimensions',
         dimensionsValue: '8.7 × 14.2 × 0.98 cm',
         origin: 'Origin & Shipping',
-        originValue: 'Designed in Hong Kong · Ships worldwide',
+        originValue: 'Designed in Hong Kong · Overseas via Etsy',
       },
     },
     features: {
@@ -252,7 +252,7 @@ export const en = {
       whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab UV Glass Protector.',
       teaserLine: 'See full specs, colors, and pricing on our product page.',
       startingPrice: 'Recommended Price',
-      shippingInfo: 'Worldwide shipping',
+      shippingInfo: 'Hong Kong rates · overseas via Etsy',
       chips: ['Tempered UV Glass', '>95% UV Block', 'N52 Magnets', '35PT PSA Fit'],
       compatibilityHeading: 'Compatibility',
       fitsLabel: 'Fits',
@@ -501,8 +501,8 @@ export const en = {
           a: 'Order via our Etsy shop (appawstore.etsy.com), Carousell Hong Kong, or WhatsApp at +852-9285-1189.',
         },
         {
-          q: 'Who pays shipping and import duties?',
-          a: 'The buyer pays shipping. For Hong Kong delivery, shipping is HK$40 under HK$600 and free at HK$600 or above (Hong Kong only). For destinations outside Hong Kong, the buyer is responsible for import duties and taxes.',
+          q: 'What are the shipping rates?',
+          a: 'For Hong Kong delivery, the buyer pays shipping: HK$40 under HK$600, and free at HK$600 or above (Hong Kong only). For overseas shipping, prices and terms, see the latest details in our [Etsy shop](https://appawstore.etsy.com/).',
         },
         {
           q: 'What is the return policy after I receive a protector?',
@@ -532,7 +532,7 @@ export const en = {
         },
         {
           heading: 'Receive Your Card',
-          body: 'For Hong Kong meetups, collect your card on the spot. For international orders, we ship via DAP (Delivered At Place) — shipping costs and import duties are borne by the buyer.',
+          body: 'For Hong Kong meetups, collect your card on the spot. For overseas enquiries, message us on WhatsApp — shipping options and terms are confirmed case by case.',
         },
       ],
       faq: {
@@ -552,7 +552,7 @@ export const en = {
           },
           {
             q: 'Do you offer postal delivery for card purchases or consignments?',
-            a: 'Yes — we now accept global shipping via DAP (Delivered At Place). Shipping costs and any import duties are borne by the buyer. For high-value cards, face-to-face meetup in Hong Kong is strongly recommended for added security.',
+            a: 'Hong Kong face-to-face meetup in Causeway Bay is preferred for high-value cards. For overseas enquiries, message us on WhatsApp — availability and terms are confirmed case by case.',
           },
         ],
       },
@@ -613,7 +613,7 @@ export const en = {
   cardMarketplace: {
     badge: 'Marketplace',
     title: 'HK graded card marketplace',
-    aeoAnswer: 'Appaw Store lists PSA, BGS, CGC, and TAG graded trading cards for sale in Hong Kong. Buy over WhatsApp with face-to-face meetup in Causeway Bay or DAP shipping worldwide. Consignment is handled by 138 Arena at a flat 5% of the sale price, including listing and payment-processor fees.',
+    aeoAnswer: 'Appaw Store lists PSA, BGS, CGC, and TAG graded trading cards for sale in Hong Kong. Buy over WhatsApp with face-to-face meetup in Causeway Bay; overseas enquiries confirmed case by case. Consignment is handled by 138 Arena at a flat 5% of the sale price, including listing and payment-processor fees.',
     subtitle: 'PSA / BGS / CGC / TAG · WhatsApp · consign at 5%',
     hero: {
       statsAvailable: 'Cards in stock',
@@ -1502,7 +1502,7 @@ export const en = {
     buyInStore: 'Buy in store at 138 Arena',
     buyInStoreDesc: '1/F, 522 Jaffe Road, Causeway Bay',
     buyOnEtsy: 'Buy on Etsy',
-    buyOnEtsyDesc: 'International · Ships worldwide',
+    buyOnEtsyDesc: 'Overseas orders via Etsy',
     buyOnCarousell: 'Buy on Carousell',
     buyOnCarousellDesc: 'Order on Carousell for Hong Kong delivery',
     orderWhatsApp: 'Order via WhatsApp',

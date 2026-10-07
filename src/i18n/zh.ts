@@ -51,7 +51,7 @@ export const zh: Translations = {
         { value: '>95%', label: '抗紫外線' },
         { value: 'N52', label: '磁吸設計' },
         { value: '35PT', label: 'PSA / CGC 適用' },
-        { value: '全球', label: '支援運送' },
+        { value: '香港／Etsy', label: '運送' },
       ],
       instrument: {
         headerLabel: '卡磚規格',
@@ -82,7 +82,7 @@ export const zh: Translations = {
         compatibility: { hint: '專為標準 35PT PSA 及 CGC 鑑定卡量身打造。' },
         material: { hint: '金屬邊框結構，有助吸收衝擊。' },
         uvProtection: { hint: '強效阻隔有害光線，長效保護閃卡與全息卡面。' },
-        origin: { hint: '香港用心設計，支援全球運送。' },
+        origin: { hint: '香港用心設計；海外訂單請經 Etsy。' },
       },
       rows: {
         product: '產品名稱',
@@ -100,7 +100,7 @@ export const zh: Translations = {
         dimensions: '外觀尺寸',
         dimensionsValue: '8.7 × 14.2 × 0.98 厘米',
         origin: '產地與物流',
-        originValue: '香港設計 · 全球付運',
+        originValue: '香港設計 · 海外經 Etsy',
       },
     },
     features: {
@@ -254,7 +254,7 @@ export const zh: Translations = {
       whatsappOrder: '你好！我有興趣訂購磁吸防UV鑑定卡保護殼。',
       teaserLine: '詳細規格、配色選擇及價格資訊，請參閱產品專頁。',
       startingPrice: '建議售價',
-      shippingInfo: '支援全球運送',
+      shippingInfo: '香港郵寄 · 海外經 Etsy',
       chips: ['強化防 UV 玻璃', '>95% 紫外線阻隔', 'N52 強力磁吸', '完美適配 35PT PSA'],
       compatibilityHeading: '兼容規格',
       fitsLabel: '完美適用',
@@ -503,8 +503,8 @@ export const zh: Translations = {
           a: '可經 Etsy（appawstore.etsy.com）、香港 Carousell，或 WhatsApp（+852-9285-1189）下單。',
         },
         {
-          q: '運費及進口稅由誰支付？',
-          a: '運費由買家支付。香港郵寄未滿 HK$600 為 HK$40，滿 HK$600 免運（僅限香港）。寄往香港以外地區時，進口稅及關稅由買家負責。',
+          q: '香港郵寄運費如何計算？',
+          a: '香港郵寄運費由買家支付：未滿 HK$600 為 HK$40，滿 HK$600 免運（僅限香港）。海外運送、價錢及條款，請到 [Etsy 商店](https://appawstore.etsy.com/) 查看最新說明。',
         },
         {
           q: '收貨後如保護殼出現問題，可否退貨？',
@@ -534,7 +534,7 @@ export const zh: Translations = {
         },
         {
           heading: '3. 獲取您的愛卡',
-          body: '香港本地強烈建議選擇面交，當場驗卡取貨。國際訂單均以 DAP（目的地交貨）條款寄出，運費與衍生進口關稅由買方負責。',
+          body: '香港本地強烈建議選擇面交，當場驗卡取貨。海外查詢請經 WhatsApp 聯絡，寄送方式及條款會按個別訂單確認。',
         },
       ],
       faq: {
@@ -554,7 +554,7 @@ export const zh: Translations = {
           },
           {
             q: '你們有提供郵寄或快遞服務嗎？',
-            a: '有的。我們提供全球運送服務（採 DAP 條款），運費及進口稅項由買家承擔。但針對高單價卡牌，我們依然最推薦在香港本地進行面交以確保萬無一失。',
+            a: '高單價卡牌建議於銅鑼灣面交。海外查詢請經 WhatsApp 聯絡，是否可寄出及條款會按個別訂單確認。',
           },
         ],
       },
@@ -1501,7 +1501,7 @@ export const zh: Translations = {
     buyInStore: '到 138 Arena 選購現貨',
     buyInStoreDesc: '銅鑼灣謝斐道 522 號 1/F',
     buyOnEtsy: '前往 Etsy 結帳',
-    buyOnEtsyDesc: '適合海外買家，支援全球寄送',
+    buyOnEtsyDesc: '海外訂單請經 Etsy',
     buyOnCarousell: '在 Carousell 拍賣購買',
     buyOnCarousellDesc: '經 Carousell 下單，適合香港寄送',
     orderWhatsApp: '直接用 WhatsApp 找我們訂',

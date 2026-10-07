@@ -26,6 +26,26 @@ const featureImages = [
   '/images/describe/sell 5.png',
 ];
 
+
+function renderFaqAnswer(text: string) {
+  const parts = text.split(/(\[[^\]]+\]\(https?:\/\/[^\s)]+\))/g);
+  return parts.map((part, i) => {
+    const m = part.match(/^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/);
+    if (!m) return <span key={i}>{part}</span>;
+    return (
+      <a
+        key={i}
+        href={m[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-accent-secondary underline underline-offset-2"
+      >
+        {m[1]}
+      </a>
+    );
+  });
+}
+
 function FaqAccordion({
   items,
   visible,
@@ -66,11 +86,11 @@ function FaqAccordion({
             </button>
             <div
               className="overflow-hidden transition-[max-height,opacity] duration-300"
-              style={{ maxHeight: isOpen ? '300px' : '0px', opacity: isOpen ? 1 : 0 }}
+              style={{ maxHeight: isOpen ? '480px' : '0px', opacity: isOpen ? 1 : 0 }}
             >
               <div className="pl-14 pr-5 pb-6">
                 <div className="flex gap-4 border-l border-accent-brand/30 pl-4">
-                  <p className="text-text-secondary text-sm leading-relaxed">{item.a}</p>
+                  <p className="text-text-secondary text-sm leading-relaxed">{renderFaqAnswer(item.a)}</p>
                 </div>
               </div>
             </div>
