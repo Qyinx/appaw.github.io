@@ -9,6 +9,7 @@ import psaReholderGuideEn from './content/en/psa-reholder-guide';
 import psaReviewVsCrackEn from './content/en/psa-review-vs-crack';
 import psaGradingStandardsEn from './content/en/psa-grading-standards';
 import hongKongTcgGradingEn from './content/en/hong-kong-tcg-grading-guide';
+import snkrBuybackEn from './content/en/psa-market-buyback-snkr';
 import choose35ptZh from './content/zh/choose-35pt-slab-protector';
 import uvProtectionZh from './content/zh/uv-protection-graded-cards';
 import psa10CenteringZh from './content/zh/psa-10-centering-requirements';
@@ -19,6 +20,7 @@ import psaReholderGuideZh from './content/zh/psa-reholder-guide';
 import psaReviewVsCrackZh from './content/zh/psa-review-vs-crack';
 import psaGradingStandardsZh from './content/zh/psa-grading-standards';
 import hongKongTcgGradingZh from './content/zh/hong-kong-tcg-grading-guide';
+import snkrBuybackZh from './content/zh/psa-market-buyback-snkr';
 
 export const GUIDE_SLUGS = [
   'choose-35pt-slab-protector',
@@ -31,9 +33,24 @@ export const GUIDE_SLUGS = [
   'psa-review-vs-crack',
   'psa-grading-standards',
   'hong-kong-tcg-grading-guide',
+  'psa-market-buyback-snkr',
 ] as const;
 
 export type GuideSlug = (typeof GUIDE_SLUGS)[number];
+
+/**
+ * Routed and hreflang'd, but omitted from sitemap.xml, the guides index,
+ * and llms.txt while the page stays noindex.
+ */
+export const NOINDEX_GUIDE_SLUGS = ['psa-market-buyback-snkr'] as const satisfies readonly GuideSlug[];
+
+export function isNoindexGuideSlug(slug: string): boolean {
+  return (NOINDEX_GUIDE_SLUGS as readonly string[]).includes(slug);
+}
+
+export function getIndexableGuideSlugs(): GuideSlug[] {
+  return GUIDE_SLUGS.filter((slug) => !isNoindexGuideSlug(slug));
+}
 
 export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
   { slug: 'choose-35pt-slab-protector', published: '2026-06-07', updated: '2026-07-12' },
@@ -46,6 +63,7 @@ export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
   { slug: 'psa-review-vs-crack', published: '2026-08-09', updated: '2026-10-01' },
   { slug: 'psa-grading-standards', published: '2026-06-18', updated: '2026-07-12' },
   { slug: 'hong-kong-tcg-grading-guide', published: '2026-07-13', updated: '2026-07-14' },
+  { slug: 'psa-market-buyback-snkr', published: '2026-10-09', updated: '2026-10-09' },
 ];
 
 const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
@@ -60,6 +78,7 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'psa-review-vs-crack': psaReviewVsCrackEn,
     'psa-grading-standards': psaGradingStandardsEn,
     'hong-kong-tcg-grading-guide': hongKongTcgGradingEn,
+    'psa-market-buyback-snkr': snkrBuybackEn,
   },
   zh: {
     'choose-35pt-slab-protector': choose35ptZh,
@@ -72,6 +91,7 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'psa-review-vs-crack': psaReviewVsCrackZh,
     'psa-grading-standards': psaGradingStandardsZh,
     'hong-kong-tcg-grading-guide': hongKongTcgGradingZh,
+    'psa-market-buyback-snkr': snkrBuybackZh,
   },
 };
 
@@ -84,7 +104,7 @@ export function getGuideContent(slug: GuideSlug, locale: GuideLocale): GuideCont
 }
 
 export function getAllGuides(locale: GuideLocale): GuideContent[] {
-  return GUIDE_SLUGS.map((slug) => CONTENT[locale][slug]);
+  return getIndexableGuideSlugs().map((slug) => CONTENT[locale][slug]);
 }
 
 export function getRelatedGuides(slug: GuideSlug, locale: GuideLocale): GuideContent[] {

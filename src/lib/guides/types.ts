@@ -59,6 +59,9 @@ export type GuideSubsection = {
   videos?: GuideFigure[];
 };
 
+/** Interactive block rendered by GuideEmbed. Not a price schema. */
+export type GuideEmbed = 'snkr-buyback-prices' | 'snkr-buyback-announcements';
+
 export type GuideSection = {
   id: string;
   title: string;
@@ -73,6 +76,8 @@ export type GuideSection = {
   table?: GuideTable;
   /** Optional styled formula block (HTML+CSS). */
   formula?: GuideFormula;
+  /** Data widget. Kept out of Article offer schema. */
+  embed?: GuideEmbed;
   /** One-sentence open loop teasing the next section (retention). */
   bridge?: string;
 };
@@ -109,6 +114,8 @@ export type GuideContent = {
   published: string;
   updated: string;
   readTime: string;
+  /** Status line under the hero lead. Plain text, not markdown. */
+  notice?: string;
   heroImage?: string;
   heroSpecs: GuideSpecRow[];
   sections: GuideSection[];

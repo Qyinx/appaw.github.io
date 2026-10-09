@@ -83,6 +83,14 @@ export default function GuideArticle({ slug }: GuideArticleProps) {
         heroImage={guide.heroImage}
       />
 
+      {guide.notice ? (
+        <div className="border-b border-border-default bg-surface-raised">
+          <p className="container-custom max-w-[1080px] py-4 text-sm leading-relaxed text-text-secondary">
+            {guide.notice}
+          </p>
+        </div>
+      ) : null}
+
       <section className="section-padding overflow-x-clip">
         <div className="container-custom max-w-[1080px] min-w-0">
           <div className="grid lg:grid-cols-[minmax(0,1fr)_280px] gap-12 lg:gap-16">

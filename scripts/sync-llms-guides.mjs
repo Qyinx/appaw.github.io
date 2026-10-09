@@ -40,7 +40,14 @@ if (!slugMatch) {
   process.exit(1);
 }
 
-const slugs = [...slugMatch[1].matchAll(/'([^']+)'/g)].map((m) => m[1]);
+const noindexMatch = registry.match(/export const NOINDEX_GUIDE_SLUGS = \[([\s\S]*?)\] as const/);
+const noindex = new Set(
+  noindexMatch ? [...noindexMatch[1].matchAll(/'([^']+)'/g)].map((m) => m[1]) : [],
+);
+
+const slugs = [...slugMatch[1].matchAll(/'([^']+)'/g)]
+  .map((m) => m[1])
+  .filter((slug) => !noindex.has(slug));
 const missingTopics = slugs.filter((slug) => !TOPICS[slug]);
 if (missingTopics.length) {
   console.error('Add TOPICS entries for:', missingTopics.join(', '));

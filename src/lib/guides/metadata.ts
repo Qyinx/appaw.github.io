@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { withLocaleAlternates, zhRouteMetadata } from '@/lib/seo/locale-metadata';
-import { getGuideContent, GUIDE_SLUGS, type GuideSlug } from './registry';
+import { getGuideContent, GUIDE_SLUGS, isNoindexGuideSlug, type GuideSlug } from './registry';
 import type { GuideContent, GuideLocale } from './types';
 
 const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
@@ -234,6 +234,7 @@ export function guideMetadata(slug: GuideSlug, locale: GuideLocale): Metadata {
       description,
       images: [ogImage],
     },
+    ...(isNoindexGuideSlug(slug) ? { robots: { index: false, follow: false } } : {}),
   };
 
   if (locale === 'zh') {

@@ -13,7 +13,7 @@ Registry-driven evergreen articles at `/guides/` (EN) and `/zh/guides/` (zh-HK T
 4. Optional: extend `GUIDE_KEYWORDS` in [`metadata.ts`](../src/lib/guides/metadata.ts)
 5. Deploy → re-submit sitemap in GSC → request indexing for EN + `/zh/` URL
 
-Sitemap, static params, and index `ItemList` JSON-LD pick up new slugs automatically from `GUIDE_SLUGS`. **Do not hardcode guide counts** in copy or docs.
+Static params pick up every slug in `GUIDE_SLUGS`. Sitemap entries, the public index, and `llms.txt` use indexable slugs only (`NOINDEX_GUIDE_SLUGS` stays routable and out of the sitemap). **Do not hardcode guide counts** in copy or docs.
 
 ## Locale: zh-HK Traditional Chinese
 
