@@ -18,6 +18,9 @@ const UI = {
     indexLabel: 'Guide Index',
     articleCount: (n: number) => `${n} articles`,
     read: 'Read guide',
+    reference: 'SNKR buyback reference',
+    browse: 'Browse cards',
+    about: 'About this reference',
   },
   zh: {
     badge: '收藏指南',
@@ -27,6 +30,9 @@ const UI = {
     indexLabel: '指南索引',
     articleCount: (n: number) => `${n} 篇`,
     read: '閱讀指南',
+    reference: 'SNKR回收價參考',
+    browse: '瀏覽卡牌',
+    about: '說明',
   },
 } as const;
 
@@ -111,6 +117,24 @@ export default function GuidesIndex() {
                 );
               })}
             </ul>
+          </div>
+
+          <div className="panel mt-8 flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h2 className="mb-2 text-lg font-semibold text-text-primary">{ui.reference}</h2>
+              <LocalLink
+                href="/guides/psa-market-buyback-snkr/browse/"
+                className="inline-flex min-h-11 items-center text-sm font-medium text-text-primary underline underline-offset-2"
+              >
+                {ui.browse}
+              </LocalLink>
+            </div>
+            <LocalLink
+              href="/guides/psa-market-buyback-snkr/"
+              className="inline-flex min-h-11 items-center text-sm font-medium text-text-primary underline underline-offset-2"
+            >
+              {ui.about}
+            </LocalLink>
           </div>
         </div>
       </section>

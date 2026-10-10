@@ -19,8 +19,8 @@ import type { GuideLocale } from '@/lib/guides/types';
 
 const UI = {
   en: {
-    back: 'Back to reference',
-    badge: 'Market reference',
+    back: 'Browse cards',
+    badge: 'SNKR buyback reference',
     chartTitle: 'Buyback prices over time',
     chartLabel: (low: string, high: string, count: number) =>
       `Line chart of posted buyback prices. Low ${low}, high ${high}, ${count} posted prices. Not an Appaw Store purchase offer.`,
@@ -35,8 +35,8 @@ const UI = {
     missing: 'This card is not in the approved reference table.',
   },
   zh: {
-    back: '返回買取參考',
-    badge: '市場參考',
+    back: '瀏覽卡牌',
+    badge: 'SNKR回收價參考',
     chartTitle: '買取價走勢',
     chartLabel: (low: string, high: string, count: number) =>
       `買取價折線圖。最低 ${low}，最高 ${high}，共 ${count} 則公布。並非 Appaw Store 的收卡報價。`,
@@ -79,7 +79,7 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
     content: (
       <div className="flex min-w-0 items-center gap-3">
         <LocalLink
-          href="/guides/psa-market-buyback-snkr/"
+          href="/guides/psa-market-buyback-snkr/browse/"
           className="inline-flex shrink-0 items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors duration-150 min-h-[44px]"
         >
           <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -113,6 +113,13 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
     <article className="flex flex-col bg-surface-bg">
       <header className="border-b border-border-default pt-20 pb-10">
         <div className="container-custom max-w-[1080px]">
+          <LocalLink
+            href="/guides/psa-market-buyback-snkr/browse/"
+            className="mb-6 inline-flex min-h-11 items-center gap-2 text-sm text-text-secondary hover:text-text-primary"
+          >
+            <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span>{ui.back}</span>
+          </LocalLink>
           <p className="section-label mb-6">{ui.badge}</p>
           <h1 className="text-4xl md:text-5xl font-bold font-display text-text-primary leading-tight mb-4 text-balance">
             {heading}
@@ -126,14 +133,6 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
           <p className="guide-lead text-text-secondary text-lg md:text-xl leading-relaxed max-w-2xl">{guide.lead}</p>
         </div>
       </header>
-
-      {guide.notice ? (
-        <div className="border-b border-border-default bg-surface-raised">
-          <p className="container-custom max-w-[1080px] py-4 text-sm leading-relaxed text-text-secondary">
-            {guide.notice}
-          </p>
-        </div>
-      ) : null}
 
       <div className="section-padding">
         <div className="container-custom max-w-[1080px] space-y-12">

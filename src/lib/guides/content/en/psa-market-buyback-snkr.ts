@@ -3,7 +3,7 @@ import type { GuideContent } from '../../types';
 const guide: GuideContent = {
   slug: 'psa-market-buyback-snkr',
   title: 'SNKRDUNK Akihabara Buyback Reference Prices',
-  badge: 'Market reference',
+  badge: 'SNKR buyback reference',
   lead:
     'Buyback prices below are taken from SNKRDUNK Akihabara’s daily posts for market reference only. They are not Appaw Store or 138 Arena purchase offers. Availability and final amounts follow that shop’s notice for the day.',
   metaDescription:
@@ -11,8 +11,6 @@ const guide: GuideContent = {
   published: '2026-10-09',
   updated: '2026-10-10',
   readTime: 'Reference',
-  notice:
-    'This page is mainly human-approved text prices. Image prices are incomplete.',
   heroSpecs: [
     { label: 'Dates', value: '2026-10-01 through 2026-10-10' },
     { label: 'Source', value: 'SNKRDUNK Akihabara daily posts' },

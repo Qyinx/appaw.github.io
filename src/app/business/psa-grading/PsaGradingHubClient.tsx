@@ -73,6 +73,8 @@ export default function PsaGradingHubClient() {
         </div>
       </section>
 
+      <SnkrMarketReferenceLinks />
+
       <footer className="container-custom py-6 text-xs text-text-muted border-t border-border-default">
         {copy.lastUpdatedLabel}: {copy.lastUpdated}
       </footer>
@@ -98,5 +100,43 @@ export default function PsaGradingHubClient() {
         </div>
       </div>
     </div>
+  );
+}
+
+const SNKR_REFERENCE = {
+  en: {
+    primary: 'SNKR buyback reference (Japan market, not our purchase offer)',
+    secondary: 'About this reference',
+  },
+  zh: {
+    primary: 'SNKR 回收價參考（日本市場，非本店收價）',
+    secondary: '說明',
+  },
+} as const;
+
+function SnkrMarketReferenceLinks() {
+  const { language } = useLanguage();
+  const copy = language === 'zh' ? SNKR_REFERENCE.zh : SNKR_REFERENCE.en;
+
+  return (
+    <section className="border-t border-border-default bg-surface-bg" aria-labelledby="snkr-buyback-reference">
+      <div className="container-custom py-10 md:py-14">
+        <div className="panel flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          <LocalLink
+            id="snkr-buyback-reference"
+            href="/guides/psa-market-buyback-snkr/browse/"
+            className="text-lg font-semibold leading-snug text-text-primary underline-offset-2 hover:text-accent-brand hover:underline"
+          >
+            {copy.primary}
+          </LocalLink>
+          <LocalLink
+            href="/guides/psa-market-buyback-snkr/"
+            className="inline-flex min-h-11 shrink-0 items-center text-sm font-medium text-text-primary underline underline-offset-2"
+          >
+            {copy.secondary}
+          </LocalLink>
+        </div>
+      </div>
+    </section>
   );
 }
