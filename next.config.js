@@ -1,4 +1,5 @@
 const os = require('os');
+require('./scripts/write-snkr-image-manifest.cjs');
 
 /** @type {import('next').NextConfig} */
 const AGENT_LINK_HEADER =

@@ -5,8 +5,11 @@ node_modules/
 .next/
 out/
 
-# Raw source images — optimized copies in images-optimized/ are committed instead
-public/images/
+# Raw source images — optimized copies in images-optimized/ are committed instead.
+# SNKR buyback photos are dropped in by hand and stay in this folder.
+public/images/*
+!public/images/snkr-buyback/
+!public/images/snkr-buyback/**
 
 # IDE
 .idea/

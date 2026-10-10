@@ -3,8 +3,7 @@
 import dynamic from 'next/dynamic';
 import type { GuideEmbed } from '@/lib/guides/types';
 
-const SnkrBuybackPrices = dynamic(() => import('./SnkrBuybackPrices'));
-const SnkrBuybackAnnouncements = dynamic(() => import('./SnkrBuybackAnnouncements'));
+const SnkrBuybackBrowse = dynamic(() => import('./SnkrBuybackBrowse'));
 
 type GuideEmbedBlockProps = {
   embed: GuideEmbed;
@@ -12,10 +11,8 @@ type GuideEmbedBlockProps = {
 
 export default function GuideEmbedBlock({ embed }: GuideEmbedBlockProps) {
   switch (embed) {
-    case 'snkr-buyback-prices':
-      return <SnkrBuybackPrices />;
-    case 'snkr-buyback-announcements':
-      return <SnkrBuybackAnnouncements />;
+    case 'snkr-buyback-browse':
+      return <SnkrBuybackBrowse />;
     default: {
       const exhaustive: never = embed;
       throw new Error(`Unknown guide embed: ${String(exhaustive)}`);

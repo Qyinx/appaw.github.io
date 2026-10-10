@@ -56,6 +56,20 @@ export function snkrCardIds(): string[] {
   return [...CARDS.keys()];
 }
 
+export function listSnkrCards(): SnkrCardSeries[] {
+  return [...CARDS.values()];
+}
+
+/** Last posted row overall, or the last row on one date. */
+export function latestSnkrRow(card: SnkrCardSeries, date: string): SnkrBuybackPrice | undefined {
+  if (date === 'all') return card.rows[card.rows.length - 1];
+  let match: SnkrBuybackPrice | undefined;
+  for (const row of card.rows) {
+    if (row.date === date) match = row;
+  }
+  return match;
+}
+
 export function getSnkrCard(cardId: string): SnkrCardSeries | undefined {
   return CARDS.get(cardId);
 }

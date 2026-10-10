@@ -12,7 +12,7 @@ const guide: GuideContent = {
   updated: '2026-10-09',
   readTime: 'Reference table',
   notice:
-    'This table is mainly human-approved text prices. Image prices and dense POP grids are incomplete and will be added later.',
+    'This page is mainly human-approved text prices. Image prices are incomplete.',
   heroSpecs: [
     { label: 'Dates', value: '2026-10-01 through 2026-10-09' },
     { label: 'Source', value: 'SNKRDUNK Akihabara daily posts' },
@@ -25,19 +25,11 @@ const guide: GuideContent = {
   sections: [
     {
       id: 'buyback-prices',
-      title: 'Buyback reference prices',
+      title: 'Browse cards',
       paragraphs: [
-        'Filter by date or search by card name and number. A blank PSA grade is shown as a dash. Each source link opens the SNKRDUNK Akihabara post that row came from.',
+        'Each tile is one card at one grade. The amount is the latest posted buyback price in the dates you are viewing. It is not an Appaw Store or 138 Arena purchase offer. Open a tile for every posted price on that card.',
       ],
-      embed: 'snkr-buyback-prices',
-    },
-    {
-      id: 'image-boards',
-      title: 'Image boards and POP',
-      paragraphs: [
-        'These posts are image boards, dense POP grids, and other daily notices from the same dates. The cells are not verified, so this list has no prices. Each line is only the date and a link to the original post.',
-      ],
-      embed: 'snkr-buyback-announcements',
+      embed: 'snkr-buyback-browse',
     },
     {
       id: 'grading-next',

@@ -11,7 +11,7 @@ const guide: GuideContent = {
   published: '2026-10-09',
   updated: '2026-10-09',
   readTime: '參考表',
-  notice: '而家以已過閘文字價為主；圖價／密佈 POP 未齊，陸續補。',
+  notice: '而家以已過閘文字價為主；圖價未齊。',
   heroSpecs: [
     { label: '日期範圍', value: '2026-10-01 至 2026-10-09' },
     { label: '來源', value: 'SNKRDUNK 秋葉原每日公布' },
@@ -24,19 +24,11 @@ const guide: GuideContent = {
   sections: [
     {
       id: 'buyback-prices',
-      title: '買取參考價',
+      title: '瀏覽卡牌',
       paragraphs: [
-        '可按日期篩選，或以卡名、卡號搜尋。未標示 PSA 等級的列以破折號表示。來源連結會開啟該列對應的 SNKRDUNK 秋葉原原帖。',
+        '每張卡片代表同一名稱與同一等級。金額是目前日期範圍內最近一則公布的買取參考價，並非 Appaw Store 或 138 Arena 的收卡價格。點進卡片可看該卡各日的公布價格。',
       ],
-      embed: 'snkr-buyback-prices',
-    },
-    {
-      id: 'image-boards',
-      title: '圖板與 POP',
-      paragraphs: [
-        '以下為同期圖板、密佈 POP，以及其他未寫入價格表的每日公布。圖片尚未逐格核對，因此這裡不列出任何金額。每列只有日期與原帖連結。',
-      ],
-      embed: 'snkr-buyback-announcements',
+      embed: 'snkr-buyback-browse',
     },
     {
       id: 'grading-next',

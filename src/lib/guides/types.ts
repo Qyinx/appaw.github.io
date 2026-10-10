@@ -60,7 +60,7 @@ export type GuideSubsection = {
 };
 
 /** Interactive block rendered by GuideEmbed. Not a price schema. */
-export type GuideEmbed = 'snkr-buyback-prices' | 'snkr-buyback-announcements';
+export type GuideEmbed = 'snkr-buyback-browse';
 
 export type GuideSection = {
   id: string;
