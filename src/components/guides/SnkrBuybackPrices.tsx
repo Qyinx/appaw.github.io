@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
 import {
   SNKR_BUYBACK_PRICES,
@@ -23,8 +24,9 @@ const UI = {
     showing: (shown: number, total: number) => `Showing ${shown} of ${total}`,
     empty: 'No rows match this filter.',
     legend:
-      'Text is a price taken from the post text. Image is a price taken from a picture. The note under each row is the extraction remark, not an Appaw Store quote.',
-    columns: ['Date', 'Card', 'PSA grade', 'Buyback price', 'Source'],
+      'Text is a price taken from the post text. Image is a price taken from a picture. The note under each row is the extraction remark, not an Appaw Store quote. The card name opens a same-name, same-grade comparison.',
+    columns: ['Date', 'Card', 'PSA', 'Price', 'View post'],
+    compare: 'same name, same grade',
     viewPost: 'View post',
     newTab: 'opens in a new tab',
     tableLabel: 'SNKRDUNK Akihabara buyback reference prices',
@@ -36,8 +38,9 @@ const UI = {
     searchPlaceholder: '卡名或卡號',
     showing: (shown: number, total: number) => `顯示 ${shown} / ${total} 列`,
     empty: '沒有符合條件的列。',
-    legend: '文字價來自帖文文字，圖價來自圖片。每列下方的附註是摘錄備註，不是 Appaw Store 的報價。',
-    columns: ['日期', '卡名', 'PSA 等級', '買取價', '來源'],
+    legend: '文字價來自帖文文字，圖價來自圖片。每列下方的附註是摘錄備註，不是 Appaw Store 的報價。卡名會開啟同名同級對照。',
+    columns: ['日期', '卡名', 'PSA', '價', '睇原帖'],
+    compare: '同名同級對照',
     viewPost: '睇原帖',
     newTab: '在新分頁開啟',
     tableLabel: 'SNKRDUNK 秋葉原買取參考價',
@@ -138,7 +141,14 @@ export default function SnkrBuybackPrices() {
                     <tr className="align-top">
                       <td className="whitespace-nowrap px-3 pt-3 text-text-secondary">{row.date}</td>
                       <td className="px-3 pt-3 text-text-primary">
-                        <span className="block leading-snug">{name || '—'}</span>
+                        <LocalLink
+                          href={`/guides/psa-market-buyback-snkr/c/${row.card_id}/`}
+                          prefetch={false}
+                          className="inline-flex min-h-11 items-center font-medium underline underline-offset-2"
+                        >
+                          {name || '—'}
+                          <span className="sr-only">, {ui.compare}</span>
+                        </LocalLink>
                         {number ? <span className="mt-1 block text-text-muted">{number}</span> : null}
                       </td>
                       <td className="whitespace-nowrap px-3 pt-3 text-text-secondary">
