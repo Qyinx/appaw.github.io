@@ -32,15 +32,14 @@ function displayName(card: SnkrCardSeries, locale: GuideLocale): string {
 }
 
 function pageTitle(card: SnkrCardSeries, locale: GuideLocale): string {
-  const name = displayName(card, locale) || (locale === 'zh' ? '未命名卡' : 'Untitled card');
-  return locale === 'zh' ? `${name}｜同名同級對照` : `${name} | Same name, same grade`;
+  return displayName(card, locale) || (locale === 'zh' ? '未命名卡' : 'Untitled card');
 }
 
 function pageDescription(card: SnkrCardSeries, locale: GuideLocale): string {
   const name = displayName(card, locale);
   const number = card.cardNumber ? ` ${card.cardNumber}` : '';
   if (locale === 'zh') {
-    return `${name}${number} 的 SNKRDUNK 秋葉原買取價，同名同級對照，僅供市場參考，並非 Appaw Store 或 138 Arena 的收卡價格。`;
+    return `${name}${number} 的 SNKRDUNK 秋葉原買取價，同名同級，僅供市場參考，並非 Appaw Store 或 138 Arena 的收卡價格。`;
   }
   return `${name}${number} SNKRDUNK Akihabara buyback prices, same name and grade, for market reference only. Not an Appaw Store or 138 Arena purchase offer.`;
 }

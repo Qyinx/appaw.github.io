@@ -9,6 +9,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { makeCardId } from '../src/lib/snkr-buyback/card-id.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sourceDir = path.join(root, 'src/lib/snkr-buyback/source');
@@ -57,7 +58,8 @@ function parseCsv(text) {
 }
 
 function records(fileName) {
-  const rows = parseCsv(readFileSync(path.join(sourceDir, fileName), 'utf8'));
+  const text = readFileSync(path.join(sourceDir, fileName), 'utf8').replace(/^\uFEFF/, '');
+  const rows = parseCsv(text);
   const [header, ...data] = rows;
   if (!header) throw new Error(`Missing header in ${fileName}`);
   return data.map((cells) => {
@@ -79,6 +81,12 @@ const prices = records('batch1.csv').map((row) => {
   if (!Number.isFinite(buybackPrice)) {
     throw new Error(`Invalid buyback_price for ${row.card_id} on ${row.date}`);
   }
+  const expectedId = makeCardId(row.card_name, row.psa_grade, row.card_number);
+  if (expectedId !== row.card_id) {
+    throw new Error(
+      `card_id mismatch for "${row.card_name}" on ${row.date}: csv ${row.card_id}, rule ${expectedId}`,
+    );
+  }
   return {
     date: row.date,
     card_id: row.card_id,
@@ -90,7 +98,8 @@ const prices = records('batch1.csv').map((row) => {
     currency: row.currency,
     price_source: row.price_source,
     source_post_url: row.source_post_url,
-    image_url: row.image_url,
+    // Tweet and PriceCharting URLs stay in the source CSV for audit only.
+    image_url: '',
     notes: row.notes,
   };
 });
@@ -108,4 +117,5 @@ if (prices.length === 0 || announcements.length === 0) {
 
 writeJson('prices.json', prices);
 writeJson('announcements.json', announcements);
-console.log(`Wrote ${prices.length} prices and ${announcements.length} announcements.`);
+const cardCount = new Set(prices.map((row) => row.card_id)).size;
+console.log(`Wrote ${prices.length} prices (${cardCount} cards) and ${announcements.length} announcements.`);

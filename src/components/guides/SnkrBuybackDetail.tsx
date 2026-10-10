@@ -20,7 +20,6 @@ import type { GuideLocale } from '@/lib/guides/types';
 const UI = {
   en: {
     back: 'Back to reference',
-    pageTitle: 'Same name, same grade',
     badge: 'Market reference',
     chartTitle: 'Buyback prices over time',
     chartLabel: (low: string, high: string, count: number) =>
@@ -31,13 +30,12 @@ const UI = {
     columns: ['Date', 'PSA', 'Price', 'View post'],
     viewPost: 'View post',
     newTab: 'opens in a new tab',
-    internalId: 'Internal id',
-    internalHint: '(not a PSA cert number)',
+    sameGrade: 'Same name, same grade',
+    untitled: 'Untitled card',
     missing: 'This card is not in the approved reference table.',
   },
   zh: {
     back: '返回買取參考',
-    pageTitle: '同名同級對照',
     badge: '市場參考',
     chartTitle: '買取價走勢',
     chartLabel: (low: string, high: string, count: number) =>
@@ -48,8 +46,8 @@ const UI = {
     columns: ['日期', 'PSA', '價', '睇原帖'],
     viewPost: '睇原帖',
     newTab: '在新分頁開啟',
-    internalId: '內部編號',
-    internalHint: '（不是 PSA 證書編號）',
+    sameGrade: '同名同級',
+    untitled: '未命名卡',
     missing: '已過閘的參考表沒有這張卡。',
   },
 } as const;
@@ -64,6 +62,17 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
   const ui = UI[locale];
   const guide = getGuideContent('psa-market-buyback-snkr', locale);
   const card = getSnkrCard(cardId);
+  const name = card
+    ? snkrCardName(
+        {
+          ...card.rows[0],
+          card_name: card.cardName,
+          card_name_en: card.cardNameEn,
+        },
+        locale,
+      )
+    : '';
+  const heading = name || ui.untitled;
 
   useSubHeader({
     contentWidth: 'guide',
@@ -76,7 +85,7 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
           <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
           <span>{ui.back}</span>
         </LocalLink>
-        <p className="min-w-0 truncate text-sm font-semibold text-text-primary">{ui.pageTitle}</p>
+        <p className="min-w-0 truncate text-sm font-semibold text-text-primary">{card ? heading : ui.back}</p>
       </div>
     ),
   });
@@ -91,15 +100,8 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
     );
   }
 
-  const name = snkrCardName(
-    {
-      ...card.rows[0],
-      card_name: card.cardName,
-      card_name_en: card.cardNameEn,
-    },
-    locale,
-  );
   const number = card.cardNumber.trim();
+  const gradeText = card.psaGrade.trim() ? snkrGradeLabel(card.psaGrade) : `PSA ${snkrGradeLabel('')}`;
   const prices = card.rows.map((row) => row.buyback_price);
   const low = Math.min(...prices);
   const high = Math.max(...prices);
@@ -113,10 +115,12 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
         <div className="container-custom max-w-[1080px]">
           <p className="section-label mb-6">{ui.badge}</p>
           <h1 className="text-4xl md:text-5xl font-bold font-display text-text-primary leading-tight mb-4 text-balance">
-            {ui.pageTitle}
+            {heading}
           </h1>
           <p className="text-lg md:text-xl text-text-primary leading-snug mb-6">
-            {name || '—'}
+            {ui.sameGrade}
+            {' · '}
+            {gradeText}
             {number ? <span className="text-text-secondary"> · {number}</span> : null}
           </p>
           <p className="guide-lead text-text-secondary text-lg md:text-xl leading-relaxed max-w-2xl">{guide.lead}</p>
@@ -139,9 +143,6 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
             </h2>
             <p className="text-sm leading-relaxed text-text-secondary mb-4">
               {ui.range(lowLabel, highLabel, card.rows.length)}
-            </p>
-            <p className="text-sm text-text-secondary mb-4">
-              PSA {snkrGradeLabel(card.psaGrade)}
             </p>
             <div className="panel p-4">
               <SnkrBuybackChart rows={card.rows} label={ui.chartLabel(lowLabel, highLabel, card.rows.length)} />
@@ -206,11 +207,6 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
               </table>
             </div>
           </section>
-
-          <p className="text-sm leading-relaxed text-text-muted">
-            <span className="font-medium text-text-secondary">{ui.internalId}</span>{' '}
-            <span className="font-mono">{card.cardId}</span> {ui.internalHint}
-          </p>
 
           <GuideCta cta={guide.cta} />
         </div>

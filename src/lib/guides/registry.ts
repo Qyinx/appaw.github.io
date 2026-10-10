@@ -63,7 +63,7 @@ export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
   { slug: 'psa-review-vs-crack', published: '2026-08-09', updated: '2026-10-01' },
   { slug: 'psa-grading-standards', published: '2026-06-18', updated: '2026-07-12' },
   { slug: 'hong-kong-tcg-grading-guide', published: '2026-07-13', updated: '2026-07-14' },
-  { slug: 'psa-market-buyback-snkr', published: '2026-10-09', updated: '2026-10-09' },
+  { slug: 'psa-market-buyback-snkr', published: '2026-10-09', updated: '2026-10-10' },
 ];
 
 const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {

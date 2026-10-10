@@ -1,4 +1,5 @@
 import type { GuideLocale } from '@/lib/guides/types';
+import { displayCardName } from './card-id';
 import announcementsJson from './announcements.json';
 import pricesJson from './prices.json';
 import type { SnkrBuybackAnnouncement, SnkrBuybackPrice } from './types';
@@ -11,8 +12,8 @@ export function snkrBuybackDates(rows: { date: string }[]): string[] {
 }
 
 export function snkrCardName(row: SnkrBuybackPrice, locale: GuideLocale): string {
-  const japanese = row.card_name.trim();
-  const english = row.card_name_en.trim();
+  const japanese = displayCardName(row.card_name);
+  const english = displayCardName(row.card_name_en);
   if (locale === 'en') return english || japanese;
   return japanese || english;
 }

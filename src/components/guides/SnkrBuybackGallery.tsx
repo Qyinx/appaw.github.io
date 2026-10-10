@@ -39,7 +39,7 @@ const UI = {
     empty: '沒有符合條件的卡。',
     noPhoto: '未有圖片',
     latest: '最近公布',
-    open: '同名同級對照',
+    open: '同名同級',
   },
 } as const;
 

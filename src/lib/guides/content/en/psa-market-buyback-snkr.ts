@@ -7,14 +7,14 @@ const guide: GuideContent = {
   lead:
     'Buyback prices below are taken from SNKRDUNK Akihabara’s daily posts for market reference only. They are not Appaw Store or 138 Arena purchase offers. Availability and final amounts follow that shop’s notice for the day.',
   metaDescription:
-    'SNKRDUNK Akihabara daily buyback prices for market reference only. Not Appaw Store or 138 Arena purchase offers. Rows from 1–9 October 2026.',
+    'SNKRDUNK Akihabara daily buyback prices for market reference only. Not Appaw Store or 138 Arena purchase offers. Rows from 1 to 10 October 2026.',
   published: '2026-10-09',
-  updated: '2026-10-09',
+  updated: '2026-10-10',
   readTime: 'Reference table',
   notice:
     'This page is mainly human-approved text prices. Image prices are incomplete.',
   heroSpecs: [
-    { label: 'Dates', value: '2026-10-01 through 2026-10-09' },
+    { label: 'Dates', value: '2026-10-01 through 2026-10-10' },
     { label: 'Source', value: 'SNKRDUNK Akihabara daily posts' },
     { label: 'Currency', value: 'Japanese yen (¥)' },
     {
