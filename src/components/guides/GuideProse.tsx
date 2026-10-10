@@ -9,7 +9,6 @@ import GuideFormulaBlock from './GuideFormulaBlock';
 import GuideImage from './GuideImage';
 import GuideVideo from './GuideVideo';
 import GuideMidCta from './GuideMidCta';
-import GuideEmbedBlock from './GuideEmbed';
 import type { GuideSection, GuideSubsection, GuideMidCta as GuideMidCtaType } from '@/lib/guides/types';
 
 type GuideProseProps = {
@@ -75,7 +74,6 @@ export default function GuideProse({ sections, midCta, midCtaLabel }: GuideProse
               {renderGuideParagraph(section.callout)}
             </blockquote>
           ) : null}
-          {section.embed ? <GuideEmbedBlock embed={section.embed} /> : null}
           {section.table ? (
             <GuideTable table={section.table} />
           ) : section.specs && section.specs.length > 0 ? (

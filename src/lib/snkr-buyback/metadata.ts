@@ -6,6 +6,7 @@ import { snkrCardName } from './data';
 import { getSnkrCard, type SnkrCardSeries } from './cards';
 
 const INDEX_PATH = '/guides/psa-market-buyback-snkr/';
+const BROWSE_PATH = '/guides/psa-market-buyback-snkr/browse/';
 
 export function snkrCardPath(cardId: string): string {
   return `${INDEX_PATH}c/${cardId}/`;
@@ -83,6 +84,87 @@ export function snkrCardMetadata(cardId: string, locale: GuideLocale): Metadata 
     });
   }
   return withLocaleAlternates(base, path);
+}
+
+function browseCopy(locale: GuideLocale): { title: string; description: string } {
+  if (locale === 'zh') {
+    return {
+      title: '瀏覽 SNKRDUNK 秋葉原買取參考卡',
+      description:
+        '瀏覽 SNKRDUNK 秋葉原已過閘文字買取價，每張卡顯示最近一則公布。僅供市場參考，並非 Appaw Store 或 138 Arena 的收卡價格。',
+    };
+  }
+  return {
+    title: 'Browse SNKRDUNK Akihabara buyback cards',
+    description:
+      'Browse SNKRDUNK Akihabara text buyback prices. Each card shows its latest posted price, for market reference only. Not an Appaw Store or 138 Arena purchase offer.',
+  };
+}
+
+export function snkrBrowseMetadata(locale: GuideLocale): Metadata {
+  const { title, description } = browseCopy(locale);
+  const robots = { index: false, follow: false } as const;
+  const base: Metadata = {
+    title: { absolute: `${title} | Appaw Store` },
+    description,
+    robots,
+    alternates: { canonical: BROWSE_PATH },
+    openGraph: {
+      title,
+      description,
+      url: `https://appaw.store${BROWSE_PATH}`,
+      type: 'website',
+      locale: 'en_US',
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
+  };
+
+  if (locale === 'zh') {
+    return zhRouteMetadata(base, BROWSE_PATH, {
+      title: { absolute: `${title} | Appaw Store` },
+      description,
+    });
+  }
+  return withLocaleAlternates(base, BROWSE_PATH);
+}
+
+export function snkrBrowseStructuredData(locale: GuideLocale): Record<string, unknown>[] {
+  const isZh = locale === 'zh';
+  const { title, description } = browseCopy(locale);
+  const pageUrl = `https://appaw.store${isZh ? `/zh${BROWSE_PATH}` : BROWSE_PATH}`;
+  const indexUrl = `https://appaw.store${isZh ? `/zh${INDEX_PATH}` : INDEX_PATH}`;
+
+  return [
+    webPageJsonLd({
+      name: title,
+      description,
+      url: pageUrl,
+      inLanguage: isZh ? 'zh-HK' : 'en',
+      isPartOf: { '@type': 'WebSite', name: 'Appaw Store', url: 'https://appaw.store' },
+    }),
+    breadcrumbJsonLd([
+      {
+        position: 1,
+        name: isZh ? '首頁' : 'Home',
+        item: isZh ? 'https://appaw.store/zh/' : 'https://appaw.store/',
+      },
+      {
+        position: 2,
+        name: isZh ? '指南' : 'Guides',
+        item: isZh ? 'https://appaw.store/zh/guides/' : 'https://appaw.store/guides/',
+      },
+      {
+        position: 3,
+        name: isZh ? 'SNKRDUNK 秋葉原買取參考價' : 'SNKRDUNK Akihabara Buyback Reference Prices',
+        item: indexUrl,
+      },
+      { position: 4, name: isZh ? '瀏覽卡牌' : 'Browse cards', item: pageUrl },
+    ]),
+  ];
 }
 
 export function snkrCardStructuredData(cardId: string, locale: GuideLocale): Record<string, unknown>[] {

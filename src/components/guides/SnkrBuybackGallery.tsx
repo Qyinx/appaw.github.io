@@ -5,19 +5,16 @@ import Image from 'next/image';
 import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
 import { latestSnkrRow, listSnkrCards, type SnkrCardSeries } from '@/lib/snkr-buyback/cards';
-import { formatBuybackPrice, SNKR_BUYBACK_PRICES, snkrBuybackDates, snkrCardName, snkrGradeLabel } from '@/lib/snkr-buyback/data';
+import { formatBuybackPrice, snkrCardName, snkrGradeLabel } from '@/lib/snkr-buyback/data';
 import { snkrBuybackImageSrc } from '@/lib/snkr-buyback/images';
 import type { GuideLocale } from '@/lib/guides/types';
 
 const CARDS = listSnkrCards();
-const DATES = snkrBuybackDates(SNKR_BUYBACK_PRICES);
 
 const UI = {
   en: {
     search: 'Search',
     searchPlaceholder: 'Card name or number',
-    date: 'Date',
-    allDates: 'All dates',
     grade: 'PSA',
     allGrades: 'All grades',
     ungraded: 'No grade',
@@ -30,8 +27,6 @@ const UI = {
   zh: {
     search: '搜尋',
     searchPlaceholder: '卡名或卡號',
-    date: '日期',
-    allDates: '全部日期',
     grade: 'PSA',
     allGrades: '全部等級',
     ungraded: '未標示等級',
@@ -74,7 +69,7 @@ function SnkrTileImage({ src, name, emptyLabel }: { src: string | null; name: st
       src={src}
       alt={name}
       fill
-      sizes="(max-width: 768px) 46vw, 240px"
+      sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 22vw, 18vw"
       className="object-contain p-3"
     />
   );
@@ -85,7 +80,6 @@ export default function SnkrBuybackGallery() {
   const locale: GuideLocale = language === 'zh' ? 'zh' : 'en';
   const ui = UI[locale];
   const [query, setQuery] = useState('');
-  const [date, setDate] = useState('all');
   const [grade, setGrade] = useState('all');
 
   const grades = useMemo(() => {
@@ -101,7 +95,7 @@ export default function SnkrBuybackGallery() {
     const needle = query.trim().toLowerCase();
     const matched = CARDS.flatMap((card) => {
       if (grade !== 'all' && card.psaGrade !== grade) return [];
-      const row = latestSnkrRow(card, date);
+      const row = latestSnkrRow(card, 'all');
       if (!row) return [];
       if (needle) {
         const haystack = [card.cardName, card.cardNameEn, card.cardNumber].join(' ').toLowerCase();
@@ -111,33 +105,20 @@ export default function SnkrBuybackGallery() {
     });
     matched.sort((a, b) => b.row.buyback_price - a.row.buyback_price || cardLabel(a.card, locale).localeCompare(cardLabel(b.card, locale)));
     return matched;
-  }, [query, date, grade, locale]);
+  }, [query, grade, locale]);
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-3 sm:grid-cols-2">
-        <label className="block text-sm text-text-secondary">
-          <span className="mb-1 block font-medium text-text-primary">{ui.search}</span>
-          <input
-            type="search"
-            className={controlClassName}
-            value={query}
-            placeholder={ui.searchPlaceholder}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </label>
-        <label className="block text-sm text-text-secondary">
-          <span className="mb-1 block font-medium text-text-primary">{ui.date}</span>
-          <select className={controlClassName} value={date} onChange={(event) => setDate(event.target.value)}>
-            <option value="all">{ui.allDates}</option>
-            {DATES.map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+      <label className="block max-w-md text-sm text-text-secondary">
+        <span className="mb-1 block font-medium text-text-primary">{ui.search}</span>
+        <input
+          type="search"
+          className={controlClassName}
+          value={query}
+          placeholder={ui.searchPlaceholder}
+          onChange={(event) => setQuery(event.target.value)}
+        />
+      </label>
 
       <div className="collection-filter-pills collection-filter-pills--scroll w-fit max-w-full overflow-x-auto" role="group" aria-label={ui.grade}>
         <button type="button" className="collection-filter-pill" aria-pressed={grade === 'all'} onClick={() => setGrade('all')}>
@@ -165,7 +146,7 @@ export default function SnkrBuybackGallery() {
           <p className="text-sm text-text-secondary">{ui.empty}</p>
         </div>
       ) : (
-        <ul className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+        <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
           {tiles.map(({ card, row }) => {
             const name = cardLabel(card, locale);
             const gradeLabel = snkrGradeLabel(card.psaGrade);

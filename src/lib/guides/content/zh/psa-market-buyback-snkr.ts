@@ -10,7 +10,7 @@ const guide: GuideContent = {
     'SNKRDUNK 秋葉原每日買取價，僅供市場參考，並非 Appaw Store 或 138 Arena 的收卡價格。資料日期為 2026-10-01 至 2026-10-10。',
   published: '2026-10-09',
   updated: '2026-10-10',
-  readTime: '參考表',
+  readTime: '參考',
   notice: '而家以已過閘文字價為主；圖價未齊。',
   heroSpecs: [
     { label: '日期範圍', value: '2026-10-01 至 2026-10-10' },
@@ -23,12 +23,11 @@ const guide: GuideContent = {
   ],
   sections: [
     {
-      id: 'buyback-prices',
+      id: 'browse-cards',
       title: '瀏覽卡牌',
       paragraphs: [
-        '每張卡片代表同一名稱與同一等級。金額是目前日期範圍內最近一則公布的買取參考價，並非 Appaw Store 或 138 Arena 的收卡價格。點進卡片可看該卡各日的公布價格。',
+        '瀏覽頁每張卡片顯示最近一則公布的買取參考價，並非 Appaw Store 或 138 Arena 的收卡價格。[瀏覽卡牌](/guides/psa-market-buyback-snkr/browse/)。',
       ],
-      embed: 'snkr-buyback-browse',
     },
     {
       id: 'grading-next',

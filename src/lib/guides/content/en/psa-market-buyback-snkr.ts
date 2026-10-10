@@ -10,7 +10,7 @@ const guide: GuideContent = {
     'SNKRDUNK Akihabara daily buyback prices for market reference only. Not Appaw Store or 138 Arena purchase offers. Rows from 1 to 10 October 2026.',
   published: '2026-10-09',
   updated: '2026-10-10',
-  readTime: 'Reference table',
+  readTime: 'Reference',
   notice:
     'This page is mainly human-approved text prices. Image prices are incomplete.',
   heroSpecs: [
@@ -24,12 +24,11 @@ const guide: GuideContent = {
   ],
   sections: [
     {
-      id: 'buyback-prices',
-      title: 'Browse cards',
+      id: 'browse-cards',
+      title: 'Browse the cards',
       paragraphs: [
-        'Each tile is one card at one grade. The amount is the latest posted buyback price in the dates you are viewing. It is not an Appaw Store or 138 Arena purchase offer. Open a tile for every posted price on that card.',
+        'Each card on the browse page shows its latest posted buyback price. That amount is not an Appaw Store or 138 Arena purchase offer. [Browse the cards](/guides/psa-market-buyback-snkr/browse/).',
       ],
-      embed: 'snkr-buyback-browse',
     },
     {
       id: 'grading-next',
