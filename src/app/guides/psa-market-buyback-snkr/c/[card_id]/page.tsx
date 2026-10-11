@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import StructuredData from '@/components/StructuredData';
 import SnkrBuybackDetail from '@/components/guides/SnkrBuybackDetail';
-import { getSnkrCard, snkrCardIds } from '@/lib/snkr-buyback/cards';
+import { getSnkrBrowseCard, snkrBrowseCardIds } from '@/lib/snkr-buyback/cards';
 import { snkrCardMetadata, snkrCardStructuredData } from '@/lib/snkr-buyback/metadata';
 import type { GuideLocale } from '@/lib/guides/types';
 
@@ -13,7 +13,7 @@ type PageProps = {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return snkrCardIds().map((card_id) => ({ card_id }));
+  return snkrBrowseCardIds().map((card_id) => ({ card_id }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -26,7 +26,7 @@ export async function SnkrCardRoute({
   locale,
 }: PageProps & { locale: GuideLocale }) {
   const { card_id } = await params;
-  if (!getSnkrCard(card_id)) notFound();
+  if (!getSnkrBrowseCard(card_id)) notFound();
 
   return (
     <>

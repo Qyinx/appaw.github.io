@@ -1,0 +1,23 @@
+old_card_id,new_card_id,card_name,card_number,psa_grade,confidence,note
+219ddb2270b9,99d5aa311a9f,カイドウ(OP17-062),OP17-062,,name_embedded,number extracted from card_name; NOT image-OCR
+0cbdf06bffbe,9e7e664752d9,コミパラ サカズキ (OP16-065),OP16-065,,name_embedded,number extracted from card_name; NOT image-OCR
+3de91a65de7c,fa2d2b7aafd9,コミパラ サンジ (OP06-119),OP06-119,,name_embedded,number extracted from card_name; NOT image-OCR
+2519001c372a,0c904934aa9b,コミパラ ゾロ (OP06-118),OP06-118,,name_embedded,number extracted from card_name; NOT image-OCR
+4853e31a34c5,b3051f17dd9d,コミパラ ナミ (OP01-016),OP01-016,,name_embedded,number extracted from card_name; NOT image-OCR
+40d7cb80f11a,b58902f8a3c8,コミパラ ボルサリーノ (OP16-073),OP16-073,,name_embedded,number extracted from card_name; NOT image-OCR
+c92bef2b6c6e,5653cfea2c55,シャンクス (OP17-022),OP17-022,,name_embedded,number extracted from card_name; NOT image-OCR
+02941ecf6ef9,fc9d87bf527c,シリアルエース (OP07-119),OP07-119,,name_embedded,number extracted from card_name; NOT image-OCR
+853cc79bb231,64a54cb3c467,シリアルシャンクス (OP01-120),OP01-120,,name_embedded,number extracted from card_name; NOT image-OCR
+93fb7f5e8549,cdcfcbc856a1,シリアルゾロ (OP12-020),OP12-020,,name_embedded,number extracted from card_name; NOT image-OCR
+9adb3f8ccfba,81650cad368e,シリアルニカ (EB04-061),EB04-061,,name_embedded,number extracted from card_name; NOT image-OCR
+e13c1062a22b,44b29a00f047,シリアルヤマト (EB02-006),EB02-006,,name_embedded,number extracted from card_name; NOT image-OCR
+c36153ce98ce,fd59605697ea,ジーベック (OP17-118),OP17-118,,name_embedded,number extracted from card_name; NOT image-OCR
+58f48746bc08,5ab16e6c81ff,ドジャース ルフィ (EB02-010),EB02-010,,name_embedded,number extracted from card_name; NOT image-OCR
+aecdf9fe18f8,1d8192ce7885,ニューゲート (OP17-005),OP17-005,,name_embedded,number extracted from card_name; NOT image-OCR
+f61b63350f1f,ef62587b81df,ピカチュウ(279/XY-P),279/XY-P,PSA10,name_embedded,number extracted from card_name; NOT image-OCR
+0c5ce8743246,1e8bb0287e95,リンリン(OP17-112),OP17-112,,name_embedded,number extracted from card_name; NOT image-OCR
+627f978cd298,56c564a9d30b,ルフィ (EB04-061),EB04-061,,name_embedded,number extracted from card_name; NOT image-OCR
+12328278ea92,5188554facf2,赤ナミ (OP01-016),OP01-016,,name_embedded,number extracted from card_name; NOT image-OCR
+f94af97903f7,317f50f53404,金ルフィ (OP05-119),OP05-119,,name_embedded,number extracted from card_name; NOT image-OCR
+589dd1e537dc,acad4e8edde4,銀ルフィ (OP05-119),OP05-119,,name_embedded,number extracted from card_name; NOT image-OCR
+f4b102b01ada,6f2143e2cabd,青ナミ (OP01-016),OP01-016,,name_embedded,number extracted from card_name; NOT image-OCR

@@ -1,4 +1,5 @@
 import { SNKR_BUYBACK_PRICES } from './data';
+import { isSnkrBuybackBrowseSuppressed } from './browse-suppress';
 import type { SnkrBuybackPrice } from './types';
 
 export type SnkrCardSeries = {
@@ -72,4 +73,17 @@ export function latestSnkrRow(card: SnkrCardSeries, date: string): SnkrBuybackPr
 
 export function getSnkrCard(cardId: string): SnkrCardSeries | undefined {
   return CARDS.get(cardId);
+}
+/** Public browse/detail: excludes same-post collapse placeholders pending OCR. */
+export function snkrBrowseCardIds(): string[] {
+  return snkrCardIds().filter((id) => !isSnkrBuybackBrowseSuppressed(id));
+}
+
+export function listSnkrBrowseCards(): SnkrCardSeries[] {
+  return listSnkrCards().filter((card) => !isSnkrBuybackBrowseSuppressed(card.cardId));
+}
+
+export function getSnkrBrowseCard(cardId: string): SnkrCardSeries | undefined {
+  if (isSnkrBuybackBrowseSuppressed(cardId)) return undefined;
+  return getSnkrCard(cardId);
 }

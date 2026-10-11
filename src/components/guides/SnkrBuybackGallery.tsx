@@ -4,12 +4,12 @@ import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
 import LocalLink from '@/components/LocalLink';
 import { useLanguage } from '@/context/LanguageContext';
-import { latestSnkrRow, listSnkrCards, type SnkrCardSeries } from '@/lib/snkr-buyback/cards';
+import { latestSnkrRow, listSnkrBrowseCards, type SnkrCardSeries } from '@/lib/snkr-buyback/cards';
 import { formatBuybackPrice, snkrCardName, snkrGradeLabel } from '@/lib/snkr-buyback/data';
 import { snkrBuybackImageSrc } from '@/lib/snkr-buyback/images';
 import type { GuideLocale } from '@/lib/guides/types';
 
-const CARDS = listSnkrCards();
+const CARDS = listSnkrBrowseCards();
 
 const UI = {
   en: {

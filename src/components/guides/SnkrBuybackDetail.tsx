@@ -14,7 +14,7 @@ import {
   snkrGradeLabel,
   snkrPriceSourceLabel,
 } from '@/lib/snkr-buyback/data';
-import { getSnkrCard } from '@/lib/snkr-buyback/cards';
+import { getSnkrBrowseCard } from '@/lib/snkr-buyback/cards';
 import type { GuideLocale } from '@/lib/guides/types';
 
 const UI = {
@@ -61,7 +61,7 @@ export default function SnkrBuybackDetail({ cardId }: SnkrBuybackDetailProps) {
   const locale: GuideLocale = language === 'zh' ? 'zh' : 'en';
   const ui = UI[locale];
   const guide = getGuideContent('psa-market-buyback-snkr', locale);
-  const card = getSnkrCard(cardId);
+  const card = getSnkrBrowseCard(cardId);
   const name = card
     ? snkrCardName(
         {
