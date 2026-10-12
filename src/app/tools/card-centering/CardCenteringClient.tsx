@@ -4,6 +4,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { compressImage } from '@/lib/compress-image';
 import {
   BELOW_TIER_ID,
+  CENTERING_MEASURE_MODES,
   getPlotZoneRects,
   getTiers,
   measureFromGuides,
@@ -16,6 +17,7 @@ import {
   RELIEF_LOUPE_PENDING_FILTER,
   releaseReliefBitmap,
   scheduleReliefBake,
+  type CenteringMeasureMode,
   type CenteringScore,
   type GradingCompany,
   type ImageFilterMode,
@@ -31,6 +33,18 @@ import { setCenteringSubHeaderLive } from './centering-subheader-live';
 type PhotoMode = 'raw' | 'slab';
 type VerdictKey = 'regradeCandidate' | 'borderlineRegrade' | 'holdGrade' | 'downgradeRisk';
 type UploadState = 'idle' | 'loading' | 'error';
+type EseriesPairFocus = 'tr' | 'bl' | 'both';
+
+const ESERIES_PAIR_FOCI: EseriesPairFocus[] = ['tr', 'bl', 'both'];
+
+function eseriesSideVisible(
+  side: 'top' | 'bottom' | 'left' | 'right',
+  pair: EseriesPairFocus,
+): boolean {
+  if (pair === 'both') return true;
+  if (pair === 'tr') return side === 'top' || side === 'right';
+  return side === 'bottom' || side === 'left';
+}
 
 function verdictForQuality(quality: QualityTier): VerdictKey {
   if (quality === 'excellent') return 'regradeCandidate';
@@ -254,11 +268,15 @@ export default function CardCenteringClient() {
   const loupesOnRef = React.useRef(loupesOn);
   const [guideMode, setGuideMode] = React.useState<'edge' | 'border' | 'both'>('both');
   const [photoMode, setPhotoMode] = React.useState<PhotoMode>('raw');
+  const [measureMode, setMeasureMode] = React.useState<CenteringMeasureMode>('standard');
+  const [eseriesPairFocus, setEseriesPairFocus] = React.useState<EseriesPairFocus>('both');
   const [imageFilterMode, setImageFilterMode] = React.useState<ImageFilterMode>('off');
   const [gradingCompany, setGradingCompany] = React.useState<GradingCompany>('PSA');
   const guideModeRef = React.useRef(guideMode);
   const imageFilterRef = React.useRef(imageFilterMode);
   const gradingCompanyRef = React.useRef(gradingCompany);
+  const measureModeRef = React.useRef(measureMode);
+  const eseriesPairFocusRef = React.useRef(eseriesPairFocus);
   /** One-shot emboss bitmap for loupes — never reconvolve in RAF. */
   const reliefBitmapRef = React.useRef<ImageBitmap | null>(null);
   const reliefBakeGenRef = React.useRef(0);
@@ -394,6 +412,18 @@ export default function CardCenteringClient() {
   }, [gradingCompany]);
 
   useEffect(() => {
+    measureModeRef.current = measureMode;
+    // e-Series always needs outer+inner lines for each pair (4 lines).
+    if (measureMode === 'eseries') setGuideMode('both');
+    redrawRef.current?.();
+  }, [measureMode]);
+
+  useEffect(() => {
+    eseriesPairFocusRef.current = eseriesPairFocus;
+    redrawRef.current?.();
+  }, [eseriesPairFocus]);
+
+  useEffect(() => {
     redrawRef.current?.();
   }, [t]);
 
@@ -523,10 +553,29 @@ export default function CardCenteringClient() {
     const rootStyles = typeof window !== 'undefined' ? getComputedStyle(document.documentElement) : null;
     const colorOuter = (rootStyles?.getPropertyValue('--tool-guide-edge') || '#E8E0D0').trim();
     const colorInner = (rootStyles?.getPropertyValue('--tool-guide-border') || '#C44536').trim();
+    const colorTrOuter = (rootStyles?.getPropertyValue('--tool-guide-eseries-tr-outer') || '#2EC4B6').trim();
+    const colorTrInner = (rootStyles?.getPropertyValue('--tool-guide-eseries-tr-inner') || '#8AF0E4').trim();
+    const colorBlOuter = (rootStyles?.getPropertyValue('--tool-guide-eseries-bl-outer') || '#F0A202').trim();
+    const colorBlInner = (rootStyles?.getPropertyValue('--tool-guide-eseries-bl-inner') || '#FFD166').trim();
     const outerRgb = colorOuter.match(/^#([0-9a-f]{6})$/i);
     const colorOuterFill = outerRgb
       ? `rgba(${parseInt(outerRgb[1].slice(0, 2), 16)}, ${parseInt(outerRgb[1].slice(2, 4), 16)}, ${parseInt(outerRgb[1].slice(4, 6), 16)}, 0.07)`
       : 'rgba(91, 111, 214, 0.07)';
+    const hexToFill = (hex: string, alpha = 0.14) => {
+      const m = hex.match(/^#([0-9a-f]{6})$/i);
+      if (!m) return `rgba(46, 196, 182, ${alpha})`;
+      return `rgba(${parseInt(m[1].slice(0, 2), 16)}, ${parseInt(m[1].slice(2, 4), 16)}, ${parseInt(m[1].slice(4, 6), 16)}, ${alpha})`;
+    };
+    const colorTrFill = hexToFill(colorTrOuter);
+    const colorBlFill = hexToFill(colorBlOuter);
+
+    function eseriesColorsForHandle(name: string): string {
+      const isOuter = name.startsWith('outer');
+      if (name.endsWith('Top') || name.endsWith('Right')) {
+        return isOuter ? colorTrOuter : colorTrInner;
+      }
+      return isOuter ? colorBlOuter : colorBlInner;
+    }
 
     let bgCache: HTMLCanvasElement | null = null;
     let bgCacheW = 0;
@@ -1217,36 +1266,51 @@ export default function CardCenteringClient() {
       const mode = guideModeRef.current;
       const outerAlpha = mode === 'border' ? 0.32 : 1;
       const innerAlpha = mode === 'edge' ? 0.32 : 1;
-
-      // Tinted margin band between card edge and art border
-      ctx.save();
-      ctx.globalAlpha = Math.max(outerAlpha, innerAlpha) * 0.9;
-      ctx.beginPath();
-      roundRectPath(oxL, oyT, oxW, oxH, Math.min(10, oxW * 0.022, oxH * 0.016));
-      roundRectPath(ixL, iyT, ixR - ixL, iyB - iyT, Math.min(8, (ixR - ixL) * 0.02, (iyB - iyT) * 0.016));
-      ctx.fillStyle = colorOuterFill;
-      try { ctx.fill('evenodd'); } catch { ctx.fill(); }
-      ctx.restore();
-
-      // Card edge (outer) — rounded glow frame
+      const showOuter = mode === 'edge' || mode === 'both';
+      const showInner = mode === 'border' || mode === 'both';
+      const eseries = measureModeRef.current === 'eseries';
+      const pairFocus = eseriesPairFocusRef.current;
       const fastDraw = isOverlayFastMode();
       const liteDraw = fastDraw || isCoarsePointer;
-      drawModernFrame(oxL, oyT, oxW, oxH, colorOuter, outerAlpha, mode === 'edge' || mode === 'both', liteDraw);
 
-      // Art border (inner) — rounded glow frame
-      drawModernFrame(ixL, iyT, ixR - ixL, iyB - iyT, colorInner, innerAlpha, mode === 'border' || mode === 'both', liteDraw);
+      if (eseries) {
+        // View-spanning guide lines (not closed Edge/Border card frames).
+        drawEseriesPairGuides({
+          oxL, oxR, oyT, oyB, ixL, ixR, iyT, iyB,
+          viewW: overlayEl.width,
+          viewH: overlayEl.height,
+          pairFocus,
+          liteDraw,
+        });
+      } else {
+        // Tinted margin band between card edge and art border
+        ctx.save();
+        ctx.globalAlpha = Math.max(outerAlpha, innerAlpha) * 0.9;
+        ctx.beginPath();
+        roundRectPath(oxL, oyT, oxW, oxH, Math.min(10, oxW * 0.022, oxH * 0.016));
+        roundRectPath(ixL, iyT, ixR - ixL, iyB - iyT, Math.min(8, (ixR - ixL) * 0.02, (iyB - iyT) * 0.016));
+        ctx.fillStyle = colorOuterFill;
+        try { ctx.fill('evenodd'); } catch { ctx.fill(); }
+        ctx.restore();
 
-      // Identification labels (desktop only — low value on small touch screens)
-      if (!liteDraw) {
-        if (mode === 'edge' || mode === 'both') drawLabel(oxL, oyT, toolLabelsRef.current.canvasEdge, colorOuter);
-        if (mode === 'border' || mode === 'both') drawLabel(ixL, iyT, toolLabelsRef.current.canvasBorder, colorInner);
+        drawModernFrame(oxL, oyT, oxW, oxH, colorOuter, outerAlpha, showOuter, liteDraw);
+        drawModernFrame(ixL, iyT, ixR - ixL, iyB - iyT, colorInner, innerAlpha, showInner, liteDraw);
+
+        if (!liteDraw) {
+          if (showOuter) drawLabel(oxL, oyT, toolLabelsRef.current.canvasEdge, colorOuter);
+          if (showInner) drawLabel(ixL, iyT, toolLabelsRef.current.canvasBorder, colorInner);
+        }
       }
 
       // Draggable handles — slide smoothly when stagger position changes
       const handles = resolveHandles();
       handles.forEach((h) => {
         const isOuter = h.name.startsWith('outer');
-        const color = isOuter ? colorOuter : colorInner;
+        const color = eseries
+          ? eseriesColorsForHandle(h.name)
+          : isOuter
+            ? colorOuter
+            : colorInner;
         const active = dragging === h.name;
         if (active) drawActiveEdgeHighlight(h.name, color);
         drawHandle(h.x, h.y, h.anchorX, h.anchorY, color, active, h.vertical);
@@ -1303,6 +1367,110 @@ export default function CardCenteringClient() {
       }
 
       ctx.restore();
+    }
+
+    /** Open side segment for e-Series — reads as a line, not a closed card frame. */
+    function drawGuideSideLine(
+      x1: number,
+      y1: number,
+      x2: number,
+      y2: number,
+      color: string,
+      alpha: number,
+      emphasized: boolean,
+      lite = false,
+    ) {
+      if (Math.hypot(x2 - x1, y2 - y1) < 4) return;
+      const lineW = lite ? 2 : emphasized ? 2.5 : 2;
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.lineCap = 'round';
+
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = 'rgba(10, 8, 6, 0.55)';
+      ctx.lineWidth = lineW + 2.25;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+
+      if (!lite) {
+        ctx.shadowColor = color;
+        ctx.shadowBlur = emphasized ? 20 : 12;
+      }
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineW;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+
+      if (!lite) {
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = alpha * 0.35;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+
+    function drawEseriesPairGuides(opts: {
+      oxL: number; oxR: number; oyT: number; oyB: number;
+      ixL: number; ixR: number; iyT: number; iyB: number;
+      viewW: number;
+      viewH: number;
+      pairFocus: EseriesPairFocus;
+      liteDraw: boolean;
+    }) {
+      const { oxL, oxR, oyT, oyB, ixL, ixR, iyT, iyB, viewW, viewH, pairFocus, liteDraw } = opts;
+      const showTr = pairFocus === 'tr' || pairFocus === 'both';
+      const showBl = pairFocus === 'bl' || pairFocus === 'both';
+
+      const fillBand = (
+        x: number,
+        y: number,
+        w: number,
+        h: number,
+        fill: string,
+      ) => {
+        if (w < 1 || h < 1) return;
+        ctx.save();
+        ctx.globalAlpha = 0.4;
+        ctx.fillStyle = fill;
+        ctx.fillRect(x, y, w, h);
+        ctx.restore();
+      };
+
+      // Lines run edge-to-edge across the view; position still tracks guide coords.
+      // T·R teal, B·L amber — 4 lines each.
+      if (showTr) {
+        fillBand(0, oyT, viewW, Math.max(2, iyT - oyT), colorTrFill);
+        fillBand(Math.min(ixR, oxR), 0, Math.max(2, Math.abs(oxR - ixR)), viewH, colorTrFill);
+        drawGuideSideLine(0, oyT, viewW, oyT, colorTrOuter, 1, true, liteDraw);
+        drawGuideSideLine(0, iyT, viewW, iyT, colorTrInner, 1, true, liteDraw);
+        drawGuideSideLine(oxR, 0, oxR, viewH, colorTrOuter, 1, true, liteDraw);
+        drawGuideSideLine(ixR, 0, ixR, viewH, colorTrInner, 1, true, liteDraw);
+      }
+      if (showBl) {
+        fillBand(0, Math.min(iyB, oyB), viewW, Math.max(2, Math.abs(oyB - iyB)), colorBlFill);
+        fillBand(oxL, 0, Math.max(2, ixL - oxL), viewH, colorBlFill);
+        drawGuideSideLine(0, oyB, viewW, oyB, colorBlOuter, 1, true, liteDraw);
+        drawGuideSideLine(0, iyB, viewW, iyB, colorBlInner, 1, true, liteDraw);
+        drawGuideSideLine(oxL, 0, oxL, viewH, colorBlOuter, 1, true, liteDraw);
+        drawGuideSideLine(ixL, 0, ixL, viewH, colorBlInner, 1, true, liteDraw);
+      }
+
+      if (!liteDraw) {
+        const labels = toolLabelsRef.current;
+        if (showTr) drawLabel(12, oyT, labels.trLabel, colorTrOuter);
+        if (showBl) drawLabel(12, Math.min(oyB, iyB) - 4, labels.blLabel, colorBlOuter);
+      }
     }
 
     function drawActiveEdgeHighlight(name: string, color: string) {
@@ -1448,10 +1616,12 @@ export default function CardCenteringClient() {
     }
 
     function computeHandleTargets(): HandleDef[] {
+      const eseries = measureModeRef.current === 'eseries';
       const mode = guideModeRef.current;
-      const both = mode === 'both';
-      const showOuter = mode === 'edge' || both;
-      const showInner = mode === 'border' || both;
+      // e-Series always exposes outer+inner for the active pair (4 handles).
+      const both = eseries || mode === 'both';
+      const showOuter = eseries || mode === 'edge' || both;
+      const showInner = eseries || mode === 'border' || both;
 
       const oxL = centerX + outerGuides.left;
       const oxR = centerX + outerGuides.right;
@@ -1509,42 +1679,46 @@ export default function CardCenteringClient() {
       const leftMix = both ? staggerMix(Math.abs(ixL - oxL), closeGap) : 0;
       const rightMix = both ? staggerMix(Math.abs(ixR - oxR), closeGap) : 0;
 
+      const pairFocus = eseriesPairFocusRef.current;
+      const sideOk = (side: 'top' | 'bottom' | 'left' | 'right') =>
+        !eseries || eseriesSideVisible(side, pairFocus);
+
       // Top — outer sits above, inner below; stagger blends in smoothly when close
-      if (showOuter) {
+      if (showOuter && sideOk('top')) {
         const ratio = 0.5 + (0.36 - 0.5) * topMix;
         place('outerTop', oxL + oxW * ratio, oyT, false, { x: 0, y: -1 }, topMix);
       }
-      if (showInner) {
+      if (showInner && sideOk('top')) {
         const ratio = 0.5 + (0.64 - 0.5) * topMix;
         place('innerTop', ixL + ixW * ratio, iyT, false, { x: 0, y: 1 }, topMix);
       }
 
       // Bottom — outer below, inner above
-      if (showOuter) {
+      if (showOuter && sideOk('bottom')) {
         const ratio = 0.5 + (0.36 - 0.5) * bottomMix;
         place('outerBottom', oxL + oxW * ratio, oyB, false, { x: 0, y: 1 }, bottomMix);
       }
-      if (showInner) {
+      if (showInner && sideOk('bottom')) {
         const ratio = 0.5 + (0.64 - 0.5) * bottomMix;
         place('innerBottom', ixL + ixW * ratio, iyB, false, { x: 0, y: -1 }, bottomMix);
       }
 
       // Left — outer left, inner right
-      if (showOuter) {
+      if (showOuter && sideOk('left')) {
         const ratio = 0.5 + (0.36 - 0.5) * leftMix;
         place('outerLeft', oxL, oyT + oxH * ratio, true, { x: -1, y: 0 }, leftMix);
       }
-      if (showInner) {
+      if (showInner && sideOk('left')) {
         const ratio = 0.5 + (0.64 - 0.5) * leftMix;
         place('innerLeft', ixL, iyT + ixH * ratio, true, { x: 1, y: 0 }, leftMix);
       }
 
       // Right — outer right, inner left
-      if (showOuter) {
+      if (showOuter && sideOk('right')) {
         const ratio = 0.5 + (0.36 - 0.5) * rightMix;
         place('outerRight', oxR, oyT + oxH * ratio, true, { x: 1, y: 0 }, rightMix);
       }
-      if (showInner) {
+      if (showInner && sideOk('right')) {
         const ratio = 0.5 + (0.64 - 0.5) * rightMix;
         place('innerRight', ixR, iyT + ixH * ratio, true, { x: -1, y: 0 }, rightMix);
       }
@@ -2073,7 +2247,11 @@ export default function CardCenteringClient() {
     }
 
     function calculateCentering() {
-      const measurement = measureFromGuides(outerGuides, innerGuides);
+      const measurement = measureFromGuides(
+        outerGuides,
+        innerGuides,
+        measureModeRef.current,
+      );
       const result = scoreCentering(
         measurement,
         gradingCompanyRef.current,
@@ -2622,6 +2800,7 @@ export default function CardCenteringClient() {
   React.useLayoutEffect(() => {
     setCenteringSubHeaderLive({
       photoMode,
+      measureMode,
       lr: displayScore?.lr,
       tb: displayScore?.tb,
       zoneLabel: zoneCopy?.label ?? null,
@@ -2630,7 +2809,7 @@ export default function CardCenteringClient() {
       verdictHint: verdictCopy?.hint ?? null,
       hasGrade: Boolean(grade),
     });
-  }, [photoMode, displayScore, zoneCopy, verdictCopy, grade]);
+  }, [photoMode, measureMode, displayScore, zoneCopy, verdictCopy, grade]);
 
   /**
    * Native label activation flakes after cancel on mobile (1st tap = blur only).
@@ -2707,6 +2886,7 @@ export default function CardCenteringClient() {
       <section
         id="centering-analyzer"
         className={styles.toolInstrument}
+        data-measure-mode={measureMode}
         aria-label={`${tool.workspaceTitle} — ${tool.workspaceBrand}`}
       >
         {/*
@@ -3014,6 +3194,66 @@ export default function CardCenteringClient() {
                 </div>
               </div>
 
+              <div className={styles.setupSection} role="group" aria-label={tool.measureModeLabel}>
+                <p className={styles.setupSectionLabel}>{tool.measureModeLabel}</p>
+                <div className={styles.photoModeBar}>
+                  {CENTERING_MEASURE_MODES.map((mode) => (
+                    <button
+                      key={mode}
+                      type="button"
+                      className={styles.photoModeBtn}
+                      data-active={measureMode === mode}
+                      aria-pressed={measureMode === mode}
+                      onClick={() => setMeasureMode(mode)}
+                    >
+                      <span className={styles.photoModeBtnLong}>
+                        {mode === 'standard' ? tool.measureModeStandard : tool.measureModeEseries}
+                      </span>
+                      <span className={styles.photoModeBtnShort}>
+                        {mode === 'standard' ? tool.measureModeStandard : tool.measureModeEseries}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                {measureMode === 'eseries' ? (
+                  <p className={styles.setupSectionHint}>{tool.measureModeHint}</p>
+                ) : null}
+              </div>
+
+              {measureMode === 'eseries' ? (
+                <div className={styles.setupSection} role="group" aria-label={tool.eseriesPairLabel}>
+                  <p className={styles.setupSectionLabel}>{tool.eseriesPairLabel}</p>
+                  <div className={styles.photoModeBar}>
+                    {ESERIES_PAIR_FOCI.map((pair) => (
+                      <button
+                        key={pair}
+                        type="button"
+                        className={styles.photoModeBtn}
+                        data-active={eseriesPairFocus === pair}
+                        data-eseries-pair={pair}
+                        aria-pressed={eseriesPairFocus === pair}
+                        onClick={() => setEseriesPairFocus(pair)}
+                      >
+                        <span className={styles.photoModeBtnLong}>
+                          {pair === 'tr'
+                            ? tool.eseriesPairTr
+                            : pair === 'bl'
+                              ? tool.eseriesPairBl
+                              : tool.eseriesPairBoth}
+                        </span>
+                        <span className={styles.photoModeBtnShort}>
+                          {pair === 'tr'
+                            ? tool.eseriesPairTr
+                            : pair === 'bl'
+                              ? tool.eseriesPairBl
+                              : tool.guideModeBoth}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
               {photoMode === 'raw' ? (
                 <div className={styles.setupSection} role="group" aria-label={tool.gradingCompanyLabel}>
                   <p className={styles.setupSectionLabel}>{tool.gradingCompanyLabel}</p>
@@ -3035,27 +3275,29 @@ export default function CardCenteringClient() {
                 </div>
               ) : null}
 
-              <div className={styles.setupSection} role="group" aria-label={tool.guideModeLabel}>
-                <p className={styles.setupSectionLabel}>{tool.guideModeLabel}</p>
-                <div className={styles.guideModeBar}>
-                  {(['edge', 'border', 'both'] as const).map((mode) => (
-                    <button
-                      key={mode}
-                      type="button"
-                      className={styles.guideModeBtn}
-                      data-active={guideMode === mode}
-                      data-mode={mode}
-                      aria-pressed={guideMode === mode}
-                      onClick={() => setGuideMode(mode)}
-                    >
-                      <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
-                      <span className={styles.guideModeBtnLabel}>
-                        {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
-                      </span>
-                    </button>
-                  ))}
+              {measureMode !== 'eseries' ? (
+                <div className={styles.setupSection} role="group" aria-label={tool.guideModeLabel}>
+                  <p className={styles.setupSectionLabel}>{tool.guideModeLabel}</p>
+                  <div className={styles.guideModeBar}>
+                    {(['edge', 'border', 'both'] as const).map((mode) => (
+                      <button
+                        key={mode}
+                        type="button"
+                        className={styles.guideModeBtn}
+                        data-active={guideMode === mode}
+                        data-mode={mode}
+                        aria-pressed={guideMode === mode}
+                        onClick={() => setGuideMode(mode)}
+                      >
+                        <span className={mode === 'edge' ? styles.guideDotEdge : mode === 'border' ? styles.guideDotBorder : styles.guideDotBoth} />
+                        <span className={styles.guideModeBtnLabel}>
+                          {mode === 'edge' ? tool.guideModeEdge : mode === 'border' ? tool.guideModeBorder : tool.guideModeBoth}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </div>
           </aside>
         </div>
@@ -3125,8 +3367,25 @@ export default function CardCenteringClient() {
               <div className={styles.mapRow}>
                 <canvas id="plot-canvas" className={styles.plotCanvas} width={160} height={160}></canvas>
                 <div className={styles.mapLegend}>
-                  <span><i className={styles.dotEdge} /> {tool.mapLegendEdge}</span>
-                  <span><i className={styles.dotBorder} /> {tool.mapLegendBorder}</span>
+                  {measureMode === 'eseries' ? (
+                    <>
+                      <span>
+                        <i className={styles.dotEseriesTr} /> {tool.trLabel}
+                      </span>
+                      <span>
+                        <i className={styles.dotEseriesBl} /> {tool.blLabel}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span>
+                        <i className={styles.dotEdge} /> {tool.mapLegendEdge}
+                      </span>
+                      <span>
+                        <i className={styles.dotBorder} /> {tool.mapLegendBorder}
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

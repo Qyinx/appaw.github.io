@@ -41,7 +41,9 @@ function CenteringWorkspaceChrome() {
               </div>
               <div className="centering-subheader__axes">
                 <div className="centering-subheader__axis">
-                  <span className="centering-subheader__axis-key">{tool.lrLabel}</span>
+                  <span className="centering-subheader__axis-key">
+                    {live.measureMode === 'eseries' ? tool.trLabel : tool.lrLabel}
+                  </span>
                   <span className="centering-subheader__axis-val">
                     {fmt(live.lr)}
                     <span className="centering-subheader__slash">/</span>
@@ -49,7 +51,9 @@ function CenteringWorkspaceChrome() {
                   </span>
                 </div>
                 <div className="centering-subheader__axis">
-                  <span className="centering-subheader__axis-key">{tool.tbLabel}</span>
+                  <span className="centering-subheader__axis-key">
+                    {live.measureMode === 'eseries' ? tool.blLabel : tool.tbLabel}
+                  </span>
                   <span className="centering-subheader__axis-val">
                     {fmt(live.tb)}
                     <span className="centering-subheader__slash">/</span>

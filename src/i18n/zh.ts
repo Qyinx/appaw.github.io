@@ -1818,6 +1818,10 @@ export const zh: Translations = {
         a: '不管是什麼卡都能量！寶可夢、NBA 球員卡、遊戲王還是 MTG，只要是長方形的卡牌，工具都能透過比對「印刷邊框」跟「卡片裁切邊緣」幫你算出比例。',
       },
       {
+        q: '寶可夢 e-Series / e-Reader 卡要怎麼量置中？',
+        a: '把「測量模式」切到 e-Series。這系列左邊跟下邊本來就比較寬（點碼條），所以工具會改量「上/右」跟「下/左」，而不是一般的左右、上下。評級區間還是同一套標準。',
+      },
+      {
         q: '這超好用的工具要錢嗎？',
         a: '佛心來著，完全免費！打開網頁就能直接用，不用註冊。而且運算是直接在你的手機或電腦上跑，卡片照片絕不會被偷偷上傳到我們的伺服器，隱私滿分。',
       },
@@ -1913,6 +1917,19 @@ export const zh: Translations = {
       },
       lrLabel: '左右',
       tbLabel: '上下',
+      trLabel: '上·右',
+      blLabel: '下·左',
+      measureModeLabel: '測量模式',
+      measureModeStandard: '標準',
+      measureModeEseries: 'e-Series',
+      measureModeHint:
+        'e-Series 用滿邊線段：青色 T·R（上+右）、琥珀色 B·L（下+左）。寶可夢 e-Reader 卡左邊跟下邊本來就比較寬（點碼條），用這個模式才對。',
+      eseriesPairLabel: '線段組',
+      eseriesPairTr: '上·右',
+      eseriesPairBl: '下·左',
+      eseriesPairBoth: '兩組都顯示',
+      eseriesGuideEdge: '外線',
+      eseriesGuideBorder: '內線',
       gradeReadout: '評級',
       guideModeLabel: '顯示對齊線',
       guideModeEdge: '外緣',
@@ -1985,7 +2002,7 @@ export const zh: Translations = {
     content: {
       h1: CENTERING_SEO.zh.h1 as string,
       lead:
-        '你知道嗎？很多卡片拿不到 10 分，不是因為角不夠尖，而是因為「印歪了」！PSA 10 規定正面比例不能超過 55/45，背面 75/25。把照片丟上來，拉一下對齊線，馬上一秒算出比例，幫你交叉比對 PSA、BGS 等大廠的嚴格標準。想拚高分？先量過再說！運算全都在你手機上完成，隱私安全無虞。',
+        '你知道嗎？很多卡片拿不到 10 分，不是因為角不夠尖，而是因為「印歪了」！PSA 10 規定正面比例不能超過 55/45，背面 75/25。把照片丟上來，拉一下對齊線，馬上一秒算出比例，幫你交叉比對 PSA、BGS 等大廠的嚴格標準。寶可夢 e-Reader 卡可切 e-Series 模式，改量上/右、下/左。想拚高分？先量過再說！運算全都在你手機上完成，隱私安全無虞。',
       howToTitle: '教你如何發揮 Appaw 置中分析器的 100% 功力',
       howToBadge: '簡單 4 步變達人',
       stepLabel: '教學步驟 {n}',

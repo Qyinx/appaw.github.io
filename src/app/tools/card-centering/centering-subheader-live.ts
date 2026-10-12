@@ -1,9 +1,10 @@
 'use client';
 
-import type { QualityTier } from '@/lib/centering';
+import type { CenteringMeasureMode, QualityTier } from '@/lib/centering';
 
 export type CenteringSubHeaderLive = {
   photoMode: 'raw' | 'slab';
+  measureMode: CenteringMeasureMode;
   lr?: number;
   tb?: number;
   zoneLabel: string | null;
@@ -15,6 +16,7 @@ export type CenteringSubHeaderLive = {
 
 const EMPTY_LIVE: CenteringSubHeaderLive = {
   photoMode: 'raw',
+  measureMode: 'standard',
   zoneLabel: null,
   verdictLabel: null,
   verdictHint: null,

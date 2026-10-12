@@ -7,9 +7,11 @@ export {
 export { getTiers } from './thresholds';
 export {
   CARD_FACES,
+  CENTERING_MEASURE_MODES,
   GRADING_COMPANIES,
   type CardFace,
   type CenteringMeasurement,
+  type CenteringMeasureMode,
   type CenteringScore,
   type CenteringTier,
   type GradingCompany,

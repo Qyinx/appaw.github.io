@@ -2,6 +2,7 @@ import { getTiers } from './thresholds';
 import type {
   CardFace,
   CenteringMeasurement,
+  CenteringMeasureMode,
   CenteringScore,
   CenteringTier,
   GradingCompany,
@@ -10,14 +11,29 @@ import type {
 
 export const BELOW_TIER_ID = 'Below';
 
+/**
+ * Compute centering shares from outer (cut) and inner (print) guides.
+ * In `eseries` mode, `lr`/`tb` hold T·R and B·L shares (see CenteringMeasurement).
+ */
 export function measureFromGuides(
   outer: { top: number; bottom: number; left: number; right: number },
   inner: { top: number; bottom: number; left: number; right: number },
+  mode: CenteringMeasureMode = 'standard',
 ): CenteringMeasurement {
   const distLeft = inner.left - outer.left;
   const distRight = outer.right - inner.right;
   const distTop = inner.top - outer.top;
   const distBottom = outer.bottom - inner.bottom;
+
+  if (mode === 'eseries') {
+    const totalTR = distTop + distRight;
+    const totalBL = distBottom + distLeft;
+    let lr = 50;
+    let tb = 50;
+    if (totalTR > 0) lr = (distTop / totalTR) * 100;
+    if (totalBL > 0) tb = (distBottom / totalBL) * 100;
+    return { lr, tb };
+  }
 
   const totalLR = distLeft + distRight;
   const totalTB = distTop + distBottom;

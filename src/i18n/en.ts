@@ -1820,6 +1820,10 @@ export const en = {
         a: 'Yes. Any rectangular trading card works. The tool compares the printed border to the outer cut edge.',
       },
       {
+        q: 'How do I measure Pokémon e-Series / e-Reader centering?',
+        a: 'Switch Measure mode to e-Series. Left and bottom borders are wider by design (dot-code strip), so the tool pairs top/right and bottom/left instead of left/right and top/bottom. Grade bands stay the same.',
+      },
+      {
         q: 'Is the card centering calculator free?',
         a: 'Yes. It runs in your browser with no sign-up. Measurement stays on your device. Nothing uploads to our servers.',
       },
@@ -1915,6 +1919,19 @@ export const en = {
       },
       lrLabel: 'L·R',
       tbLabel: 'T·B',
+      trLabel: 'T·R',
+      blLabel: 'B·L',
+      measureModeLabel: 'Measure mode',
+      measureModeStandard: 'Standard',
+      measureModeEseries: 'e-Series',
+      measureModeHint:
+        'e-Series uses full-length line pairs: teal T·R (top+right), amber B·L (bottom+left). For Pokémon e-Reader cards with a designed-wide left and bottom strip.',
+      eseriesPairLabel: 'Line pair',
+      eseriesPairTr: 'T·R',
+      eseriesPairBl: 'B·L',
+      eseriesPairBoth: 'Both pairs',
+      eseriesGuideEdge: 'Outer line',
+      eseriesGuideBorder: 'Inner line',
       gradeReadout: 'Grade',
       guideModeLabel: 'Guide layer',
       guideModeEdge: 'Edge',
@@ -1987,7 +2004,7 @@ export const en = {
     content: {
       h1: CENTERING_SEO.en.h1 as string,
       lead:
-        'Most cards stuck at 8 or 9 fail on centering, not corners. PSA 10 needs 55/45 front, 75/25 back. Upload, align guides, read L/R and T/B for PSA, BGS, SGC, or CGC. Slab mode flags regrade upside. Runs locally. Nothing uploads.',
+        'Most cards stuck at 8 or 9 fail on centering, not corners. PSA 10 needs 55/45 front, 75/25 back. Upload, align guides, read L/R and T/B for PSA, BGS, SGC, or CGC. e-Series mode swaps to T/R and B/L for Pokémon e-Reader cards. Slab mode flags regrade upside. Runs locally. Nothing uploads.',
       howToTitle: 'How to use the Appaw Centering Analyzer',
       howToBadge: '4-Step Workflow',
       stepLabel: 'Step {n}',

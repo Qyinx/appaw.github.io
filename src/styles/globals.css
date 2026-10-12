@@ -90,6 +90,11 @@
   --tool-text-muted: #B5A995;
   --tool-guide-edge: #E8E0D0;
   --tool-guide-border: var(--accent-cta);
+  /* e-Series line pairs — distinct from Edge/Border cream+red */
+  --tool-guide-eseries-tr-outer: #2EC4B6;
+  --tool-guide-eseries-tr-inner: #8AF0E4;
+  --tool-guide-eseries-bl-outer: #F0A202;
+  --tool-guide-eseries-bl-inner: #FFD166;
   --tool-success: #5FD68A;
   --zone-psa8: #D97706;
 
