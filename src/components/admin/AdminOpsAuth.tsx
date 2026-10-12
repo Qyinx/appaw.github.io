@@ -6,11 +6,17 @@ import TurnstileWidget from '@/components/TurnstileWidget';
 
 type Props = {
   onUnlock: () => void;
+  title?: string;
+  description?: string;
 };
 
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 
-export default function GradingAdminAuth({ onUnlock }: Props) {
+export default function AdminOpsAuth({
+  onUnlock,
+  title = 'Admin',
+  description = 'Staff access required.',
+}: Props) {
   const [password, setPassword] = useState('');
   const [turnstileToken, setTurnstileToken] = useState('');
   const [resetSignal, setResetSignal] = useState(0);
@@ -74,8 +80,8 @@ export default function GradingAdminAuth({ onUnlock }: Props) {
           <p className="text-accent-brand text-[10px] uppercase tracking-[0.2em] font-semibold mb-1">
             Operations
           </p>
-          <h1 className="text-xl font-semibold">PSA Grading Admin</h1>
-          <p className="text-sm text-text-muted mt-1">Staff access for intake and batch tracking.</p>
+          <h1 className="text-xl font-semibold">{title}</h1>
+          <p className="text-sm text-text-muted mt-1">{description}</p>
         </div>
         <input
           type="password"
