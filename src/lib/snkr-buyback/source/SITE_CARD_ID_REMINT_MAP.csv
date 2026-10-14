@@ -1,34 +1,62 @@
 old_card_id,new_card_id,card_name,card_number,psa_grade,number_source
-219ddb2270b9,99d5aa311a9f,カイドウ(OP17-062),OP17-062,,name_embedded
-06f356c4c12a,9cded73653f4,ギャラドスごっこピカチュウ,151/XY-P,,hc
-6b4db105d038,aa608705e66b,ゲンガー&ミミッキュGX SA,103/095,,hc
-0cbdf06bffbe,9e7e664752d9,コミパラ サカズキ (OP16-065),OP16-065,,name_embedded
-3de91a65de7c,fa2d2b7aafd9,コミパラ サンジ (OP06-119),OP06-119,,name_embedded
-2519001c372a,0c904934aa9b,コミパラ ゾロ (OP06-118),OP06-118,,name_embedded
-4853e31a34c5,b3051f17dd9d,コミパラ ナミ (OP01-016),OP01-016,,name_embedded
-40d7cb80f11a,b58902f8a3c8,コミパラ ボルサリーノ (OP16-073),OP16-073,,name_embedded
-c92bef2b6c6e,5653cfea2c55,シャンクス (OP17-022),OP17-022,,name_embedded
 02941ecf6ef9,fc9d87bf527c,シリアルエース (OP07-119),OP07-119,,name_embedded
+06f356c4c12a,9cded73653f4,ギャラドスごっこピカチュウ,151/XY-P,,hc
+076400cd8c2d,6b4fba898abc,ピカチュウ173/151,173/151,,name_embedded
+0c5ce8743246,1e8bb0287e95,リンリン(OP17-112),OP17-112,,name_embedded
+0cbdf06bffbe,9e7e664752d9,コミパラ サカズキ (OP16-065),OP16-065,,name_embedded
+12328278ea92,5188554facf2,赤ナミ (OP01-016),OP01-016,,name_embedded
+1610f78b103b,fd5cb9681c05,ポンチョを着たピカチュウ メガリザY,208/XY-P,,hc
+1a2797dcd791,2ae98d9d7dba,ピカチュウ&ゼクロムGX SA,101/095,,hc
+219ddb2270b9,99d5aa311a9f,カイドウ(OP17-062),OP17-062,,name_embedded
+22014a99ee57,9dbce186585c,リザードン(103/128 1EDキラ),103/128,PSA10,name_embedded
+2519001c372a,0c904934aa9b,コミパラ ゾロ (OP06-118),OP06-118,,name_embedded
+25b6f4c1c289,6842732e382b,🍄マリオピカチュウ フルアート,,PSA10,unchanged
+2611940188bb,9f4c4896f32d,ピカチュウ 231/XY-P,231/XY-P,,name_embedded
+356cc0cd696c,91343eb80ecc,ピカチュウ153/SV-P,153/SV-P,,name_embedded
+3860d6fc56ff,cdb5e3c9eb0d,ピカチュウex 001/030,001/030,,name_embedded
+3b96326d438b,75d90f8f755f,💧スイクン,,,unchanged
+3de91a65de7c,fa2d2b7aafd9,コミパラ サンジ (OP06-119),OP06-119,,name_embedded
+40d7cb80f11a,b58902f8a3c8,コミパラ ボルサリーノ (OP16-073),OP16-073,,name_embedded
+4170d0472f1a,fb1531187372,ゲンガー(047/048 1ED),047/048,PSA10,name_embedded
+46662dbfe508,96b531421a14,ピカチュウ 0709/09,0709/09,,name_embedded
+46fff5074b49,f956c76bd884,ピカチュウ 170/151,170/151,,name_embedded
+4853e31a34c5,b3051f17dd9d,コミパラ ナミ (OP01-016),OP01-016,,name_embedded
+48993d398bef,bd3b16b4769c,メガゲンガーex SAR,240/193,,hc
+48fc41a88980,e725fc0c85c6,🍄ルイージピカチュウ フルアート,,PSA10,unchanged
+4bd41f14c13d,8cc74d483630,ポンチョを着たピカチュウ メガリザX,207/XY-P,,hc
+4f525ee26a76,4b5357ed8b58,🐉ポンチョを着たピカチュウ(緑レックウザ),,PSA10,unchanged
+589dd1e537dc,acad4e8edde4,銀ルフィ (OP05-119),OP05-119,,name_embedded
+58f48746bc08,5ab16e6c81ff,ドジャース ルフィ (EB02-010),EB02-010,,name_embedded
+5be9b3ea551f,cc148089d337,ピカチュウ 207/XY-P,207/XY-P,,name_embedded
+6231a39e4c16,1b7c910d94ff,ピカチュウ 001/S-P,001/S-P,,name_embedded
+625fae3a7889,53f9bdd085d9,ポンチョを着たピカチュウ レックウザ,230/XY-P,,hc
+627f978cd298,56c564a9d30b,ルフィ (EB04-061),EB04-061,,name_embedded
+63073e23969e,4eb3e57173c7,ピカチュウ 151/XY-P,151/XY-P,,name_embedded
+6b4db105d038,aa608705e66b,ゲンガー&ミミッキュGX SA,103/095,,hc
+6c31107d5634,f4190cf4cf50,💪カイリキー通信交換💪,,,unchanged
+7e66e18882e3,ec8c087428b0,🥄フーディン通信交換🥄,,,unchanged
 853cc79bb231,64a54cb3c467,シリアルシャンクス (OP01-120),OP01-120,,name_embedded
+8bc215fdd581,e9caf8ecf5c8,👻ゲンガー通信交換👻,,,unchanged
+90b64caea165,1167327316c6,ピカチュウ171/151,171/151,,name_embedded
 93fb7f5e8549,cdcfcbc856a1,シリアルゾロ (OP12-020),OP12-020,,name_embedded
 9adb3f8ccfba,81650cad368e,シリアルニカ (EB04-061),EB04-061,,name_embedded
-e13c1062a22b,44b29a00f047,シリアルヤマト (EB02-006),EB02-006,,name_embedded
-c36153ce98ce,fd59605697ea,ジーベック (OP17-118),OP17-118,,name_embedded
-58f48746bc08,5ab16e6c81ff,ドジャース ルフィ (EB02-010),EB02-010,,name_embedded
-aecdf9fe18f8,1d8192ce7885,ニューゲート (OP17-005),OP17-005,,name_embedded
-1a2797dcd791,2ae98d9d7dba,ピカチュウ&ゼクロムGX SA,101/095,,hc
-f02a2a3bfa4f,c0bb0c37c568,ピカチュウ(094/087),094/087,PSA10,name_embedded
-f61b63350f1f,ef62587b81df,ピカチュウ(279/XY-P),279/XY-P,PSA10,name_embedded
-4bd41f14c13d,8cc74d483630,ポンチョを着たピカチュウ メガリザX,207/XY-P,,hc
-1610f78b103b,fd5cb9681c05,ポンチョを着たピカチュウ メガリザY,208/XY-P,,hc
-625fae3a7889,53f9bdd085d9,ポンチョを着たピカチュウ レックウザ,230/XY-P,,hc
-48993d398bef,bd3b16b4769c,メガゲンガーex SAR,240/193,,hc
-ce7cf1ffe122,9bf34728726a,ラティアス&ラティオスGX SA,105/095,,hc
+a1f3a8a7a021,7f7dd9733343,🪨ゴローニャ通信交換🪨,,,unchanged
 a5a025e6bbb8,e944b09863f3,リザードンEX 未開封,276/XY-P,,hc
-0c5ce8743246,1e8bb0287e95,リンリン(OP17-112),OP17-112,,name_embedded
-627f978cd298,56c564a9d30b,ルフィ (EB04-061),EB04-061,,name_embedded
-12328278ea92,5188554facf2,赤ナミ (OP01-016),OP01-016,,name_embedded
-f94af97903f7,317f50f53404,金ルフィ (OP05-119),OP05-119,,name_embedded
-589dd1e537dc,acad4e8edde4,銀ルフィ (OP05-119),OP05-119,,name_embedded
+ac07fe82c422,3bcf1e9d4915,ピカチュウ172/151,172/151,,name_embedded
+aecdf9fe18f8,1d8192ce7885,ニューゲート (OP17-005),OP17-005,,name_embedded
+bec9c652894f,c74793355563,ピカチュウ 150/XY-P,150/XY-P,,name_embedded
+c36153ce98ce,fd59605697ea,ジーベック (OP17-118),OP17-118,,name_embedded
+c6bdfe961352,3034a543c7e1,ピカチュウ 175/XY-P,175/XY-P,,name_embedded
+c92bef2b6c6e,5653cfea2c55,シャンクス (OP17-022),OP17-022,,name_embedded
+ca70b567bede,12f75f8c1152,ピカチュウ 230/XY-P,230/XY-P,,name_embedded
+ce7cf1ffe122,9bf34728726a,ラティアス&ラティオスGX SA,105/095,,hc
+d4a5dac3db69,69195c6e9fb5,ゲンガーex,048/082,PSA10,hc
+e04ba67c087d,46db49baec5a,🐉ポンチョを着たピカチュウ(黒レックウザ),,PSA10,unchanged
+e111bff3c7a7,d86fcb5d08e8,ピカチュウ 208/XY-P,208/XY-P,,name_embedded
+e13c1062a22b,44b29a00f047,シリアルヤマト (EB02-006),EB02-006,,name_embedded
+e44ad5e34de6,9d99fcfeabc9,ピカチュウ 010/032,010/032,,name_embedded
+f02a2a3bfa4f,c0bb0c37c568,ピカチュウ(094/087),094/087,PSA10,name_embedded
 f4b102b01ada,6f2143e2cabd,青ナミ (OP01-016),OP01-016,,name_embedded
-3b96326d438b,75d90f8f755f,💧スイクン,,,unchanged
+f61b63350f1f,ef62587b81df,ピカチュウ(279/XY-P),279/XY-P,PSA10,name_embedded
+f79eb7d5b16b,df8c8db5d719,🐚オムスター通信交換🐚,,,unchanged
+f94af97903f7,317f50f53404,金ルフィ (OP05-119),OP05-119,,name_embedded

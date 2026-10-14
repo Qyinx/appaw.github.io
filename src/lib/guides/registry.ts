@@ -10,6 +10,7 @@ import psaReviewVsCrackEn from './content/en/psa-review-vs-crack';
 import psaGradingStandardsEn from './content/en/psa-grading-standards';
 import hongKongTcgGradingEn from './content/en/hong-kong-tcg-grading-guide';
 import snkrBuybackEn from './content/en/psa-market-buyback-snkr';
+import pokemonESeriesCenteringEn from './content/en/pokemon-e-series-centering';
 import choose35ptZh from './content/zh/choose-35pt-slab-protector';
 import uvProtectionZh from './content/zh/uv-protection-graded-cards';
 import psa10CenteringZh from './content/zh/psa-10-centering-requirements';
@@ -21,11 +22,13 @@ import psaReviewVsCrackZh from './content/zh/psa-review-vs-crack';
 import psaGradingStandardsZh from './content/zh/psa-grading-standards';
 import hongKongTcgGradingZh from './content/zh/hong-kong-tcg-grading-guide';
 import snkrBuybackZh from './content/zh/psa-market-buyback-snkr';
+import pokemonESeriesCenteringZh from './content/zh/pokemon-e-series-centering';
 
 export const GUIDE_SLUGS = [
   'choose-35pt-slab-protector',
   'uv-protection-graded-cards',
   'psa-10-centering-requirements',
+  'pokemon-e-series-centering',
   'grade-or-protect-first',
   'identify-fake-psa-slabs',
   'display-graded-cards',
@@ -56,6 +59,7 @@ export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
   { slug: 'choose-35pt-slab-protector', published: '2026-06-07', updated: '2026-07-12' },
   { slug: 'uv-protection-graded-cards', published: '2026-06-07', updated: '2026-10-01' },
   { slug: 'psa-10-centering-requirements', published: '2026-06-07', updated: '2026-07-12' },
+  { slug: 'pokemon-e-series-centering', published: '2026-10-13', updated: '2026-10-13' },
   { slug: 'grade-or-protect-first', published: '2026-06-07', updated: '2026-07-13' },
   { slug: 'identify-fake-psa-slabs', published: '2026-06-08', updated: '2026-07-12' },
   { slug: 'display-graded-cards', published: '2026-06-09', updated: '2026-07-12' },
@@ -71,6 +75,7 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'choose-35pt-slab-protector': choose35ptEn,
     'uv-protection-graded-cards': uvProtectionEn,
     'psa-10-centering-requirements': psa10CenteringEn,
+    'pokemon-e-series-centering': pokemonESeriesCenteringEn,
     'grade-or-protect-first': gradeOrProtectEn,
     'identify-fake-psa-slabs': identifyFakePsaEn,
     'display-graded-cards': displayGradedEn,
@@ -84,6 +89,7 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'choose-35pt-slab-protector': choose35ptZh,
     'uv-protection-graded-cards': uvProtectionZh,
     'psa-10-centering-requirements': psa10CenteringZh,
+    'pokemon-e-series-centering': pokemonESeriesCenteringZh,
     'grade-or-protect-first': gradeOrProtectZh,
     'identify-fake-psa-slabs': identifyFakePsaZh,
     'display-graded-cards': displayGradedZh,

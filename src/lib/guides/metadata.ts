@@ -58,6 +58,16 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
     'PSA 評級代送',
     '香港 PSA 評級代送',
   ],
+  'pokemon-e-series-centering': [
+    'Pokémon e-Series centering',
+    'measure e-Reader centering',
+    'dual-border centering',
+    'PSA 10 45/55',
+    'Pokémon e-Series 對中',
+    'e-Reader 卡 量度對中',
+    '雙框卡 對中',
+    'PSA 10 對中 45/55',
+  ],
   'grade-or-protect-first': [
     'grade vs protect cards',
     'when to submit PSA',
