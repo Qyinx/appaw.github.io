@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Check, Copy, ExternalLink, List, Route, Search } from 'lucide-react';
+import { Check, Copy, Download, ExternalLink, List, Route, Search } from 'lucide-react';
+import type { AdminCustomerOrderDetail } from '@/lib/grading/admin-types';
+import { exportCustomerOrderInvoicePdf } from '@/lib/grading/invoice-pdf';
 import type { GradingRelatedSubmission, GradingSubmission } from '@/lib/grading/types';
 import type { GradingServicePlan } from '@/lib/grading/reference-code';
 import type { Translations } from '@/i18n/en';
@@ -28,6 +30,7 @@ export type ResultsTab = 'status' | 'cards';
 
 type Props = {
   submission: GradingSubmission;
+  invoiceDetail?: AdminCustomerOrderDetail | null;
   copy: ResultsCopy;
   summaryCopy: SummaryCopy;
   servicePlanCopy: ServicePlanCopy;
@@ -98,6 +101,7 @@ function defaultTab(submission: GradingSubmission): ResultsTab {
 
 export default function TrackResultsPanel({
   submission,
+  invoiceDetail = null,
   copy,
   summaryCopy,
   servicePlanCopy,
@@ -123,6 +127,9 @@ export default function TrackResultsPanel({
   const prevTabRef = useRef<ResultsTab | null>(null);
   const [internalTab, setInternalTab] = useState<ResultsTab>(() => defaultTab(submission));
   const [copiedTracking, setCopiedTracking] = useState(false);
+  const [exportingInvoice, setExportingInvoice] = useState(false);
+  const [invoiceMessage, setInvoiceMessage] = useState('');
+  const [invoiceError, setInvoiceError] = useState('');
 
   const activeTab = controlledTab ?? internalTab;
   const setActiveTab = onTabChange ?? setInternalTab;
@@ -152,6 +159,8 @@ export default function TrackResultsPanel({
     }
     badgeRefs.current = [];
     statusBadgeRefs.current = [];
+    setInvoiceMessage('');
+    setInvoiceError('');
   }, [submission.id, controlledTab]);
 
   useEffect(() => {
@@ -217,6 +226,21 @@ export default function TrackResultsPanel({
     }
   };
 
+  const exportInvoice = async () => {
+    if (!invoiceDetail || exportingInvoice) return;
+    setExportingInvoice(true);
+    setInvoiceError('');
+    setInvoiceMessage('');
+    try {
+      const invoice = await exportCustomerOrderInvoicePdf(invoiceDetail);
+      setInvoiceMessage(`Invoice downloaded: ${invoice.filename}`);
+    } catch (e) {
+      setInvoiceError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setExportingInvoice(false);
+    }
+  };
+
   const trackingUrl =
     submission.shipCarrier && submission.shipTrackingNumber
       ? carrierTrackingUrl(submission.shipCarrier, submission.shipTrackingNumber)
@@ -259,16 +283,47 @@ export default function TrackResultsPanel({
                   </div>
                 )}
               </dl>
-              <button
-                type="button"
-                onClick={onNewLookup}
-                className="btn btn-secondary min-h-[44px] inline-flex items-center justify-center gap-2 shrink-0 px-3 text-sm"
-              >
-                <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
-                {summaryCopy.newLookup}
-              </button>
+              <div className="flex flex-wrap gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => void exportInvoice()}
+                  disabled={!invoiceDetail || exportingInvoice}
+                  title={
+                    invoiceDetail
+                      ? 'Download English A4 invoice PDF'
+                      : 'Invoice unavailable — complete a new lookup'
+                  }
+                  className="btn btn-secondary min-h-[44px] inline-flex items-center justify-center gap-2 px-3 text-sm"
+                >
+                  <Download className="w-4 h-4 shrink-0" aria-hidden="true" />
+                  {exportingInvoice ? 'Generating PDF…' : 'Download Invoice'}
+                </button>
+                <button
+                  type="button"
+                  onClick={onNewLookup}
+                  className="btn btn-secondary min-h-[44px] inline-flex items-center justify-center gap-2 px-3 text-sm"
+                >
+                  <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
+                  {summaryCopy.newLookup}
+                </button>
+              </div>
             </div>
           </div>
+
+          {(invoiceMessage || invoiceError) && (
+            <div className="mt-2 space-y-1">
+              {invoiceMessage && (
+                <p role="status" aria-live="polite" className="text-sm text-accent-success">
+                  {invoiceMessage}
+                </p>
+              )}
+              {invoiceError && (
+                <p role="alert" aria-live="assertive" className="text-sm text-accent-danger">
+                  {invoiceError}
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="grading-track-results__badges">
             <SubmissionStatusBadges

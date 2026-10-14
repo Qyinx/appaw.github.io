@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { AlertTriangle, Clock, PackageCheck, Truck } from 'lucide-react';
+import { AlertTriangle, Clock, PackageCheck } from 'lucide-react';
 import type { GradingSubmission } from '@/lib/grading/types';
 import type { Translations } from '@/i18n/en';
 
@@ -60,7 +60,6 @@ export default function SubmissionStatusBadges({ submission, copy, badgeRefs }: 
       label: copy.readyForLabelReview,
     },
     { key: 'grades', show: submission.gradesReady, tone: 'success', icon: PackageCheck, label: copy.gradesReady },
-    { key: 'shipped', show: submission.shipped, tone: 'success', icon: Truck, label: copy.shipped },
   ];
 
   const visible = badges.filter((b) => b.show);

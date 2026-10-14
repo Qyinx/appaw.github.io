@@ -1291,7 +1291,6 @@ export const en = {
         accountingHold: 'Accounting hold',
         gradesReady: 'Grades ready',
         readyForLabelReview: 'Label review',
-        shipped: 'Shipped',
       },
       items: {
         title: 'Cards in this submission',

@@ -1,3 +1,4 @@
+import type { AdminCustomerOrderDetail, AdminItem } from './admin-types';
 import { formatBatchReferenceCode } from './batch-reference-code';
 import type { GradingServicePlan } from './reference-code';
 import { buildFullStepList } from './step-labels';
@@ -284,6 +285,46 @@ export function getMockSubmission(
   const builder = SUBMISSION_BUILDERS[referenceCode];
   if (!builder) return null;
   return builder(variant);
+}
+
+/** Minimal AdminCustomerOrderDetail for demo invoice PDF download. */
+export function getMockInvoiceDetail(
+  submission: GradingSubmission,
+): AdminCustomerOrderDetail {
+  const orderId = 99;
+  const items: AdminItem[] = submission.items.map((item, index) => ({
+    id: item.id,
+    customerOrderId: orderId,
+    submissionId: submission.id,
+    batchReferenceCode: submission.referenceCode,
+    customerName: submission.customerName,
+    phoneNumber: submission.phoneNumber,
+    cardName: item.description,
+    certNumber: item.certNumber,
+    grade: item.grade,
+    images: item.images ?? [],
+    isPaid: true,
+    totalCost: 280,
+    receivedCost: 280,
+    psaUpgraded: false,
+    submissionOrder: index + 1,
+  }));
+
+  return {
+    customerOrder: {
+      id: orderId,
+      submissionId: submission.id,
+      customerId: 'cust-demo',
+      batchReferenceCode: submission.referenceCode,
+      customerName: submission.customerName,
+      phoneNumber: submission.phoneNumber,
+      itemCount: items.length,
+      createdAt: submission.lastSyncedAt,
+      updatedAt: submission.lastSyncedAt,
+    },
+    items,
+    batchCompletedStepIndex: completedIndexForVariant('default'),
+  };
 }
 
 export function getRelatedSubmissions(

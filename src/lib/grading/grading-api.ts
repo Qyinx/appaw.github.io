@@ -5,6 +5,11 @@ function lookupEndpoint() {
   return joinBackendUrl('/grading/lookup');
 }
 
+/**
+ * Public track lookup. Success payload may include `invoiceDetail`
+ * (AdminCustomerOrderDetail) so the client can generate the same
+ * English A4 invoice PDF as admin without a second Turnstile call.
+ */
 export async function lookupGradingSubmission(
   phoneNumber: string,
   referenceCode: string,

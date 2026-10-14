@@ -1290,7 +1290,6 @@ export const zh: Translations = {
         accountingHold: '帳務問題（可能發生 Upcharge）',
         gradesReady: '評級結果已公布',
         readyForLabelReview: '準備列印高分標籤',
-        shipped: 'PSA 已寄出回程包裹',
       },
       items: {
         title: '本批卡牌清單',

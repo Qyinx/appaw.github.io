@@ -69,15 +69,21 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
+      // Immutable only in production. In `next dev` this traps stale Turbopack
+      // chunks (e.g. removed async loaders like jspdf-autotable) and breaks HMR.
+      ...(isProd
+        ? [
+            {
+              source: '/_next/static/:path*',
+              headers: [
+                {
+                  key: 'Cache-Control',
+                  value: 'public, max-age=31536000, immutable',
+                },
+              ],
+            },
+          ]
+        : []),
     ];
   },
   // Dev / next start only — ignored by static export (GitHub Pages).

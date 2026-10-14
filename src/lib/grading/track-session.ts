@@ -1,3 +1,4 @@
+import type { AdminCustomerOrderDetail } from './admin-types';
 import type { GradingRelatedSubmission, GradingSubmission } from './types';
 
 const STORAGE_KEY = 'appaw.psa-grading.track.session';
@@ -12,6 +13,7 @@ export type TrackLookupSession = {
   submission: GradingSubmission;
   relatedSubmissions: GradingRelatedSubmission[];
   resultsTab: ResultsTab;
+  invoiceDetail?: AdminCustomerOrderDetail;
   savedAt: number;
 };
 
@@ -39,6 +41,28 @@ function isSubmission(value: unknown): value is GradingSubmission {
     Array.isArray(s.steps) &&
     Array.isArray(s.items)
   );
+}
+
+function isInvoiceDetail(value: unknown): value is AdminCustomerOrderDetail {
+  if (!value || typeof value !== 'object') return false;
+  const detail = value as Record<string, unknown>;
+  if (!detail.customerOrder || typeof detail.customerOrder !== 'object') return false;
+  if (!Array.isArray(detail.items)) return false;
+  const order = detail.customerOrder as Record<string, unknown>;
+  return typeof order.id === 'number' && typeof order.batchReferenceCode === 'string';
+}
+
+/** True when at least one line has a numeric total (not a pre-cost snapshot). */
+export function invoiceDetailHasPrices(detail: AdminCustomerOrderDetail | null | undefined): boolean {
+  if (!detail?.items?.length) return false;
+  return detail.items.some((item) => {
+    const raw = item as AdminCustomerOrderDetail['items'][number] & {
+      total_cost?: unknown;
+    };
+    const v = raw.totalCost ?? raw.total_cost;
+    if (v == null || v === '') return false;
+    return Number.isFinite(typeof v === 'number' ? v : Number(v));
+  });
 }
 
 function normalizeSubmission(raw: GradingSubmission): GradingSubmission {
@@ -78,6 +102,12 @@ export function readTrackLookupSession(): TrackLookupSession | null {
       submission: normalizeSubmission(parsed.submission),
       relatedSubmissions: related,
       resultsTab: parsed.resultsTab,
+      // Drop stale snapshots taken before costs were entered in admin.
+      invoiceDetail:
+        isInvoiceDetail(parsed.invoiceDetail) &&
+        invoiceDetailHasPrices(parsed.invoiceDetail)
+          ? parsed.invoiceDetail
+          : undefined,
       savedAt,
     };
   } catch {

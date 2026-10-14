@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { DEMO_LOOKUP } from '@/lib/grading/mock-data';
 import { mockLookup, parseDemoVariant } from '@/lib/grading/mock-lookup';
 import { lookupGradingSubmission } from '@/lib/grading/grading-api';
+import type { AdminCustomerOrderDetail } from '@/lib/grading/admin-types';
 import type { GradingRelatedSubmission, GradingSubmission } from '@/lib/grading/types';
 import { useSubHeader } from '@/hooks/useSubHeader';
 import TrackLookupForm, { type TrackLookupFormHandle } from './TrackLookupForm';
@@ -18,6 +19,7 @@ import {
 } from './useGradingTrackAnime';
 import {
   clearTrackLookupSession,
+  invoiceDetailHasPrices,
   readTrackLookupSession,
   writeTrackLookupSession,
 } from '@/lib/grading/track-session';
@@ -50,6 +52,9 @@ export default function TrackWorkspaceClient() {
   const [referenceCode, setReferenceCode] = useState('BAT-');
   const [state, setState] = useState<LookupState>('idle');
   const [submission, setSubmission] = useState<GradingSubmission | null>(null);
+  const [invoiceDetail, setInvoiceDetail] = useState<AdminCustomerOrderDetail | null>(
+    null,
+  );
   const [relatedSubmissions, setRelatedSubmissions] = useState<GradingRelatedSubmission[]>(
     [],
   );
@@ -75,6 +80,7 @@ export default function TrackWorkspaceClient() {
       nextSubmission: GradingSubmission,
       nextRelated: GradingRelatedSubmission[],
       nextTab: ResultsTab,
+      nextInvoiceDetail?: AdminCustomerOrderDetail | null,
     ) => {
       writeTrackLookupSession({
         phone: nextPhone,
@@ -82,6 +88,7 @@ export default function TrackWorkspaceClient() {
         submission: nextSubmission,
         relatedSubmissions: nextRelated,
         resultsTab: nextTab,
+        invoiceDetail: nextInvoiceDetail ?? undefined,
       });
     },
     [],
@@ -121,16 +128,25 @@ export default function TrackWorkspaceClient() {
     if (saved) {
       setPhone(saved.phone);
       setReferenceCode(saved.referenceCode);
-      setSubmission(saved.submission);
-      setRelatedSubmissions(saved.relatedSubmissions);
       const urlView = searchParams.get('view');
       const tab =
         urlView === 'cards' || urlView === 'status' ? urlView : saved.resultsTab;
       setResultsTab(tab);
-      setState('success');
-      setLiveMessage(`${copy.results.refLabel}: ${saved.submission.referenceCode}`);
-      if (tab === 'cards' && urlView !== 'cards') {
-        syncUrl(tab);
+
+      // Only restore full results when invoice snapshot still has payment rows.
+      // Otherwise prefill the form and require a fresh lookup (avoids disabled Download).
+      if (saved.invoiceDetail && invoiceDetailHasPrices(saved.invoiceDetail)) {
+        setSubmission(saved.submission);
+        setInvoiceDetail(saved.invoiceDetail);
+        setRelatedSubmissions(saved.relatedSubmissions);
+        setState('success');
+        setLiveMessage(`${copy.results.refLabel}: ${saved.submission.referenceCode}`);
+        if (tab === 'cards' && urlView !== 'cards') {
+          syncUrl(tab);
+        }
+      } else {
+        // Prefill phone + ref only; user must look up again for invoice amounts.
+        clearTrackLookupSession();
       }
     }
     setSessionReady(true);
@@ -140,11 +156,19 @@ export default function TrackWorkspaceClient() {
   // Keep storage in sync whenever results are showing (covers related switch + tab).
   useEffect(() => {
     if (!sessionReady || state !== 'success' || !submission) return;
-    persistSession(phone, referenceCode, submission, relatedSubmissions, resultsTab);
+    persistSession(
+      phone,
+      referenceCode,
+      submission,
+      relatedSubmissions,
+      resultsTab,
+      invoiceDetail,
+    );
   }, [
     sessionReady,
     state,
     submission,
+    invoiceDetail,
     phone,
     referenceCode,
     relatedSubmissions,
@@ -190,6 +214,7 @@ export default function TrackWorkspaceClient() {
 
       setState('loading');
       setSubmission(null);
+      setInvoiceDetail(null);
       setLiveMessage('');
 
       let result = null;
@@ -231,6 +256,7 @@ export default function TrackWorkspaceClient() {
           return;
         }
         setRelatedSubmissions([]);
+        setInvoiceDetail(null);
         setState('not_found');
         setLiveMessage(copy.form.notFoundTitle);
         clearTrackLookupSession();
@@ -238,7 +264,9 @@ export default function TrackWorkspaceClient() {
         return;
       }
       const related = result.relatedSubmissions ?? [];
+      const nextInvoice = result.invoiceDetail ?? null;
       setSubmission(result.submission);
+      setInvoiceDetail(nextInvoice);
       setReferenceCode(result.submission.referenceCode);
       setRelatedSubmissions(related);
       setState('success');
@@ -249,6 +277,7 @@ export default function TrackWorkspaceClient() {
         result.submission,
         related,
         resultsTab,
+        nextInvoice,
       );
       syncUrl(resultsTab);
     },
@@ -296,6 +325,7 @@ export default function TrackWorkspaceClient() {
   const handleNewLookup = useCallback(() => {
     setState('idle');
     setSubmission(null);
+    setInvoiceDetail(null);
     setRelatedSubmissions([]);
     setRelatedSwitching(false);
     setPendingAutoLookup(false);
@@ -355,10 +385,25 @@ export default function TrackWorkspaceClient() {
       setResultsTab(tab);
       syncUrl(tab);
       if (submission) {
-        persistSession(phone, referenceCode, submission, relatedSubmissions, tab);
+        persistSession(
+          phone,
+          referenceCode,
+          submission,
+          relatedSubmissions,
+          tab,
+          invoiceDetail,
+        );
       }
     },
-    [phone, referenceCode, relatedSubmissions, persistSession, submission, syncUrl],
+    [
+      invoiceDetail,
+      phone,
+      referenceCode,
+      relatedSubmissions,
+      persistSession,
+      submission,
+      syncUrl,
+    ],
   );
 
   const onTurnstileError = useCallback(() => {
@@ -438,6 +483,7 @@ export default function TrackWorkspaceClient() {
             <div ref={resultsRef} className="min-w-0">
               <TrackResultsPanel
                 submission={submission}
+                invoiceDetail={invoiceDetail}
                 copy={copy.results}
                 summaryCopy={copy.summaryBar}
                 servicePlanCopy={copy.servicePlan}

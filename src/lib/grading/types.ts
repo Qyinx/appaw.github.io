@@ -1,3 +1,4 @@
+import type { AdminCustomerOrderDetail } from './admin-types';
 import type { GradingServicePlan } from './reference-code';
 
 /** PSA progress step id — live API index 1–8 */
@@ -55,6 +56,12 @@ export interface GradingRelatedSubmission {
 export interface GradingLookupResult {
   submission: GradingSubmission;
   relatedSubmissions?: GradingRelatedSubmission[];
+  /**
+   * Order + payment snapshot for the English A4 invoice PDF.
+   * Backend must include this on successful POST /grading/lookup
+   * (same shape as admin GET /grading/customer-orders/:id).
+   */
+  invoiceDetail?: AdminCustomerOrderDetail;
 }
 
 export type GradingDemoVariant = 'default' | 'shipped' | 'awaiting' | 'pickup';

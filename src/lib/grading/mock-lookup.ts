@@ -1,6 +1,7 @@
 import {
   DEMO_LOOKUP,
   DEMO_REFERENCES,
+  getMockInvoiceDetail,
   getMockSubmission,
   getRelatedSubmissions,
   parseDemoVariant,
@@ -47,6 +48,7 @@ export async function mockLookup(
   return {
     submission,
     relatedSubmissions: relatedSubmissions.length > 0 ? relatedSubmissions : undefined,
+    invoiceDetail: getMockInvoiceDetail(submission),
   };
 }
 

@@ -1,4 +1,3 @@
-import { formatHkd } from './admin-format';
 import type { AdminCustomerOrderDetail, AdminItem } from './admin-types';
 import {
   isItemFullyPaid,
@@ -72,9 +71,33 @@ function paymentStatus(item: AdminItem): InvoicePaymentStatus {
   return 'Unpaid';
 }
 
+/** Coerce API/D1 string numbers so sums and labels stay numeric. */
+function coerceMoney(value: unknown): number | null {
+  if (value == null || value === '') return null;
+  const n = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
+/**
+ * PDF-safe money text — ASCII digits + `$HKD` postfix.
+ * Avoids Intl `HK$` / NNBSP which jsPDF core fonts often drop (blank cells).
+ */
 function moneyLabel(value: number | null): string {
-  if (value === null) return '—';
-  return formatHkd(value);
+  if (value === null) return '-';
+  return `${Math.round(value)} $HKD`;
+}
+
+function normalizeItemCosts(item: AdminItem): AdminItem {
+  // Defend against snake_case payloads or missing camelCase from older APIs.
+  const raw = item as AdminItem & {
+    total_cost?: unknown;
+    received_cost?: unknown;
+  };
+  return {
+    ...item,
+    totalCost: coerceMoney(raw.totalCost ?? raw.total_cost),
+    receivedCost: coerceMoney(raw.receivedCost ?? raw.received_cost),
+  };
 }
 
 /** `INV-{Batch Reference}-{Customer Order ID}` e.g. INV-BAT-2026-07-EXP-3-5 */
@@ -116,7 +139,8 @@ function pickInvoiceDate(detail: AdminCustomerOrderDetail): {
 export function buildCustomerOrderInvoice(
   detail: AdminCustomerOrderDetail,
 ): CustomerOrderInvoice {
-  const { customerOrder, items } = detail;
+  const { customerOrder, items: rawItems } = detail;
+  const items = rawItems.map(normalizeItemCosts);
   const invoiceNumber = buildInvoiceNumber(
     customerOrder.batchReferenceCode,
     customerOrder.id,
@@ -159,9 +183,9 @@ export function buildCustomerOrderInvoice(
       outstanding,
       paidCount: payment.paidCount,
       totalCount: payment.totalCount,
-      totalAmountLabel: formatHkd(payment.totalCostSum),
-      amountReceivedLabel: formatHkd(payment.receivedCostSum),
-      outstandingLabel: formatHkd(outstanding),
+      totalAmountLabel: moneyLabel(payment.totalCostSum),
+      amountReceivedLabel: moneyLabel(payment.receivedCostSum),
+      outstandingLabel: moneyLabel(outstanding),
       paidRatioLabel: `${payment.paidCount}/${payment.totalCount}`,
     },
   };

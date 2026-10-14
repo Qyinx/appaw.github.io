@@ -33,6 +33,7 @@ import type { AdminCustomerOrderDetail, AdminItem } from '@/lib/grading/admin-ty
 import { BATCH_CARD_EDIT_STEP, parseServicePlanLabel, summarizePayment } from '@/lib/grading/admin-types';
 import { completedStepLabel } from '@/lib/grading/admin-utils';
 import { formatHkd } from '@/lib/grading/admin-format';
+import { exportCustomerOrderInvoicePdf } from '@/lib/grading/invoice-pdf';
 import { getPsaDefaultTotalCost } from '@/lib/grading/psa-pricing';
 import { isReholderPlan } from '@/lib/grading/plan-accent';
 
@@ -204,10 +205,11 @@ export default function GradingCustomerOrderDetailClient({ orderId }: Props) {
     setError('');
     setMessage('');
     try {
-      const { exportCustomerOrderInvoicePdf } = await import(
-        '@/lib/grading/customer-order-invoice-pdf'
-      );
-      const invoice = await exportCustomerOrderInvoicePdf(detail);
+      // Prefer on-screen draft rows (same numbers as the table / payment summary).
+      const invoice = await exportCustomerOrderInvoicePdf({
+        ...detail,
+        items: draftItems,
+      });
       setMessage(`Invoice downloaded: ${invoice.filename}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
