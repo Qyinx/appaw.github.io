@@ -489,7 +489,7 @@ export async function exportCustomerOrderInvoicePdf(
       .slice(0, 5)
       .map((l) => `#${l.order}=${l.totalLabel}/${l.receivedLabel}`)
       .join(' ');
-    const first = detail.items[0] as Record<string, unknown> | undefined;
+    const first = detail.items[0] as unknown as Record<string, unknown> | undefined;
     // eslint-disable-next-line no-console -- debug Amount cells / stale session
     console.info(
       '[invoice-pdf]',
