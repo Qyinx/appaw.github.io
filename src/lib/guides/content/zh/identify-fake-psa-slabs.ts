@@ -5,15 +5,17 @@ const guide: GuideContent = {
   title: 'PSA 鑑定殼真偽驗證指南',
   badge: '真偽',
   lead:
-    '查到證書編號，只代表資料庫裡有這張卡，並不代表手上的殼就是那張。請自行開啟官方查詢頁，再配合黑光燈、外殼觸感與標籤放大檢查。任何一步對不上，都不宜付款。',
+    '證書編號查得到，只代表號碼存在於官方資料庫，並不代表手上的鑑定殼是原裝。假殼最怕三項低成本檢測：以 365nm 或 395nm 黑光燈照射編號 #43xxxxxx 後標籤的隱藏螢光字、以 10 倍放大鏡檢視微型小字、以指尖觸摸浮雕 Logo 與焊接接縫。任何一關對不上，都不宜付款。',
+  metaDescription:
+    'PSA 鑑定殼真偽驗證五步教學：證書查詢為何不足夠、編號 #43xxxxxx 後 UV 黑光燈隱藏字、CLCT 與 PSA 微型小字世代分野、浮雕 Logo 與超音波焊接觸感、賣家可疑警訊，付款前必做的交叉檢查，附真品示範影片。高價交易前務必完成全部五項檢測，任何一步不符即應中止付款。香港可於 138 Arena 提交鑑定。',
   published: '2026-06-08',
-  updated: '2026-10-05',
+  updated: '2026-10-20',
   readTime: '12 分鐘',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
-    { label: '核心原則', value: '結合多項特徵交叉驗證，切勿單憑單一指標定論' },
-    { label: '數據庫防偽', value: '即便官方數據庫查詢有效，實物仍需防範編號被盜用' },
+    { label: '編號盜用風險', value: '查詢有效但實物為仿殼，須通過實物檢測才能識破' },
     { label: 'UV 螢光分水嶺', value: '認證編號 #43xxxxxx 之後的標籤方具備正面螢光隱藏字' },
+    { label: '核心原則', value: '結合多項特徵交叉驗證，請勿單憑單一指標定論' },
     { label: '首要查驗程序', value: '前往 [psacard.com/cert](https://www.psacard.com/cert) 手動輸入編號核對' },
   ],
   sections: [
@@ -21,8 +23,8 @@ const guide: GuideContent = {
       id: 'why-cross-check',
       title: '為什麼不能只靠一種方法',
       paragraphs: [
-        '高分鑑定卡存在價差，因此市場上出現偽造標籤、仿殼、盜用真編號，以至假查詢頁等手法。',
-        '官方查詢通過只是第一關，因為編號可以被抄錄。黑光燈、外殼觸感與放大檢查應與查詢結果互相對照；任何一步對不上，都不宜付款。',
+        '高分鑑定卡存在可觀價差，因此市場上持續出現偽造標籤、仿製外殼、盜用真實編號，以至架設假查詢頁等手法，2025 至 2026 年間高仿個案仍然時有所聞。',
+        '沒有任何單一檢測能百分之百確認真偽。官方查詢通過只是第一關，因為編號可以被抄錄到仿殼上。黑光燈、外殼觸感與放大檢查應與查詢結果互相對照；任何一步對不上，都不宜付款。',
       ],
     },
     {
@@ -30,7 +32,7 @@ const guide: GuideContent = {
       title: '第一步：線上認證查詢',
       paragraphs: [
         '每張 PSA 官方鑑定卡標籤上，均印有獨一無二的認證編號（Certification Number）。',
-        '請直接前往 PSA 官方認證查詢網頁：[psacard.com/cert](https://www.psacard.com/cert)。建議自行於瀏覽器輸入網址，切勿盲目信任賣家截圖中的超連結或 QR 碼，以免導向偽造的查詢網站。',
+        '請直接前往 PSA 官方認證查詢網頁：[psacard.com/cert](https://www.psacard.com/cert)。建議自行於瀏覽器輸入網址，請勿盲目信任賣家截圖中的超連結或 QR 碼，以免導向偽造的查詢網站。',
         '輸入編號後，必須仔細核對查詢結果與實物是否完全吻合，包括卡牌照片（對照卡面邊角微小瑕疵與列印特徵）、年份、角色名稱、評級分數（Grade）及特殊標記（如 1st Edition、Rookie 等）。',
         '若網站顯示「找不到證書編號」，應立即中止交易。若查詢結果顯示為其他卡款（例如查詢結果為 1986 年籃球卡，實物卻是寶可夢卡），即代表該認證編號已被盜用。請截圖保存官方記錄以作憑證。',
       ],
@@ -39,14 +41,14 @@ const guide: GuideContent = {
         { label: '必須核對項目', value: '卡牌照片、年份、角色名稱、評級分數與特殊標記' },
         { label: '查證結果定義', value: '數據相符僅代表完成第一關，仍需進行實物細節檢測' },
       ],
-      bridge: '官方數據庫記錄相符僅代表完成第一關；要確認實物外殼與標籤未被替換，下一步需運用 UV 黑光燈檢測防偽墨水反應。',
+      bridge: '官方資料庫記錄相符僅代表完成第一關；要確認實物外殼與標籤未被替換，下一步需運用 UV 黑光燈檢測防偽墨水反應。',
     },
     {
       id: 'uv-blacklight',
       title: '第二步：UV 黑光燈測試',
       paragraphs: [
         '手持式波長 365nm 或 395nm 的 UV 黑光燈，是辨識假殼與偽造標籤成本較低且實用的物理檢測工具。對於經常進行二手交易或收藏高價鑑定卡的藏家而言，隨身配備一支黑光燈，有助即時過濾大部分粗劣仿品。',
-        '下面影片裡的卡都是真卡，用來對照真品反應。沒有螢光反應的那一邊同樣是真卡，只是所屬世代不同。',
+        '以下影片中的卡牌均為真品，用作對照真品的應有反應；沒有螢光反應的一側同屬真品，只是標籤所屬世代不同。',
       ],
       subsections: [
         {
@@ -70,7 +72,7 @@ const guide: GuideContent = {
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-front.mp4',
               caption:
-                '片內的卡都是真卡。PSA 標籤正面 UV 反光對比（左：編號 43xxxxxx 後顯現隱藏文字 / 右：編號 43xxxxxx 前無反應）',
+                '影片內卡牌均為真品。PSA 標籤正面 UV 反光對比（左：編號 43xxxxxx 後顯現隱藏文字 / 右：編號 43xxxxxx 前無反應）',
             },
           ],
         },
@@ -90,7 +92,7 @@ const guide: GuideContent = {
           videos: [
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-uv-reflection-back.mp4',
-              caption: '片內的卡都是真卡。PSA 標籤背面 UV 反光對比（左右均顯現 6 個微型 Logo）',
+              caption: '影片內卡牌均為真品。PSA 標籤背面 UV 反光對比（左右均顯現 6 個微型 Logo）',
             },
           ],
         },
@@ -124,7 +126,7 @@ const guide: GuideContent = {
       title: '第四步：標籤細節放大檢查',
       paragraphs: [
         '官方標籤印刷細節是假貨最難完美複製的核心防偽環節。利用 10× 珠寶放大鏡或手機微距鏡頭，按證書編號段檢查全息防偽貼紙與微型印刷小字，有助發現印製瑕疵。',
-        '下面影片裡的卡都是真卡。CLCT 和 PSA 都是真品標籤，不是真假對照。',
+        '以下影片中的卡牌均為真品。CLCT 與 PSA 皆為真品標籤耗材，並非真假對照。',
       ],
       subsections: [
         {
@@ -142,11 +144,11 @@ const guide: GuideContent = {
                   images: [
                     {
                       src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-front-old-label.jpg',
-                      caption: '圖內的卡都是真卡。27xxxxxx 號前舊版標籤正面（正下方無長方形全息防偽貼紙）',
+                      caption: '圖中卡牌均為真品。27xxxxxx 號前舊版標籤正面（正下方無長方形全息防偽貼紙）',
                     },
                     {
                       src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-back-old-label.jpg',
-                      caption: '圖內的卡都是真卡。27xxxxxx 號前舊版標籤背面外觀',
+                      caption: '圖中卡牌均為真品。27xxxxxx 號前舊版標籤背面外觀',
                     },
                   ],
                 },
@@ -159,7 +161,7 @@ const guide: GuideContent = {
           ],
         },
         {
-          title: '2021 退市過渡期：CLCT → PSA 小字',
+          title: '2021 退市過渡期：CLCT 過渡至 PSA 小字',
           paragraphs: [
             '27xxxxxx 之後標籤具備 LightHouse™ 雙色反射，視覺效果大致相若。PSA 母公司 2021 年初私有化、自納斯達克退市後，標籤內微型小字（Microtext）在 4xxxxxxx～5xxxxxxx 區間逐步由「NASDAQ : CLCT」改為「PSA」。兩個編號段內皆曾見 CLCT 與 PSA 並存，無固定切點，須放大實測，請勿單憑證書編號推斷。',
           ],
@@ -177,11 +179,11 @@ const guide: GuideContent = {
           videos: [
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-old-version.mp4',
-              caption: '片內的卡都是真卡。4xxxxxxx 號前標籤正面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
+              caption: '影片內卡牌均為真品。4xxxxxxx 號前標籤正面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
             },
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-old-version.mp4',
-              caption: '片內的卡都是真卡。4xxxxxxx 號前標籤背面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
+              caption: '影片內卡牌均為真品。4xxxxxxx 號前標籤背面反光情況（放大可見隱藏小字為 NASDAQ : CLCT）',
             },
           ],
         },
@@ -201,11 +203,11 @@ const guide: GuideContent = {
           videos: [
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-front-new-version.mp4',
-              caption: '片內的卡都是真卡。5xxxxxxx 後標籤正面反光情況（放大可見隱藏小字為 PSA）',
+              caption: '影片內卡牌均為真品。5xxxxxxx 後標籤正面反光情況（放大可見隱藏小字為 PSA）',
             },
             {
               src: '/images-optimized/guides/identify-fake-psa-slabs/appaw-store-real-psa-label-reflection-back-new-version.mp4',
-              caption: '片內的卡都是真卡。5xxxxxxx 後標籤背面反光情況（放大可見隱藏小字為 PSA）',
+              caption: '影片內卡牌均為真品。5xxxxxxx 後標籤背面反光情況（放大可見隱藏小字為 PSA）',
             },
           ],
         },
@@ -222,10 +224,10 @@ const guide: GuideContent = {
       id: 'advanced-buying',
       title: '第五步：進階驗證與購買注意',
       paragraphs: [
-        '核對卡牌本體品相：外殼結構正常之餘，仍需獨立檢查卡面印刷清晰度、色澤光彩，以及高分數（特別是 PSA 10）的物理品相是否合理。',
-        '識別賣家可疑警訊：若賣家拒絕提供多角度高清影片、拒絕 UV 測試、不接受 PSA 官方複檢，或售價遠低於市場行情且無法提供合理解釋，均屬於高風險警訊。',
-        '買家安全交易建議：優先選擇提供第三方認證保證的平台或信譽良好的卡店。若手中持有高價裸卡並計劃提交鑑定，可前往 [138 Arena](/business/psa-grading/)（銅鑼灣謝斐道 522 號 1/F）當面辦理。138 Arena 負責場務及收費；Appaw Store 負責點收、初步檢視及評級代送鑑定跟進。進行大額交易時，務必選擇設有爭議申訴機制的平台。',
-        '疑遭偽造的處理程序：拍攝標籤細節、證書資訊及接縫並保存對話紀錄；若官方數據庫記錄不符，請立即向交易平台申訴並聯繫 PSA 官方進行查證。',
+        '外殼結構正常之餘，仍需獨立核對卡牌本體品相，包括卡面印刷清晰度、色澤光彩，以及高分數（特別是 PSA 10）應有的物理品相是否合理。',
+        '賣家行為亦有多項可疑警訊：拒絕提供多角度高清影片、拒絕 UV 測試、不接受 PSA 官方複檢、售價遠低於市場行情且無法提供合理解釋、收妥款項後才提供認證編號，或要求即日以轉帳或加密貨幣付款且不受任何買家保障，均屬高風險訊號。',
+        '交易渠道方面，建議優先選擇提供第三方認證保證的平台或信譽良好的卡店，或直接將高價裸卡提交鑑定。香港藏家可預約後前往 [138 Arena](/business/psa-grading/)（銅鑼灣謝斐道 522 號 1/F）當面辦理：138 Arena 負責場務及收費，Appaw Store 負責點收、初步檢視及 PSA評級代送鑑定跟進。進行大額交易時，務必選擇設有爭議申訴機制的平台。',
+        '若懷疑購入贗品，應立即拍攝標籤細節、證書資訊及接縫特寫，並保存全部對話紀錄；若官方資料庫記錄與實物不符，請即向交易平台申訴，並按需要聯繫 PSA 官方查證。',
       ],
     },
     {
@@ -275,7 +277,7 @@ const guide: GuideContent = {
     },
     {
       q: '可以信任賣家截圖裡的 QR code 或網址連結嗎？',
-      a: '切勿盲目信任。造假者可能架設仿冒的查詢頁面並透過 QR 碼引導買家。建議自行於瀏覽器網址列輸入 psacard.com/cert 並手動輸入認證編號查核。',
+      a: '請勿盲目信任。造假者可能架設仿冒的查詢頁面並透過 QR 碼引導買家。建議自行於瀏覽器網址列輸入 psacard.com/cert 並手動輸入認證編號查核。',
     },
     {
       q: '需要多少倍率的放大鏡方能清晰檢視標籤微型小字？',
@@ -291,7 +293,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: '先查證真偽，再加裝防護',
-    body: '完成五步細節驗證後，建議為鑑定卡加裝可減少刮痕並阻隔紫外線的硬質保護殼。若手頭持有裸卡並計劃提交鑑定，香港藏家可先於網站預約，再到銅鑼灣謝斐道 522 號 1/F（138 Arena）當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。',
+    body: '完成五步細節驗證後，建議為鑑定卡加裝可減少刮痕並阻隔紫外線的硬質保護殼。若手頭持有裸卡並計劃提交鑑定，香港藏家可先於網站預約，再到銅鑼灣謝斐道 522 號 1/F（138 Arena）當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進。',
     primary: { label: '鑑定卡保護殼', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },

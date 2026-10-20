@@ -6,15 +6,17 @@ const guide: GuideContent = {
   badge: '鑑定規格',
   lead:
     'PSA 10 的官方置中門檻為正面 55/45、背面 75/25。只要正面超出該比例，即使四角銳利，通常亦會降至 PSA 9。本文說明 1 至 10 分評分標準、Qualifier（OC、ST、PD）扣分代碼，以及 PSA 10 相對 PSA 9 的價格溢價。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。',
+  metaDescription:
+    'PSA 評級標準拆解：1 至 10 分各級要求、Gem Mint 置中門檻正面 55/45 背面 75/25、Qualifier 扣分代碼（OC、ST、PD）詳解、PSA 10 與 PSA 9 的溢價差距，提交鑑定前必讀。香港藏家可預約到銅鑼灣 138 Arena 當面提交，附官方來源連結。',
   published: '2026-06-18',
-  updated: '2026-08-30',
+  updated: '2026-10-20',
   readTime: '14 分鐘',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
-    { label: '累計認證', value: '6500 萬件以上（PSA 官網）' },
     { label: 'PSA 10 正面', value: '55/45 或更佳' },
     { label: 'PSA 10 背面', value: '75/25 或更佳' },
     { label: 'Qualifier', value: 'OC · ST · PD · OF · MK · MC' },
+    { label: '累計認證', value: '6500 萬件以上（PSA 官網）' },
   ],
   sections: [
     {
@@ -239,7 +241,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: '提交鑑定前先測量邊距',
-    body: '上傳照片比對正背面置中是否符合 PSA 10 的 55/45 門檻，再決定是否支付鑑定費用。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進，並可調整最終應付金額。現場初步檢視僅供參考，最終分數由 PSA 決定。',
+    body: '上傳照片比對正背面置中是否符合 PSA 10 的 55/45 門檻，再決定是否支付鑑定費用。香港藏家如欲提交鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。138 Arena 負責場務及收費；Appaw Store 負責 PSA評級代送鑑定及跟進。現場初步檢視僅供參考，最終分數由 PSA 決定。',
     primary: { label: '免費置中計算器', href: '/tools/card-centering/' },
     secondary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },

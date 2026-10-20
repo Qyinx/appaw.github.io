@@ -5,49 +5,37 @@ const guide: GuideContent = {
   title: 'PSA Reholder Service and Cost',
   badge: 'Grading Workflow',
   lead:
-    'A scratched or scuffed slab does not mean your card is damaged. The PSA Standard Reholder service costs $12.99 as Standard (as of 2026-10-05, per PSA official site; actual fee depends on insured/rehold value—higher value tiers cost more) and encapsulates your card in a fresh plastic case with a new label, keeping your grade and cert number intact. However, if PSA detects new damage or fading during the transfer, they can lower the grade, making this process not entirely risk-free.',
+    'PSA Standard Reholder costs $12.99 per card (as of 2026-10-05, per the PSA official site; higher insured-value tiers cost more) and swaps a scuffed slab for a fresh case and label while keeping the grade and cert number intact. It is not risk-free: if PSA spots new damage or fading during the transfer, the card can come back with a lower grade.',
   metaDescription:
-    'A reholder is for a scuffed or cracked slab, or a problem with the label. It usually replaces the case only and does not change the existing grade. Grading the card again is a separate submission. In Hong Kong, hand the card in at 138 Arena in Causeway Bay.',
+    'PSA Reholder costs $12.99 and keeps your grade and cert number. Compare reholder vs regrade fees, timelines, downgrade risk, and free CRC label corrections.',
   published: '2026-08-09',
-  updated: '2026-10-05',
+  updated: '2026-10-20',
   readTime: '7 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
-    {
-      label: 'Standard Cost',
-      value: 'Standard Reholder fee is $12.99 per card (excluding shipping; as of 2026-10-05, per PSA official site). Actual fee depends on insured/rehold value; higher value tiers cost more',
-    },
-    {
-      label: 'Grade & Cert Number',
-      value: 'In most cases, the original grade and certification number remain exactly the same',
-    },
-    {
-      label: 'Downgrade Risk',
-      value: 'If fading or new damage is found inside the old case, PSA has the right to downgrade',
-    },
-    {
-      label: 'Label Errors',
-      value: 'Official typographical errors can be corrected for free via a CRC request',
-    },
+    { label: 'Standard Cost', value: '$12.99 per card, excluding shipping (as of 2026-10-05)' },
+    { label: 'Grade & Cert Number', value: 'Original grade and cert number preserved in most cases' },
+    { label: 'Downgrade Risk', value: 'New damage or fading found on transfer can lower the grade' },
+    { label: 'Label Errors', value: 'Official clerical errors corrected free via a CRC request' },
   ],
   sections: [
     {
       id: 'what-is-reholder',
       title: 'What does the Reholder service cover?',
       paragraphs: [
-        'The PSA Reholder service focuses strictly on cosmetic maintenance for the slab itself. Graders remove your card from its old case and seal it in the latest acrylic holder with fresh label stock. Throughout this process, your card’s grade, certification number, and population history are preserved.',
-        'This service is perfect for straightforward physical wear: superficial scuffs, clouded plastic, minor edge dulling, or a fading label on an otherwise pristine card. If you are entirely satisfied with the grade but simply want to refresh the presentation or unify older slab styles in your collection, Reholder is the optimal path.',
-        'Keep in mind that the $12.99 Standard Reholder fee (as of 2026-10-05, per PSA official site) does not cover shipping or declared shipping insurance. Actual fee depends on insured/rehold value; higher value tiers cost more. To make the economics work—especially for international collectors—you should consolidate multiple scuffed slabs into a single submission batch to dilute the fixed logistics costs. Hong Kong collectors can also drop off at [138 Arena](/business/psa-grading/) in Causeway Bay, where Appaw’s PSA grading submission service folds Reholder cards into shared batches and removes the hassle of self-shipping overseas.',
+        'The PSA Reholder service covers cosmetic maintenance of the slab itself. Graders remove your card from its old case and seal it in the latest acrylic holder with fresh label stock, while the grade, certification number, and population history are preserved.',
+        'Reholder fits straightforward physical wear: superficial scuffs, clouded plastic, minor edge dulling, or a fading label on an otherwise sound card. If you are satisfied with the grade and simply want a cleaner presentation, or want to unify older slab styles across a collection, Reholder is the sensible option.',
+        'The $12.99 Standard fee excludes shipping and declared shipping insurance, so the real cost per card rises with logistics, especially for international collectors. Consolidating several scuffed slabs into one batch dilutes those fixed costs. Hong Kong collectors can instead drop off at [138 Arena](/business/psa-grading/) in Causeway Bay: 138 Arena handles the venue and payment, while Appaw Store folds Reholder cards into shared PSA grading submission batches, removing the need to self-ship overseas.',
       ],
-      bridge: 'While Reholder is designed as a simple cosmetic fix, collectors must understand the boundaries and hidden risks involved.',
+      bridge: 'Reholder sounds like a simple cosmetic fix, but the transfer step carries boundaries and risks worth knowing before you pay.',
     },
     {
       id: 'hidden-risks',
       title: 'Hidden risks: Why it is not 100% safe',
       paragraphs: [
-        'PSA does not formally regrade your card during a Reholder, but they do inspect it. They must confirm the integrity of the holder, ensure the label matches the item, and verify that the card condition has not deteriorated since it was originally graded. This inspection is where the risk lies.',
-        'According to PSA terms, if they spot new damage—such as a chipped corner from the card moving inside the case over time—or if the card has suffered fading from UV exposure, they can refuse a simple Reholder. In these scenarios, PSA may issue a lower numerical grade or return the card raw.',
-        'Furthermore, if the original slab is severely fractured, particularly if the crack runs over the card itself, PSA is unlikely to process it as a Standard Reholder. Such cases are often flagged for a full regrading process. Buyers purchasing heavily cracked slabs on the secondary market should be highly cautious about unseen surface damage.',
+        'PSA does not formally regrade your card during a Reholder, but it does inspect it. Graders must confirm the integrity of the holder, ensure the label matches the item, and verify that the card condition has not deteriorated since it was originally graded. This inspection is where the risk lies.',
+        'Under PSA terms, if graders spot new damage, such as a chipped corner caused by the card moving inside the case over time, or fading from UV exposure, they can refuse a simple Reholder. In those scenarios PSA may issue a lower numerical grade or return the card raw.',
+        'Severely fractured slabs carry a similar risk, particularly when the crack runs over the card itself. PSA is unlikely to process these as a Standard Reholder and often flags them for a full regrading process. Buyers picking up heavily cracked slabs on the secondary market should be cautious about unseen surface damage.',
       ],
       bridge: 'Physical wear aside, sometimes a Reholder is needed simply because the text on the label is wrong.',
     },
@@ -55,26 +43,46 @@ const guide: GuideContent = {
       id: 'label-corrections',
       title: 'Fixing typos: Free CRC label corrections',
       paragraphs: [
-        'If your slab contains a clerical error made by PSA—such as an incorrect year, a misspelled player name, or a missing variation callout (e.g., omitting "Japanese" or "Tiffany")—you do not have to pay the standard fee.',
-        'You can submit a Label Correction inquiry through the PSA Customer Request Center (CRC). If approved, PSA covers the reholder fee and provides a shipping label to handle the transit costs both ways.',
-        'However, if the correction reveals that the card is fundamentally a different, less valuable version than originally labeled (such as a Base card mistakenly labeled as Tiffany), PSA will correct the label downward. This type of correction is often excluded from PSA’s Financial Guarantee payouts; that guarantee is PSA’s own term, not insurance or compensation from Appaw.',
+        'If your slab contains a clerical error made by PSA, such as an incorrect year, a misspelled player name, or a missing variation callout like "Japanese" or "Tiffany", you do not have to pay the standard fee.',
+        'You can submit a Label Correction inquiry through the PSA Customer Request Center (CRC). If approved, PSA covers the reholder fee and provides a shipping label for transit both ways.',
+        'One caveat: if the correction reveals that the card is a different, less valuable version than originally labeled, such as a Base card mistakenly labeled as Tiffany, PSA will correct the label downward. This type of correction is often excluded from PSA\'s Financial Guarantee payouts, which are PSA\'s own terms rather than insurance or compensation from Appaw.',
       ],
-      bridge: 'Once you understand the limits of Reholder, you must decide if you are merely fixing plastic or chasing a higher grade.',
+      bridge: 'Once the limits of Reholder are clear, the real decision is whether you are fixing plastic or chasing a higher grade.',
     },
     {
       id: 'regrade-teaser',
       title: 'Fixing the case vs chasing the grade',
       paragraphs: [
-        'If you are satisfied with the grade and just want a clean presentation, stick to Reholder. Paying full grading fees to regrade a card just because the case is scratched introduces unnecessary downgrade risk with no financial upside.',
-        'If your goal is actively chasing a higher grade because you believe the card was underscored, a Reholder will not help. You will need to weigh the math behind submitting for a Review (in the slab) versus cracking it out for a New Submission.',
-        'For high-value PSA 9s, the decision to chase a 10 requires rigorous expected value math. Measure margins with the [free centering tool](/tools/card-centering/) first. Hong Kong collectors can also visit 138 Arena for Appaw’s on-site preliminary check of centering, surface dents, and corners—so you know whether Reholder, Review, or crack-and-resubmit is the rational path before paying submission fees.',
+        'If you are satisfied with the grade and want a clean presentation, stick to Reholder. Paying full grading fees to regrade a card just because the case is scratched adds downgrade risk with no financial upside.',
+        'If your goal is a higher grade because you believe the card was underscored, a Reholder will not help. You will need to weigh an in-slab Review against cracking the card out for a new submission, which is the decision covered in our [Review vs crack and resubmit guide](/guides/psa-review-vs-crack/).',
+        'The table and formula below summarise the trade-off. The rule of thumb: only chase a higher grade when the expected value reaches at least 1.5 to 2 times the current slab value. Otherwise, Reholder or simply keeping the slab is the rational choice.',
+        'For high-value PSA 9s, measure margins with the [free centering tool](/tools/card-centering/) before running this math. Hong Kong collectors can also visit 138 Arena, where Appaw checks centering, surface dents, and corners on site and advises whether Reholder, Review, or crack-and-resubmit is the rational path.',
       ],
+      table: {
+        headers: ['Factor', 'Reholder', 'Regrade (New Submission)'],
+        rows: [
+          ['Fee', '$12.99 (Standard)', 'Grading fee by declared value tier'],
+          ['Timeline', 'Weeks, batched with grading', 'Weeks to months by service level'],
+          ['Outcome', 'Grade preserved (100% same)', 'Can upgrade, downgrade, or stay'],
+          ['Cert number', 'Original number kept', 'New cert number issued'],
+          ['Best for', 'Scuffed or cracked case, happy with grade', 'Suspected undergraded high-value card'],
+        ],
+      },
+      formula: {
+        eyebrow: 'Chase the grade or not',
+        result: 'Expected Value (EV)',
+        terms: [
+          { text: 'PSA 10 value × upgrade probability', hint: 'Check recent sold prices' },
+          { op: '+', text: 'Current value × (1 − probability)', hint: 'Includes downgrade risk' },
+          { op: '−', text: 'Submission fees + shipping', hint: 'Paid either way' },
+        ],
+      },
     },
   ],
   faq: [
     {
       q: 'How much does it cost to Reholder a PSA card?',
-      a: 'The Standard Reholder service costs $12.99 per card as of 2026-10-05, per the PSA official site. Actual fee depends on the insured/rehold value; higher value tiers cost more. Note that this base fee does not include return shipping or declared shipping insurance, which will add to your total cost.',
+      a: 'The Standard Reholder service costs $12.99 per card as of 2026-10-05, per the PSA official site. Higher insured-value tiers cost more, and the base fee excludes return shipping and declared shipping insurance, so the total cost per card will be higher.',
     },
     {
       q: 'Will a Reholder change my PSA grade?',
@@ -82,20 +90,20 @@ const guide: GuideContent = {
     },
     {
       q: 'Can I Reholder a cracked PSA slab?',
-      a: 'Minor chipping or hairline fractures away from the card are usually fine. However, if the crack extends over the card body or the case is structurally compromised, PSA may force the card into a full regrading process.',
+      a: 'Minor chipping or hairline fractures away from the card are usually fine. If the crack extends over the card body or the case is structurally compromised, PSA may force the card into a full regrading process.',
     },
     {
       q: 'Do I have to pay if PSA made a mistake on the label?',
-      a: 'No. If the error is a clear clerical mistake by PSA (like a typo or missing variation), you can submit a CRC Label Correction request to have it reholdered for free, including shipping.',
+      a: 'No. If the error is a clear clerical mistake by PSA, such as a typo or a missing variation, you can submit a CRC Label Correction request to have it reholdered for free, including shipping.',
     },
     {
       q: 'Can I submit PSA Reholder through Appaw PSA grading submission in Hong Kong?',
-      a: 'Yes. Hong Kong collectors book online, then complete intake at 138 Arena in Causeway Bay. 138 Arena handles the floor and collects payment. Appaw Store folds Reholder cards into the PSA grading submission batch and can assess whether the holder damage still fits a simple Reholder. See the PSA grading submission page for details.',
+      a: 'Yes. Hong Kong collectors book online, then complete intake at 138 Arena in Causeway Bay. 138 Arena handles the venue and collects payment, while Appaw Store folds Reholder cards into the PSA grading submission batch and assesses whether the holder damage still fits a simple Reholder.',
     },
   ],
   cta: {
     title: 'A sound slab does not need a reholder',
-    body: 'If the slab is still sound and you are hoping for a higher grade, you do not need a reholder. You can hand the card in at 138 Arena in Causeway Bay for a new submission. We will talk through what suits the card first, and PSA still decides the grade.',
+    body: 'If the slab is still sound and you are hoping for a higher grade, a reholder is the wrong tool. Hand the card in at 138 Arena in Causeway Bay for a new submission: Appaw Store will assess the card condition and explain the suitable path first, and PSA still decides the final grade.',
     primary: { label: 'Hand in the card', href: '/business/psa-grading/' },
     secondary: { label: 'Shop PSA Protectors', href: '/products/psa-protectors/' },
   },

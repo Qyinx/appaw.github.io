@@ -7,9 +7,9 @@ const guide: GuideContent = {
   lead:
     'A factory slab seals the card, but the clear acrylic does not stop ultraviolet. In Hong Kong, indoor relative humidity often sits at 70–80%. Two summers of window sun on that mix can dull a holo, a chrome layer, or a label enough for the eye to notice.',
   metaDescription:
-    'A PSA slab seals the card, but clear acrylic still lets UV through. Sun and humidity dull holos and labels. Read why here; shop UV glass on the product page.',
+    'A PSA slab seals the card, but clear acrylic still lets UV through. Two Hong Kong summers of sun and 70-80% humidity can visibly dull holos, chrome, and labels.',
   published: '2026-06-07',
-  updated: '2026-10-01',
+  updated: '2026-10-20',
   readTime: '7 min',
   heroImage: '/images/background/uv-protection-graded-cards.png',
   heroSpecs: [
@@ -32,14 +32,14 @@ const guide: GuideContent = {
         { label: 'Museum-grade target', value: '>95% below 400 nm' },
         { label: 'Plain acrylic UVA', value: 'Blocks little above ~345 nm' },
       ],
-      bridge: 'Blocking UV helps. Hong Kong humidity is the other silent killer.',
+      bridge: 'Blocking UV is only half the job. Hong Kong humidity attacks the slab from another direction.',
     },
     {
       id: 'case-vs-room',
       title: 'Case glass vs room lighting',
       paragraphs: [
         'Putting a slab inside a UV-rated outer case adds a second filter. The outer panel takes the hit so the inner grader label and card face see less radiation. That matters when you rotate slabs on a desk or at a show table under mixed LED and daylight.',
-        'LED room lights emit less UV than direct sun, but they still push heat. Keep slabs out of continuous direct sun even inside a rated case. No plastic blocks 100% forever if you bake the same spot daily.',
+        'LED room lights emit less UV than direct sun, but they still push heat. Keep slabs out of continuous direct sun even inside a rated case, because no plastic blocks 100% forever under daily exposure on the same spot.',
       ],
     },
     {
@@ -83,13 +83,13 @@ const guide: GuideContent = {
   midCta: {
     afterSectionId: 'why-uv-matters',
     title: 'Displaying by a window? Add >95% UV glass',
-    body: 'This guide explains the UV and humidity risk. Ready to buy? The outer case filters ultraviolet first, so the inner label and holo receive less radiation. Collectors who still hold raw cards can book online and complete intake at [138 Arena](/business/psa-grading/). 138 Arena handles the floor and collects payment; Appaw Store runs PSA grading submission and follow-up.',
+    body: 'The outer case filters ultraviolet first, so the inner label and holo receive less radiation. Collectors who still hold raw cards can book online and complete intake at [138 Arena](/business/psa-grading/): 138 Arena handles the venue and collects payment, while Appaw Store runs PSA grading submission and follow-up.',
     primary: { label: 'Shop UV glass protector', href: '/products/psa-protectors/' },
     secondary: { label: 'Display graded cards', href: '/guides/display-graded-cards/' },
   },
   cta: {
     title: 'Display without sun damage',
-    body: 'You have the why. The product page is where you buy: the graded slab UV glass protector blocks more than 95% of ultraviolet below 400 nm and fits standard 35PT PSA and CGC holders. Once a slab is collected at 138 Arena after PSA returns it, fit the outer case before display. Collectors who still hold raw cards book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. If any problem arises within fourteen days after the customer receives the protector, the customer may return it. The buyer pays the shipping cost of the return.',
+    body: 'The graded slab UV glass protector blocks more than 95% of ultraviolet below 400 nm and fits standard 35PT PSA and CGC holders. Once a slab is collected at 138 Arena after PSA returns it, fit the outer case before display. Collectors who still hold raw cards book online, then complete intake face to face at 138 Arena: 138 Arena handles the venue and collects payment, while Appaw Store runs PSA grading submission and follow-up. If any problem arises within fourteen days after you receive the protector, you may return it; return shipping is paid by the buyer.',
     primary: { label: 'Shop UV glass protector', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },

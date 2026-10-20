@@ -28,7 +28,7 @@ export const en = {
       ],
       h1Keyword: 'Graded Card Protectors & Trading Card Supplies in Hong Kong',
       subtitle: 'UV glass, N52 magnets, 35PT PSA and CGC fit. Designed in Hong Kong.',
-      description: 'From our signature UV glass protectors to our professional card brokerage, we help collectors protect and grow their collections.',
+      description: 'Appaw Store offers UV glass protectors and a card trading service to help collectors protect and manage their collections.',
       cta: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
       learnMore: 'Browse Cards',
@@ -38,7 +38,7 @@ export const en = {
         antiFadeGlass: 'Anti-Fade Glass',
       },
       productShowcase: {
-        badge: 'Premium Protection',
+        badge: 'UV Protection',
         title: 'PSA Card Protector',
         chipUv: '>95% UV',
         chipMagnets: 'N52 Magnets',
@@ -121,17 +121,17 @@ export const en = {
     },
     cta: {
       title: 'Ready to Upgrade Your Display?',
-      description: 'Whether you want to protect your collection or trade graded cards, we\'ve got you covered.',
+      description: 'Whether you want to protect your collection or trade graded cards, Appaw Store can help.',
       button: 'Shop Now',
       shopUrl: 'https://appawstore.etsy.com/',
     },
     services: {
       badge: 'Our Services',
       title: 'Ways We Serve Collectors',
-      subtitle: 'From premium protection to trusted trading, we\'ve got your collection covered.',
+      subtitle: 'From UV glass protection to trusted trading, Appaw Store covers every stage of your collection.',
       protector: {
-        badge: 'Premium Protection',
-        subtitle: 'Tempered UV glass protection meets gallery-worthy display for your prized PSA graded cards.',
+        badge: 'UV Protection',
+        subtitle: 'Tempered UV glass protection and clean display presentation for your PSA graded cards.',
         cta: 'View Product',
         chips: ['>95% UV', 'N52 Magnet', 'Anti-Fade', '74g'],
       },
@@ -196,7 +196,7 @@ export const en = {
       title: 'Our Values',
       quality: {
         title: 'Quality First',
-        description: 'Protector specs and submission steps stay tied to public, checkable facts — no inflated claims.',
+        description: 'Protector specs and submission steps stay tied to public, checkable facts, with no inflated claims.',
       },
       integrity: {
         title: 'Checkable Facts',
@@ -218,7 +218,7 @@ export const en = {
       facts: {
         hk: { label: 'Hong Kong', body: 'Designed and operated in Hong Kong for local collectors first.' },
         arena: { label: '138 Arena', body: 'Face-to-face intake and consignment at Causeway Bay with our partner venue.' },
-        protector: { label: 'UV Glass Protector', body: 'Tempered UV glass, metal frame, N52 magnets — sized for standard 35PT PSA/CGC slabs.' },
+        protector: { label: 'UV Glass Protector', body: 'Tempered UV glass, metal frame, and N52 magnets, sized for standard 35PT PSA/CGC slabs.' },
         market: { label: 'Marketplace', body: 'Appaw Store listings sit in public collection portfolios. Flat 5% consign via 138 Arena.' },
       },
     },
@@ -235,7 +235,7 @@ export const en = {
       psaProtectorPill: 'Graded Slab Protector',
       cardTradingPill: 'Card Trading',
     },
-    service01Label: 'Service 01 — Protection',
+    service01Label: 'Service 01: Protection',
     psaGrading: {
       badge: 'PSA Grading Submission',
       title: 'PSA grading submission in Hong Kong',
@@ -248,7 +248,7 @@ export const en = {
     },
     cardProtector: {
       title: 'Graded Slab UV Glass Protector',
-      description: 'Tempered UV glass protection meets gallery-worthy display — engineered for standard 35PT PSA and CGC graded slabs.',
+      description: 'Tempered UV glass protection with clean display presentation, engineered for standard 35PT PSA and CGC graded slabs.',
       whatsappOrder: 'Hi! I\'m interested in ordering a Graded Slab UV Glass Protector.',
       teaserLine: 'See full specs, colors, and pricing on our product page.',
       startingPrice: 'Recommended Price',
@@ -298,7 +298,7 @@ export const en = {
       chips: ['Flat 5% commission', 'PSA & CGC', 'HK Face-to-Face', '138 Arena consignment'],
       features: [
         'Buy & sell PSA/CGC graded Pokémon, sports, and MTG cards',
-        'Consignment at 138 Arena — flat 5% of the sale price, including listing and payment fees',
+        'Consignment at 138 Arena, flat 5% of the sale price, including listing and payment fees',
         'Professional price appraisal based on real-time market data',
         'Secure transactions with full buyer/seller protection',
       ],
@@ -338,8 +338,8 @@ export const en = {
 
   // PSA Protector Page (dedicated)
   psaProtectorPage: {
-    badge: 'Premium Protection',
-    seoH1: '35PT Graded Card Protector — UV Glass, Hong Kong',
+    badge: 'UV Protection',
+    seoH1: '35PT Graded Card Protector: UV Glass, Hong Kong',
     heroImageAlt: 'Appaw Store 35PT graded card protector with tempered UV-blocking glass and N52 magnetic closure',
     heroCta: 'See colors & pricing ↓',
     centeringCrossLink: {
@@ -352,7 +352,7 @@ export const en = {
       badge: 'Collector Guide',
       title: 'How to choose a 35PT graded card case',
       body: [
-        'Designed in Hong Kong for TCG collectors who display slabs at home, shows, or 138 Arena. N52 magnetic closure — swap cards in seconds, no screws. Check centering before you grade, then protect the returned slab for long-term display.',
+        'Designed in Hong Kong for TCG collectors who display slabs at home, shows, or 138 Arena. The N52 magnetic closure swaps cards in seconds with no screws. Check centering before you grade, then protect the returned slab for long-term display.',
       ],
       fullGuideLink: 'Read the full 35PT slab case guide',
       guideLinks: [
@@ -368,7 +368,7 @@ export const en = {
       badge: 'Collector Notes',
       title: 'Premium Graded Card Protector',
       body: [
-        '35PT PSA slab protector for Hong Kong collectors: tempered UV-blocking glass (>95%), metal frame, N52 magnets. Fits standard PSA and CGC holders. HK$60 single / HK$80 gradient. Third-party — not made by PSA. The outer case takes display scratches so the factory PSA slab does not.',
+        '35PT PSA slab protector for Hong Kong collectors: tempered UV-blocking glass (>95%), metal frame, N52 magnets. Fits standard PSA and CGC holders. HK$60 single / HK$80 gradient. Third-party product, not made by PSA. The outer case takes display scratches so the factory PSA slab does not.',
       ],
     },
     featuresBadge: 'Details',
@@ -431,7 +431,7 @@ export const en = {
     colorVariants: {
       badge: 'Color Options',
       title: 'Choose Your Style',
-      subtitle: 'Available in a curated palette of premium finishes to match your personal aesthetic',
+      subtitle: 'Available in a range of finishes to match your display setup',
       pickColor: 'Select a Finish',
       note: 'Colors shown are representative. Actual product color may vary slightly due to screen settings and manufacturing.',
       colors: {
@@ -474,11 +474,11 @@ export const en = {
       items: [
         {
           q: 'Is this a PSA magnetic case?',
-          a: 'It is a third-party magnetic graded slab case designed to fit standard 35PT PSA and CGC holders — the type of product collectors mean when they search "PSA magnetic case." It is not manufactured or sold by PSA. Appaw Store\'s Graded Slab UV Glass Protector uses N52 magnetic closure and tempered UV-blocking glass.',
+          a: 'It is a third-party magnetic graded slab case designed to fit standard 35PT PSA and CGC holders, the type of product collectors mean when they search "PSA magnetic case." It is not manufactured or sold by PSA. Appaw Store\'s Graded Slab UV Glass Protector uses N52 magnetic closure and tempered UV-blocking glass.',
         },
         {
           q: 'Does it fit all PSA and CGC graded slabs?',
-          a: 'The protector is engineered for standard 35PT PSA and CGC graded slabs — Pokémon, sports cards, and MTG. It does not fit thick PSA memorabilia/jersey cards, half-pound slabs, or BGS/TAG slabs.',
+          a: 'The protector is engineered for standard 35PT PSA and CGC graded slabs, such as Pokémon, sports cards, and MTG. It does not fit thick PSA memorabilia/jersey cards, half-pound slabs, or BGS/TAG slabs.',
         },
         {
           q: 'How does the magnetic closure work?',
@@ -532,7 +532,7 @@ export const en = {
         },
         {
           heading: 'Receive Your Card',
-          body: 'For Hong Kong meetups, collect your card on the spot. For overseas enquiries, message us on WhatsApp — shipping options and terms are confirmed case by case.',
+          body: 'For Hong Kong meetups, collect your card on the spot. For overseas enquiries, message us on WhatsApp; shipping options and terms are confirmed case by case.',
         },
       ],
       faq: {
@@ -552,7 +552,7 @@ export const en = {
           },
           {
             q: 'Do you offer postal delivery for card purchases or consignments?',
-            a: 'Hong Kong face-to-face meetup in Causeway Bay is preferred for high-value cards. For overseas enquiries, message us on WhatsApp — availability and terms are confirmed case by case.',
+            a: 'Hong Kong face-to-face meetup in Causeway Bay is preferred for high-value cards. For overseas enquiries, message us on WhatsApp; availability and terms are confirmed case by case.',
           },
         ],
       },
@@ -574,7 +574,7 @@ export const en = {
         },
         {
           heading: 'Update Your Price Anytime',
-          body: 'You can request a price change at any time. Updates are reflected within 48 hours — or sooner if a buyer has already expressed interest.',
+          body: 'You can request a price change at any time. Updates are reflected within 48 hours, or sooner if a buyer has already expressed interest.',
         },
         {
           heading: 'Authenticity Check',
@@ -594,7 +594,7 @@ export const en = {
           },
           {
             q: 'Can I get my unsold consigned card back?',
-            a: 'Yes — you may request your card back at any time after it has been listed for 14 days. We can arrange a face-to-face handback in Hong Kong, or return it via delivery — shipping costs are borne by the card owner.',
+            a: 'Yes, you may request your card back at any time after it has been listed for 14 days. We can arrange a face-to-face handback in Hong Kong, or return it via delivery; shipping costs are borne by the card owner.',
           },
           {
             q: 'What happens if my card fails the authenticity check?',
@@ -602,7 +602,7 @@ export const en = {
           },
           {
             q: 'Can I change the listing price after submitting my card?',
-            a: 'Yes. You can request a price update at any time. Changes go live within 48 hours — or sooner if a buyer has already expressed interest.',
+            a: 'Yes. You can request a price update at any time. Changes go live within 48 hours, or sooner if a buyer has already expressed interest.',
           },
         ],
       },
@@ -714,7 +714,7 @@ export const en = {
     },
     ctaBanner: {
       title: 'Looking for a specific card?',
-      description: 'Tell us what you need on WhatsApp — we can check stock and similar listings.',
+      description: 'Tell us what you need on WhatsApp and we can check stock and similar listings.',
       button: 'WhatsApp us',
     },
     whyAppaw: {
@@ -725,12 +725,12 @@ export const en = {
       pillars: [
         {
           title: 'UV glass protectors',
-          body: 'Listings pair well with our 35PT UV glass protectors — tempered >95% UV-blocking glass and N52 neodymium closure.',
+          body: 'Listings pair well with our 35PT UV glass protectors: tempered >95% UV-blocking glass and N52 neodymium closure.',
           linkText: 'View protectors',
         },
         {
           title: 'Face-to-face in HK',
-          body: 'Hong Kong meetups are in person. Both parties inspect the slab at handover — no anonymous drop-offs.',
+          body: 'Hong Kong meetups are in person. Both parties inspect the slab at handover, with no anonymous drop-offs.',
           linkText: null,
         },
         {
@@ -756,7 +756,7 @@ export const en = {
       badge: 'In Progress',
       title: 'Marketplace Coming Soon',
       description:
-        'We\'re preparing our curated gallery of investment-grade graded cards. Check back soon — or contact us privately in the meantime.',
+        'We are preparing an online gallery of graded cards. Check back soon, or contact us on WhatsApp in the meantime.',
       whatsapp: 'Contact Us on WhatsApp',
       dismiss: 'Got it',
     },
@@ -765,7 +765,7 @@ export const en = {
       signIn: 'Sign in to continue',
       deniedTitle: 'Staff listings only',
       deniedBody:
-        'Public marketplace listings are limited to @appaw.store accounts. To consign a card, contact 138 Arena — they handle consignment at a flat 5% of the sale price (listing and payment fees included).',
+        'Public marketplace listings are limited to @appaw.store accounts. To consign a card, contact 138 Arena, which handles consignment at a flat 5% of the sale price (listing and payment fees included).',
       arenaCta: '138 Arena on Instagram',
       arenaAddress: '1/F, 522 Jaffe Road, Causeway Bay',
       loadError: 'Could not load your cards.',
@@ -813,7 +813,7 @@ export const en = {
     hero: {
       title: 'PSA Grading in Hong Kong',
       definition:
-        'In-person PSA grading submission at 138 Arena, Causeway Bay (partner venue). 138 Arena handles the floor and payment; Appaw Store handles the service and follow-up — condition check, tier, shipping to PSA, and tracking. Final grades are set by PSA; we do not guarantee scores.',
+        'In-person PSA grading submission at 138 Arena, Causeway Bay (partner venue). 138 Arena handles the venue and payment; Appaw Store handles the service and follow-up: condition check, tier, shipping to PSA, and tracking. Final grades are set by PSA; we do not guarantee scores.',
       ctaBook: 'Book drop-off',
       ctaTrack: 'Track progress',
       ctaAdvisor: 'Condition advice',
@@ -830,7 +830,7 @@ export const en = {
       badge: 'Also at intake',
       title: 'Condition check before you commit',
       body:
-        'At intake we offer a preliminary condition check for centering and obvious flaws, plus basic surface cleaning when useful. That discussion is a reference only — not a grade promise. If a card is a poor fit for submission, we say so.',
+        'At intake we offer a preliminary condition check for centering and obvious flaws, plus basic surface cleaning when useful. That discussion is a reference only, not a grade promise. If a card is a poor fit for submission, we say so.',
       cta: 'Read condition advice',
     },
     advisorPage: {
@@ -889,7 +889,7 @@ export const en = {
     batchBoard: {
       title: 'Current progress of PSA grading batches',
       lead:
-        'Intake cutoff and where each BAT round sits. Drop-off is face-to-face only at 138 Arena in Causeway Bay — mailed raw cards are not accepted. Track any batch with the registered phone number and reference number.',
+        'Intake cutoff and where each BAT round sits. Drop-off is face-to-face only at 138 Arena in Causeway Bay; mailed raw cards are not accepted. Track any batch with the registered phone number and reference number.',
       phases: {
         intake: 'Intake open',
         atPsa: 'Intake Closed',
@@ -911,7 +911,7 @@ export const en = {
       bookCta: 'Book appointment',
       trackCta: 'Track progress',
       emptyTitle: 'No open intake right now',
-      emptyBody: 'Book a slot — we open the next BAT on drop-off day.',
+      emptyBody: 'Book a slot and we open the next BAT on drop-off day.',
       emptyCta: 'Book appointment',
       loading: 'Loading batches…',
       error: 'Could not load batch board.',
@@ -950,7 +950,7 @@ export const en = {
       next: 'Next quote',
       items: [
         {
-          body: 'Face-to-face only at 138 Arena — no mailed submissions.',
+          body: 'Face-to-face only at 138 Arena, with no mailed submissions.',
           attribution: '138 Arena team',
         },
         {
@@ -996,7 +996,7 @@ export const en = {
     faq: {
       badge: 'FAQ',
       title: 'Common questions',
-      subtitle: 'Booking, tracking, and fees — before and after your drop-off at 138 Arena.',
+      subtitle: 'Booking, tracking, and fees, before and after your drop-off at 138 Arena.',
       statLabel: 'questions answered',
       quickLinks: {
         title: 'Quick links',
@@ -1244,7 +1244,7 @@ export const en = {
       lastSynced: 'Last updated: {date}',
       trustpilotReview: {
         title: 'How was your PSA grading experience?',
-        body: 'Leave a quick Trustpilot review — it helps other Hong Kong collectors.',
+        body: 'Leave a quick Trustpilot review; it helps other Hong Kong collectors.',
       },
       relatedSubmissions: {
         title: 'Other batches for this phone number',
@@ -1287,7 +1287,7 @@ export const en = {
         appawPickup: 'Ready for pickup at 138 Arena',
       },
       status: {
-        problemOrder: 'Problem order — contact support',
+        problemOrder: 'Problem order: contact support',
         accountingHold: 'Accounting hold',
         gradesReady: 'Grades ready',
         readyForLabelReview: 'Label review',
@@ -1529,7 +1529,7 @@ export const en = {
       titleLine1: 'Your Graded',
       titleAccent: 'Collection Hub',
       subtitle:
-        'Catalogue PSA, BGS, and CGC slabs with buy prices, cert numbers, and listing values — organised in portfolios you control.',
+        'Catalogue PSA, BGS, and CGC slabs with buy prices, cert numbers, and listing values, organised in portfolios you control.',
       stats: [
         { value: 'Track', label: 'Cost Basis' },
         { value: 'Group', label: 'Portfolios' },
@@ -1577,7 +1577,7 @@ export const en = {
       privacy: {
         badge: 'Privacy',
         title: 'Yours alone',
-        body: 'Your collection data stays private. Sign in with your account — nothing is shared unless you decide to.',
+        body: 'Your collection data stays private. Sign in with your account; nothing is shared unless you decide to.',
         points: ['Secure Auth0 login', 'Private by default', 'Export-ready inventory'],
       },
       finalCta: {
@@ -1590,7 +1590,7 @@ export const en = {
       { title: 'Organise', body: 'Create portfolios and organise your cards for quick access.' },
       { title: 'Manage Inventory', body: 'Add, edit, and remove cards; mark items sold and use search and filters to find cards quickly.' },
       { title: 'Portfolios', body: 'Create public or private portfolios, add or remove cards, and group collections for display or sharing.' },
-      { title: 'Slab Scanner', body: 'Upload a slab photo and let AI extract grade, cert number, set, and card name — then review and save.' },
+      { title: 'Slab Scanner', body: 'Upload a slab photo and let AI extract grade, cert number, set, and card name, then review and save.' },
     ],
     cta: {
       prompt: 'Ready to manage your collection?',
@@ -1655,7 +1655,7 @@ export const en = {
       active: 'Active',
       sold: 'Sold',
       emptyTitle: '"{name}" has no cards yet',
-      emptyBody: 'Check back later — the owner may add cards soon.',
+      emptyBody: 'Check back later; the owner may add cards soon.',
     },
     wts: {
       shareLabel: 'Share portfolio',
@@ -1665,7 +1665,7 @@ export const en = {
       upgradeForShare: 'Upgrade to Foil for social share buttons',
       downloadCollage: 'Download image',
       downloadCollageWatermarked: 'Download image (watermarked)',
-      collageEmpty: 'No cards to export — add cards or change filter',
+      collageEmpty: 'No cards to export. Add cards or change the filter.',
       collageFailed: 'Could not generate collage image',
       publicBadge: 'For Sale List',
       publicSubtitle: '{n} slabs available',
@@ -1761,7 +1761,7 @@ export const en = {
         subtitle: 'Scan the PSA / BGS / CGC label to fill fields automatically',
         scanButton: 'Scan Label',
         analysing: 'Analysing grading label…',
-        doneMsg: 'Fields auto-filled — please review before saving.',
+        doneMsg: 'Fields auto-filled. Please review before saving.',
         tryAgain: 'Try Again',
         rescan: 'Rescan',
         scanFailed: 'Scan failed. Please fill in manually.',

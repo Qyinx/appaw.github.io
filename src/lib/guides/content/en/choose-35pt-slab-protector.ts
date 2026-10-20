@@ -5,9 +5,11 @@ const guide: GuideContent = {
   title: 'How to Choose a 35PT Graded Card Case',
   badge: 'Slab Hardware',
   lead:
-    'A loose slab in a bag can chip the corner of a label that still costs two hundred dollars at resale. Most PSA and CGC holders at card shows sit in the same 35PT thickness band. The outer case only protects the brick if the inner cavity matches that outer width, height, and depth.',
+    'A 35PT case only protects a slab when its inner cavity matches the holder\'s outer width, height, and depth, with less than 0.5 mm of play per side. Most PSA and CGC slabs at card shows sit in the same 25–40 PT thickness band, so one well-cut case fits both. Measure first, and a two-hundred-dollar label never meets a loose bag.',
+  metaDescription:
+    'How to choose a 35PT graded card case: what 35PT means, PSA and CGC slab outer dimensions, the 0.5 mm fit gap, and rigid frame vs magnetic closure checks.',
   published: '2026-06-07',
-  updated: '2026-08-30',
+  updated: '2026-10-20',
   readTime: '6 min',
   heroImage: '/images/background/guide-35pt-slab-protector.png',
   heroSpecs: [
@@ -45,7 +47,8 @@ const guide: GuideContent = {
       paragraphs: [
         'The slab should seat flat with no corner lift. You should not need foam shims for a standard PSA 10 Pokémon slab. The label must stay fully readable through the front panel.',
         'Look for rigid sidewalls. Thin acrylic shells flex and transfer shock to the inner case. A metal frame plus a flat back plate spreads impact better when you travel to locals or ship domestically.',
-        'Closure type matters for daily swaps. Magnetic latches (N52 grade is common on premium cases) let you rotate display pieces without screwdriver wear on the slab screw posts.',
+        'Closure type matters for daily swaps. Magnetic latches (N52 grade is common on better cases) let you rotate display pieces without screwdriver wear on the slab screw posts.',
+        'Once the fit is right, think about where the case will live. Sunlight and Hong Kong humidity attack the label next, which the [UV protection guide](/guides/uv-protection-graded-cards/) covers in detail, and the full raw-to-protected sequence is in the [grading then outer case workflow](/guides/grade-or-protect-first/).',
       ],
       specs: [
         { label: 'Corner gap', value: 'Less than 0.5 mm of play on each side of a standard slab' },
@@ -68,13 +71,13 @@ const guide: GuideContent = {
       a: 'The slab should sit flat with no corner lift, the official label fully visible, and less than 0.5 mm of gap on each side of a standard PSA 10 Pokémon holder. Foam shims should not be required.',
     },
     {
-      q: 'Can I return a protector after it arrives?',
-      a: 'Yes. If any problem arises within fourteen days after the customer receives the goods, the customer may return the protector. The buyer pays the shipping cost of the return.',
+      q: 'Will a 35PT case fit a thick relic or autograph slab?',
+      a: 'Not reliably. Thick cards above 40 PT ship in older deep holders with a different outer profile, so check the grader\'s holder chart and measure the slab before ordering a case.',
     },
   ],
   cta: {
     title: 'Built for standard 35PT slabs',
-    body: 'Appaw Store\'s magnetic UV glass case is sized for standard 35PT PSA and CGC holders, with glass that blocks more than 95% of ultraviolet below 400 nm and an N52 magnetic closure. Once a slab is collected at 138 Arena after PSA returns it, fit the outer case before display or travel. Hong Kong collectors who want to submit for grading book online, then complete intake face to face at 138 Arena in Causeway Bay. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. If any problem arises within fourteen days after the customer receives the protector, the customer may return it. The buyer pays the shipping cost of the return.',
+    body: 'Appaw Store\'s magnetic UV glass case is sized for standard 35PT PSA and CGC holders, with glass that blocks more than 95% of ultraviolet below 400 nm and an N52 magnetic closure. Once a slab is collected at 138 Arena after PSA returns it, fit the outer case before display or travel. Hong Kong collectors who want to submit for grading book online, then complete intake face to face at 138 Arena in Causeway Bay: 138 Arena handles the venue and collects payment, while Appaw Store runs PSA grading submission and follow-up. If any problem arises within fourteen days after you receive the protector, you may return it; return shipping is paid by the buyer.',
     primary: { label: 'See Graded Card Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },

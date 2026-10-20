@@ -108,6 +108,15 @@ export default function PrivacyPage() {
               solely to respond to your enquiry, provide tracking, or facilitate a transaction.
             </p>
 
+            <h3 className="text-base font-semibold text-text-primary mb-2">Card Centering mobile app</h3>
+            <p className="text-text-secondary text-sm leading-relaxed mb-6">
+              The Card Centering app (by Appaw Store Limited) measures trading-card centering on your device.
+              Photos you take or choose for centering never leave the phone and are not uploaded to our servers.
+              If you use in-app submission tracking, the registered phone number and reference code are sent to
+              Appaw&apos;s grading API solely to match your batch. Recent lookups may be stored on the device
+              until you clear app data. The app does not use advertising identifiers.
+            </p>
+
             <h3 className="text-base font-semibold text-text-primary mb-2">Purchase data</h3>
             <p className="text-text-secondary text-sm leading-relaxed">
               All purchases are processed through{' '}

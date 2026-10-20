@@ -40,7 +40,7 @@ const guide: GuideContent = {
   ],
   cta: {
     title: '將卡牌提交 PSA 鑑定',
-    body: 'Appaw Store 並不按本頁的 SNKRDUNK 價格收卡。若要將卡牌送交 PSA 鑑定，請使用鑑定提交服務。等級由 PSA 決定。',
+    body: 'Appaw Store 並不按本頁的 SNKRDUNK 價格收卡。若要將卡牌送交 PSA 鑑定，請使用 PSA評級代送鑑定服務。最終等級由 PSA 決定。',
     primary: { label: 'PSA評級代送鑑定', href: '/business/psa-grading/' },
   },
   relatedSlugs: ['uv-protection-graded-cards', 'psa-reholder-guide'],

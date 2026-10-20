@@ -6,15 +6,17 @@ const guide: GuideContent = {
   badge: 'Grading Spec',
   lead:
     'A PSA 10 can sell for several times the price of a PSA 9 of the same card. The official Gem Mint front centering threshold is 55/45; the back is 75/25. Read the 1–10 scale, surface-flaw rules, and qualifier codes (OC, ST, PD) before you pay a grading fee.',
+  metaDescription:
+    'PSA grading standards explained: the 1-10 scale, Gem Mint 55/45 centering, qualifier codes (OC, ST, PD), and PSA 10 vs PSA 9 price premiums before you pay fees.',
   published: '2026-06-18',
-  updated: '2026-08-30',
+  updated: '2026-10-20',
   readTime: '14 min',
   heroImage: '/images/background/psa-10-centering-requirements.png',
   heroSpecs: [
-    { label: 'Items graded', value: '65M+ (PSA About page)' },
     { label: 'PSA 10 front', value: '55/45 or better' },
     { label: 'PSA 10 back', value: '75/25 or better' },
     { label: 'Qualifiers', value: 'OC · ST · PD · OF · MK · MC' },
+    { label: 'Items graded', value: '65M+ (PSA About page)' },
   ],
   sections: [
     {
@@ -117,13 +119,14 @@ const guide: GuideContent = {
           ],
         ],
       },
+      bridge: 'A numeric grade is only half the label. The qualifier codes beside it decide how the market reads the card.',
     },
     {
       id: 'qualifiers',
       title: 'PSA Qualifier Codes',
       paragraphs: [
         'A card may meet a numeric grade overall but carry a Qualifier when one major flaw is present, shown as "PSA 8 OC" on the label. Many collectors prefer NQ (No Qualifier) grades for cleaner interpretation.',
-        'Surface dirt, wax residue, and light staining often map to ST (Staining) qualifiers. On arrival, Appaw completes a preliminary inspection and may apply basic surface cleaning. That check is a reference only; PSA sets the final grade. 138 Arena handles the floor and collects payment. Appaw Store may adjust the final amount. Note that this cannot remove factory print defects (PD) or off-center issues (OC).',
+        'Surface dirt, wax residue, and light staining often map to ST (Staining) qualifiers. On arrival at 138 Arena, Appaw completes a preliminary inspection and may apply basic surface cleaning, while 138 Arena handles the venue and collects payment. That check is a reference only; PSA sets the final grade. Cleaning cannot remove factory print defects (PD) or off-center issues (OC).',
       ],
       bulletGroups: [
         {
@@ -160,12 +163,13 @@ const guide: GuideContent = {
           ],
         },
       ],
+      bridge: 'With the scale and qualifier codes clear, the auction record shows what the very top of that scale is worth.',
     },
     {
       id: 'record-sales',
       title: 'Record PSA 10 Sales',
       paragraphs: [
-        'PSA 10 Gem Mint signals extreme scarcity plus authentication, top grades at auction often command order-of-magnitude premiums. Three public sales illustrate how the market prices perfection.',
+        'PSA 10 Gem Mint signals extreme scarcity plus authentication, and top grades at auction often command order-of-magnitude premiums. Three public sales illustrate how the market prices perfection.',
       ],
       bulletGroups: [
         {
@@ -187,7 +191,7 @@ const guide: GuideContent = {
         },
       ],
       callout:
-        'Record sales involve globally tiny PSA 10 populations. On mainstream hot cards, PSA 10 vs PSA 9 spreads can still be multiples, screen raw copies before submitting. See [raw to protected slab workflow](/guides/grade-or-protect-first/).',
+        'Record sales involve globally tiny PSA 10 populations. On mainstream hot cards, PSA 10 vs PSA 9 spreads can still be multiples, so screen raw copies before submitting. See the [raw to protected slab workflow](/guides/grade-or-protect-first/).',
     },
     {
       id: 'bottom-line',
@@ -205,7 +209,7 @@ const guide: GuideContent = {
             },
             {
               label: 'Hong Kong submission',
-              text: 'Drop off at 138 Arena, Causeway Bay. On arrival, Appaw completes a preliminary inspection and may apply basic surface cleaning. That check is a reference only; PSA sets the final grade. 138 Arena handles the floor and collects payment. Appaw Store may adjust the final amount. See [PSA collectibles submission](/business/psa-grading/).',
+              text: 'Drop off at 138 Arena, Causeway Bay. On arrival, Appaw completes a preliminary inspection and may apply basic surface cleaning, while 138 Arena handles the venue and collects payment. That check is a reference only; PSA sets the final grade. See [PSA collectibles submission](/business/psa-grading/).',
             },
             {
               label: 'Centering screen',
@@ -247,7 +251,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: 'Measure centering before you submit',
-    body: 'Upload raw or seller photos against the PSA 10 55/45 and 75/25 thresholds, then decide whether the fee is worth paying. Hong Kong collectors who want to submit for grading book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. A preliminary inspection on arrival is a reference only; PSA sets the final grade.',
+    body: 'Upload raw or seller photos against the PSA 10 55/45 and 75/25 thresholds, then decide whether the fee is worth paying. Hong Kong collectors who want to submit for grading book online, then complete intake face to face at 138 Arena: 138 Arena handles the venue and collects payment, while Appaw Store runs PSA grading submission and follow-up. The preliminary inspection on arrival is a reference only; PSA sets the final grade.',
     primary: { label: 'Free centering tool', href: '/tools/card-centering/' },
     secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },

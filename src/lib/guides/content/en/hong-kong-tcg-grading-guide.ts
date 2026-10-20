@@ -5,16 +5,18 @@ const guide: GuideContent = {
   title: 'Hong Kong TCG Grading (HKTCG): PSA at 138 Arena',
   badge: 'Hong Kong',
   lead:
-    'Hong Kong TCG collectors who want Pokémon, One Piece, Magic: The Gathering, or sports cards graded by PSA can book online, then complete intake face to face at 138 Arena in Causeway Bay. Standard-tier service fees start at HKD 550, collected on site at 138 Arena. Because of the service relationship between the parties, Appaw Store may adjust the final amount. Every batch carries a reference code so you can view status on Appaw.',
+    'Hong Kong TCG collectors who want Pokémon, One Piece, Magic: The Gathering, or sports cards graded by PSA can book online, then complete intake face to face at 138 Arena in Causeway Bay. Standard-tier service fees start at HKD 550, collected on site at 138 Arena; if an adjustment applies, Appaw Store confirms the final amount. Every batch carries a reference code so you can track its status on Appaw.',
+  metaDescription:
+    'Hong Kong PSA grading submission at 138 Arena, Causeway Bay: fees from HKD 550, face-to-face intake, batch tracking by reference code, and 14-day pickup.',
   published: '2026-07-13',
-  updated: '2026-08-30',
+  updated: '2026-10-20',
   readTime: '9 min',
   heroImage: '/images/background/psa-grading-standards.png',
   heroSpecs: [
     {
       label: 'Drop-off',
       value:
-        '138 Arena, 1/F, 522 Jaffe Road, Causeway Bay. 138 Arena is the partner venue and handles the floor; drop-off and pickup are in person only, with no mailed submissions',
+        '138 Arena, 1/F, 522 Jaffe Road, Causeway Bay. 138 Arena is the partner venue and handles venue operations; drop-off and pickup are in person only, with no mailed submissions',
     },
     {
       label: 'Service from',
@@ -37,7 +39,7 @@ const guide: GuideContent = {
       title: 'Who uses Hong Kong TCG grading submission',
       paragraphs: [
         'This workflow is for Hong Kong collectors who want PSA labels on Pokémon TCG, One Piece, Magic: The Gathering, or sports cards without mailing cards overseas or coordinating PSA batches themselves. You book a slot, then drop off face to face at 138 Arena. Appaw Store organises the batch and forwards it to PSA.',
-        'Raw or sleeved cards are accepted. Before you go to 138 Arena, you may use the free [card centering tool](/tools/card-centering/) as an optional self-check. On arrival, Appaw helps confirm the PSA service tier, declared value, sleeving, and a written list. After that, every batch can be tracked on the Appaw site rather than by verbal updates. Appaw Store also operates card trading and consignment. The main landing for consignment is 138 Arena; cards are also consigned in parallel on marketplaces.',
+        'Raw or sleeved cards are accepted. Before you go to 138 Arena, you may use the free [card centering tool](/tools/card-centering/) as an optional self-check. On arrival, Appaw helps confirm the PSA service tier, declared value, sleeving, and a written list. After that, every batch can be tracked on the Appaw site rather than by verbal updates.',
       ],
       bridge:
         'If this fits you, the next step is to separate what 138 Arena handles from what Appaw Store handles.',
@@ -47,7 +49,7 @@ const guide: GuideContent = {
       title: 'What 138 Arena and Appaw each handle',
       paragraphs: [
         'Appaw Store Limited, trading as Appaw Store, provides PSA grading submission and follow-up with the customer. That work covers intake, a preliminary inspection, basic surface cleaning, list verification, reference-code assignment, batching by tier, forwarding to PSA, the online timeline, pickup notices, and upcharge contact. A preliminary inspection and any grade discussion at intake are references only. They are not a promise of a PSA 10 or of any other result. Final grades are set by PSA.',
-        '138 Arena is the partner venue. It is responsible for venue operations and for collecting payment. Drop-off and pickup take place at 138 Arena only; mailed submissions are not accepted. You book a slot, then go to the venue so Appaw can complete intake. Fees are collected at 138 Arena. Because of the service relationship between the parties, Appaw Store may adjust the final price. Where an adjustment applies, Appaw Store confirms the amount and 138 Arena collects it. Returned PSA slabs are stored by Appaw Store, which then arranges handover at 138 Arena after the pickup notice is issued.',
+        '138 Arena is the partner venue, responsible for venue operations and for collecting payment. Drop-off and pickup take place at 138 Arena only; mailed submissions are not accepted. You book a slot, then go to the venue so Appaw can complete intake, and fees are collected at 138 Arena. Under the service arrangement between the parties, Appaw Store may adjust the final price; where an adjustment applies, Appaw Store confirms the amount and 138 Arena collects it. Returned PSA slabs are stored by Appaw Store, which arranges handover at 138 Arena after the pickup notice is issued.',
       ],
       bridge: 'With roles clear, here is the face-to-face drop-off flow.',
     },
@@ -79,7 +81,8 @@ const guide: GuideContent = {
       title: 'Track batch status and pick up in Hong Kong',
       paragraphs: [
         'While PSA grades your cards, use the Appaw [PSA grading submission tracker](/business/psa-grading/track/) with your registered phone number and reference number. On the timeline, "Card Recorded at 138 Arena" means local intake is complete; "Submitted to PSA" means Appaw forwarded the batch; middle steps sync from PSA; "Ready for Pickup at 138 Arena" means the slabs have been returned.',
-        'Returned PSA slabs are stored by Appaw Store. The fourteen-day pickup window starts when Appaw Store begins notifying the customer, by WhatsApp or email, that the cards are ready. It does not start from the PSA return date alone. Handover is arranged at 138 Arena. Collect within fourteen days of that notice. At pickup, Appaw verifies the reference code, card list, and grades against your receipt before handover. If the cards are not collected within those fourteen days, they are treated as abandoned. Appaw Store sends an abandonment notice. Fees already paid are not refunded.',
+        'Returned PSA slabs are stored by Appaw Store. The fourteen-day pickup window starts when Appaw Store begins notifying you by WhatsApp or email that the cards are ready, not from the PSA return date alone.',
+        'Handover takes place at 138 Arena within fourteen days of that notice. At pickup, Appaw verifies the reference code, card list, and grades against your receipt before handover. Cards not collected within those fourteen days are treated as abandoned: Appaw Store sends an abandonment notice, and fees already paid are not refunded.',
         'If PSA issues an upcharge because a card grades above the declared-value limit of the chosen tier, two options are available. You may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window you may waive the card. Full terms are on the [PSA grading submission page](/business/psa-grading/) and in the terms of service.',
       ],
       bridge:
@@ -98,35 +101,23 @@ const guide: GuideContent = {
   faq: [
     {
       q: 'What do 138 Arena and Appaw each handle?',
-      a: 'Appaw Store provides PSA grading submission and follow-up: intake, a preliminary inspection, basic surface cleaning, list verification, reference codes, forwarding to PSA, online tracking, and pickup notices. 138 Arena is the partner venue. It handles the floor and collects payment. Drop-off and pickup are at 138 Arena only; no mailed submissions. Appaw Store may adjust the final amount because of that service relationship.',
-    },
-    {
-      q: 'Can Hong Kong TCG cards be submitted to PSA?',
-      a: 'Yes. Pokémon TCG, One Piece, MTG, and sports cards in raw or sleeved form are accepted at 138 Arena through Appaw PSA grading submission. High-value cards need declared-value paperwork matching the chosen PSA tier; Appaw helps confirm this on site.',
+      a: 'Appaw Store provides PSA grading submission and follow-up: intake, a preliminary inspection, basic surface cleaning, list verification, reference codes, forwarding to PSA, online tracking, and pickup notices. 138 Arena is the partner venue, handling venue operations and payment collection. Drop-off and pickup are at 138 Arena only, and mailed submissions are not accepted.',
     },
     {
       q: 'How much does PSA grading submission cost?',
-      a: 'Standard-tier service fees start at HKD 550, collected at 138 Arena. If an adjustment applies, Appaw Store confirms the final amount. Published tiers are Standard, Priority, Express, Super Express, Premier, and Reholder; fees and max declared values differ by tier. Full pricing, turnaround estimates, and terms are on the PSA grading submission page. The figures on the table at booking apply.',
+      a: 'Standard-tier service fees start at HKD 550, collected at 138 Arena. If an adjustment applies, Appaw Store confirms the final amount. Published tiers are Standard, Priority, Express, Super Express, Premier, and Reholder, with fees and maximum declared values differing by tier. The figures on the pricing table at the time of booking apply.',
     },
     {
       q: 'How do I track my batch?',
       a: 'Use the Appaw PSA grading submission tracker with your registered phone number and reference number. Both are required. Multiple tiers get separate reference codes under the same phone number.',
     },
     {
-      q: 'Do you accept mailed submissions?',
-      a: 'No. Drop-off and pickup are face to face at 138 Arena only. Venue hours are set by 138 Arena and published on Instagram @138arena.',
-    },
-    {
       q: 'Should I measure centering before submission?',
-      a: 'Recommended but not required. PSA 10 needs 55/45 front and 75/25 back or better. The free centering tool is an optional self-check. On arrival, Appaw completes intake and a preliminary inspection, and may apply basic surface cleaning. That check is a reference only and is not a promise of a PSA grade.',
+      a: 'Recommended but not required. PSA 10 needs 55/45 front and 75/25 back or better, and the free centering tool is an optional self-check. On arrival, Appaw completes intake and a preliminary inspection, and may apply basic surface cleaning. That check is a reference only and is not a promise of a PSA grade.',
     },
     {
-      q: 'How does pickup work after PSA returns the slabs?',
-      a: 'Returned PSA slabs are stored by Appaw Store. The fourteen-day pickup window starts when Appaw Store begins notifying you by WhatsApp or email that the cards are ready, not from the PSA return date alone. Collect at 138 Arena. If the cards are not collected within those fourteen days, they are treated as abandoned. Appaw Store sends an abandonment notice. Fees already paid are not refunded.',
-    },
-    {
-      q: 'What happens if PSA issues an upcharge?',
-      a: 'Two options are available. You may pay the difference between the original tier fee and the higher tier at pickup. That difference is paid to 138 Arena; if an adjustment is involved, Appaw Store confirms the final amount. Alternatively, within the pickup window you may waive the card.',
+      q: 'How do pickup and upcharges work after PSA returns the slabs?',
+      a: 'Returned slabs are stored by Appaw Store, and the fourteen-day pickup window starts when the WhatsApp or email notice is issued, not from the PSA return date. Uncollected cards are treated as abandoned and fees are not refunded. If PSA issues an upcharge, you may pay the tier difference at pickup or waive the card within the pickup window.',
     },
   ],
   midCta: {
@@ -138,7 +129,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: 'Book PSA grading submission in Hong Kong',
-    body: 'Book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount. Track every batch on Appaw with the registered phone number and reference number. After PSA returns the slabs, Appaw Store stores them. The fourteen-day pickup window starts when the WhatsApp or email notice is issued. Collect at 138 Arena.',
+    body: 'Book online, then complete intake face to face at 138 Arena: 138 Arena handles the venue and collects payment, while Appaw Store runs PSA grading submission and follow-up. Track every batch on Appaw with the registered phone number and reference number. After PSA returns the slabs, Appaw Store stores them, and the fourteen-day pickup window starts when the WhatsApp or email notice is issued. Collect at 138 Arena.',
     primary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
     secondary: { label: 'Free centering tool', href: '/tools/card-centering/' },
   },

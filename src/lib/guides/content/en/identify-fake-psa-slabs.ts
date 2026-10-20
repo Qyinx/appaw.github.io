@@ -5,15 +5,17 @@ const guide: GuideContent = {
   title: 'PSA Slab Authentication Guide',
   badge: 'Authentication',
   lead:
-    'A cert lookup only means that number is in the database. It does not mean the slab in your hand is that card. Open the official lookup page yourself, then use a blacklight, feel the shell, and magnify the label. If any step misses, do not pay.',
+    'Fake slabs fail three cheap tests: a $12 UV blacklight reveals the hidden PSA mark printed on labels after cert #43xxxxxx, a 10× loupe reads the CLCT-or-PSA microtext, and a fingertip feels the raised logo and flat ultrasonic weld. A cert lookup only proves the number exists in the database, so open the official lookup page yourself, then run the physical checks. If any step misses, do not pay.',
+  metaDescription:
+    'Spot fake PSA slabs: cert lookup limits, UV blacklight tells after cert #43xxxxxx, microtext eras (CLCT vs PSA), and shell feel. Five checks before you pay.',
   published: '2026-06-08',
-  updated: '2026-10-05',
+  updated: '2026-10-20',
   readTime: '12 min',
   heroImage: '/images/background/identify-fake-psa-slabs.png',
   heroSpecs: [
-    { label: 'Core rule', value: 'Cross-check: never one test alone' },
     { label: 'Stolen certs', value: 'Pass lookup, fail physical checks' },
     { label: 'UV milestone', value: 'Hidden front text after cert #43' },
+    { label: 'Core rule', value: 'Cross-check: never one test alone' },
     { label: 'Step 1', value: '[psacard.com/cert](https://www.psacard.com/cert) lookup' },
   ],
   sections: [
@@ -29,7 +31,7 @@ const guide: GuideContent = {
       id: 'cert-lookup',
       title: 'Step 1: Online cert lookup',
       paragraphs: [
-        'Every PSA slab label prints a Certification Number. Start here, it is mandatory, not optional.',
+        'Every PSA slab label prints a Certification Number, and the lookup is the mandatory first step rather than an optional one.',
         'Go to PSA\'s official lookup: [psacard.com/cert](https://www.psacard.com/cert). Type the URL yourself. Do not trust QR codes or links in seller screenshots or chat.',
         'After entering the number, confirm the registry matches the slab in your hand: card photo (including corner wear and flaw placement), year, player or character name, grade, and special marks (1st Edition, Rookie, etc.).',
         'If the site returns "certification number not found," stop. If the registry shows a 1986 Fleer Jordan but you hold a 2023 Pokémon chase, the number was stolen. Screenshot the result before you pay.',
@@ -39,13 +41,13 @@ const guide: GuideContent = {
         { label: 'Must match', value: 'Photo, year, subject, grade, marks' },
         { label: 'Pass means', value: 'Gate one cleared. Keep checking.' },
       ],
-      bridge: 'Lookup can lie. Step 2 is the $12 blacklight test most sellers skip.',
+      bridge: 'A matching record only clears the first gate. Confirming the holder and label in your hand requires a UV blacklight, which exposes the security ink that forgers skip.',
     },
     {
       id: 'uv-blacklight',
       title: 'Step 2: UV blacklight test',
       paragraphs: [
-        'A UV blacklight is one of the most practical quick tools for spotting fake PSA slabs, cheap to buy, easy to keep on a desk. If you handle graded cards regularly, own one.',
+        'A UV blacklight is one of the most practical tools for spotting fake PSA slabs: it costs little and lives easily on a desk. If you handle graded cards regularly, own one.',
         'Every card in the videos below is genuine. The side with no reaction is a real slab from an earlier generation, not a fake.',
       ],
       subsections: [
@@ -161,7 +163,7 @@ const guide: GuideContent = {
           ],
         },
         {
-          title: 'Milestone 2: Cert #4xxxxxxx–5xxxxxxx (NASDAQ : CLCT → PSA microtext transition)',
+          title: 'Milestone 2: Cert #4xxxxxxx–5xxxxxxx (NASDAQ : CLCT to PSA microtext transition)',
           paragraphs: [
             'From #27xxxxxx onward, labels share LightHouse™ two-tone shift under tilted light. After PSA\'s parent company went private and delisted from NASDAQ in early 2021, hologram microtext gradually switched from "NASDAQ : CLCT" to "PSA" across cert #4xxxxxxx through #5xxxxxxx, the #4xxxxxxx–5xxxxxxx transition window. Both microtext variants have been confirmed in each band. Magnify and tilt the label; do not infer microtext from the cert number alone.',
           ],
@@ -198,7 +200,7 @@ const guide: GuideContent = {
           title: 'After cert #6xxxxxxx (post-transition)',
           level: 4,
           paragraphs: [
-            'Once the transition ended, hologram microtext reads "PSA" across the board. Late #5xxxxxxx copies may still show CLCT — always verify under magnification.',
+            'Once the transition ended, hologram microtext reads "PSA" across the board. Late #5xxxxxxx copies may still show CLCT, so always verify under magnification.',
           ],
           videos: [
             {
@@ -224,10 +226,10 @@ const guide: GuideContent = {
       id: 'advanced-buying',
       title: 'Step 5: Card, Seller, and Purchase Checks',
       paragraphs: [
-        'Card condition inside: even when the holder looks fine, check print sharpness, colour accuracy, and whether a claimed PSA 10 actually looks gem-worthy.',
-        'Seller red flags: no multi-angle video, refuses UV testing, won\'t accept PSA re-authentication, price far below market with no story, cert number withheld until after payment, pressure to wire or pay crypto today with zero buyer protection.',
-        'Safer buying: prefer platforms with PSA-backed authentication, established dealers, or submit high-value raw cards for fresh grading. Hong Kong collectors can drop off at [138 Arena](/business/psa-grading/). On arrival, Appaw completes a preliminary inspection and may apply basic surface cleaning. That check is a reference only; PSA sets the final grade. 138 Arena handles the floor and collects payment. Appaw Store may adjust the final amount. First-time counterparties deserve marketplaces with dispute windows.',
-        'If you already suspect a fake: photograph label, cert, seams, and defects; save chat logs; screenshot cert mismatches on psacard.com; open a marketplace case immediately on eBay, COMC, or similar; contact PSA with documentation when needed.',
+        'Even when the holder looks fine, check the card inside: print sharpness, colour accuracy, and whether a claimed PSA 10 actually looks gem-worthy.',
+        'Seller behaviour carries its own red flags: no multi-angle video, refusing UV testing, declining PSA re-authentication, a price far below market with no story behind it, a cert number withheld until after payment, or pressure to wire money or pay crypto today with zero buyer protection.',
+        'Safer buying means preferring platforms with PSA-backed authentication or established dealers, or submitting high-value raw cards for fresh grading instead. Hong Kong collectors can drop off at [138 Arena](/business/psa-grading/), where 138 Arena handles the venue and collects payment while Appaw Store completes a preliminary inspection and may apply basic surface cleaning on request. That check is a reference only; PSA sets the final grade. First-time counterparties deserve marketplaces with dispute windows.',
+        'If you already suspect a fake, photograph the label, cert, seams, and defects, save the chat logs, and screenshot any cert mismatches on psacard.com. Open a marketplace case immediately on eBay, COMC, or similar platforms, and contact PSA with documentation when needed.',
       ],
     },
     {
@@ -293,7 +295,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: 'Verify first, then protect',
-    body: 'After the five-step cross-check, a rigid outer case shields the grader label from scratches and ultraviolet during display or travel. If you are buying raw instead, Hong Kong collectors book online, then complete intake face to face at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up, and may adjust the final amount.',
+    body: 'After the five-step cross-check, a rigid outer case shields the grader label from scratches and ultraviolet during display or travel. If you are buying raw instead, Hong Kong collectors book online, then complete intake face to face at 138 Arena. 138 Arena handles the venue and collects payment, while Appaw Store runs PSA grading submission and follow-up.',
     primary: { label: 'Graded Slab Protector', href: '/products/psa-protectors/' },
     secondary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
   },

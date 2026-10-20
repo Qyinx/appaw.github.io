@@ -7,9 +7,9 @@ const guide: GuideContent = {
   lead:
     'Pokémon e-Series (e-Reader) cards are dual-border: check each of two paired sides for 45/55. Do not compare left–right or top–bottom the way you would on a normal single-border card. Measure wrong before you submit and you can waste the grading fee; a centering pass still does not guarantee a PSA 10.',
   metaDescription:
-    'e-Reader / e-Series cards are dual-border: do not compare left–right or top–bottom. Measure outer edge to inner gold border on straight runs only. Check the blue pair (top and right) and red pair (left and bottom) for 45/55. Passing centering is not a PSA 10.',
+    'e-Reader / e-Series cards are dual-border: compare the blue pair (top and right) and red pair (left and bottom) for 45/55, never left-right or top-bottom.',
   published: '2026-10-13',
-  updated: '2026-10-14',
+  updated: '2026-10-20',
   readTime: '12 min',
   heroSpecs: [
     { label: 'Card layout', value: 'Dual-border: thin and thick borders on the same face' },
@@ -56,7 +56,7 @@ const guide: GuideContent = {
         'On each side, take one straight stretch only: outer edge as the start, inner gold border as the end. Avoid corners, ink bleed, and warped paper. Measure the same side two or three times, keep the reading that repeats, and write it down before you move on.',
         'View the card from directly above when you photograph or scan. A tilted shot introduces perspective error that can shift the ratio by a few percentage points, especially on the narrow thin borders. Soft, even light helps; strong glare on the gold line can hide the true inner edge.',
       ],
-      bridge: 'Once each side has a clean reading, the critical step is which pairs to compare.',
+      bridge: 'Once each side has a clean reading, the next step is deciding which pairs to compare.',
     },
     {
       id: 'two-paired-sides',
@@ -80,7 +80,7 @@ const guide: GuideContent = {
       id: 'centering-pass',
       title: 'What “centering pass” means: how to calculate 45/55',
       paragraphs: [
-        'For each pair, work out the ratio on its own. The usual talk track is that each pair should fall within 45/55 to sit inside PSA 10 centering discussion. In other words, the wider side must not exceed 55% of that pair’s combined width, and the narrower side should not fall below 45%.',
+        'For each pair, work out the ratio on its own. The common rule of thumb is that each pair should fall within 45/55 to sit inside the PSA 10 centering band. In other words, the wider side must not exceed 55% of that pair’s combined width, and the narrower side should not fall below 45%.',
         'Steps: measure sides A and B for one pair, sum them as A + B, then compute max(A, B) ÷ (A + B). If the result is ≤ 0.55, that pair sits inside 45/55. If it is clearly above 0.55, the pair is outside the PSA 10 centering band under that framing.',
         'Worked example (thick red pair): suppose left is 7.5 mm and bottom is 6.6 mm, sum 14.1 mm. Wider side 7.5 ÷ 14.1 ≈ 0.532, about 53/47, still inside 45/55. If left becomes 8.4 mm and bottom stays 6.6 mm, sum 15.0 mm, wider side 8.4 ÷ 15.0 = 0.56, or 56/44, which breaks the 55/45 ceiling.',
         'Run the same check on the blue pair independently. A passing red pair does not rescue a failing blue pair. Both pairs must sit inside the band before you treat centering as cleared under that framing.',
@@ -134,7 +134,7 @@ const guide: GuideContent = {
     },
     {
       q: 'What is the 45/55 check in this guide?',
-      a: 'For each paired side, the ratio should fall within 45/55: the wider side must not exceed 55% of that pair’s combined width. That is a centering talk track, not a full grade guarantee.',
+      a: 'For each paired side, the ratio should fall within 45/55: the wider side must not exceed 55% of that pair’s combined width. That is a centering guideline, not a full grade guarantee.',
     },
     {
       q: 'Does passing centering mean PSA 10?',
@@ -154,7 +154,7 @@ const guide: GuideContent = {
   },
   cta: {
     title: 'Margins look good? Arrange submission',
-    body: 'If both paired sides look inside 45/55 and the rest of the card looks strong, book online and complete face-to-face intake at 138 Arena. 138 Arena handles the floor and collects payment. Appaw Store runs PSA grading submission and follow-up. A preliminary inspection on arrival is a reference only; PSA sets the final grade.',
+    body: 'If both paired sides look inside 45/55 and the rest of the card looks strong, book online and complete face-to-face intake at 138 Arena: 138 Arena handles the venue and collects payment, while Appaw Store runs PSA grading submission and follow-up. The preliminary inspection on arrival is a reference only; PSA sets the final grade.',
     primary: { label: 'PSA grading submission', href: '/business/psa-grading/' },
     secondary: { label: 'PSA 10 centering requirements', href: '/guides/psa-10-centering-requirements/' },
   },
@@ -168,6 +168,10 @@ const guide: GuideContent = {
     {
       label: 'PSA grading standards (official site)',
       href: 'https://www.psacard.com/gradingstandards',
+    },
+    {
+      label: 'Bulbapedia, e-Reader (e-Series overview)',
+      href: 'https://bulbapedia.bulbagarden.net/wiki/E-Reader',
     },
   ],
 };

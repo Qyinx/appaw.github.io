@@ -2,12 +2,14 @@ import type { GuideContent } from '../../types';
 
 const guide: GuideContent = {
   slug: 'hong-kong-tcg-grading-guide',
-  title: '香港 TCG 卡牌提交鑑定（HKTCG）：138 Arena PSA鑑定',
+  title: '香港 TCG 卡牌提交鑑定：138 Arena PSA評級代送鑑定流程',
   badge: '香港',
   lead:
-    '香港 TCG 收藏家如欲將寶可夢、One Piece、Magic: The Gathering 或運動卡交 PSA 鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。Standard 方案服務費由 HKD 550 起，於 138 Arena 現場支付；基於雙方的服務安排，Appaw Store 可調整最終應付金額。憑登記的電話號碼及參考編號，可於網上查看批次現有進度。',
+    '香港 TCG 收藏家如欲將寶可夢、One Piece、Magic: The Gathering 或運動卡交 PSA 鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。Standard 方案服務費由 HKD 550 起，於 138 Arena 現場支付；若有調整，由 Appaw Store 確認最終金額。憑登記的電話號碼及參考編號，可於網上查看批次現有進度。',
+  metaDescription:
+    '香港 TCG 提交 PSA 鑑定指南：銅鑼灣 138 Arena 當面辦理，Standard 方案服務費 HKD 550 起，接受寶可夢、One Piece、MTG 及運動卡裸卡或套袋卡。附面交流程、批次進度查詢、十四日取件期限與加價處理說明。不接受郵寄，須當面交收；各方案收費以預約當時價目表為準。',
   published: '2026-07-13',
-  updated: '2026-08-30',
+  updated: '2026-10-20',
   readTime: '9 分鐘',
   heroImage: '/images/background/psa-grading-standards.png',
   heroSpecs: [
@@ -37,7 +39,7 @@ const guide: GuideContent = {
       title: '誰適合香港 TCG 提交鑑定',
       paragraphs: [
         '本流程專為欲將寶可夢 TCG、One Piece、Magic: The Gathering 或運動卡送交 PSA 鑑定的香港收藏家而設。顧客無須自行處理跨境郵寄，亦無須直接與 PSA 協調批次。預約後親臨 138 Arena 當面辦理，即由 Appaw Store 整理批次並轉送 PSA。',
-        '服務接受裸卡或已套袋卡牌。前往 138 Arena 前，藏家可先運用免費 [卡牌置中工具](/tools/card-centering/) 核對邊距，作為自行篩選。到達後，Appaw 會協助確認 PSA 服務方案、申報價值、套袋整理與開立書面清單。其後每批進度均可於 Appaw 網站查看，無須依賴口頭查詢。Appaw Store 另設卡牌交易及寄賣；寄賣主要於 138 Arena 落地，並同步於市集寄賣。',
+        '服務接受裸卡或已套袋卡牌。前往 138 Arena 前，藏家可先運用免費 [卡牌置中工具](/tools/card-centering/) 核對邊距，作為自行篩選。到達後，Appaw 會協助確認 PSA 服務方案、申報價值、套袋整理與開立書面清單。其後每批進度均可於 Appaw 網站查看，無須依賴口頭查詢。',
       ],
       bridge:
         '確立提交鑑定的需要後，下一步是釐清合作場地 138 Arena 與 Appaw Store 的職責分工。',
@@ -82,7 +84,8 @@ const guide: GuideContent = {
       title: '查看批次現有進度與返港取件',
       paragraphs: [
         '在 PSA 鑑定期間，顧客可隨時於 Appaw [PSA評級代送鑑定進度查詢](/business/psa-grading/track/) 頁面輸入電話號碼與參考編號，查看最新動態。進度時間軸中，「卡牌已於 138 Arena 登記」代表本地收件完成；「已提交至 PSA」代表 Appaw 已轉送批次；其後鑑定階段由 PSA 官方數據同步；顯示「可於 138 Arena 取件」則代表鑑定卡已交還。',
-        'PSA 交還的鑑定卡由 Appaw Store 保管。十四日取件期限，由 Appaw Store 開始以 WhatsApp 或電郵通知顧客可以取件當日起計，並非單純以 PSA 交還日期起算。交還地點為 138 Arena。顧客請於發出通知日起十四日內，前往 138 Arena 當面取回。取件時，Appaw 會核對參考編號、卡牌清單及鑑定結果，確認無誤後完成交接。若顧客於上述十四日內仍未取回，該批卡片將視作已被放棄。Appaw Store 會發出放棄取回通知，已繳費用不予退還。',
+        'PSA 交還的鑑定卡由 Appaw Store 保管。十四日取件期限，由 Appaw Store 開始以 WhatsApp 或電郵通知顧客可以取件當日起計，並非單純以 PSA 交還日期起算。',
+        '顧客請於發出通知日起十四日內，前往 138 Arena 當面取回。取件時，Appaw 會核對參考編號、卡牌清單及鑑定結果，確認無誤後完成交接。若顧客於上述十四日內仍未取回，該批卡片將視作已被放棄：Appaw Store 會發出放棄取回通知，已繳費用不予退還。',
         '若卡片評級後的市值或分數超出所選方案的最高申報價值，PSA 可能發出加價。顧客有兩項選擇。其一，於取件時向 138 Arena 補繳原方案與較高方案之間的差額；若涉及調整，則由 Appaw Store 確認最終金額。其二，在取件期限內聲明放棄該卡。詳細說明可參閱 [PSA評級代送鑑定](/business/psa-grading/) 頁面及服務條款。',
       ],
       bridge:
@@ -101,35 +104,23 @@ const guide: GuideContent = {
   faq: [
     {
       q: '138 Arena 與 Appaw 分別負責什麼？',
-      a: 'Appaw Store 提供 PSA評級代送鑑定及後續跟進，包括點收、初步檢視、基本表面清潔、核對清單、分配參考編號、轉送 PSA、進度查詢及取件通知。138 Arena 為合作場地，負責場務及收費。提交鑑定及取件均須親臨 138 Arena 當面辦理，不接受郵寄。基於雙方的服務安排，Appaw Store 可調整最終應付金額。',
-    },
-    {
-      q: '香港 TCG 卡牌可以提交 PSA 鑑定嗎？',
-      a: '可以。寶可夢 TCG、One Piece、MTG 及運動卡之裸卡或套袋卡，均可於銅鑼灣 138 Arena 透過 Appaw PSA評級代送鑑定提交。高價值卡牌須配合所選 PSA 服務方案填寫申報價值，Appaw 現場會協助確認。',
+      a: 'Appaw Store 提供 PSA評級代送鑑定及後續跟進，包括點收、初步檢視、基本表面清潔、核對清單、分配參考編號、轉送 PSA、進度查詢及取件通知。138 Arena 為合作場地，負責場務及收費。提交鑑定及取件均須親臨 138 Arena 當面辦理，不接受郵寄。',
     },
     {
       q: 'PSA評級代送鑑定服務費由多少起？',
-      a: 'Standard 方案服務費由 HKD 550 起，由 138 Arena 現場收取；若有調整，由 Appaw Store 確認最終金額。公布方案為 Standard、Priority、Express、Super Express、Premier 及 Reholder，各方案服務費與最高申報價值不同。完整價目、預計週轉時間及條款，請參閱 PSA評級代送鑑定頁面；收費以預約當時價目表為準。',
+      a: 'Standard 方案服務費由 HKD 550 起，由 138 Arena 現場收取；若有調整，由 Appaw Store 確認最終金額。公布方案為 Standard、Priority、Express、Super Express、Premier 及 Reholder，各方案服務費與最高申報價值不同，收費以預約當時價目表為準。',
     },
     {
       q: '如何查看批次現有進度？',
       a: '於 Appaw PSA評級代送鑑定進度查詢頁面輸入登記的電話號碼及參考編號，兩者缺一不可。若一次提交多個 PSA 服務方案，每個方案有獨立的參考編號，可用相同電話號碼分別查看各批現有進度。',
     },
     {
-      q: '接受郵寄提交嗎？',
-      a: '不接受。提交鑑定及取件均僅限於 138 Arena 當面辦理，不接受郵寄收件或郵寄取件。138 Arena 的營業時間由場地決定，並公布於 Instagram @138arena。',
-    },
-    {
       q: '提交鑑定前是否要先量度置中？',
       a: '建議但非必須。PSA 10 要求正面 55/45、背面 75/25 或更佳；有時間可先以免費卡牌置中工具自行核對。到達後 Appaw 會完成點收與初步檢視，並可作基本表面清潔。該檢視僅供參考，並不構成對 PSA 分數的承諾。',
     },
     {
-      q: '鑑定卡返港後如何取件？逾時如何處理？',
-      a: 'PSA 交還的鑑定卡由 Appaw Store 保管。十四日取件期限，由 Appaw Store 開始以 WhatsApp 或電郵通知顧客可以取件當日起計。交還地點為 138 Arena。若顧客於上述十四日內仍未取回，該批卡片將視作已被放棄。Appaw Store 會發出放棄取回通知，已繳費用不予退還。',
-    },
-    {
-      q: '遇到加價（Upcharge）時有什麼選擇？',
-      a: '若 PSA 因市值或分數超出所選方案上限而發出加價，顧客有兩項選擇。其一，於取件時向 138 Arena 補繳原方案與較高方案之間的差額；若涉及調整，則由 Appaw Store 確認最終金額。其二，在取件期限內聲明放棄該卡',
+      q: '鑑定卡返港後如何取件？遇加價又如何處理？',
+      a: 'PSA 交還的鑑定卡由 Appaw Store 保管，十四日取件期限由 WhatsApp 或電郵通知發出當日起計；逾期未取視作放棄，已繳費用不予退還。若 PSA 發出加價，可於取件時向 138 Arena 補繳方案差額，或於取件期限內聲明放棄該卡。',
     },
   ],
   midCta: {
