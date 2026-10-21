@@ -40,8 +40,8 @@ export const PAGE_META: Record<string, LocaleMeta> = {
         'Hong Kong marketplace for investment-grade PSA 10 Pokémon cards. Consignment at 138 Arena with a flat 5% commission covering listing and payment fees.',
     },
     zh: {
-      title: '香港 PSA 寶可夢鑑定卡 | 購買稀有鑑定卡 – Appaw Store',
-      description: '香港投資級 PSA 10 寶可夢鑑定卡市集。於 138 Arena 寄賣，佣金一律成交價 5%，已包括上架費及支付手續費。',
+      title: '香港 PSA 寵物小精靈(寶可夢)鑑定卡 | 購買稀有鑑定卡 – Appaw Store',
+      description: '香港投資級 PSA 10 寵物小精靈(寶可夢)鑑定卡市集。於 138 Arena 寄賣，佣金一律成交價 5%，已包括上架費及支付手續費。',
     },
   },
   '/tools/card-centering': {

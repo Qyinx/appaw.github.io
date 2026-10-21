@@ -5,9 +5,9 @@ const guide: GuideContent = {
   title: '香港 TCG 卡牌提交鑑定：138 Arena PSA評級代送鑑定流程',
   badge: '香港',
   lead:
-    '香港 TCG 收藏家如欲將寶可夢、One Piece、Magic: The Gathering 或運動卡交 PSA 鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。Standard 方案服務費由 HKD 550 起，於 138 Arena 現場支付；若有調整，由 Appaw Store 確認最終金額。憑登記的電話號碼及參考編號，可於網上查看批次現有進度。',
+    '香港 TCG 收藏家如欲將寵物小精靈(寶可夢)、One Piece、Magic: The Gathering 或運動卡交 PSA 鑑定，可先於網站預約，再到銅鑼灣 138 Arena 當面辦理。Standard 方案服務費由 HKD 550 起，於 138 Arena 現場支付；若有調整，由 Appaw Store 確認最終金額。憑登記的電話號碼及參考編號，可於網上查看批次現有進度。',
   metaDescription:
-    '香港 TCG 提交 PSA 鑑定指南：銅鑼灣 138 Arena 當面辦理，Standard 方案服務費 HKD 550 起，接受寶可夢、One Piece、MTG 及運動卡裸卡或套袋卡。附面交流程、批次進度查詢、十四日取件期限與加價處理說明。不接受郵寄，須當面交收；各方案收費以預約當時價目表為準。',
+    '香港 TCG 提交 PSA 鑑定指南：銅鑼灣 138 Arena 當面辦理，Standard 方案服務費 HKD 550 起，接受寵物小精靈(寶可夢)、One Piece、MTG 及運動卡裸卡或套袋卡。附面交流程、批次進度查詢、十四日取件期限與加價處理說明。不接受郵寄，須當面交收；各方案收費以預約當時價目表為準。',
   published: '2026-07-13',
   updated: '2026-10-20',
   readTime: '9 分鐘',
@@ -30,7 +30,7 @@ const guide: GuideContent = {
     },
     {
       label: '接受卡牌',
-      value: '寶可夢 TCG、One Piece、MTG 及運動卡之裸卡或套袋卡',
+      value: '寵物小精靈(寶可夢) TCG、One Piece、MTG 及運動卡之裸卡或套袋卡',
     },
   ],
   sections: [
@@ -38,7 +38,7 @@ const guide: GuideContent = {
       id: 'who-this-is-for',
       title: '誰適合香港 TCG 提交鑑定',
       paragraphs: [
-        '本流程專為欲將寶可夢 TCG、One Piece、Magic: The Gathering 或運動卡送交 PSA 鑑定的香港收藏家而設。顧客無須自行處理跨境郵寄，亦無須直接與 PSA 協調批次。預約後親臨 138 Arena 當面辦理，即由 Appaw Store 整理批次並轉送 PSA。',
+        '本流程專為欲將寵物小精靈(寶可夢) TCG、One Piece、Magic: The Gathering 或運動卡送交 PSA 鑑定的香港收藏家而設。顧客無須自行處理跨境郵寄，亦無須直接與 PSA 協調批次。預約後親臨 138 Arena 當面辦理，即由 Appaw Store 整理批次並轉送 PSA。',
         '服務接受裸卡或已套袋卡牌。前往 138 Arena 前，藏家可先運用免費 [卡牌置中工具](/tools/card-centering/) 核對邊距，作為自行篩選。到達後，Appaw 會協助確認 PSA 服務方案、申報價值、套袋整理與開立書面清單。其後每批進度均可於 Appaw 網站查看，無須依賴口頭查詢。',
       ],
       bridge:

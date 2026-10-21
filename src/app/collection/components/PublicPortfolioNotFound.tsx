@@ -29,7 +29,7 @@ export function PublicPortfolioNotFound() {
           </div>
           <p className="text-text-secondary text-sm mb-1">
             {language === 'zh'
-              ? '找不到這個組合，或它已設為私人。'
+              ? '找不到這個組合，或該組合已設為私人。'
               : 'This portfolio was not found or is no longer public.'}
           </p>
           <p className="text-text-muted text-xs mb-6">

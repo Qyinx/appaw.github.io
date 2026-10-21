@@ -91,7 +91,7 @@ function browseCopy(locale: GuideLocale): { title: string; description: string }
     return {
       title: '瀏覽 SNKRDUNK 秋葉原買取參考卡',
       description:
-        '瀏覽 SNKRDUNK 秋葉原已過閘文字買取價，每張卡顯示最近一則公布。僅供市場參考，並非 Appaw Store 或 138 Arena 的收卡價格。',
+        '瀏覽 SNKRDUNK 秋葉原每日公布的買取參考價，每張卡顯示最近一則公布。僅供市場參考，並非 Appaw Store 或 138 Arena 的收卡價格。',
     };
   }
   return {

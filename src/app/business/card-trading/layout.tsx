@@ -12,7 +12,7 @@ const service = serviceJsonLd({
     'TCG Card Brokerage',
     'Pokémon Card Consignment',
     'Graded Card Brokerage Hong Kong',
-    '寶可夢卡牌寄售',
+    '寵物小精靈(寶可夢)卡牌寄售',
   ],
   description:
     'Professional Pokémon TCG brokerage and consignment in Hong Kong via 138 Arena. Flat 5% commission on the sale price, including listing and payment-processor fees.',

@@ -23,7 +23,7 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
     '香港PSA評級代送鑑定',
     'PSA 評級代送',
     '香港 PSA 評級代送',
-    '寶可夢 PSA 鑑定',
+    '寵物小精靈(寶可夢) PSA 鑑定',
   ],
   'identify-fake-psa-slabs': [
     'fake PSA slab',
@@ -145,7 +145,7 @@ const GUIDE_KEYWORDS: Partial<Record<GuideSlug, string[]>> = {
     '香港 TCG 鑑定',
     'TCG 提交鑑定',
     '香港卡牌提交鑑定',
-    '寶可夢 TCG 提交鑑定',
+    '寵物小精靈(寶可夢) TCG 提交鑑定',
     'PSA評級代送鑑定',
     '香港PSA評級代送鑑定',
     'PSA 評級代送',

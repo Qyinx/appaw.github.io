@@ -43,12 +43,12 @@ const UI = {
     range: (low: string, high: string, count: number) =>
       `最低 ${low}。最高 ${high}。共 ${count} 則公布。同一日的多則公布分開列出。`,
     pricesTitle: '逐則公布',
-    columns: ['日期', 'PSA', '價', '睇原帖'],
-    viewPost: '睇原帖',
+    columns: ['日期', 'PSA', '價', '原帖'],
+    viewPost: '查看原帖',
     newTab: '在新分頁開啟',
     sameGrade: '同名同級',
     untitled: '未命名卡',
-    missing: '已過閘的參考表沒有這張卡。',
+    missing: '參考表內沒有這張卡。',
   },
 } as const;
 

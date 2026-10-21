@@ -120,7 +120,7 @@ Site OG image (used across the site): `/images/og-image.png` — recommended siz
 - Primary Keywords (EN): "PSA slab case", "graded card case", "PSA card protector"
 - Supporting long-tails (EN): "35PT PSA slab case", "magnetic graded card case", "PSA magnetic case", "magnetic PSA slab case", "graded card display case", "tempered glass slab case", "PSA UV glass case", "N52 magnetic card holder"
 - Primary Keywords (ZH): "PSA卡殼", "鑑定卡殼", "PSA卡保護殼"
-- Supporting long-tails (ZH): "35PT 鑑定卡", "磁吸鑑定卡殼", "防UV 鑑定卡殼", "防UV玻璃", "強化玻璃卡殼", "香港 PSA卡殼", "寶可夢鑑定卡", "CGC 鑑定卡"
+- Supporting long-tails (ZH): "35PT 鑑定卡", "磁吸鑑定卡殼", "防UV 鑑定卡殼", "防UV玻璃", "強化玻璃卡殼", "香港 PSA卡殼", "寵物小精靈(寶可夢)鑑定卡", "CGC 鑑定卡"
 - Product display name (EN): **Graded Slab UV Glass Protector** (nav short: Graded Slab Protector) — broader than PSA-only, matches CGC compatibility; use **case/protector** terms in titles and H1; lead **tempered UV glass** in meta/H1
 - Product display name (ZH): **鑑定卡保護殼** (full: 磁吸防UV鑑定卡保護殼); search-facing titles use **PSA卡殼 / 鑑定卡殼 / PSA卡保護殼**; frame spec **金屬邊框** (avoid 鋁合金 / 金屬框架 in marketing copy)
 
@@ -152,7 +152,7 @@ Canonical source: `SEO_KEYWORD_MAP` in `src/lib/product-names.ts`. Use these pai
 | PSA grading submission process HK | 香港PSA評級代送鑑定流程 | GSC query; grading submission step-by-step guide |
 | PSA grading fees HK | PSA 鑑定費用 / PSA 收費 | GSC query; pricing & tier selection |
 | PSA grading standards | PSA 10 評級標準 | GSC query (2,000+ imp); guide `psa-grading-standards` |
-| Pokémon TCG grading HK | 寶可夢 TCG 提交鑑定 | PSA grading + centering |
+| Pokémon TCG grading HK | 寵物小精靈(寶可夢) TCG 提交鑑定 | PSA grading + centering |
 
 **Translation rules**
 

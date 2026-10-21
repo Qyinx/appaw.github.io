@@ -161,14 +161,14 @@ export const zh: Translations = {
         badge: '卡牌交易平台',
         title: '探索鑑定卡庫存',
         subtitle: '在香港安全買賣或委託寄售您的 PSA 與 CGC 鑑定卡。',
-        description: '為您精選高品質的 PSA 及 CGC 鑑定卡，涵蓋寶可夢、運動卡與 MTG 領域。',
+        description: '為您精選高品質的 PSA 及 CGC 鑑定卡，涵蓋寵物小精靈(寶可夢)、運動卡與 MTG 領域。',
         cta: '進入交易平台',
       },
     },
     tradingPreview: {
       badge: '交易服務',
       title: '瀏覽鑑定卡庫存',
-      description: '為您精選高品質的 PSA 及 CGC 鑑定卡，涵蓋寶可夢、運動卡與 MTG 領域。',
+      description: '為您精選高品質的 PSA 及 CGC 鑑定卡，涵蓋寵物小精靈(寶可夢)、運動卡與 MTG 領域。',
       features: [
         '多元 PSA 及 CGC 鑑定卡供應',
         '價格透明，極具市場競爭力',
@@ -285,7 +285,7 @@ export const zh: Translations = {
         '整體手感：紮實份量，做工精細',
       ],
       compatibility: {
-        fits: '標準 35PT PSA 鑑定卡（含寶可夢、運動卡、MTG 等）、CGC 卡磚',
+        fits: '標準 35PT PSA 鑑定卡（含寵物小精靈(寶可夢)、運動卡、MTG 等）、CGC 卡磚',
         notFits: '加厚實物卡/球衣卡、BGS 或 TAG 鑑定卡',
         note: '本商品僅為保護殼，不包含圖片展示之 PSA 鑑定卡。',
       },
@@ -299,7 +299,7 @@ export const zh: Translations = {
       featureTitles: ['買賣撮合', '精準估價', '無憂寄售', '真偽把關'],
       chips: ['佣金一律 5%', '專注 PSA 及 CGC', '香港面交保證', '138 Arena 寄賣'],
       features: [
-        '專營 PSA/CGC 鑑定的寶可夢、運動卡及 MTG 高價值卡牌',
+        '專營 PSA/CGC 鑑定的寵物小精靈(寶可夢)、運動卡及 MTG 高價值卡牌',
         '於 138 Arena 寄賣，佣金一律成交價 5%，已包括上架費及支付手續費',
         '結合即時市場數據，提供專業客觀的資產估價',
         '嚴格把關交易安全，買賣雙方權益皆有保障',
@@ -314,7 +314,7 @@ export const zh: Translations = {
     sell: {
       acceptanceTitle: '收購及寄售的卡牌類型',
       acceptanceCriteria: [
-        '經 PSA 及 CGC 鑑定的寶可夢、運動卡及 MTG 卡牌',
+        '經 PSA 及 CGC 鑑定的寵物小精靈(寶可夢)、運動卡及 MTG 卡牌',
         'BGS 及 TAG 鑑定卡牌開放寄售服務',
         '其他 TCG 類別卡牌可按個別情況評估',
         '所有卡牌入場前均須通過嚴格真偽驗證',
@@ -342,7 +342,7 @@ export const zh: Translations = {
   psaProtectorPage: {
     badge: '鑑定卡保護殼',
     seoH1: '35PT 鑑定卡保護殼｜香港 PSA卡殼',
-    heroImageAlt: 'Appaw Store 35PT 鑑定卡保護殼，採用防UV強化玻璃與 N52 磁吸技術展示寶可夢 PTCG 鑑定卡',
+    heroImageAlt: 'Appaw Store 35PT 鑑定卡保護殼，採用防UV強化玻璃與 N52 磁吸技術展示寵物小精靈(寶可夢) PTCG 鑑定卡',
     heroCta: '瀏覽配色與售價 ↓',
     centeringCrossLink: {
       badge: '提交鑑定前實用工具',
@@ -425,7 +425,7 @@ export const zh: Translations = {
       uvProtectionDesc: '阻隔超過 95% 紫外線',
       compatibility: '支援規格',
       compatibilityValue: '標準 35PT PSA 及 CGC 卡磚',
-      compatibilityDesc: '涵蓋寶可夢、運動卡與 MTG',
+      compatibilityDesc: '涵蓋寵物小精靈(寶可夢)、運動卡與 MTG',
       closure: '磁吸系統',
       closureValue: 'N52 釹磁鐵',
       closureDesc: '免工具拆裝，穩固防塵',
@@ -480,7 +480,7 @@ export const zh: Translations = {
         },
         {
           q: '是否能裝入所有的 PSA 及 CGC 鑑定卡？',
-          a: '這款保護殼專為「標準 35PT」的 PSA 及 CGC 卡磚設計（如一般的寶可夢卡、運動卡及萬智牌）。如果您的是加厚版的實物卡、球衣卡，或是 BGS/TAG 等其他品牌的卡磚，將無法裝入。',
+          a: '這款保護殼專為「標準 35PT」的 PSA 及 CGC 卡磚設計（如一般的寵物小精靈(寶可夢)卡、運動卡及萬智牌）。如果您的是加厚版的實物卡、球衣卡，或是 BGS/TAG 等其他品牌的卡磚，將無法裝入。',
         },
         {
           q: '磁吸設計真的夠穩固嗎？',
@@ -553,7 +553,7 @@ export const zh: Translations = {
             a: '為保障雙方權益，付款人與收件人必須為同一人，恕不接受任何形式的代收安排。',
           },
           {
-            q: '你們有提供郵寄或快遞服務嗎？',
+            q: '有提供郵寄或快遞服務嗎？',
             a: '高單價卡牌建議於銅鑼灣面交。海外查詢請經 WhatsApp 聯絡，是否可寄出及條款會按個別訂單確認。',
           },
         ],
@@ -789,12 +789,12 @@ export const zh: Translations = {
     aeo: {
       title: '在香港如何將 TCG 卡牌提交 PSA 鑑定？',
       answer:
-        '香港的 TCG 玩家可以先線上預約銅鑼灣謝斐道 522 號 1/F（138 Arena）的面交時段，親自帶上寶可夢、One Piece、運動卡或 MTG 卡牌（裸卡或含卡套皆可）。現場會確認適合的 PSA 服務等級，代為寄送，並提供專屬參考編號以便於網上查看現有進度。收件時亦可討論卡況，作為是否提交的參考。',
+        '香港的 TCG 玩家可以先線上預約銅鑼灣謝斐道 522 號 1/F（138 Arena）的面交時段，親自帶上寵物小精靈(寶可夢)、One Piece、運動卡或 MTG 卡牌（裸卡或含卡套皆可）。現場會確認適合的 PSA 服務等級，代為寄送，並提供專屬參考編號以便於網上查看現有進度。收件時亦可討論卡況，作為是否提交的參考。',
     },
     whoThisIsFor: {
       title: '這項服務適合誰？',
       body:
-        '適合身在香港，想將寶可夢 TCG、One Piece、運動卡或 MTG 提交 PSA 鑑定的收藏家。交收於銅鑼灣謝斐道 522 號 1/F（138 Arena）當面辦理，並可協助確認合適的服務等級。提交鑑定前建議先用免費置中工具初步篩選；若現場發現卡況明顯無法達到目標分數，Appaw Store 會說明相關風險。',
+        '適合身在香港，想將寵物小精靈(寶可夢) TCG、One Piece、運動卡或 MTG 提交 PSA 鑑定的收藏家。交收於銅鑼灣謝斐道 522 號 1/F（138 Arena）當面辦理，並可協助確認合適的服務等級。提交鑑定前建議先用免費置中工具初步篩選；若現場發現卡況明顯無法達到目標分數，Appaw Store 會說明相關風險。',
     },
     dropOff: {
       title: '面交收件地點',
@@ -814,7 +814,7 @@ export const zh: Translations = {
     hero: {
       title: '香港 PSA評級代送鑑定',
       definition:
-        'Appaw Store 與銅鑼灣 138 Arena 合作提供 PSA評級代送鑑定：138 Arena 負責場務及收費，Appaw Store 負責服務及跟進，代您將寶可夢、One Piece、運動卡或 MTG 送交美國 PSA，並協助挑選合適的服務等級。每批訂單附獨立追蹤編號，可於網上查看現有進度。卡片返回香港後，Appaw Store 會通知取件。收件時會與您討論卡況，協助判斷是否值得提交（最終評級分數由 PSA 決定，Appaw Store 無法保證分數）。',
+        'Appaw Store 與銅鑼灣 138 Arena 合作提供 PSA評級代送鑑定：138 Arena 負責場務及收費，Appaw Store 負責服務及跟進，代您將寵物小精靈(寶可夢)、One Piece、運動卡或 MTG 送交美國 PSA，並協助挑選合適的服務等級。每批訂單附獨立追蹤編號，可於網上查看現有進度。卡片返回香港後，Appaw Store 會通知取件。收件時會與您討論卡況，協助判斷是否值得提交（最終評級分數由 PSA 決定，Appaw Store 無法保證分數）。',
       ctaBook: '預約面交時段',
       ctaTrack: '查詢進度',
       ctaAdvisor: '了解 Appaw 卡況顧問服務',
@@ -1016,7 +1016,7 @@ export const zh: Translations = {
             },
             {
               q: '香港常見的 TCG 卡牌都能送 PSA 嗎？',
-              a: '寶可夢 TCG（PTCG）、One Piece 海賊王、萬智牌（MTG）及各類運動卡（包含裸卡或裝於軟卡套內）均可透過 Appaw PSA評級代送鑑定，於銅鑼灣謝斐道 522 號 1/F（138 Arena）交卡。',
+              a: '寵物小精靈(寶可夢) TCG（PTCG）、One Piece 海賊王、萬智牌（MTG）及各類運動卡（包含裸卡或裝於軟卡套內）均可透過 Appaw PSA評級代送鑑定，於銅鑼灣謝斐道 522 號 1/F（138 Arena）交卡。',
             },
             {
               q: '我該如何預約送件時間？',
@@ -1202,7 +1202,7 @@ export const zh: Translations = {
       fillDemoShort: '套用示範',
       notFoundTitle: '找不到此筆紀錄',
       notFoundBody: '請確認電話號碼與參考編號是否與登記資料完全一致。若仍無法查詢，可透過 WhatsApp 聯絡查核資料。',
-      pricingLink: '複習 PSA 服務方案與收費',
+      pricingLink: 'PSA評級代送服務方案與收費',
       turnstileMissingKey: '安全系統驗證異常，請稍後重試。',
       turnstileRequired: '為保護資料安全，請先勾選我是人類。',
       turnstileFailed: '機器人驗證失敗，請再試一次。',
@@ -1813,11 +1813,11 @@ export const zh: Translations = {
         a: '建議使用深色霧面桌面，將卡片平放並確保光源均勻。最重要的是手機鏡頭必須與卡片保持平行，由正上方拍攝；如有平板掃描器，效果最為理想。',
       },
       {
-        q: '這工具只能量度寶可夢卡嗎？',
-        a: '各類卡牌均可量度。寶可夢、NBA 球員卡、遊戲王或 MTG，只要是長方形卡牌，工具都能透過比對印刷邊框與卡片裁切邊緣計算比例。',
+        q: '這工具只能量度寵物小精靈(寶可夢)卡嗎？',
+        a: '各類卡牌均可量度。寵物小精靈(寶可夢)、NBA 球員卡、遊戲王或 MTG，只要是長方形卡牌，工具都能透過比對印刷邊框與卡片裁切邊緣計算比例。',
       },
       {
-        q: '寶可夢 e-Series / e-Reader 卡要怎樣量度置中？',
+        q: '寵物小精靈(寶可夢) e-Series / e-Reader 卡要怎樣量度置中？',
         a: '將測量模式切換至 e-Series。此系列的左邊與下邊原生較寬（點碼條），工具會改為量度上邊與右邊、下邊與左邊兩組配對，而非一般單框卡的左右及上下比對，評級區間標準維持不變。',
       },
       {
@@ -1922,7 +1922,7 @@ export const zh: Translations = {
       measureModeStandard: '標準',
       measureModeEseries: 'e-Series',
       measureModeHint:
-        'e-Series 使用整段邊線量度：青色 T·R（上+右）、琥珀色 B·L（下+左）。寶可夢 e-Reader 卡的左邊與下邊原生較寬（點碼條），須使用此模式。',
+        'e-Series 使用整段邊線量度：青色 T·R（上+右）、琥珀色 B·L（下+左）。寵物小精靈(寶可夢) e-Reader 卡的左邊與下邊原生較寬（點碼條），須使用此模式。',
       eseriesPairLabel: '線段組',
       eseriesPairTr: '上·右',
       eseriesPairBl: '下·左',
@@ -2001,7 +2001,7 @@ export const zh: Translations = {
     content: {
       h1: CENTERING_SEO.zh.h1 as string,
       lead:
-        '許多卡牌拿不到 10 分，原因不在四角不夠銳利，而是印刷置中偏斜。PSA 10 規定正面比例不能超過 55/45、背面 75/25。上傳照片並拉好對齊線，即可計算比例，並對照 PSA、BGS 等鑑定機構標準。寶可夢 e-Reader 卡可切換 e-Series 模式，改量上/右、下/左配對。所有運算均在您的裝置上完成，照片不會上傳，私隱安全。',
+        '許多卡牌拿不到 10 分，原因不在四角不夠銳利，而是印刷置中偏斜。PSA 10 規定正面比例不能超過 55/45、背面 75/25。上傳照片並拉好對齊線，即可計算比例，並對照 PSA、BGS 等鑑定機構標準。寵物小精靈(寶可夢) e-Reader 卡可切換 e-Series 模式，改量上/右、下/左配對。所有運算均在您的裝置上完成，照片不會上傳，私隱安全。',
       howToTitle: 'Appaw 置中分析器使用教學',
       howToBadge: '四個步驟',
       stepLabel: '教學步驟 {n}',

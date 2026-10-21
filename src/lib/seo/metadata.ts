@@ -192,7 +192,7 @@ const centeringMetadataBase: Metadata = {
     'card centering calculator',
     'PSA 10 centering',
     'PSA centering calculator',
-    '寶可夢卡牌置中工具',
+    '寵物小精靈(寶可夢)卡牌置中工具',
     '卡牌置中工具',
     'PTCG 置中',
     '免費置中計算器',
@@ -393,9 +393,9 @@ const cardTradingMetadataBase: Metadata = {
 
 export const cardTradingMetadata = withLocaleAlternates(cardTradingMetadataBase, '/business/card-trading/');
 export const zhCardTradingMetadata = zhRouteMetadata(cardTradingMetadataBase, '/business/card-trading/', {
-  title: '香港 PSA 寶可夢鑑定卡 | 購買稀有鑑定卡 – Appaw Store',
+  title: '香港 PSA 寵物小精靈(寶可夢)鑑定卡 | 購買稀有鑑定卡 – Appaw Store',
   description:
-    '香港投資級 PSA 10 寶可夢鑑定卡市集。於 138 Arena 寄賣，佣金一律成交價 5%，已包括上架費及支付手續費。面交驗證交易。',
+    '香港投資級 PSA 10 寵物小精靈(寶可夢)鑑定卡市集。於 138 Arena 寄賣，佣金一律成交價 5%，已包括上架費及支付手續費。面交驗證交易。',
 });
 
 const cardTradingSellMetadataBase: Metadata = {

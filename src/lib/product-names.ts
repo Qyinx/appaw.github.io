@@ -29,7 +29,7 @@ export const SEO_KEYWORD_MAP = {
   'PSA grading fees HK': 'PSA 鑑定費用',
   'PSA grading standards': 'PSA 10 評級標準',
   'PSA slab damage': 'PSA殼損',
-  'Pokémon TCG grading HK': '寶可夢 TCG 提交鑑定',
+  'Pokémon TCG grading HK': '寵物小精靈(寶可夢) TCG 提交鑑定',
 } as const;
 
 /** Canonical product names — keep in sync with i18n business.cardProtector.title / nav.psaProtector */
@@ -63,7 +63,7 @@ export const PRODUCT_NAME = {
 /** HK / TCG long-tail keywords for meta keywords arrays (use 鑑定卡, not 評級卡) */
 export const HK_SEO_KEYWORDS = [
   'PTCG',
-  '寶可夢卡牌保護磚',
+  '寵物小精靈(寶可夢)卡牌保護磚',
   'Slab 保護殼',
   '磁吸鑑定卡夾',
   '香港卡牌用品',
@@ -89,7 +89,7 @@ export const HK_SEO_KEYWORDS = [
   '香港 TCG 鑑定',
   'TCG 提交鑑定',
   '香港卡牌提交鑑定',
-  '寶可夢 TCG 提交鑑定',
+  '寵物小精靈(寶可夢) TCG 提交鑑定',
   'HK TCG grading',
 ] as const;
 
