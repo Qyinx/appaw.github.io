@@ -812,6 +812,7 @@ export const zh: Translations = {
       protectors: { label: '選購鑑定卡保護殼', href: '/products/psa-protectors/' },
     },
     hero: {
+      // SEO FROZEN (2026-10-29): H1 已排「香港PSA評級代送」#2。改動會觸發 Google 重新評估，排名浮動數星期。改之前先問負責人。
       title: '香港 PSA評級代送鑑定',
       definition:
         'Appaw Store 與銅鑼灣 138 Arena 合作提供 PSA評級代送鑑定：138 Arena 負責場務及收費，Appaw Store 負責服務及跟進，代您將寵物小精靈(寶可夢)、One Piece、運動卡或 MTG 送交美國 PSA，並協助挑選合適的服務等級。每批訂單附獨立追蹤編號，可於網上查看現有進度。卡片返回香港後，Appaw Store 會通知取件。收件時會與您討論卡況，協助判斷是否值得提交（最終評級分數由 PSA 決定，Appaw Store 無法保證分數）。',
@@ -1162,6 +1163,8 @@ export const zh: Translations = {
       feeTier1to4: '{price} · 1–4 張',
       feeTier5plus: '{price} · 5 張或以上',
       days: '約 {days} 個工作天',
+      includedTitle: '價格已包含',
+      includedItems: ['初步檢驗', '送鑑所需耗材', '來回運費（至 138 Arena）'],
       footnote1: '※ 價格可能會隨 PSA 官方政策變動而調整，恕不另行公告，請以現場報價為準。',
       footnote2: '※ 請注意：若卡片評估後市值飆升，超過了您選擇方案的上限，PSA 有權強制升級方案並向您收取差額 (Upcharge)。',
       turnaroundFootnote:

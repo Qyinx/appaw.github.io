@@ -811,6 +811,7 @@ export const en = {
       protectors: { label: 'Graded slab protectors', href: '/products/psa-protectors/' },
     },
     hero: {
+      // SEO FROZEN (2026-10-29): changing the H1 triggers Google re-evaluation and weeks of ranking fluctuation. Confirm with owner before editing.
       title: 'PSA Grading in Hong Kong',
       definition:
         'In-person PSA grading submission at 138 Arena, Causeway Bay (partner venue). 138 Arena handles the venue and payment; Appaw Store handles the service and follow-up: condition check, tier, shipping to PSA, and tracking. Final grades are set by PSA; we do not guarantee scores.',
@@ -1161,6 +1162,12 @@ export const en = {
       feeTier1to4: '{price} · 1–4 cards',
       feeTier5plus: '{price} · 5+ cards',
       days: '{days} business days',
+      includedTitle: 'Price includes',
+      includedItems: [
+        'Initial inspection',
+        'Required submission supplies',
+        'Round-trip shipping (to 138 Arena)',
+      ],
       footnote1: 'Fees may change without notice.',
       footnote2:
         'If graded value exceeds the max declared value for your tier, PSA may upgrade the service level and charge the difference.',

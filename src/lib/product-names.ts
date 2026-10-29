@@ -141,6 +141,8 @@ export const CENTERING_SEO = {
 } as const;
 
 /** PSA grading submission hub + track — keep in sync with i18n psaGradingPage / psaGradingTrack */
+// SEO FROZEN (2026-10-29): zh 頁排「香港PSA鑑定」#3、「香港PSA評級代送」#2。
+// 「HKTCG」係刻意搶嘅品牌詞位置，保留。title/H1 改動會觸發重新評估，改之前先問負責人。
 export const PSA_GRADING_SEO = {
   en: {
     title: 'PSA Grading in Hong Kong | HKTCG | Appaw Store',

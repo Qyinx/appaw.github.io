@@ -28,6 +28,13 @@ function pricingText(copy: PricingCopy, key: keyof PricingCopy): string {
   return typeof fallback === 'string' ? fallback : '';
 }
 
+/** Same fallback strategy as pricingText, but for the string[] copy. */
+function pricingItems(copy: PricingCopy, key: 'includedItems'): string[] {
+  const live = copy?.[key];
+  if (Array.isArray(live) && live.length > 0) return live;
+  return en.psaGradingPage.pricing[key];
+}
+
 function fillTemplate(template: string, token: string, value: string): string {
   return template.includes(token) ? template.split(token).join(value) : template;
 }
@@ -202,6 +209,16 @@ export default function PsaPricingTable({ copy }: Props) {
             })}
           </tbody>
         </table>
+      </div>
+      <div className="panel p-5">
+        <p className="text-sm font-medium text-text-primary">
+          {pricingText(copy, 'includedTitle')}
+        </p>
+        <ul className="mt-2 space-y-1 text-sm text-text-secondary list-disc list-inside">
+          {pricingItems(copy, 'includedItems').map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
       </div>
       <p className="text-xs text-text-muted leading-relaxed">
         <span className="font-medium text-text-secondary">

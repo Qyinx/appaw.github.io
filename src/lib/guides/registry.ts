@@ -11,6 +11,7 @@ import psaGradingStandardsEn from './content/en/psa-grading-standards';
 import hongKongTcgGradingEn from './content/en/hong-kong-tcg-grading-guide';
 import snkrBuybackEn from './content/en/psa-market-buyback-snkr';
 import pokemonESeriesCenteringEn from './content/en/pokemon-e-series-centering';
+import psa2026PolicyTimelineEn from './content/en/psa-2026-policy-timeline';
 import choose35ptZh from './content/zh/choose-35pt-slab-protector';
 import uvProtectionZh from './content/zh/uv-protection-graded-cards';
 import psa10CenteringZh from './content/zh/psa-10-centering-requirements';
@@ -23,6 +24,7 @@ import psaGradingStandardsZh from './content/zh/psa-grading-standards';
 import hongKongTcgGradingZh from './content/zh/hong-kong-tcg-grading-guide';
 import snkrBuybackZh from './content/zh/psa-market-buyback-snkr';
 import pokemonESeriesCenteringZh from './content/zh/pokemon-e-series-centering';
+import psa2026PolicyTimelineZh from './content/zh/psa-2026-policy-timeline';
 
 export const GUIDE_SLUGS = [
   'choose-35pt-slab-protector',
@@ -36,6 +38,7 @@ export const GUIDE_SLUGS = [
   'psa-review-vs-crack',
   'psa-grading-standards',
   'hong-kong-tcg-grading-guide',
+  'psa-2026-policy-timeline',
   'psa-market-buyback-snkr',
 ] as const;
 
@@ -67,6 +70,7 @@ export const GUIDE_REGISTRY: GuideRegistryEntry[] = [
   { slug: 'psa-review-vs-crack', published: '2026-08-09', updated: '2026-10-01' },
   { slug: 'psa-grading-standards', published: '2026-06-18', updated: '2026-07-12' },
   { slug: 'hong-kong-tcg-grading-guide', published: '2026-07-13', updated: '2026-07-14' },
+  { slug: 'psa-2026-policy-timeline', published: '2026-10-29', updated: '2026-10-29' },
   { slug: 'psa-market-buyback-snkr', published: '2026-10-09', updated: '2026-10-10' },
 ];
 
@@ -83,6 +87,7 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'psa-review-vs-crack': psaReviewVsCrackEn,
     'psa-grading-standards': psaGradingStandardsEn,
     'hong-kong-tcg-grading-guide': hongKongTcgGradingEn,
+    'psa-2026-policy-timeline': psa2026PolicyTimelineEn,
     'psa-market-buyback-snkr': snkrBuybackEn,
   },
   zh: {
@@ -97,6 +102,7 @@ const CONTENT: Record<GuideLocale, Record<GuideSlug, GuideContent>> = {
     'psa-review-vs-crack': psaReviewVsCrackZh,
     'psa-grading-standards': psaGradingStandardsZh,
     'hong-kong-tcg-grading-guide': hongKongTcgGradingZh,
+    'psa-2026-policy-timeline': psa2026PolicyTimelineZh,
     'psa-market-buyback-snkr': snkrBuybackZh,
   },
 };
