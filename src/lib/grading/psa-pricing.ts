@@ -22,8 +22,8 @@ export type PsaPricingRow = {
   turnaroundDays: string;
 };
 
-/** Plans with published hub fees. Value / Premium tiers TBD. */
-const PRICED_PLANS: GradingServicePlan[] = ['STD', 'REG', 'EXP', 'SPX', 'WALK', 'RHLD'];
+/** Plans with published hub fees. Premium tiers TBD. */
+const PRICED_PLANS: GradingServicePlan[] = ['VAL', 'STD', 'REG', 'EXP', 'SPX', 'WALK', 'RHLD'];
 
 /** First calendar day (HKT) of the post–3 Oct 2026 fee schedule. */
 export const PSA_PRICING_CUTOVER_HKT = '2026-10-04';
@@ -39,11 +39,20 @@ const NULL_FEE: Omit<PsaPricingRow, 'plan'> = {
   turnaroundDays: '—',
 };
 
+/** PSA Value (reopened 29 Oct 2026): Appaw HKD 390, max insured USD 500, ~90-100 days. */
+const VALUE_FEE: Omit<PsaPricingRow, 'plan'> = {
+  feeHkd: 390,
+  discountedFeeHkd: null,
+  maxDeclaredValueUsd: 500,
+  turnaroundDays: '~90-100',
+};
+
 /** Prices through 3 Oct 2026 (inclusive, HKT). */
 const FEE_THROUGH_2026_10_03: FeeMap = {
   VBLK: NULL_FEE,
   VPLS: NULL_FEE,
   VMAX: NULL_FEE,
+  VAL: NULL_FEE,
   STD: {
     feeHkd: 560,
     discountedFeeHkd: null,
@@ -90,26 +99,26 @@ const FEE_THROUGH_2026_10_03: FeeMap = {
   PRE3: NULL_FEE,
 };
 
-/** Prices from 4 Oct 2026 (HKT). */
+/**
+ * Prices from 4 Oct 2026 (HKT).
+ * From 29 Oct 2026: Value published; Standard/Priority ETA shortened (PSA).
+ */
 const FEE_FROM_2026_10_04: FeeMap = {
   VBLK: NULL_FEE,
   VPLS: NULL_FEE,
   VMAX: NULL_FEE,
+  VAL: VALUE_FEE,
   STD: {
     feeHkd: 580,
     discountedFeeHkd: null,
-    feeTiers: [
-      { minCards: 1, maxCards: 4, feeHkd: 580 },
-      { minCards: 5, maxCards: null, feeHkd: 570 },
-    ],
     maxDeclaredValueUsd: 1000,
-    turnaroundDays: '~90-100',
+    turnaroundDays: '~70-80',
   },
   REG: {
     feeHkd: 790,
     discountedFeeHkd: null,
     maxDeclaredValueUsd: 1500,
-    turnaroundDays: '~70-80',
+    turnaroundDays: '~50-60',
   },
   EXP: {
     feeHkd: 1850,
@@ -167,7 +176,7 @@ export function getPsaPricingRows(schedule: PsaPricingSchedule = getActivePsaPri
   return PRICED_PLANS.map((plan) => ({
     plan,
     ...fees[plan],
-  }));
+  })).filter((row) => row.feeHkd != null);
 }
 
 /** @deprecated Prefer getPsaPricingRows(getActivePsaPricingSchedule()) — kept for call sites that expect a const. */

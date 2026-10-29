@@ -45,6 +45,7 @@ export const PLAN_RAIL_PRIORITY: Array<GradingServicePlan | '—'> = [
   'EXP',
   'REG',
   'STD',
+  'VAL',
   'PRE3',
   'PRE2',
   'PRE1',

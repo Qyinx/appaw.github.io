@@ -9,6 +9,7 @@ export const SERVICE_PLAN_HUE: Record<PlanOrUnknown, string> = {
   VBLK: '#64748b', // slate — bulk
   VPLS: '#0ea5e9', // sky
   VMAX: '#16a34a', // green
+  VAL: '#475569', // slate — value (economy)
   STD: '#E85D6F', // brand pink
   REG: '#7c3aed', // violet — priority
   EXP: '#d97706', // amber — express

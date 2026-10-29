@@ -60,6 +60,7 @@ function servicePlanLabel(
     VBLK: copy.valueBulk,
     VPLS: copy.valuePlus,
     VMAX: copy.valueMax,
+    VAL: copy.value,
     STD: copy.standard,
     REG: copy.priority,
     EXP: copy.express,

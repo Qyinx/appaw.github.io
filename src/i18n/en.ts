@@ -151,7 +151,7 @@ export const en = {
         badge: 'PSA Grading Submission',
         title: 'PSA grading submission (Hong Kong)',
         description:
-          'Hong Kong TCG face-to-face PSA intake at 138 Arena, Causeway Bay. Condition advice before you ship, tiers from HKD 550. Track every batch online.',
+          'Hong Kong TCG face-to-face PSA intake at 138 Arena, Causeway Bay. Condition advice before you ship, tiers from HKD 390. Track every batch online.',
         cta: 'View PSA grading submission',
       },
       guidesLink: 'Guides on slab fit, UV storage, centering, and regrade vs reholder',
@@ -241,7 +241,7 @@ export const en = {
       title: 'PSA grading submission in Hong Kong',
       description:
         'Face-to-face PSA grading submission from 138 Arena, Causeway Bay. We help you decide whether a card should go to PSA, then track every batch online.',
-      chips: ['138 Arena', 'From HKD 550', 'Face-to-face only', 'Batch tracking'],
+      chips: ['138 Arena', 'From HKD 390', 'Face-to-face only', 'Batch tracking'],
       cta: 'View PSA grading submission',
       trackCta: 'Track a batch',
       bookCta: 'Book drop-off',
@@ -852,7 +852,7 @@ export const en = {
         },
         {
           title: 'Tier advice when the card is strong',
-          body: 'When condition supports a serious PSA 10 attempt, we help match Standard, Priority, Express, Super Express, or Premier to your time and declared-value stake. Faster tiers cost more; we only push them when the card justifies it. For scuffed holders that still grade right, we also offer Reholder.',
+          body: 'When condition supports a serious PSA 10 attempt, we help match Value, Standard, Priority, Express, Super Express, or Premier to your time and declared-value stake. Faster tiers cost more; we only push them when the card justifies it. For scuffed holders that still grade right, we also offer Reholder.',
         },
       ],
     },
@@ -1070,8 +1070,12 @@ export const en = {
               a: 'It is for a scuffed or cracked slab, or a label problem. It usually replaces the case only. Grading again is separate. PSA decides the grade.',
             },
             {
+              q: 'What does PTCG / PSA Value grading submission cost in Hong Kong?',
+              a: 'Full fees are on the pricing table on this page. Value is HKD 390 per card, with a max declared value of USD 500 and ~90–100 day turnaround. Fees are collected at 138 Arena. The table on the booking date applies.',
+            },
+            {
               q: 'What does PTCG / PSA Standard grading submission cost in Hong Kong?',
-              a: 'Full fees are on the pricing table on this page. Standard is HKD 560 for 1–4 cards and HKD 550 for 5+ through 3 Oct 2026; from 4 Oct 2026 it is HKD 580 for 1–4 and HKD 570 for 5+. Fees are collected at 138 Arena. The table on the booking date applies.',
+              a: 'Full fees are on the pricing table on this page. Standard is HKD 560 for 1–4 cards and HKD 550 for 5+ through 3 Oct 2026; from 4 Oct 2026 it is HKD 580 per card. Fees are collected at 138 Arena. The table on the booking date applies.',
             },
             {
               q: 'Where is payment collected for PSA grading submission?',
@@ -1218,6 +1222,7 @@ export const en = {
       valueBulk: 'Value Bulk',
       valuePlus: 'Value Plus',
       valueMax: 'Value Max',
+      value: 'Value',
       standard: 'Standard',
       priority: 'Priority',
       express: 'Express',
@@ -1378,7 +1383,7 @@ export const en = {
         heading: 'PSA grading submission',
         body: [
           'PSA grading submission is booked through the website and completed face to face at 138 Arena. Raw cards are not accepted by mail. The customer brings the cards to the partner venue, where intake, a preliminary inspection, and confirmation of the service tier take place.',
-          'Service tiers follow only the pricing table published on the PSA grading submission page: Standard, Priority, Express, Super Express, Premier, and Reholder. Fees and declared-value limits are those shown on that table at the time of booking.',
+          'Service tiers follow only the pricing table published on the PSA grading submission page: Value, Standard, Priority, Express, Super Express, Premier, and Reholder. Fees and declared-value limits are those shown on that table at the time of booking.',
           'Final grades are set by PSA. Appaw Store does not guarantee a score. A preliminary inspection and any grade discussion at intake are references only. They are not a promise of a PSA 10 or of any other result.',
         ],
       },

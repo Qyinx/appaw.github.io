@@ -152,7 +152,7 @@ export const zh: Translations = {
         badge: 'PSA評級代送鑑定',
         title: '香港PSA評級代送鑑定',
         description:
-          '於銅鑼灣 138 Arena 面交收件，由 Appaw Store 批次轉送 PSA。服務費 HKD 550 起，支援線上查看現有進度，交收時可即場討論卡況。',
+          '於銅鑼灣 138 Arena 面交收件，由 Appaw Store 批次轉送 PSA。服務費 HKD 390 起，支援線上查看現有進度，交收時可即場討論卡況。',
         cta: '了解 PSA評級代送鑑定',
       },
       guidesLink: '鑑定卡保護、防 UV、置中檢測與重新評級實用指南',
@@ -242,7 +242,7 @@ export const zh: Translations = {
       title: '香港PSA評級代送鑑定',
       description:
         '於銅鑼灣 138 Arena 面交收件，由 Appaw Store 穩妥批次轉送 PSA。批次進度可於網上查看，交收時 Appaw Store 亦會提供卡況評估，協助判斷評級效益。',
-      chips: ['138 Arena 面交', 'HKD 550 起', '拒絕郵寄風險', '線上進度查詢'],
+      chips: ['138 Arena 面交', 'HKD 390 起', '拒絕郵寄風險', '線上進度查詢'],
       cta: '了解 PSA評級代送鑑定',
       trackCta: '查詢批次進度',
       bookCta: '預約面交時段',
@@ -853,7 +853,7 @@ export const zh: Translations = {
         },
         {
           title: '按卡況與時間成本挑選方案',
-          body: '若卡況相對理想，Appaw Store 會按卡片市值與您可接受的等候時間，說明 Standard、Priority、Express 等方案的費用與預估工期差異，再由您決定是否升級。若殼有磨損但評級仍合適，亦可選 Reholder（換殼）。',
+          body: '若卡況相對理想，Appaw Store 會按卡片市值與您可接受的等候時間，說明 Value、Standard、Priority、Express 等方案的費用與預估工期差異，再由您決定是否升級。若殼有磨損但評級仍合適，亦可選 Reholder（換殼）。',
         },
       ],
     },
@@ -1071,8 +1071,12 @@ export const zh: Translations = {
               a: '外殼刮花或破裂，才需要考慮換殼。換殼一般只更換保護殼，不會改動原有分數。若希望重新評級，則要另外安排提交鑑定。最終分數由 PSA 決定。',
             },
             {
+              q: 'PTCG PSA評級代送鑑定價錢／PSA Value 香港收費是多少？',
+              a: '完整收費見本頁價目表。Value 方案為每張 HKD 390，最高申報價值 USD 500，預估工期約 90–100 日。費用由 138 Arena 現場收取；實際以預約當日價目表為準。',
+            },
+            {
               q: 'PTCG PSA評級代送鑑定價錢／PSA Standard 香港收費是多少？',
-              a: '完整收費見本頁價目表。Standard 方案至 2026 年 10 月 3 日為 1–4 張 HKD 560、5 張或以上 HKD 550；2026 年 10 月 4 日起為 1–4 張 HKD 580、5 張或以上 HKD 570。費用由 138 Arena 現場收取；實際以預約當日價目表為準。',
+              a: '完整收費見本頁價目表。Standard 方案至 2026 年 10 月 3 日為 1–4 張 HKD 560、5 張或以上 HKD 550；2026 年 10 月 4 日起為每張 HKD 580。費用由 138 Arena 現場收取；實際以預約當日價目表為準。',
             },
             {
               q: 'PSA評級代送鑑定的費用由誰收取？',
@@ -1218,6 +1222,7 @@ export const zh: Translations = {
       valueBulk: '量大方案 (Value Bulk)',
       valuePlus: '進階方案 (Value Plus)',
       valueMax: '頂級方案 (Value Max)',
+      value: '超值方案 (Value)',
       standard: '標準方案 (Standard)',
       priority: '優先方案 (Priority)',
       express: '特快方案 (Express)',
@@ -1377,7 +1382,7 @@ export const zh: Translations = {
         heading: 'PSA評級代送鑑定',
         body: [
           'PSA評級代送鑑定須先於網站預約，並於 138 Arena 當面辦理。本服務不接受以郵寄方式提交裸卡。顧客須親自將卡片帶至合作場地，由現場完成點收、初步檢視，並確認服務方案。',
-          '服務方案僅以 PSA評級代送鑑定頁面公布的價目表為準，包括 Standard、Priority、Express、Super Express、Premier 及 Reholder。收費及最高申報價值限制，以預約當時價目表所列為準。',
+          '服務方案僅以 PSA評級代送鑑定頁面公布的價目表為準，包括 Value、Standard、Priority、Express、Super Express、Premier 及 Reholder。收費及最高申報價值限制，以預約當時價目表所列為準。',
           '最終評級由 PSA 決定。Appaw Store 不保證分數。交卡時的初步檢視及任何分數討論，僅供參考，並不構成對 PSA 10 或其他結果的承諾。',
         ],
       },
