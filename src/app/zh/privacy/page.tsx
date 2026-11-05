@@ -23,7 +23,7 @@ export default function ZhPrivacyPage() {
         <h1 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-2">
           私隱保護政策
         </h1>
-        <p className="text-text-muted text-sm mb-10">最後更新：2026年10月5日</p>
+        <p className="text-text-muted text-sm mb-10">最後更新：2026年11月5日</p>
 
         <div className="mb-10">
           <SectionDivider num="01" />
@@ -76,6 +76,39 @@ export default function ZhPrivacyPage() {
             上述資料僅用於回覆查詢、提供進度查詢或協助完成交易。
           </p>
 
+          <h3 className="text-base font-semibold text-text-primary mb-2">卡牌置中（Card Centering Tools）流動應用程式</h3>
+          <p className="text-text-secondary text-sm leading-relaxed mb-4">
+            <strong>卡牌置中（Card Centering Tools）</strong>由 Appaw Store Limited 提供，可於本機量度卡牌置中，
+            並追蹤你經 Appaw Store 代送 PSA 的進度。
+          </p>
+          <ul className="list-disc list-inside space-y-1 text-text-secondary text-sm mb-4">
+            <li>用於量度的相機／相簿照片只留在本機，不會上傳至我們的伺服器。</li>
+            <li>
+              若使用「追蹤」功能，你輸入的電話號碼只會傳送至 Appaw 評級 API，用以查找你在 Appaw Store 的送件，
+              不會用於廣告。
+            </li>
+            <li>
+              成功查詢後，評級掃描圖可能會顯示並暫存於本機。本機亦可能保存最近一次查詢電話及已開啟的評級狀態，
+              直至你在設定中清除查詢記錄（此操作亦會清除掃描圖快取）。
+            </li>
+            <li>
+              App 會透過 <strong>Google AdMob</strong> 顯示橫幅廣告。Google 可能收集裝置及廣告相關資料（例如廣告識別碼、
+              廣告資料、產品互動）以投放及衡量廣告。詳見{' '}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent-link hover:underline"
+              >
+                Google 私隱政策
+              </a>
+              。目前 iOS 版本不會顯示 App Tracking Transparency 提示。
+            </li>
+          </ul>
+          <p className="text-text-secondary text-sm leading-relaxed mb-6">
+            我們不會出售你的電話號碼、置中照片或評級掃描圖。AdMob 廣告與追蹤查詢資料分開處理。
+          </p>
+
           <h3 className="text-base font-semibold text-text-primary mb-2">購買資料</h3>
           <p className="text-text-secondary text-sm leading-relaxed">
             所有購買經{' '}
@@ -110,8 +143,12 @@ export default function ZhPrivacyPage() {
             <li>監察網站效能</li>
             <li>檢視工作階段重播與熱圖，找出可用性問題</li>
           </ul>
+          <p className="text-text-secondary text-sm leading-relaxed mb-4">
+            您分享的聯絡資料僅用於回覆查詢及協助交易。卡牌置中 App 中的電話號碼與評級掃描圖，只用於 Appaw Store
+            送件追蹤與顯示。
+          </p>
           <p className="text-text-secondary text-sm leading-relaxed">
-            您分享的聯絡資料僅用於回覆查詢及協助交易。我們不會向第三方出售或出租您的資料。
+            在流動 App 內，Google AdMob 會使用裝置及廣告相關資料以顯示及衡量橫幅廣告。我們不會出售或出租你的個人資料。
           </p>
         </div>
 
@@ -133,6 +170,7 @@ export default function ZhPrivacyPage() {
           <ul className="list-disc list-inside space-y-1 text-text-secondary text-sm mb-4">
             <li>Google Analytics 4 — 網站分析</li>
             <li>Microsoft Clarity — 行為分析與工作階段重播</li>
+            <li>Google AdMob — 卡牌置中 App 橫幅廣告</li>
             <li>WhatsApp（Meta）— 顧客聯絡</li>
             <li>Etsy / Carousell — 購買處理</li>
           </ul>

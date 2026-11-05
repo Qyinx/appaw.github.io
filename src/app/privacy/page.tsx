@@ -6,13 +6,11 @@ import { privacyMetadata } from '@/lib/seo/metadata';
 
 export const metadata = privacyMetadata;
 
-const LAST_UPDATED = 'July 14, 2026';
-
 const webPage = webPageJsonLd({
   name: 'Privacy Policy – Appaw Store',
   url: 'https://appaw.store/privacy/',
   datePublished: '2026-04-17',
-  dateModified: '2026-07-14',
+  dateModified: '2026-11-05',
   publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
   inLanguage: 'en',
 });
@@ -43,7 +41,7 @@ export default function PrivacyPage() {
           <h1 className="text-4xl md:text-5xl font-bold font-display text-text-primary leading-tight mb-4">
             Privacy Policy
           </h1>
-          <p className="text-text-secondary text-sm">Last updated: 5 October 2026</p>
+          <p className="text-text-secondary text-sm">Last updated: 5 November 2026</p>
         </div>
       </section>
 
@@ -108,13 +106,42 @@ export default function PrivacyPage() {
               solely to respond to your enquiry, provide tracking, or facilitate a transaction.
             </p>
 
-            <h3 className="text-base font-semibold text-text-primary mb-2">Card Centering mobile app</h3>
+            <h3 className="text-base font-semibold text-text-primary mb-2">Card Centering Tools mobile app</h3>
+            <p className="text-text-secondary text-sm leading-relaxed mb-4">
+              The <strong>Card Centering Tools</strong> app (卡牌置中), provided by Appaw Store Limited, measures
+              trading-card centering on your device and can track PSA submissions you consign through Appaw Store.
+            </p>
+            <ul className="list-disc list-inside space-y-1 text-text-secondary text-sm mb-4">
+              <li>
+                Photos you take or choose for centering stay on the device and are not uploaded to our servers.
+              </li>
+              <li>
+                If you use Track, the phone number you enter is sent to Appaw&apos;s grading API only to find your
+                Appaw Store consignments. It is not used for advertising.
+              </li>
+              <li>
+                After a successful lookup, graded-scan images may be shown and cached on the device. On-device data
+                may also include the last lookup phone and opened graded state until you clear lookup history in
+                Settings (that action also wipes the scan cache).
+              </li>
+              <li>
+                The app shows banner ads through <strong>Google AdMob</strong>. Google may collect device and
+                advertising-related data (such as a device advertising identifier, advertising data, and product
+                interaction) to deliver and measure ads. See{' '}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent-link hover:underline"
+                >
+                  Google&apos;s Privacy Policy
+                </a>
+                . The current iOS build does not present an App Tracking Transparency prompt.
+              </li>
+            </ul>
             <p className="text-text-secondary text-sm leading-relaxed mb-6">
-              The Card Centering app (by Appaw Store Limited) measures trading-card centering on your device.
-              Photos you take or choose for centering never leave the phone and are not uploaded to our servers.
-              If you use in-app submission tracking, the registered phone number and reference code are sent to
-              Appaw&apos;s grading API solely to match your batch. Recent lookups may be stored on the device
-              until you clear app data. The app does not use advertising identifiers.
+              We do not sell your phone number, centering photos, or graded-scan images. AdMob ads are separate
+              from Track lookup data.
             </p>
 
             <h3 className="text-base font-semibold text-text-primary mb-2">Purchase data</h3>
@@ -138,9 +165,14 @@ export default function PrivacyPage() {
               <li>Monitor site performance</li>
               <li>Review session replays and heatmaps to identify usability issues</li>
             </ul>
-            <p className="text-text-secondary text-sm leading-relaxed">
+            <p className="text-text-secondary text-sm leading-relaxed mb-4">
               Contact information you share is used only to respond to enquiries and facilitate transactions.
-              We do not sell or rent your data to third parties.
+              Phone numbers and graded-scan images used in Card Centering Tools are used only for Appaw Store
+              submission tracking and display.
+            </p>
+            <p className="text-text-secondary text-sm leading-relaxed">
+              In the mobile app, Google AdMob uses device and advertising-related data to show and measure banner
+              ads. We do not sell or rent your personal data.
             </p>
           </div>
 
@@ -160,6 +192,7 @@ export default function PrivacyPage() {
                   {[
                     { name: 'Google Analytics 4', purpose: 'Website analytics', url: 'https://policies.google.com/privacy', label: 'google.com/policies' },
                     { name: 'Microsoft Clarity', purpose: 'Session replay, heatmaps, and behavioral analytics', url: 'https://www.microsoft.com/privacy/privacystatement', label: 'microsoft.com/privacy' },
+                    { name: 'Google AdMob', purpose: 'Banner ads in the Card Centering Tools mobile app', url: 'https://policies.google.com/privacy', label: 'google.com/policies' },
                     { name: 'Etsy', purpose: 'E-commerce platform', url: 'https://www.etsy.com/legal/privacy', label: 'etsy.com/legal/privacy' },
                     { name: 'Carousell', purpose: 'Secondary marketplace', url: 'https://support.carousell.com/hc/en-us/articles/360000045203', label: 'carousell.com/privacy' },
                     { name: 'WhatsApp (Meta)', purpose: 'Customer contact', url: 'https://www.whatsapp.com/legal/privacy-policy', label: 'whatsapp.com/legal' },
@@ -202,8 +235,10 @@ export default function PrivacyPage() {
             </p>
             <h3 className="text-base font-semibold text-text-primary mb-2">Essential cookies</h3>
             <p className="text-text-secondary text-sm leading-relaxed">
-              We do not set any additional session or authentication cookies beyond the analytics services
-              described above. No cookies are used for advertising or profiling purposes.
+              We do not set any additional session or authentication cookies on this website beyond the analytics
+              services described above. Website cookies are not used for advertising. Banner advertising in the
+              Card Centering Tools mobile app is delivered by Google AdMob and is separate from this website&apos;s
+              cookie notice.
             </p>
           </div>
 
