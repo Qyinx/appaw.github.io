@@ -44,6 +44,31 @@ type Props = {
   onTabChange?: (tab: ResultsTab) => void;
 };
 
+const PSA_STEP_COPY_KEYS = [
+  'psa1',
+  'psa2',
+  'psa3',
+  'psa4',
+  'psa5',
+  'psa6',
+  'psa7',
+  'psa8',
+] as const;
+
+function localizeTrackStepLabel(
+  step: GradingSubmission['steps'][number],
+  copy: ResultsCopy['steps'],
+): string {
+  if (step.id === 'appaw-recorded') return copy.appawRecorded;
+  if (step.id === 'appaw-sent-psa') return copy.appawSentToPsa;
+  if (step.id === 'appaw-pickup') return copy.appawPickup;
+  if (step.kind === 'psa' && step.psaStep != null) {
+    const key = PSA_STEP_COPY_KEYS[step.psaStep - 1];
+    if (key) return copy[key];
+  }
+  return step.label;
+}
+
 function maskPhone(phone: string): string {
   const digits = phone.replace(/\D/g, '');
   if (digits.length < 4) return phone || '····';
@@ -140,18 +165,15 @@ export default function TrackResultsPanel({
 
   const localizedSubmission: GradingSubmission = {
     ...submission,
-    steps: submission.steps.map((step) => {
-      if (step.id === 'appaw-recorded') {
-        return { ...step, label: copy.steps.appawRecorded };
-      }
-      if (step.id === 'appaw-sent-psa') {
-        return { ...step, label: copy.steps.appawSentToPsa };
-      }
-      if (step.id === 'appaw-pickup') {
-        return { ...step, label: copy.steps.appawPickup };
-      }
-      return step;
-    }),
+    steps: submission.steps.map((step) => ({
+      ...step,
+      label: localizeTrackStepLabel(step, copy.steps),
+    })),
+    // Prefer local copy when API still returns legacy "Grades Ready" summary.
+    statusSummary:
+      submission.statusSummary === 'Grades Ready'
+        ? copy.steps.psa7
+        : submission.statusSummary,
   };
 
   useEffect(() => {
