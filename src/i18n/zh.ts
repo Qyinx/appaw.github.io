@@ -1296,7 +1296,7 @@ export const zh: Translations = {
       status: {
         problemOrder: '訂單異常 、 請儘速聯繫客服',
         accountingHold: '帳務問題（可能發生 Upcharge）',
-        gradesReady: '評級結果已公布',
+        gradesReady: '護卡與標籤覆核',
         readyForLabelReview: '準備列印高分標籤',
       },
       items: {

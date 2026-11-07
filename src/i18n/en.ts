@@ -1301,7 +1301,7 @@ export const en = {
       status: {
         problemOrder: 'Problem order: contact support',
         accountingHold: 'Accounting hold',
-        gradesReady: 'Grades ready',
+        gradesReady: 'Holder & label review',
         readyForLabelReview: 'Label review',
       },
       items: {

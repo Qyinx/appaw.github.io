@@ -8,7 +8,7 @@ export const PSA_STEP_LABELS: Record<PsaProgressStepId, string> = {
   4: 'Grading',
   5: 'Assembly',
   6: 'QA Checks',
-  7: 'Grades Ready',
+  7: 'Holder & Label Review',
   8: 'Completing',
 };
 

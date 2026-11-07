@@ -22,8 +22,8 @@ type DashboardTab = 'plans' | 'recording' | 'pickup' | 'all';
 type AllView = 'batches' | 'orders';
 type PaymentFilter = 'all' | 'full' | 'partial' | 'unpaid';
 
-/** Matches backend GRADES_READY_STEP — Excel import available from here. */
-const GRADES_READY_STEP = 8;
+/** Show Excel-pending warn after Holder & Label Review — Completing (step 9) onward. */
+const EXCEL_PENDING_FROM_STEP = 9;
 
 function paymentStatus(summary: AdminPaymentSummary): PaymentFilter {
   if (summary.totalCount === 0) return 'unpaid';
@@ -112,7 +112,7 @@ function BatchTable({
                   <td className="py-2 pr-2 font-mono text-xs">{batch.psaOrderNumber ?? '—'}</td>
                   <td className="py-2 pr-2 text-text-secondary" title={progress}>
                     <span className="truncate block">{progress}</span>
-                    {batch.completedStepIndex >= GRADES_READY_STEP &&
+                    {batch.completedStepIndex >= EXCEL_PENDING_FROM_STEP &&
                     !batch.psaExcelImported ? (
                       <span
                         className="mt-0.5 inline-flex items-center gap-1 rounded-sm border border-accent-warn/40 bg-accent-warn/15 px-1.5 py-0.5 text-xs text-accent-warn font-semibold"
@@ -235,7 +235,7 @@ export default function GradingDashboardClient() {
   const excelPendingBatches = useMemo(
     () =>
       batches.filter(
-        (b) => b.completedStepIndex >= GRADES_READY_STEP && !b.psaExcelImported,
+        (b) => b.completedStepIndex >= EXCEL_PENDING_FROM_STEP && !b.psaExcelImported,
       ),
     [batches],
   );
@@ -363,7 +363,7 @@ export default function GradingDashboardClient() {
           </span>
           <span className="text-text-secondary">
             {' '}
-            — grades-ready, PSA CSV not applied yet. Check Plans chips or All → Batches.
+            — step 9+, PSA CSV not applied yet. Check Plans chips or All → Batches.
           </span>
         </div>
       ) : null}

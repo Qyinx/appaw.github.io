@@ -39,8 +39,8 @@ function ordersForBatch(
     .sort((a, b) => a.id - b.id);
 }
 
-/** Matches backend GRADES_READY_STEP — Excel import available from here. */
-const GRADES_READY_STEP = 8;
+/** Show Excel-pending warn after Holder & Label Review — Completing (step 9) onward. */
+const EXCEL_PENDING_FROM_STEP = 9;
 
 function BatchChip({
   batch,
@@ -55,7 +55,7 @@ function BatchChip({
 }) {
   const showPickup = batch.completedStepIndex >= 9 || pickup.total > 0;
   const excelPending =
-    batch.completedStepIndex >= GRADES_READY_STEP && !batch.psaExcelImported;
+    batch.completedStepIndex >= EXCEL_PENDING_FROM_STEP && !batch.psaExcelImported;
   const orderIds = batchOrders.map((o) => o.id).join(', ');
   const createdLabel = batch.createdAt
     ? new Date(batch.createdAt).toLocaleDateString()

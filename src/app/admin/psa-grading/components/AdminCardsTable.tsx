@@ -24,7 +24,7 @@ type Props = {
   showSubmissionOrder?: boolean;
   /** 1-based sequence across all cards in the batch (batch detail page). */
   showBatchOrderId?: boolean;
-  /** Cert / grade / images under card name (Grades ready onward). */
+  /** Cert / grade / images under card name (Holder & Label Review onward). */
   showGradeColumns?: boolean;
   /** Ops density preset — batch/order hide redundant identity columns. */
   density?: Density;

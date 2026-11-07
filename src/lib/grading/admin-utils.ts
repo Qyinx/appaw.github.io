@@ -66,7 +66,7 @@ export const RAIL_STEP_SHORT_LABELS: string[] = [
   'Grade',
   'Asm',
   'QA',
-  'Ready',
+  'H&L',
   'Done',
   'Pickup',
 ];
