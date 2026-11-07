@@ -22,6 +22,9 @@ type DashboardTab = 'plans' | 'recording' | 'pickup' | 'all';
 type AllView = 'batches' | 'orders';
 type PaymentFilter = 'all' | 'full' | 'partial' | 'unpaid';
 
+/** Matches backend GRADES_READY_STEP — Excel import available from here. */
+const GRADES_READY_STEP = 8;
+
 function paymentStatus(summary: AdminPaymentSummary): PaymentFilter {
   if (summary.totalCount === 0) return 'unpaid';
   if (summary.paidCount === summary.totalCount) return 'full';
@@ -107,8 +110,18 @@ function BatchTable({
                     {batch.psaSubmissionNumber ?? '—'}
                   </td>
                   <td className="py-2 pr-2 font-mono text-xs">{batch.psaOrderNumber ?? '—'}</td>
-                  <td className="py-2 pr-2 text-text-secondary truncate" title={progress}>
-                    {progress}
+                  <td className="py-2 pr-2 text-text-secondary" title={progress}>
+                    <span className="truncate block">{progress}</span>
+                    {batch.completedStepIndex >= GRADES_READY_STEP &&
+                    !batch.psaExcelImported ? (
+                      <span
+                        className="mt-0.5 inline-flex items-center gap-1 rounded-sm border border-accent-warn/40 bg-accent-warn/15 px-1.5 py-0.5 text-xs text-accent-warn font-semibold"
+                        title="PSA Excel / CSV grades not applied yet"
+                      >
+                        <span aria-hidden="true">⚠</span>
+                        Excel pending
+                      </span>
+                    ) : null}
                   </td>
                   <td className="py-2 pr-2 tabular-nums">{batch.orderCount}</td>
                   <td className="py-2 pr-2 tabular-nums">{batch.cardCount}</td>
@@ -218,6 +231,14 @@ export default function GradingDashboardClient() {
 
   const q = batchSearch.trim().toLowerCase();
   const orderQ = orderSearch.trim().toLowerCase();
+
+  const excelPendingBatches = useMemo(
+    () =>
+      batches.filter(
+        (b) => b.completedStepIndex >= GRADES_READY_STEP && !b.psaExcelImported,
+      ),
+    [batches],
+  );
 
   const recordingBatches = useMemo(
     () => batches.filter((b) => b.completedStepIndex === 0).sort(compareBatchCreatedDesc),
@@ -330,6 +351,22 @@ export default function GradingDashboardClient() {
   return (
     <div className="space-y-4">
       <PsaSyncPanel />
+
+      {excelPendingBatches.length > 0 ? (
+        <div
+          className="border border-accent-warn/40 bg-accent-warn/10 px-3 py-2 text-sm text-accent-warn"
+          role="status"
+        >
+          <span className="font-semibold">
+            {excelPendingBatches.length} batch
+            {excelPendingBatches.length === 1 ? '' : 'es'} Excel pending
+          </span>
+          <span className="text-text-secondary">
+            {' '}
+            — grades-ready, PSA CSV not applied yet. Check Plans chips or All → Batches.
+          </span>
+        </div>
+      ) : null}
 
       <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-3 min-w-0">

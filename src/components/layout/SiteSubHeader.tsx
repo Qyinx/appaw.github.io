@@ -15,6 +15,8 @@ function subHeaderContentWidthClass(width: SubHeaderConfig['contentWidth']): str
       return 'container-tool';
     case 'guide':
       return 'container-custom max-w-[1080px]';
+    case 'full':
+      return 'w-full max-w-none px-[var(--space-page-x)]';
     case 'page':
     case undefined:
       return 'container-custom';

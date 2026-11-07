@@ -39,6 +39,9 @@ function ordersForBatch(
     .sort((a, b) => a.id - b.id);
 }
 
+/** Matches backend GRADES_READY_STEP — Excel import available from here. */
+const GRADES_READY_STEP = 8;
+
 function BatchChip({
   batch,
   hue,
@@ -51,6 +54,8 @@ function BatchChip({
   batchOrders: AdminCustomerOrder[];
 }) {
   const showPickup = batch.completedStepIndex >= 9 || pickup.total > 0;
+  const excelPending =
+    batch.completedStepIndex >= GRADES_READY_STEP && !batch.psaExcelImported;
   const orderIds = batchOrders.map((o) => o.id).join(', ');
   const createdLabel = batch.createdAt
     ? new Date(batch.createdAt).toLocaleDateString()
@@ -58,7 +63,7 @@ function BatchChip({
 
   return (
     <div
-      className="border px-1.5 py-1 text-left"
+      className={`border px-1.5 py-1 text-left${excelPending ? ' ring-1 ring-accent-warn/70' : ''}`}
       style={{
         color: hue,
         borderColor: `color-mix(in srgb, ${hue} 45%, transparent)`,
@@ -67,7 +72,7 @@ function BatchChip({
     >
       <Link
         href={batchDetailHref(batch.referenceCode)}
-        title={`${batch.referenceCode}${createdLabel ? ` · created ${createdLabel}` : ''} · ${batch.cardCount} cards · ${batch.orderCount} orders`}
+        title={`${batch.referenceCode}${createdLabel ? ` · created ${createdLabel}` : ''} · ${batch.cardCount} cards · ${batch.orderCount} orders${excelPending ? ' · PSA Excel pending' : ''}`}
         className="block hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent-brand"
       >
         <span className="font-mono text-[0.65rem] leading-tight block truncate">
@@ -78,6 +83,11 @@ function BatchChip({
           {showPickup && pickup.total > 0 ? ` · ${pickup.picked}/${pickup.total}` : ''}
           {createdLabel ? ` · ${createdLabel}` : ''}
         </span>
+        {excelPending ? (
+          <span className="mt-0.5 block text-[0.6rem] font-semibold text-accent-warn leading-tight">
+            Excel pending
+          </span>
+        ) : null}
       </Link>
       {batchOrders.length > 0 ? (
         <div

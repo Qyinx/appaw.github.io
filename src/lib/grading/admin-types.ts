@@ -11,6 +11,10 @@ export interface AdminBatch {
   completedStepIndex: number;
   orderCount: number;
   cardCount: number;
+  /** True after PSA Excel/CSV grades were applied to this batch. */
+  psaExcelImported?: boolean;
+  /** ISO datetime when PSA Excel/CSV grades were applied; null if not yet. */
+  psaExcelImportedAt?: string | null;
   /** Customer-visible rich text notes (TipTap HTML). Shown on track lookup. */
   notes?: string | null;
   /** ISO date YYYY-MM-DD. */
