@@ -23,7 +23,7 @@ export default function ZhPrivacyPage() {
         <h1 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-2">
           私隱保護政策
         </h1>
-        <p className="text-text-muted text-sm mb-10">最後更新：2026年11月5日</p>
+        <p className="text-text-muted text-sm mb-10">最後更新：2026年11月7日</p>
 
         <div className="mb-10">
           <SectionDivider num="01" />
@@ -102,11 +102,17 @@ export default function ZhPrivacyPage() {
               >
                 Google 私隱政策
               </a>
-              。目前 iOS 版本不會顯示 App Tracking Transparency 提示。
+              。本 App 不會跨其他公司的 App 或網站追蹤你作廣告用途。
             </li>
           </ul>
           <p className="text-text-secondary text-sm leading-relaxed mb-6">
             我們不會出售你的電話號碼、置中照片或評級掃描圖。AdMob 廣告與追蹤查詢資料分開處理。
+          </p>
+
+          <h3 className="text-base font-semibold text-text-primary mb-2">兒童</h3>
+          <p className="text-text-secondary text-sm leading-relaxed mb-6">
+            本網站及卡牌置中 App 並非以 13 歲以下兒童為對象，我們亦不會明知而收集 13 歲以下兒童的個人資料。
+            App 內廣告已設定為非兒童導向。如您認為有兒童向我們提供了個人資料，請聯絡我們，我們會將其刪除。
           </p>
 
           <h3 className="text-base font-semibold text-text-primary mb-2">購買資料</h3>
@@ -180,7 +186,9 @@ export default function ZhPrivacyPage() {
           <SectionDivider num="05" />
           <h2 className="text-2xl font-bold font-display text-text-primary mb-4">資料保留與您的權利</h2>
           <p className="text-text-secondary text-sm leading-relaxed mb-4">
-            分析資料按各分析供應商的保留設定保存。經 WhatsApp 或電郵分享的聯絡資料，以及進度查詢／預約所需資料，僅在有需要期間保留。
+            Google Analytics 4 資料保留 14 個月，期後由 Google 自動刪除。Microsoft Clarity 工作階段錄影及相關分析資料
+            按 Microsoft 的保留政策保存（工作階段重播一般最多 30 日）。經 WhatsApp 或電郵分享的聯絡資料，
+            以及進度查詢／預約所需資料，僅在處理查詢或完成交易所需期間保留。
           </p>
           <p className="text-text-secondary text-sm leading-relaxed mb-2">您有權：</p>
           <ul className="list-disc list-inside space-y-1 text-text-secondary text-sm mb-4">
@@ -203,6 +211,15 @@ export default function ZhPrivacyPage() {
             <Link href="/privacy/" className="text-accent-link hover:underline">
               Privacy Policy
             </Link>
+          </p>
+        </div>
+
+        <div className="mb-2">
+          <SectionDivider num="07" />
+          <h2 className="text-2xl font-bold font-display text-text-primary mb-4">政策更新</h2>
+          <p className="text-text-secondary text-sm leading-relaxed">
+            我們可能不時更新本政策，頁頂的「最後更新」日期反映最新修訂。更新後繼續使用本網站，
+            即表示您接受更新後的政策。
           </p>
         </div>
       </div>

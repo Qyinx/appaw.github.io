@@ -10,7 +10,7 @@ const webPage = webPageJsonLd({
   name: 'Privacy Policy – Appaw Store',
   url: 'https://appaw.store/privacy/',
   datePublished: '2026-04-17',
-  dateModified: '2026-11-05',
+  dateModified: '2026-11-07',
   publisher: { '@type': 'Organization', name: 'Appaw Store', url: 'https://appaw.store' },
   inLanguage: 'en',
 });
@@ -41,7 +41,7 @@ export default function PrivacyPage() {
           <h1 className="text-4xl md:text-5xl font-bold font-display text-text-primary leading-tight mb-4">
             Privacy Policy
           </h1>
-          <p className="text-text-secondary text-sm">Last updated: 5 November 2026</p>
+          <p className="text-text-secondary text-sm">Last updated: 7 November 2026</p>
         </div>
       </section>
 
@@ -136,12 +136,21 @@ export default function PrivacyPage() {
                 >
                   Google&apos;s Privacy Policy
                 </a>
-                . The current iOS build does not present an App Tracking Transparency prompt.
+                . The app does not track you across other companies&apos; apps and websites for
+                advertising.
               </li>
             </ul>
             <p className="text-text-secondary text-sm leading-relaxed mb-6">
               We do not sell your phone number, centering photos, or graded-scan images. AdMob ads are separate
               from Track lookup data.
+            </p>
+
+            <h3 className="text-base font-semibold text-text-primary mb-2">Children</h3>
+            <p className="text-text-secondary text-sm leading-relaxed mb-6">
+              Our website and the Card Centering Tools app are not directed at children under 13, and we do
+              not knowingly collect personal data from children under 13. Ads in the app are configured as
+              non-child-directed. If you believe a child has provided us personal data, contact us and we
+              will delete it.
             </p>
 
             <h3 className="text-base font-semibold text-text-primary mb-2">Purchase data</h3>

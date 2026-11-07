@@ -12,7 +12,7 @@ const APP_NAME = '卡牌置中（Card Centering Tools）';
 const FAQS = [
   {
     q: '卡牌置中 App 有甚麼功能？',
-    a: '卡牌置中可於 iPhone 本機量度卡牌置中，亦可查詢經 Appaw Store 代送的 PSA 鑑定進度。置中相片只留在裝置上，不會上傳至我們的伺服器。',
+    a: '卡牌置中可於 iPhone 或 Android 手機本機量度卡牌置中，亦可查詢經 Appaw Store 代送的 PSA 鑑定進度。置中相片只留在裝置上，不會上傳至我們的伺服器。',
   },
   {
     q: '如何聯絡支援？',
@@ -65,7 +65,7 @@ export default function ZhSupportPage() {
             支援
           </h1>
           <p className="text-text-secondary text-sm max-w-2xl leading-relaxed">
-            {COMPANY.brandName} 的 iOS 應用程式{' '}
+            {COMPANY.brandName} 的 iOS／Android 應用程式{' '}
             <strong className="text-text-primary font-semibold">{APP_NAME}</strong> 支援頁。
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function ZhSupportPage() {
                 <span className="font-semibold text-text-primary">語言：</span> 英文、繁體中文、廣東話
               </p>
               <p className="pt-2 border-t border-border-default">
-                來信時請附上 iOS 版本與問題簡述；若量度或進度顯示異常，截圖會更有幫助。
+                來信時請附上裝置型號、系統版本與問題簡述；若量度或進度顯示異常，截圖會更有幫助。
               </p>
             </div>
           </div>

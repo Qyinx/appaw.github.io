@@ -12,7 +12,7 @@ const APP_NAME = 'Card Centering Tools';
 const FAQS = [
   {
     q: 'What does Card Centering Tools do?',
-    a: 'Card Centering Tools measures trading-card centering on your iPhone and can look up PSA submissions you consign through Appaw Store. Centering photos stay on your device.',
+    a: 'Card Centering Tools measures trading-card centering on your iPhone or Android phone and can look up PSA submissions you consign through Appaw Store. Centering photos stay on your device.',
   },
   {
     q: 'How do I contact support?',
@@ -66,7 +66,7 @@ export default function SupportPage() {
           </h1>
           <p className="text-text-secondary text-sm max-w-2xl leading-relaxed">
             Help for the <strong className="text-text-primary font-semibold">{APP_NAME}</strong> iOS
-            app (卡牌置中) from {COMPANY.brandName}.
+            and Android app (卡牌置中) from {COMPANY.brandName}.
           </p>
         </div>
       </section>
@@ -104,8 +104,8 @@ export default function SupportPage() {
                 Chinese, Cantonese
               </p>
               <p className="pt-2 border-t border-border-default">
-                When you write in, include your iOS version and a short description of the issue. Screenshots
-                help if measurement or Track looks wrong.
+                When you write in, include your device model and OS version plus a short description of the
+                issue. Screenshots help if measurement or Track looks wrong.
               </p>
             </div>
           </div>
