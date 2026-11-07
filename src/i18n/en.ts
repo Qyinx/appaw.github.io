@@ -1354,6 +1354,7 @@ export const en = {
     locationValue: 'Hong Kong',
     phoneDisplay: '+852 9285 1189',
     privacy: 'Privacy Policy',
+    support: 'Support',
     terms: 'Terms of Service',
     brLabel: 'BR',
   },

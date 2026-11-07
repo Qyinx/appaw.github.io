@@ -251,6 +251,21 @@ export const zhPrivacyMetadata = zhRouteMetadata(privacyMetadataBase, '/privacy/
   description: '了解 Appaw Store 如何收集、使用及保護您的資料。網站分析使用 Google Analytics 4；購買透過 Etsy 及 Carousell 安全處理。',
 });
 
+const supportMetadataBase: Metadata = {
+  title: { absolute: 'Support – Card Centering Tools | Appaw Store' },
+  description:
+    'Get help with the Card Centering Tools iOS app from Appaw Store. Contact support by email or WhatsApp for centering measurement, Track lookups, and app questions.',
+  alternates: { canonical: '/support/' },
+  robots: { index: true, follow: true },
+};
+
+export const supportMetadata = withLocaleAlternates(supportMetadataBase, '/support/');
+export const zhSupportMetadata = zhRouteMetadata(supportMetadataBase, '/support/', {
+  title: '支援 – 卡牌置中 | Appaw Store',
+  description:
+    'Appaw Store「卡牌置中」iOS App 支援頁。以電郵或 WhatsApp 查詢置中量度、進度追蹤及其他應用程式問題。',
+});
+
 const termsMetadataBase: Metadata = {
   title: { absolute: 'Terms of Service | Appaw Store' },
   description:

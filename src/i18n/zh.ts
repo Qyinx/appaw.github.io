@@ -1349,6 +1349,7 @@ export const zh: Translations = {
     locationValue: '立足香港，服務全球',
     phoneDisplay: 'WhatsApp: +852 9285 1189',
     privacy: '私隱保護政策',
+    support: '支援',
     terms: '服務條款',
     brLabel: 'BR:',
   },

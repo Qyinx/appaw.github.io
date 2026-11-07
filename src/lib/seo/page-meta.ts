@@ -58,6 +58,17 @@ export const PAGE_META: Record<string, LocaleMeta> = {
       description: '了解 Appaw Store 如何收集、使用及保護您的資料。',
     },
   },
+  '/support': {
+    en: {
+      title: 'Support – Card Centering Tools | Appaw Store',
+      description:
+        'Get help with the Card Centering Tools iOS app. Contact Appaw Store by email or WhatsApp.',
+    },
+    zh: {
+      title: '支援 – 卡牌置中 | Appaw Store',
+      description: '「卡牌置中」iOS App 支援頁。以電郵或 WhatsApp 聯絡 Appaw Store。',
+    },
+  },
   '/terms': {
     en: {
       title: 'Terms of Service | Appaw Store',

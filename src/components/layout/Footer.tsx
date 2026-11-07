@@ -67,6 +67,12 @@ export default function Footer() {
             <span className="site-footer__sep" aria-hidden="true">
               ·
             </span>
+            <LocalLink href="/support" className="site-footer__link">
+              {t.footer.support}
+            </LocalLink>
+            <span className="site-footer__sep" aria-hidden="true">
+              ·
+            </span>
             <LocalLink href="/terms" className="site-footer__link">
               {t.footer.terms}
             </LocalLink>
