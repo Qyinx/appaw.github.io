@@ -14,6 +14,7 @@ import {
 } from '@/lib/grading/admin-utils';
 import { GRADING_SERVICE_PLAN_LABELS } from '@/lib/grading/reference-code';
 import { parseBatchReferenceCode } from '@/lib/grading/batch-reference-code';
+import CustomerOrderLink from './CustomerOrderLink';
 import ServicePlanBadge from './ServicePlanBadge';
 
 type Props = {
@@ -29,38 +30,95 @@ function shortBatchRef(referenceCode: string): string {
   return `${yy}-${String(parsed.month).padStart(2, '0')}-R${parsed.round}`;
 }
 
+function ordersForBatch(
+  referenceCode: string,
+  allOrders: AdminCustomerOrder[],
+): AdminCustomerOrder[] {
+  return allOrders
+    .filter((o) => o.batchReferenceCode === referenceCode)
+    .sort((a, b) => a.id - b.id);
+}
+
 function BatchChip({
   batch,
   hue,
   pickup,
+  batchOrders,
 }: {
   batch: AdminBatch;
   hue: string;
   pickup: { picked: number; total: number };
+  batchOrders: AdminCustomerOrder[];
 }) {
   const showPickup = batch.completedStepIndex >= 9 || pickup.total > 0;
+  const orderIds = batchOrders.map((o) => o.id).join(', ');
+  const createdLabel = batch.createdAt
+    ? new Date(batch.createdAt).toLocaleDateString()
+    : '';
+
   return (
-    <Link
-      href={batchDetailHref(batch.referenceCode)}
-      title={`${batch.referenceCode} · ${batch.cardCount} cards · ${batch.orderCount} orders`}
-      className="block border px-1.5 py-1 text-left hover:bg-surface-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent-brand"
+    <div
+      className="border px-1.5 py-1 text-left"
       style={{
         color: hue,
         borderColor: `color-mix(in srgb, ${hue} 45%, transparent)`,
         backgroundColor: `color-mix(in srgb, ${hue} 12%, transparent)`,
       }}
     >
-      <span className="font-mono text-[0.65rem] leading-tight block truncate">{shortBatchRef(batch.referenceCode)}</span>
-      <span className="font-mono text-[0.6rem] tabular-nums text-text-secondary block">
-        {batch.cardCount}c
-        {showPickup && pickup.total > 0 ? ` · ${pickup.picked}/${pickup.total}` : ''}
-      </span>
-    </Link>
+      <Link
+        href={batchDetailHref(batch.referenceCode)}
+        title={`${batch.referenceCode}${createdLabel ? ` · created ${createdLabel}` : ''} · ${batch.cardCount} cards · ${batch.orderCount} orders`}
+        className="block hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent-brand"
+      >
+        <span className="font-mono text-[0.65rem] leading-tight block truncate">
+          {shortBatchRef(batch.referenceCode)}
+        </span>
+        <span className="font-mono text-[0.6rem] tabular-nums text-text-secondary block">
+          {batch.cardCount}c
+          {showPickup && pickup.total > 0 ? ` · ${pickup.picked}/${pickup.total}` : ''}
+          {createdLabel ? ` · ${createdLabel}` : ''}
+        </span>
+      </Link>
+      {batchOrders.length > 0 ? (
+        <div
+          className="mt-0.5 flex flex-wrap gap-x-1 gap-y-0.5"
+          title={`Order IDs: ${orderIds}`}
+        >
+          {batchOrders.map((order) => (
+            <span key={order.id} className="inline-flex items-center gap-0.5">
+              <CustomerOrderLink orderId={order.id} />
+              {order.pickedUp ? (
+                <span className="text-[0.55rem] text-text-muted" title="Picked up">
+                  ✓
+                </span>
+              ) : null}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </div>
   );
 }
 
 export default function PlanProgressRails({ batches, orders, loading }: Props) {
-  const groups = useMemo(() => groupBatchesByPlan(batches), [batches]);
+  const groups = useMemo(() => {
+    return groupBatchesByPlan(batches).map((group) => ({
+      ...group,
+      // Within a plan: earlier stage first, then newest create date.
+      batches: [...group.batches].sort((a, b) => {
+        const stage = a.completedStepIndex - b.completedStepIndex;
+        if (stage !== 0) return stage;
+        const aMs = a.createdAt ? Date.parse(a.createdAt) : NaN;
+        const bMs = b.createdAt ? Date.parse(b.createdAt) : NaN;
+        const aOk = Number.isFinite(aMs);
+        const bOk = Number.isFinite(bMs);
+        if (aOk && bOk && aMs !== bMs) return bMs - aMs;
+        if (aOk !== bOk) return aOk ? -1 : 1;
+        return a.referenceCode.localeCompare(b.referenceCode);
+      }),
+    }));
+  }, [batches]);
+
   const fullLabels = useMemo(() => railStepFullLabels(), []);
   const stepIndexes = useMemo(
     () => Array.from({ length: FULL_STEP_COUNT }, (_, i) => i),
@@ -85,7 +143,7 @@ export default function PlanProgressRails({ batches, orders, loading }: Props) {
         <div className="min-w-[960px]">
           <div
             className="grid border-b border-border-default bg-surface-raised/60"
-            style={{ gridTemplateColumns: `7.5rem repeat(${FULL_STEP_COUNT}, minmax(4.5rem, 1fr))` }}
+            style={{ gridTemplateColumns: `7.5rem repeat(${FULL_STEP_COUNT}, minmax(5.25rem, 1fr))` }}
           >
             <div className="sticky left-0 z-[1] bg-surface-raised px-3 py-2 text-[0.65rem] uppercase tracking-wide text-text-secondary border-r border-border-default">
               Plan
@@ -118,13 +176,16 @@ export default function PlanProgressRails({ batches, orders, loading }: Props) {
                 key={plan}
                 className="grid border-b border-border-default/70 last:border-b-0"
                 style={{
-                  gridTemplateColumns: `7.5rem repeat(${FULL_STEP_COUNT}, minmax(4.5rem, 1fr))`,
+                  gridTemplateColumns: `7.5rem repeat(${FULL_STEP_COUNT}, minmax(5.25rem, 1fr))`,
                   borderLeft: `3px solid ${hue}`,
                 }}
               >
                 <div className="sticky left-0 z-[1] bg-surface-panel px-2 py-2 border-r border-border-default space-y-1">
                   <ServicePlanBadge plan={plan} />
                   <p className="text-[0.65rem] text-text-muted leading-tight truncate" title={planLabel}>
+                    {planLabel}
+                  </p>
+                  <p className="text-[0.65rem] text-text-muted leading-tight truncate">
                     {planBatches.length} bat · {totalCards}c
                   </p>
                 </div>
@@ -135,13 +196,14 @@ export default function PlanProgressRails({ batches, orders, loading }: Props) {
                       stepBatches.length > 0 ? 'bg-surface-raised/40' : ''
                     }`}
                   >
-                    <div className="flex flex-col gap-1 max-h-28 overflow-y-auto">
+                    <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
                       {stepBatches.map((batch) => (
                         <BatchChip
                           key={batch.id}
                           batch={batch}
                           hue={hue}
                           pickup={pickupProgressForBatch(batch.referenceCode, orders)}
+                          batchOrders={ordersForBatch(batch.referenceCode, orders)}
                         />
                       ))}
                     </div>

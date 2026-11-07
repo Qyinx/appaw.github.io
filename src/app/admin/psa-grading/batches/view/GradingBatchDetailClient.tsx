@@ -442,6 +442,31 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
     }
   };
 
+  /** Earlier card intake first (min submissionOrder), matching batch Orders API. */
+  const ordersByCardIntake = useMemo(() => {
+    const items = itemsLoaded ? draftItems : savedItems;
+    const earliestByOrder = new Map<number, number>();
+    for (const item of items) {
+      const prev = earliestByOrder.get(item.customerOrderId);
+      if (prev === undefined || item.submissionOrder < prev) {
+        earliestByOrder.set(item.customerOrderId, item.submissionOrder);
+      }
+    }
+    return [...customerOrders].sort((a, b) => {
+      const aMin = earliestByOrder.get(a.id);
+      const bMin = earliestByOrder.get(b.id);
+      if (aMin !== undefined && bMin !== undefined && aMin !== bMin) return aMin - bMin;
+      if (aMin !== undefined && bMin === undefined) return -1;
+      if (aMin === undefined && bMin !== undefined) return 1;
+      const aCreated = a.createdAt ? Date.parse(a.createdAt) : NaN;
+      const bCreated = b.createdAt ? Date.parse(b.createdAt) : NaN;
+      if (Number.isFinite(aCreated) && Number.isFinite(bCreated) && aCreated !== bCreated) {
+        return aCreated - bCreated;
+      }
+      return a.id - b.id;
+    });
+  }, [customerOrders, draftItems, savedItems, itemsLoaded]);
+
   const orderCount = ordersLoaded ? customerOrders.length : (batch?.orderCount ?? 0);
   const cardCount = itemsLoaded ? draftItems.length : (batch?.cardCount ?? 0);
   const servicePlans = batch ? [parseServicePlanLabel(batch.referenceCode)] : [];
@@ -739,7 +764,7 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
             </div>
           ) : customerOrders.length > 0 ? (
             <AdminCustomerOrdersTable
-              orders={customerOrders}
+              orders={ordersByCardIntake}
               paymentMap={paymentMap}
               showBatchColumn={false}
               emptyMessage="No customer orders yet."

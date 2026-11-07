@@ -41,6 +41,24 @@ function parseAllView(tabRaw: string | null, viewRaw: string | null): AllView {
   return 'batches';
 }
 
+function formatBatchWhen(iso: string | undefined): string {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '—';
+  return d.toLocaleString();
+}
+
+/** Newest create date first; missing dates last. */
+function compareBatchCreatedDesc(a: AdminBatch, b: AdminBatch): number {
+  const aMs = a.createdAt ? Date.parse(a.createdAt) : NaN;
+  const bMs = b.createdAt ? Date.parse(b.createdAt) : NaN;
+  const aOk = Number.isFinite(aMs);
+  const bOk = Number.isFinite(bMs);
+  if (aOk && bOk && aMs !== bMs) return bMs - aMs;
+  if (aOk !== bOk) return aOk ? -1 : 1;
+  return a.referenceCode.localeCompare(b.referenceCode);
+}
+
 function BatchTable({
   batches,
   loading,
@@ -53,10 +71,11 @@ function BatchTable({
   return (
     <section className="panel p-4">
       <div className="overflow-x-auto max-h-[70vh] overflow-y-auto">
-        <table className="w-full table-fixed text-sm min-w-[920px]">
+        <table className="w-full table-fixed text-sm min-w-[1020px]">
           <thead>
             <tr className="text-left border-b border-border-default">
               <th className="sticky top-0 z-[1] py-2 pr-2 w-44 bg-surface-panel">Reference ID</th>
+              <th className="sticky top-0 z-[1] py-2 pr-2 w-36 bg-surface-panel">Created</th>
               <th className="sticky top-0 z-[1] py-2 pr-2 w-28 bg-surface-panel">Plan</th>
               <th className="sticky top-0 z-[1] py-2 pr-2 w-28 bg-surface-panel">PSA Submission</th>
               <th className="sticky top-0 z-[1] py-2 pr-2 w-28 bg-surface-panel">PSA Order</th>
@@ -75,6 +94,12 @@ function BatchTable({
                   <td className="py-2 pr-2">
                     <BatchReferenceLink referenceCode={batch.referenceCode} />
                   </td>
+                  <td
+                    className="py-2 pr-2 text-text-muted text-xs tabular-nums"
+                    title={batch.createdAt ?? undefined}
+                  >
+                    {formatBatchWhen(batch.createdAt)}
+                  </td>
                   <td className="py-2 pr-2">
                     <ServicePlanBadge plan={plan} />
                   </td>
@@ -88,14 +113,14 @@ function BatchTable({
                   <td className="py-2 pr-2 tabular-nums">{batch.orderCount}</td>
                   <td className="py-2 pr-2 tabular-nums">{batch.cardCount}</td>
                   <td className="py-2 pr-2 text-text-muted text-xs">
-                    {new Date(batch.updatedAt).toLocaleString()}
+                    {formatBatchWhen(batch.updatedAt)}
                   </td>
                 </tr>
               );
             })}
             {!loading && batches.length === 0 && (
               <tr>
-                <td colSpan={8} className="py-6 text-center text-text-muted">
+                <td colSpan={9} className="py-6 text-center text-text-muted">
                   {emptyMessage}
                 </td>
               </tr>
@@ -195,14 +220,23 @@ export default function GradingDashboardClient() {
   const orderQ = orderSearch.trim().toLowerCase();
 
   const recordingBatches = useMemo(
-    () => batches.filter((b) => b.completedStepIndex === 0),
+    () => batches.filter((b) => b.completedStepIndex === 0).sort(compareBatchCreatedDesc),
     [batches],
   );
 
   const pickupBatches = useMemo(
-    () => batches.filter((b) => b.completedStepIndex === 9 || b.completedStepIndex === 10),
+    () =>
+      batches
+        .filter((b) => b.completedStepIndex === 9 || b.completedStepIndex === 10)
+        .sort(compareBatchCreatedDesc),
     [batches],
   );
+
+  const pickupBatchCreatedAt = useMemo(() => {
+    const map = new Map<string, string | undefined>();
+    for (const b of pickupBatches) map.set(b.referenceCode, b.createdAt);
+    return map;
+  }, [pickupBatches]);
 
   const pickupBatchRefs = useMemo(
     () => new Set(pickupBatches.map((b) => b.referenceCode)),
@@ -214,12 +248,21 @@ export default function GradingDashboardClient() {
       customerOrders
         .filter((o) => pickupBatchRefs.has(o.batchReferenceCode))
         .sort((a, b) => {
+          // Group by batch create date (newest first), then pending pickup first.
+          const aCreated = pickupBatchCreatedAt.get(a.batchReferenceCode);
+          const bCreated = pickupBatchCreatedAt.get(b.batchReferenceCode);
+          const aMs = aCreated ? Date.parse(aCreated) : NaN;
+          const bMs = bCreated ? Date.parse(bCreated) : NaN;
+          const aOk = Number.isFinite(aMs);
+          const bOk = Number.isFinite(bMs);
+          if (aOk && bOk && aMs !== bMs) return bMs - aMs;
+          if (aOk !== bOk) return aOk ? -1 : 1;
           const byBatch = a.batchReferenceCode.localeCompare(b.batchReferenceCode);
           if (byBatch !== 0) return byBatch;
           if (Boolean(a.pickedUp) !== Boolean(b.pickedUp)) return a.pickedUp ? 1 : -1;
           return b.id - a.id;
         }),
-    [customerOrders, pickupBatchRefs],
+    [customerOrders, pickupBatchRefs, pickupBatchCreatedAt],
   );
 
   const handleTogglePickedUp = useCallback(
@@ -240,16 +283,20 @@ export default function GradingDashboardClient() {
     () =>
       batches
         .filter((b) => {
+          const createdIso = (b.createdAt ?? '').toLowerCase();
+          const createdLocal = formatBatchWhen(b.createdAt).toLowerCase();
           const matchesSearch =
             !q ||
             b.referenceCode.toLowerCase().includes(q) ||
             String(b.psaSubmissionNumber ?? '').includes(q) ||
-            String(b.psaOrderNumber ?? '').includes(q);
+            String(b.psaOrderNumber ?? '').includes(q) ||
+            createdIso.includes(q) ||
+            createdLocal.includes(q);
           const matchesProgress =
             progressFilter === 'all' || String(b.completedStepIndex) === progressFilter;
           return matchesSearch && matchesProgress;
         })
-        .sort((a, b) => b.referenceCode.localeCompare(a.referenceCode)),
+        .sort(compareBatchCreatedDesc),
     [batches, q, progressFilter],
   );
 
@@ -343,8 +390,8 @@ export default function GradingDashboardClient() {
 
         {activeTab === 'plans' && (
           <p className="text-sm text-text-muted">
-            One rail per active service plan. Batch chips sit on their pipeline step; pickup chips
-            show picked-up order counts.
+            One rail per plan level (Premier → Value Bulk). Batch chips sit on their pipeline
+            step and list order IDs for quick open.
           </p>
         )}
 
@@ -364,8 +411,8 @@ export default function GradingDashboardClient() {
 
         {activeTab === 'pickup' && (
           <p className="text-sm text-text-muted">
-            Batches at stage 9 ({completedStepLabel(9)}) or 10 ({completedStepLabel(10)}). Mark
-            which customer orders have been collected below.
+            Batches at stage 9 ({completedStepLabel(9)}) or 10 ({completedStepLabel(10)}), newest
+            create date first. Mark which customer orders have been collected below.
           </p>
         )}
 
@@ -404,7 +451,7 @@ export default function GradingDashboardClient() {
                     id="batch-search"
                     value={batchSearch}
                     onChange={(e) => updateParams({ q: e.target.value, tab: 'all' })}
-                    placeholder="Reference, PSA submission, PSA order…"
+                    placeholder="Reference, create date, PSA submission, PSA order…"
                     className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
                   />
                 </div>
@@ -460,11 +507,16 @@ export default function GradingDashboardClient() {
                     className="w-full border border-border-default bg-surface-bg px-3 py-2 min-h-[44px]"
                   >
                     <option value="all">All batches</option>
-                    {batches.map((batch) => (
-                      <option key={batch.id} value={batch.referenceCode}>
-                        {batch.referenceCode}
-                      </option>
-                    ))}
+                    {[...batches].sort(compareBatchCreatedDesc).map((batch) => {
+                      const created = formatBatchWhen(batch.createdAt);
+                      return (
+                        <option key={batch.id} value={batch.referenceCode}>
+                          {created !== '—'
+                            ? `${batch.referenceCode} · ${created}`
+                            : batch.referenceCode}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
                 <div className="w-full sm:w-auto sm:min-w-[160px]">
