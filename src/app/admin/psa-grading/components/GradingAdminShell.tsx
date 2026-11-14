@@ -62,9 +62,6 @@ export default function GradingAdminShell({ children }: Props) {
 
   return (
     <div className="min-h-dvh bg-surface-bg text-text-primary">
-      <div className="bg-accent-success/10 border-b border-accent-success/25 text-center text-xs py-2 text-text-secondary">
-        Live backend — changes persist to D1.
-      </div>
       <div className="w-full max-w-none px-[var(--space-page-x)] py-6">{children}</div>
     </div>
   );

@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import AdminCardsTable from '../../components/AdminCardsTable';
 import AdminCustomerOrdersTable from '../../components/AdminCustomerOrdersTable';
+import BatchCardsPanel from '../../components/BatchCardsPanel';
 import BatchNotesEditor, { normalizeBatchNotesHtml } from '../../components/BatchNotesEditor';
 import PsaGradesCsvImport from '../../components/PsaGradesCsvImport';
 import ServicePlanBadge from '../../components/ServicePlanBadge';
@@ -490,7 +490,9 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
           ← Dashboard
         </Link>
         <h2 className="text-xl font-semibold mt-2 font-mono">{batch.referenceCode}</h2>
-        <p className="text-sm text-text-muted mt-1">PSA batch — manage progress, orders, and cards.</p>
+        <p className="text-sm text-text-muted mt-1">
+          {completedStepLabel(batch.completedStepIndex)} · {orderCount} orders · {cardCount} cards
+        </p>
       </div>
 
       <div
@@ -813,16 +815,26 @@ export default function GradingBatchDetailClient({ referenceCode }: Props) {
                   onApplied={handleCsvApplied}
                 />
               )}
-              <AdminCardsTable
+              <BatchCardsPanel
                 items={draftItems}
-                density="batch"
-                groupByOrder
-                editable
-                showFooter
-                showBatchOrderId
-                showBatchReferenceColumn={false}
-                showGradeColumns
+                disabled={saving}
                 onUpdateItem={handleDraftItemUpdate}
+                onImagesSaved={(itemId, images) => {
+                  const merge = (list: AdminItem[]) =>
+                    list.map((item) => {
+                      if (item.id !== itemId) return item;
+                      const next = [...(item.rawImages ?? [])];
+                      for (const image of images) {
+                        const index = next.findIndex((existing) => existing.seq === image.seq);
+                        if (index >= 0) next[index] = image;
+                        else next.push(image);
+                      }
+                      next.sort((a, b) => a.seq - b.seq);
+                      return { ...item, rawImages: next };
+                    });
+                  setDraftItems(merge);
+                  setSavedItems(merge);
+                }}
               />
             </>
           )}

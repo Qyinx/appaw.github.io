@@ -8,6 +8,31 @@ export const GRADING_IMAGE_WEBP_QUALITY = 0.75;
 export const GRADING_IMAGE_MAX_PER_ITEM = 2;
 
 const IMAGE_EXT_RE = /\.(jpe?g|png|webp|gif)$/i;
+const FRONT_NAME_RE = /(?:^|[^a-z])front(?:[^a-z]|$)/i;
+const BACK_NAME_RE = /(?:^|[^a-z])back(?:[^a-z]|$)/i;
+
+/**
+ * Slab and intake photos: seq 0 is the back, seq 1 is the front.
+ * Intake uploads set that seq directly and do not go through this helper.
+ */
+export function psaZipImageSide(name: string): 'front' | 'back' | null {
+  const front = FRONT_NAME_RE.test(name);
+  const back = BACK_NAME_RE.test(name);
+  if (front === back) return null;
+  return front ? 'front' : 'back';
+}
+
+function compareZipImageNames(a: string, b: string): number {
+  const rank = (name: string) => {
+    const side = psaZipImageSide(name);
+    if (side === 'back') return 0;
+    if (side === 'front') return 1;
+    return 2;
+  };
+  const bySide = rank(a) - rank(b);
+  if (bySide !== 0) return bySide;
+  return a.localeCompare(b, undefined, { sensitivity: 'base' });
+}
 
 /** Session flag: after first CORS/network fail, skip doomed direct fetches. */
 let directZipBlocked = false;
@@ -60,7 +85,7 @@ export async function fetchZipBytesWithFallback(
   return proxy(zipUrl);
 }
 
-/** List image entries from a ZIP buffer; sorted by path; capped. */
+/** List image entries from a ZIP buffer. Front comes before Back when the name says so. */
 export function extractImageBuffersFromZip(
   zipBytes: Uint8Array,
   maxImages = GRADING_IMAGE_MAX_PER_ITEM,
@@ -68,7 +93,7 @@ export function extractImageBuffersFromZip(
   const entries = unzipSync(zipBytes);
   const names = Object.keys(entries)
     .filter((name) => !name.endsWith('/') && IMAGE_EXT_RE.test(name) && !name.includes('__MACOSX'))
-    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+    .sort(compareZipImageNames);
 
   return names.slice(0, maxImages).map((name) => ({
     name,
@@ -191,5 +216,11 @@ export async function zipBytesToBase64Images(zipBytes: Uint8Array): Promise<Base
   const extracted = extractImageBuffersFromZip(zipBytes);
   if (!extracted.length) throw new Error('No images found in ZIP');
 
-  return Promise.all(extracted.map((file, seq) => fileToBase64Payload(file, seq)));
+  return Promise.all(
+    extracted.map((file, index) => {
+      const side = psaZipImageSide(file.name);
+      const seq = side === 'back' ? 0 : side === 'front' ? 1 : index;
+      return fileToBase64Payload(file, seq);
+    }),
+  );
 }

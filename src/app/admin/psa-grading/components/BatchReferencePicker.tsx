@@ -13,9 +13,18 @@ type Props = {
   value: string;
   onChange: (value: string) => void;
   loading?: boolean;
+  autoFocus?: boolean;
+  id?: string;
 };
 
-export default function BatchReferencePicker({ batches, value, onChange, loading }: Props) {
+export default function BatchReferencePicker({
+  batches,
+  value,
+  onChange,
+  loading,
+  autoFocus = false,
+  id,
+}: Props) {
   const listboxId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -105,6 +114,7 @@ export default function BatchReferencePicker({ batches, value, onChange, loading
       <div className="relative">
         <input
           ref={inputRef}
+          id={id}
           type="text"
           role="combobox"
           aria-expanded={open}
@@ -122,6 +132,7 @@ export default function BatchReferencePicker({ batches, value, onChange, loading
           placeholder="Search or type BAT-2026-07-EXP-3"
           className="w-full border border-border-default bg-surface-bg pl-3 pr-11 py-2 font-mono min-h-[44px]"
           autoComplete="off"
+          autoFocus={autoFocus}
         />
         <button
           type="button"

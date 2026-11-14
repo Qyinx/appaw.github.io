@@ -33,7 +33,7 @@ type PreviewState = {
   images: WorkspaceLightboxImage[];
 };
 
-/** PSA seq 1 = front; prefer it for thumbnails. */
+/** Graded photos: seq 1 is the front, seq 0 is the back. A lone photo is shown as the front. */
 function frontImageUrl(item: GradingSubmissionItem): string | null {
   return (
     item.images?.find((img) => img.seq === 1)?.url ??
@@ -49,12 +49,9 @@ function labelForSeq(
   index: number,
   total: number,
 ): string {
+  if (total === 1) return copy.frontLabel ?? 'Front';
   if (seq === 1) return copy.frontLabel ?? 'Front';
-  // PSA often uses seq 2 for back; some payloads use seq 0 as the other side.
-  if (seq === 2 || seq === 0) {
-    if (total === 1) return copy.frontLabel ?? 'Front';
-    return copy.backLabel ?? 'Back';
-  }
+  if (seq === 0 || seq === 2) return copy.backLabel ?? 'Back';
   if (total === 2) {
     return index === 0
       ? (copy.frontLabel ?? 'Front')
@@ -68,7 +65,7 @@ function itemLightboxImages(
   copy: TableCopy,
 ): WorkspaceLightboxImage[] {
   const sorted = [...(item.images ?? [])].sort((a, b) => {
-    const rank = (seq: number) => (seq === 1 ? 0 : seq === 2 || seq === 0 ? 1 : seq + 10);
+    const rank = (seq: number) => (seq === 1 ? 0 : seq === 0 || seq === 2 ? 1 : seq + 10);
     return rank(a.seq) - rank(b.seq) || a.seq - b.seq;
   });
   return sorted.map((img, index) => {

@@ -72,6 +72,8 @@ export interface AdminItem {
   certNumber: string | null;
   grade: string | null;
   images: AdminItemImage[];
+  /** Intake photos. Same order as graded `images`: back is 0, front is 1. */
+  rawImages?: AdminItemImage[];
   isPaid: boolean;
   totalCost: number | null;
   receivedCost: number | null;

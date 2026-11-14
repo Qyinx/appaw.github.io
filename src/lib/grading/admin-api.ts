@@ -5,6 +5,7 @@
  */
 import { joinBackendUrl } from '@/lib/collection/backendUrl';
 import type {
+  AdminItemImage,
   AdminBatch,
   AdminBatchSummary,
   AdminApplyBatchGradesPayload,
@@ -96,7 +97,21 @@ export function hasOpsSession(): boolean {
 /** e.g. gradingPath('/batches') → {BACKEND}/grading/batches */
 function gradingPath(segment: string): string {
   const normalized = segment.replace(/^\/+/, '');
-  return joinBackendUrl(normalized ? `/grading/${normalized}` : '/grading');
+  return sameOriginGradingUrl(joinBackendUrl(normalized ? `/grading/${normalized}` : '/grading'));
+}
+
+/**
+ * Dev site uses trailingSlash, which 308s `/grading/...` to `/grading/.../`.
+ * Safari drops a large photo POST on that redirect and reports "Load failed".
+ * Same-origin calls already include the slash. A direct worker URL must not.
+ */
+function sameOriginGradingUrl(url: string): string {
+  if (/^https?:\/\//i.test(url)) return url;
+  const queryAt = url.indexOf('?');
+  const path = queryAt === -1 ? url : url.slice(0, queryAt);
+  const query = queryAt === -1 ? '' : url.slice(queryAt);
+  if (path.endsWith('/')) return url;
+  return `${path}/${query}`;
 }
 
 function errorFromPayload(payload: unknown, fallback: string): string {
@@ -146,7 +161,7 @@ async function gradingOpsFetch(path: string, init?: RequestInit): Promise<Respon
     headers.set('Content-Type', 'application/json');
   }
 
-  return fetch(joinBackendUrl(path), {
+  return fetch(sameOriginGradingUrl(joinBackendUrl(path)), {
     ...init,
     headers,
   });
@@ -494,12 +509,53 @@ export function invalidateBatchOrders(submissionId: string): void {
 
 export async function createIntake(
   payload: AdminIntakePayload,
-): Promise<{ customerOrder: AdminCustomerOrder }> {
+): Promise<{
+  customerOrder: AdminCustomerOrder;
+  items: Array<{ id: string; submissionOrder: number; cardName: string }>;
+}> {
   const res = await gradingOpsFetch('/grading/customer-orders', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  return (await parseJsonResponse(res)) as { customerOrder: AdminCustomerOrder };
+  return (await parseJsonResponse(res)) as {
+    customerOrder: AdminCustomerOrder;
+    items: Array<{ id: string; submissionOrder: number; cardName: string }>;
+  };
+}
+
+export async function uploadIntakeItemImages(
+  orderId: number,
+  itemId: string,
+  images: Array<{ seq: number; contentType: string; data: string }>,
+): Promise<AdminItemImage[]> {
+  const res = await gradingOpsFetch(
+    `/grading/customer-orders/${orderId}/items/${encodeURIComponent(itemId)}/images`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ images }),
+    },
+  );
+  const parsed = (await parseJsonResponse(res)) as { images?: AdminItemImage[] };
+  return parsed.images ?? [];
+}
+
+export type IntakeCardRead = {
+  year: string;
+  manufacturer: string;
+  set: string;
+  subject: string;
+  cardNumber: string;
+  parallel: string;
+  cardName: string;
+};
+
+/** POST /grading/intake/read-card — one photo to a PSA section 2 card name. */
+export async function readIntakeCard(image: string, mimeType: string): Promise<IntakeCardRead> {
+  const res = await gradingOpsFetch('/grading/intake/read-card', {
+    method: 'POST',
+    body: JSON.stringify({ image, mimeType }),
+  });
+  return (await parseJsonResponse(res)) as IntakeCardRead;
 }
 
 export async function createCustomerOrderItem(

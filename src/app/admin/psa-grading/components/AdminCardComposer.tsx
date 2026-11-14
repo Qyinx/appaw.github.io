@@ -3,8 +3,6 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { parseCostInput } from '@/lib/grading/admin-utils';
 
-const ADD_BLANKS_MAX = 50;
-
 export type CardComposerValue = {
   cardName: string;
   certNumber: string | null;
@@ -23,8 +21,6 @@ type Props = {
   showCertFields?: boolean;
   /** Commit a named card into the settled (bottom) list. */
   onCommit: (value: CardComposerValue) => void;
-  /** Optional: spawn blank draft rows that float at top until named. */
-  onAddBlanks?: (count: number) => void;
 };
 
 const emptyComposer = (defaultTotalCost: number | null): CardComposerValue => ({
@@ -38,16 +34,14 @@ const emptyComposer = (defaultTotalCost: number | null): CardComposerValue => ({
 });
 
 /**
- * Sticky bottom composer for PSA card intake.
- * Commit inserts a filled card at the bottom of the settled list.
- * Optional bulk action adds blank drafts that float at the top until filled.
+ * Sticky bottom composer for adding one named card to an existing order.
+ * Commit inserts that card at the bottom of the settled list.
  */
 export default function AdminCardComposer({
   defaultTotalCost,
   disabled = false,
   showCertFields = false,
   onCommit,
-  onAddBlanks,
 }: Props) {
   const nameId = useId();
   const certId = useId();
@@ -56,7 +50,6 @@ export default function AdminCardComposer({
   const receivedId = useId();
   const nameRef = useRef<HTMLInputElement>(null);
   const [draft, setDraft] = useState<CardComposerValue>(() => emptyComposer(defaultTotalCost));
-  const [blankCount, setBlankCount] = useState(1);
 
   useEffect(() => {
     setDraft((prev) => {
@@ -86,12 +79,6 @@ export default function AdminCardComposer({
     requestAnimationFrame(() => nameRef.current?.focus());
   };
 
-  const addBlanks = () => {
-    if (disabled || !onAddBlanks) return;
-    const n = Math.min(ADD_BLANKS_MAX, Math.max(1, Math.floor(blankCount) || 1));
-    onAddBlanks(n);
-  };
-
   return (
     <div
       className="sticky bottom-0 z-30 -mx-[var(--space-page-x)] px-[var(--space-page-x)] pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-border-strong bg-surface-bg/95 backdrop-blur-sm"
@@ -106,9 +93,7 @@ export default function AdminCardComposer({
           <p className="text-xs text-text-muted">
             {showCertFields
               ? 'Reholder: enter cert from the slab label. Grade optional until PSA returns.'
-              : onAddBlanks
-                ? 'Enter inserts into the list bottom. Blank drafts float at top until named.'
-                : 'Enter inserts the card at the bottom of the list.'}
+              : 'Enter inserts the card at the bottom of the list.'}
           </p>
         </div>
 
@@ -252,42 +237,6 @@ export default function AdminCardComposer({
             Add to list
           </button>
         </div>
-
-        {onAddBlanks && (
-          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-border-default/70">
-            <p className="text-xs text-text-muted mr-auto">
-              Need empty slots first? Add blank drafts (float at top).
-            </p>
-            <label htmlFor={`${nameId}-blanks`} className="sr-only">
-              Number of blank drafts
-            </label>
-            <input
-              id={`${nameId}-blanks`}
-              type="number"
-              min={1}
-              max={ADD_BLANKS_MAX}
-              value={blankCount}
-              disabled={disabled}
-              onChange={(e) => {
-                const raw = Number(e.target.value);
-                if (!Number.isFinite(raw)) {
-                  setBlankCount(1);
-                  return;
-                }
-                setBlankCount(Math.min(ADD_BLANKS_MAX, Math.max(1, Math.floor(raw))));
-              }}
-              className="w-16 border border-border-strong bg-surface-bg px-2 py-2 text-sm font-mono tabular-nums min-h-[44px]"
-            />
-            <button
-              type="button"
-              className="btn btn-secondary min-h-[44px]"
-              onClick={addBlanks}
-              disabled={disabled}
-            >
-              Add {blankCount === 1 ? 'blank' : `${blankCount} blanks`}
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ export function cloneAdminItems(items: AdminItem[]): AdminItem[] {
     certNumber: item.certNumber ?? null,
     grade: item.grade ?? null,
     images: item.images ? item.images.map((img) => ({ ...img })) : [],
+    rawImages: item.rawImages ? item.rawImages.map((img) => ({ ...img })) : [],
   }));
 }
 
