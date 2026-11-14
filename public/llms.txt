@@ -44,6 +44,7 @@ Chinese (zh-HK) mirror: prefix any public path with `/zh/` (e.g. https://appaw.s
 | psa-review-vs-crack | https://appaw.store/guides/psa-review-vs-crack/ | https://appaw.store/zh/guides/psa-review-vs-crack/ | PSA Regrade Strategy — Review (in-slab) anchoring bias vs Crack & Resubmit raw, downgrade risks, and Expected Value (EV) math |
 | psa-grading-standards | https://appaw.store/guides/psa-grading-standards/ | https://appaw.store/zh/guides/psa-grading-standards/ | PSA 1–10 grade scale, Qualifier codes (OC/ST/PD), and record sale premiums |
 | hong-kong-tcg-grading-guide | https://appaw.store/guides/hong-kong-tcg-grading-guide/ | https://appaw.store/zh/guides/hong-kong-tcg-grading-guide/ | Hong Kong TCG PSA proxy submission — 138 Arena face-to-face intake, BAT batch status lookup, centering pre-check |
+| psa-2026-policy-timeline | https://appaw.store/guides/psa-2026-policy-timeline/ | https://appaw.store/zh/guides/psa-2026-policy-timeline/ | 2026 PSA policy timeline — HK Submission Center, Value pause/reopen, price & turnaround changes with official sources |
 
 ## Purchase channels
 
