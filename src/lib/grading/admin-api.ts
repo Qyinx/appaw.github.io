@@ -4,6 +4,7 @@
  * @see appaw.store.backend/docs/API-ADMIN.md
  */
 import { joinBackendUrl } from '@/lib/collection/backendUrl';
+import { gradingImageUrlForBrowser } from '@/lib/grading/image-url';
 import type {
   AdminItemImage,
   AdminBatch,
@@ -96,16 +97,10 @@ export function hasOpsSession(): boolean {
 
 /**
  * Resolve a grading image URL for an ops-authenticated fetch.
- * Absolute API URLs are kept as-is (do not strip to the site origin — Pages has
- * no /grading proxy in production). Relative paths join NEXT_PUBLIC_BACKEND_URL.
  * Do not run through sameOriginGradingUrl — a trailing slash breaks image routes.
  */
 export function resolveOpsImageUrl(url: string): string {
-  const trimmed = (url || '').trim();
-  if (!trimmed) return trimmed;
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
-  return joinBackendUrl(trimmed);
+  return gradingImageUrlForBrowser(url);
 }
 
 /** e.g. gradingPath('/batches') → {BACKEND}/grading/batches */

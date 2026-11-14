@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { gradingImageUrlForBrowser } from '@/lib/grading/image-url';
 import type { GradingSubmissionItem } from '@/lib/grading/types';
 import WorkspaceLightbox, {
   type WorkspaceLightboxImage,
@@ -71,7 +72,7 @@ function itemLightboxImages(
   return sorted.map((img, index) => {
     const label = labelForSeq(img.seq, copy, index, sorted.length);
     return {
-      src: img.url,
+      src: gradingImageUrlForBrowser(img.url),
       alt: `${item.description} — ${label}`,
       label,
     };
@@ -138,7 +139,7 @@ function ThumbButton({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={url}
+        src={gradingImageUrlForBrowser(url)}
         alt=""
         width={40}
         height={56}
