@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomerOrderLink from './CustomerOrderLink';
 import { formatHkd } from '@/lib/grading/admin-format';
-import { uploadIntakeItemImages, getOpsToken } from '@/lib/grading/admin-api';
+import { uploadIntakeItemImages, getOpsToken, resolveOpsImageUrl } from '@/lib/grading/admin-api';
 import type { AdminItem, AdminItemImage } from '@/lib/grading/admin-types';
 import { parseCostInput } from '@/lib/grading/admin-utils';
 import { compressImage } from '@/lib/compress-image';
@@ -29,15 +29,6 @@ function imageForSeq(images: AdminItemImage[], seq: number): AdminItemImage | un
   return images.find((image) => image.seq === seq);
 }
 
-function gradingImagePath(url: string): string {
-  try {
-    const parsed = new URL(url, window.location.origin);
-    return `${parsed.pathname}${parsed.search}`;
-  } catch {
-    return url;
-  }
-}
-
 function sideMark(side: Side): string {
   return side === 'front' ? 'F' : 'B';
 }
@@ -49,7 +40,7 @@ function OpsThumb({ url, label }: { url: string; label: string }) {
     let cancelled = false;
     let objectUrl = '';
     const token = getOpsToken();
-    void fetch(gradingImagePath(url), {
+    void fetch(resolveOpsImageUrl(url), {
       headers: token ? { 'X-Ops-Key': token } : {},
     })
       .then((res) => (res.ok ? res.blob() : null))

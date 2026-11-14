@@ -6,6 +6,7 @@ import BatchReferenceLink from './BatchReferenceLink';
 import CustomerOrderLink from './CustomerOrderLink';
 import ServicePlanBadge from './ServicePlanBadge';
 import { formatHkd } from '@/lib/grading/admin-format';
+import { getOpsToken, resolveOpsImageUrl } from '@/lib/grading/admin-api';
 import type { AdminItem, AdminItemImage } from '@/lib/grading/admin-types';
 import { parseServicePlanLabel } from '@/lib/grading/admin-types';
 import { parseCostInput } from '@/lib/grading/admin-utils';
@@ -59,6 +60,50 @@ function sumCosts(items: AdminItem[], key: 'totalCost' | 'receivedCost') {
 function formatCostDisplay(value: number | null): string {
   if (value === null) return '—';
   return formatHkd(value);
+}
+
+function OpsPreviewImage({ url, alt }: { url: string; alt: string }) {
+  const [src, setSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    let objectUrl = '';
+    const token = getOpsToken();
+    void fetch(resolveOpsImageUrl(url), {
+      headers: token ? { 'X-Ops-Key': token } : {},
+    })
+      .then((res) => (res.ok ? res.blob() : null))
+      .then((blob) => {
+        if (!blob || cancelled) return;
+        objectUrl = URL.createObjectURL(blob);
+        setSrc(objectUrl);
+      })
+      .catch(() => {
+        if (!cancelled) setSrc(null);
+      });
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [url]);
+
+  if (!src) {
+    return (
+      <div className="flex min-h-[12rem] items-center justify-center border border-dashed border-border-default bg-surface-bg text-xs text-text-muted">
+        Loading…
+      </div>
+    );
+  }
+
+  // Blob from ops-authenticated fetch — next/image cannot load blob: URLs.
+  // eslint-disable-next-line @next/next/no-img-element
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className="w-full max-h-[70dvh] object-contain border border-border-default bg-surface-bg"
+    />
+  );
 }
 
 function ItemImagesPopup({
@@ -150,13 +195,10 @@ function ItemImagesPopup({
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {images.map((img) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <OpsPreviewImage
                     key={img.seq}
-                    src={img.url}
+                    url={img.url}
                     alt={`${title} image ${img.seq}`}
-                    loading="lazy"
-                    className="w-full max-h-[70dvh] object-contain border border-border-default bg-surface-bg"
                   />
                 ))}
               </div>

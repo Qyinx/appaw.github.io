@@ -94,6 +94,20 @@ export function hasOpsSession(): boolean {
   return Boolean(getOpsToken());
 }
 
+/**
+ * Resolve a grading image URL for an ops-authenticated fetch.
+ * Absolute API URLs are kept as-is (do not strip to the site origin — Pages has
+ * no /grading proxy in production). Relative paths join NEXT_PUBLIC_BACKEND_URL.
+ * Do not run through sameOriginGradingUrl — a trailing slash breaks image routes.
+ */
+export function resolveOpsImageUrl(url: string): string {
+  const trimmed = (url || '').trim();
+  if (!trimmed) return trimmed;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
+  return joinBackendUrl(trimmed);
+}
+
 /** e.g. gradingPath('/batches') → {BACKEND}/grading/batches */
 function gradingPath(segment: string): string {
   const normalized = segment.replace(/^\/+/, '');
